@@ -1,5 +1,8 @@
 package com.firework.Frames;
 
+import com.firework.Check.HwidCheck.HwidParse;
+import com.firework.Pastebin.exceptions.PasteException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -66,7 +69,12 @@ public class LoginFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                HwidParse.bebra = pass3.getText();
+                try {
+                    HwidParse.dothething();
+                } catch (PasteException pasteException) {
+                    pasteException.printStackTrace();
+                }
             }
         });
 

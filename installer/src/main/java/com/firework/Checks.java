@@ -7,6 +7,5 @@ import com.firework.Pastebin.exceptions.PasteException;
 public class Checks {
     public static void main(String... args) throws PasteException {
         LoginFrame.frame();
-        HwidParse.dothething();
     }
 }
