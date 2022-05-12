@@ -1,4 +1,4 @@
-package com.firework.Utilites.Parser;
+package com.firework.Utilites.HwidCheck;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

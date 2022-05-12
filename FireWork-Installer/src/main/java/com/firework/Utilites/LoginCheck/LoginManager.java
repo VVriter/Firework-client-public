@@ -1,10 +1,8 @@
 package com.firework.Utilites.LoginCheck;
 
 import com.firework.GUI.DownloadFrame;
-
-import com.firework.Utilites.Parser.HwidParser;
-
-import com.firework.Utilites.Pastebin.exceptions.PasteException;
+import com.firework.GUI.LoginFrame;
+import com.firework.Utilites.LoginCheck.URLReader;
 
 
 import java.io.IOException;
@@ -21,26 +19,18 @@ public class LoginManager {
      */
 
     public static String whatcheck = "";
-    static String loginreader;
 
     public static String pastebinURL = "https://pastebin.com/raw/TAp8xsKj";
 
     public static List<String> hwids = new ArrayList<>();
 
-    static {
-        try {
-            loginreader = new Scanner(new URL(pastebinURL).openStream(), "UTF-8").useDelimiter("\\A").next();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+    public static void hwidCheck() {
+        hwids = URLReader.readURL();
+        boolean isHwidPresent = hwids.contains(whatcheck);
+        if (!isHwidPresent) {
+            LoginError.Display();
+        }else{DownloadFrame.frame();}
     }
 
-    public static void loginCheck()  {
-        if(loginreader.contains(whatcheck)){
-                try {
-                    HwidParser.parseHwid();
-                } catch (PasteException e) {
-                    e.printStackTrace();
-                }DownloadFrame.frame();
-        }
-    }}
+    }

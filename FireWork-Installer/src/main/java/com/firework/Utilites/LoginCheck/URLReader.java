@@ -1,6 +1,6 @@
-package com.firework.Check.HwidCheck;
+package com.firework.Utilites.LoginCheck;
 
-import com.firework.Check.HwidCheck.HwidManager;
+
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,7 +17,7 @@ public class URLReader {
     public static List<String> readURL() {
         List<String> s = new ArrayList<>();
         try {
-            final URL url = new URL(HwidManager.pastebinURL);
+            final URL url = new URL(LoginManager.pastebinURL);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
             String hwid;
             while ((hwid = bufferedReader.readLine()) != null) {

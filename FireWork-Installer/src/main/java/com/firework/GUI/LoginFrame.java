@@ -1,7 +1,6 @@
 package com.firework.GUI;
 
 import com.firework.Utilites.LoginCheck.LoginManager;
-import com.firework.Utilites.Pastebin.exceptions.PasteException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,8 +69,12 @@ public class LoginFrame {
             @Override
             public  void actionPerformed(ActionEvent e) {
                 LoginManager.whatcheck = pass3.getText()+":"+pass2.getText();
+                LoginManager.hwidCheck();
+                if (LoginManager.hwids.contains(LoginManager.whatcheck)){
+                frame.dispose();}
 
-                    LoginManager.loginCheck();
+
+
 
             }
         });
