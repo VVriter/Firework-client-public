@@ -1,4 +1,4 @@
-package com.firework.AdminNotificator;
+package com.firework.Utilites.DiscordWebhook;
 
 import java.io.*;
 import java.net.HttpURLConnection;

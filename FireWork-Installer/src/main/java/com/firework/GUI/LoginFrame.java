@@ -1,8 +1,7 @@
-package com.firework.Frames;
+package com.firework.GUI;
 
-import com.firework.Check.HwidCheck.HwidParse;
-import com.firework.LoginManager.LoginManager;
-import com.firework.Pastebin.exceptions.PasteException;
+import com.firework.Utilites.LoginCheck.LoginManager;
+import com.firework.Utilites.Pastebin.exceptions.PasteException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +31,7 @@ public class LoginFrame {
         frame.setResizable(false);
         frame.setBackground(Color.DARK_GRAY);
 
-        
+
 
 
         //login
@@ -70,16 +69,10 @@ public class LoginFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public  void actionPerformed(ActionEvent e) {
-                HwidParse.bebra = pass3.getText();
-                LoginManager.megabebra = pass3.getText()+":"+pass2.getText();
-                LoginManager.passCheck();
-                if(LoginManager.hwids.contains(LoginManager.megabebra)){
-                try {
-                    HwidParse.dothething();
-                    frame.dispose();
-                } catch (PasteException pasteException) {
-                    pasteException.printStackTrace();
-                }}
+                LoginManager.whatcheck = pass3.getText()+":"+pass2.getText();
+
+                    LoginManager.loginCheck();
+
             }
         });
 

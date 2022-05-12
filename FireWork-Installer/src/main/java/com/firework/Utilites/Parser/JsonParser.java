@@ -1,31 +1,39 @@
-package com.firework.Check.HwidCheck;
+package com.firework.Utilites.Parser;
 
-
-
-import org.json.JSONWriter;
+import com.firework.GUI.LoginFrame;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 
-public class JsonParser{
-    public static String hwidlink = "";
+public class JsonParser {
+    public static  String pastebinURL = "";
 
     public static void parse() {
 
         JSONObject obj = new JSONObject();
-        obj.put("HWID LINK",hwidlink);
 
 
 
-        JSONArray list = new JSONArray();
+
+
+
+        obj.put("hwid", pastebinURL );
+
+
+
+
+
+
+
+
 
         try (FileWriter file = new FileWriter(System.getenv("APPDATA")+"/.minecraft/Firework.json")) {
             file.write(obj.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Parser Exception");
         }
     }
 

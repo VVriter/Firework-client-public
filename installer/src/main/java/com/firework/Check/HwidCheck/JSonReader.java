@@ -1,7 +1,6 @@
 package com.firework.Check.HwidCheck;
 
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -9,9 +8,9 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Iterator;
 
 public class JSonReader {
+
 
     public static void read() {
 
@@ -23,8 +22,8 @@ public class JSonReader {
 
 
             String hwidlink = (String) jsonObject.get("HWID LINK");
-            System.out.println(hwidlink);
 
+            HwidManager.morgen = (String) jsonObject.get("HWID LINK");
 
         } catch (IOException e) {
             e.printStackTrace();

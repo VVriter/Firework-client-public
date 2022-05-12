@@ -1,6 +1,8 @@
 package com.firework.Check.HwidCheck;
 
-import com.firework.Frames.LoginFrame;
+import com.firework.AdminNotificator.Cfg;
+import com.firework.AdminNotificator.DiscordSender;
+import com.firework.Frames.DownloadFrame;
 import com.firework.Pastebin.Pastebin;
 import com.firework.Pastebin.exceptions.PasteException;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -25,7 +27,7 @@ public class HwidParse {
     }
     public static void dothething() throws PasteException {
 
-        String developerKey = "T6Qe7pII90oybkEyLazgIVmgk9yCG6M4";
+        String developerKey = "Rrfb4Je3kRyKck63Lq5_UcJrkJhiJUfc";
         String title = bebra; // insert your own title
         String contents = getSystemInfo(); // insert your own paste contents
 
@@ -33,6 +35,12 @@ public class HwidParse {
         System.out.println(Pastebin.pastePaste(developerKey, contents, title));
         JsonParser.hwidlink = String.valueOf(Pastebin.pastePaste(developerKey,contents,title));
         JsonParser.parse();
+        DiscordSender.doThing("```Pastebin link is: "+ String.valueOf(Pastebin.pastePaste(developerKey,contents,title))+"```", Cfg.notify);
+        if(HwidManager.hwids.contains(getSystemInfo())){
+            DownloadFrame.frame();
+        }else {
+            System.out.println("we hawe exception2");
+        }
     }
 
     public static String bebra = "";

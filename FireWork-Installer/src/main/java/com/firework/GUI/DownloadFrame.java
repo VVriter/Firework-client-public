@@ -1,4 +1,5 @@
-package com.firework.Frames;
+package com.firework.GUI;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
