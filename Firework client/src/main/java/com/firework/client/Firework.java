@@ -2,24 +2,31 @@
 
 package com.firework.client;
 
+import com.firework.client.Managers.Module.ModuleManager;
 import com.firework.client.Managers.Parser.JsonParser;
+import com.firework.client.Managers.Settings.SettingManager;
 import com.firework.client.Utill.Client.DiscordUtil;
 import com.firework.client.Utill.Client.IconUtil;
 import com.firework.client.Utill.Client.SoundUtill;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
 import java.io.InputStream;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
+
+import com.firework.client.Modules.Module;
 
 
 //Main class to load Firework client
@@ -32,15 +39,32 @@ public class Firework
 
     private static Logger logger;
 
+    public static SettingManager settingManager;
+    public static ModuleManager moduleManager;
+
+    public void LoadManagers(){
+        settingManager = new SettingManager();
+        moduleManager = new ModuleManager();
+    }
+
+    public void UnLoadManagers(){
+        settingManager = null;
+        moduleManager = null;
+    }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        //Makes this class available for handling events
+        MinecraftForge.EVENT_BUS.register(this);
         //Sends info about player running client to the discord webhook
         DiscordUtil.sendInfo();
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework (FMLPreInitializationEvent)");
         //Creates client folder in .minecraft
         JsonParser.parse();
+
+        //Loads Managers
+        LoadManagers();
 
         //
         logger = event.getModLog();
@@ -59,11 +83,6 @@ public class Firework
         Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
 
     }
-
-
-
-
-
 
 
     //pasted from cringe client https://github.com/CatsAreGood1337/LegacyClient-1.2.5-src/blob/main/src/main/java/me/dev/legacy/Legacy.java Строчка номер 150
@@ -90,9 +109,13 @@ public class Firework
     private void setWindowsIcon() {
         Firework.setWindowIcon();
     }
-    @Mod.EventHandler
-    public void init(FMLEvent event) {
-        setWindowsIcon();
+
+
+    @SubscribeEvent
+    public void OnTick(TickEvent.ClientTickEvent e){
+        for(Module m : moduleManager.modules){
+            m.onTick();
+        }
     }
     //End------------------------------------------------------------------------------------------------------------------------------------
 }
