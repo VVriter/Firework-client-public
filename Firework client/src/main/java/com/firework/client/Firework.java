@@ -4,7 +4,6 @@ package com.firework.client;
 
 import com.firework.client.Managers.Parser.JsonParser;
 import com.firework.client.Utill.Client.DiscordUtil;
-import com.firework.client.Utill.Client.HwidUtil;
 import com.firework.client.Utill.Client.IconUtil;
 import com.firework.client.Utill.Client.SoundUtill;
 import net.minecraft.client.Minecraft;
@@ -19,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
 import java.io.InputStream;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 
 
@@ -31,15 +31,6 @@ public class Firework
     public static final String VERSION = "0.1";
 
     private static Logger logger;
-
-
-
-
-
-
-
-
-
 
 
     @EventHandler
