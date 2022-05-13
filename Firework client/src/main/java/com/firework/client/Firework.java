@@ -1,7 +1,8 @@
 package com.firework.client;
 
-import com.firework.client.Managers.JsonParser;
-import net.minecraft.init.Blocks;
+import com.firework.client.Managers.Parser.JsonParser;
+import com.firework.client.Utill.Client.SoundUtill;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -26,6 +27,8 @@ public class Firework
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+
+        SoundUtill.playSound(new ResourceLocation("audio/1seal.wav"));
 
     }
 }

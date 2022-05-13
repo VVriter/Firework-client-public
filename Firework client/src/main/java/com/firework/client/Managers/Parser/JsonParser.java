@@ -1,4 +1,4 @@
-package com.firework.client.Managers;
+package com.firework.client.Managers.Parser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
