@@ -14,6 +14,8 @@ import java.util.Arrays;
 
 public class IconUtil {
 
+
+    //Are u really need it???
     public static final IconUtil INSTANCE = new IconUtil();
 
 

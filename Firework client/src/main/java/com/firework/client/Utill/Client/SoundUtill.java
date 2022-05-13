@@ -8,6 +8,7 @@ import sun.audio.AudioStream;
 
 public class SoundUtill {
 
+    //Utilite to play sounds in minecraft | Using:  SoundUtill.playSound(new ResourceLocation("audio/file.wav"));
     public static void playSound(ResourceLocation rl) {
         try {
             InputStream sound = Minecraft.getMinecraft().getResourceManager().getResource(rl).getInputStream();

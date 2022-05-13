@@ -3,6 +3,7 @@ package com.firework.client;
 import com.firework.client.Managers.Parser.JsonParser;
 import com.firework.client.Utill.Client.IconUtil;
 import com.firework.client.Utill.Client.SoundUtill;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraftforge.fml.common.Mod;
@@ -15,6 +16,7 @@ import org.lwjgl.opengl.Display;
 
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @Mod(modid = Firework.MODID, name = Firework.NAME, version = Firework.VERSION)
 public class Firework
@@ -37,15 +39,26 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        //Sets custom window title when client is loading
+        Display.setTitle("Loading Firework (FMLPreInitializationEvent)");
+        //Creates client folder in .minecraft
         JsonParser.parse();
+
+        //
         logger = event.getModLog();
 
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        //Idk if it really needed
         setWindowsIcon();
+        //Sets custom window title when client is loading
+        Display.setTitle("Loading Firework (FMLInitializationEvent)");
+        //Plays firework sound when loading client
         SoundUtill.playSound(new ResourceLocation("audio/1seal.wav"));
+        //Sets custom titel when client is loaded Example: Firework | Player123
+        Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
 
     }
 
@@ -55,6 +68,15 @@ public class Firework
 
 
 
+    //pasted from cringe client https://github.com/CatsAreGood1337/LegacyClient-1.2.5-src/blob/main/src/main/java/me/dev/legacy/Legacy.java Строчка номер 150
+
+    /*
+    * Custom icon system
+    * @author Rianix aka Egor Bazhin
+    * doxbin link https://doxbin.com/upload/rianix
+    */
+
+    //Start------------------------------------------------------------------------------------------------------------------------------------
 
     public static void setWindowIcon() {
         if (Util.getOSType() != Util.EnumOS.OSX) {
@@ -74,4 +96,5 @@ public class Firework
     public void init(FMLEvent event) {
         setWindowsIcon();
     }
+    //End------------------------------------------------------------------------------------------------------------------------------------
 }
