@@ -2,6 +2,7 @@
 
 package com.firework.client;
 
+import com.firework.client.CustomMainMenu.onGuiOpenEvent;
 import com.firework.client.Impl.Managers.Module.ModuleManager;
 import com.firework.client.Impl.Managers.Parser.JsonParser;
 import com.firework.client.Impl.Managers.Settings.SettingManager;
@@ -10,6 +11,7 @@ import com.firework.client.Impl.Utill.Client.IconUtil;
 import com.firework.client.Impl.Utill.Client.SoundUtill;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Session;
 import net.minecraft.util.Util;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -23,6 +25,7 @@ import org.lwjgl.opengl.Display;
 
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.lang.reflect.Field;
 
 import com.firework.client.Features.Modules.Module;
 
@@ -52,6 +55,12 @@ public class Firework
         moduleManager = null;
 
     }
+
+
+
+
+
+
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -83,8 +92,18 @@ public class Firework
         SoundUtill.playSound(new ResourceLocation("audio/1seal.wav"));
         //Sets custom titel when client is loaded Example: Firework | Player123
         Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
+        //Sets CustomMainMenu
+        MinecraftForge.EVENT_BUS.register(new onGuiOpenEvent());
 
     }
+
+
+
+
+
+
+
+
 
 
     //pasted from cringe client https://github.com/CatsAreGood1337/LegacyClient-1.2.5-src/blob/main/src/main/java/me/dev/legacy/Legacy.java Строчка номер 150
@@ -120,4 +139,42 @@ public class Firework
         }
     }
     //End------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+   /**@Author*BUSH1ROOT
+    * Pasted from https://github.com/bush1root/TutorialClient/
+    * Using for alt manager*/
+   //Start--------------------------------------------------------------------------------------------------------------------------------------
+    public static void setSession(Session s) {
+        Class<? extends Minecraft> mc = Minecraft.getMinecraft().getClass();
+
+        try {
+            Field session = null;
+
+            for (Field f : mc.getDeclaredFields()) {
+                if (f.getType().isInstance(s)) {
+                    session = f;
+                }
+            }
+
+            if (session == null) {
+                throw new IllegalStateException("Session Null");
+            }
+
+            session.setAccessible(true);
+            session.set(Minecraft.getMinecraft(), s);
+            session.setAccessible(false);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //End--------------------------------------------------------------------------------------------------------------------------------------
 }
