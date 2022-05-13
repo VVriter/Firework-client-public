@@ -55,28 +55,38 @@ public class RenderUtils2D {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.glLineWidth(1);
 
+        int x = rectangle.x;
+        int y = rectangle.y;
+        int w = rectangle.width;
+        int h = rectangle.height;
+
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        bufferbuilder.pos(rectangle.x, rectangle.y + rectangle.height, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
-        bufferbuilder.pos(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
-        bufferbuilder.pos(rectangle.x + rectangle.width, rectangle.y, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
-        bufferbuilder.pos(rectangle.x, rectangle.y, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(x, y + h, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(x + w, rectangle.y + h, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(x + w, rectangle.y, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(x, rectangle.y, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
         tessellator.draw();
 
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
     }
-    
+
     public static void drawRectangleOutline(Rectangle rectangle, float width, Color color) {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.glLineWidth(width);
 
+        int x = rectangle.x;
+        int y = rectangle.y;
+        int w = rectangle.width;
+        int h = rectangle.height;
+
         bufferbuilder.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION_COLOR);
-        bufferbuilder.pos(rectangle.x, rectangle.y + rectangle.height, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
-        bufferbuilder.pos(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
-        bufferbuilder.pos(rectangle.x + rectangle.width, rectangle.y, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
-        bufferbuilder.pos(rectangle.x, rectangle.y, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(x, y + h, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(x + w, rectangle.y + h, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(x + w, rectangle.y, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(x, y, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
         tessellator.draw();
 
         GlStateManager.enableTexture2D();
