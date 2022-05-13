@@ -13,8 +13,6 @@ public class SoundUtill {
     //Utilite to play sounds in minecraft | Using:  SoundUtill.playSound(new ResourceLocation("audio/file.wav"));
     public static void playSound(ResourceLocation rl) {
         new Thread(new Runnable() {
-            // The wrapper thread is unnecessary, unless it blocks on the
-            // Clip finishing; see comments.
             public void run() {
                 try {
                     Clip clip = AudioSystem.getClip();

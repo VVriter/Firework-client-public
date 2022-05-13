@@ -1,0 +1,85 @@
+package com.firework.client.Utill.Render;
+
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+
+import java.awt.*;
+
+import static org.lwjgl.opengl.GL11.*;
+
+public class RenderUtils2D {
+
+    public static Tessellator tessellator = Tessellator.getInstance();
+    public static BufferBuilder bufferbuilder = tessellator.getBuffer();
+
+    public static void drawGradientRect(Rectangle rectangle, Color startColor, Color endColor)
+    {
+        double zLevel=0.0;
+
+        float f = (float) startColor.getRed() / 255.0f;
+        float f1 = (float) startColor.getGreen() / 255.0f;
+        float f2 = (float) startColor.getBlue() / 255.0f;
+        float f3 = (float) startColor.getAlpha() / 255.0f;
+        float f4 = (float) endColor.getRed() / 255.0f;
+        float f5 = (float) endColor.getGreen() / 255.0f;
+        float f6 = (float) endColor.getBlue() / 255.0f;
+        float f7 = (float) endColor.getAlpha() / 255.0f;
+
+        int x = rectangle.x;
+        int y = rectangle.y;
+        int w = rectangle.width;
+        int h = rectangle.height;
+
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.shadeModel(7425);
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos((double)x, (double)h, (double)zLevel).color(f1, f2, f3, f).endVertex();
+        bufferbuilder.pos((double)w, (double)h, (double)zLevel).color(f1, f2, f3, f).endVertex();
+        bufferbuilder.pos((double)w, (double)y, (double)zLevel).color(f5, f6, f7, f4).endVertex();
+        bufferbuilder.pos((double)x, (double)y, (double)zLevel).color(f5, f6, f7, f4).endVertex();
+        tessellator.draw();
+        GlStateManager.shadeModel(7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+    }
+
+    public static void drawRectangle(Rectangle rectangle, Color color) {
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.glLineWidth(1);
+
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos(rectangle.x, rectangle.y + rectangle.height, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(rectangle.x + rectangle.width, rectangle.y, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(rectangle.x, rectangle.y, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        tessellator.draw();
+
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+    
+    public static void drawRectangleOutline(Rectangle rectangle, float width, Color color) {
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.glLineWidth(width);
+
+        bufferbuilder.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos(rectangle.x, rectangle.y + rectangle.height, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(rectangle.x + rectangle.width, rectangle.y, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(rectangle.x, rectangle.y, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        tessellator.draw();
+
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+}
