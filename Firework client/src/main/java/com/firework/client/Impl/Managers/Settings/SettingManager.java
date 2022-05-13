@@ -1,6 +1,6 @@
-package com.firework.client.Managers.Settings;
+package com.firework.client.Impl.Managers.Settings;
 
-import com.firework.client.Settings.Setting;
+import com.firework.client.Impl.Settings.Setting;
 
 import java.util.ArrayList;
 

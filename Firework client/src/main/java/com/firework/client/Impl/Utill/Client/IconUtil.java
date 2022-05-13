@@ -1,9 +1,5 @@
-package com.firework.client.Utill.Client;
+package com.firework.client.Impl.Utill.Client;
 
-
-import com.firework.client.Firework;
-import net.minecraft.util.Util;
-import org.lwjgl.opengl.Display;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

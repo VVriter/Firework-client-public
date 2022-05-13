@@ -1,8 +1,7 @@
-package com.firework.client.Modules.Client;
+package com.firework.client.Features.Modules.Client;
 
-import com.firework.client.Modules.Module;
-import com.firework.client.Settings.Setting;
-import org.lwjgl.Sys;
+import com.firework.client.Features.Modules.Module;
+import com.firework.client.Impl.Settings.Setting;
 
 public class Test extends Module {
 

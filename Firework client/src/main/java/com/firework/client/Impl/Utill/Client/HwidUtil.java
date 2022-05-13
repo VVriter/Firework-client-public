@@ -1,4 +1,4 @@
-package com.firework.client.Utill.Client;
+package com.firework.client.Impl.Utill.Client;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

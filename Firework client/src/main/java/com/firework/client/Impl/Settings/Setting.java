@@ -1,7 +1,7 @@
-package com.firework.client.Settings;
+package com.firework.client.Impl.Settings;
 
 import com.firework.client.Firework;
-import com.firework.client.Modules.Module;
+import com.firework.client.Features.Modules.Module;
 
 import java.util.List;
 

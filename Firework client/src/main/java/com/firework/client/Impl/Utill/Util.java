@@ -1,7 +1,5 @@
-package com.firework.client.Utill;
+package com.firework.client.Impl.Utill;
 
-
-import net.minecraft.client.Minecraft;
 
 import net.minecraft.client.Minecraft;
 

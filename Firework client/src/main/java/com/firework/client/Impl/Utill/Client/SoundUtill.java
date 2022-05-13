@@ -1,6 +1,5 @@
-package com.firework.client.Utill.Client;
+package com.firework.client.Impl.Utill.Client;
 
-import java.io.InputStream;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 

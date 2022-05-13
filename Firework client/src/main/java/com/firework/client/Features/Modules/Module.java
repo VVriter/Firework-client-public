@@ -1,6 +1,6 @@
-package com.firework.client.Modules;
+package com.firework.client.Features.Modules;
 
-import com.firework.client.Settings.Setting;
+import com.firework.client.Impl.Settings.Setting;
 
 public class Module {
 
