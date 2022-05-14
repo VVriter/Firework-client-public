@@ -6,7 +6,6 @@ buildscript {
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
         classpath 'com.googlecode.json-simple:json-simple:1.1.1'
-
     }
 }
         
@@ -57,7 +56,6 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
-
 
 }
 
