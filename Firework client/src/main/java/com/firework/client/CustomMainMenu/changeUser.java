@@ -5,9 +5,11 @@ import com.firework.client.Firework;
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Session;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -18,7 +20,7 @@ import java.net.Proxy;
 
 public class changeUser extends GuiScreen {
     GuiTextField inputField;
-
+    private static final ResourceLocation texture = new ResourceLocation("texture.jpg");
     @Override
     public void initGui() {
         int i = this.height / 4 + 48;
@@ -78,6 +80,8 @@ public class changeUser extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         GL11.glColor4f(1, 1, 1, 1);
         drawDefaultBackground();
+        mc.renderEngine.bindTexture(texture);
+        Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, this.width, this.height, this.width, this.height, this.width, this.height);
 
         for (int i = 0; i < this.buttonList.size(); i++) {
             ((GuiButton) this.buttonList.get(i)).drawButton(this.mc, mouseX, mouseY, partialTicks);

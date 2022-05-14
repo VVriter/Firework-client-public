@@ -47,7 +47,7 @@ public class FireworkMenu extends GuiScreen {
             try {
                 Desktop desktop = Desktop.getDesktop();
                 if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-                    desktop.browse(new URI("https://www.youtube.com/c/bushroot01"));
+                    desktop.browse(new URI("https://discord.gg/MTAGeKse8r"));
                 }
             } catch (URISyntaxException e) {
                 e.printStackTrace();
@@ -68,7 +68,7 @@ public class FireworkMenu extends GuiScreen {
         Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, this.width, this.height, this.width, this.height, this.width, this.height);
 
         drawLogo.drawString(5, "Firework", this.width / 10 - this.fontRenderer.getStringWidth("Firework") / 2,
-                this.height / 20, new Color(0xB94D3E).getRGB());
+                this.height / 20, new Color(0xED002F).getRGB());
 
         for (GuiButton guiButton : this.buttonList) {
             guiButton.drawButton(this.mc, mouseX, mouseY, partialTicks);
@@ -76,4 +76,6 @@ public class FireworkMenu extends GuiScreen {
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
+
+
 }
