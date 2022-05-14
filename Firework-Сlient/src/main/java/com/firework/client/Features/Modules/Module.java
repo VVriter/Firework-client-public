@@ -12,24 +12,30 @@ public class Module {
 
     public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this);
 
-    public Module(String name, Category category){
+    public Module(String name, Category category) {
         this.name = name;
         this.category = category;
     }
 
-    public void onEnable(){
-        isEnabled.setValue(true);}
-    public void onDisable(){
-        isEnabled.setValue(false);}
+    public void onEnable() {
+        isEnabled.setValue(true);
+    }
+    public void onDisable() {
+        isEnabled.setValue(false);
+    }
 
-    public void onToggle(){
-        isEnabled.setValue(!isEnabled.getValue());}
+    public void onToggle() {
+        isEnabled.setValue(!isEnabled.getValue());
+    }
 
     public void onUpdate(){}
     public void onTick(){
-        if(updateTimer != delay){
+        if(!isEnabled.getValue()) {
+            return;
+        }
+        if(updateTimer != delay) {
             updateTimer++;
-        }else{
+        } else {
             onUpdate();
             updateTimer = 0;
         }

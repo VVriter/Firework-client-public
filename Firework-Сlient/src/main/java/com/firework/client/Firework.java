@@ -9,11 +9,14 @@ import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
+import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Session;
 import net.minecraft.util.Util;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -38,9 +41,10 @@ public class Firework
     public static final String MODID = "firework";
     public static final String NAME = "FireWork Client";
     public static final String VERSION = "0.1";
+    public static final String PREFIX = ChatFormatting.RED + "[FIREWORK] ";
 
     public static EntityPlayerSP localPlayer;
-    public static String fireworkDirectoryPath = System.getenv("APPDATA") + "\\.minecraft\\" +"\\Firework\\";
+    public static final String FIREWORK_DIRECTORY = System.getenv("APPDATA") + "\\.minecraft\\" +"\\Firework\\";
 
     private static Logger logger;
 
@@ -60,7 +64,11 @@ public class Firework
     }
 
 
-
+    public static void sendToClient(String message)
+    {
+        ITextComponent imessage = new TextComponentString(Firework.PREFIX + message);
+        localPlayer.sendMessage(imessage);
+    }
 
 
 

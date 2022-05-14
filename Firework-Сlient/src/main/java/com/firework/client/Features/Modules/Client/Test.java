@@ -16,7 +16,7 @@ public class Test extends Module {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        System.out.println(testSetting.getValue());
+        System.out.println("WORK!");
         testSetting.setValue(!testSetting.getValue());
 
     }

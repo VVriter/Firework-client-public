@@ -6,7 +6,7 @@ import com.firework.client.Features.Modules.Client.Test;
 import java.util.ArrayList;
 
 public class ModuleManager {
-    public ArrayList<Module> modules;
+    public static ArrayList<Module> modules;
 
     public ModuleManager(){
         modules = new ArrayList<>();

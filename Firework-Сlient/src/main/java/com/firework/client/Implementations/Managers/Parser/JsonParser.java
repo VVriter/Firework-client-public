@@ -18,7 +18,7 @@ public class JsonParser {
         obj.put("Firework", "bebra");
 
         //Creates dir if it really needed
-        File theDir = new File(Firework.fireworkDirectoryPath);
+        File theDir = new File(Firework.FIREWORK_DIRECTORY);
         if (!theDir.exists()){
             theDir.mkdirs();
 
@@ -31,7 +31,7 @@ public class JsonParser {
                 e.printStackTrace();
             }
             //Creates main Json file
-            try (FileWriter file = new FileWriter(Firework.fireworkDirectoryPath + "Firework.json")) {
+            try (FileWriter file = new FileWriter(Firework.FIREWORK_DIRECTORY + "Firework.json")) {
                 file.write(obj.toJSONString());
             } catch (IOException e) {
                 e.printStackTrace();
