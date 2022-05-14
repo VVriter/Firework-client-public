@@ -17,7 +17,7 @@ public class Test extends Module {
     public void onUpdate() {
         super.onUpdate();
         System.out.println("WORK!");
-        testSetting.setValue(!testSetting.getValue());
+        onToggle();
 
     }
 }
