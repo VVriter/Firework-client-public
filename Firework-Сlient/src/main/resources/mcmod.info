@@ -4,12 +4,11 @@
   "name": "Firework Client",
   "description": "",
   "version": "${version}",
-  "mcversion": "${mcversion}",
+  "mcversion": "1.12.2",
   "url": "",
   "updateUrl": "",
-  "authorList": ["dazed68"],
-  "credits": "The Forge and FML guys, for making this example",
-  "logoFile": "",
+  "authorList": ["dazed68", "___exploit___", "PunCakeCat"],
+  "credits": "-",
   "screenshots": [],
   "dependencies": []
 }

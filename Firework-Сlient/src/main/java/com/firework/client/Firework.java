@@ -1,4 +1,4 @@
-/**@Author dazed68, __EXPLOIT__, PunCakeCat*/
+/** @Author dazed68, __exploit__, PunCakeCat */
 
 package com.firework.client;
 
@@ -94,7 +94,7 @@ public class Firework
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework (FMLInitializationEvent)");
         //Plays firework sound when loading client
-        SoundUtill.playSound(new ResourceLocation("audio/1seal.wav"));
+        SoundUtill.playSound(new ResourceLocation("firework/audio/loading.wav"));
         //Sets custom title when client is loaded Example: Firework | Player123
         Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
         //Sets CustomMainMenu
