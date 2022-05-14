@@ -10,10 +10,10 @@ public class ModuleManager {
 
     public ModuleManager(){
         modules = new ArrayList<>();
-        registerModules();
+        RegisterModules();
     }
 
-    public void registerModules(){
+    public void RegisterModules(){
         modules.add(new Test());
     }
 

@@ -11,7 +11,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class FireworkMenu extends GuiScreen {
-    private static final ResourceLocation texture = new ResourceLocation("texture.jpg");
+    private static final ResourceLocation texture = new ResourceLocation("firework/textures/background.jpg");
 
     public FireworkMenu() {
         super();
@@ -28,7 +28,7 @@ public class FireworkMenu extends GuiScreen {
         this.buttonList.add(new GuiButton(2, this.width / 2 + 2, i + 72 - 12, 98,
                 20, "Change User"));
         this.buttonList.add(new GuiButton(3, this.width / 2 - 100, i + 72 - 12, 98,
-                20, "Author"));
+                20, "Authors"));
         this.buttonList.add(new GuiButton(4, this.width / 2 - 100, i + 72 - 34, 200,
                 20, "Multiplayer"));
         this.buttonList.add(new GuiButton(5, this.width / 2 - 100, i + 72 - 58, 200,

@@ -9,8 +9,8 @@ public class Test extends Module {
 
     public Test() {
         super("Test", Category.CLIENT);
-        isEnable.setValue(true);
-        System.out.println("Module status:" + isEnable.getValue());
+        isEnabled.setValue(true);
+        System.out.println("Module status:" + isEnabled.getValue());
     }
 
     @Override

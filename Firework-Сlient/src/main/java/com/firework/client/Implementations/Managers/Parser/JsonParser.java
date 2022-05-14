@@ -11,9 +11,6 @@ import java.net.URISyntaxException;
 
 public class JsonParser {
     public static void parse() {
-
-
-
         Desktop desktop = Desktop.getDesktop();
 
         //Creates new JSon object

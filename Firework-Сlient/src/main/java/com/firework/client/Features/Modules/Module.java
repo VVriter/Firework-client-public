@@ -10,17 +10,20 @@ public class Module {
     private int updateTimer = 0;
     public int delay = 20;
 
-    public Setting<Boolean> isEnable = new Setting<>("isEnabled", false, this);
+    public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this);
 
     public Module(String name, Category category){
         this.name = name;
         this.category = category;
     }
 
-    public void OnEnable(){isEnable.setValue(true);}
-    public void OnDisable(){isEnable.setValue(false);}
+    public void onEnable(){
+        isEnabled.setValue(true);}
+    public void onDisable(){
+        isEnabled.setValue(false);}
 
-    public void onToggle(){isEnable.setValue(!isEnable.getValue());}
+    public void onToggle(){
+        isEnabled.setValue(!isEnabled.getValue());}
 
     public void onUpdate(){}
     public void onTick(){

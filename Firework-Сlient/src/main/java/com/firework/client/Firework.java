@@ -48,16 +48,15 @@ public class Firework
     public static ModuleManager moduleManager;
 
 
-    public void LoadManagers(){
+    public void loadManagers(){
         settingManager = new SettingManager();
         moduleManager = new ModuleManager();
 
     }
 
-    public void UnLoadManagers(){
+    public void unloadManagers(){
         settingManager = null;
         moduleManager = null;
-
     }
 
 
@@ -78,7 +77,7 @@ public class Firework
         JsonParser.parse();
 
         //Loads Managers
-        LoadManagers();
+        loadManagers();
 
 
         //
@@ -88,13 +87,15 @@ public class Firework
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        //Idk if it really needed
+        //Link to local player
+        localPlayer = Minecraft.getMinecraft().player;
+        //IDK if it really needed
         setWindowsIcon();
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework (FMLInitializationEvent)");
         //Plays firework sound when loading client
         SoundUtill.playSound(new ResourceLocation("audio/1seal.wav"));
-        //Sets custom titel when client is loaded Example: Firework | Player123
+        //Sets custom title when client is loaded Example: Firework | Player123
         Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
         //Sets CustomMainMenu
         MinecraftForge.EVENT_BUS.register(new OnGuiOpenEvent());
@@ -122,8 +123,8 @@ public class Firework
 
     public static void setWindowIcon() {
         if (Util.getOSType() != Util.EnumOS.OSX) {
-            try (InputStream inputStream16x = Firework.class.getClassLoader().getResourceAsStream("ico1.png");
-                 InputStream inputStream32x = Firework.class.getClassLoader().getResourceAsStream("ico2.png")) {
+            try (InputStream inputStream16x = Firework.class.getClassLoader().getResourceAsStream("assets/minecraft/firework/textures/icon16.png");
+                 InputStream inputStream32x = Firework.class.getClassLoader().getResourceAsStream("assets/minecraft/firework/textures/icon32.png")) {
                 ByteBuffer[] icons = new ByteBuffer[]{IconUtil.INSTANCE.readImageToBuffer(inputStream16x), IconUtil.INSTANCE.readImageToBuffer(inputStream32x)};
                 Display.setIcon(icons);
             } catch (Exception e) {
@@ -137,7 +138,7 @@ public class Firework
 
 
     @SubscribeEvent
-    public void OnTick(TickEvent.ClientTickEvent e){
+    public void onTick(TickEvent.ClientTickEvent e){
         for(Module m : moduleManager.modules){
             m.onTick();
         }

@@ -20,7 +20,7 @@ import java.net.Proxy;
 
 public class ChangeUser extends GuiScreen {
     GuiTextField inputField;
-    private static final ResourceLocation texture = new ResourceLocation("texture.jpg");
+    private static final ResourceLocation texture = new ResourceLocation("firework/textures/background.jpg");
     @Override
     public void initGui() {
         int i = this.height / 4 + 48;
