@@ -4,6 +4,7 @@ package com.firework.client;
 
 import com.firework.client.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Implementations.Managers.Module.ModuleManager;
+import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
@@ -74,6 +75,8 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        //Creates Folder with client files
+        JsonParser.parse();
         //Set icon
         Firework.setWindowIcon();
         //Makes this class available for handling events
