@@ -24,8 +24,8 @@ public class MessageUtil  {
     public static void sendClientMessage(String string, int id) {
         if (Minecraft.getMinecraft().player == null)
             return;
-        final ITextComponent component = new TextComponentString(prefix + string);
-        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(component, id);
+        final ITextComponent component = new TextComponentString(   prefix +ChatFormatting.GRAY+ string+ChatFormatting.RESET);
+        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion( component, id);
     }
 
 }

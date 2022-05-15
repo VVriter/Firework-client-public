@@ -6,7 +6,7 @@ public class Command  {
 
     String label;
     String[] aliases;
-    private String prefix;
+    public String prefix;
 
     Minecraft mc = Minecraft.getMinecraft();
 
@@ -15,7 +15,7 @@ public class Command  {
             CommandManifest manifest = getClass().getAnnotation(CommandManifest.class);
             label = manifest.label();
             aliases = manifest.aliases();
-            prefix = ">";
+            prefix = ".";
         }
     }
 

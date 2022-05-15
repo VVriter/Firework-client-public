@@ -3,6 +3,7 @@ package com.firework.client.Implementations.Managers.CommandManager;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.Commands.*;
+import com.firework.client.Features.CommandsSystem.Commands.Client.HelpCommand;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -60,6 +61,7 @@ public class CommandManager {
                 new WebhookCommand(),
                 new FovCommand(),
                 new NameMcCommand(),
+                new HelpCommand(),
                 new ClearCommand());
 
         MinecraftForge.EVENT_BUS.register(this);
