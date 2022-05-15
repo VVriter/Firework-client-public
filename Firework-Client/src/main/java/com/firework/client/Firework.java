@@ -9,6 +9,7 @@ import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
+import com.firework.client.NormalCommandsSystem.CommandManager;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -50,17 +51,20 @@ public class Firework
 
     public static SettingManager settingManager;
     public static ModuleManager moduleManager;
+    public static CommandManager commandManager;
 
 
     public void loadManagers(){
         settingManager = new SettingManager();
         moduleManager = new ModuleManager();
+        commandManager = new CommandManager();
 
     }
 
     public void unloadManagers(){
         settingManager = null;
         moduleManager = null;
+        commandManager = null;
     }
 
 
