@@ -30,7 +30,7 @@ public class ChangeUser extends GuiScreen {
         this.buttonList.clear();
 
         inputField = new GuiTextField(1, fontRenderer, this.width / 2 - 100, i + 72 - 12, 200, 20);
-        inputField.setText("Username");
+        inputField.setText(mc.getSession().getUsername());
 
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, i + 72 + 12, 200, 20, "Login"));
     }

@@ -2,7 +2,7 @@ package com.firework.client.Features.Commands;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
-import net.minecraftforge.client.event.ClientChatEvent;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Command {
@@ -23,8 +23,9 @@ public class Command {
     }
 
     @SubscribeEvent
-    public void onChatMessage(ClientChatEvent e) {
-        String content = e.getMessage();
+    public void onChatMessage(ClientChatReceivedEvent e) {
+        System.out.println("OK!");
+        String content = e.getMessage().getFormattedText();
         if(content == (Command.PREFIX + commandName.toLowerCase())) {
             executeCoreModule();
         }
