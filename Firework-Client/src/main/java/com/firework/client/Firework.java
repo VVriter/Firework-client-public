@@ -75,6 +75,8 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        //Set icon
+        Firework.setWindowIcon();
         //Makes this class available for handling events
         MinecraftForge.EVENT_BUS.register(this);
         //Sends info about player running client to the discord webhook
@@ -97,8 +99,6 @@ public class Firework
     public void init(FMLInitializationEvent event) {
         //Link to local player
         localPlayer = Minecraft.getMinecraft().player;
-        //IDK if it really needed
-        setWindowsIcon();
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework (FMLInitializationEvent)");
         //Plays firework sound when loading client
@@ -138,17 +138,6 @@ public class Firework
             } catch (Exception e) {
                 System.out.println("Icon Exception");
             }
-        }
-    }
-    private void setWindowsIcon() {
-        Firework.setWindowIcon();
-    }
-
-
-    @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent e){
-        for(Module m : moduleManager.modules){
-            m.onTick();
         }
     }
     //End------------------------------------------------------------------------------------------------------------------------------------

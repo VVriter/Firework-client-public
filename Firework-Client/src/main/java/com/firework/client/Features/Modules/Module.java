@@ -9,12 +9,14 @@ public class Module {
 
     private int updateTimer = 0;
     public int delay = 20;
+    public Boolean isNonCycle = true;
 
     public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this);
 
-    public Module(String name, Category category) {
+    public Module(String name, Category category, Boolean isNonCycle) {
         this.name = name;
         this.category = category;
+        this.isNonCycle = isNonCycle;
     }
 
     public void onEnable() {
@@ -28,15 +30,22 @@ public class Module {
         isEnabled.setValue(!isEnabled.getValue());
     }
 
-    public void onUpdate(){}
-    public void onTick(){
+    public void execute() {}
+    public void tryToExecute() {
         if(!isEnabled.getValue()) {
             return;
         }
+        if(isNonCycle) {
+            //if NOT CYCLE
+            execute();
+            isEnabled.setValue(!isEnabled.getValue());
+            return;
+        }
+        //if CYCLE
         if(updateTimer != delay) {
             updateTimer++;
         } else {
-            onUpdate();
+            execute();
             updateTimer = 0;
         }
     }

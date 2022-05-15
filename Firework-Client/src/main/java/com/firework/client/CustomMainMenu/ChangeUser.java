@@ -5,6 +5,7 @@ import com.firework.client.Firework;
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -12,6 +13,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Session;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -45,6 +47,8 @@ public class ChangeUser extends GuiScreen {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
     }
 
     @Override

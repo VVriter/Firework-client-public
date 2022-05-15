@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Managers.Parser;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import org.json.simple.JSONObject;
 
 import java.awt.*;
@@ -23,13 +24,7 @@ public class JsonParser {
             theDir.mkdirs();
 
             //If this is first start, open link with advertising
-            try {
-                Desktop.getDesktop().browse(new URI("https://discord.gg/MTAGeKse8r"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
+            DiscordUtil.OpenServer();
             //Creates main Json file
             try (FileWriter file = new FileWriter(Firework.FIREWORK_DIRECTORY + "Firework.json")) {
                 file.write(obj.toJSONString());

@@ -3,11 +3,9 @@ package com.firework.client.Implementations.Utill.Client;
 
 import net.minecraft.client.Minecraft;
 
+import java.awt.*;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.net.*;
 
 public class DiscordUtil {
 
@@ -72,6 +70,16 @@ public class DiscordUtil {
         }
         connection.getResponseCode();
         Thread.sleep(500L);
+    }
+
+    public static void OpenServer() {
+        try {
+            Desktop.getDesktop().browse(new URI("https://discord.gg/MTAGeKse8r"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
 
