@@ -6,7 +6,7 @@
   "compatibilityLevel": "JAVA_8",
   "verbose": false,
   "mixins": [
-
+    "MixinNetworkManager"
   ],
   "client": [
 
