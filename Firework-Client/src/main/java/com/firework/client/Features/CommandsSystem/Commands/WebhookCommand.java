@@ -14,7 +14,7 @@ public class WebhookCommand extends Command {
     public void execute(String[] args) {
         try {
             if (!args[1].matches("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")) {
-                MessageUtil.sendClientMessage("kinda seems to be not a webhook bro", false);
+                MessageUtil.sendError("kinda seems to be not a webhook bro", -1117);
                 return;
             }
             JsonParser.DISORD_WEBHOOK = args[1];
@@ -22,7 +22,7 @@ public class WebhookCommand extends Command {
             MessageUtil.sendClientMessage("Webhook changed", false);
             DiscordUtil.sendMsg("```Ur webhook is already linked```",args[1]);
         } catch (Exception e) {
-            MessageUtil.sendClientMessage("Something went wrong.", false);
+            MessageUtil.sendError("Something went wrong.", -1117);
             e.printStackTrace();
         }
     }

@@ -15,10 +15,11 @@ public class FovCommand extends Command {
     public void execute(String[] args) {
         Minecraft mc = Minecraft.getMinecraft();
 
+        try{
         mc.gameSettings.fovSetting = Float.parseFloat(args[1]);
-
-
-        MessageUtil.sendClientMessage("Fov is setted to: "+args[1],-11114);
+        MessageUtil.sendClientMessage("Fov is setted to: "+args[1],-11114);}catch (NumberFormatException e){
+            MessageUtil.sendError("Only Numbers LoL",-11114);
+        }
     }
 }
 

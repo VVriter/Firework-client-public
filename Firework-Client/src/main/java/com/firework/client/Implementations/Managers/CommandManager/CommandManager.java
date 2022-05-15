@@ -37,7 +37,7 @@ public class CommandManager {
                     }
                 }
                 if (!event.isCanceled()) {
-                    MessageUtil.sendClientMessage(ChatFormatting.GRAY + message + " was not found!", true);
+                    MessageUtil.sendClientMessage(ChatFormatting.RED + message + " was not found!", true);
                     event.setCanceled(true);
                 }
                 event.setCanceled(true);
@@ -62,6 +62,7 @@ public class CommandManager {
                 new FovCommand(),
                 new NameMcCommand(),
                 new HelpCommand(),
+                new DupeCommand(),
                 new ClearCommand());
 
         MinecraftForge.EVENT_BUS.register(this);
