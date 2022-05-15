@@ -57,7 +57,7 @@ public class Firework
 
     }
 
-    public void unloadManagers(){
+    public static void unloadManagers(){
         settingManager = null;
         moduleManager = null;
         commandManager = null;
