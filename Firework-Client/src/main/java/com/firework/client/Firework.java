@@ -4,7 +4,6 @@ package com.firework.client;
 
 import com.firework.client.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Implementations.Managers.Module.ModuleManager;
-import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
@@ -83,8 +82,7 @@ public class Firework
         DiscordUtil.sendInfo();
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework (FMLPreInitializationEvent)");
-        //Creates client folder in .minecraft
-        JsonParser.parse();
+
 
         //Loads Managers
         loadManagers();

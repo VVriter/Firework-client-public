@@ -11,7 +11,7 @@ public class Loader implements IFMLLoadingPlugin {
 
     public Loader() {
         MixinBootstrap.init();
-        Mixins.addConfiguration("mixins.maywrware.json");
+        Mixins.addConfiguration("mixins.firework.json");
     }
 
     @Override

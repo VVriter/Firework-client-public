@@ -21,8 +21,8 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 version = "1.12.2"
-group = "xyz.maywr"
-archivesBaseName = "maywrware"
+group = "com.firework.client"
+archivesBaseName = "firework"
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
@@ -34,7 +34,7 @@ minecraft {
     version = "1.12.2-14.23.5.2847"
     runDir = 'run'
     mappings = "stable_39"
-    coreMod = 'xyz.maywr.hack.api.mixin.Loader'
+    coreMod = 'com.firework.client.Implementations.Mixins.Loader'
     makeObfSourceJar = false
 }
 
@@ -55,6 +55,9 @@ repositories {
 }
 
 dependencies {
+
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
@@ -80,11 +83,11 @@ shadowJar {
     manifest {
         attributes(
                 'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
-                "FMLCorePlugin": 'xyz.maywr.hack.api.mixin.Loader',
+                "FMLCorePlugin": 'com.firework.client.Implementations.Mixins.Loader',
                 "TweakOrder": 0,
                 'FMLCorePluginContainsFMLMod': 'true',
                 'ForceLoadAsMod': 'true',
-                "MixinConfigs": 'mixins.maywrware.json',
+                "MixinConfigs": 'mixins.firework.json',
         )
     }
     exclude 'dummyThing'
@@ -108,9 +111,9 @@ jar {
     manifest {
         attributes(
                 'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
-                "FMLCorePlugin": 'xyz.maywr.hack.api.mixin.Loader',
+                "FMLCorePlugin": 'com.firework.client.Implementations.Mixins.Loader',
                 "TweakOrder": 0,
-                "MixinConfigs": 'mixins.maywrware.json',
+                "MixinConfigs": 'mixins.firework.json',
         )
     }
 }
