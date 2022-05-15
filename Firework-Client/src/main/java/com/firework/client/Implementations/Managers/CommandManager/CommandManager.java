@@ -1,12 +1,13 @@
-package com.firework.client.Features.NormalCommandsSystem;
+package com.firework.client.Implementations.Managers.CommandManager;
 
 
-import com.firework.client.Features.NormalCommandsSystem.Commands.ClearCommand;
-import com.firework.client.Features.NormalCommandsSystem.Commands.CoordsCommand;
-import com.firework.client.Features.NormalCommandsSystem.Commands.WebhookCommand;
+import com.firework.client.Features.CommandsSystem.Command;
+import com.firework.client.Features.CommandsSystem.Commands.ClearCommand;
+import com.firework.client.Features.CommandsSystem.Commands.CoordsCommand;
+import com.firework.client.Features.CommandsSystem.Commands.WebhookCommand;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
-import com.firework.client.Features.NormalCommandsSystem.Commands.TutorialCommand;
+import com.firework.client.Features.CommandsSystem.Commands.TutorialCommand;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

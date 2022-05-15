@@ -2,14 +2,14 @@
 
 package com.firework.client;
 
-import com.firework.client.CustomMainMenu.OnGuiOpenEvent;
+import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Implementations.Managers.Module.ModuleManager;
 import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
-import com.firework.client.Features.NormalCommandsSystem.CommandManager;
+import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;

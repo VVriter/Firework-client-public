@@ -1,4 +1,4 @@
-package com.firework.client.CustomMainMenu;
+package com.firework.client.Features.CustomMainMenu;
 
 
 import com.firework.client.Firework;

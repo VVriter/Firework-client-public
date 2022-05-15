@@ -1,4 +1,4 @@
-package com.firework.client.CustomMainMenu;
+package com.firework.client.Features.CustomMainMenu;
 
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraftforge.client.event.GuiOpenEvent;

@@ -1,8 +1,8 @@
-package com.firework.client.Features.NormalCommandsSystem.Commands;
+package com.firework.client.Features.CommandsSystem.Commands;
 
 
-import com.firework.client.Features.NormalCommandsSystem.Command;
-import com.firework.client.Features.NormalCommandsSystem.CommandManifest;
+import com.firework.client.Features.CommandsSystem.Command;
+import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
