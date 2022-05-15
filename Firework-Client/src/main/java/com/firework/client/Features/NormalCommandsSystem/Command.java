@@ -1,4 +1,4 @@
-package com.firework.client.NormalCommandsSystem;
+package com.firework.client.Features.NormalCommandsSystem;
 
 import net.minecraft.client.Minecraft;
 

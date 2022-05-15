@@ -1,9 +1,9 @@
-package com.firework.client.NormalCommandsSystem.Commands;
+package com.firework.client.Features.NormalCommandsSystem.Commands;
 
 
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
-import com.firework.client.NormalCommandsSystem.Command;
-import com.firework.client.NormalCommandsSystem.CommandManifest;
+import com.firework.client.Features.NormalCommandsSystem.Command;
+import com.firework.client.Features.NormalCommandsSystem.CommandManifest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.tutorial.TutorialSteps;
 

@@ -1,9 +1,9 @@
-package com.firework.client.NormalCommandsSystem;
+package com.firework.client.Features.NormalCommandsSystem;
 
 
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
-import com.firework.client.NormalCommandsSystem.Commands.TutorialCommand;
+import com.firework.client.Features.NormalCommandsSystem.Commands.TutorialCommand;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.network.play.client.CPacketChatMessage;

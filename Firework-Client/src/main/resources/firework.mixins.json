@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "com.firework.client.Implementations.Mixins.MixinsList",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "firework.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "minVersion": "0.8"
+}

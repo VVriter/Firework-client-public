@@ -1,4 +1,4 @@
-package com.firework.client.NormalCommandsSystem;
+package com.firework.client.Features.NormalCommandsSystem;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
