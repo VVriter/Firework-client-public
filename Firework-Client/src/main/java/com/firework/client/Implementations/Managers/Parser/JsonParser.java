@@ -2,12 +2,22 @@ package com.firework.client.Implementations.Managers.Parser;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Iterator;
 import java.net.URISyntaxException;
 
 public class JsonParser {
@@ -18,10 +28,15 @@ public class JsonParser {
         JSONObject obj = new JSONObject();
         obj.put("Firework", "bebra");
 
+        JSONObject prefix = new JSONObject();
+        obj.put("Prefix", ".");
+
         //Creates dir if it really needed
         File theDir = new File(Firework.FIREWORK_DIRECTORY);
         if (!theDir.exists()){
             theDir.mkdirs();
+
+
 
             //If this is first start, open link with advertising
             DiscordUtil.OpenServer();
@@ -33,7 +48,6 @@ public class JsonParser {
             }
         }
     }
-
     //For WebhookCommand
     public static String DISORD_WEBHOOK = "";
     public static void createWebhookJsonFile(){
@@ -51,4 +65,5 @@ public class JsonParser {
             e.printStackTrace();
         }
     }
+
 }

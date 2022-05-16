@@ -23,11 +23,13 @@ public class CommandManager {
         this.init();
     }
 
+    public static String prefix = "";
+
     @SubscribeEvent
     public void onSendPacket(PacketEvent.Send event) {
         if (event.getPacket() instanceof CPacketChatMessage) {
             String message = ((CPacketChatMessage) event.getPacket()).getMessage();
-            if (message.startsWith(".")){
+            if (message.startsWith(prefix)){
                 String[] args = message.split(" ");
                 String input = message.split(" ")[0].substring(1);
                 for (Command command : commands) {

@@ -7,6 +7,8 @@ import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Managers.Module.ModuleManager;
 import com.firework.client.Implementations.Managers.Parser.JsonParser;
+import com.firework.client.Implementations.Managers.Parser.JsonPrefixPraser;
+import com.firework.client.Implementations.Managers.Parser.JsonReader;
 import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CustomFontManager;
 import com.firework.client.Implementations.Managers.Text.TextManager;
@@ -53,6 +55,8 @@ public class Firework
     public static final String VERSION = "0.1";
     public static final String PREFIX = ChatFormatting.RED + "[FIREWORK] ";
 
+    public static final String COMMAND_PREFIX = "";
+
     public static Minecraft minecraft;
     public static EntityPlayerSP localPlayer;
     public static final String FIREWORK_DIRECTORY = System.getenv("APPDATA") + "\\.minecraft\\" +"\\Firework\\";
@@ -89,6 +93,8 @@ public class Firework
     public void preInit(FMLPreInitializationEvent event) {
         //Creates Folder with client files
         JsonParser.parse();
+        JsonPrefixPraser.parse();
+        JsonReader.getPrefix();
         //Set icon
         Firework.setWindowIcon();
         //Makes this class available for handling events
