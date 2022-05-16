@@ -5,6 +5,7 @@ package com.firework.client.Features.CommandsSystem.Commands;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -25,14 +26,12 @@ public class DupeCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        Minecraft mc = Minecraft.getMinecraft();
-        EntityPlayerSP player = mc.player;
-        WorldClient world = mc.world;
+        WorldClient world = Firework.minecraft.world;
         ;
 
-        if (player == null || mc.world == null) return;
+        if (Firework.localPlayer == null || world == null) return;
 
-        ItemStack itemStack = player.getHeldItemMainhand();
+        ItemStack itemStack = Firework.localPlayer.getHeldItemMainhand();
 
         if (itemStack.isEmpty()) {
             MessageUtil.sendError("You need to hold an item in hand to dupe!",-1117);
@@ -42,7 +41,7 @@ public class DupeCommand extends Command {
         int count = random.nextInt(31) + 1;
 
         for (int i = 0; i <= count; i++) {
-            EntityItem entityItem = player.dropItem(itemStack.copy(), false, true);
+            EntityItem entityItem = Firework.localPlayer.dropItem(itemStack.copy(), false, true);
             if (entityItem != null) world.addEntityToWorld(entityItem.getEntityId(), entityItem);
         }
 

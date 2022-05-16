@@ -8,8 +8,6 @@ public class Command  {
     String[] aliases;
     public String prefix;
 
-    Minecraft mc = Minecraft.getMinecraft();
-
     public Command() {
         if (getClass().isAnnotationPresent(CommandManifest.class)) {
             CommandManifest manifest = getClass().getAnnotation(CommandManifest.class);

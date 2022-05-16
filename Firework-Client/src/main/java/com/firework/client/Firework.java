@@ -40,6 +40,7 @@ public class Firework
     public static final String VERSION = "0.1";
     public static final String PREFIX = ChatFormatting.RED + "[FIREWORK] ";
 
+    public static Minecraft minecraft;
     public static EntityPlayerSP localPlayer;
     public static final String FIREWORK_DIRECTORY = System.getenv("APPDATA") + "\\.minecraft\\" +"\\Firework\\";
 
@@ -98,8 +99,10 @@ public class Firework
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        //Link to client
+        minecraft = Minecraft.getMinecraft();
         //Link to local player
-        localPlayer = Minecraft.getMinecraft().player;
+        localPlayer = minecraft.player;
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework (FMLInitializationEvent)");
         //Plays firework sound when loading client
