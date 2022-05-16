@@ -73,6 +73,8 @@ dependencies {
     compile 'club.minnced:java-discord-rpc:2.0.2'
     compile 'net.lingala.zip4j:zip4j:2.10.0'
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
+    compile group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
+
 
 }
 

@@ -26,12 +26,14 @@ public class DupeCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        WorldClient world = Firework.minecraft.world;
+        Minecraft mc = Minecraft.getMinecraft();
+        EntityPlayerSP player = mc.player;
+        WorldClient world = mc.world;
         ;
 
-        if (Firework.localPlayer == null || world == null) return;
+        if (player == null || mc.world == null) return;
 
-        ItemStack itemStack = Firework.localPlayer.getHeldItemMainhand();
+        ItemStack itemStack = player.getHeldItemMainhand();
 
         if (itemStack.isEmpty()) {
             MessageUtil.sendError("You need to hold an item in hand to dupe!",-1117);
@@ -41,11 +43,12 @@ public class DupeCommand extends Command {
         int count = random.nextInt(31) + 1;
 
         for (int i = 0; i <= count; i++) {
-            EntityItem entityItem = Firework.localPlayer.dropItem(itemStack.copy(), false, true);
+            EntityItem entityItem = player.dropItem(itemStack.copy(), false, true);
             if (entityItem != null) world.addEntityToWorld(entityItem.getEntityId(), entityItem);
         }
 
         int total = count * itemStack.getCount();
-        MessageUtil.sendClientMessage("I just used the DupeCommand and got " + total + " " + itemStack.getDisplayName(),false);
+        MessageUtil.sendClientMessage("I just used the dupe and got " + total + " " + itemStack.getDisplayName(),-1117);
     }
 }
+
