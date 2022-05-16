@@ -35,4 +35,10 @@ public class BoolButton extends Button {
         textManager.drawString(setting.name + ":" + setting.getValue(), x+3, y+1,
                 Color.WHITE.getRGB(),false);
     }
+
+    @Override
+    public void initialize(int mouseX, int mouseY) {
+        super.initialize(mouseX, mouseY);
+        setting.setValue(!setting.getValue());
+    }
 }

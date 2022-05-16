@@ -5,6 +5,7 @@ package com.firework.client.Features.CommandsSystem.Commands;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
+import com.firework.client.Implementations.Gui.Gui;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;

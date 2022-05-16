@@ -57,17 +57,17 @@ public class CustomFontManager {
 
     private Font getFontByName(String name) throws IOException, FontFormatException {
         if (name.equalsIgnoreCase("roboto condensed")) {
-            return getFontFromInput("/assets/fonts/RobotoCondensed-Regular.ttf");
+            return getFontFromInput("/assets/minecraft/firework/fonts/RobotoCondensed-Regular.ttf");
         } else if (name.equalsIgnoreCase("roboto")) {
-            return getFontFromInput("/assets/fonts/Roboto-Regular.ttf");
+            return getFontFromInput("/assets/minecraft/firework/fonts/Roboto-Regular.ttf");
         } else if (name.equalsIgnoreCase("roboto medium")) {
-            return getFontFromInput("/assets/fonts/Roboto-Medium.ttf");
+            return getFontFromInput("/assets/minecraft/firework/fonts/Roboto-Medium.ttf");
         } else if (name.equalsIgnoreCase("montserrat")) {
-            return getFontFromInput("/assets/fonts/Montserrat-Regular.ttf");
+            return getFontFromInput("/assets/minecraft/firework/fonts/Montserrat-Regular.ttf");
         } else if (name.equalsIgnoreCase("segoeui") || name.equalsIgnoreCase("segoeui light")) {
-            return getFontFromInput("/assets/fonts/SegoeUI-Light.ttf");
+            return getFontFromInput("/assets/minecraft/firework/fonts/SegoeUI-Light.ttf");
         } else if (name.equalsIgnoreCase("jellee bold")) {
-            return getFontFromInput("/assets/fonts/Jellee-Bold.ttf");
+            return getFontFromInput("/assets/minecraft/firework/fonts/Jellee-Bold.ttf");
         } else {
             // Need to return the default font.
             return getFontFromInput("assets/fonts/Roboto-Regular.ttf");

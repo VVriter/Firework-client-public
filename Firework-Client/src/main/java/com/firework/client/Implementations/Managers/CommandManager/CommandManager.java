@@ -71,7 +71,9 @@ public class CommandManager {
                 new VClipCommand(),
                 new ImgurCommand(),
                 new PrefixCommand(),
-                new ClearCommand());
+                new ClearCommand(),
+                new ClearCommand(),
+                new GuiCommand());
 
         MinecraftForge.EVENT_BUS.register(this);
     }

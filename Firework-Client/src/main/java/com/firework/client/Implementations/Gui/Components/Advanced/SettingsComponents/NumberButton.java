@@ -20,6 +20,7 @@ public class NumberButton extends Button {
 
     public double difference;
     public float percent;
+    public double renderPercent;
 
     public NumberButton(Setting setting, int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -37,7 +38,7 @@ public class NumberButton extends Button {
 
         RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorB);
 
-        RenderUtils2D.drawRectangle(new Rectangle(x, y, width*(difference/100 * ((double)setting.getValue() - setting.min)), height), new Color(ColorUtils.astolfoColors(100, 100)));
+        RenderUtils2D.drawRectangle(new Rectangle(x, y, width * ((double)setting.getValue() - setting.min) / difference, height), new Color(ColorUtils.astolfoColors(100, 100)));
 
         RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);
@@ -47,15 +48,14 @@ public class NumberButton extends Button {
     }
 
     public void setSettingFromX(int mouseX) {
-        percent = ((float) mouseX - this.x) / ((float) this.width + 7.4f);
-        if (this.setting.getValue() instanceof Double) {
-            double result = (Double) this.setting.min + (double) ((float) this.difference * percent);
-            this.setting.setValue((double) Math.round(10.0 * result) / 10.0);
-        } else if (this.setting.getValue() instanceof Float) {
-            double result = this.setting.min + this.difference * percent;
-            this.setting.setValue(Float.valueOf((float) Math.round(10.0f * result) / 10.0f));
-        } else if (this.setting.getValue() instanceof Integer) {
-            this.setting.setValue((double) this.setting.min + (int) ((float) this.difference * percent));
-        }
+        percent = ((float) mouseX - this.x) / ((float) this.width);
+        double result = (Double) this.setting.min + (double) ((float) this.difference * percent);
+        this.setting.setValue((double) Math.round(10.0 * result) / 10.0);
+    }
+
+    @Override
+    public void initialize(int mouseX, int mouseY) {
+        super.initialize(mouseX, mouseY);
+        setSettingFromX(mouseX);
     }
 }
