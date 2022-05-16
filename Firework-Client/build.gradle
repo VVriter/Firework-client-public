@@ -83,6 +83,8 @@ shadowJar {
         include(dependency('org.spongepowered:mixin'))
         include(dependency('club.minnced:java-discord-rpc'))
         include(dependency('net.lingala.zip4j:zip4j'))
+        include(dependency('com.googlecode.json-simple:json-simple'))
+        include(dependency('org.slick2d:slick2d-core'))
     }
     manifest {
         attributes(
