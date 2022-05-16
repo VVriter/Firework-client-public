@@ -16,13 +16,7 @@ public class Sprint extends Module {
 
     public Sprint() {
         super("Sprint", Category.MOVEMENT);
-        isEnabled.setValue(false);
         System.out.println("Module status:" + isEnabled.getValue());
-    }
-
-    @Override
-    public void onEnable() {
-        super.onEnable();
     }
 
     @Override

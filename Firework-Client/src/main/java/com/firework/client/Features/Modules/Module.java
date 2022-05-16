@@ -14,8 +14,8 @@ public class Module {
 
     private int updateTimer = 0;
     public int delay = 20;
-    public Boolean isNonCycle = false;
-    public Boolean existCheck;
+    public boolean isNonCycle = false;
+    public boolean existCheck;
 
     public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this);
     public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this);
@@ -54,9 +54,7 @@ public class Module {
     public void tryToExecute() {
         if(existCheck)
             if(mc.player == null || mc.world == null) return;
-        if(!isEnabled.getValue()) {
-            return;
-        }
+
         if(isNonCycle) {
             //if NOT CYCLE
             onUpdate();
