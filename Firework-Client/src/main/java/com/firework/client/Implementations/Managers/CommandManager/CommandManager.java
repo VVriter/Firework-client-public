@@ -67,6 +67,7 @@ public class CommandManager {
                 new YawCommand(),
                 new PitchCommand(),
                 new VClipCommand(),
+                new ImgurCommand(),
                 new ClearCommand());
 
         MinecraftForge.EVENT_BUS.register(this);
