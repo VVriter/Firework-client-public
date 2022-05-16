@@ -70,6 +70,7 @@ public class CommandManager {
                 new PitchCommand(),
                 new VClipCommand(),
                 new ImgurCommand(),
+                new PrefixCommand(),
                 new ClearCommand());
 
         MinecraftForge.EVENT_BUS.register(this);

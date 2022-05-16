@@ -16,7 +16,7 @@ public class JsonPrefixPraser {
 
         //Creates new JSon object
         JSONObject obj = new JSONObject();
-        obj.put("Prefix", "*");
+        obj.put("Prefix", ".");
 
 
         //Creates dir if it really needed
