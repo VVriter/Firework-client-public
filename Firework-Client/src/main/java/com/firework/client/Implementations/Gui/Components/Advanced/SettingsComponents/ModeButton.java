@@ -14,7 +14,6 @@ import static com.firework.client.Implementations.Gui.GuiInfo.outlineColorA;
 public class ModeButton extends Button {
 
     public Setting setting;
-    public int index = 0;
 
     public ModeButton(Setting setting, int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -34,5 +33,16 @@ public class ModeButton extends Button {
 
         textManager.drawString(setting.name + ":" + setting.getValue(), x+3, y+1,
                 Color.WHITE.getRGB(),false);
+    }
+
+    @Override
+    public void initialize(int mouseX, int mouseY) {
+        super.initialize(mouseX, mouseY);
+
+        ++setting.index;
+        if (setting.index > setting.list.size()-1) {
+            setting.index = 0;
+        }
+        setting.setValue(setting.list.get(setting.index));
     }
 }

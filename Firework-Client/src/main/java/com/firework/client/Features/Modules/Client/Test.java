@@ -22,6 +22,11 @@ public class Test extends Module {
     }
 
     @Override
+    public void onEnable() {
+        super.onEnable();
+    }
+
+    @Override
     public void onUpdate() {
         super.onUpdate();
         //System.out.println("WORK!");

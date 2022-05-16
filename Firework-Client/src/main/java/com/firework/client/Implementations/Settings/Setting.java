@@ -12,11 +12,14 @@ public class Setting<T> {
     public Module module;
 
     public List<String> list;
+    public int index = 0;
 
     public Mode mode;
 
     public double min;
     public double max;
+
+    public boolean hidden = false;
 
     public Setting(String name, T value, Module module){
         this.name = name;

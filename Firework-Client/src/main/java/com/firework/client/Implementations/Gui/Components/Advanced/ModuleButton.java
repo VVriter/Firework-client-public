@@ -45,4 +45,12 @@ public class ModuleButton extends Button {
                 new Color(ColorUtils.astolfoColors(100, 100)).getRGB(),false);
 
     }
+
+    @Override
+    public void initialize(int mouseX, int mouseY) {
+        super.initialize(mouseX, mouseY);
+
+        module.onToggle();
+
+    }
 }
