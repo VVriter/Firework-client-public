@@ -42,7 +42,7 @@ public class Firework
 {
     public static final String MODID = "firework";
     public static final String NAME = "FireWork Client";
-    public static final String VERSION = "0.0.1";
+    public static final String VERSION = "0.1";
     public static final String PREFIX = ChatFormatting.RED + "[FIREWORK] ";
 
     public static Minecraft minecraft;
