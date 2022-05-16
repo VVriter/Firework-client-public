@@ -23,6 +23,7 @@ public class GuiInfo {
 
     //Makes columns, for each category
     public static void setupModulesColumns(){
+        columns.clear();
         for(Module.Category c : Module.Category.values()){
             columns.add(new Column(c.toString()));
         }

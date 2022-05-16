@@ -17,7 +17,7 @@ public class Test extends Module {
 
     public Test() {
         super("Test", Category.CLIENT);
-        isEnabled.setValue(true);
+        isEnabled.setValue(false);
         System.out.println("Module status:" + isEnabled.getValue());
     }
 

