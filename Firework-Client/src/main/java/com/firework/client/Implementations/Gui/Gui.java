@@ -30,6 +30,8 @@ public class Gui extends GuiScreen {
 
     public ArrayList<Button> initializedButtons;
 
+    public boolean isDragging = false;
+
     public Gui(){
         GuiInfo.setupModulesColumns();
         for(Module m : moduleManager.modules)
@@ -92,6 +94,11 @@ public class Gui extends GuiScreen {
             newXOffset += 65;
         }
 
+        if(isDragging) {
+            mouseClicked(mouseX, mouseY, 0);
+            System.out.println("x:" + mouseX + "Y:" + mouseY);
+        }
+
     }
 
     @Override
@@ -104,28 +111,32 @@ public class Gui extends GuiScreen {
                     }else{
                         ((ModuleButton) button).module.isOpened.setValue(!((ModuleButton) button).module.isOpened.getValue());
                     }
-                    return;
                 }
                 if(button instanceof BoolButton){
                     if(state == 0) {
                         ((BoolButton) button).initialize(mouseX, mouseY);
-                        return;
                     }
                 }
                 if(button instanceof NumberButton){
                     if(state == 0) {
                         ((NumberButton) button).initialize(mouseX, mouseY);
-                        return;
                     }
                 }
                 if(button instanceof ModeButton){
                     if(state == 0) {
                         ((ModeButton) button).initialize(mouseX, mouseY);
-                        return;
                     }
                 }
+                isDragging = true;
+                return;
             }
         }
+    }
+
+    @Override
+    protected void mouseReleased(int mouseX, int mouseY, int state) {
+        super.mouseReleased(mouseX, mouseY, state);
+        isDragging = false;
     }
 
     public boolean isHoveringOnTheButton(Button button, Vec2f mousePoint) {

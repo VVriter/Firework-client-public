@@ -23,11 +23,11 @@ public class SettingManager {
     public ArrayList<Setting> modulesSettings(Module module){
         ArrayList<Setting> settings = new ArrayList<>();
         for(Setting setting : this.settings){
-            if(setting.module.name == module.name & setting.hidden == false)
+            if(setting.module.name == module.name && setting.hidden == false)
                 settings.add(setting);
         }
 
-        return  settings;
+        return settings;
     }
 
 }

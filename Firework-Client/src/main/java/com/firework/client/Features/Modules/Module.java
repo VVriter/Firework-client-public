@@ -26,15 +26,16 @@ public class Module {
         this.isNonCycle = isNonCycle;
 
         isEnabled.hidden = true;
-        settingManager.updateSettingsByName(isEnabled);
         isOpened.hidden = true;
-        settingManager.updateSettingsByName(isOpened);
     }
 
     public Module(String name, Category category) {
         this.name = name;
         this.category = category;
         this.isNonCycle = isNonCycle;
+
+        isEnabled.hidden = true;
+        isOpened.hidden = true;
     }
 
     public void onEnable() {
