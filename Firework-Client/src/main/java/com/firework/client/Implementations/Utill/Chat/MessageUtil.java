@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 
 public class MessageUtil  {
@@ -37,7 +38,7 @@ public class MessageUtil  {
         Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion( component, id);
     }
 
-    public static void sendClicable(String string,String showable, boolean deleteOld) {
+    public static void sendShown(String string,String showable, boolean deleteOld) {
         if (Minecraft.getMinecraft().player == null)
             return;
         final ITextComponent component = new TextComponentString(prefix +ChatFormatting.GRAY+ string+ChatFormatting.RESET);
@@ -48,5 +49,19 @@ public class MessageUtil  {
             Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component);
         }
     }
+
+    public static void sendClickable(String string, String commandValue, boolean deleteOld) {
+        if (Minecraft.getMinecraft().player == null)
+            return;
+        final ITextComponent component = new TextComponentString(prefix +ChatFormatting.GRAY+ string+ChatFormatting.RESET);
+        component.setStyle(new Style().setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,commandValue)));
+        if (deleteOld) {
+            Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(component, -727);
+        } else {
+            Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component);
+        }
+    }
+
+
 
 }
