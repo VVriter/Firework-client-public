@@ -31,7 +31,7 @@ public class Test extends Module {
         super.onUpdate();
         //System.out.println("WORK!");
         //System.out.println(isEnabled.getValue());
-        if(mc.player == null || mc.world == null) return;
+
 
         if(e){
             e = false;

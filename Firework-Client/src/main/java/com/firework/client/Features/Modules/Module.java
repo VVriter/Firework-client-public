@@ -1,10 +1,13 @@
 package com.firework.client.Features.Modules;
 
 import com.firework.client.Implementations.Settings.Setting;
+import net.minecraft.client.Minecraft;
 
 import static com.firework.client.Firework.*;
 
 public class Module {
+
+    public Minecraft mc = Minecraft.getMinecraft();
 
     public String name;
     public Category category;
@@ -12,6 +15,7 @@ public class Module {
     private int updateTimer = 0;
     public int delay = 20;
     public Boolean isNonCycle = false;
+    public Boolean existCheck;
 
     public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this);
     public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this);
@@ -48,6 +52,8 @@ public class Module {
     public void onUpdate() {}
     //OnTick
     public void tryToExecute() {
+        if(existCheck)
+            if(mc.player == null || mc.world == null) return;
         if(!isEnabled.getValue()) {
             return;
         }

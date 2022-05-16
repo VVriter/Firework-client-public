@@ -13,6 +13,7 @@ import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Gui.Components.Column;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.math.Vec2f;
 

@@ -21,6 +21,9 @@ public class GuiInfo {
     public static Color outlineFrameColorA = new Color(76, 76, 76);
     public static Color outlineFrameColorB = new Color(115, 115, 115);
 
+    //Gui scale
+    public static double guiScale = 0.01;
+
     //Makes columns, for each category
     public static void setupModulesColumns(){
         columns.clear();
