@@ -22,6 +22,7 @@ public class HelpCommand extends Command {
                 +ChatFormatting.GRAY+"NameMc Command - Usage: "+prefix+"namemc nickoftheplayer "+ChatFormatting.RESET+ ChatFormatting.DARK_PURPLE+"(Open ncmemc site with profile)"+ChatFormatting.RESET+"\n"
                 +ChatFormatting.GRAY+"Tutorial Command - Usage: "+prefix+"tut "+ChatFormatting.RESET+ ChatFormatting.DARK_PURPLE+"(Clears your tutorial steps)"+ChatFormatting.RESET+"\n"
                 +ChatFormatting.GRAY+"Webhook Command - Usage: "+prefix+"webhook urDiscordWebhook "+ChatFormatting.RESET+ ChatFormatting.DARK_PURPLE+"(Adds ur webhook)"+ChatFormatting.RESET+"\n"
-                +ChatFormatting.GRAY+"Dupe Command - Usage: "+prefix+"dupe "+ChatFormatting.RESET+ ChatFormatting.DARK_PURPLE+"(Makes an a sexdupe)"+ChatFormatting.RESET+"\n",-11114);
+                +ChatFormatting.GRAY+"Dupe Command - Usage: "+prefix+"dupe "+ChatFormatting.RESET+ ChatFormatting.DARK_PURPLE+"(Makes an a sexdupe)"+ChatFormatting.RESET+"\n"
+                +ChatFormatting.GRAY+"Gamma Command - Usage: "+prefix+"gamma floatvalue "+ChatFormatting.RESET+ ChatFormatting.DARK_PURPLE+"(Changes gamma setting)"+ChatFormatting.RESET+"\n",-11114);
     }
 }
