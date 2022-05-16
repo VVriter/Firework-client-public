@@ -20,6 +20,6 @@ public class HelpCommand extends Command {
         MessageUtil.sendShown("Yaw Command - Usage: "+CommandManager.prefix+"Yaw floatvalue ","Moves ur camera",false);
         MessageUtil.sendShown("Pitch Command - Usage: "+CommandManager.prefix+"Pitch floatvalue ","Moves ur camera",false);
         MessageUtil.sendShown("VClip Command - Usage: "+CommandManager.prefix+"Clip floatvalue ","Moves ur up",false);
-        MessageUtil.sendShown("Prefix Command - Usage: "+CommandManager.prefix+"prefix value ","Changes ur command prefix",false);
+        MessageUtil.sendShown("Prefix Command - Usage: "+CommandManager.prefix+"prefix value ","Changes ur command prefix!",false);
     }
 }
