@@ -17,4 +17,6 @@ public class Button {
 
     public void draw(){}
 
+    public void initialize(int mouseX, int mouseY){}
+
 }

@@ -2,6 +2,8 @@ package com.firework.client.Features.Modules;
 
 import com.firework.client.Implementations.Settings.Setting;
 
+import static com.firework.client.Firework.*;
+
 public class Module {
 
     public String name;
@@ -12,11 +14,17 @@ public class Module {
     public Boolean isNonCycle = false;
 
     public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this);
+    public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this);
 
     public Module(String name, Category category, Boolean isNonCycle) {
         this.name = name;
         this.category = category;
         this.isNonCycle = isNonCycle;
+
+        isEnabled.hidden = true;
+        settingManager.updateSettingsByName(isEnabled);
+        isOpened.hidden = true;
+        settingManager.updateSettingsByName(isOpened);
     }
 
     public Module(String name, Category category) {

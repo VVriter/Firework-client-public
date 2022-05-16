@@ -75,7 +75,7 @@ public class Firework
         settingManager = new SettingManager();
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();
-        customFontManager = new CustomFontManager("Jellee Bold", 16);
+        customFontManager = new CustomFontManager("jellee bold", 16);
         textManager = new TextManager();
     }
 
@@ -100,7 +100,7 @@ public class Firework
         //Makes this class available for handling events
         MinecraftForge.EVENT_BUS.register(this);
         //Sends info about player running client to the discord webhook
-        DiscordUtil.sendInfo();
+        //DiscordUtil.sendInfo();
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework (FMLPreInitializationEvent)");
 

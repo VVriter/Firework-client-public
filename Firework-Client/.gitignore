@@ -20,6 +20,15 @@ build
 # other
 eclipse
 run
+saves
+mods
+logs
+config
+resourcepacks
+.mixin.out
 
 # Files from Forge MDK
 forge*changelog.txt
+usercache.json
+usernamecache.json
+options.txt
