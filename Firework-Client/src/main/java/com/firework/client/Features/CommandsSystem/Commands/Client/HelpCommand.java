@@ -25,6 +25,7 @@ public class HelpCommand extends Command {
                 +ChatFormatting.GRAY+"Dupe Command - Usage: "+prefix+"dupe "+ChatFormatting.RESET+ ChatFormatting.DARK_PURPLE+"(Makes an a sexdupe)"+ChatFormatting.RESET+"\n"
                 +ChatFormatting.GRAY+"Gamma Command - Usage: "+prefix+"gamma floatvalue "+ChatFormatting.RESET+ ChatFormatting.DARK_PURPLE+"(Changes gamma setting)"+ChatFormatting.RESET+"\n"
                 +ChatFormatting.GRAY+"Yaw Command - Usage: "+prefix+"Yaw floatvalue "+ChatFormatting.RESET+ ChatFormatting.DARK_PURPLE+"(Moves ur camera)"+ChatFormatting.RESET+"\n"
-                +ChatFormatting.GRAY+"Pitch Command - Usage: "+prefix+"Pitch floatvalue "+ChatFormatting.RESET+ ChatFormatting.DARK_PURPLE+"(Moves ur camera)"+ChatFormatting.RESET+"\n",-11114);
+                +ChatFormatting.GRAY+"Pitch Command - Usage: "+prefix+"Pitch floatvalue "+ChatFormatting.RESET+ ChatFormatting.DARK_PURPLE+"(Moves ur camera)"+ChatFormatting.RESET+"\n"
+                +ChatFormatting.GRAY+"VClip Command - Usage: "+prefix+"Clip floatvalue "+ChatFormatting.RESET+ ChatFormatting.DARK_PURPLE+"(Moves ur up)"+ChatFormatting.RESET+"\n",-11114);
     }
 }
