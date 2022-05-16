@@ -2,6 +2,7 @@
 
 package com.firework.client;
 
+import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Managers.Module.ModuleManager;
@@ -16,19 +17,26 @@ import com.firework.client.Implementations.Managers.CommandManager.CommandManage
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.GuiNewChat;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Session;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
 import java.io.InputStream;
@@ -130,6 +138,13 @@ public class Firework
     }
 
 
+    @SubscribeEvent
+    public void onPressedKey(InputEvent.KeyInputEvent event) {
+        if(Keyboard.isKeyDown(Keyboard.KEY_PERIOD)) { //PERIOD = DOT (.)
+            Firework.minecraft.displayGuiScreen(new GuiChat(Command.prefix));
+
+        }
+    }
 
     //pasted from cringe client https://github.com/CatsAreGood1337/LegacyClient-1.2.5-src/blob/main/src/main/java/me/dev/legacy/Legacy.java Строчка номер 150
 
