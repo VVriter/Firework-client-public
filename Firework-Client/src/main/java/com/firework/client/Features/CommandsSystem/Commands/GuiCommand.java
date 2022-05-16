@@ -15,9 +15,8 @@ public class GuiCommand extends Command {
                 new Runnable() {
                     public void run() {
                         try {
-                            TimeUnit.SECONDS.sleep(1);
                             Minecraft.getMinecraft().displayGuiScreen(new Gui());
-                        } catch (InterruptedException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
