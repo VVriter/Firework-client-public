@@ -64,6 +64,7 @@ public class CommandManager {
                 new HelpCommand(),
                 new DupeCommand(),
                 new GammaCommand(),
+                new YawCommand(),
                 new ClearCommand());
 
         MinecraftForge.EVENT_BUS.register(this);
