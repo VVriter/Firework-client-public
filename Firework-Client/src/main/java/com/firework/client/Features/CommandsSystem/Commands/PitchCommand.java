@@ -27,7 +27,7 @@ public class PitchCommand extends Command {
             try {
                 if (mc.player != null) {
                     mc.player.rotationPitch = (float) MathHelper.wrapDegrees((Math.toDegrees(Math.atan2(mc.player.posZ - Double.parseDouble(args[2]), mc.player.posX - Double.parseDouble(args[1]))) + 90.0));
-                    MessageUtil.sendClientMessage("Pitch is setted to: "+args[1],true);
+                    MessageUtil.sendClientMessage("Pitch is setted to: "+args[1],-1117);
                 }
             } catch (NumberFormatException exception) {
                 MessageUtil.sendError("Please enter a valid yaw!",-1117);
