@@ -58,6 +58,7 @@ dependencies {
 
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	implementation group: 'org.slick2d', name: 'slick2d-core', version: '1.0.1'
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'

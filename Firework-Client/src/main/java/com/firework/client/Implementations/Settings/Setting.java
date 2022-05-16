@@ -11,6 +11,8 @@ public class Setting<T> {
     public String name;
     public Module module;
 
+    public List<String> list;
+
     public Mode mode;
 
     public double min;
@@ -38,12 +40,14 @@ public class Setting<T> {
         Firework.settingManager.settings.add(this);
     }
 
-    public Setting(String name, T value, Module module, List<String> list, double min, double max){
+    public Setting(String name, T value, Module module, List<String> list){
         this.name = name;
         this.value = value;
         this.module = module;
         this.min = min;
         this.max = max;
+
+        this.list = list;
 
         this.mode = Mode.MODE;
 

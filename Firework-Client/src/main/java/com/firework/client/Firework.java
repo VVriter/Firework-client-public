@@ -3,9 +3,12 @@
 package com.firework.client;
 
 import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
+import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Managers.Module.ModuleManager;
 import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Managers.Settings.SettingManager;
+import com.firework.client.Implementations.Managers.Text.CustomFontManager;
+import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
@@ -23,6 +26,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
@@ -49,19 +54,24 @@ public class Firework
     public static SettingManager settingManager;
     public static ModuleManager moduleManager;
     public static CommandManager commandManager;
+    public static CustomFontManager customFontManager;
+    public static TextManager textManager;
 
 
     public void loadManagers(){
         settingManager = new SettingManager();
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();
-
+        customFontManager = new CustomFontManager("Jellee Bold", 16);
+        textManager = new TextManager();
     }
 
     public static void unloadManagers(){
         settingManager = null;
         moduleManager = null;
         commandManager = null;
+        textManager = null;
+        customFontManager = null;
     }
 
 
@@ -118,8 +128,13 @@ public class Firework
 
 
 
-
-
+    @SubscribeEvent
+    public void onTick(TickEvent.ClientTickEvent event){
+        for(Module m : moduleManager.modules){
+            if(!m.isNonCycle)
+                m.tryToExecute();
+        }
+    }
 
 
 
@@ -144,6 +159,7 @@ public class Firework
             }
         }
     }
+
     //End------------------------------------------------------------------------------------------------------------------------------------
 
 

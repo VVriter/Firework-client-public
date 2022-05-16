@@ -29,8 +29,8 @@ public class RenderUtils2D {
 
         int x = rectangle.x;
         int y = rectangle.y;
-        int w = rectangle.width;
-        int h = rectangle.height;
+        double w = rectangle.width;
+        double h = rectangle.height;
 
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
@@ -57,8 +57,8 @@ public class RenderUtils2D {
 
         int x = rectangle.x;
         int y = rectangle.y;
-        int w = rectangle.width;
-        int h = rectangle.height;
+        double w = rectangle.width;
+        double h = rectangle.height;
 
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
         bufferbuilder.pos(x, y + h, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
@@ -79,8 +79,8 @@ public class RenderUtils2D {
 
         int x = rectangle.x;
         int y = rectangle.y;
-        int w = rectangle.width;
-        int h = rectangle.height;
+        double w = rectangle.width;
+        double h = rectangle.height;
 
         bufferbuilder.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION_COLOR);
         bufferbuilder.pos(x, y + h, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();

@@ -9,11 +9,17 @@ public class Module {
 
     private int updateTimer = 0;
     public int delay = 20;
-    public Boolean isNonCycle = true;
+    public Boolean isNonCycle = false;
 
     public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this);
 
     public Module(String name, Category category, Boolean isNonCycle) {
+        this.name = name;
+        this.category = category;
+        this.isNonCycle = isNonCycle;
+    }
+
+    public Module(String name, Category category) {
         this.name = name;
         this.category = category;
         this.isNonCycle = isNonCycle;
@@ -30,14 +36,16 @@ public class Module {
         isEnabled.setValue(!isEnabled.getValue());
     }
 
-    public void execute() {}
+    //onUpdate
+    public void onUpdate() {}
+    //OnTick
     public void tryToExecute() {
         if(!isEnabled.getValue()) {
             return;
         }
         if(isNonCycle) {
             //if NOT CYCLE
-            execute();
+            onUpdate();
             isEnabled.setValue(!isEnabled.getValue());
             return;
         }
@@ -45,7 +53,7 @@ public class Module {
         if(updateTimer != delay) {
             updateTimer++;
         } else {
-            execute();
+            onUpdate();
             updateTimer = 0;
         }
     }
