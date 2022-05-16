@@ -75,14 +75,6 @@ public class Firework
     }
 
 
-    public static void sendToClient(String message)
-    {
-        ITextComponent imessage = new TextComponentString(Firework.PREFIX + message);
-        localPlayer.sendMessage(imessage);
-    }
-
-
-
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
