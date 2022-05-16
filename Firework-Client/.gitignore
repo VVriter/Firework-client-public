@@ -25,6 +25,7 @@ mods
 logs
 config
 resourcepacks
+.mixin.out
 
 # Files from Forge MDK
 forge*changelog.txt
