@@ -3,6 +3,7 @@ package com.firework.client.Features.CommandsSystem.Commands;
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
 import com.firework.client.Implementations.Managers.Parser.JsonReader;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -26,7 +27,7 @@ public class PrefixCommand extends Command {
 
             try (FileWriter file = new FileWriter(Firework.FIREWORK_DIRECTORY + "Prefix.json")) {
                 file.write(obj.toJSONString());
-                JsonReader.getPrefix();
+                CommandManager.prefix = args[1];
             } catch (IOException e) {
                 e.printStackTrace();
             }
