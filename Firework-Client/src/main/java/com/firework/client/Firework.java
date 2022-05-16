@@ -146,8 +146,8 @@ public class Firework
 
     @SubscribeEvent
     public void onPressedKey(InputEvent.KeyInputEvent event) {
-        if(Keyboard.isKeyDown(Keyboard.KEY_PERIOD)) { //PERIOD = DOT (.)
-            Firework.minecraft.displayGuiScreen(new GuiChat(Command.prefix));
+        if(Keyboard.isKeyDown(Keyboard.getKeyIndex(CommandManager.prefix))) { //PERIOD = DOT (.)
+            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
 
         }
     }
