@@ -1,17 +1,13 @@
 package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Implementations.Gui.Gui;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
-import net.minecraft.client.Minecraft;
-
-import java.util.Arrays;
 
 public class Sprint extends Module {
-    public Setting<Boolean> testSetting = new Setting<>("Move", false, this);
-    public Setting<Boolean> testSetting1 = new Setting<>("Colided", false, this);
+    public Setting<Boolean> moveSetting = new Setting<>("Move", false, this);
+    public Setting<Boolean> collidedSetting = new Setting<>("Collided", false, this);
 
-    public Minecraft mc = Minecraft.getMinecraft();
     public boolean e = true;
 
     public Sprint() {
@@ -23,14 +19,14 @@ public class Sprint extends Module {
     public void tryToExecute() {
         super.tryToExecute();
 
-        if(testSetting.getValue()){
-            if (mc.player.moveForward > 0) {
-                mc.player.setSprinting(true);
+        if(moveSetting.getValue()){
+            if (Firework.minecraft.player.moveForward > 0) {
+                Firework.minecraft.player.setSprinting(true);
             }
         }
-        if(testSetting1.getValue()){
-            if (!mc.player.collidedHorizontally) {
-                mc.player.setSprinting(true);
+        if(collidedSetting.getValue()){
+            if (!Firework.minecraft.player.collidedHorizontally) {
+                Firework.minecraft.player.setSprinting(true);
             }
         }
     }

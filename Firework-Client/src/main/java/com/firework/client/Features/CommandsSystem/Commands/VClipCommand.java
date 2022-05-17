@@ -10,13 +10,12 @@ import net.minecraft.client.Minecraft;
 public class VClipCommand extends Command {
     @Override
     public void execute(String[] args) {
-        Minecraft mc = Minecraft.getMinecraft();
         if (args.length == 2) {
             try {
-                if (mc.player.getRidingEntity() != null) {
-                    mc.player.getRidingEntity().setPosition(mc.player.getRidingEntity().posX, mc.player.getRidingEntity().posY + Double.parseDouble(args[1]), mc.player.getRidingEntity().posZ);
+                if (Firework.minecraft.player.getRidingEntity() != null) {
+                    Firework.minecraft.player.getRidingEntity().setPosition(Firework.minecraft.player.getRidingEntity().posX, Firework.minecraft.player.getRidingEntity().posY + Double.parseDouble(args[1]), Firework.minecraft.player.getRidingEntity().posZ);
                 } else {
-                    mc.player.setPosition(mc.player.posX, mc.player.posY + Double.parseDouble(args[1]), mc.player.posZ);
+                    Firework.minecraft.player.setPosition(Firework.minecraft.player.posX, Firework.minecraft.player.posY + Double.parseDouble(args[1]), Firework.minecraft.player.posZ);
                 }
                 MessageUtil.sendClientMessage("Teleported you " + (Double.parseDouble(args[1]) > 0 ? "up " : "down ") + Math.abs(Double.parseDouble(args[1])) + " blocks.",-1117);
             } catch (NumberFormatException exception) {
