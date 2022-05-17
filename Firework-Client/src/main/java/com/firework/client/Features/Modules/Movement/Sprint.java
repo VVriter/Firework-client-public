@@ -22,7 +22,8 @@ public class Sprint extends Module {
     @Override
     public void tryToExecute() {
         super.tryToExecute();
-
+        if(mc.player == null || mc.world == null) return;
+        
         if(testSetting.getValue()){
             if (mc.player.moveForward > 0) {
                 mc.player.setSprinting(true);

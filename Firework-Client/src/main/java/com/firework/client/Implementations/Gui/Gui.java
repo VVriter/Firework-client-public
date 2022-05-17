@@ -1,7 +1,6 @@
 package com.firework.client.Implementations.Gui;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Firework;
 import com.firework.client.Implementations.Gui.Components.Advanced.EndBlock;
 import com.firework.client.Implementations.Gui.Components.Advanced.Frame;
 import com.firework.client.Implementations.Gui.Components.Advanced.ModuleButton;
@@ -12,12 +11,12 @@ import com.firework.client.Implementations.Gui.Components.Advanced.StartBlock;
 import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Gui.Components.Column;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.math.Vec2f;
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -25,12 +24,15 @@ import java.util.Set;
 
 import static com.firework.client.Firework.*;
 import static java.lang.Math.round;
+import static net.minecraft.util.math.MathHelper.floor;
 
 public class Gui extends GuiScreen {
 
     public ArrayList<Button> initializedButtons;
 
     public boolean isDragging = false;
+
+    public int origYOffset = 20;
 
     public Gui(){
         GuiInfo.setupModulesColumns();
@@ -44,13 +46,13 @@ public class Gui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        initializedButtons.clear();
-
         int newXOffset = 0;
 
+        initializedButtons.clear();
+
         for(Column column : GuiInfo.columns){
-            int yOffset = 20;
             int xOffset = 65;
+            int yOffset = origYOffset;
 
             StartBlock startBlock = new StartBlock(column.name, xOffset + newXOffset, yOffset, 60, 15);
 
@@ -79,7 +81,7 @@ public class Gui extends GuiScreen {
                 }
             }
 
-            Frame frame = new Frame(xOffset + newXOffset, 20, 60, yOffset-20);
+            Frame frame = new Frame(xOffset + newXOffset, origYOffset, 60, yOffset-origYOffset);
 
             EndBlock endBlock = new EndBlock(xOffset + newXOffset - 1, yOffset, 62, 1);
 
@@ -94,10 +96,27 @@ public class Gui extends GuiScreen {
             newXOffset += 65;
         }
 
+        GuiInfo.setupModulesColumns();
+        for(Module m : moduleManager.modules)
+            GuiInfo.addModuleToColumn(m);
+
         if(isDragging) {
             mouseClicked(mouseX, mouseY, 0);
-            System.out.println("x:" + mouseX + "Y:" + mouseY);
         }
+    }
+
+    @Override
+    public void handleMouseInput() throws IOException {
+        super.handleMouseInput();
+
+        float scroll = Math.signum(Mouse.getDWheel());
+        int speed = floor(com.firework.client.Features.Modules.Client.Gui.scrollSpeed.getValue());
+
+        if(scroll == 1)
+            origYOffset+=speed;
+
+        if(scroll == -1)
+            origYOffset-=speed;
 
     }
 
@@ -120,6 +139,7 @@ public class Gui extends GuiScreen {
                 if(button instanceof NumberButton){
                     if(state == 0) {
                         ((NumberButton) button).initialize(mouseX, mouseY);
+                        isDragging = true;
                     }
                 }
                 if(button instanceof ModeButton){
@@ -127,7 +147,6 @@ public class Gui extends GuiScreen {
                         ((ModeButton) button).initialize(mouseX, mouseY);
                     }
                 }
-                isDragging = true;
                 return;
             }
         }
@@ -137,6 +156,12 @@ public class Gui extends GuiScreen {
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         super.mouseReleased(mouseX, mouseY, state);
         isDragging = false;
+    }
+
+    @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+        initializedButtons.clear();
     }
 
     public boolean isHoveringOnTheButton(Button button, Vec2f mousePoint) {

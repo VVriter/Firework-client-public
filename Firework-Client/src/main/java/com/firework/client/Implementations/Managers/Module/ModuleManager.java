@@ -1,5 +1,7 @@
 package com.firework.client.Implementations.Managers.Module;
 
+import com.firework.client.Features.CommandsSystem.Command;
+import com.firework.client.Features.Modules.Client.Gui;
 import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.Movement.Sprint;
@@ -7,6 +9,7 @@ import com.firework.client.Features.Modules.Render.ItemPhysics;
 import com.firework.client.Features.Modules.Render.ParticlesESP;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ModuleManager {
 
@@ -18,9 +21,14 @@ public class ModuleManager {
     }
 
     public void registerModules() {
-        modules.add(new Test());
-        modules.add(new Sprint());
-        modules.add(new ParticlesESP());
-        modules.add(new ItemPhysics());
+        register(new Test(),
+                    new Sprint(),
+                    new ParticlesESP(),
+                    new Gui(),
+                    new ItemPhysics());
+    }
+
+    public void register(Module... module) {
+        Collections.addAll(modules, module);
     }
 }

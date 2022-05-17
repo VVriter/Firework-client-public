@@ -54,7 +54,7 @@ public class Module {
     //OnTick
     public void tryToExecute() {
         if(existCheck)
-            if(mc.player == null || mc.world == null) return;
+            if(mc.player == null | mc.world == null) return;
 
         if(isNonCycle) {
             //if NOT CYCLE

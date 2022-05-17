@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class GuiCommand extends Command {
     @Override
     public void execute(String[] args) {
+        Minecraft.getMinecraft().player.closeScreen();
         new Thread(
                 new Runnable() {
                     public void run() {
