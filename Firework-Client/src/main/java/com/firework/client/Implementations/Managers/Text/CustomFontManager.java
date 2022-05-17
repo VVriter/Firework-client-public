@@ -68,6 +68,8 @@ public class CustomFontManager {
             return getFontFromInput("/assets/minecraft/firework/fonts/SegoeUI-Light.ttf");
         } else if (name.equalsIgnoreCase("jellee bold")) {
             return getFontFromInput("/assets/minecraft/firework/fonts/Jellee-Bold.ttf");
+        } else if (name.equalsIgnoreCase("tcm")) {
+            return getFontFromInput("/assets/minecraft/firework/fonts/Tcm.ttf");
         } else {
             // Need to return the default font.
             return getFontFromInput("assets/fonts/Roboto-Regular.ttf");

@@ -74,7 +74,7 @@ public class Firework
         settingManager = new SettingManager();
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();
-        customFontManager = new CustomFontManager("jellee bold", 16);
+        customFontManager = new CustomFontManager("tcm", 16);
         textManager = new TextManager();
     }
 

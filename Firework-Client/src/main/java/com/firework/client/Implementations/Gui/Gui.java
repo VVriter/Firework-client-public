@@ -83,17 +83,17 @@ public class Gui extends GuiScreen {
 
             Frame frame = new Frame(xOffset + newXOffset, origYOffset, 60, yOffset-origYOffset);
 
-            EndBlock endBlock = new EndBlock(xOffset + newXOffset - 1, yOffset, 62, 1);
+            EndBlock endBlock = new EndBlock(xOffset + newXOffset - 1, yOffset, 62, 2);
 
-            for(Button button : initializedButtons){
-                button.draw();
-            }
-
-            startBlock.draw();
-            frame.draw();
-            endBlock.draw();
+            initializedButtons.add(startBlock);
+            initializedButtons.add(frame);
+            initializedButtons.add(endBlock);
 
             newXOffset += 65;
+        }
+
+        for(Button button : initializedButtons){
+            button.draw();
         }
 
         GuiInfo.setupModulesColumns();
