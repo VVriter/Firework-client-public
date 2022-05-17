@@ -18,7 +18,6 @@ public class Sprint extends Module {
     @Override
     public void tryToExecute() {
         super.tryToExecute();
-        if(mc.player == null || mc.world == null) return;
 
         if(moveSetting.getValue()){
             if (Firework.minecraft.player.moveForward > 0) {

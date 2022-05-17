@@ -137,7 +137,8 @@ public class Firework
         for(Module m : moduleManager.modules){
             if(m.isEnabled.getValue())
                 if(!m.isNonCycle)
-                    m.tryToExecute();
+                    try{ m.tryToExecute(); }catch (NullPointerException exp){}
+
         }
     }
 
