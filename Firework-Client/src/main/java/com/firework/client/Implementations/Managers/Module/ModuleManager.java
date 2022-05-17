@@ -3,6 +3,7 @@ package com.firework.client.Implementations.Managers.Module;
 import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.Movement.Sprint;
+import com.firework.client.Features.Modules.Render.ItemPhysics;
 import com.firework.client.Features.Modules.Render.ParticlesESP;
 
 import java.util.ArrayList;
@@ -20,5 +21,6 @@ public class ModuleManager {
         modules.add(new Test());
         modules.add(new Sprint());
         modules.add(new ParticlesESP());
+        modules.add(new ItemPhysics());
     }
 }

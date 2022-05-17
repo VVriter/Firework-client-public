@@ -6,7 +6,9 @@
   "compatibilityLevel": "JAVA_8",
   "verbose": false,
   "mixins": [
-    "MixinNetworkManager"
+    "MixinNetworkManager",
+    "MixinRenderer",
+    "MixinRenderEntityItem"
   ],
   "client": [
 
