@@ -8,6 +8,7 @@ import com.firework.client.Features.Modules.Movement.AirJump;
 import com.firework.client.Features.Modules.Movement.Sprint;
 import com.firework.client.Features.Modules.Render.ItemPhysics;
 import com.firework.client.Features.Modules.Render.ParticlesESP;
+import com.firework.client.Features.Modules.World.EntityControl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +29,7 @@ public class ModuleManager {
                     new Gui(),
                     new AirJump(),
                     new Bot(),
+                    new EntityControl(),
                     new ItemPhysics());
     }
 
