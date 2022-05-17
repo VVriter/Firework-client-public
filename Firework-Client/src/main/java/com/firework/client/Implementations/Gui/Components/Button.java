@@ -17,6 +17,8 @@ public class Button {
 
     public void draw(){}
 
+    public void onKeyTyped(int keyCode) {}
+
     public void initialize(int mouseX, int mouseY){}
 
 }

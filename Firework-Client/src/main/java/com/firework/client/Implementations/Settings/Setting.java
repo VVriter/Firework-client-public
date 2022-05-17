@@ -26,7 +26,11 @@ public class Setting<T> {
         this.value = value;
         this.module = module;
 
-        this.mode = Mode.BOOL;
+        if(value instanceof Boolean)
+            this.mode = Mode.BOOL;
+
+        if(value instanceof Integer)
+            this.mode = Mode.KEY;
 
         Firework.settingManager.settings.add(this);
     }
@@ -67,6 +71,6 @@ public class Setting<T> {
     }
 
     public enum Mode{
-        BOOL, NUMBER, MODE
+        BOOL, NUMBER, MODE, KEY
     }
 }

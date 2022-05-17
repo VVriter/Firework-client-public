@@ -138,7 +138,6 @@ public class Firework
             if(m.isEnabled.getValue())
                 if(!m.isNonCycle)
                     try{ m.tryToExecute(); }catch (NullPointerException exp){}
-
         }
     }
 
@@ -148,6 +147,10 @@ public class Firework
         if(Keyboard.isKeyDown(Keyboard.getKeyIndex(CommandManager.prefix))) { //PERIOD = DOT (.)
             Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
 
+        }
+        for(Module module : moduleManager.modules){
+            if(Keyboard.isKeyDown(module.key.getValue()))
+                module.onToggle();
         }
     }
 

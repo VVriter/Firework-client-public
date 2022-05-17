@@ -2,6 +2,8 @@ package com.firework.client.Features.Modules;
 
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Keyboard;
+import scala.Int;
 
 import static com.firework.client.Firework.*;
 
@@ -19,6 +21,7 @@ public class Module {
 
     public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this);
     public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this);
+    public Setting<Integer> key = new Setting<>("Key", Keyboard.KEY_NONE, this);
 
     public Module(String name, Category category, Boolean isNonCycle) {
         this.name = name;

@@ -5,6 +5,7 @@ import com.firework.client.Implementations.Gui.Components.Advanced.EndBlock;
 import com.firework.client.Implementations.Gui.Components.Advanced.Frame;
 import com.firework.client.Implementations.Gui.Components.Advanced.ModuleButton;
 import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.BoolButton;
+import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.KeyButton;
 import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.ModeButton;
 import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.NumberButton;
 import com.firework.client.Implementations.Gui.Components.Advanced.StartBlock;
@@ -30,7 +31,8 @@ public class Gui extends GuiScreen {
 
     public ArrayList<Button> initializedButtons;
 
-    public boolean isDragging = false;
+    public static boolean isDragging = false;
+    public static boolean keyIsDragging = false;
 
     public int origYOffset = 20;
 
@@ -38,6 +40,9 @@ public class Gui extends GuiScreen {
         GuiInfo.setupModulesColumns();
         for(Module m : moduleManager.modules)
             GuiInfo.addModuleToColumn(m);
+
+        isDragging = false;
+        keyIsDragging = false;
 
         initializedButtons = new ArrayList<>();
     }
@@ -74,6 +79,10 @@ public class Gui extends GuiScreen {
                         }
                         if(setting.mode == Setting.Mode.NUMBER){
                             NumberButton numberButton = new NumberButton(setting, xOffset + newXOffset, yOffset, 60, 11);
+                            initializedButtons.add(numberButton);
+                        }
+                        if(setting.mode == Setting.Mode.KEY){
+                            KeyButton numberButton = new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11);
                             initializedButtons.add(numberButton);
                         }
                         yOffset+=11;
@@ -121,6 +130,14 @@ public class Gui extends GuiScreen {
     }
 
     @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        super.keyTyped(typedChar, keyCode);
+        for(Button button : initializedButtons){
+            button.onKeyTyped(keyCode);
+        }
+    }
+
+    @Override
     protected void mouseClicked(int mouseX, int mouseY, int state) {
         for(Button button : initializedButtons){
             if(isHoveringOnTheButton(button, new Vec2f(mouseX, mouseY))){
@@ -140,6 +157,12 @@ public class Gui extends GuiScreen {
                     if(state == 0) {
                         ((NumberButton) button).initialize(mouseX, mouseY);
                         isDragging = true;
+                    }
+                }
+                if(button instanceof KeyButton){
+                    if(state == 0){
+                        ((KeyButton) button).initialize(mouseX, mouseY);
+                        keyIsDragging = true;
                     }
                 }
                 if(button instanceof ModeButton){
