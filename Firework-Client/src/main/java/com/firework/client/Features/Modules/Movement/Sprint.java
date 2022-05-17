@@ -23,7 +23,7 @@ public class Sprint extends Module {
     public void tryToExecute() {
         super.tryToExecute();
 
-        if(testSetting.getValue() == false){
+        if(testSetting.getValue()){
             if (mc.player.moveForward > 0) {
                 mc.player.setSprinting(true);
             }
@@ -33,8 +33,5 @@ public class Sprint extends Module {
                 mc.player.setSprinting(true);
             }
         }
-
-
-       mc.player.setSprinting(true);
     }
 }
