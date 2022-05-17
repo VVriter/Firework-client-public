@@ -28,8 +28,6 @@ public class JsonParser {
         JSONObject obj = new JSONObject();
         obj.put("Firework", "bebra");
 
-        JSONObject prefix = new JSONObject();
-        obj.put("Prefix", ".");
 
         //Creates dir if it really needed
         File theDir = new File(Firework.FIREWORK_DIRECTORY);

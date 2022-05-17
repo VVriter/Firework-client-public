@@ -1,8 +1,8 @@
 package com.firework.client.Implementations.Managers.Module;
 
-import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.Modules.Client.Gui;
 import com.firework.client.Features.Modules.Client.Test;
+import com.firework.client.Features.Modules.Combat.Bot;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.Movement.AirJump;
 import com.firework.client.Features.Modules.Movement.Sprint;
@@ -27,6 +27,7 @@ public class ModuleManager {
                     new ParticlesESP(),
                     new Gui(),
                     new AirJump(),
+                    new Bot(),
                     new ItemPhysics());
     }
 

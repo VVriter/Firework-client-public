@@ -73,6 +73,8 @@ public class CommandManager {
                 new PrefixCommand(),
                 new ClearCommand(),
                 new ClearCommand(),
+                new HClipCommand(),
+                new OpenDirCommand(),
                 new GuiCommand());
 
         MinecraftForge.EVENT_BUS.register(this);
