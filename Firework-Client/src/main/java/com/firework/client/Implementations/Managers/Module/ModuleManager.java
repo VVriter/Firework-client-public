@@ -4,6 +4,7 @@ import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.Modules.Client.Gui;
 import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.Movement.AirJump;
 import com.firework.client.Features.Modules.Movement.Sprint;
 import com.firework.client.Features.Modules.Render.ItemPhysics;
 import com.firework.client.Features.Modules.Render.ParticlesESP;
@@ -25,6 +26,7 @@ public class ModuleManager {
                     new Sprint(),
                     new ParticlesESP(),
                     new Gui(),
+                    new AirJump(),
                     new ItemPhysics());
     }
 

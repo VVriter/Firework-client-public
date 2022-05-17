@@ -14,19 +14,18 @@ import net.minecraft.util.text.event.ClickEvent;
 public class PitchCommand extends Command {
     @Override
     public void execute(String[] args) {
-        Minecraft mc =Minecraft.getMinecraft();
         if (args.length == 2) {
             try {
-                if (mc.player != null) {
-                    mc.player.rotationPitch = (float) MathHelper.wrapDegrees(Double.parseDouble(args[1]));
+                if (Firework.minecraft.player != null) {
+                    Firework.minecraft.player.rotationPitch = (float) MathHelper.wrapDegrees(Double.parseDouble(args[1]));
                 }
             } catch (NumberFormatException exception) {
                 MessageUtil.sendError("Please enter a valid pitch!",-1117);
             }
         } else if (args.length == 3) {
             try {
-                if (mc.player != null) {
-                    mc.player.rotationPitch = (float) MathHelper.wrapDegrees((Math.toDegrees(Math.atan2(mc.player.posZ - Double.parseDouble(args[2]), mc.player.posX - Double.parseDouble(args[1]))) + 90.0));
+                if (Firework.minecraft.player != null) {
+                    Firework.minecraft.player.rotationPitch = (float) MathHelper.wrapDegrees((Math.toDegrees(Math.atan2(Firework.minecraft.player.posZ - Double.parseDouble(args[2]), Firework.minecraft.player.posX - Double.parseDouble(args[1]))) + 90.0));
                     MessageUtil.sendClientMessage("Pitch is setted to: "+args[1],-1117);
                 }
             } catch (NumberFormatException exception) {
