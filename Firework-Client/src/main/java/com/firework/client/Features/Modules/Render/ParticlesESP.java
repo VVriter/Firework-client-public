@@ -37,8 +37,11 @@ public class ParticlesESP extends Module {
             ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SNOWBALL, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
         if (Bubble.getValue()) {
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.1, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
             ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-        }
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.3, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.4, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.5, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]); }
         if (Totem.getValue()) {
             ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.TOTEM, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
@@ -46,11 +49,17 @@ public class ParticlesESP extends Module {
             ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.END_ROD, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
         if (DragonBreath.getValue()) {
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.1, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
             ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-        }
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.3, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.4, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.5, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);  }
         if (Slime.getValue()) {
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SLIME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.1, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
             ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SLIME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-        }
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SLIME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.3, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SLIME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.4, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SLIME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.5, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);   }
         if (Heart.getValue()) {
             ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.HEART, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
@@ -58,8 +67,11 @@ public class ParticlesESP extends Module {
             ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.CLOUD, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
         if (Flame.getValue()) {
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.FLAME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.1, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
             ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.FLAME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-        }
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.FLAME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.3, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.FLAME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.4, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.FLAME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.5, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]); }
         if (Smoke.getValue()) {
             ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
