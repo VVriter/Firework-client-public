@@ -5,7 +5,7 @@ import com.firework.client.Firework;
 
 public class AirJump extends Module {
 
-    public AirJump(String name, Category category) {
+    public AirJump() {
         super("AirJump", Category.MOVEMENT);
     }
 
