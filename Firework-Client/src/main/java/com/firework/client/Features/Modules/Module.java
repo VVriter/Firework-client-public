@@ -53,7 +53,6 @@ public class Module {
     }
 
     //onUpdate
-    public void onUpdate() {}
     //OnTick
     public void tryToExecute() {
         if(existCheck)
@@ -61,7 +60,6 @@ public class Module {
 
         if(isNonCycle) {
             //if NOT CYCLE
-            onUpdate();
             isEnabled.setValue(!isEnabled.getValue());
             return;
         }
@@ -69,7 +67,6 @@ public class Module {
         if(updateTimer != delay) {
             updateTimer++;
         } else {
-            onUpdate();
             updateTimer = 0;
         }
     }

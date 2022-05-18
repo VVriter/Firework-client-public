@@ -28,8 +28,8 @@ public class Test extends Module {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tryToExecute() {
+        super.tryToExecute();
         //System.out.println("WORK!");
         //System.out.println(isEnabled.getValue());
 
