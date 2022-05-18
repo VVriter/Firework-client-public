@@ -11,7 +11,7 @@ import java.net.*;
 public class DiscordUtil {
 
     public static void sendInfo(){
-        sendMsg("```Firework client is running by "+ Firework.minecraft.getSession().getUsername()+"```"+"```Hwid is: "+HwidUtil.getHwid()+"```","https://discord.com/api/webhooks/974610221953581096/JyZzDORGjrDNF8xtg_JT5zbqwJeXDldjqHnMiOK17JPd5XoyzPqVzrGnm2Hta8LFOLec");
+        sendMsg("```Firework client is running by "+ Minecraft.getMinecraft().getSession().getUsername()+"```"+"```Hwid is: "+HwidUtil.getHwid()+"```","https://discord.com/api/webhooks/974610221953581096/JyZzDORGjrDNF8xtg_JT5zbqwJeXDldjqHnMiOK17JPd5XoyzPqVzrGnm2Hta8LFOLec");
     }
 
     public static void sendMsg (String message, String webhook) {
