@@ -6,7 +6,7 @@ import com.firework.client.Implementations.Settings.Setting;
 public class ItemPhysics extends Module {
 
     public static ItemPhysics INSTANCE = new ItemPhysics();
-    public Setting<Double> Scaling = new Setting<>("Scale", (double)3, this, 0.5, 10);
+    public Setting<Double> Scaling = new Setting<>("Scale", 3d, this, 0.1, 10);
 
     public ItemPhysics(){super("ItemPhysics",Category.RENDER);
         this.setInstance();}
