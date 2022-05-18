@@ -149,7 +149,7 @@ public abstract class MixinRenderEntityItem
             for (int j = 0; j < i; ++j) {
                 if (ibakedmodel.isAmbientOcclusion()) {
                     GlStateManager.pushMatrix();
-                    GlStateManager.scale((float)ItemPhysics.Scaling.getValue().floatValue(), (float)ItemPhysics.Scaling.getValue().floatValue(), (float)ItemPhysics.Scaling.getValue().floatValue());
+                    GlStateManager.scale((float)ItemPhysics.scaling.getValue().floatValue(), (float)ItemPhysics.scaling.getValue().floatValue(), (float)ItemPhysics.scaling.getValue().floatValue());
                     this.itemRenderer.renderItem(itemstack, ibakedmodel);
                     GlStateManager.popMatrix();
 

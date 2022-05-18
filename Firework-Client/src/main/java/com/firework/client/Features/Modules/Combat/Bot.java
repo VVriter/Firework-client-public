@@ -10,12 +10,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Bot extends Module {
 
-    public Setting<Boolean> Trigger = new Setting<>("Trigger", true, this);
-    public Setting<Boolean> Aim = new Setting<>("Aim", true, this);
+    public Setting<Boolean> trigger = new Setting<>("Trigger", true, this);
+    public Setting<Boolean> aim = new Setting<>("Aim", true, this);
 
 
     public Bot(){super("Bot",Category.COMBAT);}
@@ -27,7 +26,7 @@ public class Bot extends Module {
         super.tryToExecute();
         RayTraceResult objectMouseOver = Minecraft.getMinecraft().objectMouseOver;
 
-        if(Trigger.getValue()){
+        if(trigger.getValue()){
         if (objectMouseOver != null) {
             if (objectMouseOver.typeOfHit == RayTraceResult.Type.ENTITY) {
 
@@ -38,7 +37,7 @@ public class Bot extends Module {
                 }
             }
         }
-        if(Aim.getValue()){
+        if(aim.getValue()){
             EntityPlayer player = null;
             float tickDis = 100f;
             for (EntityPlayer p : mc.world.playerEntities) {
