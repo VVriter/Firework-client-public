@@ -56,7 +56,7 @@ public abstract class MixinRenderEntityItem
 
     @Overwrite
     private int transformModelCount(EntityItem itemIn, double x, double y, double z, float p_177077_8_, IBakedModel p_177077_9_) {
-        if (ItemPhysics.INSTANCE.isEnabled.getValue()) {
+        if (ItemPhysics.enabled.getValue()) {
             ItemStack itemstack = itemIn.getItem();
             itemstack.getItem();
             boolean flag = p_177077_9_.isAmbientOcclusion();
@@ -93,7 +93,7 @@ public abstract class MixinRenderEntityItem
 
     @Overwrite
     public void doRender(EntityItem entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        if (ItemPhysics.INSTANCE.isEnabled.getValue()) {
+        if (ItemPhysics.enabled.getValue()) {
             double rotation = (double)(System.nanoTime() - this.tick) / 3000000.0;
             if (!this.mc.inGameHasFocus) {
                 rotation = 0.0;
@@ -149,9 +149,10 @@ public abstract class MixinRenderEntityItem
             for (int j = 0; j < i; ++j) {
                 if (ibakedmodel.isAmbientOcclusion()) {
                     GlStateManager.pushMatrix();
-                    GlStateManager.scale((float)ItemPhysics.INSTANCE.Scaling.getValue().floatValue(), (float)ItemPhysics.INSTANCE.Scaling.getValue().floatValue(), (float)ItemPhysics.INSTANCE.Scaling.getValue().floatValue());
+                    GlStateManager.scale((float)ItemPhysics.Scaling.getValue().floatValue(), (float)ItemPhysics.Scaling.getValue().floatValue(), (float)ItemPhysics.Scaling.getValue().floatValue());
                     this.itemRenderer.renderItem(itemstack, ibakedmodel);
                     GlStateManager.popMatrix();
+
                     continue;
                 }
                 GlStateManager.pushMatrix();

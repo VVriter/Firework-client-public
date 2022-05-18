@@ -42,56 +42,51 @@ public class Gui extends GuiScreen {
         keyIsDragging = false;
 
         initializedButtons = new ArrayList<>();
+
+        init();
     }
 
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        super.drawScreen(mouseX, mouseY, partialTicks);
-
-        if(ClickGui.getInstance().background.getValue()){
-            this.drawDefaultBackground();
-        }
-
+    public void init() {
         int newXOffset = 0;
 
         initializedButtons.clear();
 
-        for(Column column : GuiInfo.columns){
+        for (Column column : GuiInfo.columns) {
             int xOffset = 65;
             int yOffset = origYOffset;
 
             StartBlock startBlock = new StartBlock(column.name, xOffset + newXOffset, yOffset, 60, 15);
 
-            yOffset+=15;
+            yOffset += 15;
 
-            for(Module m : column.components){
+            for (Module m : column.components) {
                 ModuleButton moduleButton = new ModuleButton(m, m.name, xOffset + newXOffset, yOffset, 60, 11);
                 initializedButtons.add(moduleButton);
-                yOffset+=11;
-                if(m.isOpened.getValue()){
-                    for(Setting setting : settingManager.modulesSettings(m)){
-                        if(setting.mode == Setting.Mode.BOOL){
+                yOffset += 11;
+                if (m.isOpened.getValue()) {
+                    for (Setting setting : settingManager.modulesSettings(m)) {
+                        if (setting.mode == Setting.Mode.BOOL) {
                             BoolButton boolButton = new BoolButton(setting, xOffset + newXOffset, yOffset, 60, 11);
                             initializedButtons.add(boolButton);
                         }
-                        if(setting.mode == Setting.Mode.MODE){
+                        if (setting.mode == Setting.Mode.MODE) {
                             ModeButton modeButton = new ModeButton(setting, xOffset + newXOffset, yOffset, 60, 11);
                             initializedButtons.add(modeButton);
                         }
-                        if(setting.mode == Setting.Mode.NUMBER){
+                        if (setting.mode == Setting.Mode.NUMBER) {
                             NumberButton numberButton = new NumberButton(setting, xOffset + newXOffset, yOffset, 60, 11);
                             initializedButtons.add(numberButton);
                         }
-                        if(setting.mode == Setting.Mode.KEY){
+                        if (setting.mode == Setting.Mode.KEY) {
                             KeyButton numberButton = new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11);
                             initializedButtons.add(numberButton);
                         }
-                        yOffset+=11;
+                        yOffset += 11;
                     }
                 }
             }
 
-            Frame frame = new Frame(xOffset + newXOffset, origYOffset, 60, yOffset-origYOffset);
+            Frame frame = new Frame(xOffset + newXOffset, origYOffset, 60, yOffset - origYOffset);
 
             EndBlock endBlock = new EndBlock(xOffset + newXOffset - 1, yOffset, 62, 2);
 
@@ -100,7 +95,17 @@ public class Gui extends GuiScreen {
             initializedButtons.add(endBlock);
 
             newXOffset += 65;
+
         }
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        super.drawScreen(mouseX, mouseY, partialTicks);
+
+            if(ClickGui.getInstance().background.getValue()){
+                this.drawDefaultBackground();
+            }
 
         for(Button button : initializedButtons){
             button.draw();
@@ -147,6 +152,7 @@ public class Gui extends GuiScreen {
                         button.initialize(mouseX, mouseY);
                     }else{
                         ((ModuleButton) button).module.isOpened.setValue(!((ModuleButton) button).module.isOpened.getValue());
+                        init();
                     }
                 }
                 if(button instanceof BoolButton){

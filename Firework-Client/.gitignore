@@ -26,6 +26,7 @@ logs
 config
 resourcepacks
 crash-reports
+screenshots
 .mixin.out
 
 # Files from Forge MDK

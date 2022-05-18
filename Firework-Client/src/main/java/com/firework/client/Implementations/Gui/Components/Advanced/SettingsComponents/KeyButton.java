@@ -31,7 +31,7 @@ public class KeyButton extends Button {
 
         int outlineWidth = 3;
 
-        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorB);
+        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColor);
 
         RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);
