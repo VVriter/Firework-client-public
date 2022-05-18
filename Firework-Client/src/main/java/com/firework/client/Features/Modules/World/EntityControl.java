@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MovementInput;
@@ -18,14 +19,14 @@ public class EntityControl extends Module {
     @Override
     public void tryToExecute() {
         super.tryToExecute();
-        if (mc.player.getRidingEntity() != null) {
-            MovementInput movementInput = mc.player.movementInput;
+        if (Firework.minecraft.player.getRidingEntity() != null) {
+            MovementInput movementInput = Firework.minecraft.player.movementInput;
             double forward = movementInput.moveForward;
             double strafe = movementInput.moveStrafe;
-            float yaw = mc.player.rotationYaw;
+            float yaw = Firework.minecraft.player.rotationYaw;
             if ((forward == 0.0D) && (strafe == 0.0D)) {
-                mc.player.getRidingEntity().motionX = 0.0D;
-                mc.player.getRidingEntity().motionZ = 0.0D;
+                Firework.minecraft.player.getRidingEntity().motionX = 0.0D;
+                Firework.minecraft.player.getRidingEntity().motionZ = 0.0D;
             } else {
                 if (forward != 0.0D) {
                     if (strafe > 0.0D) {
@@ -43,19 +44,19 @@ public class EntityControl extends Module {
                 double sin = Math.sin(Math.toRadians(yaw + 90.0F));
                 double cos = Math.cos(Math.toRadians(yaw + 90.0F));
 
-                if (isBorderingChunk(mc.player.getRidingEntity(), mc.player.getRidingEntity().motionX, mc.player.getRidingEntity().motionZ)) {
-                    mc.player.getRidingEntity().motionX = mc.player.getRidingEntity().motionX = 0;
+                if (isBorderingChunk(Firework.minecraft.player.getRidingEntity(), Firework.minecraft.player.getRidingEntity().motionX, Firework.minecraft.player.getRidingEntity().motionZ)) {
+                    Firework.minecraft.player.getRidingEntity().motionX = 0;
                     // TODO: Figure out if this redundant actually effects anything or is it just minecraft or my game being bullshit...
                 }
 
-                mc.player.getRidingEntity().motionX = (forward * speed.getValue() * cos + strafe * speed.getValue() * sin);
-                mc.player.getRidingEntity().motionZ = (forward * speed.getValue() * sin - strafe * speed.getValue() * cos);
+                Firework.minecraft.player.getRidingEntity().motionX = (forward * speed.getValue() * cos + strafe * speed.getValue() * sin);
+                Firework.minecraft.player.getRidingEntity().motionZ = (forward * speed.getValue() * sin - strafe * speed.getValue() * cos);
             }
         }
     }
 
     private boolean isBorderingChunk(Entity entity, double motX, double motZ) {
-        return antiStuck.getValue() && mc.world.getChunk((int) (entity.posX + motX) >> 4, (int) (entity.posZ + motZ) >> 4) instanceof EmptyChunk;
+        return antiStuck.getValue() && Firework.minecraft.world.getChunk((int) (entity.posX + motX) >> 4, (int) (entity.posZ + motZ) >> 4) instanceof EmptyChunk;
     }
 
 }
