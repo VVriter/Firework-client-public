@@ -50,9 +50,12 @@ public class KeyButton extends Button {
     public void onKeyTyped(int keyCode) {
         super.onKeyTyped(keyCode);
         if(Gui.keyIsDragging){
-            Gui.keyIsDragging = false;
-            fillColor = fillColorB;
-            setting.setValue(keyCode);
+            if(Gui.activeKeyModule == setting.module.name) {
+                Gui.keyIsDragging = false;
+                fillColor = fillColorB;
+                setting.setValue(keyCode);
+                Gui.activeKeyModule = "";
+            }
         }
     }
 }

@@ -30,6 +30,7 @@ public class Gui extends GuiScreen {
 
     public static boolean isDragging = false;
     public static boolean keyIsDragging = false;
+    public static String activeKeyModule = "";
 
     public int origYOffset = 20;
 
@@ -169,6 +170,7 @@ public class Gui extends GuiScreen {
                 if(button instanceof KeyButton){
                     if(state == 0){
                         ((KeyButton) button).initialize(mouseX, mouseY);
+                        activeKeyModule = ((KeyButton) button).setting.module.name;
                         keyIsDragging = true;
                     }
                 }

@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules;
 
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
 import scala.Int;
 
@@ -43,9 +44,11 @@ public class Module {
 
     public void onEnable() {
         isEnabled.setValue(true);
+        MinecraftForge.EVENT_BUS.register(this);
     }
     public void onDisable() {
         isEnabled.setValue(false);
+        MinecraftForge.EVENT_BUS.unregister(this);
     }
 
     public void onToggle() {
