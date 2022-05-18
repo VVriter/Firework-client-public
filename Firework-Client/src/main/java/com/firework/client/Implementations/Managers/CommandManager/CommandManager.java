@@ -73,7 +73,6 @@ public class CommandManager {
                 new PrefixCommand(),
                 new ClearCommand(),
                 new ClearCommand(),
-                new HClipCommand(),
                 new OpenDirCommand(),
                 new GuiCommand());
 

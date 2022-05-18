@@ -13,7 +13,7 @@ public class HelpCommand extends Command {
         MessageUtil.sendShown("Dir Command - Usage: "+ CommandManager.prefix +"dir ","Opens firework dir",false);
         MessageUtil.sendShown("Clear Command - Usage: "+CommandManager.prefix+"clear ","Clears chat",false);
         MessageUtil.sendShown("Coords Command - Usage: "+CommandManager.prefix+"coords ","Copies ur coords to clipboard",false);
-        MessageUtil.sendShown("Coords Command - Usage: "+CommandManager.prefix+"coords ","hanges your fov",false);
+        MessageUtil.sendShown("Fov Command - Usage: "+CommandManager.prefix+"fov ","Changes your fov",false);
         MessageUtil.sendShown("NameMc Command - Usage: "+CommandManager.prefix+"namemc nickoftheplayer ","Open ncmemc site with profile",false);
         MessageUtil.sendShown("Webhook Command - Usage: "+CommandManager.prefix+"webhook urDiscordWebhook ","Adds ur webhook",false);
         MessageUtil.sendShown("Dupe Command - Usage: "+CommandManager.prefix+"dupe ","Makes an a sexdupe",false);

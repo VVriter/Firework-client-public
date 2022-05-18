@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.Movement;
+package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Events.PacketEvent;
@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Velocity extends Module {
     public Velocity(){super("Velocity",Category.COMBAT);}
+
 
 
     @SubscribeEvent

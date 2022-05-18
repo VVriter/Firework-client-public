@@ -1,16 +1,12 @@
 {
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
   "package": "com.firework.client.Implementations.Mixins.MixinsList",
   "refmap": "mixin.refmap.json",
-  "required": true,
-  "target": "@env(DEFAULT)",
-  "compatibilityLevel": "JAVA_8",
-  "verbose": false,
   "mixins": [
     "MixinNetworkManager",
     "MixinRenderEntityItem",
-    "MixinAbstractHorse"
-  ],
-  "client": [
+    "MixinAbstractHorse",
     "MixinRenderer"
   ]
 }
