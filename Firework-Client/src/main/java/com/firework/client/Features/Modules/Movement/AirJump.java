@@ -5,7 +5,7 @@ import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 
 public class AirJump extends Module {
-    public Setting<Float> jumpForce = new Setting<>("Jump Force", 1f, this, 1f, 30f);
+    public Setting<Float> jumpForce = new Setting<>("JumpForce", 1f, this, 1f, 30f);
 
     public AirJump() {
         super("AirJump", Category.MOVEMENT);
