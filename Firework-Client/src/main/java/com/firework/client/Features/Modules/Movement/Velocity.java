@@ -12,13 +12,12 @@ public class Velocity extends Module {
 
 
     @SubscribeEvent
-    public void tryToExecute(PacketEvent.Receive e) {
-        super.tryToExecute();
+    public void onPacketReceive(PacketEvent.Receive e){
         if (e.getPacket() instanceof SPacketEntityVelocity) {
             if (((SPacketEntityVelocity) e.getPacket()).getEntityID() == mc.player.getEntityId())
                 e.setCanceled(true);
         }
         if (e.getPacket() instanceof SPacketExplosion)
-                e.setCanceled(true);
+            e.setCanceled(true);
     }
 }

@@ -52,7 +52,11 @@ public class Module {
     }
 
     public void onToggle() {
-        isEnabled.setValue(!isEnabled.getValue());
+        if(isEnabled.getValue()){
+            onDisable();
+        }else{
+            onEnable();
+        }
     }
 
     //onUpdate
