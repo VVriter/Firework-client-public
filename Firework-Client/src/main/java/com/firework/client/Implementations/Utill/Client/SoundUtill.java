@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Utill.Client;
 
+import com.firework.client.Firework;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
@@ -16,7 +17,7 @@ public class SoundUtill {
                 try {
                     Clip clip = AudioSystem.getClip();
                     AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                            Minecraft.getMinecraft().getResourceManager().getResource(rl).getInputStream());
+                            Firework.minecraft.getResourceManager().getResource(rl).getInputStream());
                     clip.open(inputStream);
                     clip.start();
                 } catch (Exception e) {

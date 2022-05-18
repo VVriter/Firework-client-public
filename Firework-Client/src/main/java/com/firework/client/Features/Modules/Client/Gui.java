@@ -9,8 +9,6 @@ import java.util.Arrays;
 public class Gui extends Module{
     public static Setting<Double> scrollSpeed = new Setting<>("Scroll Speed", (double)3, new Gui(), 1, 10);
 
-    public Minecraft mc = Minecraft.getMinecraft();
-
     public Gui() {
         super("GuiSettings", Module.Category.CLIENT);
 

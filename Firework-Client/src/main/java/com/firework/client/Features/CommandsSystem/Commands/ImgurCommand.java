@@ -2,6 +2,7 @@ package com.firework.client.Features.CommandsSystem.Commands;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -25,11 +26,10 @@ public class ImgurCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        Minecraft mc = Minecraft.getMinecraft();
         try {
 
-            ResourceLocation resourceLocation = mc.player.getHeldItem(EnumHand.MAIN_HAND).getItem().getRegistryName();
-            InputStream inputStream = mc.getResourceManager().getResource(new ResourceLocation(resourceLocation.getNamespace() + ":textures/items/" + resourceLocation.getPath() + ".png")).getInputStream();
+            ResourceLocation resourceLocation = Firework.minecraft.player.getHeldItem(EnumHand.MAIN_HAND).getItem().getRegistryName();
+            InputStream inputStream = Firework.minecraft.getResourceManager().getResource(new ResourceLocation(resourceLocation.getNamespace() + ":textures/items/" + resourceLocation.getPath() + ".png")).getInputStream();
             BufferedImage image = ImageIO.read(inputStream);
             MessageUtil.sendClientMessage(imgurUpload(image), false);
             try {

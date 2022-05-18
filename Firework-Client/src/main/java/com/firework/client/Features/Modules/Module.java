@@ -1,15 +1,16 @@
 package com.firework.client.Features.Modules;
 
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 import scala.Int;
 
+import java.lang.reflect.Field;
+
 import static com.firework.client.Firework.*;
 
 public class Module {
-
-    public Minecraft mc = Minecraft.getMinecraft();
 
     public String name;
     public Category category;
@@ -57,7 +58,7 @@ public class Module {
     //OnTick
     public void tryToExecute() {
         if(existCheck)
-            if(mc.player == null | mc.world == null) return;
+            if(Firework.minecraft.player == null | Firework.minecraft.world == null) return;
 
         if(isNonCycle) {
             //if NOT CYCLE

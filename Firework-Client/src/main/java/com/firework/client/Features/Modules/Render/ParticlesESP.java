@@ -1,14 +1,13 @@
 package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ParticlesESP extends Module {
-
-    private static Minecraft mc = Minecraft.getMinecraft();
 
     public Setting<Boolean> Heart = new Setting<>("Heart", false, this);
     public Setting<Boolean> Cloud  = new Setting<>("Cloud", false, this);
@@ -33,56 +32,56 @@ public class ParticlesESP extends Module {
         super.tryToExecute();
 
         if (SnowBall.getValue()) {
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SNOWBALL, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.SNOWBALL, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
         if (Totem.getValue()) {
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.TOTEM, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.TOTEM, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
         if (EndRod.getValue()) {
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.END_ROD, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.END_ROD, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
         if (DragonBreath.getValue()) {
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.1, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);}
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.1, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);}
         if (Slime.getValue()) {
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SLIME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.1, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SLIME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SLIME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.3, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SLIME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.4, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SLIME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.5, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);   }
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.SLIME, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.1, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.SLIME, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.SLIME, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.3, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.SLIME, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.4, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.SLIME, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.5, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);   }
         if (Heart.getValue()) {
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.HEART, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.HEART, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
         if (Cloud.getValue()) {
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.CLOUD, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.CLOUD, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
         if (Flame.getValue()) {
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.FLAME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.1, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.FLAME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.FLAME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.3, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.FLAME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.4, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.FLAME, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.5, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]); }
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.FLAME, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.1, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.FLAME, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.FLAME, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.3, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.FLAME, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.4, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.FLAME, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.5, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]); }
         if (Smoke.getValue()) {
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
         if (RedStone.getValue()) {
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.REDSTONE, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.1, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.REDSTONE, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.REDSTONE, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.3, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.REDSTONE, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.4, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.REDSTONE, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.5, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.REDSTONE, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.1, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.REDSTONE, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.REDSTONE, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.3, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.REDSTONE, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.4, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.REDSTONE, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.5, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
         if (FireWork.getValue()) {
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.5, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.5, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
         if (Portal.getValue()) {
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.PORTAL, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.PORTAL, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.PORTAL, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.PORTAL, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.PORTAL, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.PORTAL, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.PORTAL, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.PORTAL, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.PORTAL, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.PORTAL, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
         if (Spit.getValue()) {
-            ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SPIT, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
+            Firework.minecraft.world.spawnParticle(EnumParticleTypes.SPIT, Firework.minecraft.player.posX, Firework.minecraft.player.posY + 0.2, Firework.minecraft.player.posZ, 0.0, 0.0, 0.0, new int[0]);
         }
     }
 

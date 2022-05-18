@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
@@ -25,36 +26,36 @@ public class Bot extends Module {
     @Override
     public void tryToExecute() {
         super.tryToExecute();
-        RayTraceResult objectMouseOver = Minecraft.getMinecraft().objectMouseOver;
+        RayTraceResult objectMouseOver = Firework.minecraft.objectMouseOver;
 
         if(Trigger.getValue()){
         if (objectMouseOver != null) {
             if (objectMouseOver.typeOfHit == RayTraceResult.Type.ENTITY) {
 
-                if (Minecraft.getMinecraft().player.getCooledAttackStrength(0) == 1) {
-                    Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().player, objectMouseOver.entityHit);
-                    Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
-                    Minecraft.getMinecraft().player.resetCooldown();}
+                if (Firework.minecraft.player.getCooledAttackStrength(0) == 1) {
+                    Firework.minecraft.playerController.attackEntity(Firework.minecraft.player, objectMouseOver.entityHit);
+                    Firework.minecraft.player.swingArm(EnumHand.MAIN_HAND);
+                    Firework.minecraft.player.resetCooldown();}
                 }
             }
         }
         if(Aim.getValue()){
             EntityPlayer player = null;
             float tickDis = 100f;
-            for (EntityPlayer p : mc.world.playerEntities) {
+            for (EntityPlayer p : Firework.minecraft.world.playerEntities) {
                 if (p instanceof EntityPlayerSP ) continue;
-                float dis = p.getDistance(mc.player);
+                float dis = p.getDistance(Firework.minecraft.player);
                 if (dis < tickDis) {
                     tickDis = dis;
                     player = p;
                 }
             }
             if (player != null) {
-                Vec3d pos = EntityUtil.getInterpolatedPos(player, mc.getRenderPartialTicks());
-                float[] angels = MathUtil.calcAngle(EntityUtil.getInterpolatedPos(mc.player, mc.getRenderPartialTicks()), pos);
+                Vec3d pos = EntityUtil.getInterpolatedPos(player, Firework.minecraft.getRenderPartialTicks());
+                float[] angels = MathUtil.calcAngle(EntityUtil.getInterpolatedPos(Firework.minecraft.player, Firework.minecraft.getRenderPartialTicks()), pos);
                 //angels[1] -=  calcPitch(tickDis);
-                mc.player.rotationYaw = angels[0];
-                mc.player.rotationPitch = angels[1];
+                Firework.minecraft.player.rotationYaw = angels[0];
+                Firework.minecraft.player.rotationPitch = angels[1];
 
             }
         }

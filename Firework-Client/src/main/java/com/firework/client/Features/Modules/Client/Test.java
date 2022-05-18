@@ -12,7 +12,6 @@ public class Test extends Module {
     public Setting<Double> td = new Setting<>("tD", (double)3, this, 1, 10);
     public Setting<String> N = new Setting<>("tSN", "Kill", this, Arrays.asList("Eat", "Kill"));
 
-    public Minecraft mc = Minecraft.getMinecraft();
     public boolean e = true;
 
     public Test() {

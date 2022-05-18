@@ -122,7 +122,7 @@ public class Firework
         //Plays firework sound when loading client
         SoundUtill.playSound(new ResourceLocation("firework/audio/loading.wav"));
         //Sets custom title when client is loaded Example: Firework | Player123
-        Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
+        Display.setTitle("Firework | "+ Firework.minecraft.getSession().getUsername()+"");
         //Sets CustomMainMenu
         MinecraftForge.EVENT_BUS.register(new OnGuiOpenEvent());
 

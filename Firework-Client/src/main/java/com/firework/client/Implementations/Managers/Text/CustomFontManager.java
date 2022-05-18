@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import com.firework.client.Firework;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -23,7 +25,7 @@ public class CustomFontManager {
     private final Map<String, Float> cachedStringWidth = new HashMap<>();
     private float antiAliasingFactor;
     private UnicodeFont unicodeFont;
-    private int prevScaleFactor = new ScaledResolution(Minecraft.getMinecraft()).getScaleFactor();
+    private int prevScaleFactor = new ScaledResolution(Firework.minecraft).getScaleFactor();
     public static final char COLOR_CHAR = '\u00A7';
     private final String name;
     private final float size;
@@ -31,7 +33,7 @@ public class CustomFontManager {
     public CustomFontManager(String fontName, float fontSize) {
         name = fontName;
         size = fontSize;
-        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
+        ScaledResolution resolution = new ScaledResolution(Firework.minecraft);
 
         try {
             prevScaleFactor = resolution.getScaleFactor();
@@ -85,7 +87,7 @@ public class CustomFontManager {
             return 0;
         }
 
-        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
+        ScaledResolution resolution = new ScaledResolution(Firework.minecraft);
 
         try {
             if (resolution.getScaleFactor() != prevScaleFactor) {
