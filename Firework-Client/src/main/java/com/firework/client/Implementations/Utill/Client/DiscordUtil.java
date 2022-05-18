@@ -1,7 +1,6 @@
 package com.firework.client.Implementations.Utill.Client;
 
 
-import com.firework.client.Firework;
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;

@@ -3,7 +3,6 @@ package com.firework.client.Implementations.Mixins.MixinsList;
 import java.util.Random;
 
 import com.firework.client.Features.Modules.Render.ItemPhysics;
-import com.firework.client.Firework;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -30,6 +29,7 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(value={RenderEntityItem.class})
 public abstract class MixinRenderEntityItem
         extends MixinRenderer<EntityItem> {
+    private final Minecraft mc = Minecraft.getMinecraft();
     @Shadow
     @Final
     private RenderItem itemRenderer;
@@ -64,7 +64,7 @@ public abstract class MixinRenderEntityItem
             float f2 = 0.0f;
             GlStateManager.translate((float)((float)x), (float)((float)y + 0.0f + 0.1f), (float)((float)z));
             float f3 = 0.0f;
-            if (flag || Firework.minecraft.getRenderManager().options != null && Firework.minecraft.getRenderManager().options.fancyGraphics) {
+            if (flag || this.mc.getRenderManager().options != null && this.mc.getRenderManager().options.fancyGraphics) {
                 GlStateManager.rotate((float)f3, (float)0.0f, (float)1.0f, (float)0.0f);
             }
             if (!flag) {
@@ -95,14 +95,14 @@ public abstract class MixinRenderEntityItem
     public void doRender(EntityItem entity, double x, double y, double z, float entityYaw, float partialTicks) {
         if (ItemPhysics.INSTANCE.isEnabled.getValue()) {
             double rotation = (double)(System.nanoTime() - this.tick) / 3000000.0;
-            if (!Firework.minecraft.inGameHasFocus) {
+            if (!this.mc.inGameHasFocus) {
                 rotation = 0.0;
             }
             ItemStack itemstack = entity.getItem();
             itemstack.getItem();
             this.random.setSeed(187L);
-            Firework.minecraft.getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            Firework.minecraft.getRenderManager().renderEngine.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
+            this.mc.getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+            this.mc.getRenderManager().renderEngine.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
             GlStateManager.enableRescaleNormal();
             GlStateManager.alphaFunc((int)516, (float)0.1f);
             GlStateManager.enableBlend();
@@ -167,8 +167,8 @@ public abstract class MixinRenderEntityItem
             GlStateManager.popMatrix();
             GlStateManager.disableRescaleNormal();
             GlStateManager.disableBlend();
-            Firework.minecraft.getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            Firework.minecraft.getRenderManager().renderEngine.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
+            this.mc.getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+            this.mc.getRenderManager().renderEngine.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
             return;
         }
         ItemStack itemstack = entity.getItem();

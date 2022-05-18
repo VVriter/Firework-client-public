@@ -48,7 +48,7 @@ public class ChangeUser extends GuiScreen {
             e.printStackTrace();
         }
 
-        Display.setTitle("Firework | "+ Firework.minecraft.getSession().getUsername()+"");
+        Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
     }
 
     @Override

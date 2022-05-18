@@ -6,6 +6,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class EntityUtil {
 
+    private static Minecraft mc = Minecraft.getMinecraft();
     public static Vec3d getInterpolatedPos(Entity entity, float partialTicks) {
         return new Vec3d(entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ).add(EntityUtil.getInterpolatedAmount(entity, partialTicks));
     }

@@ -5,6 +5,8 @@ import net.minecraft.client.Minecraft;
 
 public class TextManager {
 
+    Minecraft mc = Minecraft.getMinecraft();
+
     public static boolean customFont = true;
 
     public void drawStringWithShadow(String text, float x, float y, int color) {
@@ -15,17 +17,17 @@ public class TextManager {
         if(customFont){
             Firework.customFontManager.drawString(text, x, y, color);
         }else {
-            Firework.minecraft.fontRenderer.drawString(text, x, y, color, shadow);
+            mc.fontRenderer.drawString(text, x, y, color, shadow);
         }
         return x;
     }
 
     public int getStringWidth(String text) {
-        return Firework.minecraft.fontRenderer.getStringWidth(text);
+        return mc.fontRenderer.getStringWidth(text);
     }
 
     public int getFontHeight() {
-        return Firework.minecraft.fontRenderer.FONT_HEIGHT;
+        return mc.fontRenderer.FONT_HEIGHT;
     }
 
 }
