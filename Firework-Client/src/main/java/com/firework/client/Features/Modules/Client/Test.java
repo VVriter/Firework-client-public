@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.Client;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Gui.Gui;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
@@ -34,7 +35,7 @@ public class Test extends Module {
 
         if(e){
             e = false;
-            mc.displayGuiScreen(new Gui());
+            Firework.minecraft.displayGuiScreen(new Gui());
         }
 
     }
