@@ -61,7 +61,6 @@ public class Module {
         if(isNonCycle) {
             //if NOT CYCLE
             isEnabled.setValue(!isEnabled.getValue());
-            return;
         }
         //if CYCLE
         if(updateTimer != delay) {

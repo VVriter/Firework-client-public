@@ -9,6 +9,7 @@ import com.firework.client.Features.Modules.Movement.Sprint;
 import com.firework.client.Features.Modules.Render.ItemPhysics;
 import com.firework.client.Features.Modules.Render.ParticlesESP;
 import com.firework.client.Features.Modules.World.EntityControl;
+import com.firework.client.Features.Modules.World.FakePlayer;
 
 import java.util.ArrayList;
 import java.util.Collections;
