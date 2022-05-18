@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Gui;
 
+import com.firework.client.Features.Modules.Client.ClickGui;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Gui.Components.Advanced.EndBlock;
 import com.firework.client.Implementations.Gui.Components.Advanced.Frame;
@@ -16,12 +17,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.math.Vec2f;
 import org.lwjgl.input.Mouse;
 
-import java.awt.*;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Set;
 
 import static com.firework.client.Firework.*;
 import static java.lang.Math.round;
@@ -50,6 +47,10 @@ public class Gui extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
+
+        if(ClickGui.getInstance().background.getValue()){
+            this.drawDefaultBackground();
+        }
 
         int newXOffset = 0;
 
@@ -119,7 +120,7 @@ public class Gui extends GuiScreen {
         super.handleMouseInput();
 
         float scroll = Math.signum(Mouse.getDWheel());
-        int speed = floor(com.firework.client.Features.Modules.Client.Gui.scrollSpeed.getValue());
+        int speed = floor(ClickGui.scrollSpeed.getValue());
 
         if(scroll == 1)
             origYOffset+=speed;
