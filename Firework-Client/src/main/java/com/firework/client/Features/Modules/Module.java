@@ -59,6 +59,9 @@ public class Module {
         }
     }
 
+    public void disable(){
+        MinecraftForge.EVENT_BUS.unregister(this);
+    }
     //onUpdate
     //OnTick
     public void tryToExecute() {

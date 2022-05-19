@@ -9,6 +9,7 @@ import com.firework.client.Features.Modules.Movement.Parkour;
 import com.firework.client.Features.Modules.Movement.Sprint;
 import com.firework.client.Features.Modules.Combat.Velocity;
 import com.firework.client.Features.Modules.Render.*;
+import com.firework.client.Features.Modules.World.BridgeBuild;
 import com.firework.client.Features.Modules.World.EntityControl;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
@@ -46,6 +47,7 @@ public class ModuleManager {
                     new ESP(),
                     new CustomTime(),
                     new Parkour(),
+                    new BridgeBuild(),
                     new ItemPhysics());
     }
 
