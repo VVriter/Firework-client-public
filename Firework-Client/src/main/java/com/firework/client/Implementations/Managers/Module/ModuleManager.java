@@ -10,6 +10,7 @@ import com.firework.client.Features.Modules.Combat.Velocity;
 import com.firework.client.Features.Modules.Render.*;
 import com.firework.client.Features.Modules.World.BridgeBuild;
 import com.firework.client.Features.Modules.World.EntityControl;
+import com.firework.client.Features.Modules.World.Scaffold.Scaffold;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import org.json.simple.JSONObject;
@@ -31,6 +32,7 @@ public class ModuleManager {
     public void registerModules() {
         register(new Test(),
                     new AirJump(),
+                    new Scaffold(),
                     new ParticlesESP(),
                     new ClickGui(),
                     new MovementHelper(),

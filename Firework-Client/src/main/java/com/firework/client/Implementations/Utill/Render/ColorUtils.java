@@ -1,5 +1,7 @@
 package com.firework.client.Implementations.Utill.Render;
 
+import com.firework.client.Features.Modules.Client.ClickGui;
+
 import java.awt.*;
 
 public class ColorUtils {
@@ -21,5 +23,6 @@ public class ColorUtils {
         }
         return Color.HSBtoRGB(hue += 0.5f, 0.5f, 1.0f);
     }
+
 
 }

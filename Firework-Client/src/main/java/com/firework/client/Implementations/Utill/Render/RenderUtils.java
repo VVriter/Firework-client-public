@@ -1,10 +1,17 @@
 package com.firework.client.Implementations.Utill.Render;
 
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -12,7 +19,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
+import java.util.Objects;
+
 public class RenderUtils {
+    private static Minecraft mc = Minecraft.getMinecraft();
+    public static ICamera camera = new Frustum();
+    static {
+        camera = new Frustum();
+    }
+
     public static void trace(Minecraft mc, Entity e, float partialTicks, int mode) {
         if (mc.getRenderManager().renderViewEntity != null) {
             GL11.glDisable(GL11.GL_DEPTH_TEST);
