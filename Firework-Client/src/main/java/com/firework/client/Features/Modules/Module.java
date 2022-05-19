@@ -81,6 +81,6 @@ public class Module {
     }
 
     public enum Category{
-        COMBAT, MOVEMENT, RENDER, WORLD, CLIENT
+        COMBAT, MOVEMENT, RENDER, MISC, WORLD, CLIENT
     }
 }

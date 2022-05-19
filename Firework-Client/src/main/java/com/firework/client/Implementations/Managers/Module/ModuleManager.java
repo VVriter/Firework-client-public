@@ -3,6 +3,7 @@ package com.firework.client.Implementations.Managers.Module;
 import com.firework.client.Features.Modules.Client.ClickGui;
 import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Combat.Bot;
+import com.firework.client.Features.Modules.Misc.AutoRespawn;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.Movement.AirJump;
 import com.firework.client.Features.Modules.Movement.MovementHelper;
@@ -33,6 +34,7 @@ public class ModuleManager {
         register(new Test(),
                     new AirJump(),
                     new Scaffold(),
+                    new AutoRespawn(),
                     new ParticlesESP(),
                     new ClickGui(),
                     new MovementHelper(),
