@@ -12,7 +12,17 @@ import com.firework.client.Features.Modules.Render.ESP;
 import com.firework.client.Features.Modules.Render.ItemPhysics;
 import com.firework.client.Features.Modules.Render.ParticlesESP;
 import com.firework.client.Features.Modules.World.EntityControl;
+import com.firework.client.Firework;
+import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
+import com.firework.client.Implementations.Settings.Setting;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.*;
+import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -41,5 +51,23 @@ public class ModuleManager {
 
     public void register(Module... module) {
         Collections.addAll(modules, module);
+    }
+
+    public void saveModules() throws IllegalAccessException {
+        for (Module module : modules) {
+            JSONObject moduleJson = new JSONObject();
+            moduleJson.put("isEnabled", module.isEnabled);
+            for (Field var : module.getClass().getDeclaredFields()) {
+                if(Setting.class.isAssignableFrom(var.getType())) {
+                    Setting setting = (Setting) var.get(this);
+                    moduleJson.put("settings/"+setting.name, setting);
+                }
+            }
+            try (FileWriter file = new FileWriter(Firework.FIREWORK_DIRECTORY + "/Modules/" + module.getClass().getSimpleName() + ".json")) {
+                file.write(moduleJson.toJSONString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
