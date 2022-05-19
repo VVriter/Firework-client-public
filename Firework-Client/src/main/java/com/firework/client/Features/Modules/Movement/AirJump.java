@@ -1,24 +1,25 @@
 package com.firework.client.Features.Modules.Movement;
 
+
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import org.lwjgl.input.Keyboard;
 
 public class AirJump extends Module {
     public int delay = 1000;
 
-    public Setting<Double> jumpForce = new Setting<>("JumpForce", 1d, this, 1, 30);
-
+    public static Setting<Boolean> enabled = null;
     public AirJump() {
         super("AirJump", Category.MOVEMENT);
+        enabled = this.isEnabled;
     }
 
     @Override
     public void tryToExecute() {
         super.tryToExecute();
-        if(Keyboard.isKeyDown(Firework.minecraft.gameSettings.keyBindJump.getKeyCode())) {
-            Firework.minecraft.player.setVelocity(0, jumpForce.getValue() * Firework.minecraft.getRenderPartialTicks(), 0);
-        }
+        if(MovementHelper.parkour.getValue() && MovementHelper.enabled.getValue()){
+            MessageUtil.sendError("U are dumb dont use air jump with parkour helper",-1117);}else {mc.player.onGround = true;}
     }
 }

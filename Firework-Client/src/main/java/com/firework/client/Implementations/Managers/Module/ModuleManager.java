@@ -5,23 +5,17 @@ import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Combat.Bot;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.Movement.AirJump;
-import com.firework.client.Features.Modules.Movement.Parkour;
-import com.firework.client.Features.Modules.Movement.Sprint;
+import com.firework.client.Features.Modules.Movement.MovementHelper;
 import com.firework.client.Features.Modules.Combat.Velocity;
 import com.firework.client.Features.Modules.Render.*;
 import com.firework.client.Features.Modules.World.BridgeBuild;
 import com.firework.client.Features.Modules.World.EntityControl;
 import com.firework.client.Firework;
-import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
 import com.firework.client.Implementations.Settings.Setting;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -36,18 +30,18 @@ public class ModuleManager {
 
     public void registerModules() {
         register(new Test(),
-                    new Sprint(),
+                    new AirJump(),
                     new ParticlesESP(),
                     new ClickGui(),
-                    new AirJump(),
+                    new MovementHelper(),
                     new Bot(),
                     new EntityControl(),
                     new Velocity(),
                     new BetterFPS(),
                     new ESP(),
                     new CustomTime(),
-                    new Parkour(),
                     new BridgeBuild(),
+                    new NoRender(),
                     new ItemPhysics());
     }
 
