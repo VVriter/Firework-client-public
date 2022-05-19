@@ -7,10 +7,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.Movement.AirJump;
 import com.firework.client.Features.Modules.Movement.Sprint;
 import com.firework.client.Features.Modules.Combat.Velocity;
-import com.firework.client.Features.Modules.Render.BetterFPS;
-import com.firework.client.Features.Modules.Render.ESP;
-import com.firework.client.Features.Modules.Render.ItemPhysics;
-import com.firework.client.Features.Modules.Render.ParticlesESP;
+import com.firework.client.Features.Modules.Render.*;
 import com.firework.client.Features.Modules.World.EntityControl;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
@@ -46,6 +43,7 @@ public class ModuleManager {
                     new Velocity(),
                     new BetterFPS(),
                     new ESP(),
+                    new FreeLook(),
                     new ItemPhysics());
     }
 
