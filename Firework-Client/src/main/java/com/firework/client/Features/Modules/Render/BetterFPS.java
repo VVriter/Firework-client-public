@@ -14,7 +14,7 @@ public class BetterFPS extends Module {
         this.focused = true;
     }
 
-    @SubscribeEvent
+    @Override
     public void tryToExecute() {
         super.tryToExecute();
         if(Minecraft.getMinecraft().world == null){
