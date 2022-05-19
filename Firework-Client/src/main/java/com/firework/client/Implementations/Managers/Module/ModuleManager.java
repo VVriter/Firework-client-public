@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Combat.Bot;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.Movement.AirJump;
+import com.firework.client.Features.Modules.Movement.Parkour;
 import com.firework.client.Features.Modules.Movement.Sprint;
 import com.firework.client.Features.Modules.Combat.Velocity;
 import com.firework.client.Features.Modules.Render.*;
@@ -43,6 +44,8 @@ public class ModuleManager {
                     new Velocity(),
                     new BetterFPS(),
                     new ESP(),
+                    new CustomTime(),
+                    new Parkour(),
                     new ItemPhysics());
     }
 
