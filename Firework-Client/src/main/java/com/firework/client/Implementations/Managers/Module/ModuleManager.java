@@ -43,7 +43,6 @@ public class ModuleManager {
                     new Velocity(),
                     new BetterFPS(),
                     new ESP(),
-                    new FreeLook(),
                     new ItemPhysics());
     }
 
