@@ -28,7 +28,7 @@ public class ParticlesESP extends Module {
     public ParticlesESP(){super("ParticlesESP",Category.RENDER);}
 
 
-    @SubscribeEvent
+    @Override
     public void tryToExecute() {
         super.tryToExecute();
 
