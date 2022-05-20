@@ -3,6 +3,7 @@ package com.firework.client.Features.CommandsSystem.Commands;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
+import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
@@ -19,6 +20,7 @@ public class WebhookCommand extends Command {
             }
             JsonParser.DISORD_WEBHOOK = args[1];
             JsonParser.createWebhookJsonFile();
+            DiscordNotificator.webhook = args[1];
             MessageUtil.sendClientMessage("Webhook changed", false);
             DiscordUtil.sendMsg("```Ur webhook is already linked```",args[1]);
         } catch (Exception e) {

@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Managers.Module;
 
 import com.firework.client.Features.Modules.Client.ClickGui;
+import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Combat.Bot;
 import com.firework.client.Features.Modules.Misc.AutoRespawn;
@@ -35,6 +36,7 @@ public class ModuleManager {
                     new AirJump(),
                     new Scaffold(),
                     new AutoRespawn(),
+                    new DiscordNotificator(),
                     new ParticlesESP(),
                     new ClickGui(),
                     new MovementHelper(),

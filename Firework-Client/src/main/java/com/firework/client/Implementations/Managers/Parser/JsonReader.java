@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Managers.Parser;
 
+import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
 import org.json.simple.JSONArray;
@@ -28,12 +29,34 @@ public class JsonReader {
             CommandManager.prefix = prefix;
 
 
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public static void getWebhook(){
+        JSONParser parser = new JSONParser();
+
+        try (Reader reader1 = new FileReader(System.getenv("APPDATA") + "\\.minecraft\\" +"\\Firework\\Webhook.json")) {
+
+            JSONObject jsonObject = (JSONObject) parser.parse(reader1);
+            System.out.println(jsonObject);
+
+            String webhook = (String) jsonObject.get("Webhook");
+            System.out.println(webhook);
+            DiscordNotificator.webhook = webhook;
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 

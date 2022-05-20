@@ -94,6 +94,7 @@ public class Firework
         JsonParser.parse();
         JsonPrefixPraser.parse();
         JsonReader.getPrefix();
+        JsonReader.getWebhook();
         //Set icon
         Firework.setWindowIcon();
         //Makes this class available for handling events
