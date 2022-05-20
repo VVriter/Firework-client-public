@@ -125,7 +125,6 @@ public class Firework
         Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
         //Sets CustomMainMenu
         MinecraftForge.EVENT_BUS.register(new OnGuiOpenEvent());
-
     }
 
 
