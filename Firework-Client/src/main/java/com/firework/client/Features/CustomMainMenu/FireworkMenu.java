@@ -3,6 +3,7 @@ package com.firework.client.Features.CustomMainMenu;
 
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
@@ -22,17 +23,17 @@ public class FireworkMenu extends GuiScreen {
         int i = this.height / 4 + 48;
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, i + 72 + 12, 98,
-                20, "Options"));
+                20, I18n.format("menu.options")));
         this.buttonList.add(new GuiButton(1, this.width / 2 + 2, i + 72 + 12, 98,
-                20, "Quit"));
+                20, I18n.format("menu.quit")));
         this.buttonList.add(new GuiButton(2, this.width / 2 + 2, i + 72 - 12, 98,
                 20, "Change User"));
         this.buttonList.add(new GuiButton(3, this.width / 2 - 100, i + 72 - 12, 98,
                 20, "Authors"));
         this.buttonList.add(new GuiButton(4, this.width / 2 - 100, i + 72 - 34, 200,
-                20, "Multiplayer"));
+                20, I18n.format("menu.multiplayer")));
         this.buttonList.add(new GuiButton(5, this.width / 2 - 100, i + 72 - 58, 200,
-                20, "Singleplayer"));
+                20, I18n.format("menu.singleplayer")));
     }
 
     @Override
