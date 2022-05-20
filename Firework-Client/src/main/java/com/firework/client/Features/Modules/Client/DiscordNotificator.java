@@ -1,5 +1,4 @@
 package com.firework.client.Features.Modules.Client;
-
 import com.firework.client.Features.Modules.Misc.AutoRespawn;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
@@ -8,16 +7,31 @@ import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.gui.GuiGameOver;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.datafix.fixes.EntityId;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class DiscordNotificator extends Module {
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
-    public Setting<Boolean> deathCoords  = new Setting<>("DeathCords", true, this);
+public class DiscordNotificator extends Module {
+    public static Setting<Boolean> enabled = null;
+    public static Setting<Boolean> notify2b2t = null;
 
 
     public static String webhook = "";
-    public DiscordNotificator(){super("DiscordNotificator",Category.CLIENT);}
+    public DiscordNotificator(){super("DiscordNotificator",Category.CLIENT);
+
+        enabled = this.isEnabled;
+        notify2b2t = new Setting<>("Queue notify", true, this);}
+
+
+
     public void onEnable(){
         super.onEnable();
         new Thread(
@@ -32,14 +46,7 @@ public class DiscordNotificator extends Module {
                 }).start();
     }
 
-    @SubscribeEvent
-    public void onDisplayDeathScreen(GuiOpenEvent event) {
-        if (event.getGui() instanceof GuiGameOver) {
-            if (this.deathCoords.getValue().booleanValue() && event.getGui() instanceof GuiGameOver) {
-                   DiscordUtil.sendMsg("```Your death cords is X:" + mc.player.posX+" Y:"+mc.player.posY+" Z:"+mc.player.posZ+"```",webhook);
-                }
-        }
-    }
+
 
 
     public void onDisable(){

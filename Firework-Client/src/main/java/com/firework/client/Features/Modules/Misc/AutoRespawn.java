@@ -1,8 +1,11 @@
 package com.firework.client.Features.Modules.Misc;
 
+import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
+import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -19,6 +22,7 @@ public class AutoRespawn extends Module {
 
 
     private static Minecraft mc = Minecraft.getMinecraft();
+    public static Setting<Boolean> enabled = null;
     public Setting<Boolean> respawn  = new Setting<>("Respawn", true, this);
     public Setting<Boolean> antiDeathScreen  = new Setting<>("AntiDeathScreen", true, this);
     public Setting<Boolean> deathCoords  = new Setting<>("DeathCords", true, this);
@@ -26,7 +30,8 @@ public class AutoRespawn extends Module {
     public Setting<Boolean> deathSounds  = new Setting<>("DeathSounds", true, this);
 
 
-    public AutoRespawn(){super("DeathFilter",Category.MISC);}
+    public AutoRespawn(){super("DeathFilter",Category.MISC);
+        enabled = this.isEnabled;}
 
     @SubscribeEvent
     public void onDisplayDeathScreen(GuiOpenEvent event) {

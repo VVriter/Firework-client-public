@@ -2,11 +2,14 @@ package com.firework.client.Implementations.Managers.Module;
 
 import com.firework.client.Features.Modules.Client.ClickGui;
 import com.firework.client.Features.Modules.Client.DiscordNotificator;
+import com.firework.client.Features.Modules.Client.NoForge;
 import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Combat.Bot;
 import com.firework.client.Features.Modules.Misc.AutoRespawn;
+import com.firework.client.Features.Modules.Misc.MiddleClick;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.Movement.AirJump;
+import com.firework.client.Features.Modules.Movement.Anchor;
 import com.firework.client.Features.Modules.Movement.MovementHelper;
 import com.firework.client.Features.Modules.Combat.Velocity;
 import com.firework.client.Features.Modules.Render.*;
@@ -33,7 +36,9 @@ public class ModuleManager {
 
     public void registerModules() {
         register(new Test(),
+                    new Anchor(),
                     new AirJump(),
+                    new NoForge(),
                     new Scaffold(),
                     new AutoRespawn(),
                     new DiscordNotificator(),
@@ -43,6 +48,7 @@ public class ModuleManager {
                     new Bot(),
                     new EntityControl(),
                     new Velocity(),
+                    new MiddleClick(),
                     new BetterFPS(),
                     new ESP(),
                     new CustomTime(),
