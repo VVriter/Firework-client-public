@@ -2,7 +2,7 @@ package com.firework.client.Features.CommandsSystem.Commands.Client;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
-import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
+import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 
 @CommandManifest(label = "help")

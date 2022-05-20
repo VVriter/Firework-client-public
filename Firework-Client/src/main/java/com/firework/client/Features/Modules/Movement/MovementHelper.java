@@ -1,12 +1,13 @@
 package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
+import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.math.AxisAlignedBB;
-import org.lwjgl.input.Keyboard;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,7 @@ public class MovementHelper extends Module {
     @Override
     public void tryToExecute(){
         super.tryToExecute();
+
         if(antiLevitate.getValue()){
             if (mc.player.isPotionActive((Potion) Objects.requireNonNull(Potion.getPotionFromResourceLocation("levitation")))) {
                 mc.player.removeActivePotionEffect(Potion.getPotionFromResourceLocation("levitation"));
@@ -51,4 +53,15 @@ public class MovementHelper extends Module {
             mc.player.setSprinting(true);
         }
     }
-}
+
+
+    @SubscribeEvent
+    public void Packet(PacketEvent event) {
+        if (event.getPacket() instanceof CPacketEntityAction) {
+            final CPacketEntityAction packet = (CPacketEntityAction) event.getPacket();
+            if (packet.getAction() == CPacketEntityAction.Action.START_SPRINTING || packet.getAction() == CPacketEntityAction.Action.STOP_SPRINTING) {
+                event.setCanceled(true);
+                }
+            }
+        }
+    }

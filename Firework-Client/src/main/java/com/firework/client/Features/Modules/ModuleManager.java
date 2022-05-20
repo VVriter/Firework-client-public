@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Managers.Module;
+package com.firework.client.Features.Modules;
 
 import com.firework.client.Features.Modules.Client.ClickGui;
 import com.firework.client.Features.Modules.Client.DiscordNotificator;
@@ -10,6 +10,7 @@ import com.firework.client.Features.Modules.Misc.MiddleClick;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.Movement.AirJump;
 import com.firework.client.Features.Modules.Movement.Anchor;
+import com.firework.client.Features.Modules.Movement.AutoWalk;
 import com.firework.client.Features.Modules.Movement.MovementHelper;
 import com.firework.client.Features.Modules.Combat.Velocity;
 import com.firework.client.Features.Modules.Render.*;
@@ -37,6 +38,7 @@ public class ModuleManager {
     public void registerModules() {
         register(new Test(),
                     new Anchor(),
+                    new AutoWalk(),
                     new AirJump(),
                     new NoForge(),
                     new Scaffold(),
