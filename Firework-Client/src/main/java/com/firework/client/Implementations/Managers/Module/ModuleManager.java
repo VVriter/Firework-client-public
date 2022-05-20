@@ -53,13 +53,18 @@ public class ModuleManager {
         Collections.addAll(modules, module);
     }
 
-    public void saveModules() throws IllegalAccessException {
+    public void saveModules() {
         for (Module module : modules) {
             JSONObject moduleJson = new JSONObject();
             moduleJson.put("isEnabled", module.isEnabled);
             for (Field var : module.getClass().getDeclaredFields()) {
                 if(Setting.class.isAssignableFrom(var.getType())) {
-                    Setting setting = (Setting) var.get(this);
+                    Setting setting = null;
+                    try {
+                        setting = (Setting) var.get(this);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
                     moduleJson.put("settings/"+setting.name, setting);
                 }
             }
