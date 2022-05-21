@@ -6,6 +6,7 @@ import com.firework.client.Features.CommandsSystem.Commands.*;
 import com.firework.client.Features.CommandsSystem.Commands.Client.HelpCommand;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
+import com.firework.client.Implementations.Utill.Entity.FakePlayer;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -74,7 +75,8 @@ public class CommandManager {
                 new ClearCommand(),
                 new ClearCommand(),
                 new OpenDirCommand(),
-                new GuiCommand());
+                new GuiCommand(),
+                new FakePlayerCommand());
 
         MinecraftForge.EVENT_BUS.register(this);
     }
