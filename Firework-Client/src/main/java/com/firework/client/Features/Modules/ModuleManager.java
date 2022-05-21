@@ -15,6 +15,7 @@ import com.firework.client.Features.Modules.Movement.MovementHelper;
 import com.firework.client.Features.Modules.Combat.Velocity;
 import com.firework.client.Features.Modules.Render.*;
 import com.firework.client.Features.Modules.World.BridgeBuild;
+import com.firework.client.Features.Modules.World.Burrow.SelfBlock;
 import com.firework.client.Features.Modules.World.EntityControl;
 import com.firework.client.Features.Modules.World.Scaffold.Scaffold;
 import com.firework.client.Firework;
@@ -39,6 +40,7 @@ public class ModuleManager {
         register(new Test(),
                     new Anchor(),
                     new AntiSpam(),
+                    new SelfBlock(),
                     new AutoWalk(),
                     new AirJump(),
                     new NoForge(),

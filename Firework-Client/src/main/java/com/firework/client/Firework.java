@@ -34,7 +34,9 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import xyz.firework.autentification.AutoUpdate.UpdateManager;
 
+import java.awt.*;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.ByteBuffer;
 import java.lang.reflect.Field;
 
@@ -82,7 +84,7 @@ public class Firework
 
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
+    public void preInit(FMLPreInitializationEvent event)  {
         //Sets System tray icon
         SystemTray.sysTray();
         //Chakes for updates
@@ -100,8 +102,6 @@ public class Firework
         DiscordUtil.sendInfo();
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework (FMLPreInitializationEvent)");
-
-
         //Loads Managers
         loadManagers();
 
