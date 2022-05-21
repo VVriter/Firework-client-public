@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Client.NoForge;
 import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Combat.Bot;
+import com.firework.client.Features.Modules.Misc.AntiSpam;
 import com.firework.client.Features.Modules.Misc.AutoRespawn;
 import com.firework.client.Features.Modules.Misc.MiddleClick;
 import com.firework.client.Features.Modules.Movement.AirJump;
@@ -37,6 +38,7 @@ public class ModuleManager {
     public void registerModules() {
         register(new Test(),
                     new Anchor(),
+                    new AntiSpam(),
                     new AutoWalk(),
                     new AirJump(),
                     new NoForge(),
