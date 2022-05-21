@@ -8,6 +8,7 @@ import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Managers.Parser.JsonPrefixPraser;
 import com.firework.client.Implementations.Managers.Parser.JsonReader;
+import com.firework.client.Implementations.Managers.PositionManager;
 import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CustomFontManager;
 import com.firework.client.Implementations.Managers.Text.TextManager;
@@ -63,6 +64,7 @@ public class Firework
     public static CommandManager commandManager;
     public static CustomFontManager customFontManager;
     public static TextManager textManager;
+    public static PositionManager positionManager;
 
 
     public void loadManagers(){
@@ -71,6 +73,7 @@ public class Firework
         commandManager = new CommandManager();
         customFontManager = new CustomFontManager("tcm", 16);
         textManager = new TextManager();
+        positionManager = new PositionManager();
     }
 
     public static void unloadManagers(){
@@ -79,6 +82,7 @@ public class Firework
         commandManager = null;
         textManager = null;
         customFontManager = null;
+        positionManager = null;
     }
 
 

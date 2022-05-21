@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.World.Burrow;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.block.BlockAnvil;
@@ -18,21 +19,21 @@ import net.minecraft.util.math.BlockPos;
 public class SelfBlock extends Module {
 
     public Setting<Double> offset  = new Setting<>("Offset", (double)3, this, -5, 5);
-    public Setting<Boolean> ground  = new Setting<>("Ground check", false, this);
-    public Setting<Boolean> rotate  = new Setting<>("Rotate", false, this);
-    public Setting<Boolean> echest   = new Setting<>("Use echest", false, this);
-    public Setting<Boolean> anvil   = new Setting<>("Use anvil", false, this);
+    public Setting<Boolean> ground  = new Setting<>("Ground check", true, this);
+    public Setting<Boolean> rotate  = new Setting<>("Rotate", true, this);
+    public Setting<Boolean> echest   = new Setting<>("Use echest", true, this);
+    public Setting<Boolean> anvil   = new Setting<>("Use anvil", true, this);
 
 
     public SelfBlock(){super("SelfBlock",Category.WORLD);}
 
     private BlockPos originalPos;
     private int oldSlot = -1;
+    private BlockPos startPos;
 
     @Override
     public void onEnable() {
         super.onEnable();
-
         originalPos = new BlockPos(mc.player.posX, mc.player.posY, mc.player.posZ);
 
         if (mc.world.getBlockState(new BlockPos(mc.player.posX, mc.player.posY, mc.player.posZ)).getBlock().equals(Blocks.OBSIDIAN) ||
