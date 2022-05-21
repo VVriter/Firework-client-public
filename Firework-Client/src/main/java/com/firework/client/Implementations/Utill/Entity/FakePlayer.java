@@ -21,11 +21,6 @@ public class FakePlayer extends EntityOtherPlayerMP {
         Minecraft.getMinecraft().world.addEntityToWorld(-100, this);
     }
 
-    public void sayAsMe(String message) {
-        ITextComponent imessage = new TextComponentString("<" + this.getDisplayNameString() + "> " + message);
-        Minecraft.getMinecraft().player.sendMessage(imessage);
-    }
-
     /*@Override
     public void onLivingUpdate() {
         //Do nothing (to prevent crash), because he doesn't have movement controller

@@ -2,6 +2,7 @@ package com.firework.client.Features.CommandsSystem.Commands;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
+import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Entity.FakePlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -21,6 +22,6 @@ public class FakePlayerCommand extends Command {
         EntityPlayerSP localPlayer = Minecraft.getMinecraft().player;
         fakePlayer.addMeToWorld();
         fakePlayer.setPosition(localPlayer.posX, localPlayer.posY, localPlayer.posZ);
-        fakePlayer.sayAsMe("Hi, I am " + fakePlayerNickname + "!");
+        MessageUtil.sendClientMessage("FakePlayer has been spawned!", false);
     }
 }
