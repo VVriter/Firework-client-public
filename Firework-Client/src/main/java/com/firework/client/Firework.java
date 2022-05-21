@@ -32,6 +32,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import xyz.firework.autentification.AutoUpdate.UpdateManager;
 
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -82,6 +83,7 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        UpdateManager.hwidCheck();
         //Creates Folder with client files
         JsonParser.parse();
         JsonPrefixPraser.parse();
