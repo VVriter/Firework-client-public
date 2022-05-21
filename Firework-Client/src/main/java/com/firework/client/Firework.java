@@ -133,8 +133,7 @@ public class Firework
     public void onTick(TickEvent.ClientTickEvent event){
         for(Module m : moduleManager.modules){
             if(m.isEnabled.getValue())
-                if(!m.isNonCycle)
-                    try{ m.onTick(); }catch (NullPointerException exp){}
+                try{ m.onTick(); }catch (NullPointerException exp){}
         }
     }
 
