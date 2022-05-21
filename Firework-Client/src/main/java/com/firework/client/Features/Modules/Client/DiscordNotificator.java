@@ -1,20 +1,30 @@
 package com.firework.client.Features.Modules.Client;
+import com.firework.client.Features.Modules.Misc.AutoRespawn;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
+import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
 public class DiscordNotificator extends Module {
 
     public static Setting<Boolean> enabled = null;
+    public static Setting<Boolean> death = null;
     public static Setting<Boolean> notify2b2t = null;
     public static Setting<Boolean> serverConnection = null;
     public static Setting<Boolean> chatListner = null;
@@ -25,6 +35,7 @@ public class DiscordNotificator extends Module {
 
         enabled = this.isEnabled;
         notify2b2t = new Setting<>("Queue notify", true, this);
+        death = new Setting<>("DeathNotificator", true, this);
         serverConnection = new Setting<>("ServerConnection", true, this);
         chatListner = new Setting<>("ChatListner", true, this);}
 
@@ -44,6 +55,33 @@ public class DiscordNotificator extends Module {
               }
                 }).start();
     }
+
+
+
+    //Death Notificator
+    @SubscribeEvent
+    public static void onDisplayDeathScreen(GuiOpenEvent event) {
+        if (event.getGui() instanceof GuiGameOver) {
+                final String contents = "x: "+ Minecraft.getMinecraft().player.posX +" y: "+ Minecraft.getMinecraft().player.posY+" z: " + Minecraft.getMinecraft().player.posZ;
+                DiscordNotificator.bebr = contents;
+            }
+    }
+    public static String bebr;
+    @SubscribeEvent
+    public void gegra(PlayerEvent.PlayerRespawnEvent e){
+        if(death.getValue()){
+            new Thread(
+                    new Runnable() {
+                        public void run() {
+                            try {
+                                DiscordUtil.sendMsg("@here```U are die and respawned cords is" + bebr +"```",webhook);
+                            }catch (Exception e){
+                                MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
+                            }
+                        }
+                    }).start();}
+    }
+    //Death Notificator
 
     //ChatListner
     @SubscribeEvent
