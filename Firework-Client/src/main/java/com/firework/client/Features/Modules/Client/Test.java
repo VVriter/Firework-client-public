@@ -28,8 +28,8 @@ public class Test extends Module {
     }
 
     @Override
-    public void tryToExecute() {
-        super.tryToExecute();
+    public void onTick() {
+        super.onTick();
         //System.out.println("WORK!");
         //System.out.println(isEnabled.getValue());
 

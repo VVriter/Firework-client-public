@@ -17,8 +17,8 @@ public class EntityControl extends Module {
     }
 
     @Override
-    public void tryToExecute() {
-        super.tryToExecute();
+    public void onTick() {
+        super.onTick();
         if (Firework.minecraft.player.getRidingEntity() != null) {
             MovementInput movementInput = Firework.minecraft.player.movementInput;
             double forward = movementInput.moveForward;

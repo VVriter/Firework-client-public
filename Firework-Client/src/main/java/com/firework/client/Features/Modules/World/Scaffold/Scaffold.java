@@ -23,8 +23,8 @@ public class Scaffold extends Module {
 
 
     @Override
-    public void tryToExecute() {
-        super.tryToExecute();
+    public void onTick() {
+        super.onTick();
         pos = new BlockPos(mc.player.posX, mc.player.posY - 1.0, mc.player.posZ);
         if (isAir(pos)) {
             BlockUtil.placeBlock(pos, EnumHand.MAIN_HAND, rotate.getValue(), packet.getValue(), mc.player.isSneaking());

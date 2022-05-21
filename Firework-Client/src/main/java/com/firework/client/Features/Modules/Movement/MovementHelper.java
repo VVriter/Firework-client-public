@@ -23,8 +23,8 @@ public class MovementHelper extends Module {
         parkour = new Setting<>("Parkour", true, this);
         enabled = this.isEnabled;}
     @Override
-    public void tryToExecute(){
-        super.tryToExecute();
+    public void onTick(){
+        super.onTick();
 
         if(antiLevitate.getValue()){
             if (mc.player.isPotionActive((Potion) Objects.requireNonNull(Potion.getPotionFromResourceLocation("levitation")))) {

@@ -1,6 +1,5 @@
 package com.firework.client.Features.Modules.Combat;
 
-import com.firework.client.Features.Modules.Client.ClickGui;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -8,7 +7,6 @@ import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBow;
@@ -18,7 +16,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
@@ -44,8 +41,8 @@ public class Bot extends Module {
 
 
     @Override
-    public void tryToExecute() {
-        super.tryToExecute();
+    public void onTick() {
+        super.onTick();
         RayTraceResult objectMouseOver = Minecraft.getMinecraft().objectMouseOver;
 
         if(mode.equals("Zamorozka") && mc.currentScreen == null && Mouse.isButtonDown(0)) {

@@ -84,7 +84,7 @@ public class Firework
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         //Sets System tray icon
-        SystemTrayMomento.sysTray();
+        SystemTray.sysTray();
         //Chakes for updates
         UpdateManager.hwidCheck();
         //Creates Folder with client files
@@ -134,7 +134,7 @@ public class Firework
         for(Module m : moduleManager.modules){
             if(m.isEnabled.getValue())
                 if(!m.isNonCycle)
-                    try{ m.tryToExecute(); }catch (NullPointerException exp){}
+                    try{ m.onTick(); }catch (NullPointerException exp){}
         }
     }
 

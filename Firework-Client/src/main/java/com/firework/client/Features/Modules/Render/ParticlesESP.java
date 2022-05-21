@@ -4,7 +4,6 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ParticlesESP extends Module {
 
@@ -29,8 +28,8 @@ public class ParticlesESP extends Module {
 
 
     @Override
-    public void tryToExecute() {
-        super.tryToExecute();
+    public void onTick() {
+        super.onTick();
 
         if (snowBall.getValue()) {
             ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SNOWBALL, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);

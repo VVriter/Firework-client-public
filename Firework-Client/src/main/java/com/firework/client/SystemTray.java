@@ -12,12 +12,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-public class SystemTrayMomento {
+public class SystemTray {
     public static void sysTray(){
         final TrayIcon trayIcon;
-        if (SystemTray.isSupported()) {
+        if (java.awt.SystemTray.isSupported()) {
 
-            SystemTray tray = SystemTray.getSystemTray();
+            java.awt.SystemTray tray = java.awt.SystemTray.getSystemTray();
             Image image = null;
             try {
                 InputStream inputStream = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("firework/textures/icon32.png")).getInputStream();
