@@ -83,6 +83,7 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        //Sets System tray icon
         SystemTrayMomento.sysTray();
         //Chakes for updates
         UpdateManager.hwidCheck();

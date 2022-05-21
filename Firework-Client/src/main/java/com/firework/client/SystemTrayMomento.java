@@ -7,10 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.event.MouseListener;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -56,16 +53,9 @@ public class SystemTrayMomento {
             trayIcon = new TrayIcon(image, "Firework Client");
 
 
-            ActionListener actionListener = new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    trayIcon.displayMessage("Action Event",
-                            "An Action Event Has Been Performed!",
-                            TrayIcon.MessageType.INFO);
-                }
-            };
+
 
             trayIcon.setImageAutoSize(true);
-            trayIcon.addActionListener(actionListener);
             trayIcon.addMouseListener(mouseListener);
 
             try {
