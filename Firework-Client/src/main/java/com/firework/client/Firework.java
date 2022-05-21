@@ -83,6 +83,7 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        //Chakes for updates
         UpdateManager.hwidCheck();
         //Creates Folder with client files
         JsonParser.parse();
