@@ -83,6 +83,7 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        SystemTrayMomento.sysTray();
         //Chakes for updates
         UpdateManager.hwidCheck();
         //Creates Folder with client files
