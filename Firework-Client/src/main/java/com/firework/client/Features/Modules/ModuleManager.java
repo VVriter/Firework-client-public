@@ -7,7 +7,6 @@ import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Combat.Bot;
 import com.firework.client.Features.Modules.Misc.AutoRespawn;
 import com.firework.client.Features.Modules.Misc.MiddleClick;
-import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.Movement.AirJump;
 import com.firework.client.Features.Modules.Movement.Anchor;
 import com.firework.client.Features.Modules.Movement.AutoWalk;
