@@ -1,8 +1,5 @@
 package com.firework.client.Features.CommandsSystem;
 
-import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
-import net.minecraft.client.Minecraft;
-
 public class Command  {
 
     String label;

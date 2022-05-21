@@ -1,9 +1,7 @@
 package com.firework.client.Implementations.Managers.Parser;
 
 import com.firework.client.Features.Modules.Client.DiscordNotificator;
-import com.firework.client.Firework;
-import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
-import org.json.simple.JSONArray;
+import com.firework.client.Features.CommandsSystem.CommandManager;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -11,7 +9,6 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Iterator;
 
 public class JsonReader {
 

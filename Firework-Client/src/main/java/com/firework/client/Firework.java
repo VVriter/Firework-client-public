@@ -2,10 +2,9 @@
 
 package com.firework.client;
 
-import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Implementations.Managers.Module.ModuleManager;
+import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Managers.Parser.JsonPrefixPraser;
 import com.firework.client.Implementations.Managers.Parser.JsonReader;
@@ -15,20 +14,13 @@ import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
-import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
+import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.GuiNewChat;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Session;
 import net.minecraft.util.Util;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;

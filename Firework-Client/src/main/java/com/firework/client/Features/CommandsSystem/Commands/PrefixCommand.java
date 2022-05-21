@@ -3,15 +3,9 @@ package com.firework.client.Features.CommandsSystem.Commands;
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Firework;
-import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
-import com.firework.client.Implementations.Managers.Parser.JsonReader;
-import com.firework.client.Implementations.Utill.Chat.MessageUtil;
-import com.mojang.realmsclient.gui.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.event.ClickEvent;
+import com.firework.client.Features.CommandsSystem.CommandManager;
 import org.json.simple.JSONObject;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 

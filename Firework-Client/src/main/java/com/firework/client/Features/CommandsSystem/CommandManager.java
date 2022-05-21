@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Managers.CommandManager;
+package com.firework.client.Features.CommandsSystem;
 
 
 import com.firework.client.Features.CommandsSystem.Command;

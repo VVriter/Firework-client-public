@@ -1,23 +1,9 @@
 package com.firework.client.Features.Modules.Client;
-import com.firework.client.Features.Modules.Misc.AutoRespawn;
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Implementations.Managers.CommandManager.CommandManager;
+import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
-import com.mojang.realmsclient.gui.ChatFormatting;
-import net.minecraft.client.gui.GuiGameOver;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.datafix.fixes.EntityId;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 
 public class DiscordNotificator extends Module {
     public static Setting<Boolean> enabled = null;
