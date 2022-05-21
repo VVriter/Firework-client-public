@@ -1,11 +1,18 @@
 package com.firework.client;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
+
+import javax.imageio.ImageIO;
 import java.awt.event.MouseListener;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class SystemTrayMomento {
@@ -14,7 +21,13 @@ public class SystemTrayMomento {
         if (SystemTray.isSupported()) {
 
             SystemTray tray = SystemTray.getSystemTray();
-            Image image = Toolkit.getDefaultToolkit().getImage("tray.gif");
+            Image image = null;
+            try {
+                InputStream inputStream = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("firework/textures/icon32.png")).getInputStream();
+                image = ImageIO.read(inputStream);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             MouseListener mouseListener = new MouseListener() {
 
