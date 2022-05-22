@@ -13,7 +13,9 @@ public class DiscordRPCModule extends Module {
     public void onEnable() {
         super.onEnable();
 
-        FireworkDiscordRPC.run();
+        new Thread(() -> {
+            FireworkDiscordRPC.run();
+        }).start();
     }
 
     @Override
