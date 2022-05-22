@@ -9,6 +9,9 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 public class FireworkDiscordRPC {
     private static DiscordRichPresence presence = new DiscordRichPresence();
+
+    private static Thread thread;
+
     public FireworkDiscordRPC() {
         System.out.println("[RPC] Created!");
     }
@@ -29,15 +32,21 @@ public class FireworkDiscordRPC {
         presence.largeImageKey = "icon32";
         lib.Discord_UpdatePresence(presence);
 
-        new Thread(() -> {
+        thread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 lib.Discord_RunCallbacks();
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) { }
             }
-        }, "RPC-Callback-Handler").start();
+        }, "RPC-Callback-Handler");
+        thread.start();
     }
+
+    public static void Stop() {
+        thread.stop();
+    }
+
     @SubscribeEvent
     public void onServerJoin(FMLNetworkEvent.ClientConnectedToServerEvent e){
         presence.state = "Playing on server "+Minecraft.getMinecraft().getCurrentServerData().serverIP;

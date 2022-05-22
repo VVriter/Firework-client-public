@@ -1,9 +1,6 @@
 package com.firework.client.Features.Modules;
 
-import com.firework.client.Features.Modules.Client.ClickGui;
-import com.firework.client.Features.Modules.Client.DiscordNotificator;
-import com.firework.client.Features.Modules.Client.NoForge;
-import com.firework.client.Features.Modules.Client.Test;
+import com.firework.client.Features.Modules.Client.*;
 import com.firework.client.Features.Modules.Combat.Bot;
 import com.firework.client.Features.Modules.Misc.AntiSpam;
 import com.firework.client.Features.Modules.Misc.AutoRespawn;
@@ -60,7 +57,8 @@ public class ModuleManager {
                     new CustomTime(),
                     new BridgeBuild(),
                     new NoRender(),
-                    new ItemPhysics());
+                    new ItemPhysics(),
+                    new DiscordRPCModule());
     }
 
     public void register(Module... module) {

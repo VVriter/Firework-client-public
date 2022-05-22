@@ -66,8 +66,6 @@ public class Firework
     public static TextManager textManager;
     public static PositionManager positionManager;
 
-    public static FireworkDiscordRPC discordRPC;
-
 
     public void loadManagers(){
         settingManager = new SettingManager();
@@ -76,7 +74,6 @@ public class Firework
         customFontManager = new CustomFontManager("tcm", 16);
         textManager = new TextManager();
         positionManager = new PositionManager();
-        discordRPC = new FireworkDiscordRPC();
     }
 
     public static void unloadManagers(){
@@ -86,7 +83,6 @@ public class Firework
         textManager = null;
         customFontManager = null;
         positionManager = null;
-        discordRPC = null;
     }
 
 
@@ -112,8 +108,6 @@ public class Firework
         Display.setTitle("Loading Firework (FMLPreInitializationEvent)");
         //Loads Managers
         loadManagers();
-        //Init discord rpc (AFTER LOADING MANAGERS!)
-        discordRPC.Run();
 
         //
         logger = event.getModLog();
