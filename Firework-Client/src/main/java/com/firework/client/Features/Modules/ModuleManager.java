@@ -36,6 +36,7 @@ public class ModuleManager {
     public void registerModules() {
         register(new Test(),
                     new Anchor(),
+                    new ItemViewModel(),
                     new AntiSpam(),
                     new SelfBlock(),
                     new SlowAnimations(),

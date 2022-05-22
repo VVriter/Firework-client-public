@@ -8,6 +8,7 @@
     "MixinRenderEntityItem",
     "MixinAbstractHorse",
     "MixinRenderer",
-    "ICPacketCustomPayload"
+    "ICPacketCustomPayload",
+    "ViewModelMixin"
   ]
 }
