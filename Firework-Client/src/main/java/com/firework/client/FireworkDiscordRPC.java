@@ -3,7 +3,7 @@ package com.firework.client;
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
-import org.lwjgl.Sys;
+import net.minecraft.client.Minecraft;
 
 public class FireworkDiscordRPC {
     public FireworkDiscordRPC() {
@@ -22,8 +22,8 @@ public class FireworkDiscordRPC {
 
         DiscordRichPresence presence = new DiscordRichPresence();
         presence.startTimestamp = System.currentTimeMillis() / 1000;
-        presence.details = "<details>";
-        presence.state = "<state>";
+        presence.details = "Username: "+ Minecraft.getMinecraft().getSession().getUsername();
+        presence.state = "Firework Premium";
         presence.largeImageKey = "icon32";
         lib.Discord_UpdatePresence(presence);
 
