@@ -37,6 +37,7 @@ public class ModuleManager {
     public void registerModules() {
         register(new Test(),
                     new Notifications(),
+                    new BebraGui(),
                     new Anchor(),
                     new ItemViewModel(),
                     new Announcer(),
