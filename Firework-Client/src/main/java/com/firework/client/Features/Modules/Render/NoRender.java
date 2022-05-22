@@ -2,11 +2,13 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class NoRender extends Module {
 
 
-
+    public Setting<Boolean> antiFog = new Setting<>("AntiFog", true, this);
     public Setting<Boolean> viewBobbing = new Setting<>("ViewBobbing", true, this);
 
 
@@ -17,6 +19,14 @@ public class NoRender extends Module {
         super.onEnable();
         if(viewBobbing.getValue()){mc.gameSettings.viewBobbing = false;}
         if(!viewBobbing.getValue()){mc.gameSettings.viewBobbing = true;}
+    }
+
+
+    @SubscribeEvent
+    public void fogDensity(EntityViewRenderEvent.FogDensity event) {
+        if(antiFog.getValue()){
+        event.setDensity(0);
+        event.setCanceled(true);}
     }
 
     public void onDisable(){

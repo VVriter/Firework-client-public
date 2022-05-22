@@ -11,10 +11,13 @@ public class SlowAnimations extends Module {
     public SlowAnimations(){super("SlowAnimations",Category.RENDER);}
 
     public void onEnable() {
+        super.onEnable();
         SlowAnimations.mc.player.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 255000));
         }
 
+
     public void onDisable() {
+        super.onDisable();
         SlowAnimations.mc.player.removePotionEffect(MobEffects.MINING_FATIGUE);
     }
 }

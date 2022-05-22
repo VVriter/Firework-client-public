@@ -4,6 +4,7 @@ package com.firework.client.Features.CommandsSystem;
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.Commands.*;
 import com.firework.client.Features.CommandsSystem.Commands.Client.HelpCommand;
+import com.firework.client.Features.CommandsSystem.Commands.PeekCommand.PeekCommand;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Entity.FakePlayer;
@@ -60,6 +61,7 @@ public class CommandManager {
     public void init() {
         register(
                 new TutorialCommand(),
+                new PeekCommand(),
                 new CoordsCommand(),
                 new WebhookCommand(),
                 new FovCommand(),
