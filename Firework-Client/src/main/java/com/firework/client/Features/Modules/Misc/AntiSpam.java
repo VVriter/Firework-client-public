@@ -28,6 +28,7 @@ public class AntiSpam extends Module {
                 ||e.getMessage().getUnformattedText().contains("Sh0p")
                 || e.getMessage().getUnformattedText().contains("sh0p")
                 ||  e.getMessage().getUnformattedText().contains("шоп")
+                ||  e.getMessage().getUnformattedText().contains("Шоп")
                 ||  e.getMessage().getUnformattedText().contains("маг")
                 ||  e.getMessage().getUnformattedText().contains("фед")
                 ||  e.getMessage().getUnformattedText().contains("бес")){e.setCanceled(true);}
@@ -44,6 +45,9 @@ public class AntiSpam extends Module {
         if(Nig.getValue() && e.getMessage().getUnformattedText().contains("Nig")
                 ||  e.getMessage().getUnformattedText().contains("nig")
                 || e.getMessage().getUnformattedText().contains("n1g")
+                ||  e.getMessage().getUnformattedText().contains("Nig")
+                || e.getMessage().getUnformattedText().contains("N1g")
+                ||  e.getMessage().getUnformattedText().contains("Нег")
                 ||  e.getMessage().getUnformattedText().contains("нег")){e.setCanceled(true);}
 
 
@@ -61,6 +65,12 @@ public class AntiSpam extends Module {
                 ||  e.getMessage().getUnformattedText().contains("fat")
                 ||  e.getMessage().getUnformattedText().contains("fuc")
                 ||  e.getMessage().getUnformattedText().contains("dick")
+                ||  e.getMessage().getUnformattedText().contains("Ped")
+                ||  e.getMessage().getUnformattedText().contains("Dum")
+                ||  e.getMessage().getUnformattedText().contains("Ass")
+                ||  e.getMessage().getUnformattedText().contains("Fat")
+                ||  e.getMessage().getUnformattedText().contains("Fuc")
+                ||  e.getMessage().getUnformattedText().contains("Dick")
 
 
                 //Russian
@@ -85,6 +95,33 @@ public class AntiSpam extends Module {
                 ||  e.getMessage().getUnformattedText().contains("нае")
                 ||  e.getMessage().getUnformattedText().contains("уеб")
                 ||  e.getMessage().getUnformattedText().contains("уёб")
+                ||  e.getMessage().getUnformattedText().contains("Ху")
+                ||  e.getMessage().getUnformattedText().contains("Пиз")
+                ||  e.getMessage().getUnformattedText().contains("Бл")
+                ||  e.getMessage().getUnformattedText().contains("Моча")
+                ||  e.getMessage().getUnformattedText().contains("Шлю")
+                ||  e.getMessage().getUnformattedText().contains("Ху")
+                ||  e.getMessage().getUnformattedText().contains("Еб")
+                ||  e.getMessage().getUnformattedText().contains("Ёб")
+                ||  e.getMessage().getUnformattedText().contains("Впиз")
+                ||  e.getMessage().getUnformattedText().contains("Жоп")
+                ||  e.getMessage().getUnformattedText().contains("Выб")
+                ||  e.getMessage().getUnformattedText().contains("Дерьмо")
+                ||  e.getMessage().getUnformattedText().contains("Сын")
+                ||  e.getMessage().getUnformattedText().contains("Мам")
+                ||  e.getMessage().getUnformattedText().contains("Дое")
+                ||  e.getMessage().getUnformattedText().contains("Жир")
+                ||  e.getMessage().getUnformattedText().contains("Жид")
+                ||  e.getMessage().getUnformattedText().contains("Зае")
+                ||  e.getMessage().getUnformattedText().contains("Нае")
+                ||  e.getMessage().getUnformattedText().contains("Уеб")
+                ||  e.getMessage().getUnformattedText().contains("Уёб")
+                ||  e.getMessage().getUnformattedText().contains("Ана")
+                ||  e.getMessage().getUnformattedText().contains("ана")
+                ||  e.getMessage().getUnformattedText().contains("Очк")
+                ||  e.getMessage().getUnformattedText().contains("очк")
+                ||  e.getMessage().getUnformattedText().contains("Су")
+                ||  e.getMessage().getUnformattedText().contains("су")
                 ||  e.getMessage().getUnformattedText().contains("ху")){e.setCanceled(true);}
 
 

@@ -29,7 +29,6 @@ public class SelfBlock extends Module {
 
     private BlockPos originalPos;
     private int oldSlot = -1;
-    private BlockPos startPos;
 
     @Override
     public void onEnable() {
