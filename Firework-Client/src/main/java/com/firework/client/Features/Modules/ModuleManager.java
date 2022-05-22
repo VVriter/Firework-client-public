@@ -41,6 +41,7 @@ public class ModuleManager {
                     new Anchor(),
                     new AntiSpam(),
                     new SelfBlock(),
+                    new SlowAnimations(),
                     new AutoWalk(),
                     new AirJump(),
                     new NoForge(),

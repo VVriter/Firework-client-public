@@ -4,13 +4,16 @@ import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 public class FireworkDiscordRPC {
+    private static DiscordRichPresence presence = new DiscordRichPresence();
     public FireworkDiscordRPC() {
         System.out.println("[RPC] Created!");
     }
 
-    public void Run() {
+    public static void Run() {
         System.out.println("[RPC] Running!");
 
         DiscordRPC lib = DiscordRPC.INSTANCE;
@@ -20,7 +23,6 @@ public class FireworkDiscordRPC {
         //handlers.ready = () -> System.out.println("[RPC] Ready!");
         lib.Discord_Initialize(id, handlers, true, null);
 
-        DiscordRichPresence presence = new DiscordRichPresence();
         presence.startTimestamp = System.currentTimeMillis() / 1000;
         presence.details = "Username: "+ Minecraft.getMinecraft().getSession().getUsername();
         presence.state = "Firework Premium";
@@ -35,5 +37,9 @@ public class FireworkDiscordRPC {
                 } catch (InterruptedException e) { }
             }
         }, "RPC-Callback-Handler").start();
+    }
+    @SubscribeEvent
+    public void onServerJoin(FMLNetworkEvent.ClientConnectedToServerEvent e){
+        presence.state = "Playing on server "+Minecraft.getMinecraft().getCurrentServerData().serverIP;
     }
 }
