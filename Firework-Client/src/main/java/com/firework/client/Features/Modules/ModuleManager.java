@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules;
 
 import com.firework.client.Features.Modules.Client.*;
 import com.firework.client.Features.Modules.Combat.Bot;
+import com.firework.client.Features.Modules.Misc.Announcer;
 import com.firework.client.Features.Modules.Misc.AntiSpam;
 import com.firework.client.Features.Modules.Misc.AutoRespawn;
 import com.firework.client.Features.Modules.Misc.MiddleClick;
@@ -35,7 +36,11 @@ public class ModuleManager {
 
     public void registerModules() {
         register(new Test(),
+                    new Notifications(),
+                    new BebraGui(),
                     new Anchor(),
+                    new ItemViewModel(),
+                    new Announcer(),
                     new AntiSpam(),
                     new SelfBlock(),
                     new SlowAnimations(),
@@ -46,7 +51,6 @@ public class ModuleManager {
                     new AutoRespawn(),
                     new DiscordNotificator(),
                     new ParticlesESP(),
-                    new ClickGui(),
                     new MovementHelper(),
                     new Bot(),
                     new EntityControl(),

@@ -1,6 +1,6 @@
 package com.firework.client.Implementations.Gui;
 
-import com.firework.client.Features.Modules.Client.ClickGui;
+import com.firework.client.Features.Modules.Client.BebraGui;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Gui.Components.Advanced.EndBlock;
 import com.firework.client.Implementations.Gui.Components.Advanced.Frame;
@@ -104,7 +104,7 @@ public class Gui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-            if(ClickGui.getInstance().background.getValue()){
+            if(BebraGui.background.getValue()){
                 this.drawDefaultBackground();
             }
 
@@ -126,7 +126,7 @@ public class Gui extends GuiScreen {
         super.handleMouseInput();
 
         float scroll = Math.signum(Mouse.getDWheel());
-        int speed = floor(ClickGui.scrollSpeed.getValue());
+        int speed = floor(BebraGui.scrollSpeed.getValue());
 
         if(scroll == 1)
             origYOffset+=speed;
