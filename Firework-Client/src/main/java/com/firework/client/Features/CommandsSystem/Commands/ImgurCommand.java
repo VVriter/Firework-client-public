@@ -2,6 +2,7 @@ package com.firework.client.Features.CommandsSystem.Commands;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
+import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -25,6 +26,8 @@ public class ImgurCommand extends Command {
 
     @Override
     public void execute(String[] args) {
+        //Plays Notification sound
+        Notifications.notificate();
         Minecraft mc = Minecraft.getMinecraft();
         try {
 

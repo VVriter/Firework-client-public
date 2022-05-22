@@ -1,6 +1,7 @@
 package com.firework.client.Features.CommandsSystem.Commands;
 
 
+import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Features.CommandsSystem.Command;
@@ -13,6 +14,8 @@ public class TutorialCommand extends Command {
 
     @Override
     public void execute(String[] args) {
+        //Plays Notification sound
+        Notifications.notificate();
         Firework.minecraft.gameSettings.tutorialStep = TutorialSteps.NONE;
         Firework.minecraft.getTutorial().setStep(TutorialSteps.NONE);
         MessageUtil.sendClientMessage("Set tutorial step to none!", -11114);

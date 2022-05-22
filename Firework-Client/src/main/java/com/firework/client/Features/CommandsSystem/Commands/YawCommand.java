@@ -2,6 +2,7 @@ package com.firework.client.Features.CommandsSystem.Commands;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
+import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -14,6 +15,8 @@ import net.minecraft.util.text.event.ClickEvent;
 public class YawCommand extends Command {
     @Override
     public void execute(String[] args) {
+        //Plays Notification sound
+        Notifications.notificate();
         if (args.length == 2) {
             try {
                 if (Firework.minecraft.player != null) {
