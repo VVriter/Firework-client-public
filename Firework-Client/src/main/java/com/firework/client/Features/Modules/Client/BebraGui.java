@@ -2,12 +2,19 @@ package com.firework.client.Features.Modules.Client;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Gui.Gui;
+import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
 public class BebraGui extends Module {
+
+    public static Setting<Double> scrollSpeed = null;
+    public static Setting<Boolean> background = null;
+
     public BebraGui(){super("GuiModule",Category.CLIENT);
-    this.key.setValue(Keyboard.KEY_RSHIFT) ;}
+    this.key.setValue(Keyboard.KEY_RSHIFT) ;
+    scrollSpeed = new Setting<>("Scale", 3d, this, 0.1, 10);
+    background = new Setting<>("Background", false, this);}
 
 
     @Override

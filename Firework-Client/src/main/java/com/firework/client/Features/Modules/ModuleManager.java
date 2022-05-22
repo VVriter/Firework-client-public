@@ -51,7 +51,6 @@ public class ModuleManager {
                     new AutoRespawn(),
                     new DiscordNotificator(),
                     new ParticlesESP(),
-                    new ClickGui(),
                     new MovementHelper(),
                     new Bot(),
                     new EntityControl(),
