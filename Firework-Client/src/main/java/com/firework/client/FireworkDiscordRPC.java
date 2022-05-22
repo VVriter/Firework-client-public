@@ -15,11 +15,15 @@ public class FireworkDiscordRPC {
 
     private static DiscordRPC lib;
 
-    public static void init() {
+    private static void init() {
         lib = DiscordRPC.INSTANCE;
     }
 
     public static void run() {
+        if(lib == null) {
+            init();
+        }
+
         System.out.println("[RPC] Running!");
 
         String id = "977837246227054613";
