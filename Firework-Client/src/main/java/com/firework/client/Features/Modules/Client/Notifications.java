@@ -22,4 +22,10 @@ public class Notifications extends Module {
             SoundUtill.playSound(new ResourceLocation("firework/audio/pop.wav"));}
     }
 
+    public static void click(){
+        if(Notifications.sounds.getValue() && Notifications.enabled.getValue()){
+            SoundUtill.playSound(new ResourceLocation("firework/audio/bebr.wav"));}
+    }
+
+
 }
