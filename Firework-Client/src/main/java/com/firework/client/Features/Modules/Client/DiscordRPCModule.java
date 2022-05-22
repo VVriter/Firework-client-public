@@ -13,13 +13,13 @@ public class DiscordRPCModule extends Module {
     public void onEnable() {
         super.onEnable();
 
-        FireworkDiscordRPC.Run();
+        FireworkDiscordRPC.run();
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
 
-        FireworkDiscordRPC.Stop();
+        FireworkDiscordRPC.stop();
     }
 }

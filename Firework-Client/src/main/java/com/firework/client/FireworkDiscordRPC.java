@@ -8,22 +8,25 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 public class FireworkDiscordRPC {
-    private static DiscordRichPresence presence = new DiscordRichPresence();
+    private static DiscordRichPresence presence;
+    private static DiscordEventHandlers handlers;
 
     private static Thread thread;
 
-    public FireworkDiscordRPC() {
-        System.out.println("[RPC] Created!");
+    private static DiscordRPC lib;
+
+    public static void init() {
+        lib = DiscordRPC.INSTANCE;
     }
 
-    public static void Run() {
+    public static void run() {
         System.out.println("[RPC] Running!");
 
-        DiscordRPC lib = DiscordRPC.INSTANCE;
-        DiscordEventHandlers handlers = new DiscordEventHandlers();
         String id = "977837246227054613";
 
-        //handlers.ready = () -> System.out.println("[RPC] Ready!");
+        presence = new DiscordRichPresence();
+        handlers = new DiscordEventHandlers();
+
         lib.Discord_Initialize(id, handlers, true, null);
 
         presence.startTimestamp = System.currentTimeMillis() / 1000;
@@ -43,8 +46,12 @@ public class FireworkDiscordRPC {
         thread.start();
     }
 
-    public static void Stop() {
+    public static void stop() {
         thread.stop();
+        lib.Discord_Shutdown();
+
+        presence = null;
+        handlers = null;
     }
 
     @SubscribeEvent
