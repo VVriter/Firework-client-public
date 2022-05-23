@@ -20,14 +20,14 @@ public class ViewModelMixin {
             GlStateManager.scale(ItemViewModel.scaleX.getValue() / 100F, ItemViewModel.scaleY.getValue() / 100F, ItemViewModel.scaleZ.getValue() / 100F);
             if (transform == ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND) {
                 GlStateManager.translate(ItemViewModel.translateX.getValue() / 100F, ItemViewModel.translateY.getValue() / 100F, ItemViewModel.translateZ.getValue() / 100F);
-                GlStateManager.rotate(ItemViewModel.rotateX.getValue().floatValue(), 1, 0, 0);
-                GlStateManager.rotate(ItemViewModel.rotateY.getValue().floatValue(), 0, 1, 0);
-                GlStateManager.rotate(ItemViewModel.rotateZ.getValue().floatValue(), 0, 0, 1);
+                GlStateManager.rotate(ItemViewModel.rotateXR.getValue().floatValue(), 1, 0, 0);
+                GlStateManager.rotate(ItemViewModel.rotateYR.getValue().floatValue(), 0, 1, 0);
+                GlStateManager.rotate(ItemViewModel.rotateZR.getValue().floatValue(), 0, 0, 1);
             } else if (transform == ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND) {
                 GlStateManager.translate(-ItemViewModel.translateX.getValue() / 100F, ItemViewModel.translateY.getValue() / 100F, ItemViewModel.translateZ.getValue() / 100F);
-                GlStateManager.rotate(-ItemViewModel.rotateX.getValue().floatValue(), 1, 0, 0);
-                GlStateManager.rotate(ItemViewModel.rotateY.getValue().floatValue(), 0, 1, 0);
-                GlStateManager.rotate(ItemViewModel.rotateZ.getValue().floatValue(), 0, 0, 1);
+                GlStateManager.rotate(-ItemViewModel.rotateXL.getValue().floatValue(), 1, 0, 0);
+                GlStateManager.rotate(ItemViewModel.rotateYL.getValue().floatValue(), 0, 1, 0);
+                GlStateManager.rotate(ItemViewModel.rotateZL.getValue().floatValue(), 0, 0, 1);
             }
         }
     }

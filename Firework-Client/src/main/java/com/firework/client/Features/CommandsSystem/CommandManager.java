@@ -65,6 +65,7 @@ public class CommandManager {
                 new CoordsCommand(),
                 new WebhookCommand(),
                 new FovCommand(),
+                new SaveConfigCommand(),
                 new NameMcCommand(),
                 new HelpCommand(),
                 new DupeCommand(),
