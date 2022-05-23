@@ -19,8 +19,11 @@ public class FovCommand extends Command {
         Notifications.notificate();
         try {
         Firework.minecraft.gameSettings.fovSetting = Float.parseFloat(args[1]);
-        MessageUtil.sendClientMessage("Fov is setted to: "+args[1],-11114);}catch (NumberFormatException e){
-            MessageUtil.sendError("Only Numbers LoL",-11114);
+        MessageUtil.sendClientMessage("Fov is setted to: "+args[1],-11114);
+        } catch (NumberFormatException e) {
+            MessageUtil.sendError("Only numbers LoL",-11114);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            MessageUtil.sendError("Enter a number!",-11114);
         }
     }
 }
