@@ -29,7 +29,6 @@ public class ParticlesESP extends Module {
 
     @Override
     public void onTick() {
-        super.onTick();
 
         if (snowBall.getValue()) {
             ParticlesESP.mc.world.spawnParticle(EnumParticleTypes.SNOWBALL, ParticlesESP.mc.player.posX, ParticlesESP.mc.player.posY + 0.2, ParticlesESP.mc.player.posZ, 0.0, 0.0, 0.0, new int[0]);
