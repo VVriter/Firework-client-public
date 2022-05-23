@@ -2,14 +2,13 @@ package com.firework.client.Implementations.Database;
 
 import java.sql.*;
 public class Connector {
-    private Connection connection;
+    public Connection connection;
     private Statement statement;
     private String ip;
     private String user;
     private String password;
 
     public Connector(String ip, String user, String password) throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.jdbc.Driver");
 
         this.ip = ip;
         this.user = user;
@@ -27,4 +26,5 @@ public class Connector {
         }
         return result;
     }
+
 }
