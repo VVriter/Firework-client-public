@@ -9,14 +9,13 @@ import java.sql.SQLException;
 public class HwidUtil {
     public static String getHwid() {
 
-        /**
+        /*
          * [OPTIONAL]
          * Your main mod configuration folder, if you'd like to add configuration folder checks.
          */
+        
 
-        // String mainPath = "hwid-auth-mod/";
-
-        /**
+        /*
          * System properties.
          */
 
