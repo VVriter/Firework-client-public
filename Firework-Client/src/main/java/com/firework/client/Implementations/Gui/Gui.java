@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.firework.client.Firework.*;
-import static java.lang.Math.round;
 import static net.minecraft.util.math.MathHelper.floor;
 
 public class Gui extends GuiScreen {
@@ -110,6 +109,7 @@ public class Gui extends GuiScreen {
 
         drawGradientRect(0, 0, Minecraft.getMinecraft().currentScreen.width,  Minecraft.getMinecraft().currentScreen.height, RainbowUtil.generateRainbowFadingColor(1,true),1);
 
+
             if(BebraGui.background.getValue()){
                 this.drawDefaultBackground();
             }
@@ -125,6 +125,11 @@ public class Gui extends GuiScreen {
         if(isDragging) {
             mouseClicked(mouseX, mouseY, 0);
         }
+    }
+
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
     }
 
     @Override
