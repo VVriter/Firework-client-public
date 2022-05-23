@@ -13,7 +13,7 @@ public class BebraGui extends Module {
 
     public BebraGui(){super("GuiModule",Category.CLIENT);
     this.key.setValue(Keyboard.KEY_RSHIFT) ;
-    scrollSpeed = new Setting<>("Scale", 3d, this, 0.1, 10);
+    scrollSpeed = new Setting<>("ScrollSpeed", 3d, this, 0.1, 10);
     background = new Setting<>("Background", false, this);}
 
 

@@ -14,6 +14,7 @@ import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Gui.Components.Column;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.Vec2f;
 import org.lwjgl.input.Mouse;
 
@@ -153,6 +154,7 @@ public class Gui extends GuiScreen {
                         button.initialize(mouseX, mouseY);
                     }else{
                         ((ModuleButton) button).module.isOpened.setValue(!((ModuleButton) button).module.isOpened.getValue());
+                        mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
                         init();
                     }
                 }
