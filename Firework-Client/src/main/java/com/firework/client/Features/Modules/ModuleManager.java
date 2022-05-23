@@ -44,6 +44,7 @@ public class ModuleManager {
                     new AutoWalk(),
                     new AirJump(),
                     new NoForge(),
+                    new ChestSwap(),
                     new Scaffold(),
                     new AutoRespawn(),
                     new DiscordNotificator(),
