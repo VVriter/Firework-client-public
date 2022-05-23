@@ -25,7 +25,7 @@ public class CommandManager {
         this.init();
     }
 
-    public static String prefix = "";
+    public static String prefix = ".";
 
     @SubscribeEvent
     public void onSendPacket(PacketEvent.Send event) {
