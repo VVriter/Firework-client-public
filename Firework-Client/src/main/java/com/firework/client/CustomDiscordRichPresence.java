@@ -51,11 +51,9 @@ public class CustomDiscordRichPresence {
         handlers = null;
     }
 
-    @SubscribeEvent
-    public void onServerJoin(FMLNetworkEvent.ClientConnectedToServerEvent e){
-        if(presence == null) {
-            return;
-        }
-        presence.state = "Playing on server "+Minecraft.getMinecraft().getCurrentServerData().serverIP;
+    public static void rerun() {
+        run();
+        stop();
+        lib.Discord_UpdatePresence(presence);
     }
 }
