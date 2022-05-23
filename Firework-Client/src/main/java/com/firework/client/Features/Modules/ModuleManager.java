@@ -32,6 +32,7 @@ public class ModuleManager {
     public void registerModules() {
         register(new Test(),
                     new Notifications(),
+                    new Leave(),
                     new Bypass(),
                     new BebraGui(),
                     new Anchor(),
