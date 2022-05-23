@@ -59,6 +59,7 @@ public class ModuleManager {
                     new BridgeBuild(),
                     new NoRender(),
                     new ItemPhysics(),
+                    new Surraund(),
                     new DiscordRPCModule());
     }
 

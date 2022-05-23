@@ -23,6 +23,7 @@ import org.lwjgl.input.Mouse;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import static com.firework.client.Firework.*;
 import static net.minecraft.util.math.MathHelper.floor;
@@ -104,11 +105,10 @@ public class Gui extends GuiScreen {
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) throws ConcurrentModificationException {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         drawGradientRect(0, 0, Minecraft.getMinecraft().currentScreen.width,  Minecraft.getMinecraft().currentScreen.height, RainbowUtil.generateRainbowFadingColor(1,true),1);
-
 
             if(BebraGui.background.getValue()){
                 this.drawDefaultBackground();

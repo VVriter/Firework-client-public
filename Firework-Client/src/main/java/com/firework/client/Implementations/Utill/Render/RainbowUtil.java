@@ -1,5 +1,7 @@
 package com.firework.client.Implementations.Utill.Render;
 
+import net.minecraft.client.Minecraft;
+
 import java.awt.*;
 
 public class RainbowUtil {
@@ -10,5 +12,6 @@ public class RainbowUtil {
         long offset_ = (long) ((drastic ? 200000000L : 20000000L) * offset);
         float hue = (System.nanoTime() + offset_) / 4.0E9f % 1.0F;
         return (int) Long.parseLong(Integer.toHexString(Color.HSBtoRGB(hue, DEFAULT_COLOR_SATURATION, DEFAULT_COLOR_BRIGHTNESS)), 16);
+
     }
 }
