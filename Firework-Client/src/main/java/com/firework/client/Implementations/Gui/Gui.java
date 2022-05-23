@@ -13,16 +13,18 @@ import com.firework.client.Implementations.Gui.Components.Advanced.StartBlock;
 import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Gui.Components.Column;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.Vec2f;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 
 import static com.firework.client.Firework.*;
-import static java.lang.Math.round;
 import static net.minecraft.util.math.MathHelper.floor;
 
 public class Gui extends GuiScreen {
@@ -105,6 +107,9 @@ public class Gui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
+        drawGradientRect(0, 0, Minecraft.getMinecraft().currentScreen.width,  Minecraft.getMinecraft().currentScreen.height, RainbowUtil.generateRainbowFadingColor(1,true),1);
+
+
             if(BebraGui.background.getValue()){
                 this.drawDefaultBackground();
             }
@@ -120,6 +125,11 @@ public class Gui extends GuiScreen {
         if(isDragging) {
             mouseClicked(mouseX, mouseY, 0);
         }
+    }
+
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
     }
 
     @Override
