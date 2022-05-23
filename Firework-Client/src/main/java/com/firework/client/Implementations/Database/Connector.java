@@ -19,7 +19,12 @@ public class Connector {
     }
 
     public ResultSet execute(String cmd) {
-        ResultSet result = this.statement.executeQuery(cmd);
+        ResultSet result = null;
+        try {
+            result = this.statement.executeQuery(cmd);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return result;
     }
 }
