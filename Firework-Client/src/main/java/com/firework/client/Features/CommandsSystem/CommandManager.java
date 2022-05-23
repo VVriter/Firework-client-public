@@ -79,8 +79,7 @@ public class CommandManager {
                 new ClearCommand(),
                 new OpenDirCommand(),
                 new GuiCommand(),
-                new FakePlayerCommand(),
-                new GiveCommand());
+                new FakePlayerCommand());
 
         MinecraftForge.EVENT_BUS.register(this);
     }
