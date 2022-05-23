@@ -2,7 +2,11 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.entity.RenderArmorStand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class NoRender extends Module {
@@ -10,8 +14,6 @@ public class NoRender extends Module {
 
     public Setting<Boolean> antiFog = new Setting<>("AntiFog", true, this);
     public Setting<Boolean> viewBobbing = new Setting<>("ViewBobbing", true, this);
-
-
 
     public NoRender(){super("NoRender",Category.RENDER);}
 
