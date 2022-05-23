@@ -13,6 +13,7 @@ import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CustomFontManager;
 import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
+import com.firework.client.Implementations.Utill.Client.HwidUtil;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Features.CommandsSystem.CommandManager;
@@ -49,12 +50,9 @@ public class Firework
     public static final String MODID = "firework";
     public static final String NAME = "FireWork Client";
     public static final String VERSION = "0.1";
-    public static final String PREFIX = ChatFormatting.RED + "[FIREWORK] ";
-
-    public static final String COMMAND_PREFIX = "";
 
     public static Minecraft minecraft;
-    public static final String FIREWORK_DIRECTORY = System.getenv("APPDATA") + "\\.minecraft\\" +"\\Firework\\";
+    public static final String FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir +"\\Firework\\";
 
     private static Logger logger;
 
