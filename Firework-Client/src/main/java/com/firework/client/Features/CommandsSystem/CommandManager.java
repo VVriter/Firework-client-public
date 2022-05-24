@@ -61,6 +61,7 @@ public class CommandManager {
     public void init() {
         register(
                 new TutorialCommand(),
+                new BookCommand(),
                 new PeekCommand(),
                 new CoordsCommand(),
                 new WebhookCommand(),
