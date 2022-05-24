@@ -13,7 +13,6 @@ import com.firework.client.Features.Modules.World.Scaffold.Scaffold;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import org.json.simple.JSONObject;
-import scala.util.control.Exception;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -60,7 +59,7 @@ public class ModuleManager {
                     new BridgeBuild(),
                     new NoRender(),
                     new ItemPhysics(),
-                    new Surraund(),
+                    new FireworkExploit(),
                     new DiscordRPCModule());
     }
 
