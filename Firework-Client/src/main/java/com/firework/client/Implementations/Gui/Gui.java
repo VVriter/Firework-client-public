@@ -17,6 +17,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec2f;
 
 import org.lwjgl.input.Mouse;
@@ -30,7 +31,6 @@ import static com.firework.client.Firework.*;
 import static net.minecraft.util.math.MathHelper.floor;
 
 public class Gui extends GuiScreen {
-
     public ArrayList<Button> initializedButtons;
 
     public static boolean isDragging = false;
@@ -110,7 +110,6 @@ public class Gui extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         ScaledResolution sr = new ScaledResolution(mc);
-
 
 
        if (GuiGradient.enabled.getValue()) {

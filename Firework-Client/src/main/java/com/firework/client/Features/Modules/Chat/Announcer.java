@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.Misc;
+package com.firework.client.Features.Modules.Chat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
@@ -16,7 +16,7 @@ public class Announcer extends Module {
 
 
 
-    public Announcer(){super("Announcer",Category.MISC);}
+    public Announcer(){super("Announcer",Category.CHAT);}
 
 
 

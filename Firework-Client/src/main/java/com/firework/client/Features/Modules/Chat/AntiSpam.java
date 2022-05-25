@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.Misc;
+package com.firework.client.Features.Modules.Chat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
@@ -16,7 +16,7 @@ public class AntiSpam extends Module {
     public Setting<Boolean> YouTube = new Setting<>("YouTube", true, this);
 
 
-    public AntiSpam(){super("AntiSpam",Category.MISC);}
+    public AntiSpam(){super("AntiSpam",Category.CHAT);}
     @SubscribeEvent
     public void onClientChatReceive(ClientChatReceivedEvent e){
 

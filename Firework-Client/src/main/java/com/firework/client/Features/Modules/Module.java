@@ -60,6 +60,6 @@ public class Module {
     }
 
     public enum Category{
-        COMBAT, MOVEMENT, RENDER, MISC, WORLD, CLIENT
+        CHAT, COMBAT, MOVEMENT, RENDER, MISC, WORLD, CLIENT
     }
 }
