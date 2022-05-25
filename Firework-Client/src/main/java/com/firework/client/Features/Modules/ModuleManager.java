@@ -1,8 +1,6 @@
 package com.firework.client.Features.Modules;
 
-import com.firework.client.Features.Modules.Chat.Announcer;
-import com.firework.client.Features.Modules.Chat.AntiLog4j;
-import com.firework.client.Features.Modules.Chat.AntiSpam;
+import com.firework.client.Features.Modules.Chat.*;
 import com.firework.client.Features.Modules.Client.*;
 import com.firework.client.Features.Modules.World.*;
 import com.firework.client.Features.Modules.Movement.*;
@@ -35,6 +33,9 @@ public class ModuleManager {
         register(new Test(),
                     new Notifications(),
                     new AntiLog4j(),
+                    new GreenText(),
+                    new Narrator(),
+                    new AutoToxic(),
                     new Leave(),
                     new Bypass(),
                     new BebraGui(),
