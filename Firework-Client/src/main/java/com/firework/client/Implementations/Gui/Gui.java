@@ -111,19 +111,19 @@ public class Gui extends GuiScreen {
 
         ScaledResolution sr = new ScaledResolution(mc);
 
-       /* if (GuiGradient.enabled.getValue()) {
+       if (GuiGradient.enabled.getValue()) {
             drawGradientRect(0, 0, sr.getScaledWidth(), sr.getScaledHeight(),
                     GuiGradient.rainbow1.getValue() ? RainbowUtil.generateRainbowFadingColor(1, true) :
-                            new Color(GuiGradient.red1.getValue(),
-                                    GuiGradient.green1.getValue(),
-                                    GuiGradient.blue1.getValue(),
-                                    GuiGradient.alpha1.getValue()).getRGB(),
+                            new Color(175,
+                                    75,
+                                    231,
+                                    100).getRGB(),
                     GuiGradient.rainbow2.getValue() ? RainbowUtil.generateRainbowFadingColor(2, true) :
-                            new Color(GuiGradient.red2.getValue(),
-                                    GuiGradient.green2.getValue(),
-                                    GuiGradient.blue2.getValue(),
-                                    GuiGradient.alpha2.getValue()).getRGB());
-        }*/
+                            new Color(175,
+                                    75,
+                                    231,
+                                    100).getRGB());
+        }
 
         if(BebraGui.background.getValue()){
                 this.drawDefaultBackground();

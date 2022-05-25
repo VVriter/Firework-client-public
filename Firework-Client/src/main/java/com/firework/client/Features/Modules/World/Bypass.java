@@ -15,7 +15,6 @@ public class Bypass extends Module {
 
     public Setting<Boolean> boatPlace = new Setting<>("BoatPlace", true, this);
     public Setting<Boolean> buildHeight  = new Setting<>("BuildHeight", true, this);
-    public Setting<Boolean> antiHunger  = new Setting<>("AntiHunger", true, this);
 
 
     public Bypass(){super("Bypass",Category.WORLD);}

@@ -21,6 +21,7 @@ public class GuiGradient extends Module {
 
     public GuiGradient(){super("GuiGradient",Category.CLIENT);
         enabled = this.isEnabled;
+        this.isEnabled.setValue(true);
 
         rainbow1 = new Setting<>("rainbow1", false, this);
         red1 =  new Setting<>("red1", (double)0, this, 0, 255);
