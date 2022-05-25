@@ -111,6 +111,8 @@ public class Gui extends GuiScreen {
 
         ScaledResolution sr = new ScaledResolution(mc);
 
+
+
        if (GuiGradient.enabled.getValue()) {
             drawGradientRect(0, 0, sr.getScaledWidth(), sr.getScaledHeight(),
                     GuiGradient.rainbow1.getValue() ? RainbowUtil.generateRainbowFadingColor(1, true) :

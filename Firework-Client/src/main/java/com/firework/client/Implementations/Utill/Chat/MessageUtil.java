@@ -38,6 +38,14 @@ public class MessageUtil  {
         Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion( component, id);
     }
 
+    public static void warning(String string, int id) {
+        if (Minecraft.getMinecraft().player == null)
+            return;
+        final ITextComponent component = new TextComponentString(   prefix +ChatFormatting.YELLOW+ string+ChatFormatting.RESET);
+        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion( component, id);
+    }
+
+
     public static void sendShown(String string,String showable, boolean deleteOld) {
         if (Minecraft.getMinecraft().player == null)
             return;
