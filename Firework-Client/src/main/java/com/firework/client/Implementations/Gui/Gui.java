@@ -1,27 +1,28 @@
 package com.firework.client.Implementations.Gui;
 
 import com.firework.client.Features.Modules.Client.BebraGui;
+
+import com.firework.client.Features.Modules.Client.GuiGradient;
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Implementations.Gui.Components.Advanced.EndBlock;
+import com.firework.client.Implementations.Gui.Components.Advanced.*;
 import com.firework.client.Implementations.Gui.Components.Advanced.Frame;
-import com.firework.client.Implementations.Gui.Components.Advanced.ModuleButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.BoolButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.KeyButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.ModeButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.NumberButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.StartBlock;
+import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.*;
+
+import com.firework.client.Implementations.Gui.Components.*;
 import com.firework.client.Implementations.Gui.Components.Button;
-import com.firework.client.Implementations.Gui.Components.Column;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.Vec2f;
+
 import org.lwjgl.input.Mouse;
 
+import java.awt.*;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
@@ -108,9 +109,23 @@ public class Gui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) throws ConcurrentModificationException {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        drawGradientRect(0, 0, Minecraft.getMinecraft().currentScreen.width,  Minecraft.getMinecraft().currentScreen.height, RainbowUtil.generateRainbowFadingColor(1,true),1);
+        ScaledResolution sr = new ScaledResolution(mc);
 
-            if(BebraGui.background.getValue()){
+       /* if (GuiGradient.enabled.getValue()) {
+            drawGradientRect(0, 0, sr.getScaledWidth(), sr.getScaledHeight(),
+                    GuiGradient.rainbow1.getValue() ? RainbowUtil.generateRainbowFadingColor(1, true) :
+                            new Color(GuiGradient.red1.getValue(),
+                                    GuiGradient.green1.getValue(),
+                                    GuiGradient.blue1.getValue(),
+                                    GuiGradient.alpha1.getValue()).getRGB(),
+                    GuiGradient.rainbow2.getValue() ? RainbowUtil.generateRainbowFadingColor(2, true) :
+                            new Color(GuiGradient.red2.getValue(),
+                                    GuiGradient.green2.getValue(),
+                                    GuiGradient.blue2.getValue(),
+                                    GuiGradient.alpha2.getValue()).getRGB());
+        }*/
+
+        if(BebraGui.background.getValue()){
                 this.drawDefaultBackground();
             }
 
