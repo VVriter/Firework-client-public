@@ -36,6 +36,7 @@ public class ModuleManager {
                     new GreenText(),
                     new Narrator(),
                     new AutoToxic(),
+                    new NoRotate(),
                     new Leave(),
                     new Bypass(),
                     new BebraGui(),

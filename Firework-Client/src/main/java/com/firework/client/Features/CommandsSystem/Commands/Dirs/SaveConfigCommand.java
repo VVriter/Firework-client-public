@@ -1,26 +1,26 @@
-package com.firework.client.Features.CommandsSystem.Commands;
+package com.firework.client.Features.CommandsSystem.Commands.Dirs;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Features.Modules.Client.Notifications;
+import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
-@CommandManifest(label = "opendir",aliases = "dir")
-public class OpenDirCommand extends Command {
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+
+@CommandManifest(label = "save")
+public class SaveConfigCommand extends Command {
     @Override
     public void execute(String[] args) {
         //Plays Notification sound
         Notifications.notificate();
-        try {
-            Desktop.getDesktop().open(new File(Firework.FIREWORK_DIRECTORY));
-            MessageUtil.sendClientMessage("Opening firework dir",true);
-        } catch (IOException e) {
-            MessageUtil.sendError("Error while openning dir :(",-1117);
-        }
+        Firework.moduleManager.saveModules();
+        MessageUtil.sendClientMessage("ModulesSaved!",true);
     }
 }

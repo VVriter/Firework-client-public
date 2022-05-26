@@ -1,14 +1,22 @@
 package com.firework.client.Features.CommandsSystem;
 
 
-import com.firework.client.Features.CommandsSystem.Command;
-import com.firework.client.Features.CommandsSystem.Commands.*;
-import com.firework.client.Features.CommandsSystem.Commands.Client.HelpCommand;
+import com.firework.client.Features.CommandsSystem.Commands.Chat.ClearCommand;
+import com.firework.client.Features.CommandsSystem.Commands.Chat.PrefixCommand;
+import com.firework.client.Features.CommandsSystem.Commands.Chat.VClipCommand;
+import com.firework.client.Features.CommandsSystem.Commands.Client.*;
+import com.firework.client.Features.CommandsSystem.Commands.Dirs.ImgurCommand;
+import com.firework.client.Features.CommandsSystem.Commands.Dirs.OpenDirCommand;
+import com.firework.client.Features.CommandsSystem.Commands.Dirs.SaveConfigCommand;
+import com.firework.client.Features.CommandsSystem.Commands.Dirs.WebhookCommand;
+import com.firework.client.Features.CommandsSystem.Commands.Fun.DupeCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Fun.PenisCommand;
+import com.firework.client.Features.CommandsSystem.Commands.Fun.TutorialCommand;
+import com.firework.client.Features.CommandsSystem.Commands.GameSettings.FovCommand;
+import com.firework.client.Features.CommandsSystem.Commands.GameSettings.GammaCommand;
 import com.firework.client.Features.CommandsSystem.Commands.PeekCommand.PeekCommand;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
-import com.firework.client.Implementations.Utill.Entity.FakePlayer;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

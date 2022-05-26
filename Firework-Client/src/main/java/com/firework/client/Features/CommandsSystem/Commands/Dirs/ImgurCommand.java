@@ -1,4 +1,4 @@
-package com.firework.client.Features.CommandsSystem.Commands;
+package com.firework.client.Features.CommandsSystem.Commands.Dirs;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
