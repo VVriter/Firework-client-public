@@ -1,4 +1,4 @@
-package com.firework.client.Features.CommandsSystem.Commands;
+package com.firework.client.Features.CommandsSystem.Commands.Fun;
 
 
 
