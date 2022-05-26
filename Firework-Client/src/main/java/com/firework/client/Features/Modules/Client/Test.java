@@ -6,11 +6,13 @@ import com.firework.client.Implementations.Gui.Gui;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class Test extends Module {
     public Setting<Boolean> testSetting = new Setting<>("tS", false, this);
     public Setting<Double> td = new Setting<>("tD", (double)3, this, 1, 10);
+    public Setting<Color> colorSetting = new Setting<>("colorN", Color.RED, this);
     public Setting<String> N = new Setting<>("tSN", "Kill", this, Arrays.asList("Eat", "Kill"));
 
     public Minecraft mc = Minecraft.getMinecraft();

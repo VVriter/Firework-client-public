@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import sun.audio.AudioPlayer;
 
 public class RotationUtil {
     private static Minecraft mc = Minecraft.getMinecraft();

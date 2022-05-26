@@ -6,30 +6,15 @@ import com.firework.client.Features.Modules.Client.GuiGradient;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Gui.Components.Advanced.*;
 import com.firework.client.Implementations.Gui.Components.Advanced.Frame;
-<<<<<<< HEAD
 import com.firework.client.Implementations.Gui.Components.Advanced.ModuleButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.BoolButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.KeyButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.ModeButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.NumberButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.StartBlock;
-=======
 import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.*;
+import com.firework.client.Implementations.Gui.Components.Advanced.StartBlock;
 
 import com.firework.client.Implementations.Gui.Components.*;
->>>>>>> 45a11d99de70fe69980b1382913a656d79734ca0
 import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Settings.Setting;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import javafx.scene.paint.Color;
-=======
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
-
 import net.minecraft.client.Minecraft;
->>>>>>> 45a11d99de70fe69980b1382913a656d79734ca0
-=======
->>>>>>> parent of 78071d1 (gui improvement)
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.SoundEvents;
@@ -79,12 +64,12 @@ public class Gui extends GuiScreen {
 
             StartBlock startBlock = new StartBlock(column.name, xOffset + newXOffset, yOffset, 60, 15);
 
-            yOffset += 15;
+            yOffset += startBlock.offset;
 
             for (Module m : column.components) {
                 ModuleButton moduleButton = new ModuleButton(m, m.name, xOffset + newXOffset, yOffset, 60, 11);
                 initializedButtons.add(moduleButton);
-                yOffset += 11;
+                yOffset += moduleButton.offset;
                 if (m.isOpened.getValue()) {
                     for (Setting setting : settingManager.modulesSettings(m)) {
                         if (setting.mode == Setting.Mode.BOOL) {
@@ -103,7 +88,11 @@ public class Gui extends GuiScreen {
                             KeyButton numberButton = new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11);
                             initializedButtons.add(numberButton);
                         }
-                        yOffset += 11;
+                        if (setting.mode == Setting.Mode.COLOR) {
+                            ColorButton numberButton = new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 11);
+                            initializedButtons.add(numberButton);
+                        }
+                        yOffset += initializedButtons.get(initializedButtons.size()-1).offset;
                     }
                 }
             }
@@ -222,6 +211,10 @@ public class Gui extends GuiScreen {
                     if(state == 0) {
                         ((ModeButton) button).initialize(mouseX, mouseY);
                     }
+                }
+                if(button instanceof ColorButton){
+                    ((ColorButton) button).initialize(mouseX, mouseY, state);
+                    init();
                 }
                 return;
             }

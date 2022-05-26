@@ -1,12 +1,10 @@
 package com.firework.client.Features.CommandsSystem.Commands.PeekCommand;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemShulkerBox;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityShulkerBox;
-import sun.audio.AudioPlayer;
 
 public class ToolTips {
     private static Minecraft mc = Minecraft.getMinecraft();

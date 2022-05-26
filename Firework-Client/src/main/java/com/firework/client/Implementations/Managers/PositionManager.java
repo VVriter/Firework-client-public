@@ -2,7 +2,6 @@ package com.firework.client.Implementations.Managers;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayer;
-import sun.audio.AudioPlayer;
 
 public class PositionManager {
 

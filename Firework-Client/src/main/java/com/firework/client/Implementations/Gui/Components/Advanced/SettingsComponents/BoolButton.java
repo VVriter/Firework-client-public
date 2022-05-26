@@ -6,7 +6,6 @@ import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.SoundEvents;
-import sun.audio.AudioPlayer;
 
 import java.awt.*;
 

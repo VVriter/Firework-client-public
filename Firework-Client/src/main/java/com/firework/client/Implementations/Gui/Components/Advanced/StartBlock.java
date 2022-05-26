@@ -17,6 +17,7 @@ public class StartBlock extends Button {
     public StartBlock(String name, int x, int y, int width, int height) {
         super(x, y, width, height);
         this.name = name;
+        this.offset = 15;
     }
 
     @Override
