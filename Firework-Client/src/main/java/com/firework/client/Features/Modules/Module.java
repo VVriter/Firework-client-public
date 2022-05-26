@@ -1,5 +1,6 @@
 package com.firework.client.Features.Modules;
 
+import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
@@ -27,6 +28,14 @@ public class Module {
 
         isEnabled.hidden = true;
         isOpened.hidden = true;
+    }
+
+    public Module(){
+        if (getClass().isAnnotationPresent(ModuleArgs.class)) {
+            ModuleArgs args = getClass().getAnnotation(ModuleArgs.class);
+            this.name = args.name();
+            this.category = args.category();
+        }
     }
 
     public void onEnable() {

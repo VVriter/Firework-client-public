@@ -4,9 +4,12 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
+import static java.awt.Color.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class RenderUtils2D {
@@ -92,4 +95,34 @@ public class RenderUtils2D {
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
     }
+
+    public static void drawColorPickerBase(Point2D point, int r)
+    {
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.shadeModel(7425);
+        bufferbuilder.begin(GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION_COLOR);
+
+        bufferbuilder.pos(point.getX(), point.getY(), 0.0D).color(white.getRed(), white.getGreen(), white.getBlue(), white.getAlpha()).endVertex();
+
+        for (int i = 0; i <= 360; i++)
+        {
+            double x2 = Math.sin(((i * Math.PI) / 180)) * r;
+            double y2 = Math.cos(((i * Math.PI) / 180)) * r;
+            bufferbuilder.pos(point.getX() + x2, point.getY() + y2, 0.0D).color(red.getRed(), red.getGreen(), red.getBlue(), red.getAlpha()).endVertex();
+        }
+        tessellator.draw();
+
+        GlStateManager.shadeModel(7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+    }
+
+    public void drawHueColorWheel(Point point){
+
+    }
+
 }

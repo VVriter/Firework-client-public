@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import static com.firework.client.Firework.settingManager;
 import static com.firework.client.Firework.textManager;
@@ -47,7 +48,7 @@ public class ColorButton extends Button {
         drawBase();
         if(setting.opened) {
             RenderUtils2D.drawRectangle(new Rectangle(x, y+11, width, height), fillColorB);
-            //RenderUtils2D.drawColorPickerBase(new Rectangle(x+5, y+11+5, width-10, height-10));
+            RenderUtils2D.drawColorPickerBase(new Point(x + width/2, y + height/2), 20);
         }
     }
 
