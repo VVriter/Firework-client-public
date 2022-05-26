@@ -73,6 +73,8 @@ public class Module {
         }
     }
 
+    public String getName() {return name;}
+
     public enum Category{
         CHAT, COMBAT, MOVEMENT, RENDER, MISC, WORLD, CLIENT
     }

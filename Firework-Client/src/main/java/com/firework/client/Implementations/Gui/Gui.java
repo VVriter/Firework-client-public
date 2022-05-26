@@ -14,11 +14,9 @@ import com.firework.client.Implementations.Gui.Components.*;
 import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec2f;
 
 import org.lwjgl.input.Mouse;
@@ -81,8 +79,8 @@ public class Gui extends GuiScreen {
                             initializedButtons.add(modeButton);
                         }
                         if (setting.mode == Setting.Mode.NUMBER) {
-                            NumberButton numberButton = new NumberButton(setting, xOffset + newXOffset, yOffset, 60, 11);
-                            initializedButtons.add(numberButton);
+                            SliderButton sliderButton = new SliderButton(setting, xOffset + newXOffset, yOffset, 60, 11);
+                            initializedButtons.add(sliderButton);
                         }
                         if (setting.mode == Setting.Mode.KEY) {
                             KeyButton numberButton = new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11);
@@ -194,9 +192,9 @@ public class Gui extends GuiScreen {
                         ((BoolButton) button).initialize(mouseX, mouseY);
                     }
                 }
-                if(button instanceof NumberButton){
+                if(button instanceof SliderButton){
                     if(state == 0) {
-                        ((NumberButton) button).initialize(mouseX, mouseY);
+                        ((SliderButton) button).initialize(mouseX, mouseY);
                         isDragging = true;
                     }
                 }

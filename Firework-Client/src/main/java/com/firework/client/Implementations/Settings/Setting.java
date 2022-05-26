@@ -6,6 +6,8 @@ import com.firework.client.Features.Modules.Module;
 import java.awt.*;
 import java.util.List;
 
+import static com.firework.client.Firework.settingManager;
+
 public class Setting<T> {
 
     private T value;
@@ -38,7 +40,11 @@ public class Setting<T> {
         if(value instanceof Color)
             this.mode = Mode.COLOR;
 
-        Firework.settingManager.settings.add(this);
+        if(!settingManager.settingsNames(module).contains(name)) {
+            settingManager.settings.add(this);
+        }else {
+            setValue((T) settingManager.getSettingByName(name).getValue());
+        }
     }
 
     public Setting(String name, T value, Module module, double min, double max){
@@ -50,7 +56,11 @@ public class Setting<T> {
 
         this.mode = Mode.NUMBER;
 
-        Firework.settingManager.settings.add(this);
+        if(!settingManager.settingsNames(module).contains(name)) {
+            settingManager.settings.add(this);
+        }else {
+            setValue((T) settingManager.getSettingByName(name).getValue());
+        }
     }
 
     public Setting(String name, T value, Module module, List<String> list){
@@ -64,12 +74,16 @@ public class Setting<T> {
 
         this.mode = Mode.MODE;
 
-        Firework.settingManager.settings.add(this);
+        if(!settingManager.settingsNames(module).contains(name)) {
+            settingManager.settings.add(this);
+        }else {
+            setValue((T) settingManager.getSettingByName(name).getValue());
+        }
     }
 
     public void setValue(T newValue){
         this.value = newValue;
-        Firework.settingManager.updateSettingsByName(this);
+        settingManager.updateSettingsByName(this);
     }
 
     public T getValue(){

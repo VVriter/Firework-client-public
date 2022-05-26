@@ -19,6 +19,7 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class ModuleManager {
 
@@ -68,6 +69,8 @@ public class ModuleManager {
                     new ItemPhysics(),
                     new FireworkExploit(),
                     new DiscordRPCModule());
+
+        modules.sort(Comparator.comparing(Module::getName));
     }
 
     public void register(Module... module) {

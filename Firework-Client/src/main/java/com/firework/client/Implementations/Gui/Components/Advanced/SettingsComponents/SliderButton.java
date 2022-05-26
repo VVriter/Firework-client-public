@@ -14,7 +14,7 @@ import static com.firework.client.Implementations.Gui.GuiInfo.fillColorB;
 import static com.firework.client.Implementations.Gui.GuiInfo.outlineColorA;
 
 
-public class NumberButton extends Button {
+public class SliderButton extends Button {
 
     public Setting setting;
 
@@ -22,7 +22,7 @@ public class NumberButton extends Button {
     public float percent;
     public double renderPercent;
 
-    public NumberButton(Setting setting, int x, int y, int width, int height) {
+    public SliderButton(Setting setting, int x, int y, int width, int height) {
         super(x, y, width, height);
 
         this.setting = setting;
