@@ -5,14 +5,12 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Gui.Components.Advanced.EndBlock;
 import com.firework.client.Implementations.Gui.Components.Advanced.Frame;
 import com.firework.client.Implementations.Gui.Components.Advanced.ModuleButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.BoolButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.KeyButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.ModeButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.NumberButton;
+import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.*;
 import com.firework.client.Implementations.Gui.Components.Advanced.StartBlock;
 import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Gui.Components.Column;
 import com.firework.client.Implementations.Settings.Setting;
+import javafx.scene.paint.Color;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.math.Vec2f;
 import org.lwjgl.input.Mouse;
@@ -66,23 +64,33 @@ public class Gui extends GuiScreen {
                 yOffset += 11;
                 if (m.isOpened.getValue()) {
                     for (Setting setting : settingManager.modulesSettings(m)) {
+                        int settingOffset = 0;
                         if (setting.mode == Setting.Mode.BOOL) {
                             BoolButton boolButton = new BoolButton(setting, xOffset + newXOffset, yOffset, 60, 11);
+                            settingOffset = boolButton.offset;
                             initializedButtons.add(boolButton);
                         }
                         if (setting.mode == Setting.Mode.MODE) {
                             ModeButton modeButton = new ModeButton(setting, xOffset + newXOffset, yOffset, 60, 11);
+                            settingOffset = modeButton.offset;
                             initializedButtons.add(modeButton);
                         }
                         if (setting.mode == Setting.Mode.NUMBER) {
                             NumberButton numberButton = new NumberButton(setting, xOffset + newXOffset, yOffset, 60, 11);
+                            settingOffset = numberButton.offset;
                             initializedButtons.add(numberButton);
                         }
                         if (setting.mode == Setting.Mode.KEY) {
                             KeyButton numberButton = new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11);
+                            settingOffset = numberButton.offset;
                             initializedButtons.add(numberButton);
                         }
-                        yOffset += 11;
+                        if (setting.mode == Setting.Mode.COLOR) {
+                            ColorButton boolButton = new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 33);
+                            settingOffset = boolButton.offset;
+                            initializedButtons.add(boolButton);
+                        }
+                        yOffset += settingOffset;
                     }
                 }
             }
@@ -175,9 +183,11 @@ public class Gui extends GuiScreen {
                     }
                 }
                 if(button instanceof ModeButton){
-                    if(state == 0) {
-                        ((ModeButton) button).initialize(mouseX, mouseY);
-                    }
+                    ((ModeButton) button).initialize(mouseX, mouseY, state);
+                }
+                if(button instanceof ColorButton){
+                    ((ColorButton) button).initialize(mouseX, mouseY, state);
+                    init();
                 }
                 return;
             }

@@ -38,9 +38,9 @@ public class RenderUtils2D {
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         GlStateManager.shadeModel(7425);
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        bufferbuilder.pos((double)x, (double)h, (double)zLevel).color(f1, f2, f3, f).endVertex();
-        bufferbuilder.pos((double)w, (double)h, (double)zLevel).color(f1, f2, f3, f).endVertex();
-        bufferbuilder.pos((double)w, (double)y, (double)zLevel).color(f5, f6, f7, f4).endVertex();
+        bufferbuilder.pos((double)x, (double)y + h, (double)zLevel).color(f1, f2, f3, f).endVertex();
+        bufferbuilder.pos((double)x + w, (double)y + h, (double)zLevel).color(f1, f2, f3, f).endVertex();
+        bufferbuilder.pos((double)x + w, (double)y, (double)zLevel).color(f5, f6, f7, f4).endVertex();
         bufferbuilder.pos((double)x, (double)y, (double)zLevel).color(f5, f6, f7, f4).endVertex();
         tessellator.draw();
         GlStateManager.shadeModel(7424);
@@ -91,5 +91,32 @@ public class RenderUtils2D {
 
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+    }
+
+    public static void drawColorPickerBase(Rectangle rectangle, Color firstColor, Color secondColor, Color thirdColor, Color fourthColor, Color fifthColor)
+    {
+        double zLevel=0.0;
+        int x = rectangle.x;
+        int y = rectangle.y;
+        double w = rectangle.width;
+        double h = rectangle.height;
+
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.shadeModel(7425);
+        bufferbuilder.begin(GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos((double)x+w/2, (double)y + h/2, (double)zLevel).color(fifthColor.getRed(), fifthColor.getGreen(), fifthColor.getBlue(), fifthColor.getAlpha()).endVertex();
+        bufferbuilder.pos((double)x, (double)y + h, (double)zLevel).color(firstColor.getRed(), firstColor.getGreen(), firstColor.getBlue(), firstColor.getAlpha()).endVertex();
+        bufferbuilder.pos((double)x + w, (double)y + h, (double)zLevel).color(secondColor.getRed(), secondColor.getGreen(), secondColor.getBlue(), secondColor.getAlpha()).endVertex();
+        bufferbuilder.pos((double)x + w, (double)y, (double)zLevel).color(thirdColor.getRed(), thirdColor.getGreen(), thirdColor.getBlue(), thirdColor.getAlpha()).endVertex();
+        bufferbuilder.pos((double)x, (double)y, (double)zLevel).color(fourthColor.getRed(), fourthColor.getGreen(), fourthColor.getBlue(), fourthColor.getAlpha()).endVertex();
+        bufferbuilder.pos((double)x, (double)y + h, (double)zLevel).color(firstColor.getRed(), firstColor.getGreen(), firstColor.getBlue(), firstColor.getAlpha()).endVertex();
+        tessellator.draw();
+        GlStateManager.shadeModel(7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
     }
 }
