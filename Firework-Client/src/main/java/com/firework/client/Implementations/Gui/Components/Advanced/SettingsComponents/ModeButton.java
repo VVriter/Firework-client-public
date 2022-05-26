@@ -36,15 +36,13 @@ public class ModeButton extends Button {
     }
 
     @Override
-    public void initialize(int mouseX, int mouseY, int state) {
-        super.initialize(mouseX, mouseY, state);
+    public void initialize(int mouseX, int mouseY) {
+        super.initialize(mouseX, mouseY);
 
-        if(state==0) {
-            ++setting.index;
-            if (setting.index > setting.list.size() - 1) {
-                setting.index = 0;
-            }
-            setting.setValue(setting.list.get(setting.index));
+        ++setting.index;
+        if (setting.index > setting.list.size()-1) {
+            setting.index = 0;
         }
+        setting.setValue(setting.list.get(setting.index));
     }
 }

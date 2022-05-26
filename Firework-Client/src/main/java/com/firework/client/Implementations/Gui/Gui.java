@@ -8,7 +8,10 @@ import com.firework.client.Implementations.Gui.Components.Advanced.*;
 import com.firework.client.Implementations.Gui.Components.Advanced.Frame;
 <<<<<<< HEAD
 import com.firework.client.Implementations.Gui.Components.Advanced.ModuleButton;
-import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.*;
+import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.BoolButton;
+import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.KeyButton;
+import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.ModeButton;
+import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.NumberButton;
 import com.firework.client.Implementations.Gui.Components.Advanced.StartBlock;
 =======
 import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.*;
@@ -18,12 +21,15 @@ import com.firework.client.Implementations.Gui.Components.*;
 import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Settings.Setting;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import javafx.scene.paint.Color;
 =======
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 
 import net.minecraft.client.Minecraft;
 >>>>>>> 45a11d99de70fe69980b1382913a656d79734ca0
+=======
+>>>>>>> parent of 78071d1 (gui improvement)
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.SoundEvents;
@@ -81,33 +87,23 @@ public class Gui extends GuiScreen {
                 yOffset += 11;
                 if (m.isOpened.getValue()) {
                     for (Setting setting : settingManager.modulesSettings(m)) {
-                        int settingOffset = 0;
                         if (setting.mode == Setting.Mode.BOOL) {
                             BoolButton boolButton = new BoolButton(setting, xOffset + newXOffset, yOffset, 60, 11);
-                            settingOffset = boolButton.offset;
                             initializedButtons.add(boolButton);
                         }
                         if (setting.mode == Setting.Mode.MODE) {
                             ModeButton modeButton = new ModeButton(setting, xOffset + newXOffset, yOffset, 60, 11);
-                            settingOffset = modeButton.offset;
                             initializedButtons.add(modeButton);
                         }
                         if (setting.mode == Setting.Mode.NUMBER) {
                             NumberButton numberButton = new NumberButton(setting, xOffset + newXOffset, yOffset, 60, 11);
-                            settingOffset = numberButton.offset;
                             initializedButtons.add(numberButton);
                         }
                         if (setting.mode == Setting.Mode.KEY) {
                             KeyButton numberButton = new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11);
-                            settingOffset = numberButton.offset;
                             initializedButtons.add(numberButton);
                         }
-                        if (setting.mode == Setting.Mode.COLOR) {
-                            ColorButton boolButton = new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 33);
-                            settingOffset = boolButton.offset;
-                            initializedButtons.add(boolButton);
-                        }
-                        yOffset += settingOffset;
+                        yOffset += 11;
                     }
                 }
             }
@@ -223,11 +219,9 @@ public class Gui extends GuiScreen {
                     }
                 }
                 if(button instanceof ModeButton){
-                    ((ModeButton) button).initialize(mouseX, mouseY, state);
-                }
-                if(button instanceof ColorButton){
-                    ((ColorButton) button).initialize(mouseX, mouseY, state);
-                    init();
+                    if(state == 0) {
+                        ((ModeButton) button).initialize(mouseX, mouseY);
+                    }
                 }
                 return;
             }

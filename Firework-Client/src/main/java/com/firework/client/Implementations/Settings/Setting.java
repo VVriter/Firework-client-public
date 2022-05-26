@@ -3,7 +3,6 @@ package com.firework.client.Implementations.Settings;
 import com.firework.client.Firework;
 import com.firework.client.Features.Modules.Module;
 
-import java.awt.*;
 import java.util.List;
 
 public class Setting<T> {
@@ -21,7 +20,6 @@ public class Setting<T> {
     public double max;
 
     public boolean hidden = false;
-    public boolean opened = false;
 
     public Setting(String name, T value, Module module){
         this.name = name;
@@ -33,9 +31,6 @@ public class Setting<T> {
 
         if(value instanceof Integer)
             this.mode = Mode.KEY;
-
-        if(value instanceof Color)
-            this.mode = Mode.COLOR;
 
         Firework.settingManager.settings.add(this);
     }
@@ -76,6 +71,6 @@ public class Setting<T> {
     }
 
     public enum Mode{
-        BOOL, NUMBER, MODE, KEY, COLOR
+        BOOL, NUMBER, MODE, KEY
     }
 }
