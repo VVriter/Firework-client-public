@@ -36,6 +36,9 @@ public class Module {
             this.name = args.name();
             this.category = args.category();
         }
+
+        isEnabled.hidden = true;
+        isOpened.hidden = true;
     }
 
     public void onEnable() {
