@@ -1,21 +1,15 @@
 package com.firework.client.Features.Modules;
 
-import com.firework.client.Features.Modules.Client.ClickGui;
-import com.firework.client.Features.Modules.Client.DiscordNotificator;
-import com.firework.client.Features.Modules.Client.NoForge;
-import com.firework.client.Features.Modules.Client.Test;
-import com.firework.client.Features.Modules.Combat.Bot;
-import com.firework.client.Features.Modules.Misc.AntiSpam;
-import com.firework.client.Features.Modules.Misc.AutoRespawn;
-import com.firework.client.Features.Modules.Misc.MiddleClick;
-import com.firework.client.Features.Modules.Movement.AirJump;
-import com.firework.client.Features.Modules.Movement.Anchor;
-import com.firework.client.Features.Modules.Movement.AutoWalk;
-import com.firework.client.Features.Modules.Movement.MovementHelper;
-import com.firework.client.Features.Modules.Combat.Velocity;
+import com.firework.client.Features.Modules.Chat.*;
+import com.firework.client.Features.Modules.Client.*;
+import com.firework.client.Features.Modules.World.*;
+import com.firework.client.Features.Modules.Movement.*;
+import com.firework.client.Features.Modules.Combat.*;
 import com.firework.client.Features.Modules.Render.*;
-import com.firework.client.Features.Modules.World.BridgeBuild;
-import com.firework.client.Features.Modules.World.EntityControl;
+import com.firework.client.Features.Modules.Misc.*;
+
+
+import com.firework.client.Features.Modules.World.Burrow.SelfBlock;
 import com.firework.client.Features.Modules.World.Scaffold.Scaffold;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
@@ -37,16 +31,29 @@ public class ModuleManager {
 
     public void registerModules() {
         register(new Test(),
+                    new Notifications(),
+                    new AntiLog4j(),
+                    new GreenText(),
+                    new Narrator(),
+                    new AutoToxic(),
+                    new Leave(),
+                    new Bypass(),
+                    new BebraGui(),
                     new Anchor(),
+                    new ItemViewModel(),
+                    new Announcer(),
                     new AntiSpam(),
+                    new SelfBlock(),
+                    new SlowAnimations(),
                     new AutoWalk(),
                     new AirJump(),
                     new NoForge(),
+                    new GuiGradient(),
+                    new ChestSwap(),
                     new Scaffold(),
                     new AutoRespawn(),
                     new DiscordNotificator(),
                     new ParticlesESP(),
-                    new ClickGui(),
                     new MovementHelper(),
                     new Bot(),
                     new EntityControl(),
@@ -57,7 +64,9 @@ public class ModuleManager {
                     new CustomTime(),
                     new BridgeBuild(),
                     new NoRender(),
-                    new ItemPhysics());
+                    new ItemPhysics(),
+                    new FireworkExploit(),
+                    new DiscordRPCModule());
     }
 
     public void register(Module... module) {

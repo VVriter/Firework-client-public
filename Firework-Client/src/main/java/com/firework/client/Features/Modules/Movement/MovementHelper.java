@@ -19,13 +19,14 @@ public class MovementHelper extends Module {
     public Setting<Boolean> sprint = new Setting<>("Sprint", true, this);
     public static Setting<Boolean> parkour = null;
 
+
+
     public MovementHelper(){super("MovementHelper",Category.MOVEMENT);
         parkour = new Setting<>("Parkour", true, this);
         enabled = this.isEnabled;}
     @Override
-    public void tryToExecute(){
-        super.tryToExecute();
-
+    public void onTick(){
+        super.onTick();
         if(antiLevitate.getValue()){
             if (mc.player.isPotionActive((Potion) Objects.requireNonNull(Potion.getPotionFromResourceLocation("levitation")))) {
                 mc.player.removeActivePotionEffect(Potion.getPotionFromResourceLocation("levitation"));
@@ -63,5 +64,11 @@ public class MovementHelper extends Module {
                 event.setCanceled(true);
                 }
             }
+        }
+
+        @Override
+    public void onDisable(){
+        super.onDisable();
+            mc.player.stepHeight = 0.5f;
         }
     }

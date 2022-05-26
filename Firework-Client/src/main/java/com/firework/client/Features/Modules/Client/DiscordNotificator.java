@@ -41,7 +41,6 @@ public class DiscordNotificator extends Module {
 
 
 
-
     public void onEnable(){
         super.onEnable();
         new Thread(
@@ -57,31 +56,24 @@ public class DiscordNotificator extends Module {
     }
 
 
-
-    //Death Notificator
     @SubscribeEvent
-    public static void onDisplayDeathScreen(GuiOpenEvent event) {
-        if (event.getGui() instanceof GuiGameOver) {
-                final String contents = "x: "+ Minecraft.getMinecraft().player.posX +" y: "+ Minecraft.getMinecraft().player.posY+" z: " + Minecraft.getMinecraft().player.posZ;
-                DiscordNotificator.bebr = contents;
-            }
-    }
-    public static String bebr;
-    @SubscribeEvent
-    public void gegra(PlayerEvent.PlayerRespawnEvent e){
-        if(death.getValue()){
+    public void queueNotify(ClientChatReceivedEvent e){
+     if(notify2b2t.getValue()){
+        if(e.getMessage().getUnformattedText().contains("position")){
             new Thread(
                     new Runnable() {
                         public void run() {
                             try {
-                                DiscordUtil.sendMsg("@here```U are die and respawned cords is" + bebr +"```",webhook);
+                                DiscordUtil.sendMsg("@here```"+e.getMessage()+"```",webhook);
                             }catch (Exception e){
                                 MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
                             }
                         }
                     }).start();}
-    }
-    //Death Notificator
+             }
+         }
+
+
 
     //ChatListner
     @SubscribeEvent
@@ -117,6 +109,7 @@ public class DiscordNotificator extends Module {
                     }
                 }).start();}
     }
+
     @SubscribeEvent
     public void onBebra1(FMLNetworkEvent.ClientConnectedToServerEvent e){
         if(serverConnection.getValue()){

@@ -1,18 +1,21 @@
 package com.firework.client.Implementations.Utill.Client;
 
+import com.firework.client.Implementations.Database.Connector;
 import org.apache.commons.codec.digest.DigestUtils;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class HwidUtil {
     public static String getHwid() {
 
-        /**
+        /*
          * [OPTIONAL]
          * Your main mod configuration folder, if you'd like to add configuration folder checks.
          */
+        
 
-        // String mainPath = "hwid-auth-mod/";
-
-        /**
+        /*
          * System properties.
          */
 
@@ -29,5 +32,25 @@ public class HwidUtil {
                 + System.getenv("PROCESSOR_ARCHITEW6432")
                 + System.getenv("NUMBER_OF_PROCESSORS")
         ));
+    }
+
+    //DO NOT CALL
+    public static Boolean checkIsCustumer() {
+        Connector db;
+        try {
+            db = new Connector("mysql://server202.hosting.reg.ru:1500/",  "u0910511_admin", "fireworkmanager");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet result = db.execute("SELECT count(*) FROM `customers` WHERE `hwid` = '" + getHwid() + "';");
+        try {
+            result.getArray(0);
+            System.out.println(result);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 }

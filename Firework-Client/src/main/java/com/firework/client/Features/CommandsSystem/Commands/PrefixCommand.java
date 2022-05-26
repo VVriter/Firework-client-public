@@ -2,6 +2,7 @@ package com.firework.client.Features.CommandsSystem.Commands;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
+import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Firework;
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import org.json.simple.JSONObject;
@@ -14,6 +15,8 @@ import java.io.IOException;
 public class PrefixCommand extends Command {
     @Override
     public void execute(String[] args) {
+        //Plays Notification sound
+        Notifications.notificate();
         //Creates new JSon object
         JSONObject obj = new JSONObject();
         obj.put("Prefix", args[1]);

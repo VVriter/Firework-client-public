@@ -5,6 +5,8 @@ import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Utill.Render.ColorUtils;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
+import net.minecraft.client.Minecraft;
+import net.minecraft.init.SoundEvents;
 
 import java.awt.*;
 
@@ -49,8 +51,9 @@ public class ModuleButton extends Button {
     @Override
     public void initialize(int mouseX, int mouseY) {
         super.initialize(mouseX, mouseY);
-
         module.onToggle();
+        Minecraft mc = Minecraft.getMinecraft();
+        mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
 
     }
 }

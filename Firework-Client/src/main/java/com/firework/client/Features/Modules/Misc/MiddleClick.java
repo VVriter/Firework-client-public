@@ -21,8 +21,8 @@ public class MiddleClick extends Module {
 
 
 
-    public void tryToExecute() {
-        super.tryToExecute();
+    public void onTick() {
+        super.onTick();
         if (Mouse.isButtonDown(2)) {
             if (!this.clicked && pearl.getValue()) {
                 this.throwPearl();

@@ -14,7 +14,7 @@ public class CustomTime extends Module {
 
     public CustomTime(){super("Enviroments",Category.RENDER);}
     @Override
-    public void tryToExecute() {
+    public void onTick() {
 
 
         mc.world.setWorldTime(1);

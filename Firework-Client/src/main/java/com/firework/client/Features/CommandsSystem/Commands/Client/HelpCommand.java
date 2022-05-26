@@ -3,7 +3,10 @@ package com.firework.client.Features.CommandsSystem.Commands.Client;
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Features.CommandsSystem.CommandManager;
+import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
+import com.firework.client.Implementations.Utill.Client.SoundUtill;
+import net.minecraft.util.ResourceLocation;
 
 @CommandManifest(label = "help")
 public class HelpCommand extends Command {
@@ -22,6 +25,13 @@ public class HelpCommand extends Command {
         MessageUtil.sendShown("Yaw Command - Usage: "+CommandManager.prefix+"Yaw floatvalue ","Moves ur camera",false);
         MessageUtil.sendShown("Pitch Command - Usage: "+CommandManager.prefix+"Pitch floatvalue ","Moves ur camera",false);
         MessageUtil.sendShown("VClip Command - Usage: "+CommandManager.prefix+"Clip floatvalue ","Moves ur up",false);
+        MessageUtil.sendShown("Peek Command - Usage: "+CommandManager.prefix+"peek ","U need to hold shulker in main hand",false);
+        MessageUtil.sendShown("Penis Command - Usage: "+CommandManager.prefix+"penis ","Show ur penis size :)",false);
+        MessageUtil.sendShown("Book Command - Usage: "+CommandManager.prefix+"prefix ","Makes an a dupe book",false);
         MessageUtil.sendShown("Prefix Command - Usage: "+CommandManager.prefix+"prefix value ","Changes ur command prefix!",false);
+
+
+        //Plays Notification sound
+        Notifications.notificate();
     }
 }

@@ -2,7 +2,6 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.Display;
 
 public class BetterFPS extends Module {
@@ -15,8 +14,8 @@ public class BetterFPS extends Module {
     }
 
     @Override
-    public void tryToExecute() {
-        super.tryToExecute();
+    public void onTick() {
+        super.onTick();
         if(Minecraft.getMinecraft().world == null){
             return;
         }

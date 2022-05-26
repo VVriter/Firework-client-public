@@ -8,10 +8,12 @@ import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Managers.Parser.JsonPrefixPraser;
 import com.firework.client.Implementations.Managers.Parser.JsonReader;
+import com.firework.client.Implementations.Managers.PositionManager;
 import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CustomFontManager;
 import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
+import com.firework.client.Implementations.Utill.Client.HwidUtil;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Features.CommandsSystem.CommandManager;
@@ -34,7 +36,9 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import xyz.firework.autentification.AutoUpdate.UpdateManager;
 
+import java.awt.*;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.ByteBuffer;
 import java.lang.reflect.Field;
 
@@ -46,12 +50,9 @@ public class Firework
     public static final String MODID = "firework";
     public static final String NAME = "FireWork Client";
     public static final String VERSION = "0.1";
-    public static final String PREFIX = ChatFormatting.RED + "[FIREWORK] ";
-
-    public static final String COMMAND_PREFIX = "";
 
     public static Minecraft minecraft;
-    public static final String FIREWORK_DIRECTORY = System.getenv("APPDATA") + "\\.minecraft\\" +"\\Firework\\";
+    public static final String FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir +"\\Firework\\";
 
     private static Logger logger;
 
@@ -61,6 +62,7 @@ public class Firework
     public static CommandManager commandManager;
     public static CustomFontManager customFontManager;
     public static TextManager textManager;
+    public static PositionManager positionManager;
 
 
     public void loadManagers(){
@@ -69,6 +71,7 @@ public class Firework
         commandManager = new CommandManager();
         customFontManager = new CustomFontManager("tcm", 16);
         textManager = new TextManager();
+        positionManager = new PositionManager();
     }
 
     public static void unloadManagers(){
@@ -77,13 +80,15 @@ public class Firework
         commandManager = null;
         textManager = null;
         customFontManager = null;
+        positionManager = null;
     }
 
 
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        SystemTrayMomento.sysTray();
+    public void preInit(FMLPreInitializationEvent event)  {
+        //Sets System tray icon
+        SystemTray.sysTray();
         //Chakes for updates
         UpdateManager.hwidCheck();
         //Creates Folder with client files
@@ -99,11 +104,8 @@ public class Firework
         //DiscordUtil.sendInfo();
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework (FMLPreInitializationEvent)");
-
-
         //Loads Managers
         loadManagers();
-
 
         //
         logger = event.getModLog();
@@ -132,8 +134,7 @@ public class Firework
     public void onTick(TickEvent.ClientTickEvent event){
         for(Module m : moduleManager.modules){
             if(m.isEnabled.getValue())
-                if(!m.isNonCycle)
-                    try{ m.tryToExecute(); }catch (NullPointerException exp){}
+                try{ m.onTick(); }catch (NullPointerException exp){}
         }
     }
 

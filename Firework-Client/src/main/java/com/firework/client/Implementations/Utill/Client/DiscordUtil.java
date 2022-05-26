@@ -6,11 +6,19 @@ import net.minecraft.client.Minecraft;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DiscordUtil {
 
     public static void sendInfo(){
-        sendMsg("```Firework client is running by "+ Minecraft.getMinecraft().getSession().getUsername()+"```"+"```Hwid is: "+HwidUtil.getHwid()+"```","https://discord.com/api/webhooks/974610221953581096/JyZzDORGjrDNF8xtg_JT5zbqwJeXDldjqHnMiOK17JPd5XoyzPqVzrGnm2Hta8LFOLec");
+
+
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+        Date date = new Date(System.currentTimeMillis());
+        System.out.println(formatter.format(date));
+
+        sendMsg("```"+date+" Firework client is running by "+ Minecraft.getMinecraft().getSession().getUsername()+"```"+"```Hwid is: "+HwidUtil.getHwid()+"```","https://discord.com/api/webhooks/974610221953581096/JyZzDORGjrDNF8xtg_JT5zbqwJeXDldjqHnMiOK17JPd5XoyzPqVzrGnm2Hta8LFOLec");
     }
 
     public static void sendMsg (String message, String webhook) {

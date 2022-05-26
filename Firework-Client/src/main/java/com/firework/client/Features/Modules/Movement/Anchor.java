@@ -53,8 +53,8 @@ public class Anchor extends Module {
     }
 
     @Override
-    public void tryToExecute() {
-        super.tryToExecute();
+    public void onTick() {
+        super.onTick();
         if (Util.mc.world == null) {
             return;
         }

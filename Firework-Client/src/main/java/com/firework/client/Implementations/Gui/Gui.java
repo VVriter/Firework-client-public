@@ -1,29 +1,46 @@
 package com.firework.client.Implementations.Gui;
 
-import com.firework.client.Features.Modules.Client.ClickGui;
+import com.firework.client.Features.Modules.Client.BebraGui;
+
+import com.firework.client.Features.Modules.Client.GuiGradient;
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Implementations.Gui.Components.Advanced.EndBlock;
+import com.firework.client.Implementations.Gui.Components.Advanced.*;
 import com.firework.client.Implementations.Gui.Components.Advanced.Frame;
+<<<<<<< HEAD
 import com.firework.client.Implementations.Gui.Components.Advanced.ModuleButton;
 import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.*;
 import com.firework.client.Implementations.Gui.Components.Advanced.StartBlock;
+=======
+import com.firework.client.Implementations.Gui.Components.Advanced.SettingsComponents.*;
+
+import com.firework.client.Implementations.Gui.Components.*;
+>>>>>>> 45a11d99de70fe69980b1382913a656d79734ca0
 import com.firework.client.Implementations.Gui.Components.Button;
-import com.firework.client.Implementations.Gui.Components.Column;
 import com.firework.client.Implementations.Settings.Setting;
+<<<<<<< HEAD
 import javafx.scene.paint.Color;
+=======
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
+
+import net.minecraft.client.Minecraft;
+>>>>>>> 45a11d99de70fe69980b1382913a656d79734ca0
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec2f;
+
 import org.lwjgl.input.Mouse;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import static com.firework.client.Firework.*;
-import static java.lang.Math.round;
 import static net.minecraft.util.math.MathHelper.floor;
 
 public class Gui extends GuiScreen {
-
     public ArrayList<Button> initializedButtons;
 
     public static boolean isDragging = false;
@@ -109,10 +126,27 @@ public class Gui extends GuiScreen {
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) throws ConcurrentModificationException {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-            if(ClickGui.getInstance().background.getValue()){
+        ScaledResolution sr = new ScaledResolution(mc);
+
+
+       if (GuiGradient.enabled.getValue()) {
+            drawGradientRect(0, 0, sr.getScaledWidth(), sr.getScaledHeight(),
+                    GuiGradient.rainbow1.getValue() ? RainbowUtil.generateRainbowFadingColor(1, true) :
+                            new Color(175,
+                                    75,
+                                    231,
+                                    100).getRGB(),
+                    GuiGradient.rainbow2.getValue() ? RainbowUtil.generateRainbowFadingColor(2, true) :
+                            new Color(175,
+                                    75,
+                                    231,
+                                    100).getRGB());
+        }
+
+        if(BebraGui.background.getValue()){
                 this.drawDefaultBackground();
             }
 
@@ -130,11 +164,16 @@ public class Gui extends GuiScreen {
     }
 
     @Override
+    public boolean doesGuiPauseGame() {
+        return false;
+    }
+
+    @Override
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
 
         float scroll = Math.signum(Mouse.getDWheel());
-        int speed = floor(ClickGui.scrollSpeed.getValue());
+        int speed = floor(BebraGui.scrollSpeed.getValue());
 
         if(scroll == 1)
             origYOffset+=speed;
@@ -161,6 +200,7 @@ public class Gui extends GuiScreen {
                         button.initialize(mouseX, mouseY);
                     }else{
                         ((ModuleButton) button).module.isOpened.setValue(!((ModuleButton) button).module.isOpened.getValue());
+                        mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
                         init();
                     }
                 }

@@ -1,12 +1,11 @@
 package com.firework.client.Features.Modules;
 
+import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.SoundEvents;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
-import scala.Int;
-
-import static com.firework.client.Firework.*;
 
 public class Module {
 
@@ -17,26 +16,14 @@ public class Module {
 
     private int updateTimer = 0;
     public int delay = 20;
-    public boolean isNonCycle = false;
     public boolean existCheck;
 
     public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this);
     public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this);
     public Setting<Integer> key = new Setting<>("Key", Keyboard.KEY_NONE, this);
-
-    public Module(String name, Category category, Boolean isNonCycle) {
-        this.name = name;
-        this.category = category;
-        this.isNonCycle = isNonCycle;
-
-        isEnabled.hidden = true;
-        isOpened.hidden = true;
-    }
-
     public Module(String name, Category category) {
         this.name = name;
         this.category = category;
-        this.isNonCycle = isNonCycle;
 
         isEnabled.hidden = true;
         isOpened.hidden = true;
@@ -62,16 +49,10 @@ public class Module {
     public void disable(){
         MinecraftForge.EVENT_BUS.unregister(this);
     }
-    //onUpdate
-    //OnTick
-    public void tryToExecute() {
+    public void onTick() {
         if(existCheck)
             if(mc.player == null | mc.world == null) return;
 
-        if(isNonCycle) {
-            //if NOT CYCLE
-            isEnabled.setValue(!isEnabled.getValue());
-        }
         //if CYCLE
         if(updateTimer != delay) {
             updateTimer++;
@@ -81,6 +62,6 @@ public class Module {
     }
 
     public enum Category{
-        COMBAT, MOVEMENT, RENDER, MISC, WORLD, CLIENT
+        CHAT, COMBAT, MOVEMENT, RENDER, MISC, WORLD, CLIENT
     }
 }

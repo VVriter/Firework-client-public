@@ -6,6 +6,8 @@ import com.firework.client.Implementations.Gui.GuiInfo;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
+import net.minecraft.client.Minecraft;
+import net.minecraft.init.SoundEvents;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
@@ -44,6 +46,8 @@ public class KeyButton extends Button {
     public void initialize(int mouseX, int mouseY) {
         super.initialize(mouseX, mouseY);
         fillColor = fillColorA;
+        Minecraft mc = Minecraft.getMinecraft();
+        mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
     }
 
     @Override
