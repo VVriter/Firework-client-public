@@ -32,12 +32,10 @@ public class Module {
     public void onEnable() {
         isEnabled.setValue(true);
         MinecraftForge.EVENT_BUS.register(this);
-        mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
     }
     public void onDisable() {
         isEnabled.setValue(false);
         MinecraftForge.EVENT_BUS.unregister(this);
-        mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
     }
 
     public void onToggle() {

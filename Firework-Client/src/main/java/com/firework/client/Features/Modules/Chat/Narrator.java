@@ -12,4 +12,11 @@ public class Narrator extends Module{
         super.onEnable();
         SoundUtill.playSound(new ResourceLocation("firework/audio/hello.wav"));
     }
+
+
+    @Override
+    public void onDisable(){
+        super.onDisable();
+        SoundUtill.playSound(new ResourceLocation("firework/audio/bye.wav"));
+    }
 }
