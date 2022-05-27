@@ -18,8 +18,11 @@ public class GammaCommand extends Command {
         Notifications.notificate();
         try {
             Firework.minecraft.gameSettings.gammaSetting = Float.parseFloat(args[1]);
-            MessageUtil.sendClientMessage("Gamma is setted to: "+args[1],-11114);}catch (NumberFormatException e){
+            MessageUtil.sendClientMessage("Gamma is setted to: "+args[1],-11114);
+        } catch (NumberFormatException e){
             MessageUtil.sendError("Only Numbers LoL",-11114);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            MessageUtil.sendError("Wrong usage!",-11114);
         }
     }
 }

@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Chat.Spammer;
 import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Firework;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
