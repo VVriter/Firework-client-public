@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Chat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Managers.Parser.JsonReader;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import org.json.simple.JSONObject;
@@ -18,7 +19,7 @@ public class Spammer extends Module {
     private int delay = -1;
     public static String message = "Spamm!";
 
-    public Setting<Double> delaySeconds = new Setting<>("Delay (in seconds)", 0.5, this, 0.3, 10);
+    public Setting<Double> delaySeconds = new Setting<>("Delay (in seconds)", 1.3, this, 1.3, 10);
     public Setting<Boolean> antiFilter = new Setting<>("AntiFilter", false, this);
 
     @Override
@@ -36,12 +37,14 @@ public class Spammer extends Module {
                 e.printStackTrace();
             }
         }
+        JsonReader.getSpamText();
     }
 
     @Override
     public void onTick() {
         if(!Display.isActive()) return;
-        new Thread(() -> spam()).run();
+        //new Thread(() -> spam()).run();
+        spam();
     }
 
     private void spam() {
