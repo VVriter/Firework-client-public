@@ -100,7 +100,6 @@ public class RenderUtils2D {
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-
         bufferbuilder.begin(GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION_COLOR);
 
         bufferbuilder.pos(point.getX(), point.getY(), 0.0D).color(white.getRed(), white.getGreen(), white.getBlue(), white.getAlpha()).endVertex();
@@ -112,7 +111,6 @@ public class RenderUtils2D {
 
             HSLColor color = new HSLColor(i + 1, hslColor.saturation, hslColor.light);
             Color colorRGB = color.toRGB();
-            System.out.println(colorRGB);
 
             bufferbuilder.pos(point.getX() + x2, point.getY() + y2, 0.0D).color(colorRGB.getRed(), colorRGB.getGreen(), colorRGB.getBlue(), colorRGB.getAlpha()).endVertex();
         }
@@ -121,10 +119,6 @@ public class RenderUtils2D {
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
         GlStateManager.enableTexture2D();
-    }
-
-    public void drawHueColorWheel(Point point){
-
     }
 
 }

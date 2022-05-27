@@ -49,7 +49,7 @@ public class ColorButton extends Button {
         drawBase();
         if(setting.opened) {
             RenderUtils2D.drawRectangle(new Rectangle(x, y+11, width, height), fillColorB);
-            RenderUtils2D.drawColorPickerBase(new Point(x + width/2, y + height/2), (HSLColor) setting.getValue(), 20);
+            RenderUtils2D.drawColorPickerBase(new Point(x + width/2, y + 11 + height/2), (HSLColor) setting.getValue(), 28);
         }
     }
 
