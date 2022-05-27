@@ -16,7 +16,7 @@ public class Announcer extends Module {
 
 
 
-    public Announcer(){super("Announcer",Category.CHAT);}
+    public Announcer(){ super("Announcer", Category.CHAT); }
 
 
 

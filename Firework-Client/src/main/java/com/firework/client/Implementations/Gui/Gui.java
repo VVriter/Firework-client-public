@@ -14,6 +14,7 @@ import com.firework.client.Implementations.Gui.Components.*;
 import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.SoundEvents;
@@ -112,7 +113,7 @@ public class Gui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) throws ConcurrentModificationException {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        ScaledResolution sr = new ScaledResolution(mc);
+        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
 
        if (GuiGradient.enabled.getValue()) {
