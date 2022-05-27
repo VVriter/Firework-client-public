@@ -1,7 +1,9 @@
 package com.firework.client.Implementations.Managers.Parser;
 
+import com.firework.client.Features.Modules.Chat.Spammer;
 import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.CommandsSystem.CommandManager;
+import com.firework.client.Firework;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -16,7 +18,7 @@ public class JsonReader {
 
         JSONParser parser = new JSONParser();
 
-        try (Reader reader = new FileReader(System.getenv("APPDATA") + "\\.minecraft\\" +"\\Firework\\Prefix.json")) {
+        try (Reader reader = new FileReader(Firework.FIREWORK_DIRECTORY + "\\Prefix.json")) {
 
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
             System.out.println(jsonObject);
@@ -35,10 +37,33 @@ public class JsonReader {
 
     }
 
+    public static void getSpamText() {
+
+        JSONParser parser = new JSONParser();
+
+        try (Reader reader = new FileReader(Firework.FIREWORK_DIRECTORY + "\\Spam.json")) {
+
+            JSONObject jsonObject = (JSONObject) parser.parse(reader);
+            System.out.println(jsonObject);
+
+            String text = (String) jsonObject.get("Text");
+            System.out.println(text);
+            Spammer.message = text;
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static void getWebhook(){
         JSONParser parser = new JSONParser();
 
-        try (Reader reader1 = new FileReader(System.getenv("APPDATA") + "\\.minecraft\\" +"\\Firework\\Webhook.json")) {
+        try (Reader reader1 = new FileReader(Firework.FIREWORK_DIRECTORY + "\\Webhook.json")) {
 
             JSONObject jsonObject = (JSONObject) parser.parse(reader1);
             System.out.println(jsonObject);
