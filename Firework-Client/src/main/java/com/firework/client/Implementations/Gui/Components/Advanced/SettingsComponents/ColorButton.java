@@ -3,6 +3,7 @@ package com.firework.client.Implementations.Gui.Components.Advanced.SettingsComp
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 
@@ -48,7 +49,7 @@ public class ColorButton extends Button {
         drawBase();
         if(setting.opened) {
             RenderUtils2D.drawRectangle(new Rectangle(x, y+11, width, height), fillColorB);
-            RenderUtils2D.drawColorPickerBase(new Point(x + width/2, y + height/2), 20);
+            RenderUtils2D.drawColorPickerBase(new Point(x + width/2, y + height/2), (HSLColor) setting.getValue(), 20);
         }
     }
 

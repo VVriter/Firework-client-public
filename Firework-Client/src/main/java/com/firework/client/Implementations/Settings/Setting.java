@@ -40,11 +40,7 @@ public class Setting<T> {
         if(value instanceof Color)
             this.mode = Mode.COLOR;
 
-        if(!settingManager.settingsNames(module).contains(name)) {
-            settingManager.settings.add(this);
-        }else {
-            setValue((T) settingManager.getSettingByName(name).getValue());
-        }
+        settingManager.settings.add(this);
     }
 
     public Setting(String name, T value, Module module, double min, double max){
@@ -56,29 +52,19 @@ public class Setting<T> {
 
         this.mode = Mode.NUMBER;
 
-        if(!settingManager.settingsNames(module).contains(name)) {
-            settingManager.settings.add(this);
-        }else {
-            setValue((T) settingManager.getSettingByName(name).getValue());
-        }
+        settingManager.settings.add(this);
     }
 
     public Setting(String name, T value, Module module, List<String> list){
         this.name = name;
         this.value = value;
         this.module = module;
-        this.min = min;
-        this.max = max;
 
         this.list = list;
 
         this.mode = Mode.MODE;
 
-        if(!settingManager.settingsNames(module).contains(name)) {
-            settingManager.settings.add(this);
-        }else {
-            setValue((T) settingManager.getSettingByName(name).getValue());
-        }
+        settingManager.settings.add(this);
     }
 
     public void setValue(T newValue){

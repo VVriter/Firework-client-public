@@ -4,10 +4,8 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 import static java.awt.Color.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -96,7 +94,7 @@ public class RenderUtils2D {
         GlStateManager.disableBlend();
     }
 
-    public static void drawColorPickerBase(Point2D point, int r)
+    public static void drawColorPickerBase(Point point, HSLColor color, int r)
     {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
@@ -111,7 +109,11 @@ public class RenderUtils2D {
         {
             double x2 = Math.sin(((i * Math.PI) / 180)) * r;
             double y2 = Math.cos(((i * Math.PI) / 180)) * r;
-            bufferbuilder.pos(point.getX() + x2, point.getY() + y2, 0.0D).color(red.getRed(), red.getGreen(), red.getBlue(), red.getAlpha()).endVertex();
+
+            color.hue = i + 1;
+            Color colorRGB = color.toRGB();
+
+            bufferbuilder.pos(point.getX() + x2, point.getY() + y2, 0.0D).color(colorRGB.getRed(), colorRGB.getGreen(), colorRGB.getRed(), colorRGB.getAlpha()).endVertex();
         }
         tessellator.draw();
 
