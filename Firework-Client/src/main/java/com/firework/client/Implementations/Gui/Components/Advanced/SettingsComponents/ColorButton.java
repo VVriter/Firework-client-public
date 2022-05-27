@@ -34,7 +34,7 @@ public class ColorButton extends Button {
         RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);
 
-        RenderUtils2D.drawRectangle(new Rectangle(x+3*width/4, y+2, 7, 7), (Color) setting.getValue());
+        RenderUtils2D.drawRectangle(new Rectangle(x+3*width/4, y+2, 7, 7), ((HSLColor) setting.getValue()).toRGB());
         RenderUtils2D.drawRectangleOutline(new Rectangle(x+3*width/4, y+2, 7,
                 7), outlineWidth, outlineColorA);
 

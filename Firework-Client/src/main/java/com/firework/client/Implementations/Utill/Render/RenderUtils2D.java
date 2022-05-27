@@ -94,13 +94,13 @@ public class RenderUtils2D {
         GlStateManager.disableBlend();
     }
 
-    public static void drawColorPickerBase(Point point, HSLColor color, int r)
+    public static void drawColorPickerBase(Point point, HSLColor hslColor, int r)
     {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        GlStateManager.shadeModel(7425);
+
         bufferbuilder.begin(GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION_COLOR);
 
         bufferbuilder.pos(point.getX(), point.getY(), 0.0D).color(white.getRed(), white.getGreen(), white.getBlue(), white.getAlpha()).endVertex();
@@ -110,14 +110,14 @@ public class RenderUtils2D {
             double x2 = Math.sin(((i * Math.PI) / 180)) * r;
             double y2 = Math.cos(((i * Math.PI) / 180)) * r;
 
-            color.hue = i + 1;
+            HSLColor color = new HSLColor(i + 1, hslColor.saturation, hslColor.light);
             Color colorRGB = color.toRGB();
+            System.out.println(colorRGB);
 
-            bufferbuilder.pos(point.getX() + x2, point.getY() + y2, 0.0D).color(colorRGB.getRed(), colorRGB.getGreen(), colorRGB.getRed(), colorRGB.getAlpha()).endVertex();
+            bufferbuilder.pos(point.getX() + x2, point.getY() + y2, 0.0D).color(colorRGB.getRed(), colorRGB.getGreen(), colorRGB.getBlue(), colorRGB.getAlpha()).endVertex();
         }
         tessellator.draw();
 
-        GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
         GlStateManager.enableTexture2D();

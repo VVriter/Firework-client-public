@@ -84,12 +84,12 @@ public class Gui extends GuiScreen {
                             initializedButtons.add(sliderButton);
                         }
                         if (setting.mode == Setting.Mode.KEY) {
-                            KeyButton numberButton = new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11);
-                            initializedButtons.add(numberButton);
+                            KeyButton keyButton = new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11);
+                            initializedButtons.add(keyButton);
                         }
                         if (setting.mode == Setting.Mode.COLOR) {
-                            ColorButton numberButton = new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 11);
-                            initializedButtons.add(numberButton);
+                            ColorButton colorButton = new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 11);
+                            initializedButtons.add(colorButton);
                         }
                         yOffset += initializedButtons.get(initializedButtons.size()-1).offset;
                     }

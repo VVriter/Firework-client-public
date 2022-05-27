@@ -2,6 +2,7 @@ package com.firework.client.Implementations.Settings;
 
 import com.firework.client.Firework;
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Implementations.Utill.Render.HSLColor;
 
 import java.awt.*;
 import java.util.List;
@@ -37,7 +38,7 @@ public class Setting<T> {
         if(value instanceof Integer)
             this.mode = Mode.KEY;
 
-        if(value instanceof Color)
+        if(value instanceof HSLColor)
             this.mode = Mode.COLOR;
 
         settingManager.settings.add(this);
