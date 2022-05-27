@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Utill.Client;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -7,6 +8,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class MathUtil {
+    private static Minecraft mc = Minecraft.getMinecraft();
+
     public static float[] calcAngle(Vec3d from, Vec3d to) {
         double difX = to.x - from.x;
         double difY = (to.y - from.y) * -1.0;
@@ -35,6 +38,31 @@ public class MathUtil {
     }
     public static Vec3d roundVec(Vec3d vec3d, int places) {
         return new Vec3d(MathUtil.round(vec3d.x, places), MathUtil.round(vec3d.y, places), MathUtil.round(vec3d.z, places));
+    }
+
+
+    public static double[] directionSpeed(double speed) {
+        float forward = MathUtil.mc.player.movementInput.moveForward;
+        float side = MathUtil.mc.player.movementInput.moveStrafe;
+        float yaw = MathUtil.mc.player.prevRotationYaw + (MathUtil.mc.player.rotationYaw - MathUtil.mc.player.prevRotationYaw) * mc.getRenderPartialTicks();
+        if (forward != 0.0f) {
+            if (side > 0.0f) {
+                yaw += (float) (forward > 0.0f ? -45 : 45);
+            } else if (side < 0.0f) {
+                yaw += (float) (forward > 0.0f ? 45 : -45);
+            }
+            side = 0.0f;
+            if (forward > 0.0f) {
+                forward = 1.0f;
+            } else if (forward < 0.0f) {
+                forward = -1.0f;
+            }
+        }
+        double sin = Math.sin(Math.toRadians(yaw + 90.0f));
+        double cos = Math.cos(Math.toRadians(yaw + 90.0f));
+        double posX = (double) forward * speed * cos + (double) side * speed * sin;
+        double posZ = (double) forward * speed * sin - (double) side * speed * cos;
+        return new double[]{posX, posZ};
     }
 
 }

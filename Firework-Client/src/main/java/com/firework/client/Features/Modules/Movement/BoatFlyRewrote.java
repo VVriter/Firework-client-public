@@ -8,12 +8,10 @@ import net.minecraft.entity.item.EntityBoat;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.*;
 import net.minecraft.network.play.server.SPacketMoveVehicle;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.Vec3d;
 
 import java.util.Comparator;
 
@@ -23,6 +21,7 @@ public class BoatFlyRewrote extends Module {
     private EntityBoat target;
     private int teleportID;
     private int packetCounter = 0;
+    private boolean bebra = false;
 
     public Setting<Boolean> fixYaw  = new Setting<>("FixYaw", true, this);
 
@@ -31,9 +30,6 @@ public class BoatFlyRewrote extends Module {
 
     public Setting<Double> speed  = new Setting<>("Speed", (double)3, this, 1, 10);
     public Setting<Double> verticalSpeed   = new Setting<>("VSpeed", (double)3, this, 1, 10);
-
-    public Setting<Boolean> packet  = new Setting<>("packet", true, this);
-    public Setting<Double> packets   = new Setting<>("packets", (double)3, this, 1, 10);
 
     public Setting<Double> interact    = new Setting<>("interact", (double)3, this, 1, 10);
     
@@ -84,23 +80,8 @@ public class BoatFlyRewrote extends Module {
                 mc.player.getRidingEntity().motionY = -0.08f;
             }
         }
-        handlePackets(mc.player.getRidingEntity().motionX, mc.player.getRidingEntity().motionY, mc.player.getRidingEntity().motionZ);
     }
 
-    public void handlePackets(double x, double y, double z) {
-        if (packet.getValue().booleanValue()) {
-            Vec3d vec = new Vec3d(x, y, z);
-            if (mc.player.getRidingEntity() == null) {
-                return;
-            }
-            Vec3d position = mc.player.getRidingEntity().getPositionVector().add(vec);
-            mc.player.getRidingEntity().setPosition(position.x, position.y, position.z);
-            mc.player.connection.sendPacket((Packet)new CPacketVehicleMove(mc.player.getRidingEntity()));
-            for (int i = 0; i < packets.getValue(); ++i) {
-                mc.player.connection.sendPacket((Packet)new CPacketConfirmTeleport(teleportID++));
-            }
-        }
-    }
 
     private void NCPPacketTrick() {
         packetCounter = 0;
