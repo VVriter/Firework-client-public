@@ -22,7 +22,7 @@ public class Spammer extends Module {
 
     public Setting<Double> delaySeconds = new Setting<>("Delay (in seconds)", 1.3, this, 1.3, 10);
     public Setting<Boolean> antiFilter = new Setting<>("AntiFilter", false, this);
-    public Setting<Boolean> autoWhisperer = new Setting<>("AutoWhisperer", false, this);
+    public Setting<Boolean> autoWhisperer = new Setting<>("Whisperer", false, this);
 
     @Override
     public void onEnable() {
@@ -60,8 +60,9 @@ public class Spammer extends Module {
                 reformattedMessage += " | " + random.nextInt(2048);
             }
 
-            Minecraft.getMinecraft().player.sendChatMessage(reformattedMessage);
-
+            if(!autoWhisperer.getValue()) {
+                Minecraft.getMinecraft().player.sendChatMessage(reformattedMessage);
+            }
             if(autoWhisperer.getValue()) {
                 for (NetworkPlayerInfo player : Minecraft.getMinecraft().getConnection().getPlayerInfoMap()) {
                     String name = Minecraft.getMinecraft().ingameGUI.getTabList().getPlayerName(player);
