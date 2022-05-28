@@ -52,7 +52,8 @@ public class Spammer extends Module {
     private void spam() {
         delay++;
         if(delay >= 20 * delaySeconds.getValue()) {
-            String reformattedMessage = message;
+            String[] messageArray = message.split("-");
+            String reformattedMessage = messageArray[new Random().nextInt(messageArray.length)];
             Random random = new Random();
 
             if(antiFilter.getValue()) {
