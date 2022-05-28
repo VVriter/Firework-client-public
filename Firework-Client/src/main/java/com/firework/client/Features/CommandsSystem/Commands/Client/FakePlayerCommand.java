@@ -23,7 +23,6 @@ public class FakePlayerCommand extends Command {
         FakePlayer fakePlayer = new FakePlayer(UUID.fromString("e213ff7e-6c29-4a93-ab83-7a9d03added5"), fakePlayerNickname);
 
         EntityPlayerSP localPlayer = Minecraft.getMinecraft().player;
-        fakePlayer.addMeToWorld();
         fakePlayer.setPosition(localPlayer.posX, localPlayer.posY, localPlayer.posZ);
         MessageUtil.sendClientMessage("FakePlayer has been spawned!", false);
     }

@@ -5,6 +5,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 
@@ -15,30 +18,18 @@ public class FakePlayer extends EntityOtherPlayerMP {
     public FakePlayer(UUID uuid, String nickname) {
         super(Minecraft.getMinecraft().world, new GameProfile(uuid, nickname));
         this.nickname = nickname;
+        this.addMeToWorld();
+        this.setHealth(50f);
+        this.inventory.addItemStackToInventory(new ItemStack(Items.TOTEM_OF_UNDYING));
     }
 
-    public void addMeToWorld() {
+    private void addMeToWorld() {
         Minecraft.getMinecraft().world.addEntityToWorld(-100, this);
     }
 
-    /*@Override
-    public void onLivingUpdate() {
-        //Do nothing (to prevent crash), because he doesn't have movement controller
-    }*/
-
     @Override
-    public void updateRidden() {
-        //Do nothing (to prevent crash), because he doesn't have movement controller
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+        this.setHealth(this.getHealth() - amount);
+        return true;
     }
-
-    @Override
-    public void updateEntityActionState() {
-        //Do nothing (to prevent crash), because he doesn't have movement controller
-    }
-
-    @Override
-    public boolean isSneaking() {
-        return false;
-    }
-
 }
