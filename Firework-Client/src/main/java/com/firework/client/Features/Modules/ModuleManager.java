@@ -68,8 +68,7 @@ public class ModuleManager {
                     new ItemPhysics(),
                     new FireworkExploit(),
                     new BoatFlyRewrote(),
-                    new DiscordRPCModule(),
-                    new Spammer());
+                    new DiscordRPCModule());
     }
 
     public void register(Module... module) {

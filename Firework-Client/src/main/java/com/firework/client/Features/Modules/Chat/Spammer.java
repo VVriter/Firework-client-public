@@ -5,13 +5,12 @@ import com.firework.client.Firework;
 import com.firework.client.Implementations.Managers.Parser.JsonReader;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.server.MinecraftServer;
-import org.apache.commons.compress.utils.Charsets;
 import org.json.simple.JSONObject;
 import org.lwjgl.opengl.Display;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 public class Spammer extends Module {
@@ -23,8 +22,6 @@ public class Spammer extends Module {
     public Setting<Double> delaySeconds = new Setting<>("Delay (in seconds)", 1.3, this, 1.3, 10);
     public Setting<Boolean> antiFilter = new Setting<>("AntiFilter", false, this);
 
-    public Setting<Boolean> autoWhisperer = new Setting<>("AutoWhisperer", false, this);
-
     @Override
     public void onEnable() {
         super.onEnable();
@@ -32,21 +29,14 @@ public class Spammer extends Module {
         JSONObject obj = new JSONObject();
         obj.put("Text", "Spamm!");
 
-        try {
-            File file = new File(Firework.FIREWORK_DIRECTORY+"Spam.json");
-
-            if (file.exists()){
-                return;
+        File theDir = new File(Firework.FIREWORK_DIRECTORY+"Spam.json");
+        if (!theDir.exists()){
+            try (FileWriter file = new FileWriter(Firework.FIREWORK_DIRECTORY + "Spam.json")) {
+                file.write(obj.toJSONString());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            FileOutputStream fileStream = new FileOutputStream(file);
-            OutputStreamWriter writer = new OutputStreamWriter(fileStream, Charsets.UTF_16);
-            writer.write(obj.toJSONString());
-            writer.close();
-        } catch (Exception e) {
-            //NOTHING...........
         }
-
         JsonReader.getSpamText();
     }
 
@@ -68,15 +58,6 @@ public class Spammer extends Module {
             }
 
             Minecraft.getMinecraft().player.sendChatMessage(reformattedMessage);
-
-            if(autoWhisperer.getValue()) {
-                for (NetworkPlayerInfo player : Minecraft.getMinecraft().getConnection().getPlayerInfoMap()) {
-                    String name = Minecraft.getMinecraft().ingameGUI.getTabList().getPlayerName(player);
-                    String command = "/w " + name + " " + reformattedMessage;
-
-                    Minecraft.getMinecraft().player.sendChatMessage(command);
-                }
-            }
 
             delay = -1;
         }
