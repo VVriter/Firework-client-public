@@ -3,10 +3,14 @@ package com.firework.client.Features.Modules.Client;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Gui.Gui;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.play.client.CPacketCustomPayload;
+import net.minecraft.network.play.server.SPacketBlockBreakAnim;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -29,6 +33,7 @@ public class Test extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
+        mc.player.setGlowing(true);
     }
 
     @Override
@@ -44,4 +49,12 @@ public class Test extends Module {
         }
 
     }
+
+    @SubscribeEvent
+    public void onChatHistory(){}
+
+
+
+
+
 }

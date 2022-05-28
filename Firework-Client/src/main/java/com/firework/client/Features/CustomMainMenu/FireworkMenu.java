@@ -22,17 +22,15 @@ public class FireworkMenu extends GuiScreen {
     public void initGui() {
         int i = this.height / 4 + 48;
         this.buttonList.clear();
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, i + 72 + 12, 98,
+        this.buttonList.add(new GuiButton(0, this.width / 2 + 150, i + 72 + 12, 50,
                 20, I18n.format("menu.options")));
-        this.buttonList.add(new GuiButton(1, this.width / 2 + 2, i + 72 + 12, 98,
+        this.buttonList.add(new GuiButton(1, this.width / 2 + 202, i + 72 + 12, 48,
                 20, I18n.format("menu.quit")));
-        this.buttonList.add(new GuiButton(2, this.width / 2 + 2, i + 72 - 12, 98,
+        this.buttonList.add(new GuiButton(2, this.width / 2 +150, i + 72 - 12, 100,
                 20, "Change User"));
-        this.buttonList.add(new GuiButton(3, this.width / 2 - 100, i + 72 - 12, 98,
-                20, "Authors"));
-        this.buttonList.add(new GuiButton(4, this.width / 2 - 100, i + 72 - 34, 200,
+        this.buttonList.add(new GuiButton(4, this.width / 2 + 150, i + 72 - 34, 100,
                 20, I18n.format("menu.multiplayer")));
-        this.buttonList.add(new GuiButton(5, this.width / 2 - 100, i + 72 - 58, 200,
+        this.buttonList.add(new GuiButton(5, this.width / 2 + 150, i + 72 - 58, 100,
                 20, I18n.format("menu.singleplayer")));
     }
 
@@ -44,15 +42,6 @@ public class FireworkMenu extends GuiScreen {
             mc.shutdown();
         } if (button.id == 2) {
             mc.displayGuiScreen(new ChangeUser());
-        } if (button.id == 3) {
-            try {
-                Desktop desktop = Desktop.getDesktop();
-                if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-                    desktop.browse(new URI("https://discord.gg/MTAGeKse8r"));
-                }
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
         } if (button.id == 4) {
             mc.displayGuiScreen(new GuiMultiplayer(this));
         } if (button.id == 5) {
