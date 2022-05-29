@@ -168,6 +168,29 @@ public class RenderUtils2D {
         GlStateManager.enableTexture2D();
     }
 
+    public static void drawMarker(Rectangle rectangle, Color color) {
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.glLineWidth(1);
+
+        int x = rectangle.x;
+        int y = rectangle.y;
+        double w = rectangle.width;
+        double h = rectangle.height;
+
+        bufferbuilder.begin(GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos(x, y, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(x - 3, y+3, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(x + 3, y+3, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(x - 3, y+12, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        bufferbuilder.pos(x + 3, y+12, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        tessellator.draw();
+
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
     public static double distance(Point one, Point two){
         double ac = abs(two.getY() - one.getY());
         double cb = abs(two.getX() - one.getX());

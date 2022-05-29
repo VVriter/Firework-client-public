@@ -24,8 +24,8 @@ public class ColorButton extends Button {
         super(x, y, width, height);
         this.setting = setting;
 
-        this.offset = setting.opened ? 66 : 11;
-        this.height = setting.opened ? 55 : 11;
+        this.offset = setting.opened ? 70 : 11;
+        this.height = setting.opened ? 60 : 11;
     }
 
     public void drawBase(){
@@ -47,17 +47,18 @@ public class ColorButton extends Button {
     @Override
     public void draw() {
         super.draw();
+        int radius = 24;
 
         drawBase();
         if(setting.opened) {
             RenderUtils2D.drawRectangle(new Rectangle(x, y+11, width, height), fillColorB);
-            RenderUtils2D.drawColorPickerBase(new Point(x + width/2, y + 11 + height/2), (HSLColor) setting.getValue(), 28);
+            RenderUtils2D.drawColorPickerBase(new Point(x + width/2, y + 11 + height/2), (HSLColor) setting.getValue(), radius);
 
             Point center = new Point(x + width/2, y + 11 + height/2);
-            Point p = hueToPosition(center, 28, (int) ((HSLColor) setting.getValue()).hue);
+            Point p = hueToPosition(center, radius, (int) ((HSLColor) setting.getValue()).hue);
 
             RenderUtils2D.drawFilledCircle(p, ((HSLColor) setting.getValue()).toRGB(), 3);
-            RenderUtils2D.drawCircleOutline(p, 3, 1, outlineColorA);
+            RenderUtils2D.drawCircleOutline(p, 3, 2, outlineColorA);
         }
     }
 
@@ -73,14 +74,8 @@ public class ColorButton extends Button {
         if(state==0){
             if(setting.opened){
                 double radius = 28;
-                ;
             }
         }
-    }
-
-    public double angle(Point one, Point two)
-    {
-        return  0;
     }
 
     public Point hueToPosition(Point center, int r, int hue){
