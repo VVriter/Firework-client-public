@@ -6,47 +6,39 @@ import com.firework.client.Implementations.Managers.Parser.JsonReader;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.server.MinecraftServer;
-import org.apache.commons.compress.utils.Charsets;
 import org.json.simple.JSONObject;
 import org.lwjgl.opengl.Display;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 public class Spammer extends Module {
     public Spammer(){ super("Spammer", Category.CHAT); }
 
     private int delay = -1;
-    public static String message = "Spamm!";
+    public static String message = "Spam!";
 
     public Setting<Double> delaySeconds = new Setting<>("Delay (in seconds)", 1.3, this, 1.3, 10);
     public Setting<Boolean> antiFilter = new Setting<>("AntiFilter", false, this);
-
-    public Setting<Boolean> autoWhisperer = new Setting<>("AutoWhisperer", false, this);
+    public Setting<Boolean> autoWhisperer = new Setting<>("Whisperer", false, this);
 
     @Override
     public void onEnable() {
         super.onEnable();
 
         JSONObject obj = new JSONObject();
-        obj.put("Text", "Spamm!");
+        obj.put("Text", "Spam!");
 
-        try {
-            File file = new File(Firework.FIREWORK_DIRECTORY+"Spam.json");
-
-            if (file.exists()){
-                return;
+        File theDir = new File(Firework.FIREWORK_DIRECTORY+"Spam.json");
+        if (!theDir.exists()){
+            try (FileWriter file = new FileWriter(Firework.FIREWORK_DIRECTORY + "Spam.json")) {
+                file.write(obj.toJSONString());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            FileOutputStream fileStream = new FileOutputStream(file);
-            OutputStreamWriter writer = new OutputStreamWriter(fileStream, Charsets.UTF_16);
-            writer.write(obj.toJSONString());
-            writer.close();
-        } catch (Exception e) {
-            //NOTHING...........
         }
-
         JsonReader.getSpamText();
     }
 
@@ -60,15 +52,17 @@ public class Spammer extends Module {
     private void spam() {
         delay++;
         if(delay >= 20 * delaySeconds.getValue()) {
-            String reformattedMessage = message;
+            String[] messageArray = message.split("-");
+            String reformattedMessage = messageArray[new Random().nextInt(messageArray.length)];
             Random random = new Random();
 
             if(antiFilter.getValue()) {
                 reformattedMessage += " | " + random.nextInt(2048);
             }
 
-            Minecraft.getMinecraft().player.sendChatMessage(reformattedMessage);
-
+            if(!autoWhisperer.getValue()) {
+                Minecraft.getMinecraft().player.sendChatMessage(reformattedMessage);
+            }
             if(autoWhisperer.getValue()) {
                 for (NetworkPlayerInfo player : Minecraft.getMinecraft().getConnection().getPlayerInfoMap()) {
                     String name = Minecraft.getMinecraft().ingameGUI.getTabList().getPlayerName(player);

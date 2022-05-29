@@ -90,7 +90,7 @@ public class Firework
         //Sets System tray icon
         SystemTray.sysTray();
         //Chakes for updates
-        UpdateManager.hwidCheck();
+        //UpdateManager.hwidCheck();
         //Creates Folder with client files
         JsonParser.parse();
         JsonPrefixPraser.parse();
