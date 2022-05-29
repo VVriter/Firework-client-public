@@ -27,6 +27,8 @@ public class SliderButton extends Button {
 
         this.setting = setting;
 
+        this.offset = setting.opened ? 77 : 11;
+
         this.difference = setting.max - setting.min;
     }
 

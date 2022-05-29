@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import java.awt.*;
 
 import static java.awt.Color.*;
+import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class RenderUtils2D {
@@ -121,4 +122,10 @@ public class RenderUtils2D {
         GlStateManager.enableTexture2D();
     }
 
+    public static double distance(Point one, Point two){
+        double ac = abs(two.getY() - one.getY());
+        double cb = abs(two.getX() - one.getX());
+
+        return sqrt(ac * ac + cb * cb);
+    }
 }

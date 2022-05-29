@@ -31,7 +31,7 @@ import static com.firework.client.Firework.*;
 import static net.minecraft.util.math.MathHelper.floor;
 
 public class Gui extends GuiScreen {
-    public ArrayList<Button> initializedButtons;
+    public static ArrayList<Button> initializedButtons;
 
     public static boolean isDragging = false;
     public static boolean keyIsDragging = false;
@@ -113,11 +113,9 @@ public class Gui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) throws ConcurrentModificationException {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-
 
        if (GuiGradient.enabled.getValue()) {
-            drawGradientRect(0, 0, sr.getScaledWidth(), sr.getScaledHeight(),
+            drawGradientRect(0, 0, mc.displayWidth, mc.displayHeight,
                     GuiGradient.rainbow1.getValue() ? RainbowUtil.generateRainbowFadingColor(1, true) :
                             new Color(175,
                                     75,
@@ -165,6 +163,7 @@ public class Gui extends GuiScreen {
         if(scroll == -1)
             origYOffset-=speed;
 
+        init();
     }
 
     @Override
