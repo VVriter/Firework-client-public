@@ -14,9 +14,7 @@ import com.firework.client.Implementations.Gui.Components.*;
 import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.Vec2f;
 
@@ -47,6 +45,7 @@ public class Gui extends GuiScreen {
         isDragging = false;
         keyIsDragging = false;
 
+        initializedButtons = null;
         initializedButtons = new ArrayList<>();
 
         init();
@@ -71,27 +70,29 @@ public class Gui extends GuiScreen {
                 yOffset += moduleButton.offset;
                 if (m.isOpened.getValue()) {
                     for (Setting setting : settingManager.modulesSettings(m)) {
+                        Offset offsetObject = new Offset();
                         if (setting.mode == Setting.Mode.BOOL) {
-                            BoolButton boolButton = new BoolButton(setting, xOffset + newXOffset, yOffset, 60, 11);
-                            initializedButtons.add(boolButton);
+                            offsetObject.register(
+                                    new BoolButton(setting, xOffset + newXOffset, yOffset, 60, 11));
                         }
                         if (setting.mode == Setting.Mode.MODE) {
-                            ModeButton modeButton = new ModeButton(setting, xOffset + newXOffset, yOffset, 60, 11);
-                            initializedButtons.add(modeButton);
+                            offsetObject.register(
+                                    new ModeButton(setting, xOffset + newXOffset, yOffset, 60, 11));
                         }
                         if (setting.mode == Setting.Mode.NUMBER) {
-                            SliderButton sliderButton = new SliderButton(setting, xOffset + newXOffset, yOffset, 60, 11);
-                            initializedButtons.add(sliderButton);
+                            offsetObject.register(
+                                    new SliderButton(setting, xOffset + newXOffset, yOffset, 60, 11));
                         }
                         if (setting.mode == Setting.Mode.KEY) {
-                            KeyButton keyButton = new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11);
-                            initializedButtons.add(keyButton);
+                            offsetObject.register(
+                                    new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11));
                         }
                         if (setting.mode == Setting.Mode.COLOR) {
-                            ColorButton colorButton = new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 11);
-                            initializedButtons.add(colorButton);
+                            offsetObject.register(
+                                    new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 11),
+                                    new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 66, 60, 11));
                         }
-                        yOffset += initializedButtons.get(initializedButtons.size()-1).offset;
+                        yOffset += offsetObject.offset;
                     }
                 }
             }
@@ -213,6 +214,9 @@ public class Gui extends GuiScreen {
                 if(button instanceof ColorButton){
                     ((ColorButton) button).initialize(mouseX, mouseY, state);
                     init();
+                }
+                if(button instanceof ColorSliderButton){
+                    ((ColorSliderButton) button).initialize(mouseX, mouseY, state);
                 }
                 return;
             }

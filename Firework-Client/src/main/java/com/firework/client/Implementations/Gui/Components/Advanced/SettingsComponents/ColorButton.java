@@ -53,14 +53,11 @@ public class ColorButton extends Button {
             RenderUtils2D.drawRectangle(new Rectangle(x, y+11, width, height), fillColorB);
             RenderUtils2D.drawColorPickerBase(new Point(x + width/2, y + 11 + height/2), (HSLColor) setting.getValue(), 28);
 
-            int height = 4;
-            int width = 4;
             Point center = new Point(x + width/2, y + 11 + height/2);
             Point p = hueToPosition(center, 28, (int) ((HSLColor) setting.getValue()).hue);
 
-            //    RenderUtils2D.drawRectangle(new Rectangle(mouse.x - height / 2, p.y - width / 2, width, height), ((HSLColor) setting.getValue()).toRGB());
-            //    RenderUtils2D.drawRectangleOutline(new Rectangle(mouse.x - height / 2, p.y - width / 2, width, height), 1, fillColorB);
-
+            RenderUtils2D.drawFilledCircle(p, ((HSLColor) setting.getValue()).toRGB(), 3);
+            RenderUtils2D.drawCircleOutline(p, 3, 1, outlineColorA);
         }
     }
 
