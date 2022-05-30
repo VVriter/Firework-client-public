@@ -2,6 +2,7 @@
 
 package com.firework.client;
 
+import com.firework.client.Features.CommandsSystem.Commands.ForgeEventListener;
 import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
@@ -13,15 +14,13 @@ import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CustomFontManager;
 import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
-import com.firework.client.Implementations.Utill.Client.HwidUtil;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Features.CommandsSystem.CommandManager;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Session;
+import net.minecraft.util.Session;  
 import net.minecraft.util.Util;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -33,12 +32,10 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.Display;
-import xyz.firework.autentification.AutoUpdate.UpdateManager;
 
-import java.awt.*;
+import org.lwjgl.opengl.Display;
+
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.nio.ByteBuffer;
 import java.lang.reflect.Field;
 
@@ -87,6 +84,7 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
+        MinecraftForge.EVENT_BUS.register(ForgeEventListener.class);
         //Sets System tray icon
         SystemTray.sysTray();
         //Chakes for updates
