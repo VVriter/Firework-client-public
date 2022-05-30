@@ -91,8 +91,8 @@ public class Gui extends GuiScreen {
                         if (setting.mode == Setting.Mode.COLOR) {
                             offsetObject.register(
                                     new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 11),
-                                    new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 70, 60, 12, ColorSliderButton.CSliderMode.HUE),
-                                    new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 83, 60, 12, ColorSliderButton.CSliderMode.SATURATION));
+                                    new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 71, 60, 12, ColorSliderButton.CSliderMode.HUE),
+                                    new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 84, 60, 12, ColorSliderButton.CSliderMode.SATURATION));
                         }
                         yOffset += offsetObject.offset;
                     }

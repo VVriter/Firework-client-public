@@ -56,8 +56,9 @@ public class ColorSliderButton extends Button {
             value = ((HSLColor) setting.getValue()).hue;
         }else if(mode == CSliderMode.SATURATION){
             value = ((HSLColor) setting.getValue()).saturation;
+
+            RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), ((HSLColor) setting.getValue()).toRGB(), Color.BLACK);
         }
-        //RenderUtils2D.drawRectangleOutline(new Rectangle((int) (x + round(width * value - 0) / difference), y, renderWidth, height), 3, new Color(ColorUtils.astolfoColors(100, 100)));
         RenderUtils2D.drawMarker(new Rectangle((int) (x + round(width * value - 0) / difference), y, 6, height), new Color(ColorUtils.astolfoColors(100, 100)));
     }
 

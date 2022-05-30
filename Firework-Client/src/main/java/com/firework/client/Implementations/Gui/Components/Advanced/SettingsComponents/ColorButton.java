@@ -24,7 +24,7 @@ public class ColorButton extends Button {
         super(x, y, width, height);
         this.setting = setting;
 
-        this.offset = setting.opened ? 70 : 11;
+        this.offset = setting.opened ? 71 : 11;
         this.height = setting.opened ? 60 : 11;
     }
 
