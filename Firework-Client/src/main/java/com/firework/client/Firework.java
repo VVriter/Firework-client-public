@@ -77,6 +77,7 @@ public class Firework
         textManager = null;
         customFontManager = null;
         positionManager = null;
+
     }
 
 

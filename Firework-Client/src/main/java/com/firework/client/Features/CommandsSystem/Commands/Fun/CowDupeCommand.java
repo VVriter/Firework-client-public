@@ -40,5 +40,6 @@ public class CowDupeCommand extends Command {
             MessageUtil.sendClientMessage("Finished shearing targeted entity.",-1117);
         } else {
             MessageUtil.sendError("You need to hold shears to do the glitch.",-1117);
-        }    }
+        }
+    }
 }
