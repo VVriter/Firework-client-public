@@ -9,6 +9,7 @@ import com.firework.client.Features.CommandsSystem.Commands.Dirs.ImgurCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Dirs.OpenDirCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Dirs.SaveConfigCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Dirs.WebhookCommand;
+import com.firework.client.Features.CommandsSystem.Commands.Fun.CowDupeCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Fun.DupeCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Fun.PenisCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Fun.TutorialCommand;
@@ -70,6 +71,7 @@ public class CommandManager {
     public void init() {
         register(
                 new TutorialCommand(),
+                new CowDupeCommand(),
                 new BookCommand(),
                 new PenisCommand(),
                 new PeekCommand(),

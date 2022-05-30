@@ -2,7 +2,6 @@
 
 package com.firework.client;
 
-import com.firework.client.Features.CommandsSystem.Commands.ForgeEventListener;
 import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
@@ -84,7 +83,6 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
-        MinecraftForge.EVENT_BUS.register(ForgeEventListener.class);
         //Sets System tray icon
         SystemTray.sysTray();
         //Chakes for updates
