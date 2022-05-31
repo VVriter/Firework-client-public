@@ -36,4 +36,12 @@ public class FriendManager {
     public static void isFriend(){
 
     }
+
+    public static boolean findFriend(String name) {
+        File theDir = new File(Firework.FIREWORK_DIRECTORY+"Friends/" + name + ".json");
+        if(theDir.exists()) {
+            return true;
+        }
+        return false;
+    }
 }
