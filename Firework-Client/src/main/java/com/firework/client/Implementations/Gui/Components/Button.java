@@ -1,5 +1,7 @@
 package com.firework.client.Implementations.Gui.Components;
 
+import com.firework.client.Implementations.Gui.GuiInfo;
+
 public class Button {
 
     public int x;
@@ -10,11 +12,16 @@ public class Button {
 
     public int offset = 11;
 
+    public int index;
+
     public Button(int x, int y, int width, int height){
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+
+        GuiInfo.index++;
+        this.index = GuiInfo.index;
     }
 
     public void draw(){}

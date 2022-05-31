@@ -15,14 +15,17 @@ public class GuiInfo {
     public static Color outlineColorA = new Color(102, 102, 102);
     public static Color outlineColorB = new Color(65, 65, 65);
     public static Color fillColorA = new Color(72, 72, 72);
-    public static Color fillColorB = new Color(139, 126, 143);
+    public static Color fillColorB = new Color(107, 103, 107);
 
     //Colors for frames
     public static Color outlineFrameColorA = new Color(76, 76, 76);
-    public static Color outlineFrameColorB = new Color(138, 138, 138);
+    public static Color outlineFrameColorB = new Color(115, 115, 115);
 
     //Gui scale
     public static double guiScale = 0.01;
+
+    //last index
+    public static int index = 0;
 
     //Makes columns, for each category
     public static void setupModulesColumns(){
