@@ -1,23 +1,16 @@
 package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 
 public class SlowAnimations extends Module {
     private static Minecraft mc = Minecraft.getMinecraft();
-
-    public SlowAnimations(){super("SlowAnimations",Category.RENDER);}
-
-    public void onEnable() {
-        super.onEnable();
-        SlowAnimations.mc.player.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 255000));
-        }
-
-
-    public void onDisable() {
-        super.onDisable();
-        SlowAnimations.mc.player.removePotionEffect(MobEffects.MINING_FATIGUE);
-    }
+    public static Setting<Double> swingDelay = null;
+    public static Setting<Boolean> enabled = null;
+    public SlowAnimations(){super("SlowAnimations",Category.RENDER);
+        enabled = this.isEnabled;
+        swingDelay = new Setting<>("swingDelay", 20d, this, 1, 30);}
 }

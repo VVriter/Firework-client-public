@@ -10,6 +10,7 @@
     "MixinRenderer",
     "ICPacketCustomPayload",
     "ViewModelMixin",
-    "ISPacketPlayerPosLook"
+    "ISPacketPlayerPosLook",
+    "MixinEntityLivingBase"
   ]
 }
