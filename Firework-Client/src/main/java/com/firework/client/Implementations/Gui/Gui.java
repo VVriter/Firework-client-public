@@ -92,7 +92,8 @@ public class Gui extends GuiScreen {
                             offsetObject.register(
                                     new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 11),
                                     new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 71, 60, 12, ColorSliderButton.CSliderMode.HUE),
-                                    new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 84, 60, 12, ColorSliderButton.CSliderMode.SATURATION));
+                                    new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 84, 60, 12, ColorSliderButton.CSliderMode.SATURATION),
+                                    new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 97, 60, 12, ColorSliderButton.CSliderMode.LIGHT));
                         }
                         yOffset += offsetObject.offset;
                     }
@@ -160,13 +161,15 @@ public class Gui extends GuiScreen {
         float scroll = Math.signum(Mouse.getDWheel());
         int speed = floor(BebraGui.scrollSpeed.getValue());
 
+
         if(scroll == 1)
             origYOffset+=speed;
 
         if(scroll == -1)
             origYOffset-=speed;
 
-        init();
+        if(scroll != 0)
+            init();
     }
 
     @Override
