@@ -9,6 +9,8 @@ import com.firework.client.Features.CommandsSystem.Commands.Dirs.ImgurCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Dirs.OpenDirCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Dirs.SaveConfigCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Dirs.WebhookCommand;
+import com.firework.client.Features.CommandsSystem.Commands.FriendSys.FriendAdd;
+import com.firework.client.Features.CommandsSystem.Commands.FriendSys.FriendDell;
 import com.firework.client.Features.CommandsSystem.Commands.Fun.CowDupeCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Fun.DupeCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Fun.PenisCommand;
@@ -72,6 +74,8 @@ public class CommandManager {
         register(
                 new TutorialCommand(),
                 new CowDupeCommand(),
+                new FriendAdd(),
+                new FriendDell(),
                 new BookCommand(),
                 new PenisCommand(),
                 new PeekCommand(),
