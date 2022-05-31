@@ -67,6 +67,7 @@ public class Gui extends GuiScreen {
 
             yOffset += startBlock.offset;
 
+            int index = 0;
             for (Object obj : column.components) {
 
                 if (obj instanceof Module) {
@@ -105,7 +106,21 @@ public class Gui extends GuiScreen {
                             yOffset += offsetObject.offset;
                         }
                     }
+                }else if(obj instanceof SubModule){
+                    SubModule sb = (SubModule) obj;
+                    Offset offsetObject = new Offset();
+
+                    offsetObject.register(sb);
+
+                    if((boolean)GuiValueStorage.values[(sb).index].get(0)){
+                        for(Module module : sb.modules)
+                            column.components.add(index, module);
+                    }
+
+                    yOffset += offsetObject.offset;
                 }
+
+                index++;
             }
 
             Frame frame = new Frame(xOffset + newXOffset, origYOffset, 60, yOffset - origYOffset);

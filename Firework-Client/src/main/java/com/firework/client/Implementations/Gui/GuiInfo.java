@@ -43,4 +43,14 @@ public class GuiInfo {
         }
     }
 
+    //Resort column by subCategories
+    public static ArrayList<Object> resortColumn(ArrayList<Object> column){
+        ArrayList<Object> output = new ArrayList<>();
+
+        for(Object obj : column){
+
+        }
+        return output;
+    }
+
 }
