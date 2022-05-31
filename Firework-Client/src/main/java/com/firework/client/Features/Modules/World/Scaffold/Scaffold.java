@@ -6,6 +6,7 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.BlockUtil;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 import net.minecraft.block.Block;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.util.math.BlockPos;
@@ -24,6 +25,8 @@ public class Scaffold extends Module {
     public Setting<Boolean> swing  = new Setting<>("Swing", true, this);
 
     public Setting<Boolean> Switch  = new Setting<>("Switch", true, this);
+
+    public Setting<Boolean> Tower  = new Setting<>("Tower", true, this);
 
     public Setting<Double> speed = new Setting<>("Delay", (double)0.7, this, 0, 1);
 
@@ -77,6 +80,13 @@ public class Scaffold extends Module {
                 }
             }
 
+        if(Tower.getValue()){
+            if(mc.gameSettings.keyBindJump.isKeyDown() && mc.player.moveForward == 0.0F && mc.player.moveStrafing == 0.0F&& !mc.player.isPotionActive(MobEffects.JUMP_BOOST)){
+                mc.player.motionY = 0.2444441D;
+                mc.player.motionZ = 0.0D;
+                mc.player.motionX = 0.0D;
+            }
+        }
 
     }
 

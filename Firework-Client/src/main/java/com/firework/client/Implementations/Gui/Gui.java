@@ -126,7 +126,7 @@ public class Gui extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
 
-       if (GuiGradient.enabled.getValue()) {
+      /* if (GuiGradient.enabled.getValue()) {
             drawGradientRect(0, 0, mc.displayWidth, mc.displayHeight,
                     GuiGradient.rainbow1.getValue() ? RainbowUtil.generateRainbowFadingColor(1, true) :
                             new Color(175,
@@ -138,7 +138,7 @@ public class Gui extends GuiScreen {
                                     75,
                                     231,
                                     100).getRGB());
-        }
+        }*/
 
         if(BebraGui.background.getValue()){
                 this.drawDefaultBackground();
