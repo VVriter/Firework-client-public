@@ -1,12 +1,17 @@
 package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Implementations.Managers.FriendManager;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.RayTraceResult;
 import org.lwjgl.input.Mouse;
 
 public class MiddleClick extends Module {
@@ -15,6 +20,7 @@ public class MiddleClick extends Module {
     private boolean clicked = false;
 
     public Setting<Boolean> pearl = new Setting<>("Pearl", true, this);
+    public Setting<Boolean> friend = new Setting<>("Friend", true, this);
 
 
     public MiddleClick(){super("MiddleClick",Category.MISC);}
@@ -25,6 +31,18 @@ public class MiddleClick extends Module {
         super.onTick();
         if (Mouse.isButtonDown(2)) {
             if (!this.clicked && pearl.getValue()) {
+                this.onClick();
+            }
+
+            this.clicked = true;
+        } else {
+            this.clicked = false;
+        }
+
+
+
+        if (Mouse.isButtonDown(2)) {
+            if (!this.clicked && friend.getValue()) {
                 this.throwPearl();
             }
 
@@ -32,6 +50,7 @@ public class MiddleClick extends Module {
         } else {
             this.clicked = false;
         }
+
 
     }
 
@@ -52,6 +71,15 @@ public class MiddleClick extends Module {
             }
         }
 
+    }
+
+    private void onClick() {
+        Entity entity;
+        RayTraceResult result = mc.objectMouseOver;
+        if (result != null && result.typeOfHit == RayTraceResult.Type.ENTITY && (entity = result.entityHit) instanceof EntityPlayer) {
+            FriendManager.parse(entity.getName());
+            MessageUtil.sendClientMessage(entity.getName()+"added as friend!",false);
+        }
     }
 
 }

@@ -2,23 +2,11 @@ package com.firework.client.Implementations.Managers.Parser;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.Iterator;
-import java.net.URISyntaxException;
 
 public class JsonParser {
     public static void parse() {
