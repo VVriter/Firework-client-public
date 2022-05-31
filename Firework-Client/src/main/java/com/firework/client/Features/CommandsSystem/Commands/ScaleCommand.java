@@ -13,5 +13,9 @@ public class ScaleCommand extends Command {
         //Plays Notification sound
         Notifications.notificate();
         super.execute(args);
+
+        float scale = Float.parseFloat(args[0]);
+
+        GlStateManager.scale(scale, scale, scale);
     }
 }
