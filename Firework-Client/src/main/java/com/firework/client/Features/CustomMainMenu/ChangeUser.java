@@ -1,7 +1,7 @@
 package com.firework.client.Features.CustomMainMenu;
 
 
-import com.firework.client.DiscordRichPresence;
+import com.firework.client.CustomDiscordRichPresence;
 import com.firework.client.Firework;
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
@@ -50,7 +50,7 @@ public class ChangeUser extends GuiScreen {
         }
 
         Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
-        DiscordRichPresence.rerun();
+        CustomDiscordRichPresence.rerun();
     }
 
     @Override

@@ -46,6 +46,7 @@ public class ModuleManager {
                     new Announcer(),
                     new AntiSpam(),
                     new ChorusControl(),
+                    new AutoNametag(),
                     new SelfBlock(),
                     new SlowAnimations(),
                     new AutoWalk(),
