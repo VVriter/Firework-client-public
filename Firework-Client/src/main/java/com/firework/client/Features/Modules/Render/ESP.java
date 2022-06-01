@@ -17,7 +17,12 @@ public class ESP extends Module {
     AxisAlignedBB box = null;
 
     public Setting<Boolean> pull9 = new Setting<>("Player", true, this);
-    public static Setting<HSLColor> playerColor = null;
+    public static Setting<HSLColor> playerColor1 = null;
+    public static Setting<HSLColor> playerColor2 = null;
+
+
+
+
     public Setting<Boolean> pull10 = new Setting<>("Items", true, this);
 
     public Setting<Boolean> pull = new Setting<>("Chest", true, this);
@@ -32,7 +37,8 @@ public class ESP extends Module {
 
     public ESP() {
         super("ESP", Category.RENDER);
-        playerColor = new Setting<>("playerColor", new HSLColor(1, 54, 43), this);
+        playerColor1 = new Setting<>("PlayerColor", new HSLColor(1, 54, 43), this);
+        playerColor2 = new Setting<>("PlayerOutline", new HSLColor(1, 54, 43), this);
     }
 
     @SubscribeEvent

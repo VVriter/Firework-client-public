@@ -72,8 +72,8 @@ public class RenderUtils {
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
 
-        RenderGlobal.renderFilledBox(box, ESP.playerColor.getValue().toRGB().getRed(), ESP.playerColor.getValue().toRGB().getGreen(), ESP.playerColor.getValue().toRGB().getBlue(), 0.3F);
-        RenderGlobal.drawSelectionBoundingBox(box, 0, 1, 0, 0.8F);
+        RenderGlobal.renderFilledBox(box, ESP.playerColor1.getValue().toRGB().getRed(), ESP.playerColor1.getValue().toRGB().getGreen(), ESP.playerColor1.getValue().toRGB().getBlue(), 0.3F);
+        RenderGlobal.drawSelectionBoundingBox(box, ESP.playerColor2.getValue().toRGB().getRed(), ESP.playerColor2.getValue().toRGB().getGreen(), ESP.playerColor2.getValue().toRGB().getBlue(), 0.8F);
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
