@@ -19,17 +19,10 @@ public class FakePlayer extends EntityOtherPlayerMP {
         super(Minecraft.getMinecraft().world, new GameProfile(uuid, nickname));
         this.nickname = nickname;
         this.addMeToWorld();
-        this.setHealth(50f);
         this.inventory.addItemStackToInventory(new ItemStack(Items.TOTEM_OF_UNDYING));
     }
 
     private void addMeToWorld() {
         Minecraft.getMinecraft().world.addEntityToWorld(-100, this);
-    }
-
-    @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        this.setHealth(this.getHealth() - amount);
-        return true;
     }
 }
