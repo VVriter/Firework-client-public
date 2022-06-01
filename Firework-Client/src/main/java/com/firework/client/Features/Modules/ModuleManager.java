@@ -45,6 +45,7 @@ public class ModuleManager {
                     new ItemViewModel(),
                     new Announcer(),
                     new AntiSpam(),
+                    new ChorusControl(),
                     new SelfBlock(),
                     new SlowAnimations(),
                     new AutoWalk(),
