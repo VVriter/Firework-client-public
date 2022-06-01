@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -16,6 +17,7 @@ public class ESP extends Module {
     AxisAlignedBB box = null;
 
     public Setting<Boolean> pull9 = new Setting<>("Player", true, this);
+    public static Setting<HSLColor> playerColor = null;
     public Setting<Boolean> pull10 = new Setting<>("Items", true, this);
 
     public Setting<Boolean> pull = new Setting<>("Chest", true, this);
@@ -30,6 +32,7 @@ public class ESP extends Module {
 
     public ESP() {
         super("ESP", Category.RENDER);
+        playerColor = new Setting<>("playerColor", new HSLColor(1, 54, 43), this);
     }
 
     @SubscribeEvent

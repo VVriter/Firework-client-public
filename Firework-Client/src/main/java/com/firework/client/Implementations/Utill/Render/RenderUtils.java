@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Utill.Render;
 
+import com.firework.client.Features.Modules.Render.ESP;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -71,7 +72,7 @@ public class RenderUtils {
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
 
-        RenderGlobal.renderFilledBox(box, 0, 1, 0, 0.3F);
+        RenderGlobal.renderFilledBox(box, ESP.playerColor.getValue().toRGB().getRed(), ESP.playerColor.getValue().toRGB().getGreen(), ESP.playerColor.getValue().toRGB().getBlue(), 0.3F);
         RenderGlobal.drawSelectionBoundingBox(box, 0, 1, 0, 0.8F);
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
