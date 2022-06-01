@@ -32,6 +32,7 @@ public class ModuleManager {
     public void registerModules() {
         register(new Test(),
                     new Notifications(),
+                    new FastSleep(),
                     new AntiLog4j(),
                     new GreenText(),
                     new Narrator(),
@@ -44,6 +45,7 @@ public class ModuleManager {
                     new ItemViewModel(),
                     new Announcer(),
                     new AntiSpam(),
+                    new ChorusControl(),
                     new SelfBlock(),
                     new SlowAnimations(),
                     new AutoWalk(),

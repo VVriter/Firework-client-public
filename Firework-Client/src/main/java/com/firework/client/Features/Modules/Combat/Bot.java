@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@ModuleArgs(name = "Bot", category = Module.Category.COMBAT)
 public class Bot extends Module {
 
     private List<EntityPlayer> bots = new ArrayList<>();
@@ -33,10 +35,6 @@ public class Bot extends Module {
     public Setting<Boolean> BowSpam = new Setting<>("BowSpamBot", true, this);
     public Setting<Double> BowSpamSpeed = new Setting<>("BowSpamSpeed", 1d, this, 1, 30);
     public Setting<String> mode  = new Setting<>("AntiBot", "Zamorozka", this, Arrays.asList("None","Zamorozka"));
-
-
-
-    public Bot(){super("Bot",Category.COMBAT);}
 
 
 

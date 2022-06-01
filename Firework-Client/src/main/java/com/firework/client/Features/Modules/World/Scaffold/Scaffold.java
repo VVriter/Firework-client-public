@@ -5,6 +5,9 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.BlockUtil;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
+import net.minecraft.block.Block;
+import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.util.math.BlockPos;
 
@@ -21,6 +24,10 @@ public class Scaffold extends Module {
 
     public Setting<Boolean> swing  = new Setting<>("Swing", true, this);
 
+    public Setting<Boolean> Switch  = new Setting<>("Switch", true, this);
+
+    public Setting<Boolean> Tower  = new Setting<>("Tower", true, this);
+
     public Setting<Double> speed = new Setting<>("Delay", (double)0.7, this, 0, 1);
 
 
@@ -32,8 +39,12 @@ public class Scaffold extends Module {
 
 
 
+
     private BlockPos pos;
+
     private boolean packet = false;
+
+
 
 
     @Override
@@ -59,6 +70,24 @@ public class Scaffold extends Module {
         double[] calc = MathUtil.directionSpeed(this.speed.getValue() / 10.0);
         mc.player.motionX = calc[0];
         mc.player.motionZ = calc[1];
+
+
+        if (Switch.getValue() && (mc.player.getHeldItemMainhand().getItem() == null || (!(mc.player.getHeldItemMainhand().getItem() instanceof ItemBlock) )))
+            for (int j = 0; j < 9; j++) {
+                if (mc.player.inventory.getStackInSlot(j) != null && mc.player.inventory.getStackInSlot(j).getCount() != 0 && mc.player.inventory.getStackInSlot(j).getItem() instanceof ItemBlock ) {
+                    mc.player.inventory.currentItem = j;
+                    break;
+                }
+            }
+
+        if(Tower.getValue()){
+            if(mc.gameSettings.keyBindJump.isKeyDown() && mc.player.moveForward == 0.0F && mc.player.moveStrafing == 0.0F&& !mc.player.isPotionActive(MobEffects.JUMP_BOOST)){
+                mc.player.motionY = 0.2444441D;
+                mc.player.motionZ = 0.0D;
+                mc.player.motionX = 0.0D;
+            }
+        }
+
     }
 
 

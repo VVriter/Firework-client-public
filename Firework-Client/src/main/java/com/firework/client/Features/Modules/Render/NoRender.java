@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.RenderArmorStand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class NoRender extends Module {
@@ -14,6 +15,7 @@ public class NoRender extends Module {
 
     public Setting<Boolean> antiFog = new Setting<>("AntiFog", true, this);
     public Setting<Boolean> viewBobbing = new Setting<>("ViewBobbing", true, this);
+    public Setting<Boolean> blockoverlay = new Setting<>("BlockOverlay", true, this);
 
     public NoRender(){super("NoRender",Category.RENDER);}
 
@@ -29,6 +31,13 @@ public class NoRender extends Module {
         if(antiFog.getValue()){
         event.setDensity(0);
         event.setCanceled(true);}
+    }
+
+    @SubscribeEvent
+    public void blockoverlay(RenderBlockOverlayEvent event){
+        if(blockoverlay.getValue()){
+            event.setCanceled(true);
+        }
     }
 
     public void onDisable(){

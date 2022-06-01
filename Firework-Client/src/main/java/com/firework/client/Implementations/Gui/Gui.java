@@ -50,6 +50,8 @@ public class Gui extends GuiScreen {
         initializedButtons = null;
         initializedButtons = new ArrayList<>();
 
+        GuiInfo.index = 0;
+
         init();
     }
 
@@ -72,38 +74,60 @@ public class Gui extends GuiScreen {
 
             yOffset += startBlock.offset;
 
-            for (Module m : column.components) {
-                ModuleButton moduleButton = new ModuleButton(m, m.name, xOffset + newXOffset, yOffset, 60, 11);
-                initializedButtons.add(moduleButton);
-                yOffset += moduleButton.offset;
-                if (m.isOpened.getValue()) {
-                    for (Setting setting : settingManager.modulesSettings(m)) {
-                        Offset offsetObject = new Offset();
-                        if (setting.mode == Setting.Mode.BOOL) {
-                            offsetObject.register(
-                                    new BoolButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+            int index = 0;
+            for (Object obj : column.components) {
+
+                if (obj instanceof Module) {
+
+                    Module m = (Module) obj;
+
+                    ModuleButton moduleButton = new ModuleButton(m, m.name, xOffset + newXOffset, yOffset, 60, 11);
+                    initializedButtons.add(moduleButton);
+                    yOffset += moduleButton.offset;
+                    if (m.isOpened.getValue()) {
+                        for (Setting setting : settingManager.modulesSettings(m)) {
+                            Offset offsetObject = new Offset();
+                            if (setting.mode == Setting.Mode.BOOL) {
+                                offsetObject.register(
+                                        new BoolButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+                            }
+                            if (setting.mode == Setting.Mode.MODE) {
+                                offsetObject.register(
+                                        new ModeButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+                            }
+                            if (setting.mode == Setting.Mode.NUMBER) {
+                                offsetObject.register(
+                                        new SliderButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+                            }
+                            if (setting.mode == Setting.Mode.KEY) {
+                                offsetObject.register(
+                                        new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+                            }
+                            if (setting.mode == Setting.Mode.COLOR) {
+                                offsetObject.register(
+                                        new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 11),
+                                        new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 71, 60, 12, ColorSliderButton.CSliderMode.HUE),
+                                        new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 84, 60, 12, ColorSliderButton.CSliderMode.SATURATION),
+                                        new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 97, 60, 12, ColorSliderButton.CSliderMode.LIGHT));
+                            }
+                            yOffset += offsetObject.offset;
                         }
-                        if (setting.mode == Setting.Mode.MODE) {
-                            offsetObject.register(
-                                    new ModeButton(setting, xOffset + newXOffset, yOffset, 60, 11));
-                        }
-                        if (setting.mode == Setting.Mode.NUMBER) {
-                            offsetObject.register(
-                                    new SliderButton(setting, xOffset + newXOffset, yOffset, 60, 11));
-                        }
-                        if (setting.mode == Setting.Mode.KEY) {
-                            offsetObject.register(
-                                    new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11));
-                        }
-                        if (setting.mode == Setting.Mode.COLOR) {
-                            offsetObject.register(
-                                    new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 11),
-                                    new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 70, 60, 12, ColorSliderButton.CSliderMode.HUE),
-                                    new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 83, 60, 12, ColorSliderButton.CSliderMode.SATURATION));
-                        }
-                        yOffset += offsetObject.offset;
                     }
+                }else if(obj instanceof SubModule){
+                    SubModule sb = (SubModule) obj;
+                    Offset offsetObject = new Offset();
+
+                    offsetObject.register(sb);
+
+                    if((boolean)GuiValueStorage.values[(sb).index].get(0)){
+                        for(Module module : sb.modules)
+                            column.components.add(index, module);
+                    }
+
+                    yOffset += offsetObject.offset;
                 }
+
+                index++;
             }
 
             Frame frame = new Frame(xOffset + newXOffset, origYOffset, 60, yOffset - origYOffset);
@@ -172,13 +196,15 @@ public class Gui extends GuiScreen {
         float scroll = Math.signum(Mouse.getDWheel());
         int speed = floor(BebraGui.scrollSpeed.getValue());
 
+
         if(scroll == 1)
             origYOffset+=speed;
 
         if(scroll == -1)
             origYOffset-=speed;
 
-        init();
+        if(scroll != 0)
+            init();
     }
 
     @Override

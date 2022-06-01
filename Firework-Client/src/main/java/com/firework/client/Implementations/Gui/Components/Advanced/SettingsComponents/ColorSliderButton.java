@@ -30,7 +30,7 @@ public class ColorSliderButton extends Button {
 
         if(mode == CSliderMode.HUE) {
             this.difference = 360;
-        }else if (mode == CSliderMode.SATURATION){
+        }else if (mode == CSliderMode.SATURATION || mode == CSliderMode.LIGHT){
             this.difference = 100;
         }
 
@@ -56,8 +56,11 @@ public class ColorSliderButton extends Button {
             value = ((HSLColor) setting.getValue()).hue;
         }else if(mode == CSliderMode.SATURATION){
             value = ((HSLColor) setting.getValue()).saturation;
+            RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new HSLColor(((HSLColor) setting.getValue()).hue, 50, 50).toRGB(), Color.GRAY);
+        }else if(mode == CSliderMode.LIGHT){
+            value = ((HSLColor) setting.getValue()).light;
+            RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new HSLColor(((HSLColor) setting.getValue()).hue, 50, 50).toRGB(), Color.BLACK);
         }
-        //RenderUtils2D.drawRectangleOutline(new Rectangle((int) (x + round(width * value - 0) / difference), y, renderWidth, height), 3, new Color(ColorUtils.astolfoColors(100, 100)));
         RenderUtils2D.drawMarker(new Rectangle((int) (x + round(width * value - 0) / difference), y, 6, height), new Color(ColorUtils.astolfoColors(100, 100)));
     }
 
@@ -72,6 +75,10 @@ public class ColorSliderButton extends Button {
             float hue = ((HSLColor) this.setting.getValue()).hue;
             float light = ((HSLColor) this.setting.getValue()).light;
             this.setting.setValue(new HSLColor(hue, result, light));
+        }else if(mode == CSliderMode.LIGHT){
+            float hue = ((HSLColor) this.setting.getValue()).hue;
+            float saturation = ((HSLColor) this.setting.getValue()).saturation;
+            this.setting.setValue(new HSLColor(hue, saturation, result));
         }
     }
 
@@ -87,6 +94,6 @@ public class ColorSliderButton extends Button {
     }
 
     public enum CSliderMode{
-        HUE, SATURATION
+        HUE, SATURATION, LIGHT
     }
 }

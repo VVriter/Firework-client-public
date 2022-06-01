@@ -19,6 +19,8 @@ public class Module {
     public int delay = 20;
     public boolean existCheck;
 
+    public String subCategory;
+
     public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this);
     public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this);
     public Setting<Integer> key = new Setting<>("Key", Keyboard.KEY_NONE, this);
@@ -35,6 +37,7 @@ public class Module {
             ModuleArgs args = getClass().getAnnotation(ModuleArgs.class);
             this.name = args.name();
             this.category = args.category();
+            this.subCategory = args.subCategory();
         }
 
         isEnabled.hidden = true;

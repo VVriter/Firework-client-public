@@ -21,6 +21,8 @@ public class SelfBlock extends Module {
     public Setting<Double> offset  = new Setting<>("Offset", (double)3, this, -5, 5);
     public Setting<Boolean> ground  = new Setting<>("Ground check", true, this);
     public Setting<Boolean> rotate  = new Setting<>("Rotate", true, this);
+    public Setting<Boolean> swing  = new Setting<>("Swing", true, this);
+
     public Setting<Boolean> echest   = new Setting<>("Use echest", false, this);
     public Setting<Boolean> anvil   = new Setting<>("Use anvil", false, this);
 
@@ -52,6 +54,12 @@ public class SelfBlock extends Module {
                 this.isEnabled.setValue(false);
                 return;
             }
+        }
+        if(swing.getValue()){
+            mc.player.isSwingInProgress = false;
+            mc.player.swingProgressInt = 0;
+            mc.player.swingProgress = 0.0f;
+            mc.player.prevSwingProgress = 0.0f;
         }
 
         if (anvil.getValue() && BurrowUtil.findHotbarBlock(BlockAnvil.class) != -1) {

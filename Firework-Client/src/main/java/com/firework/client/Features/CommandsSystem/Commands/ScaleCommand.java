@@ -4,6 +4,7 @@ import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Implementations.Gui.GuiInfo;
+import net.minecraft.client.renderer.GlStateManager;
 
 @CommandManifest(label = "scale")
 public class ScaleCommand extends Command {
@@ -12,6 +13,9 @@ public class ScaleCommand extends Command {
         //Plays Notification sound
         Notifications.notificate();
         super.execute(args);
-        GuiInfo.guiScale = Double.parseDouble(args[1]);
+
+        float scale = Float.parseFloat(args[0]);
+
+        GlStateManager.scale(scale, scale, scale);
     }
 }

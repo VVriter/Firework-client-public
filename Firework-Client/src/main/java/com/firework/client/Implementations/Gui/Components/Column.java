@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Column {
 
-    public ArrayList<Module> components;
+    public ArrayList<Object> components;
 
     public String name;
 
