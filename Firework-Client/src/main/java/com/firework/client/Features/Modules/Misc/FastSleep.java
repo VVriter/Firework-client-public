@@ -10,8 +10,11 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 @ModuleArgs(name = "FastSleep",category = Module.Category.MISC)
 public class FastSleep extends Module {
-    @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
+
+
+    @Override
+            public void onTick(){
+        super.onTick();
         EntityPlayerSP player = mc.player;
         if (player.isPlayerSleeping()) {
             if (player.getSleepTimer() > 10) {

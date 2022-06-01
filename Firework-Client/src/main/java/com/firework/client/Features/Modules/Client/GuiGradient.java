@@ -11,6 +11,8 @@ public class GuiGradient extends Module {
     public static Setting<Boolean> rainbow1  = null;
     public static Setting<HSLColor> Color1 = null;
 
+
+
     public static Setting<Boolean> rainbow2   = null;
     public static Setting<HSLColor> Color2 = null;
 

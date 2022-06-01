@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.Client;
 
+import com.firework.client.DiscordRichPresence;
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.CustomDiscordRichPresence;
 
 public class DiscordRPCModule extends Module {
 
@@ -14,7 +14,7 @@ public class DiscordRPCModule extends Module {
         super.onEnable();
 
         new Thread(() -> {
-            CustomDiscordRichPresence.run();
+            DiscordRichPresence.run();
         }).start();
     }
 
@@ -22,6 +22,6 @@ public class DiscordRPCModule extends Module {
     public void onDisable() {
         super.onDisable();
 
-        CustomDiscordRichPresence.stop();
+        DiscordRichPresence.stop();
     }
 }
