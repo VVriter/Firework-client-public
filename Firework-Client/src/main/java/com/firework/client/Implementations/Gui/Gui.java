@@ -14,6 +14,7 @@ import com.firework.client.Implementations.Gui.Components.Advanced.StartBlock;
 import com.firework.client.Implementations.Gui.Components.*;
 import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Shaders.BackgroundShader;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.init.SoundEvents;
@@ -53,6 +54,12 @@ public class Gui extends GuiScreen {
     }
 
     public void init() {
+        try {
+            BackgroundShader.init();
+        } catch (Exception e) {
+
+        }
+
         int newXOffset = 0;
 
         initializedButtons.clear();
@@ -132,8 +139,13 @@ public class Gui extends GuiScreen {
         }
 
         if(BebraGui.background.getValue()){
-                this.drawDefaultBackground();
+                //this.drawDefaultBackground();
+            try {
+                BackgroundShader.draw();
+            } catch (Exception e) {
+
             }
+        }
 
         for(Button button : initializedButtons){
             button.draw();
