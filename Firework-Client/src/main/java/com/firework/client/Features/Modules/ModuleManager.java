@@ -69,7 +69,6 @@ public class ModuleManager {
                     new BridgeBuild(),
                     new NoRender(),
                     new ItemPhysics(),
-                    new FireworkExploit(),
                     new BoatFlyRewrote(),
                     new Spammer(),
                     new DiscordRPCModule());

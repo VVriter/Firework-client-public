@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CustomTime extends Module {
 
-    public Setting<Double> time = new Setting<>("tD", (double)3, this, 1, 10);
+    public Setting<Double> time = new Setting<>("Time", (double)0, this, 0, 23000);
 
 
 
@@ -17,7 +17,7 @@ public class CustomTime extends Module {
     public void onTick() {
 
 
-        mc.world.setWorldTime(1);
+        mc.world.setWorldTime(time.getValue().longValue());
     }
 
     @SubscribeEvent
