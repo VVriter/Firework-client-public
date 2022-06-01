@@ -3,7 +3,6 @@ package com.firework.client.Implementations.Gui.Components.Advanced;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Gui.GuiValueStorage;
-import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.ColorUtils;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
@@ -52,7 +51,7 @@ public class SubModule extends Button {
         super.initialize(mouseX, mouseY, state);
         if(state == 1){
             valuesB.set(0, !valuesB.get(0));
-            GuiValueStorage.values[index] = valuesB;
+            GuiValueStorage.values[localIndex] = valuesB;
         }
     }
 }

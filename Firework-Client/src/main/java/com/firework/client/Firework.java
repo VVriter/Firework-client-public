@@ -12,7 +12,7 @@ import com.firework.client.Implementations.Managers.PositionManager;
 import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CustomFontManager;
 import com.firework.client.Implementations.Managers.Text.TextManager;
-import com.firework.client.Implementations.Utill.Client.DiscordUtil;
+import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Features.CommandsSystem.CommandManager;
@@ -59,6 +59,7 @@ public class Firework
     public static CustomFontManager customFontManager;
     public static TextManager textManager;
     public static PositionManager positionManager;
+    public static UpdaterManager updaterManager;
 
 
     public void loadManagers(){
@@ -68,6 +69,8 @@ public class Firework
         customFontManager = new CustomFontManager("tcm", 16);
         textManager = new TextManager();
         positionManager = new PositionManager();
+        updaterManager = new UpdaterManager();
+        MinecraftForge.EVENT_BUS.register(updaterManager);
     }
 
     public static void unloadManagers(){
@@ -77,6 +80,7 @@ public class Firework
         textManager = null;
         customFontManager = null;
         positionManager = null;
+        MinecraftForge.EVENT_BUS.unregister(updaterManager); updaterManager = null;
     }
 
 

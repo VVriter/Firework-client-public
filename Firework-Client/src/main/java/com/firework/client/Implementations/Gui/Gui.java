@@ -49,12 +49,12 @@ public class Gui extends GuiScreen {
         initializedButtons = null;
         initializedButtons = new ArrayList<>();
 
-        GuiInfo.index = 0;
-
         init();
     }
 
     public void init() {
+        GuiInfo.index = 0;
+
         int newXOffset = 0;
 
         initializedButtons.clear();
@@ -101,7 +101,8 @@ public class Gui extends GuiScreen {
                                         new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 11),
                                         new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 71, 60, 12, ColorSliderButton.CSliderMode.HUE),
                                         new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 84, 60, 12, ColorSliderButton.CSliderMode.SATURATION),
-                                        new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 97, 60, 12, ColorSliderButton.CSliderMode.LIGHT));
+                                        new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 97, 60, 12, ColorSliderButton.CSliderMode.LIGHT),
+                                        new ColorRainbowButton(setting, xOffset + newXOffset, yOffset + 110, 60, 12));
                             }
                             yOffset += offsetObject.offset;
                         }
@@ -112,7 +113,7 @@ public class Gui extends GuiScreen {
 
                     offsetObject.register(sb);
 
-                    if((boolean)GuiValueStorage.values[(sb).index].get(0)){
+                    if((boolean)GuiValueStorage.values[(sb).localIndex].get(0)){
                         for(Module module : sb.modules)
                             column.components.add(index, module);
                     }
@@ -245,6 +246,9 @@ public class Gui extends GuiScreen {
                 }
                 if(button instanceof ColorSliderButton){
                     ((ColorSliderButton) button).initialize(mouseX, mouseY, state);
+                }
+                if(button instanceof ColorRainbowButton){
+                    ((ColorRainbowButton) button).initialize(mouseX, mouseY, state);
                 }
                 return;
             }

@@ -4,6 +4,6 @@ import java.util.ArrayList;
 
 public class GuiValueStorage {
 
-    public static ArrayList[] values;
+    public static ArrayList[] values = new ArrayList[600];
 
 }

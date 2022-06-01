@@ -12,7 +12,7 @@ public class Button {
 
     public int offset = 11;
 
-    public int index;
+    public int localIndex;
 
     public Button(int x, int y, int width, int height){
         this.x = x;
@@ -21,7 +21,7 @@ public class Button {
         this.height = height;
 
         GuiInfo.index++;
-        this.index = GuiInfo.index;
+        this.localIndex = GuiInfo.index;
     }
 
     public void draw(){}
