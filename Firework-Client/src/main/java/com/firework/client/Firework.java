@@ -35,6 +35,7 @@ import org.lwjgl.input.Keyboard;
 
 import org.lwjgl.opengl.Display;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.lang.reflect.Field;
@@ -173,6 +174,13 @@ public class Firework
                 System.out.println("Icon Exception");
             }
         }
+    }
+
+    public static ResourceLocation resourceLocation(String path){
+        try {
+            return Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(path)).getResourceLocation();
+        }catch (IOException e){}
+        return null;
     }
 
     //End------------------------------------------------------------------------------------------------------------------------------------

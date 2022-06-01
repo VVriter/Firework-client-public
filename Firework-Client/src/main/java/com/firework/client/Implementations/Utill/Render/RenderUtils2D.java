@@ -225,6 +225,22 @@ public class RenderUtils2D {
         GlStateManager.disableBlend();
     }
 
+    public static void drawCompleteImage(float posX, float posY, int width, int height) {
+        glPushMatrix();
+        glTranslatef(posX, posY, 0.0f);
+        glBegin(7);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex3f(0.0f, 0.0f, 0.0f);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex3f(0.0f, (float) height, 0.0f);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex3f((float) width, (float) height, 0.0f);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex3f((float) width, 0.0f, 0.0f);
+        glEnd();
+        glPopMatrix();
+    }
+
     public static double distance(Point one, Point two){
         double ac = abs(two.getY() - one.getY());
         double cb = abs(two.getX() - one.getX());

@@ -2,11 +2,19 @@ package com.firework.client.Implementations.Gui;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Gui.Components.Column;
+import com.firework.client.Implementations.Utill.Client.Pair;
+import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.firework.client.Firework.*;
+
 public class GuiInfo {
+
+    //Icons list
+    public static ArrayList<Pair> icons = new ArrayList<>();
 
     //Columns list
     public static ArrayList<Column> columns = new ArrayList<>();
@@ -43,14 +51,27 @@ public class GuiInfo {
         }
     }
 
-    //Resort column by subCategories
-    public static ArrayList<Object> resortColumn(ArrayList<Object> column){
-        ArrayList<Object> output = new ArrayList<>();
+    //Setup icons
+    public static void icons(){
+        icons.add(new Pair(Module.Category.COMBAT, resourceLocation("firework/textures/combat.png")));
+    }
 
-        for(Object obj : column){
-
+    //Has icon
+    public static boolean hasCategoryIcon(String category){
+        for(Pair pair : icons){
+            if(((Module.Category) pair.one).toString() == category)
+                return true;
         }
-        return output;
+        return false;
+    }
+
+    //Icon from category
+    public static ResourceLocation resourceLocationByCategory(String category){
+        for(Pair pair : icons){
+            if(((Module.Category) pair.one).toString() == category)
+                return (ResourceLocation) pair.two;
+        }
+        return null;
     }
 
 }

@@ -49,6 +49,8 @@ public class Gui extends GuiScreen {
         initializedButtons = null;
         initializedButtons = new ArrayList<>();
 
+        GuiInfo.icons();
+
         init();
     }
 
