@@ -30,6 +30,10 @@ public class RenderUtils {
         camera = new Frustum();
     }
 
+    static public float colorcalc(int c, int location) {
+        return (c >> location & 0xFF) / 255.0F;
+    }
+
     public static void trace(Minecraft mc, Entity e, float partialTicks, int mode) {
         if (mc.getRenderManager().renderViewEntity != null) {
             GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -129,4 +133,8 @@ public class RenderUtils {
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }
+    
+
+
+
 }
