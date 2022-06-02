@@ -1,14 +1,17 @@
 package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.CommandsSystem.CommandManager;
+import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleArgs;
-import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 
+import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFishingRod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 import java.util.Arrays;
 
@@ -24,7 +27,7 @@ public class AutoFish extends Module {
     public void onEnable(){
         super.onEnable();
         if(mode.getValue().equals("Advanced")){
-            System.out.println("Advanced Mode is enabled");
+            sendEnabledMsg();
         }
         if(!mc.player.inventory.getCurrentItem().getItem().equals(Items.FISHING_ROD) && swith.getValue().equals("Normal")){
             makeNormalSwitch();
@@ -60,7 +63,10 @@ public class AutoFish extends Module {
         if(mode.getValue().equals("Advanced")){
             putIsWebhookLinked();
             if(isWebhookPresent){
-                System.out.println("Webhook is present");
+                //AutoFishCode
+
+
+
             }else{
                 MessageUtil.sendError("Webhook is not present, use "+ CommandManager.prefix+"webhook to set webhook link",-1117);
                 enabled.setValue(false);
@@ -81,6 +87,21 @@ public class AutoFish extends Module {
     }
 
 
+    @SubscribeEvent
+    public void onItemPickUp(PlayerEvent.ItemPickupEvent e){
+        if(mode.getValue().equals("Advanced")){
+            new Thread(
+                    new Runnable() {
+                        public void run() {
+                            try {
+                                DiscordUtil.sendMsg("```You picked up an item: "+e.getStack().getItem().getRegistryName()+"```",DiscordNotificator.webhook);
+                            }catch (Exception e){
+                                MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
+                            }
+                        }
+                    }).start();
+        }
+    }
 
 
 
@@ -88,7 +109,7 @@ public class AutoFish extends Module {
 
 
     public void putIsWebhookLinked() {
-        isWebhookPresent = !JsonParser.DISORD_WEBHOOK.equals("");
+        isWebhookPresent = !DiscordNotificator.webhook.equals("");
     }
 
     public void makeNormalSwitch(){
@@ -99,5 +120,18 @@ public class AutoFish extends Module {
                     break;
                 }
             }
+         }
+
+         public void sendEnabledMsg(){
+             new Thread(
+                     new Runnable() {
+                         public void run() {
+                             try {
+                                 DiscordUtil.sendMsg("```AutoFish module mod advenced is enabled!```", DiscordNotificator.webhook);
+                             }catch (Exception e){
+                                 MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
+                             }
+                         }
+                     }).start();
          }
 }
