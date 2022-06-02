@@ -50,7 +50,7 @@ public class Firework
     public static final String VERSION = "0.1";
 
     public static Minecraft minecraft;
-    public static final String FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir +"\\Firework\\";
+    public static String FIREWORK_DIRECTORY;
 
     private static Logger logger;
 
@@ -89,6 +89,7 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
+        FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir +"\\Firework\\";
         //Sets System tray icon
         SystemTray.sysTray();
         //Chakes for updates

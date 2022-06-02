@@ -2,7 +2,7 @@
   "required": true,
   "compatibilityLevel": "JAVA_8",
   "package": "com.firework.client.Implementations.Mixins.MixinsList",
-  "refmap": "mixin.refmap.json",
+  "refmap": "mixins.firework.refmap.json",
   "mixins": [
     "MixinNetworkManager",
     "MixinRenderEntityItem",
@@ -12,6 +12,7 @@
     "ViewModelMixin",
     "ISPacketPlayerPosLook",
     "MixinEntityLivingBase",
-    "MixinItemFood"
+    "MixinItemFood",
+    "MixinRenderItem"
   ]
 }

@@ -50,6 +50,8 @@ public class JsonParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if()
     }
 
 }

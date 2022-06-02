@@ -37,9 +37,9 @@ public class StartBlock extends Button {
         textManager.drawString(name, x+3, y+3,
                 new Color(ColorUtils.astolfoColors(100, 100)).getRGB(),true);
 
-        if(GuiInfo.hasCategoryIcon(name)){
+        /*if(GuiInfo.hasCategoryIcon(name)){
             mc.getTextureManager().bindTexture(GuiInfo.resourceLocationByCategory(name));
             RenderUtils2D.drawCompleteImage(x + width-15, y, 15, 15);
-        }
+        }*/
     }
 }

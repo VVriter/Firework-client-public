@@ -65,12 +65,14 @@ public class ModuleManager {
                     new MiddleClick(),
                     new BetterFPS(),
                     new ESP(),
+                    new CustomEnchants(),
                     new CustomTime(),
                     new BridgeBuild(),
                     new NoRender(),
                     new ItemPhysics(),
                     new BoatFlyRewrote(),
                     new Spammer(),
+                    new AutoFish(),
                     new DiscordRPCModule());
     }
 
