@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import static java.awt.Color.*;
 import static java.lang.Math.*;
@@ -128,6 +129,39 @@ public class RenderUtils2D {
         GlStateManager.disableBlend();
     }
 
+    public static void drawGradientTriangle(ArrayList<Point> points, ArrayList<Color> colors)
+    {
+        double zLevel=0.0;
+
+        float f = (float) colors.get(0).getRed() / 255.0f;
+        float f1 = (float) colors.get(0).getGreen() / 255.0f;
+        float f2 = (float) colors.get(0).getBlue() / 255.0f;
+        float f3 = (float) colors.get(0).getAlpha() / 255.0f;
+        float f4 = (float) colors.get(1).getRed() / 255.0f;
+        float f5 = (float) colors.get(1).getGreen() / 255.0f;
+        float f6 = (float) colors.get(1).getBlue() / 255.0f;
+        float f7 = (float) colors.get(1).getAlpha() / 255.0f;
+        float f8 = (float) colors.get(2).getRed() / 255.0f;
+        float f9 = (float) colors.get(2).getGreen() / 255.0f;
+        float f10 = (float) colors.get(2).getBlue() / 255.0f;
+        float f11 = (float) colors.get(2).getAlpha() / 255.0f;
+
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.shadeModel(7425);
+        bufferbuilder.begin(GL_TRIANGLES, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos((double)points.get(0).x, (double)points.get(0).y, (double)zLevel).color(f, f1, f2, f3).endVertex();
+        bufferbuilder.pos((double)points.get(1).x, (double)points.get(1).y, (double)zLevel).color(f4, f5, f6, f7).endVertex();
+        bufferbuilder.pos((double)points.get(2).x, (double)points.get(2).y, (double)zLevel).color(f8, f9, f10, f11).endVertex();
+        tessellator.draw();
+        GlStateManager.shadeModel(7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+    }
+
     public static void drawCircleOutline(Point o, float radius, float width, Color color) {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
@@ -193,6 +227,37 @@ public class RenderUtils2D {
             HSLColor color = new HSLColor(i + 1, hslColor.saturation, hslColor.light);
             Color colorRGB = color.toRGB();
 
+            bufferbuilder.pos(point.getX() + x2, point.getY() + y2, 0.0D).color(colorRGB.getRed(), colorRGB.getGreen(), colorRGB.getBlue(), colorRGB.getAlpha()).endVertex();
+        }
+        tessellator.draw();
+
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+    }
+
+    public static void drawColorPickerBaseV2(Point point, HSLColor hslColor, int r)
+    {
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        bufferbuilder.begin(GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
+
+        bufferbuilder.pos(point.getX(), point.getY(), 0.0D).color(white.getRed(), white.getGreen(), white.getBlue(), white.getAlpha()).endVertex();
+
+        for (int i = 0; i <= 360; i++)
+        {
+            double x = Math.sin(((i * Math.PI) / 180)) * r;
+            double y = Math.cos(((i * Math.PI) / 180)) * r;
+
+            double x2 = Math.sin(((i * Math.PI) / 180)) * (r-5);
+            double y2 = Math.cos(((i * Math.PI) / 180)) * (r-5);
+
+            HSLColor color = new HSLColor(i + 1, hslColor.saturation, hslColor.light);
+            Color colorRGB = color.toRGB();
+
+            bufferbuilder.pos(point.getX() + x, point.getY() + y, 0.0D).color(colorRGB.getRed(), colorRGB.getGreen(), colorRGB.getBlue(), colorRGB.getAlpha()).endVertex();
             bufferbuilder.pos(point.getX() + x2, point.getY() + y2, 0.0D).color(colorRGB.getRed(), colorRGB.getGreen(), colorRGB.getBlue(), colorRGB.getAlpha()).endVertex();
         }
         tessellator.draw();

@@ -36,8 +36,9 @@ public class ColorButton extends Button {
         RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);
 
-        RenderUtils2D.drawRectangle(new Rectangle(x+3*width/4, y+2, 7, 7), ((HSLColor) setting.getValue()).toRGB());
-        RenderUtils2D.drawRectangleOutline(new Rectangle(x+3*width/4, y+2, 7,
+        RenderUtils2D.drawRectangle(new Rectangle(x + width-11, y+2, 7,
+                7), ((HSLColor) setting.getValue()).toRGB());
+        RenderUtils2D.drawRectangleOutline(new Rectangle(x + width-11, y+2, 7,
                 7), outlineWidth, outlineColorA);
 
         textManager.drawString(setting.name, x+3, y+1,
@@ -52,7 +53,7 @@ public class ColorButton extends Button {
         drawBase();
         if(setting.opened) {
             RenderUtils2D.drawRectangle(new Rectangle(x, y+11, width, height), fillColorB);
-            RenderUtils2D.drawColorPickerBase(new Point(x + width/2, y + 11 + height/2), (HSLColor) setting.getValue(), radius);
+            RenderUtils2D.drawColorPickerBaseV2(new Point(x + width/2, y + 11 + height/2), (HSLColor) setting.getValue(), radius);
 
             Point center = new Point(x + width/2, y + 11 + height/2);
             Point p = hueToPosition(center, radius, (int) ((HSLColor) setting.getValue()).hue);
