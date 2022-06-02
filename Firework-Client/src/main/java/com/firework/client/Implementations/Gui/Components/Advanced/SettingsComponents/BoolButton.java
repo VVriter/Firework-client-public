@@ -2,6 +2,7 @@ package com.firework.client.Implementations.Gui.Components.Advanced.SettingsComp
 
 import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Render.ColorUtils;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.Minecraft;
@@ -17,6 +18,8 @@ public class BoolButton extends Button {
 
     public Setting<Boolean> setting;
 
+    public Color activeColor;
+
     public BoolButton(Setting<Boolean> setting, int x, int y, int width, int height) {
         super(x, y, width, height);
 
@@ -29,13 +32,19 @@ public class BoolButton extends Button {
 
         int outlineWidth = 3;
 
+        if(setting.getValue()){
+            activeColor = new Color(ColorUtils.astolfoColors(100, 100));
+        }else{
+            activeColor = Color.WHITE;
+        }
+
         RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorB);
 
         RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);
 
-        textManager.drawString(setting.name + ":" + setting.getValue(), x+3, y+1,
-                Color.WHITE.getRGB(),false);
+        textManager.drawString(setting.name, x+3, y+1,
+                activeColor.getRGB(),false);
     }
 
     @Override
