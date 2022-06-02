@@ -449,4 +449,13 @@ public class InventoryUtil
         return - 1;
     }
 
+    public static int find(Item item) {
+        int b = -1;
+        for (int a = 0; a < 9; ++a) {
+            if (InventoryUtil.mc.player.inventory.getStackInSlot(a).getItem() != item) continue;
+            b = a;
+        }
+        return b;
+    }
+
 }

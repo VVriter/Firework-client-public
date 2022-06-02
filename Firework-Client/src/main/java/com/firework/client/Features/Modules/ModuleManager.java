@@ -72,6 +72,7 @@ public class ModuleManager {
                     new ItemPhysics(),
                     new BoatFlyRewrote(),
                     new Spammer(),
+                    new AutoFish(),
                     new DiscordRPCModule());
     }
 
