@@ -65,6 +65,7 @@ public class ModuleManager {
                     new MiddleClick(),
                     new BetterFPS(),
                     new ESP(),
+                    new CustomEnchants(),
                     new CustomTime(),
                     new BridgeBuild(),
                     new NoRender(),

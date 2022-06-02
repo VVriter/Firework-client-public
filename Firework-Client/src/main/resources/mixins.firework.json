@@ -12,6 +12,7 @@
     "ViewModelMixin",
     "ISPacketPlayerPosLook",
     "MixinEntityLivingBase",
-    "MixinItemFood"
+    "MixinItemFood",
+    "MixinRenderItem"
   ]
 }
