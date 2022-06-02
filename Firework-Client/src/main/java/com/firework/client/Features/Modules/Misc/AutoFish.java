@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Misc;
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 
@@ -15,8 +16,6 @@ import java.util.Arrays;
 @ModuleArgs(name = "AutoFish",category = Module.Category.MISC)
 public class AutoFish extends Module {
     public  Setting<Boolean> enabled = this.isEnabled;
-
-
     public Setting<String> mode  = new Setting<>("Mode", "Normal", this, Arrays.asList("Normal","Advanced"));
     public Setting<String> swith  = new Setting<>("Switch", "Normal", this, Arrays.asList("Normal","Silent","None"));
     public Setting<Boolean> swing  = new Setting<>("Swing", true, this);
@@ -59,6 +58,7 @@ public class AutoFish extends Module {
 
         //Mode
         if(mode.getValue().equals("Advanced")){
+            putIsWebhookLinked();
             if(isWebhookPresent){
                 System.out.println("Webhook is present");
             }else{
@@ -87,7 +87,9 @@ public class AutoFish extends Module {
     public boolean isWebhookPresent = false;
 
 
-
+    public void putIsWebhookLinked() {
+        isWebhookPresent = !JsonParser.DISORD_WEBHOOK.equals("");
+    }
 
     public void makeNormalSwitch(){
         if ( (mc.player.getHeldItemMainhand().getItem() == null || (!(mc.player.inventory.getCurrentItem().getItem().equals(Items.FISHING_ROD)) )))
