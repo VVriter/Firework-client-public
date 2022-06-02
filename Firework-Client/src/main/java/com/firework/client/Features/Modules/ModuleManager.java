@@ -31,6 +31,8 @@ public class ModuleManager {
 
     public void registerModules() {
         register(new Test(),
+                    new AntiVoid(),
+                    new AntiHunger(),
                     new Notifications(),
                     new FastSleep(),
                     new AntiLog4j(),

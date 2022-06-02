@@ -16,10 +16,6 @@ import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
-import java.util.function.*;
-import net.minecraft.network.play.server.*;
-import net.minecraft.init.*;
-import net.minecraft.item.*;
 import net.minecraft.util.*;
 import net.minecraft.network.play.client.*;
 import net.minecraft.network.*;
