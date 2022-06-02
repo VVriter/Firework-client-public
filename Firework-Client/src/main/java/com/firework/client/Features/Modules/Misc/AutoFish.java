@@ -94,7 +94,7 @@ public class AutoFish extends Module {
                     new Runnable() {
                         public void run() {
                             try {
-                                DiscordUtil.sendMsg("```You pick upped item: "+e.getStack().getItem().getRegistryName()+"```",DiscordNotificator.webhook);
+                                DiscordUtil.sendMsg("```You picked up an item: "+e.getStack().getItem().getRegistryName()+"```",DiscordNotificator.webhook);
                             }catch (Exception e){
                                 MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
                             }
