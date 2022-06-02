@@ -117,9 +117,8 @@ public class AutoFish extends Module {
 
     @SubscribeEvent
     public void autoFish(PacketEvent e){
-        if(mode.getValue().equals("Advanced") || mode.getValue().equals("Normal")){
-            if(isWebhookPresent){
-                if(e.getPacket() instanceof SPacketSoundEffect){
+        if((mode.getValue().equals("Advanced") && isWebhookPresent) || mode.getValue().equals("Normal")){
+                if(e.getPacket() instanceof SPacketSoundEffect) {
                     final SPacketSoundEffect packet = (SPacketSoundEffect)e.getPacket();
                     if (packet.getSound().equals(SoundEvents.ENTITY_BOBBER_SPLASH)) {
                         if (mc.player.getHeldItemMainhand().getItem() instanceof ItemFishingRod) {
@@ -136,36 +135,10 @@ public class AutoFish extends Module {
                         }
                     }
                 }
-            }
 
         }
     }
-
-    @SubscribeEvent
-    public void autoFishNormal(PacketEvent e){
-        if(mode.getValue().equals("Normal")){
-            if(isWebhookPresent){
-                if(e.getPacket() instanceof SPacketSoundEffect){
-                    final SPacketSoundEffect packet = (SPacketSoundEffect)e.getPacket();
-                    if (packet.getSound().equals(SoundEvents.ENTITY_BOBBER_SPLASH)) {
-                        if (mc.player.getHeldItemMainhand().getItem() instanceof ItemFishingRod) {
-                            mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
-                            mc.player.swingArm(EnumHand.MAIN_HAND);
-                            mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
-                            mc.player.swingArm(EnumHand.MAIN_HAND);
-                        }
-                        if (mc.player.getHeldItemOffhand().getItem() instanceof ItemFishingRod) {
-                            mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.OFF_HAND));
-                            mc.player.swingArm(EnumHand.OFF_HAND);
-                            mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.OFF_HAND));
-                            mc.player.swingArm(EnumHand.OFF_HAND);
-                        }
-                    }
-                }
-            }
-
-        }
-    }
+    
 
 
 
