@@ -53,7 +53,7 @@ public class ColorButton extends Button {
         drawBase();
         if(setting.opened) {
             RenderUtils2D.drawRectangle(new Rectangle(x, y+11, width, height), fillColorB);
-            RenderUtils2D.drawColorPickerBaseV2(new Point(x + width/2, y + 11 + height/2), (HSLColor) setting.getValue(), radius);
+            RenderUtils2D.drawColorPickerBaseV2(new Point(x + width/2, y + 9 + height/2), (HSLColor) setting.getValue(), radius);
 
             Point center = new Point(x + width/2, y + 11 + height/2);
             Point p = hueToPosition(center, radius, (int) ((HSLColor) setting.getValue()).hue);

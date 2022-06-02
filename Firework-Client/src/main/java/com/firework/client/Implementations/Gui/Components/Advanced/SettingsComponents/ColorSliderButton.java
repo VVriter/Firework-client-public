@@ -35,6 +35,7 @@ public class ColorSliderButton extends Button {
         }
 
         this.offset = setting.opened ? 13 : 0;
+        this.height = setting.opened ? 12 : 0;
     }
 
     @Override
