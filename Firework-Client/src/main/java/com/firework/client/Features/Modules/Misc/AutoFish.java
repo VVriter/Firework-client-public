@@ -1,5 +1,6 @@
 package com.firework.client.Features.Modules.Misc;
 
+import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleArgs;
 
@@ -32,6 +33,9 @@ public class AutoFish extends Module {
     @Override
     public void onEnable(){
         super.onEnable();
+        if(mode.getValue().equals("Advanced")){
+            System.out.println("Advanced Mode is enabled");
+        }
         if(!mc.player.inventory.getCurrentItem().getItem().equals(Items.FISHING_ROD) && swith.getValue().equals("Normal")){
             makeNormalSwitch();
         }else {
@@ -46,6 +50,15 @@ public class AutoFish extends Module {
     @Override
     public void onTick(){
         super.onTick();
+
+
+
+
+
+
+
+
+        //Atm swing animations
         if(swing.getValue()){
             mc.player.isSwingInProgress = false;
             mc.player.swingProgressInt = 0;
@@ -53,11 +66,26 @@ public class AutoFish extends Module {
             mc.player.prevSwingProgress = 0.0f;
         }
 
+        //Mode
+        if(mode.getValue().equals("Advanced")){
+            if(isWebhookPresent){
+                System.out.println("Webhook is present");
+            }else{
+                MessageUtil.sendError("Webhook is not present, use "+ CommandManager.prefix+"webhook to set webhook link",-1117);
+                enabled.setValue(false);
+            }
+        }
 
+
+        //Switch
         if(swith.getValue().equals("Normal")){
             makeNormalSwitch();
-        }else{
+        }else if(swith.getValue().equals("Silent")){
             System.out.println("silent");
+        }else {
+            if((mc.player.getHeldItemMainhand().getItem() == null || (!(mc.player.inventory.getCurrentItem().getItem().equals(Items.FISHING_ROD))))){
+            MessageUtil.sendError("You need to hold Fishing rod in mainhand!",-1117);
+            enabled.setValue(false);}
         }
     }
 
@@ -65,7 +93,7 @@ public class AutoFish extends Module {
 
 
 
-
+    public boolean isWebhookPresent = false;
 
 
 
@@ -79,5 +107,4 @@ public class AutoFish extends Module {
                 }
             }
          }
-
 }
