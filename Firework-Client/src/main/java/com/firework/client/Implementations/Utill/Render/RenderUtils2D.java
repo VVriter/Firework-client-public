@@ -241,6 +241,37 @@ public class RenderUtils2D {
         glPopMatrix();
     }
 
+    public static void drawCheckMark(float x, float y, int width, int color) {
+        float f = (color >> 24 & 255) / 255.0f;
+        float f1 = (color >> 16 & 255) / 255.0f;
+        float f2 = (color >> 8 & 255) / 255.0f;
+        float f3 = (color & 255) / 255.0f;
+        glPushMatrix();
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDisable(3553);
+        glEnable(2848);
+        glBlendFunc(770, 771);
+        glLineWidth(4f);
+        glBegin(3);
+        glColor4f(0, 0, 0, 1.f);
+        glVertex2d(x + width - 6.25, y + 2.75f);
+        glVertex2d(x + width - 11.5, y + 10.25f);
+        glVertex2d(x + width - 13.75f, y + 7.75f);
+        glEnd();
+        glLineWidth(1.5f);
+        glBegin(3);
+        glColor4f(f1, f2, f3, f);
+        glVertex2d(x + width - 6.5, y + 3);
+        glVertex2d(x + width - 11.5, y + 10);
+        glVertex2d(x + width - 13.5, y + 8);
+        glEnd();
+        glEnable(3553);
+        glDisable(GL_BLEND);
+        glPopMatrix();
+        glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+
     public static double distance(Point one, Point two){
         double ac = abs(two.getY() - one.getY());
         double cb = abs(two.getX() - one.getX());
