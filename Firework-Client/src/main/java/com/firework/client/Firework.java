@@ -67,11 +67,7 @@ public class Firework
 
     public void loadManagers(){
         settingManager = new SettingManager();
-        try {
-            moduleManager = ModuleSaverLoader.loadModules();
-        } catch (Exception e) {
-
-        }
+        moduleManager = ModuleSaverLoader.loadModules();
         commandManager = new CommandManager();
         customFontManager = new CustomFontManager("tcm", 16);
         textManager = new TextManager();
@@ -124,13 +120,7 @@ public class Firework
     @EventHandler
     public void init(FMLInitializationEvent event) {
         //Add saving
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
-                ModuleSaverLoader.saveModules(Firework.moduleManager);
-            } catch (IOException e) {
-
-            }
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {ModuleSaverLoader.saveModules(Firework.moduleManager);}));
         //Link to client
         minecraft = Minecraft.getMinecraft();
         //Sets custom window title when client is loading
