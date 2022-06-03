@@ -171,6 +171,7 @@ public class AutoFish extends Module {
          @Override
     public void onDisable(){
         super.onDisable();
+        if(mode.getValue().equals("Advanced")){
              new Thread(
                      new Runnable() {
                          public void run() {
@@ -182,4 +183,5 @@ public class AutoFish extends Module {
                          }
                      }).start();
          }
+    }
 }
