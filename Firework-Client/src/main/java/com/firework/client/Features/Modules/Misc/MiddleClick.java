@@ -34,10 +34,11 @@ public class MiddleClick extends Module {
     public void onTick() {
         super.onTick();
         if (Mouse.isButtonDown(2)) {
-            if (!this.clicked && pearl.getValue()) {
+            if (!this.clicked && friend.getValue()) {
                 this.onClick();
             }else {
-                throwPearl();
+                if(pearl.getValue()){
+                throwPearl();}
             }
 
             this.clicked = true;
@@ -46,16 +47,6 @@ public class MiddleClick extends Module {
         }
 
 
-
-        if (Mouse.isButtonDown(2)) {
-            if (!this.clicked && friend.getValue()) {
-                this.throwPearl();
-            }
-
-            this.clicked = true;
-        } else {
-            this.clicked = false;
-        }
 
 
     }
@@ -86,7 +77,7 @@ public class MiddleClick extends Module {
             File theDir = new File(Firework.FIREWORK_DIRECTORY+"Friends/"+entity.getName()+".json");
             if (theDir.exists()){
                 theDir.delete();
-            MessageUtil.sendClientMessage(entity.getName()+" removed as friend!",false);
+                MessageUtil.sendClientMessage(entity.getName()+" removed as friend!",false);
             }else {
                 FriendManager.parse(entity.getName());
                 MessageUtil.sendClientMessage(entity.getName()+" added as friend!",false);

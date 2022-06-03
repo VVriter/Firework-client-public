@@ -28,6 +28,8 @@ import java.util.Random;
 @ModuleArgs(name = "AutoFish",category = Module.Category.MISC)
 public class AutoFish extends Module {
 
+
+    
     private final Random random = new Random();
 
 
@@ -115,11 +117,7 @@ public class AutoFish extends Module {
             new Thread(
                     new Runnable() {
                         public void run() {
-                            try {
                                 DiscordUtil.sendMsg("```You picked up an item: "+e.getStack().getItem().getItemStackDisplayName(e.getStack())+"```",DiscordNotificator.webhook);
-                            }catch (Exception e){
-                                MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
-                            }
                         }
                     }).start();
         }

@@ -33,6 +33,7 @@ public class ModuleManager {
         register(new Test(),
                     new AntiVoid(),
                     new AntiHunger(),
+                    new AutoLog(),
                     new Notifications(),
                     new FastSleep(),
                     new AntiLog4j(),
