@@ -29,7 +29,7 @@ import java.util.Random;
 public class AutoFish extends Module {
 
 
-    
+
     private final Random random = new Random();
 
 
@@ -67,7 +67,7 @@ public class AutoFish extends Module {
             switch (randomNumber) {
                 case 0: pressAndUnpress(mc.gameSettings.keyBindLeft.getKeyCode(), random.nextInt(200)); break;
                 case 100: pressAndUnpress(mc.gameSettings.keyBindRight.getKeyCode(), random.nextInt(200)); break;
-                case 200: mc.player.jump(); break;
+                case 200:if(mc.player.onGround) mc.player.jump(); break;
                 case 300: pressAndUnpress(mc.gameSettings.keyBindSneak.getKeyCode(), random.nextInt(200)); break;
             }
         }
