@@ -6,7 +6,6 @@ import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.network.play.server.SPacketDisconnect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @ModuleArgs(name = "AutoLog",category = Module.Category.MISC)
 public class AutoLog extends Module {

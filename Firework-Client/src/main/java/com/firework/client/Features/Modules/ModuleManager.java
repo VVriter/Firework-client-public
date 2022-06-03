@@ -46,6 +46,7 @@ public class ModuleManager {
                     new BebraGui(),
                     new Anchor(),
                     new ItemViewModel(),
+                    new Fovmod(),
                     new Announcer(),
                     new AntiSpam(),
                     new ChorusControl(),
