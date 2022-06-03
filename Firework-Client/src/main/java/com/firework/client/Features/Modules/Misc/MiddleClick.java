@@ -30,11 +30,14 @@ public class MiddleClick extends Module {
 
 
 
+    @Override
     public void onTick() {
         super.onTick();
         if (Mouse.isButtonDown(2)) {
             if (!this.clicked && pearl.getValue()) {
                 this.onClick();
+            }else {
+                throwPearl();
             }
 
             this.clicked = true;

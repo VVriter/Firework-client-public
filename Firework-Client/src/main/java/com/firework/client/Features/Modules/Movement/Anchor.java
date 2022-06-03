@@ -89,10 +89,6 @@ public class Anchor extends Module {
         }
     }
 
-    public void onDisable() {
-        AnchorING = false;
-        holeblocks = 0;
-    }
 
     public BlockPos getPlayerPos() {
         return new BlockPos(Math.floor(Util.mc.player.posX), Math.floor(Util.mc.player.posY), Math.floor(Util.mc.player.posZ));
