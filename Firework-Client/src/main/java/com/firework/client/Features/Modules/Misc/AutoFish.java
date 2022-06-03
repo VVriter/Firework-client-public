@@ -9,6 +9,7 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemFishingRod;
@@ -21,14 +22,20 @@ import net.minecraft.network.play.client.*;
 import net.minecraft.network.*;
 
 import java.util.Arrays;
+import java.util.Random;
 
 
 @ModuleArgs(name = "AutoFish",category = Module.Category.MISC)
 public class AutoFish extends Module {
+
+    private final Random random = new Random();
+
+
     public  Setting<Boolean> enabled = this.isEnabled;
     public Setting<String> mode  = new Setting<>("Mode", "Normal", this, Arrays.asList("Normal","Advanced"));
     public Setting<String> swith  = new Setting<>("Switch", "Normal", this, Arrays.asList("Normal","Silent","None"));
     public Setting<Boolean> swing  = new Setting<>("Swing", true, this);
+    public Setting<Boolean> antiAfk  = new Setting<>("AntiAFK", true, this);
 
     @Override
     public void onEnable(){
@@ -51,16 +58,24 @@ public class AutoFish extends Module {
     }
 
 
+    @SubscribeEvent
+    public void antiAFK(PacketEvent.Receive e){
+        if(antiAfk.getValue()){
+            int randomNumber = random.nextInt(500);
+            switch (randomNumber) {
+                case 0: pressAndUnpress(mc.gameSettings.keyBindLeft.getKeyCode(), random.nextInt(200)); break;
+                case 100: pressAndUnpress(mc.gameSettings.keyBindRight.getKeyCode(), random.nextInt(200)); break;
+                case 200: mc.player.jump(); break;
+                case 300: pressAndUnpress(mc.gameSettings.keyBindSneak.getKeyCode(), random.nextInt(200)); break;
+            }
+        }
+    }
+
+
+
     @Override
     public void onTick(){
         super.onTick();
-
-
-
-
-
-
-
 
         //Atm swing animations
         if(swing.getValue()){
@@ -94,7 +109,6 @@ public class AutoFish extends Module {
         }
     }
 
-
     @SubscribeEvent
     public void onItemPickUp(PlayerEvent.ItemPickupEvent e){
         if(mode.getValue().equals("Advanced")){
@@ -102,7 +116,7 @@ public class AutoFish extends Module {
                     new Runnable() {
                         public void run() {
                             try {
-                                DiscordUtil.sendMsg("```You picked up an item: "+e.getStack().getItem().getRegistryName()+"```",DiscordNotificator.webhook);
+                                DiscordUtil.sendMsg("```You picked up an item: "+e.getStack().getItem().getItemStackDisplayName(e.getStack())+"```",DiscordNotificator.webhook);
                             }catch (Exception e){
                                 MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
                             }
@@ -184,4 +198,16 @@ public class AutoFish extends Module {
                      }).start();
          }
     }
+    private void pressAndUnpress(int key, int delay) {
+        new Thread(() -> {
+            try {
+                KeyBinding.setKeyBindState(key, true);
+                Thread.sleep(delay);
+                KeyBinding.setKeyBindState(key, false);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
 }
