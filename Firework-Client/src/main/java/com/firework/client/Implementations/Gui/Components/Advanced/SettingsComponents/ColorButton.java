@@ -6,29 +6,25 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
-import scala.xml.Null;
 
 import java.awt.*;
 
-import static com.firework.client.Firework.settingManager;
-import static com.firework.client.Firework.textManager;
+import static com.firework.client.Firework.*;
 import static com.firework.client.Implementations.Gui.GuiInfo.fillColorB;
 import static com.firework.client.Implementations.Gui.GuiInfo.outlineColorA;
 import static java.lang.Math.*;
 
 public class ColorButton extends Button {
 
-    public Setting setting;
-
     public ColorButton(Setting setting, int x, int y, int width, int height) {
-        super(x, y, width, height);
-        this.setting = setting;
+        super(setting, x, y, width, height);
 
-        this.offset = setting.opened ? 71 : 11;
-        this.height = setting.opened ? 73 : 11;
+        this.originOffset = setting.opened ? 71 : 11; this.offset = setting.opened ? 71 : 11;
+        this.originHeight = setting.opened ? 73 : 11; this.height = setting.opened ? 73 : 11;
     }
 
     public void drawBase(){
+
         int outlineWidth = 3;
 
         RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorB);
@@ -47,7 +43,7 @@ public class ColorButton extends Button {
 
     @Override
     public void draw() {
-        super.draw();
+
         int radius = 24;
 
         drawBase();
@@ -69,8 +65,8 @@ public class ColorButton extends Button {
         if(state==1){
             setting.opened = !setting.opened;
             settingManager.updateSettingsByName(setting);
-            offset = setting.opened ? 66 : 11;
-            height = setting.opened ? 55 : 11;
+            this.originOffset = setting.opened ? 66 : 11;
+            this.originHeight = setting.opened ? 66 : 11;
         }
         if(state==0){
             if(setting.opened){

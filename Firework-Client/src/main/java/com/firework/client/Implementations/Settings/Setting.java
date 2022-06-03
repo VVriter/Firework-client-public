@@ -73,6 +73,12 @@ public class Setting<T> {
         settingManager.updateSettingsByName(this);
     }
 
+    public Setting<T> setVisibility(boolean visibility){
+        this.hidden = !visibility;
+        settingManager.updateSettingsByName(this);
+        return this;
+    }
+
     public T getValue(){
         return value;
     }

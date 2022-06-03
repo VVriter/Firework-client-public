@@ -21,15 +21,12 @@ public class Module {
 
     public String subCategory;
 
-    public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this);
-    public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this);
+    public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this).setVisibility(false);
+    public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this).setVisibility(false);
     public Setting<Integer> key = new Setting<>("Key", Keyboard.KEY_NONE, this);
     public Module(String name, Category category) {
         this.name = name;
         this.category = category;
-
-        isEnabled.hidden = true;
-        isOpened.hidden = true;
     }
 
     public Module(){
@@ -39,9 +36,6 @@ public class Module {
             this.category = args.category();
             this.subCategory = args.subCategory();
         }
-
-        isEnabled.hidden = true;
-        isOpened.hidden = true;
     }
 
     public void onEnable() {

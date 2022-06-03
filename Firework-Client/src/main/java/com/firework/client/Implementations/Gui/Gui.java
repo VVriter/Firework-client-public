@@ -82,31 +82,33 @@ public class Gui extends GuiScreen {
                     if (m.isOpened.getValue()) {
                         for (Setting setting : settingManager.modulesSettings(m)) {
                             Offset offsetObject = new Offset();
-                            if (setting.mode == Setting.Mode.BOOL) {
-                                offsetObject.register(
-                                        new BoolButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+                            if(!setting.hidden) {
+                                if (setting.mode == Setting.Mode.BOOL) {
+                                    offsetObject.register(
+                                            new BoolButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+                                }
+                                if (setting.mode == Setting.Mode.MODE) {
+                                    offsetObject.register(
+                                            new ModeButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+                                }
+                                if (setting.mode == Setting.Mode.NUMBER) {
+                                    offsetObject.register(
+                                            new SliderButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+                                }
+                                if (setting.mode == Setting.Mode.KEY) {
+                                    offsetObject.register(
+                                            new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+                                }
+                                if (setting.mode == Setting.Mode.COLOR) {
+                                    offsetObject.register(
+                                            new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 11),
+                                            new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 71, 60, 12, ColorSliderButton.CSliderMode.HUE),
+                                            new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 84, 60, 12, ColorSliderButton.CSliderMode.SATURATION),
+                                            new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 97, 60, 12, ColorSliderButton.CSliderMode.LIGHT),
+                                            new ColorRainbowButton(setting, xOffset + newXOffset, yOffset + 110, 60, 12));
+                                }
+                                yOffset += offsetObject.offset;
                             }
-                            if (setting.mode == Setting.Mode.MODE) {
-                                offsetObject.register(
-                                        new ModeButton(setting, xOffset + newXOffset, yOffset, 60, 11));
-                            }
-                            if (setting.mode == Setting.Mode.NUMBER) {
-                                offsetObject.register(
-                                        new SliderButton(setting, xOffset + newXOffset, yOffset, 60, 11));
-                            }
-                            if (setting.mode == Setting.Mode.KEY) {
-                                offsetObject.register(
-                                        new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11));
-                            }
-                            if (setting.mode == Setting.Mode.COLOR) {
-                                offsetObject.register(
-                                        new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 11),
-                                        new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 71, 60, 12, ColorSliderButton.CSliderMode.HUE),
-                                        new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 84, 60, 12, ColorSliderButton.CSliderMode.SATURATION),
-                                        new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 97, 60, 12, ColorSliderButton.CSliderMode.LIGHT),
-                                        new ColorRainbowButton(setting, xOffset + newXOffset, yOffset + 110, 60, 12));
-                            }
-                            yOffset += offsetObject.offset;
                         }
                     }
                 }else if(obj instanceof SubModule){

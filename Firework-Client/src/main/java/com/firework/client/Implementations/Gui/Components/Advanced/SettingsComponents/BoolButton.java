@@ -16,14 +16,10 @@ import static com.firework.client.Implementations.Gui.GuiInfo.outlineColorA;
 
 public class BoolButton extends Button {
 
-    public Setting<Boolean> setting;
-
     public Color activeColor;
 
-    public BoolButton(Setting<Boolean> setting, int x, int y, int width, int height) {
-        super(x, y, width, height);
-
-        this.setting = setting;
+    public BoolButton(Setting setting, int x, int y, int width, int height) {
+        super(setting, x, y, width, height);
     }
 
     @Override
@@ -40,7 +36,7 @@ public class BoolButton extends Button {
         RenderUtils2D.drawRectangleOutline(new Rectangle(x + width-11, y+2, 7,
                 7), 1, Color.WHITE);
 
-        if(setting.getValue()){
+        if((boolean)setting.getValue()){
             activeColor = new Color(ColorUtils.astolfoColors(100, 100));
             RenderUtils2D.drawCheckMark(x + width-19, y-1, 22, Color.WHITE.getRGB());
         }else{
@@ -54,7 +50,7 @@ public class BoolButton extends Button {
     @Override
     public void initialize(int mouseX, int mouseY) {
         super.initialize(mouseX, mouseY);
-        setting.setValue(!setting.getValue());
+        setting.setValue(!(boolean)setting.getValue());
         Minecraft mc = Minecraft.getMinecraft();
         mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
     }

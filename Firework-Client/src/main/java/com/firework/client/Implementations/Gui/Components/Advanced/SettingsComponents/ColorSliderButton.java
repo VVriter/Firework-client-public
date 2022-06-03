@@ -15,7 +15,6 @@ import static com.firework.client.Implementations.Gui.GuiInfo.outlineColorA;
 import static java.lang.Math.round;
 
 public class ColorSliderButton extends Button {
-    public Setting setting;
 
     public CSliderMode mode;
 
@@ -23,9 +22,7 @@ public class ColorSliderButton extends Button {
     public float percent;
 
     public ColorSliderButton(Setting setting, int x, int y, int width, int height, CSliderMode mode) {
-        super(x, y, width, height);
-
-        this.setting = setting;
+        super(setting, x, y, width, height);
         this.mode = mode;
 
         if(mode == CSliderMode.HUE) {
@@ -34,15 +31,14 @@ public class ColorSliderButton extends Button {
             this.difference = 100;
         }
 
-        this.offset = setting.opened ? 13 : 0;
-        this.height = setting.opened ? 12 : 0;
+        this.originOffset = setting.opened ? 13 : 0; this.offset = setting.opened ? 13 : 0;
+        this.originHeight = setting.opened ? 12 : 0; this.height = setting.opened ? 12 : 0;
     }
 
     @Override
     public void draw() {
-        super.draw();
-
         if(setting.opened != true) return;
+        super.draw();
 
         int outlineWidth = 3;
         int renderWidth = 2;

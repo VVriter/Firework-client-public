@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Gui.Components;
 
 import com.firework.client.Implementations.Gui.GuiInfo;
+import com.firework.client.Implementations.Settings.Setting;
 
 public class Button {
 
@@ -9,6 +10,11 @@ public class Button {
 
     public int width;
     public int height;
+
+    public int originHeight;
+    public int originOffset;
+
+    public Setting setting = null;
 
     public int offset = 11;
 
@@ -24,7 +30,31 @@ public class Button {
         this.localIndex = GuiInfo.index;
     }
 
-    public void draw(){}
+    public Button(Setting setting, int x, int y, int width, int height){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+
+        this.originHeight = height;
+        this.originOffset = offset;
+
+        this.setting = setting;
+
+        GuiInfo.index++;
+        this.localIndex = GuiInfo.index;
+    }
+
+    public void draw(){
+        if(setting != null){
+            if(!setting.hidden) {
+                this.height = setting.hidden ? 0 : originHeight;
+                this.offset = setting.hidden ? 0 : originOffset;
+            }else{
+                return;
+            }
+        }
+    }
 
     public void onKeyTyped(int keyCode) {}
 

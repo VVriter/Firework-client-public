@@ -17,16 +17,13 @@ import static com.firework.client.Implementations.Gui.GuiInfo.*;
 import static com.firework.client.Implementations.Gui.GuiValueStorage.*;
 
 public class ColorRainbowButton extends Button {
-
-    public Setting setting;
     public Color activeColor;
 
     public ColorRainbowButton(Setting setting, int x, int y, int width, int height) {
-        super(x, y, width, height);
+        super(setting, x, y, width, height);
 
-        this.setting = setting;
-
-        this.offset = setting.opened ? 13 : 0;
+        this.originOffset = setting.opened ? 13 : 0; this.offset = setting.opened ? 13 : 0;
+        this.originHeight = setting.opened ? 12 : 0; this.height = setting.opened ? 12 : 0;
 
         try {
             if (values[localIndex].get(0) == null)
@@ -41,9 +38,8 @@ public class ColorRainbowButton extends Button {
 
     @Override
     public void draw() {
-        super.draw();
-
         if(setting.opened != true) return;
+        super.draw();
 
         if((boolean)values[localIndex].get(0)){
             activeColor = new Color(ColorUtils.astolfoColors(100, 100));

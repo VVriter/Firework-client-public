@@ -17,14 +17,10 @@ import static com.firework.client.Implementations.Gui.GuiInfo.*;
 
 public class KeyButton extends Button {
 
-    public Setting setting;
-
     public Color fillColor = fillColorB;
 
     public KeyButton(Setting setting, int x, int y, int width, int height) {
-        super(x, y, width, height);
-
-        this.setting = setting;
+        super(setting, x, y, width, height);
     }
 
     @Override
