@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class AntiVoid extends Module {
 
 
-    public Setting<String> mode  = new Setting<>("Mode", "Jump", this, Arrays.asList("Jump"));
+    public Setting<String> mode  = new Setting<>("Mode", "Jump", this, Arrays.asList("Jump","PacketFly"));
 
 
     @Override

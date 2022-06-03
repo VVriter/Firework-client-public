@@ -5,6 +5,7 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.network.play.server.SPacketExplosion;
+import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Velocity extends Module {
@@ -20,5 +21,10 @@ public class Velocity extends Module {
         }
         if (e.getPacket() instanceof SPacketExplosion)
             e.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    public void onPush(PlayerSPPushOutOfBlocksEvent e){
+        e.setCanceled(true);
     }
 }
