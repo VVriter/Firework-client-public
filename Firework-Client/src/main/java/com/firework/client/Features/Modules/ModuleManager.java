@@ -49,6 +49,7 @@ public class ModuleManager {
                     new Fovmod(),
                     new Announcer(),
                     new AntiSpam(),
+                    new Fly(),
                     new ChorusControl(),
                     new AutoNametag(),
                     new SelfBlock(),
