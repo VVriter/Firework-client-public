@@ -5,7 +5,6 @@ package com.firework.client;
 import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
-import com.firework.client.Features.Modules.ModuleSaverLoader;
 import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Managers.Parser.JsonPrefixPraser;
 import com.firework.client.Implementations.Managers.Parser.JsonReader;
@@ -21,7 +20,7 @@ import com.firework.client.Features.CommandsSystem.CommandManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Session;
+import net.minecraft.util.Session;  
 import net.minecraft.util.Util;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -67,7 +66,7 @@ public class Firework
 
     public void loadManagers(){
         settingManager = new SettingManager();
-        moduleManager = ModuleSaverLoader.loadModules();
+
         commandManager = new CommandManager();
         customFontManager = new CustomFontManager("tcm", 16);
         textManager = new TextManager();
@@ -119,8 +118,7 @@ public class Firework
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        //Add saving
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {ModuleSaverLoader.saveModules(Firework.moduleManager);}));
+
         //Link to client
         minecraft = Minecraft.getMinecraft();
         //Sets custom window title when client is loading
@@ -161,10 +159,10 @@ public class Firework
     //pasted from cringe client https://github.com/CatsAreGood1337/LegacyClient-1.2.5-src/blob/main/src/main/java/me/dev/legacy/Legacy.java Строчка номер 150
 
     /**
-     * Custom icon system
-     * @author Rianix aka Egor Bazhin
-     * doxbin link https://doxbin.com/upload/rianix
-     */
+    * Custom icon system
+    * @author Rianix aka Egor Bazhin
+    * doxbin link https://doxbin.com/upload/rianix
+    */
 
     //Start------------------------------------------------------------------------------------------------------------------------------------
 
@@ -197,10 +195,10 @@ public class Firework
 
 
 
-    /**@Author*BUSH1ROOT
-     * Pasted from https://github.com/bush1root/TutorialClient/
-     * Using for alt manager*/
-    //Start--------------------------------------------------------------------------------------------------------------------------------------
+   /**@Author*BUSH1ROOT
+    * Pasted from https://github.com/bush1root/TutorialClient/
+    * Using for alt manager*/
+   //Start--------------------------------------------------------------------------------------------------------------------------------------
     public static void setSession(Session s) {
         Class<? extends Minecraft> mc = Minecraft.getMinecraft().getClass();
 
