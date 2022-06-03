@@ -31,6 +31,9 @@ public class ModuleManager {
 
     public void registerModules() {
         register(new Test(),
+                    new AntiVoid(),
+                    new AntiHunger(),
+                    new AutoLog(),
                     new Notifications(),
                     new FastSleep(),
                     new AntiLog4j(),
@@ -43,8 +46,10 @@ public class ModuleManager {
                     new BebraGui(),
                     new Anchor(),
                     new ItemViewModel(),
+                    new Fovmod(),
                     new Announcer(),
                     new AntiSpam(),
+                    new Fly(),
                     new ChorusControl(),
                     new AutoNametag(),
                     new SelfBlock(),
@@ -73,6 +78,7 @@ public class ModuleManager {
                     new BoatFlyRewrote(),
                     new Spammer(),
                     new AutoFish(),
+                    new F3Injection(),
                     new DiscordRPCModule());
     }
 
