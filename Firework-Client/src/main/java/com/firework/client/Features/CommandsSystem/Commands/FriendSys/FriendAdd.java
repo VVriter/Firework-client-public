@@ -15,6 +15,8 @@ public class FriendAdd extends Command {
         //Plays Notification sound
         Notifications.notificate();
         FriendManager.parse(args[1]);
+        Minecraft mc = Minecraft.getMinecraft();
+        mc.player.sendChatMessage("/w "+args[1]+" You are added as friend [FIREWORK CLIENT]");
         MessageUtil.sendClientMessage(args[1]+" added as friend!",false);
     }
 }
