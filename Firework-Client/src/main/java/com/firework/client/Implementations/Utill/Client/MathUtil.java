@@ -6,9 +6,15 @@ import net.minecraft.util.math.Vec3d;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Random;
 
 public class MathUtil {
     private static Minecraft mc = Minecraft.getMinecraft();
+
+    public static int randomValue(int min, int max){
+        Random r = new Random();
+        return r.nextInt(max-min) + min;
+    }
 
     public static float[] calcAngle(Vec3d from, Vec3d to) {
         double difX = to.x - from.x;
@@ -17,7 +23,6 @@ public class MathUtil {
         double dist = MathHelper.sqrt(difX * difX + difZ * difZ);
         return new float[]{(float) MathHelper.wrapDegrees(Math.toDegrees(Math.atan2(difZ, difX)) - 90.0), (float) MathHelper.wrapDegrees(Math.toDegrees(Math.atan2(difY, dist)))};
     }
-
 
     public static double degToRad(double deg)
     {

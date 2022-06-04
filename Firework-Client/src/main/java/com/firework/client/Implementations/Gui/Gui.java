@@ -13,6 +13,7 @@ import com.firework.client.Implementations.Gui.Components.Advanced.StartBlock;
 
 import com.firework.client.Implementations.Gui.Components.*;
 import com.firework.client.Implementations.Gui.Components.Button;
+import com.firework.client.Implementations.Gui.Particles.ParticleSystem;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import net.minecraft.client.gui.GuiScreen;
@@ -30,6 +31,9 @@ import static com.firework.client.Firework.*;
 import static net.minecraft.util.math.MathHelper.floor;
 
 public class Gui extends GuiScreen {
+
+    public ParticleSystem particleSystem;
+
     public static ArrayList<Button> initializedButtons;
 
     public static boolean isDragging = false;
@@ -39,6 +43,8 @@ public class Gui extends GuiScreen {
     public int origYOffset = 20;
 
     public Gui(){
+        particleSystem = new ParticleSystem();
+
         GuiInfo.setupModulesColumns();
         for(Module m : moduleManager.modules)
             GuiInfo.addModuleToColumn(m);
@@ -145,7 +151,6 @@ public class Gui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) throws ConcurrentModificationException {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-
        if (GuiGradient.enabled.getValue()) {
             drawGradientRect(0, 0, mc.displayWidth, mc.displayHeight,
                     GuiGradient.rainbow1.getValue() ? RainbowUtil.generateRainbowFadingColor(2, true) :
@@ -167,6 +172,9 @@ public class Gui extends GuiScreen {
         for(Button button : initializedButtons){
             button.draw();
         }
+
+        //particleSystem.updatePositions();
+        //particleSystem.drawParticles();
 
         GuiInfo.setupModulesColumns();
         for(Module m : moduleManager.modules)

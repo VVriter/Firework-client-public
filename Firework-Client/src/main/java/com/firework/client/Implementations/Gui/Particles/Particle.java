@@ -1,18 +1,28 @@
 package com.firework.client.Implementations.Gui.Particles;
-
-import org.lwjgl.util.vector.Vector3f;
+import net.minecraft.client.gui.ScaledResolution;
+import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.*;
-import java.util.Random;
+
+import static com.firework.client.Implementations.Utill.Client.MathUtil.randomValue;
+import static com.firework.client.Implementations.Utill.Render.ColorUtils.randomColor;
+import static com.firework.client.Implementations.Utill.Util.mc;
 
 public class Particle {
     public int radius;
     public Color color;
-    public Vector3f dir;
+    public Vector2f dir;
 
     public Point location;
 
     public Particle(){
+        ScaledResolution scaledResolution = new ScaledResolution(mc);
+
+        radius = randomValue(5, 8) * ParticleSystem.scale;
+        color = randomColor();
+        location = new Point(randomValue(0, scaledResolution.getScaledWidth()), randomValue(0, scaledResolution.getScaledHeight()));
+
+        dir = new Vector2f(randomValue(-1, 1), randomValue(-1, 1));
     }
 
 }

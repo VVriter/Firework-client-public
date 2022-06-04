@@ -23,17 +23,11 @@ public class SliderButton extends Button {
     public SliderButton(Setting setting, int x, int y, int width, int height) {
         super(setting, x, y, width, height);
 
-        this.originOffset = setting.opened ? 13 : 0; this.offset = setting.opened ? 13 : 0;
-        this.originHeight = setting.opened ? 12 : 0; this.height = setting.opened ? 12 : 0;
-
         this.difference = setting.max - setting.min;
     }
 
     @Override
     public void draw() {
-        if(setting.opened != true) return;
-        this.originOffset = setting.opened ? 13 : 0;
-        this.originHeight = setting.opened ? 12 : 0;
         super.draw();
 
         int outlineWidth = 3;
