@@ -6,6 +6,7 @@ import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Gui.Gui;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Client.DiscordWebhook;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketCustomPayload;
@@ -13,6 +14,7 @@ import net.minecraft.network.play.server.SPacketBlockBreakAnim;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.Arrays;
 
 @ModuleArgs(name = "Test", category =  Module.Category.CLIENT)
@@ -38,7 +40,7 @@ public class Test extends Module {
 
     @Override
     public void onTick() {
-        super.onTick();
+        //super.onTick();
         //System.out.println("WORK!");
         //System.out.println(isEnabled.getValue());
 

@@ -9,6 +9,7 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
+import com.firework.client.Implementations.Utill.Client.DiscordWebhook;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -21,6 +22,7 @@ import net.minecraft.util.*;
 import net.minecraft.network.play.client.*;
 import net.minecraft.network.*;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -28,7 +30,8 @@ import java.util.Random;
 @ModuleArgs(name = "AutoFish",category = Module.Category.MISC)
 public class AutoFish extends Module {
 
-
+    DiscordWebhook simpleDiscordWebhook;
+    Color embedColor = new Color(104, 255, 243);
 
     private final Random random = new Random();
 
@@ -117,7 +120,21 @@ public class AutoFish extends Module {
             new Thread(
                     new Runnable() {
                         public void run() {
-                                DiscordUtil.sendMsg("```You picked up an item: "+e.getStack().getItem().getItemStackDisplayName(e.getStack())+"```",DiscordNotificator.webhook);
+                            try {
+                                DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
+                                embed.setTitle("You picked up an item: "+e.getStack().getItem().getItemStackDisplayName(e.getStack()));
+                                embed.setColor(embedColor);
+
+                                simpleDiscordWebhook.addEmbed(embed);
+
+                                try {
+                                    simpleDiscordWebhook.execute();
+                                } catch (Exception e) {
+
+                                }
+                            }catch (Exception e){
+                                MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
+                            }
                         }
                     }).start();
         }
@@ -155,6 +172,7 @@ public class AutoFish extends Module {
 
     public void putIsWebhookLinked() {
         isWebhookPresent = !DiscordNotificator.webhook.equals("");
+        simpleDiscordWebhook = new DiscordWebhook(DiscordNotificator.webhook);
     }
 
     public void makeNormalSwitch(){
@@ -172,7 +190,17 @@ public class AutoFish extends Module {
                      new Runnable() {
                          public void run() {
                              try {
-                                 DiscordUtil.sendMsg("```AutoFish module mod advenced is enabled!```", DiscordNotificator.webhook);
+                                 DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
+                                 embed.setTitle("AutoFish module mod advanced is enabled!");
+                                 embed.setColor(embedColor);
+
+                                 simpleDiscordWebhook.addEmbed(embed);
+
+                                 try {
+                                     simpleDiscordWebhook.execute();
+                                 } catch (Exception e) {
+
+                                 }
                              }catch (Exception e){
                                  MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
                              }
@@ -188,7 +216,17 @@ public class AutoFish extends Module {
                      new Runnable() {
                          public void run() {
                              try {
-                                 DiscordUtil.sendMsg("```AutoFish module mod advenced is disabled!```", DiscordNotificator.webhook);
+                                 DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
+                                 embed.setTitle("AutoFish module mod advanced is disabled!");
+                                 embed.setColor(embedColor);
+
+                                 simpleDiscordWebhook.addEmbed(embed);
+
+                                 try {
+                                     simpleDiscordWebhook.execute();
+                                 } catch (Exception e) {
+
+                                 }
                              }catch (Exception e){
                                  MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
                              }
