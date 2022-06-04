@@ -3,10 +3,11 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
+import net.minecraft.client.renderer.entity.RenderEnderCrystal;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemEndCrystal;
-import net.minecraft.item.ItemFishingRod;
 import net.minecraft.util.EnumHand;
 
 import java.util.Arrays;
@@ -17,7 +18,7 @@ public class AutoCrystal extends Module {
     public Setting<String> rotates = new Setting<>("Rotates", "Normal", this, Arrays.asList("Normal", "Packet","None"));
 
     public Setting<Double> placeRange = new Setting<>("PlaceRange", (double)5, this, 1, 10);
-    public Setting<Double> breakRange = new Setting<>("PlaceRange", (double)5, this, 1, 10);
+    public Setting<Double> breakRange = new Setting<>("BreakRange", (double)5, this, 1, 10);
 
     public Setting<Double> WallPlaceRange = new Setting<>("WallPlaceRange", (double)5, this, 1, 10);
     public Setting<Double> WallBreakRange = new Setting<>("WallBreakRange", (double)5, this, 1, 10);
@@ -46,10 +47,18 @@ public class AutoCrystal extends Module {
 
 
 
+
         //Switch--------------------------------------------------------------------------------------------------------------------
         if(switcch.getValue().equals("Normal")){
             if(!mc.player.getHeldItemOffhand().getItem().equals(Items.END_CRYSTAL)){
-            makeNormalSwitch();}
+                for (Entity e : mc.world.loadedEntityList) {
+                    if (e instanceof EntityPlayer && e != mc.player) {
+                        if (mc.player.getDistance(e) <= placeRange.getValue() && mc.player.getDistance(e) <= breakRange.getValue() ) {
+                            makeNormalSwitch();
+                        }
+                    }
+                }
+           }
         }else if(switcch.getValue().equals("Silent")){
 
         }else{
@@ -67,7 +76,6 @@ public class AutoCrystal extends Module {
             mc.player.swingProgress = 0.0f;
             mc.player.prevSwingProgress = 0.0f;
         }
-
     }
 
 
