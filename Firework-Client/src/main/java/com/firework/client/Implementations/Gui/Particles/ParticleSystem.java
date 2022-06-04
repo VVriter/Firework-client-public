@@ -53,14 +53,12 @@ public class ParticleSystem {
                     particle.location.x = newX;
                 }else{
                     particle.dir.x = -particle.dir.x;
-                    System.out.println(1);
                 }
 
                 if(newY-particle.radius > 0 && newY+particle.radius < scaledResolution.getScaledHeight()) {
                     particle.location.y = newY;
                 }else{
                     particle.dir.y = -particle.dir.y;
-                    System.out.println(1);
                 }
             }
         }
