@@ -1,4 +1,5 @@
 package com.firework.client.Implementations.Gui.Particles;
+import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -18,8 +19,8 @@ public class Particle {
     public Particle(){
         ScaledResolution scaledResolution = new ScaledResolution(mc);
 
-        radius = randomValue(5, 8) * ParticleSystem.scale;
-        color = randomColor();
+        radius = randomValue(5, 8);
+        color = new HSLColor(randomValue(0, 270), 100, 50).toRGB();
         location = new Point(randomValue(0, scaledResolution.getScaledWidth()), randomValue(0, scaledResolution.getScaledHeight()));
 
         dir = new Vector2f(randomValue(-1, 1), randomValue(-1, 1));

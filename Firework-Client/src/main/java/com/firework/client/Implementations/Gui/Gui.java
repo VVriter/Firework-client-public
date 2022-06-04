@@ -173,6 +173,7 @@ public class Gui extends GuiScreen {
 
         if(ParticleInfo.isEnabled) {
             particleSystem.updatePositions();
+            particleSystem.drawLines();
             particleSystem.drawParticles();
         }
 
