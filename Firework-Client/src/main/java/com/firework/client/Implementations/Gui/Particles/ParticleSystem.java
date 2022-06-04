@@ -77,35 +77,30 @@ public class ParticleSystem {
 
     //Update particles positions using velocity
     public void updatePositions(){
-        new Thread(
-                new Runnable() {
-                    public void run() {
-                        scale = GuiParticles.scaleFactor.getValue();
-                        lineLong = GuiParticles.lineLong.getValue();
+        scale = GuiParticles.scaleFactor.getValue();
+        lineLong = GuiParticles.lineLong.getValue();
 
-                        ScaledResolution scaledResolution = new ScaledResolution(mc);
-                        if(timer.hasPassed(speed)){
-                            timer.reset();
-                            for(Particle particle : particles) {
-                                int newX = particle.location.x += particle.dir.x;
-                                int newY = particle.location.y += particle.dir.y;
+        ScaledResolution scaledResolution = new ScaledResolution(mc);
+        if(timer.hasPassed(speed)){
+            timer.reset();
+            for(Particle particle : particles) {
+                int newX = particle.location.x += particle.dir.x;
+                int newY = particle.location.y += particle.dir.y;
 
-                                int radius = (int) round(particle.radius*scale);
+                int radius = (int) round(particle.radius*scale);
 
-                                if(newX-radius > 0 && newX+radius < scaledResolution.getScaledWidth()) {
-                                    particle.location.x = newX;
-                                }else{
-                                    particle.dir.x = -particle.dir.x;
-                                }
+                if(newX-radius > 0 && newX+radius < scaledResolution.getScaledWidth()) {
+                    particle.location.x = newX;
+                }else{
+                    particle.dir.x = -particle.dir.x;
+                }
 
-                                if(newY-radius > 0 && newY+radius < scaledResolution.getScaledHeight()) {
-                                    particle.location.y = newY;
-                                }else{
-                                    particle.dir.y = -particle.dir.y;
-                                }
-                            }
-                        }
-                    }
-                }).start();
+                if(newY-radius > 0 && newY+radius < scaledResolution.getScaledHeight()) {
+                    particle.location.y = newY;
+                }else{
+                    particle.dir.y = -particle.dir.y;
+                }
+            }
+        }
     }
 }

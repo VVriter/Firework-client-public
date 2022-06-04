@@ -6,6 +6,7 @@ import net.minecraft.util.math.Vec3d;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.Random;
 
 public class MathUtil {
@@ -14,6 +15,16 @@ public class MathUtil {
     public static int randomValue(int min, int max){
         Random r = new Random();
         return r.nextInt(max-min) + min;
+    }
+
+    public static int randomValueChoose(int first, int second){
+        return new Random().nextBoolean() ? first : second;
+    }
+
+    public static int getRandomElement(List<Integer> list)
+    {
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
     }
 
     public static float[] calcAngle(Vec3d from, Vec3d to) {
