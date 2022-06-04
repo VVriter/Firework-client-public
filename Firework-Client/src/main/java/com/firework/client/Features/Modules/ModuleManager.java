@@ -1,16 +1,5 @@
 package com.firework.client.Features.Modules;
 
-import com.firework.client.Features.Modules.Chat.*;
-import com.firework.client.Features.Modules.Client.*;
-import com.firework.client.Features.Modules.World.*;
-import com.firework.client.Features.Modules.Movement.*;
-import com.firework.client.Features.Modules.Combat.*;
-import com.firework.client.Features.Modules.Render.*;
-import com.firework.client.Features.Modules.Misc.*;
-
-
-import com.firework.client.Features.Modules.World.Burrow.SelfBlock;
-import com.firework.client.Features.Modules.World.Scaffold.Scaffold;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.ClassFinder;
@@ -20,7 +9,8 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
+
+
 import java.util.Comparator;
 import java.util.Set;
 
