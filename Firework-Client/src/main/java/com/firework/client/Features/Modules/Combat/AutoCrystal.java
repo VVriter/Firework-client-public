@@ -60,9 +60,15 @@ public class AutoCrystal extends Module {
                 }
            }
         }else if(switcch.getValue().equals("Silent")){
-
+            for (Entity e : mc.world.loadedEntityList) {
+                if (e instanceof EntityPlayer && e != mc.player) {
+                    if (mc.player.getDistance(e) <= placeRange.getValue() && mc.player.getDistance(e) <= breakRange.getValue() ) {
+                        makeSilentSwitch();
+                    }
+                }
+            }
         }else{
-
+            //Okay...
         }
 
         //Swing---------------------------------------------------------------------------------------------------------------------
@@ -90,5 +96,9 @@ public class AutoCrystal extends Module {
                     break;
                 }
             }
+        }
+
+    public void makeSilentSwitch(){
+        //Silent switch code
     }
 }

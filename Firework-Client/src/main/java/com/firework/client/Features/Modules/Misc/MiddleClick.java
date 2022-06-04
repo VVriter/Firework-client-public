@@ -24,6 +24,7 @@ public class MiddleClick extends Module {
 
     public Setting<Boolean> pearl = new Setting<>("Pearl", true, this);
     public Setting<Boolean> friend = new Setting<>("Friend", true, this);
+    public Setting<Boolean> notify = new Setting<>("NotifyFriend", true, this);
 
 
     public MiddleClick(){super("MiddleClick",Category.MISC);}
@@ -81,6 +82,9 @@ public class MiddleClick extends Module {
             }else {
                 FriendManager.parse(entity.getName());
                 MessageUtil.sendClientMessage(entity.getName()+" added as friend!",false);
+                if(notify.getValue()){
+                    mc.player.sendChatMessage("/w "+entity.getName()+" You are added as friend [FIREWORK CLIENT]");
+                }
             }
         }
     }
