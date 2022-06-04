@@ -8,7 +8,6 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 
-import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import com.firework.client.Implementations.Utill.Client.DiscordWebhook;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Items;
@@ -17,6 +16,7 @@ import net.minecraft.item.ItemFishingRod;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+
 
 import net.minecraft.util.*;
 import net.minecraft.network.play.client.*;
@@ -31,12 +31,13 @@ import java.util.Random;
 public class AutoFish extends Module {
 
     DiscordWebhook simpleDiscordWebhook;
-    Color embedColor = new Color(104, 255, 243);
+    Color embedColor = new Color(191, 10, 10);
 
     private final Random random = new Random();
 
 
     public  Setting<Boolean> enabled = this.isEnabled;
+
     public Setting<String> mode  = new Setting<>("Mode", "Normal", this, Arrays.asList("Normal","Advanced"));
     public Setting<String> swith  = new Setting<>("Switch", "Normal", this, Arrays.asList("Normal","Silent","None"));
     public Setting<Boolean> swing  = new Setting<>("Swing", true, this);
@@ -56,8 +57,8 @@ public class AutoFish extends Module {
             makeNormalSwitch();
         }else {
             if((mc.player.getHeldItemMainhand().getItem() == null || (!(mc.player.inventory.getCurrentItem().getItem().equals(Items.FISHING_ROD))))){
-            MessageUtil.sendError("You need to hold Fishing rod in mainhand!",-1117);
-            enabled.setValue(false);
+                MessageUtil.sendError("You need to hold Fishing rod in mainhand!",-1117);
+                enabled.setValue(false);
             }
         }
     }
@@ -94,7 +95,7 @@ public class AutoFish extends Module {
         if(mode.getValue().equals("Advanced")){
             putIsWebhookLinked();
             if(isWebhookPresent){
-               //Ok
+                //Ok
             }else{
                 MessageUtil.sendError("Webhook is not present, use "+ CommandManager.prefix+"webhook to set webhook link",-1117);
                 enabled.setValue(false);
@@ -109,8 +110,8 @@ public class AutoFish extends Module {
             System.out.println("silent");
         }else {
             if((mc.player.getHeldItemMainhand().getItem() == null || (!(mc.player.inventory.getCurrentItem().getItem().equals(Items.FISHING_ROD))))){
-            MessageUtil.sendError("You need to hold Fishing rod in mainhand!",-1117);
-            enabled.setValue(false);}
+                MessageUtil.sendError("You need to hold Fishing rod in mainhand!",-1117);
+                enabled.setValue(false);}
         }
     }
 
@@ -123,6 +124,7 @@ public class AutoFish extends Module {
                             try {
                                 DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
                                 embed.setTitle("You picked up an item: "+e.getStack().getItem().getItemStackDisplayName(e.getStack()));
+                                embed.setThumbnail("https://media.discordapp.net/attachments/962299429795295282/980160689568120842/98be7b5d87318d89133a7384346cf787.jpg");
                                 embed.setColor(embedColor);
 
                                 simpleDiscordWebhook.addEmbed(embed);
@@ -143,27 +145,27 @@ public class AutoFish extends Module {
     @SubscribeEvent
     public void autoFish(PacketEvent e){
         if((mode.getValue().equals("Advanced") && isWebhookPresent) || mode.getValue().equals("Normal")){
-                if(e.getPacket() instanceof SPacketSoundEffect) {
-                    final SPacketSoundEffect packet = (SPacketSoundEffect)e.getPacket();
-                    if (packet.getSound().equals(SoundEvents.ENTITY_BOBBER_SPLASH)) {
-                        if (mc.player.getHeldItemMainhand().getItem() instanceof ItemFishingRod) {
-                            mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
-                            mc.player.swingArm(EnumHand.MAIN_HAND);
-                            mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
-                            mc.player.swingArm(EnumHand.MAIN_HAND);
-                        }
-                        if (mc.player.getHeldItemOffhand().getItem() instanceof ItemFishingRod) {
-                            mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.OFF_HAND));
-                            mc.player.swingArm(EnumHand.OFF_HAND);
-                            mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.OFF_HAND));
-                            mc.player.swingArm(EnumHand.OFF_HAND);
-                        }
+            if(e.getPacket() instanceof SPacketSoundEffect) {
+                final SPacketSoundEffect packet = (SPacketSoundEffect)e.getPacket();
+                if (packet.getSound().equals(SoundEvents.ENTITY_BOBBER_SPLASH)) {
+                    if (mc.player.getHeldItemMainhand().getItem() instanceof ItemFishingRod) {
+                        mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
+                        mc.player.swingArm(EnumHand.MAIN_HAND);
+                        mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
+                        mc.player.swingArm(EnumHand.MAIN_HAND);
+                    }
+                    if (mc.player.getHeldItemOffhand().getItem() instanceof ItemFishingRod) {
+                        mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.OFF_HAND));
+                        mc.player.swingArm(EnumHand.OFF_HAND);
+                        mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.OFF_HAND));
+                        mc.player.swingArm(EnumHand.OFF_HAND);
                     }
                 }
+            }
 
         }
     }
-    
+
 
 
 
@@ -183,56 +185,59 @@ public class AutoFish extends Module {
                     break;
                 }
             }
-         }
+    }
 
-         public void sendEnabledMsg(){
-             new Thread(
-                     new Runnable() {
-                         public void run() {
-                             try {
-                                 DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
-                                 embed.setTitle("AutoFish module mod advanced is enabled!");
-                                 embed.setColor(embedColor);
+    public void sendEnabledMsg(){
+        new Thread(
+                new Runnable() {
+                    public void run() {
+                        try {
+                            DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
+                            embed.setTitle("AutoFish module mod advanced is enabled!");
+                            embed.setThumbnail("https://media.discordapp.net/attachments/962299429795295282/980160689568120842/98be7b5d87318d89133a7384346cf787.jpg");
+                            embed.setColor(embedColor);
 
-                                 simpleDiscordWebhook.addEmbed(embed);
+                            simpleDiscordWebhook.addEmbed(embed);
 
-                                 try {
-                                     simpleDiscordWebhook.execute();
-                                 } catch (Exception e) {
+                            try {
+                                simpleDiscordWebhook.execute();
+                            } catch (Exception e) {
 
-                                 }
-                             }catch (Exception e){
-                                 MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
-                             }
-                         }
-                     }).start();
-         }
+                            }
+                        }catch (Exception e){
+                            MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
+                        }
+                    }
+                }).start();
+    }
 
-         @Override
+    @Override
     public void onDisable(){
         super.onDisable();
         if(mode.getValue().equals("Advanced")){
-             new Thread(
-                     new Runnable() {
-                         public void run() {
-                             try {
-                                 DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
-                                 embed.setTitle("AutoFish module mod advanced is disabled!");
-                                 embed.setColor(embedColor);
+            new Thread(
+                    new Runnable() {
+                        public void run() {
+                            try {
+                                DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
+                                embed.setTitle("AutoFish module mod advanced is disabled!");
+                                embed.setThumbnail("https://media.discordapp.net/attachments/962299429795295282/980160689568120842/98be7b5d87318d89133a7384346cf787.jpg");
 
-                                 simpleDiscordWebhook.addEmbed(embed);
+                                embed.setColor(embedColor);
 
-                                 try {
-                                     simpleDiscordWebhook.execute();
-                                 } catch (Exception e) {
+                                simpleDiscordWebhook.addEmbed(embed);
 
-                                 }
-                             }catch (Exception e){
-                                 MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
-                             }
-                         }
-                     }).start();
-         }
+                                try {
+                                    simpleDiscordWebhook.execute();
+                                } catch (Exception e) {
+
+                                }
+                            }catch (Exception e){
+                                MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
+                            }
+                        }
+                    }).start();
+        }
     }
     private void pressAndUnpress(int key, int delay) {
         new Thread(() -> {

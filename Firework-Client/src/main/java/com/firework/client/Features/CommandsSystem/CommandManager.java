@@ -11,10 +11,7 @@ import com.firework.client.Features.CommandsSystem.Commands.Dirs.SaveConfigComma
 import com.firework.client.Features.CommandsSystem.Commands.Dirs.WebhookCommand;
 import com.firework.client.Features.CommandsSystem.Commands.FriendSys.FriendAdd;
 import com.firework.client.Features.CommandsSystem.Commands.FriendSys.FriendDell;
-import com.firework.client.Features.CommandsSystem.Commands.Fun.CowDupeCommand;
-import com.firework.client.Features.CommandsSystem.Commands.Fun.DupeCommand;
-import com.firework.client.Features.CommandsSystem.Commands.Fun.PenisCommand;
-import com.firework.client.Features.CommandsSystem.Commands.Fun.TutorialCommand;
+import com.firework.client.Features.CommandsSystem.Commands.Fun.*;
 import com.firework.client.Features.CommandsSystem.Commands.GameSettings.FovCommand;
 import com.firework.client.Features.CommandsSystem.Commands.GameSettings.GammaCommand;
 import com.firework.client.Features.CommandsSystem.Commands.PeekCommand.PeekCommand;
