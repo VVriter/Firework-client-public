@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.Client;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketCustomPayload;
 import io.netty.buffer.Unpooled;
@@ -8,8 +9,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@ModuleArgs(name = "NoForge", category = Module.Category.CLIENT)
 public class NoForge extends Module {
-    public NoForge(){super("NoForge",Category.CLIENT);}
     @SubscribeEvent
     public void onPacketSend(PacketEvent event) {
         if (!mc.isIntegratedServerRunning()) {

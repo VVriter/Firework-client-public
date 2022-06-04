@@ -13,12 +13,16 @@ import com.firework.client.Features.Modules.World.Burrow.SelfBlock;
 import com.firework.client.Features.Modules.World.Scaffold.Scaffold;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Client.ClassFinder;
 import org.json.simple.JSONObject;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Set;
 
 public class ModuleManager {
 
@@ -30,60 +34,22 @@ public class ModuleManager {
     }
 
     public void registerModules() {
-        register(new Test(),
-                    new AntiVoid(),
-                    new AntiHunger(),
-                    new AutoLog(),
-                    new Notifications(),
-                    new FastSleep(),
-                    new AntiLog4j(),
-                    new GreenText(),
-                    new Narrator(),
-                    new AutoToxic(),
-                    new NoRotate(),
-                    new Leave(),
-                    new Bypass(),
-                    new BebraGui(),
-                    new Anchor(),
-                    new ItemViewModel(),
-                    new Fovmod(),
-                    new Announcer(),
-                    new AntiSpam(),
-                    new Fly(),
-                    new ChorusControl(),
-                    new AutoNametag(),
-                    new SelfBlock(),
-                    new SlowAnimations(),
-                    new AutoWalk(),
-                    new AirJump(),
-                    new NoForge(),
-                    new GuiGradient(),
-                    new ChestSwap(),
-                    new Scaffold(),
-                    new AutoRespawn(),
-                    new DiscordNotificator(),
-                    new ParticlesESP(),
-                    new MovementHelper(),
-                    new Bot(),
-                    new EntityControl(),
-                    new Velocity(),
-                    new MiddleClick(),
-                    new BetterFPS(),
-                    new ESP(),
-                    new CustomEnchants(),
-                    new CustomTime(),
-                    new BridgeBuild(),
-                    new NoRender(),
-                    new ItemPhysics(),
-                    new BoatFlyRewrote(),
-                    new Spammer(),
-                    new AutoFish(),
-                    new F3Injection(),
-                    new DiscordRPCModule());
-    }
-
-    public void register(Module... module) {
-        Collections.addAll(modules, module);
+        Set<Class> classList = ClassFinder.findClasses(Module.class.getPackage().getName(), Module.class);
+        classList.forEach(aClass -> {
+            try {
+                Module module = (Module) aClass.getConstructor().newInstance();
+                modules.add(module);
+                // lookup.put(module.getName().toLowerCase(), module);
+            } catch (InvocationTargetException e) {
+                e.getCause().printStackTrace();
+                System.err.println("Couldn't initiate module " + aClass.getSimpleName() + "! Err: " + e.getClass().getSimpleName() + ", message: " + e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("Couldn't initiate module " + aClass.getSimpleName() + "! Err: " + e.getClass().getSimpleName() + ", message: " + e.getMessage());
+            }
+        });
+        System.out.println("Modules initialised");
+        modules.sort(Comparator.comparing(Module::getName));
     }
 
     public void saveModules() {

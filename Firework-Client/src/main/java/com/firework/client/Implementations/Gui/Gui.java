@@ -13,6 +13,7 @@ import com.firework.client.Implementations.Gui.Components.Advanced.StartBlock;
 
 import com.firework.client.Implementations.Gui.Components.*;
 import com.firework.client.Implementations.Gui.Components.Button;
+import com.firework.client.Implementations.Gui.Particles.ParticleInfo;
 import com.firework.client.Implementations.Gui.Particles.ParticleSystem;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
@@ -169,12 +170,16 @@ public class Gui extends GuiScreen {
                 this.drawDefaultBackground();
             }
 
+
+        if(ParticleInfo.isEnabled) {
+            particleSystem.updatePositions();
+            particleSystem.drawParticles();
+        }
+
         for(Button button : initializedButtons){
             button.draw();
         }
 
-        //particleSystem.updatePositions();
-        //particleSystem.drawParticles();
 
         GuiInfo.setupModulesColumns();
         for(Module m : moduleManager.modules)

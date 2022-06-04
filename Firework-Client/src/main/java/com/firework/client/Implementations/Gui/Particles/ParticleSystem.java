@@ -3,6 +3,7 @@ package com.firework.client.Implementations.Gui.Particles;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.client.gui.ScaledResolution;
+import org.lwjgl.opengl.Display;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class ParticleSystem {
     public static Timer timer;
 
     //Speed value in ms
-    public static int speed = 30;
+    public static int speed = 15;
 
     //Particles scale factor
     public static int scale = 1;
@@ -27,7 +28,7 @@ public class ParticleSystem {
 
     public ParticleSystem(){
         particles.clear();
-        timer = new Timer();
+        timer = new Timer(); timer.reset();
 
         for(int i = 0; i < amount; i++){
             particles.add(new Particle());
@@ -37,24 +38,30 @@ public class ParticleSystem {
     public void drawParticles(){
         for(Particle particle : particles){
             RenderUtils2D.drawFilledCircle(particle.location, particle.color, particle.radius);
-            System.out.println(particle.radius);
         }
     }
 
     public void updatePositions(){
         ScaledResolution scaledResolution = new ScaledResolution(mc);
-        timer.reset();
         if(timer.hasPassed(speed)){
             timer.reset();
             for(Particle particle : particles) {
                 int newX = particle.location.x += particle.dir.x;
                 int newY = particle.location.y += particle.dir.y;
 
-                if(newX-particle.radius > 0 && newX+particle.radius < scaledResolution.getScaledWidth())
+                if(newX-particle.radius > 0 && newX+particle.radius < scaledResolution.getScaledWidth()) {
                     particle.location.x = newX;
+                }else{
+                    particle.dir.x = -particle.dir.x;
+                    System.out.println(1);
+                }
 
-                if(newY-particle.radius > 0 && newY+particle.radius < scaledResolution.getScaledHeight())
+                if(newY-particle.radius > 0 && newY+particle.radius < scaledResolution.getScaledHeight()) {
                     particle.location.y = newY;
+                }else{
+                    particle.dir.y = -particle.dir.y;
+                    System.out.println(1);
+                }
             }
         }
     }
