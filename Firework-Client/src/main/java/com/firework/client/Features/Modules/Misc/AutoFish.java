@@ -124,7 +124,7 @@ public class AutoFish extends Module {
                             try {
                                 DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
                                 embed.setTitle("You picked up an item: "+e.getStack().getItem().getItemStackDisplayName(e.getStack()));
-                                embed.setThumbnail("https://minecraft-archive.fandom.com/wiki/Items/Gallery?file="+e.getStack().getItem().getItemStackDisplayName(e.getStack())+"New.png");
+                                embed.setThumbnail("https://media.discordapp.net/attachments/962299429795295282/980160689568120842/98be7b5d87318d89133a7384346cf787.jpg");
                                 embed.setColor(embedColor);
 
                                 simpleDiscordWebhook.addEmbed(embed);
