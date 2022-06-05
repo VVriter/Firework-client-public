@@ -20,8 +20,8 @@ public class Particle {
         ScaledResolution scaledResolution = new ScaledResolution(mc);
 
         radius = randomValue(5, 8);
-        color = new HSLColor(randomValue(0, 270), 100, 50).toRGB();
-        location = new Point(randomValue(0+radius, scaledResolution.getScaledWidth()-radius), randomValue(0+radius, scaledResolution.getScaledHeight()-radius));
+        color = new HSLColor(randomValue(180, 360), 100, 50).toRGB();
+        location = new Point(randomValue(radius, scaledResolution.getScaledWidth()-radius), randomValue(radius, scaledResolution.getScaledHeight()-radius));
 
         dir = new Vector2f(getRandomElement(Arrays.asList(-1, -2, 1, 2)), getRandomElement(Arrays.asList(-1, -2, 1, 2)));
     }

@@ -11,8 +11,8 @@ public class GuiParticles extends Module {
     public static Setting<Double> lineLong;
 
     public GuiParticles(){
-        scaleFactor = new Setting<>("scaleFactor", (double)1, this, 0.1, 10);
-        lineLong = new Setting<>("maxLineLong", (double)1, this, 0, 100);
+        scaleFactor = new Setting<>("scaleFactor", (double)0.4, this, 0.1, 10);
+        lineLong = new Setting<>("maxLineLong", (double)90, this, 0, 100);
     }
 
     @Override
