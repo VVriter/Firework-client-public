@@ -2,7 +2,7 @@
   "required": true,
   "compatibilityLevel": "JAVA_8",
   "package": "com.firework.client.Implementations.Mixins.MixinsList",
-  "refmap": "mixins.firework.refmap.json",
+  "refmap": "mixin.refmap.json",
   "mixins": [
     "MixinNetworkManager",
     "MixinRenderEntityItem",
