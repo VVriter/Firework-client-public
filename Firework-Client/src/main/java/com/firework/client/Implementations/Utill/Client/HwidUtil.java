@@ -34,23 +34,5 @@ public class HwidUtil {
         ));
     }
 
-    //DO NOT CALL
-    public static Boolean checkIsCustumer() {
-        Connector db;
-        try {
-            db = new Connector("mysql://server202.hosting.reg.ru:1500/",  "u0910511_admin", "fireworkmanager");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        ResultSet result = db.execute("SELECT count(*) FROM `customers` WHERE `hwid` = '" + getHwid() + "';");
-        try {
-            result.getArray(0);
-            System.out.println(result);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return false;
-    }
+
 }

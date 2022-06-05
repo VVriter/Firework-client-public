@@ -5,6 +5,7 @@ package com.firework.client;
 import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
+import com.firework.client.Implementations.Database.Connector;
 import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Managers.Parser.JsonPrefixPraser;
 import com.firework.client.Implementations.Managers.Parser.JsonReader;
@@ -39,6 +40,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.lang.reflect.Field;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 //Main class to load Firework client
