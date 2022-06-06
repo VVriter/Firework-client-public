@@ -154,12 +154,10 @@ public class Gui extends GuiScreen {
 
        if (GuiGradient.enabled.getValue()) {
             drawGradientRect(0, 0, mc.displayWidth, mc.displayHeight,
-                    GuiGradient.rainbow1.getValue() ? RainbowUtil.generateRainbowFadingColor(2, true) :
                             new Color(GuiGradient.Color1.getValue().toRGB().getRed(),
                                     GuiGradient.Color1.getValue().toRGB().getGreen(),
                                     GuiGradient.Color1.getValue().toRGB().getBlue(),
                                     100).getRGB(),
-                    GuiGradient.rainbow2.getValue() ? RainbowUtil.generateRainbowFadingColor(2, true) :
                             new Color(GuiGradient.Color2.getValue().toRGB().getRed(),
                                     GuiGradient.Color2.getValue().toRGB().getGreen(),
                                     GuiGradient.Color2.getValue().toRGB().getBlue(),

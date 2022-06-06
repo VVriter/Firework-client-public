@@ -12,7 +12,7 @@ public class GuiParticles extends Module {
 
     public GuiParticles(){
         scaleFactor = new Setting<>("scaleFactor", (double)0.4, this, 0.1, 10);
-        lineLong = new Setting<>("maxLineLong", (double)90, this, 0, 100);
+        lineLong = new Setting<>("maxLineLong", (double)90, this, 0, 200);
         this.isEnabled.setValue(true);
         ParticleInfo.isEnabled = this.isEnabled.getValue();
     }
