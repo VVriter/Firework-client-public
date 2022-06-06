@@ -54,6 +54,10 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    driver
+}
+
 dependencies {
 
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
@@ -80,7 +84,9 @@ dependencies {
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
     compile group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
 
-
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
+    runtime "mysql:mysql-connector-java:8.0.15"
+    implementation 'com.google.guava:guava:23.0'
 }
 
 shadowJar {

@@ -15,6 +15,7 @@ import com.firework.client.Implementations.Managers.Text.CustomFontManager;
 import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
+import com.firework.client.Implementations.Utill.Client.HwidUtil;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Features.CommandsSystem.CommandManager;
@@ -24,6 +25,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Session;  
 import net.minecraft.util.Util;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -40,8 +42,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.lang.reflect.Field;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.Executor;
 
 
 //Main class to load Firework client
@@ -121,6 +125,28 @@ public class Firework
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        Thread dbThread = new Thread(() -> {
+            try {
+                DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+
+                Connection connection = DriverManager.getConnection("jdbc:mysql://31.31.196.85:3306/u0910511_firework_db?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "u0910511_admin", "fireworkmanager");
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT count(*) AS _count FROM customers WHERE hwid='" + HwidUtil.getHwid() + "'");
+                resultSet.next();
+                if(resultSet.getInt("_count") != 1) {
+                    System.out.println();
+                    FMLCommonHandler.instance().exitJava(0, true);
+                }
+                resultSet.close();
+                statement.close();
+                connection.close();
+            } catch (Exception e) {
+                //exit
+                System.out.println(e.getMessage());
+                FMLCommonHandler.instance().exitJava(1, true);
+            }
+        });
+        //dbThread.run(); COMMENTED FOR TESTING, ON REAL BUILD UNCOMMENT. DATABASE WORKS!
         //Link to client
         minecraft = Minecraft.getMinecraft();
         //Sets custom window title when client is loading
