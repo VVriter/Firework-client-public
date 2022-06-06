@@ -13,7 +13,9 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemFishingRod;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SPacketSoundEffect;
+import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
@@ -115,15 +117,21 @@ public class AutoFish extends Module {
         }
     }
 
+
+
+
+
     @SubscribeEvent
-    public void onItemPickUp(PlayerEvent.ItemPickupEvent e){
+    public void onFishedItem(ItemFishedEvent event) {
+        ItemStack item = event.getDrops().get(0);
         if(mode.getValue().equals("Advanced")){
             new Thread(
                     new Runnable() {
                         public void run() {
                             try {
                                 DiscordWebhook.EmbedObject embed = new DiscordWebhook.EmbedObject();
-                                embed.setTitle("You picked up an item: "+e.getStack().getItem().getItemStackDisplayName(e.getStack()));
+                                embed.setTitle("You fished an item: "+item.getDisplayName());
+                                embed.setDescription("Enchants: " + item.getEnchantmentTagList());
                                 embed.setThumbnail("https://media.discordapp.net/attachments/962299429795295282/980160689568120842/98be7b5d87318d89133a7384346cf787.jpg");
                                 embed.setColor(embedColor);
 
@@ -141,6 +149,10 @@ public class AutoFish extends Module {
                     }).start();
         }
     }
+
+
+
+
 
     @SubscribeEvent
     public void autoFish(PacketEvent e){
