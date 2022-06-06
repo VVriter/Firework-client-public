@@ -10,8 +10,7 @@ import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import java.awt.*;
 
 import static com.firework.client.Firework.*;
-import static com.firework.client.Implementations.Gui.GuiInfo.fillColorB;
-import static com.firework.client.Implementations.Gui.GuiInfo.outlineColorA;
+import static com.firework.client.Implementations.Gui.GuiInfo.*;
 import static java.lang.Math.*;
 
 public class ColorButton extends Button {
@@ -35,7 +34,7 @@ public class ColorButton extends Button {
         RenderUtils2D.drawRectangle(new Rectangle(x + width-11, y+2, 7,
                 7), ((HSLColor) setting.getValue()).toRGB());
         RenderUtils2D.drawRectangleOutline(new Rectangle(x + width-11, y+2, 7,
-                7), outlineWidth, outlineColorA);
+                7), outlineWidth, outlineColorC);
 
         textManager.drawString(setting.name, x+3, y+1,
                 Color.WHITE.getRGB(),false);
