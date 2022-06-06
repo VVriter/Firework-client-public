@@ -5,6 +5,9 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 
 import static com.firework.client.Firework.settingManager;
@@ -15,7 +18,7 @@ public class Setting<T> {
     public String name;
     public Module module;
 
-    public List<String> list;
+    public List<Object> list;
     public int index = 0;
 
     public Mode mode;
@@ -61,7 +64,19 @@ public class Setting<T> {
         this.value = value;
         this.module = module;
 
-        this.list = list;
+        this.list = Collections.singletonList(list);
+
+        this.mode = Mode.MODE;
+
+        settingManager.settings.add(this);
+    }
+
+    public Setting(String name, T value, Module module, Enum[] list){
+        this.name = name;
+        this.value = value;
+        this.module = module;
+
+        this.list = Arrays.asList(Arrays.stream(list).toArray());
 
         this.mode = Mode.MODE;
 
@@ -81,6 +96,11 @@ public class Setting<T> {
 
     public T getValue(){
         return value;
+    }
+
+    public boolean getValue(T checkValue){
+        if(getValue() == checkValue) return true;
+        return false;
     }
 
     public enum Mode{
