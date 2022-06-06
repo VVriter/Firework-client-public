@@ -1,11 +1,13 @@
 package com.firework.client.Features.Modules.Client;
 
+import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Gui.Gui;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.DiscordWebhook;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraft.client.Minecraft;
@@ -36,6 +38,7 @@ public class Test extends Module {
     public void onEnable() {
         super.onEnable();
         mc.player.setGlowing(true);
+        MessageUtil.sendClickable("Bebrik", CommandManager.prefix+"help",false);
     }
 
     @Override
@@ -43,20 +46,5 @@ public class Test extends Module {
         //super.onTick();
         //System.out.println("WORK!");
         //System.out.println(isEnabled.getValue());
-
-
-        if(e){
-            e = false;
-            Firework.minecraft.displayGuiScreen(new Gui());
-        }
-
     }
-
-    @SubscribeEvent
-    public void onChatHistory(){}
-
-
-
-
-
 }
