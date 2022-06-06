@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraft.client.renderer.entity.RenderEnderCrystal;
@@ -12,6 +13,7 @@ import net.minecraft.util.EnumHand;
 
 import java.util.Arrays;
 
+@ModuleArgs(name = "AutoCrystal", category = Module.Category.COMBAT)
 public class AutoCrystal extends Module {
 
     public Setting<String> timing = new Setting<>("Timing", "Vanilla", this, Arrays.asList("Vanilla", "Strict","Sequential"));
@@ -37,8 +39,6 @@ public class AutoCrystal extends Module {
     public Setting<String> swing = new Setting<>("Swing", "Right", this, Arrays.asList("Right", "Left","None"));
 
     public Setting<HSLColor> color = new Setting<>("RenderColor", new HSLColor(1, 54, 43), this);
-
-    public AutoCrystal(){super("AutoCrystal",Category.COMBAT);}
 
     @Override
     public void onTick() {

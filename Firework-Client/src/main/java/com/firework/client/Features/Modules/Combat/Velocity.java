@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.network.Packet;
@@ -9,8 +10,8 @@ import net.minecraft.network.play.server.SPacketExplosion;
 import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@ModuleArgs(name = "Velocity", category = Module.Category.COMBAT)
 public class Velocity extends Module {
-    public Velocity(){super("Velocity",Category.COMBAT);}
 
     public Setting<Boolean> push = new Setting<>("Push", true, this);
 

@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
@@ -15,6 +16,7 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 
+@ModuleArgs(name = "AutoRespawn", category = Module.Category.MISC)
 public class AutoRespawn extends Module {
 
 
@@ -27,7 +29,7 @@ public class AutoRespawn extends Module {
     public Setting<Boolean> deathSounds  = new Setting<>("DeathSounds", true, this);
 
 
-    public AutoRespawn(){super("DeathFilter",Category.MISC);
+    public AutoRespawn(){
         enabled = this.isEnabled;}
 
     @SubscribeEvent

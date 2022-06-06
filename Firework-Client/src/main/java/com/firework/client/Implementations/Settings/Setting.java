@@ -64,7 +64,7 @@ public class Setting<T> {
         this.value = value;
         this.module = module;
 
-        this.list = Collections.singletonList(list);
+        this.list = Arrays.asList(list.toArray());
 
         this.mode = Mode.MODE;
 
