@@ -35,7 +35,7 @@ public class HwidUtil {
                 FMLCommonHandler.instance().exitJava(1, true);
             }
         });
-        //dbThread.run(); COMMENTED FOR TESTING, ON REAL BUILD UNCOMMENT. DATABASE WORKS!
+        dbThread.run();
     }
 
 
