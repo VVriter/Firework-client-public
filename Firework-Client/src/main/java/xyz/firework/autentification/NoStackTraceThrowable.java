@@ -1,4 +1,4 @@
-package xyz.firework.autentification.AutoUpdate;
+package xyz.firework.autentification;
 
 import com.firework.client.Firework;
 

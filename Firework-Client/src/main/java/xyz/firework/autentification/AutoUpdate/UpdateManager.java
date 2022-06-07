@@ -1,6 +1,8 @@
 package xyz.firework.autentification.AutoUpdate;
 
 
+import xyz.firework.autentification.NoStackTraceThrowable;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -19,6 +19,7 @@ public class Help3Command extends Command {
         Firework.minecraft.ingameGUI.getChatGUI().clearChatMessages(true);
         MessageUtil.sendClientMessage(ChatFormatting.DARK_RED + "PAGE: 3\n",-1117);
 
+
         MessageUtil.sendShown("Yaw Command - Usage: "+CommandManager.prefix+"Yaw floatvalue ","Moves ur camera",false);
         MessageUtil.sendShown("Pitch Command - Usage: "+CommandManager.prefix+"Pitch floatvalue ","Moves ur camera",false);
         MessageUtil.sendShown("VClip Command - Usage: "+CommandManager.prefix+"Clip floatvalue ","Moves ur up",false);
