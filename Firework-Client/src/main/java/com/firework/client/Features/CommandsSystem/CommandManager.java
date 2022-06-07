@@ -14,6 +14,10 @@ import com.firework.client.Features.CommandsSystem.Commands.FriendSys.FriendDell
 import com.firework.client.Features.CommandsSystem.Commands.Fun.*;
 import com.firework.client.Features.CommandsSystem.Commands.GameSettings.FovCommand;
 import com.firework.client.Features.CommandsSystem.Commands.GameSettings.GammaCommand;
+import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help1Command;
+import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help2Command;
+import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help3Command;
+import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help4Command;
 import com.firework.client.Features.CommandsSystem.Commands.PeekCommand.PeekCommand;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -69,6 +73,15 @@ public class CommandManager {
 
     public void init() {
         register(
+
+
+                new Help1Command(),
+                new Help2Command(),
+                new Help3Command(),
+                new Help4Command(),
+
+
+
                 new TutorialCommand(),
                 new CowDupeCommand(),
                 new FriendAdd(),
@@ -81,7 +94,6 @@ public class CommandManager {
                 new FovCommand(),
                 new SaveConfigCommand(),
                 new NameMcCommand(),
-                new HelpCommand(),
                 new DupeCommand(),
                 new GammaCommand(),
                 new YawCommand(),
