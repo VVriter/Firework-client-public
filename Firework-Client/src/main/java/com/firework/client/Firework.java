@@ -96,7 +96,7 @@ public class Firework
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
         FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir +"\\Firework\\";
-        HwidUtil.hwidCheck();
+        //HwidUtil.hwidCheck();
         //Sets System tray icon
         SystemTray.sysTray();
         //Chakes for updates

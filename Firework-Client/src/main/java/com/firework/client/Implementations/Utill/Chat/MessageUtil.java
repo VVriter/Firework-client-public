@@ -71,5 +71,12 @@ public class MessageUtil  {
     }
 
 
+    public static void sendShifrText(ITextComponent string, int id) {
+        if (Minecraft.getMinecraft().player == null)
+            return;
+        final ITextComponent component = new TextComponentString(prefix +ChatFormatting.DARK_BLUE+ string+ChatFormatting.RESET);
+        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion( component, id);
+    }
+
 
 }
