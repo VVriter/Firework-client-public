@@ -10,10 +10,6 @@ import java.util.List;
 
 public class HwidUrlReader {
 
-    /**
-     * Opens and reads the URL.
-     */
-
     public static List<String> readURL() {
         List<String> s = new ArrayList<>();
         try {
@@ -24,12 +20,6 @@ public class HwidUrlReader {
                 s.add(hwid);
             }
         } catch (Exception e) {
-
-            /**
-             * Optional logging below.
-             */
-
-            //FMLLog.log.info(e);
         }
         return s;
     }

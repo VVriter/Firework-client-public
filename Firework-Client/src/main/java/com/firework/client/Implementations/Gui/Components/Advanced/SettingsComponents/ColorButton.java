@@ -54,7 +54,7 @@ public class ColorButton extends Button {
             Point p = hueToPosition(center, radius, (int) ((HSLColor) setting.getValue()).hue);
 
             RenderUtils2D.drawFilledCircle(p, ((HSLColor) setting.getValue()).toRGB(), 3);
-            RenderUtils2D.drawCircleOutline(p, 3, 2, outlineColorA);
+            RenderUtils2D.drawCircleOutline(p, 3, 2, Color.white);
         }
     }
 

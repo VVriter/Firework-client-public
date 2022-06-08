@@ -1,7 +1,5 @@
 package com.firework.client.Implementations.Gui;
 
-import com.firework.client.Features.Modules.Client.BebraGui;
-
 import com.firework.client.Features.Modules.Client.GuiGradient;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Gui.Components.Advanced.*;
@@ -16,7 +14,6 @@ import com.firework.client.Implementations.Gui.Components.Button;
 import com.firework.client.Implementations.Gui.Particles.ParticleInfo;
 import com.firework.client.Implementations.Gui.Particles.ParticleSystem;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.Vec2f;
@@ -42,6 +39,8 @@ public class Gui extends GuiScreen {
     public static String activeKeyModule = "";
 
     public int origYOffset = 20;
+
+    public int buttonWidth = 70;
 
     public Gui(){
         particleSystem = new ParticleSystem();
@@ -69,10 +68,10 @@ public class Gui extends GuiScreen {
         initializedButtons.clear();
 
         for (Column column : GuiInfo.columns) {
-            int xOffset = 65;
+            int xOffset = buttonWidth/7;
             int yOffset = origYOffset;
 
-            StartBlock startBlock = new StartBlock(column.name, xOffset + newXOffset, yOffset, 60, 15);
+            StartBlock startBlock = new StartBlock(column.name, xOffset + newXOffset, yOffset, buttonWidth, 15);
 
             yOffset += startBlock.offset;
 
@@ -83,7 +82,7 @@ public class Gui extends GuiScreen {
 
                     Module m = (Module) obj;
 
-                    ModuleButton moduleButton = new ModuleButton(m, m.name, xOffset + newXOffset, yOffset, 60, 11);
+                    ModuleButton moduleButton = new ModuleButton(m, m.name, xOffset + newXOffset, yOffset, buttonWidth, 14);
                     initializedButtons.add(moduleButton);
                     yOffset += moduleButton.offset;
                     if (m.isOpened.getValue()) {
@@ -92,27 +91,27 @@ public class Gui extends GuiScreen {
                             if(!setting.hidden) {
                                 if (setting.mode == Setting.Mode.BOOL) {
                                     offsetObject.register(
-                                            new BoolButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+                                            new BoolButton(setting, xOffset + newXOffset, yOffset, buttonWidth, 11));
                                 }
                                 if (setting.mode == Setting.Mode.MODE) {
                                     offsetObject.register(
-                                            new ModeButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+                                            new ModeButton(setting, xOffset + newXOffset, yOffset, buttonWidth, 11));
                                 }
                                 if (setting.mode == Setting.Mode.NUMBER) {
                                     offsetObject.register(
-                                            new SliderButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+                                            new SliderButton(setting, xOffset + newXOffset, yOffset, buttonWidth, 11));
                                 }
                                 if (setting.mode == Setting.Mode.KEY) {
                                     offsetObject.register(
-                                            new KeyButton(setting, xOffset + newXOffset, yOffset, 60, 11));
+                                            new KeyButton(setting, xOffset + newXOffset, yOffset, buttonWidth, 11));
                                 }
                                 if (setting.mode == Setting.Mode.COLOR) {
                                     offsetObject.register(
-                                            new ColorButton(setting, xOffset + newXOffset, yOffset, 60, 11),
-                                            new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 71, 60, 12, ColorSliderButton.CSliderMode.HUE),
-                                            new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 84, 60, 12, ColorSliderButton.CSliderMode.SATURATION),
-                                            new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 97, 60, 12, ColorSliderButton.CSliderMode.LIGHT),
-                                            new ColorRainbowButton(setting, xOffset + newXOffset, yOffset + 110, 60, 12));
+                                            new ColorButton(setting, xOffset + newXOffset, yOffset, buttonWidth, 11),
+                                            new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 71, buttonWidth, 12, ColorSliderButton.CSliderMode.HUE),
+                                            new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 84, buttonWidth, 12, ColorSliderButton.CSliderMode.SATURATION),
+                                            new ColorSliderButton(setting, xOffset + newXOffset, yOffset + 97, buttonWidth, 12, ColorSliderButton.CSliderMode.LIGHT),
+                                            new ColorRainbowButton(setting, xOffset + newXOffset, yOffset + 110, buttonWidth, 12));
                                 }
                                 yOffset += offsetObject.offset;
                             }
@@ -135,15 +134,15 @@ public class Gui extends GuiScreen {
                 index++;
             }
 
-            Frame frame = new Frame(xOffset + newXOffset, origYOffset, 60, yOffset - origYOffset);
+            Frame frame = new Frame(xOffset + newXOffset, origYOffset + 15, buttonWidth, yOffset - origYOffset-15);
 
-            EndBlock endBlock = new EndBlock(xOffset + newXOffset - 1, yOffset, 62, 1);
+            EndBlock endBlock = new EndBlock(xOffset + newXOffset - 1, yOffset + 1, buttonWidth+2, 1);
 
-            initializedButtons.add(startBlock);
             initializedButtons.add(frame);
             initializedButtons.add(endBlock);
+            initializedButtons.add(startBlock);
 
-            newXOffset += 65;
+            newXOffset += buttonWidth + buttonWidth/7;
 
         }
     }
@@ -164,7 +163,7 @@ public class Gui extends GuiScreen {
                                     100).getRGB());
         }
 
-        if(BebraGui.background.getValue()){
+        if(com.firework.client.Features.Modules.Client.Gui.background.getValue()){
                 this.drawDefaultBackground();
             }
 
@@ -199,7 +198,7 @@ public class Gui extends GuiScreen {
         super.handleMouseInput();
 
         float scroll = Math.signum(Mouse.getDWheel());
-        int speed = floor(BebraGui.scrollSpeed.getValue());
+        int speed = floor(com.firework.client.Features.Modules.Client.Gui.scrollSpeed.getValue());
 
 
         if(scroll == 1)
