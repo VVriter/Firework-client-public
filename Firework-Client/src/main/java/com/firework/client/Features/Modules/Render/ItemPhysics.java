@@ -10,6 +10,6 @@ public class ItemPhysics extends Module {
 
     public ItemPhysics(){super("ItemPhysics",Category.RENDER);
         enabled = this.isEnabled;
-        scaling = new Setting<>("Scale", 3d, this, 0.1, 10);
+        scaling = new Setting<>("Scale", 1d, this, 0.1, 10);
     }
 }
