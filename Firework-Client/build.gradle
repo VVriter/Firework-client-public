@@ -84,6 +84,7 @@ dependencies {
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
     compile group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
 
+
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
     runtime "mysql:mysql-connector-java:8.0.15"
     implementation 'com.google.guava:guava:23.0'
