@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(NetworkManager.class)
-public abstract class MixinNetworkManager {
+public class MixinNetworkManager {
 
     @Inject(method = "(Lnet/minecraft/network/Packet;)V", at = @At("HEAD"), cancellable = true)
     public void onSendPacket(Packet<?> packetIn, CallbackInfo ci) {

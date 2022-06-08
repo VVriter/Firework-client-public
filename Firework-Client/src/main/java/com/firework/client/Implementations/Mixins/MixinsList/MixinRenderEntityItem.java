@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(value={RenderEntityItem.class})
-public abstract class MixinRenderEntityItem
+public  class MixinRenderEntityItem
         extends MixinRenderer<EntityItem> {
     private final Minecraft mc = Minecraft.getMinecraft();
     @Shadow
@@ -39,16 +39,16 @@ public abstract class MixinRenderEntityItem
     private long tick;
 
     @Shadow
-    protected abstract int getModelCount(ItemStack var1);
+    protected  int getModelCount(ItemStack var1){return 0;}
 
     @Shadow
-    public abstract boolean shouldSpreadItems();
+    public  boolean shouldSpreadItems(){return true;}
 
     @Shadow
-    public abstract boolean shouldBob();
+    public  boolean shouldBob(){return true;}
 
     @Shadow
-    protected abstract ResourceLocation getEntityTexture(EntityItem var1);
+    protected  ResourceLocation getEntityTexture(EntityItem var1){return null;}
 
     private double formPositive(float rotationPitch) {
         return rotationPitch > 0.0f ? (double)rotationPitch : (double)(-rotationPitch);
@@ -235,5 +235,15 @@ public abstract class MixinRenderEntityItem
         if (flag) {
             this.renderManager.renderEngine.getTexture(this.getEntityTexture(entity)).restoreLastBlurMipmap();
         }
+    }
+
+    @Override
+    protected boolean bindEntityTexture(EntityItem var1) {
+        return false;
+    }
+
+    @Override
+    protected int getTeamColor(EntityItem var1) {
+        return 0;
     }
 }

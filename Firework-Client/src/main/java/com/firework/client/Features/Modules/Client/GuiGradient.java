@@ -13,6 +13,5 @@ public class GuiGradient extends Module {
         this.isEnabled.setValue(false);
         Color1 = new Setting<>("UpColor", new HSLColor(1, 54, 43), this);
         Color2 = new Setting<>("DownColor", new HSLColor(1, 54, 43), this);
-        enabled.setValue(true);
     }
 }

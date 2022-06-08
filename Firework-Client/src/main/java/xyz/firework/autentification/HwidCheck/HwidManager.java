@@ -1,5 +1,9 @@
 package xyz.firework.autentification.HwidCheck;
 
+
+
+import com.firework.client.Features.CommandsSystem.CommandManager;
+import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.DiscordWebhook;
 import com.firework.client.Implementations.Utill.Client.HwidUtil;
 import net.minecraft.client.Minecraft;
