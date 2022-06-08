@@ -13,13 +13,15 @@
 		$db->options(MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1);
 
 
-		$stmt = $db->prepare("SELECT count(*) AS _count FROM `customers` WHERE `hwid`=?");
-		$stmt->bind_param("s", $_GET["hwid"]);
+		$stmt = $db->prepare("INSERT INTO `verification_codes`(`email`, `code`) VALUES (?, ?)");
+		$code = rand(1000000,8000000);
+		$stmt->bind_param("si", $_GET["email"], $code);
 		$stmt->execute();
-		$result = $stmt->get_result()->fetch_assoc()["_count"];
-		echo $result;
+		mysqli_commit($db);
+
+		mail($_GET["email"], "Firework Verification Code", "Your code: " . $code);
 	} catch (mysqli_sql_exception $e) {
 		throw new mysqli_sql_exception($e->getMessage(), $e->getCode());
 	}
-unset($host, $dbname, $user, $pass, $charset, $port); // we don't need them anymore
+	unset($host, $dbname, $user, $pass, $charset, $port); // we don't need them anymore
 ?>
