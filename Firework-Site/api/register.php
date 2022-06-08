@@ -8,6 +8,10 @@
 
 	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 	try {
+		if($_GET["sercret_key"] != "firework_on_top") {
+			exit();
+		}
+
 		$db = new mysqli($host, $user, $pass, $dbname, $port);
 		$db->set_charset($charset);
 		$db->options(MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1);
@@ -18,6 +22,14 @@
 		$stmt->execute();
 		$result = $stmt->get_result()->fetch_assoc()["_count"];
 		if($result == 1) {
+			$stmt = $db->prepare("SELECT count(*) FROM `customers` WHERE `email` = ? AND `password` = ?");
+			$stmt->bind_param("ss", $_GET["email"], $_GET["password"]);
+			$stmt->execute();
+			$result = $stmt->get_result()->fetch_assoc()["_count"];
+			if($result == 1){
+				exit();
+			}
+
 			$stmt = $db->prepare("DELETE FROM `verification_codes` WHERE `code` = ?");
 			$stmt->bind_param("i", $_GET["code"]);
 			$stmt->execute();
