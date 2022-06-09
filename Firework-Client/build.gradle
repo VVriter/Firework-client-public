@@ -1,22 +1,18 @@
+
 buildscript {
     repositories {
-        jcenter()
-        maven {
-            name = 'forge'
-            url = 'http://files.minecraftforge.net/maven'
-        }
-        maven {
-            name = 'SpongePowered'
-            url = 'https://repo.spongepowered.org/repository/maven-public/'
-        }
+        mavenCentral()
+        maven { url = "https://plugins.gradle.org/m2" }
+        maven { url = "https://repo.spongepowered.org/maven" }
+        maven { url = "https://maven.minecraftforge.net/" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath "org.spongepowered:mixingradle:0.7-SNAPSHOT"
         classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.3'
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'com.github.johnrengelman.shadow'
 
@@ -24,141 +20,107 @@ version = "1.12.2"
 group = "com.firework.client"
 archivesBaseName = "firework"
 
-sourceCompatibility = targetCompatibility = '1.8'
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-    options.encoding = 'UTF8'
-}
+sourceCompatibility = targetCompatibility = 1.8
+compileJava.options.encoding = compileTestJava.options.encoding = "UTF-8"
 
 minecraft {
-    version = "1.12.2-14.23.5.2847"
-    runDir = 'run'
-    mappings = "stable_39"
-    coreMod = 'com.firework.client.Implementations.Mixins.Loader'
-    makeObfSourceJar = false
-}
-
-repositories {
-    maven {
-        name = 'spongepowered-repo'
-        url = 'https://repo.spongepowered.org/repository/maven-public/'
-    }
-    maven {
-        name = "jitpack.io"
-        url = "https://jitpack.io"
-    }
-    maven {
-        name = "minecraft"
-        url "https://libraries.minecraft.net"
-    }
-    mavenCentral()
-}
-
-configurations {
-    driver
-}
-
-dependencies {
-
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
-    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-	implementation group: 'org.slick2d', name: 'slick2d-core', version: '1.0.1'
-    implementation group: 'org.telegram', name: 'telegrambots', version: '4.0.0'
-//Thanks for using https://jar-download.com
-
-
-
-    compileOnly 'org.projectlombok:lombok:1.18.22'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
-
-    compile("org.spongepowered:mixin:0.7.11-SNAPSHOT") { // do NOT update this to 8.0 or above, it breaks compatibility with future client
-        exclude module: 'launchwrapper'
-        exclude module: 'guava'
-        exclude module: 'gson'
-        exclude module: 'commons-io'
-        exclude module: 'log4j-core' // we want to exclude this as well because 0.7.11 includes it too new for MC
-    }
 	
-	compile('org.reflections:reflections:0.9.12') {
-        exclude module: 'guava'
-    }
-	
-    compile 'club.minnced:java-discord-rpc:2.0.2'
-    compile 'net.lingala.zip4j:zip4j:2.10.0'
-    compile 'com.googlecode.json-simple:json-simple:1.1.1'
-    compile group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
+	mappings channel: 'stable', version: "39-1.12"
 
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
-    runtime "mysql:mysql-connector-java:8.0.15"
-    implementation 'com.google.guava:guava:23.0'
-}
+    // Default run configurations.
+    // These can be tweaked, removed, or duplicated as needed.
+    runs {
+        client {
+            workingDirectory project.file('run')
 
-shadowJar {
-    dependencies {
-        include(dependency('org.spongepowered:mixin'))
-        include(dependency('club.minnced:java-discord-rpc'))
-        include(dependency('net.lingala.zip4j:zip4j'))
-        include(dependency('com.googlecode.json-simple:json-simple'))
-        include(dependency('org.slick2d:slick2d-core'))
-		include(dependency('org.reflections:reflections:0.9.12'))
-    }
-    manifest {
-        attributes(
-                'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
-                "FMLCorePlugin": 'com.firework.client.Implementations.Mixins.Loader',
-                "TweakOrder": 0,
-                'FMLCorePluginContainsFMLMod': 'true',
-                'ForceLoadAsMod': 'true',
-                "MixinConfigs": 'mixins.firework.json',
-        )
-    }
-    exclude 'dummyThing'
-    exclude 'LICENSE.txt'
-    classifier = 'build'
+            // Recommended logging data for a userdev environment
+            // The markers can be changed as needed.
+            // "SCAN": For mods scan.
+            // "REGISTRIES": For firing of registry events.
+            // "REGISTRYDUMP": For getting the contents of all registries.
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            // Recommended logging level for the console
+            // You can set various levels here.
+            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
+            property 'forge.logging.console.level', 'debug'
+
+            args '--tweakClass', 'org.spongepowered.asm.launch.MixinTweaker', '--mixin', 'mixins.firework.json'
+        }
+	}
 }
 
 mixin {
-    defaultObfuscationEnv searge
-    add sourceSets.main, 'mixin.refmap.json'
+    add sourceSets.main, "mixins.firework.refmap.json"
 }
 
-reobf {
-    shadowJar {
-        mappingType = 'SEARGE'
-        classpath = sourceSets.main.compileClasspath
+// Include resources generated by data generators.
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    mavenCentral()
+    maven { url = "https://repo.spongepowered.org/maven" }
+}
+
+configurations {
+    jarLibs
+}
+
+dependencies {
+	minecraft "net.minecraftforge:forge:1.12.2-14.23.5.2855"
+
+    jarLibs "org.spongepowered:mixin:0.8.3-SNAPSHOT"
+    annotationProcessor 'org.spongepowered:mixin:0.8.3-SNAPSHOT:processor'
+
+    jarLibs group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
+    jarLibs 'com.googlecode.json-simple:json-simple:1.1.1'
+	jarLibs group: 'org.slick2d', name: 'slick2d-core', version: '1.0.1'
+
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    jarLibs "net.jodah:typetools:0.6.2"
+	
+	jarLibs('org.reflections:reflections:0.9.12') {
+        exclude module: 'guava'
     }
+	
+	jarLibs 'org.jetbrains:annotations:21.0.1'
+	
+    jarLibs 'club.minnced:java-discord-rpc:2.0.2'
+    jarLibs 'net.lingala.zip4j:zip4j:2.10.0'
+    jarLibs 'com.googlecode.json-simple:json-simple:1.1.1'
+    jarLibs group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
+
+    jarLibs group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
+    runtime "mysql:mysql-connector-java:8.0.15"
+    implementation 'com.google.guava:guava:23.0'
+	jarLibs group: 'org.telegram', name: 'telegrambots', version: '4.0.0'
+	
+	implementation configurations.jarLibs
 }
 
 jar {
-    manifest {
-        attributes(
-                'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
-                "FMLCorePlugin": 'com.firework.client.Implementations.Mixins.Loader',
-                "TweakOrder": 0,
-                "MixinConfigs": 'mixins.firework.json',
-        )
+	manifest {
+        attributes([
+                "Implementation-Title"    : 'firework',
+                "Implementation-Version"  : '1.12.2',
+                "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+                "MixinConfigs": "mixins.firework.json",
+                "FMLCorePluginContainsFMLMod": "true",
+                "ForceLoadAsMod": "true",              
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+	
+	from {
+        configurations.jarLibs.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
     }
 }
 
-processResources {
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-
-        // replace version and mcversion
-        expand 'version': project.version, 'mcversion': project.minecraft.version
-    }
-
-    // copy everything else except the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
-
-build.dependsOn(shadowJar)
+jar.finalizedBy('reobfJar')
