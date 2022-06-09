@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value={RenderItem.class})
+@Mixin(value=RenderItem.class)
 public class MixinRenderItem {
     @Shadow
     private void renderModel(IBakedModel model, int color, ItemStack stack) {
