@@ -24,7 +24,6 @@ public class HwidManager {
 
     public static void hwidCheck() {
         hwids = HwidUrlReader.readURL();
-        System.out.println(hwids);
         boolean isHwidPresent = hwids.contains("1");
         System.out.println(hwids);
         if (!isHwidPresent) {
