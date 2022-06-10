@@ -61,6 +61,8 @@ public class Gui extends GuiScreen {
     }
 
     public void init() {
+        Mouse.setGrabbed(false);
+
         GuiInfo.index = 0;
 
         int newXOffset = 0;
@@ -278,8 +280,11 @@ public class Gui extends GuiScreen {
 
     @Override
     public void onGuiClosed() {
+
         super.onGuiClosed();
         initializedButtons.clear();
+
+        Mouse.setGrabbed(true);
     }
 
     public boolean isHoveringOnTheButton(Button button, Vec2f mousePoint) {
