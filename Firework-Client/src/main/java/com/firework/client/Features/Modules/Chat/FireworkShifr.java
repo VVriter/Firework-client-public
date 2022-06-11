@@ -3,10 +3,8 @@ package com.firework.client.Features.Modules.Chat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
-import com.firework.client.Implementations.Utill.CryptUtil;
-import net.minecraft.util.text.ITextComponent;
+import com.firework.client.Implementations.Utill.Client.CryptUtil;
 import net.minecraftforge.client.event.ClientChatEvent;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 

@@ -16,7 +16,7 @@ import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Features.CommandsSystem.CommandManager;
-import com.firework.client.Implementations.Utill.ConnectionUtil;
+import com.firework.client.Implementations.Utill.Client.ConnectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.ResourceLocation;
@@ -34,7 +34,6 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
 import org.lwjgl.opengl.Display;
-import xyz.firework.autentification.HwidCheck.HwidManager;
 
 
 import java.io.IOException;

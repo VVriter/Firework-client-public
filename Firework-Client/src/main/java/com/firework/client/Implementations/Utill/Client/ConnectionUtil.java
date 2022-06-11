@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Utill;
+package com.firework.client.Implementations.Utill.Client;
 
 import net.minecraftforge.fml.common.FMLLog;
 import xyz.firework.autentification.InternetConnectionError;

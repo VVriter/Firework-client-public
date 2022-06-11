@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Utill;
+package com.firework.client.Implementations.Utill.Client;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
