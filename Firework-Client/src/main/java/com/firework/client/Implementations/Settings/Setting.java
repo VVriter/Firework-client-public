@@ -30,6 +30,9 @@ public class Setting<T> {
 
     public boolean hidden = false;
 
+    public Setting targetSetting;
+    public Object targetValue;
+
     public Setting(String name, T value, Module module){
         this.name = name;
         this.value = value;
@@ -92,6 +95,22 @@ public class Setting<T> {
         this.hidden = !visibility;
         settingManager.updateSettingsByName(this);
         return this;
+    }
+
+    public Setting<T> setVisibility(Setting setting, Object object){
+        this.targetSetting = setting;
+        this.targetValue = object;
+        settingManager.updateSettingsByName(this);
+        updateSettingVisibility();
+        settingManager.updateSettingsByName(this);
+        return this;
+    }
+
+    public void updateSettingVisibility(){
+        if(targetSetting != null && targetValue != null) {
+            this.hidden = targetSetting.getValue(targetValue) ? false : true;
+            settingManager.updateSettingsByName(this);
+        }
     }
 
     public T getValue(){
