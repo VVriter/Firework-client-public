@@ -223,13 +223,14 @@ public class Gui extends GuiScreen {
     protected void mouseClicked(int mouseX, int mouseY, int state) {
         for(Button button : initializedButtons){
             if(isHoveringOnTheButton(button, new Vec2f(mouseX, mouseY))){
+                boolean shouldInit = false;
                 if(button instanceof ModuleButton){
                     if(state == 0) {
                         button.initialize(mouseX, mouseY);
                     }else{
                         ((ModuleButton) button).module.isOpened.setValue(!((ModuleButton) button).module.isOpened.getValue());
                         mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
-                        init();
+                        shouldInit = true;
                     }
                 }
                 if(button instanceof BoolButton){
@@ -253,18 +254,27 @@ public class Gui extends GuiScreen {
                 if(button instanceof ModeButton){
                     if(state == 0) {
                         ((ModeButton) button).initialize(mouseX, mouseY);
+                        shouldInit = true;
                     }
                 }
                 if(button instanceof ColorButton){
                     ((ColorButton) button).initialize(mouseX, mouseY, state);
-                    init();
+                    shouldInit = true;
                 }
                 if(button instanceof ColorSliderButton){
                     ((ColorSliderButton) button).initialize(mouseX, mouseY, state);
+                    shouldInit = true;
                 }
                 if(button instanceof ColorRainbowButton){
                     ((ColorRainbowButton) button).initialize(mouseX, mouseY, state);
                 }
+
+                for(Setting setting : settingManager.settings)
+                    setting.updateSettingVisibility();
+
+                if(shouldInit)
+                    init();
+
                 return;
             }
         }
