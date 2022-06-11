@@ -79,6 +79,9 @@ dependencies {
     jarLibs group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
     jarLibs 'com.googlecode.json-simple:json-simple:1.1.1'
 	jarLibs group: 'org.slick2d', name: 'slick2d-core', version: '1.0.1'
+    jarLibs 'com.discord4j:discord4j-core:3.2.2'
+
+
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
@@ -98,8 +101,7 @@ dependencies {
     jarLibs group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
     runtime "mysql:mysql-connector-java:8.0.15"
     implementation 'com.google.guava:guava:23.0'
-	jarLibs group: 'org.telegram', name: 'telegrambots', version: '4.0.0'
-	
+
 	implementation configurations.jarLibs
 }
 

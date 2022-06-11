@@ -35,6 +35,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import xyz.firework.autentification.HwidCheck.HwidManager;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -90,13 +91,14 @@ public class Firework
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
         FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir +"\\Firework\\";
-        HwidManager.hwidCheck();
+        //HwidManager.hwidCheck();
         //HwidUtil.hwidCheck();
         //Sets System tray icon
         SystemTray.sysTray();
         //Chakes for updates
         //UpdateManager.hwidCheck();
         //Creates Folder with client files
+      
         JsonParser.parse();
         JsonPrefixPraser.parse();
         JsonReader.getPrefix();
