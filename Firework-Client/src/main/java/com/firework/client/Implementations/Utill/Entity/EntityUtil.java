@@ -2,6 +2,7 @@ package com.firework.client.Implementations.Utill.Entity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 
 public class EntityUtil {
@@ -22,5 +23,14 @@ public class EntityUtil {
         return EntityUtil.getInterpolatedAmount(entity, partialTicks, partialTicks, partialTicks);
     }
 
+    public static boolean isEntityMoving(Entity entity) {
+        if (entity == null) {
+            return false;
+        }
+        if (entity instanceof EntityPlayer) {
+            return EntityUtil.mc.gameSettings.keyBindForward.isKeyDown() || EntityUtil.mc.gameSettings.keyBindBack.isKeyDown() || EntityUtil.mc.gameSettings.keyBindLeft.isKeyDown() || EntityUtil.mc.gameSettings.keyBindRight.isKeyDown();
+        }
+        return entity.motionX != 0.0 || entity.motionY != 0.0 || entity.motionZ != 0.0;
+    }
 
 }

@@ -16,6 +16,7 @@ import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Features.CommandsSystem.CommandManager;
+import com.firework.client.Implementations.Utill.ConnectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.ResourceLocation;
@@ -91,6 +92,7 @@ public class Firework
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
         FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir +"\\Firework\\";
+        ConnectionUtil.checkForInternetConnection();
         //HwidManager.hwidCheck();
         //HwidUtil.hwidCheck();
         //Sets System tray icon
