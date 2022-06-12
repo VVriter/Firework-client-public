@@ -22,6 +22,8 @@ public class Help4Command extends Command {
         MessageUtil.sendShown("Book Command - Usage: "+CommandManager.prefix+"book ","Makes an a dupe book",false);
         MessageUtil.sendShown("Prefix Command - Usage: "+CommandManager.prefix+"prefix value ","Changes ur command prefix!",false);
         MessageUtil.sendShown("CowDupe Command - Usage: "+CommandManager.prefix+"cowdupe \n","DupesCows!",false);
+        MessageUtil.sendShown("Mute Command - Usage: "+CommandManager.prefix+"mute name \n","Muting player from chat client side only",false);
+        MessageUtil.sendShown("UnMute Command - Usage: "+CommandManager.prefix+"unmute name \n","Unmuting player from chat",false);
 
 
 

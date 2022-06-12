@@ -18,6 +18,9 @@ import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help1Com
 import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help2Command;
 import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help3Command;
 import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help4Command;
+import com.firework.client.Features.CommandsSystem.Commands.MuteSystem.GetList;
+import com.firework.client.Features.CommandsSystem.Commands.MuteSystem.Mute;
+import com.firework.client.Features.CommandsSystem.Commands.MuteSystem.UnMute;
 import com.firework.client.Features.CommandsSystem.Commands.PeekCommand.PeekCommand;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -80,7 +83,9 @@ public class CommandManager {
                 new Help3Command(),
                 new Help4Command(),
 
-
+                new Mute(),
+                new UnMute(),
+                new GetList(),
 
                 new TutorialCommand(),
                 new CowDupeCommand(),

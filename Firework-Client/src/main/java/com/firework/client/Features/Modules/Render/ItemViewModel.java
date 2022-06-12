@@ -5,11 +5,13 @@ import com.firework.client.Implementations.Settings.Setting;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.Arrays;
+
 public class ItemViewModel extends Module {
 
     public static Setting<Boolean> enabled = null;
 
-        public static Setting<Double> fov  = null;
+    public Setting<String> mode = new Setting<>("Mode", "Mixin", this, Arrays.asList("GL", "Mixin"));
 
         public static Setting<Double> translateX  = null;
         public static Setting<Double> translateY   = null;
@@ -30,8 +32,7 @@ public class ItemViewModel extends Module {
     public ItemViewModel(){super("ItemViewModel",Category.RENDER);
 
         enabled = this.isEnabled;
-
-
+if(mode.getValue().equals("GL")){
         translateX = new Setting<>("translateX", (double)0,this, -300, 300);
         translateY = new Setting<>("translateY", (double)0,this, -300, 300);
         translateZ = new Setting<>("translateZ", (double)0,this, -300, 300);
@@ -47,6 +48,7 @@ public class ItemViewModel extends Module {
         scaleX = new Setting<>("scaleX", (double)100,this, -300, 300);
         scaleY = new Setting<>("scaleY", (double)100,this, -300, 300);
         scaleZ = new Setting<>("scaleZ", (double)100,this, -300, 300);
+        }
     }
 }
 
