@@ -64,8 +64,16 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {
     maven { url = "https://repo.spongepowered.org/maven" }
     maven {
+        name = 'impactdevelopment-repo'
+        url = 'https://impactdevelopment.github.io/maven/'
+    }
+    maven {
         name = "jitpack.io"
         url = "https://jitpack.io"
+    }
+    maven {
+        name = 'swt-repo'
+        url = "http://maven-eclipse.github.io/maven"
     }
     mavenCentral()
     jcenter()
@@ -78,7 +86,7 @@ configurations {
 dependencies {
 	minecraft "net.minecraftforge:forge:1.12.2-14.23.5.2855"
 
-    implementation 'com.github.cabaletta:baritone:1.2.14'
+    jarLibs 'com.github.cabaletta:baritone:1.2.14'
     jarLibs 'cabaletta:baritone-api:1.2'
 
     jarLibs "org.spongepowered:mixin:0.8.3-SNAPSHOT"
