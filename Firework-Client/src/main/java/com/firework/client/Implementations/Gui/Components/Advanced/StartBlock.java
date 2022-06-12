@@ -8,6 +8,7 @@ import com.firework.client.Implementations.Utill.Render.ColorUtils;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
+import net.minecraft.client.Minecraft;
 
 import java.awt.*;
 
@@ -18,6 +19,7 @@ import static java.awt.Color.*;
 
 public class StartBlock extends Button {
 
+    Minecraft mc = Minecraft.getMinecraft();
     public String name;
 
     public StartBlock(String name, int x, int y, int width, int height) {
@@ -42,9 +44,9 @@ public class StartBlock extends Button {
         textManager.drawString(name, x+3, y+3,
                 white.getRGB(),true);
 
-        /*if(GuiInfo.hasCategoryIcon(name)){
+        if(GuiInfo.hasCategoryIcon(name)){
             mc.getTextureManager().bindTexture(GuiInfo.resourceLocationByCategory(name));
-            RenderUtils2D.drawCompleteImage(x + width-15, y, 15, 15);
-        }*/
+            RenderUtils2D.drawCompleteImage(x + width-13, y+1, 13, 13);
+        }
     }
 }
