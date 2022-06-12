@@ -2,20 +2,28 @@ package com.firework.client.Implementations.Managers;
 
 import com.firework.client.Firework;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MuteManager {
-
-    String path = Firework.FIREWORK_DIRECTORY+"MuteList\\";
-
     public static void addMuted(String name){
-        JSONParser parser = new JSONParser();
+        File theDir = new File(Firework.FIREWORK_DIRECTORY+"Muted");
+        if (!theDir.exists()){
+            theDir.mkdirs();}
+
         JSONObject obj = new JSONObject();
-
-
-
+        obj.put(name,name);
+        try (FileWriter file = new FileWriter(Firework.FIREWORK_DIRECTORY + "Muted/" + name + ".json")) {
+            file.write(obj.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    public static void removeFromMuteList(String name){
+        File theDir = new File(Firework.FIREWORK_DIRECTORY+"Muted/"+name+".json");
+        theDir.delete();
+    }
 }
