@@ -62,8 +62,13 @@ mixin {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    mavenCentral()
     maven { url = "https://repo.spongepowered.org/maven" }
+    maven {
+        name = "jitpack.io"
+        url = "https://jitpack.io"
+    }
+    mavenCentral()
+    jcenter()
 }
 
 configurations {
@@ -72,6 +77,9 @@ configurations {
 
 dependencies {
 	minecraft "net.minecraftforge:forge:1.12.2-14.23.5.2855"
+
+    implementation 'com.github.cabaletta:baritone:1.2.14'
+    jarLibs 'cabaletta:baritone-api:1.2'
 
     jarLibs "org.spongepowered:mixin:0.8.3-SNAPSHOT"
     annotationProcessor 'org.spongepowered:mixin:0.8.3-SNAPSHOT:processor'
