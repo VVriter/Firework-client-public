@@ -1,15 +1,21 @@
 package com.firework.client.Implementations.Managers;
 
 import com.firework.client.Firework;
+import org.apache.commons.io.FilenameUtils;
 import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class FriendManager {
-    public static void parse(String args){
 
+
+    private static ArrayList<String> friends = new ArrayList<>();
+
+    public static void parse(String args){
+        friends.add(args);
         File theDir = new File(Firework.FIREWORK_DIRECTORY+"Friends");
         if (!theDir.exists()){
             theDir.mkdirs();}
@@ -24,24 +30,21 @@ public class FriendManager {
     }
 
 
-
+    public static void getFriends(){
+        File folder = new File(Firework.FIREWORK_DIRECTORY+"Friends");
+        for (File file1 : folder.listFiles()) {
+            String fileNameWithOutExt = FilenameUtils.removeExtension(file1.getName());
+            System.out.println(fileNameWithOutExt);
+            friends.add(fileNameWithOutExt);
+            System.out.println(friends);
+        }
+    }
 
 
 
     public static void remove(String name){
+        friends.remove(name);
         File theDir = new File(Firework.FIREWORK_DIRECTORY+"Friends/"+name+".json");
         theDir.delete();
-    }
-
-    public static void isFriend(){
-
-    }
-
-    public static boolean findFriend(String name) {
-        File theDir = new File(Firework.FIREWORK_DIRECTORY+"Friends/" + name + ".json");
-        if(theDir.exists()) {
-            return true;
-        }
-        return false;
     }
 }
