@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.init.SoundEvents;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import static com.firework.client.Firework.textManager;
 import static com.firework.client.Implementations.Gui.GuiInfo.fillColorB;
@@ -38,7 +39,7 @@ public class BoolButton extends Button {
 
         if((boolean)setting.getValue()){
             activeColor = new Color(ColorUtils.astolfoColors(100, 100));
-            RenderUtils2D.drawCheckMark(x + width-19, y-1, 22, Color.WHITE.getRGB());
+            RenderUtils2D.drawCheckMarkV2(new Point2D.Double(x + width - 11 + 3.5, y + 8), Color.WHITE);
         }else{
             activeColor = Color.WHITE;
         }
