@@ -5,6 +5,7 @@ package com.firework.client;
 import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
+import com.firework.client.Implementations.Managers.MuteManager;
 import com.firework.client.Implementations.Managers.Parser.JsonParser;
 import com.firework.client.Implementations.Managers.Parser.JsonPrefixPraser;
 import com.firework.client.Implementations.Managers.Parser.JsonReader;
@@ -99,7 +100,7 @@ public class Firework
         //Chakes for updates
         //UpdateManager.hwidCheck();
         //Creates Folder with client files
-      
+        MuteManager.getListOfNamesOfMutedPlayers();
         JsonParser.parse();
         JsonPrefixPraser.parse();
         JsonReader.getPrefix();
