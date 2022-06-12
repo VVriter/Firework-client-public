@@ -17,8 +17,8 @@ public class AutoWalk extends Module {
     public AutoWalk(){super("AutoWalk",Category.MOVEMENT);}
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void onEnable() {
+        super.onEnable();
         if(mode.getValue(modes.BARITONE)) {
             Vec3d dir = mc.player.getLookVec();
             int x = (int) (floor(mc.player.posX) + floor(dir.x) * border);
@@ -29,6 +29,11 @@ public class AutoWalk extends Module {
             if (BaritoneUtil.canPath(goal))
                 BaritoneUtil.walkTo(goal);
         }
+    }
+
+    @Override
+    public void onTick() {
+        super.onTick();
     }
 
     @SubscribeEvent
