@@ -30,6 +30,8 @@ import static net.minecraft.util.math.MathHelper.floor;
 
 public class Gui extends GuiScreen {
 
+    public static Gui gui = new Gui();
+
     public ParticleSystem particleSystem;
 
     public static ArrayList<Button> initializedButtons;

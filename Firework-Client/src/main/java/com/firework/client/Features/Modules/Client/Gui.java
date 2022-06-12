@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
 
 public class Gui extends Module {
@@ -26,17 +27,7 @@ public class Gui extends Module {
     public void onEnable(){
         super.onEnable();
         Notifications.notificate();
-        Minecraft.getMinecraft().player.closeScreen();
-        new Thread(
-                new Runnable() {
-                    public void run() {
-                        try {
-                            Minecraft.getMinecraft().displayGuiScreen(new com.firework.client.Implementations.Gui.Gui());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
+        Minecraft.getMinecraft().displayGuiScreen(new com.firework.client.Implementations.Gui.Gui());
         this.isEnabled.setValue(false);
     }
 }
