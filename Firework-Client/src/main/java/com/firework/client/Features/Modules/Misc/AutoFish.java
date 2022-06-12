@@ -7,22 +7,18 @@ import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
-
 import com.firework.client.Implementations.Utill.Client.DiscordWebhook;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.network.play.server.SPacketSoundEffect;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-
-
-import net.minecraft.util.*;
-import net.minecraft.network.play.client.*;
-import net.minecraft.network.*;
 
 import java.awt.*;
 import java.util.Arrays;

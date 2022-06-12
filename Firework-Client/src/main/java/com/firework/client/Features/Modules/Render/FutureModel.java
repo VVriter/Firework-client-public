@@ -8,13 +8,24 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import org.lwjgl.opengl.GL11;
 
-@ModuleArgs(name = "FutureModel",category = Module.Category.RENDER)
 public class FutureModel extends Module {
 
 
-    public Setting<Double> trX = new Setting<>("TranslateX", (double)0, this, -3, 3);
-    public Setting<Double> trY = new Setting<>("TranslateY", (double)0, this, -3, 3);
-    public Setting<Double> trZ = new Setting<>("TranslateZ", (double)0, this, -3, 3);
+
+    public static Setting<Double> trX = null;
+    public static Setting<Double> trY = null;
+    public static Setting<Double> trZ = null;
+
+    public static Setting<Boolean> enabled = null;
+
+
+
+public FutureModel(){super("FutureModel",Category.RENDER);
+    trX = new Setting<>("TranslateX", (double)0, this, -3, 3);
+    trY = new Setting<>("TranslateY", (double)0, this, -3, 3);
+    trZ = new Setting<>("TranslateZ", (double)0, this, -3, 3);
+    enabled = this.isEnabled;
+}
 
     public Setting<Double> scX = new Setting<>("ScaleX", (double)1, this, -3, 3);
     public Setting<Double> scY = new Setting<>("ScaleY", (double)1, this, -3, 3);
@@ -29,7 +40,6 @@ public class FutureModel extends Module {
 
     @SubscribeEvent
     public void onBebra(RenderSpecificHandEvent e) {
-        GL11.glTranslated(trX.getValue(), trY.getValue(), trZ.getValue());
         GL11.glScaled(scX.getValue(),scY.getValue(),scZ.getValue());
 
 

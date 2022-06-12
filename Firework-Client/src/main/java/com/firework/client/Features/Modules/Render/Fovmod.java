@@ -9,14 +9,17 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.Arrays;
 
-@ModuleArgs(name = "FovMod",category = Module.Category.RENDER)
 public class Fovmod extends Module {
 
     public float defaultFov;
-
+    public static Setting<Boolean> enabled = null;
     public Setting<Double> Change  = new Setting<>("Change ", (double)100, this, 0, 500);
     public Setting<Boolean> Smooth  = new Setting<>("Smooth ", false, this);
     public Setting<String> FovMode  = new Setting<>("FovMode", "ViewModelChanger", this, Arrays.asList("ViewModelChanger", "FovChanger","Zoom"));
+
+    public Fovmod(){super("FovMod",Category.RENDER);
+        enabled = this.isEnabled;}
+
 
     @SubscribeEvent
     public void FOVModifier(EntityViewRenderEvent.FOVModifier event) {
