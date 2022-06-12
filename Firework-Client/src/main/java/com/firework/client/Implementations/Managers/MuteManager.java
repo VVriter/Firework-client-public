@@ -11,8 +11,7 @@ import java.util.ArrayList;
 
 public class MuteManager {
 
-    private static  ArrayList<String> muted = new ArrayList<>();
-
+    private static ArrayList<String> muted = new ArrayList<>();
 
     public static void addMuted(String name){
         File theDir = new File(Firework.FIREWORK_DIRECTORY+"Muted");
@@ -37,6 +36,12 @@ public class MuteManager {
 
     public static void getListOfNamesOfMutedPlayers(){
         File folder = new File(Firework.FIREWORK_DIRECTORY+"Muted");
+
+        if(!folder.exists())
+            folder.mkdir();
+
+        if(folder.listFiles() == null) return;
+
         for (File file : folder.listFiles()) {
             String fileNameWithOutExt = FilenameUtils.removeExtension(file.getName());
             System.out.println(fileNameWithOutExt);
@@ -47,7 +52,7 @@ public class MuteManager {
 
     public static boolean isMuted(String name) {
         for(String string : muted) {
-            if(string.contains(name)) {
+            if(string.equals(name)) {
                 return true;
             }
         }
