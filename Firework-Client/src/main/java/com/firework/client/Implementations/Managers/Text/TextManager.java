@@ -3,6 +3,8 @@ package com.firework.client.Implementations.Managers.Text;
 import com.firework.client.Firework;
 import net.minecraft.client.Minecraft;
 
+import static java.lang.Math.*;
+
 public class TextManager {
 
     Minecraft mc = Minecraft.getMinecraft();
@@ -23,7 +25,11 @@ public class TextManager {
     }
 
     public int getStringWidth(String text) {
-        return mc.fontRenderer.getStringWidth(text);
+        if(customFont){
+            return round(Firework.customFontManager.getWidth(text));
+        }else {
+            return mc.fontRenderer.getStringWidth(text);
+        }
     }
 
     public int getFontHeight() {

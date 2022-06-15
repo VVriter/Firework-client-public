@@ -3,25 +3,13 @@ package com.firework.client.Features.CommandsSystem.Commands.Fun;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
-import com.firework.client.Features.Modules.Client.Notifications;
-import com.firework.client.Firework;
-import com.firework.client.Implementations.Gui.Gui;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 
-import java.util.Random;
-
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
 
 
 @CommandManifest(label = "cowdupe")

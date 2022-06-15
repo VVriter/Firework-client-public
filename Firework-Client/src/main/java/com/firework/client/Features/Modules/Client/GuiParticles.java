@@ -2,7 +2,7 @@ package com.firework.client.Features.Modules.Client;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleArgs;
-import com.firework.client.Implementations.Gui.Particles.ParticleInfo;
+import com.firework.client.Implementations.GuiNEO.Particles.ParticleInfo;
 import com.firework.client.Implementations.Settings.Setting;
 
 @ModuleArgs(name = "GuiParticles", category = Module.Category.CLIENT)

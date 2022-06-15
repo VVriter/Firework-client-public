@@ -3,10 +3,8 @@ package com.firework.client.Features.CommandsSystem.Commands.Client;
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Features.Modules.Client.Notifications;
-import com.firework.client.Implementations.Gui.Gui;
+import com.firework.client.Implementations.GuiClassic.Gui;
 import net.minecraft.client.Minecraft;
-
-import java.util.concurrent.TimeUnit;
 
 @CommandManifest(label = "gui")
 public class GuiCommand extends Command {

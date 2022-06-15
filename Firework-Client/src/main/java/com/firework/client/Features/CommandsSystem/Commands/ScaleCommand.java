@@ -3,7 +3,6 @@ package com.firework.client.Features.CommandsSystem.Commands;
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Features.Modules.Client.Notifications;
-import com.firework.client.Implementations.Gui.GuiInfo;
 import net.minecraft.client.renderer.GlStateManager;
 
 @CommandManifest(label = "scale")

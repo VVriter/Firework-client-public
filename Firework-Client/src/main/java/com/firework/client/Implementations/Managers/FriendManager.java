@@ -32,6 +32,12 @@ public class FriendManager {
 
     public static void getFriends(){
         File folder = new File(Firework.FIREWORK_DIRECTORY+"Friends");
+
+        if(!folder.exists())
+            folder.mkdir();
+
+        if(folder.listFiles() == null) return;
+
         for (File file1 : folder.listFiles()) {
             String fileNameWithOutExt = FilenameUtils.removeExtension(file1.getName());
             System.out.println(fileNameWithOutExt);
