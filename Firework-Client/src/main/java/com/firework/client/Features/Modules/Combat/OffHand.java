@@ -7,6 +7,8 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
 
+import static com.firework.client.Implementations.Utill.InventoryUtil.*;
+
 
 @ModuleArgs(name = "OffHand",category = Module.Category.COMBAT)
 public class OffHand extends Module {
@@ -16,37 +18,10 @@ public class OffHand extends Module {
     @Override
     public void onTick(){
         super.onTick();
-        if(offhandMode.getValue(modes.Totem)) {
+        if(offhandMode.getValue(modes.Totem))
             doOffHand(Items.TOTEM_OF_UNDYING);
-        } else if(offhandMode.getValue(modes.Crystal))
+        else if(offhandMode.getValue(modes.Crystal))
             doOffHand(Items.END_CRYSTAL);
-    }
-
-    public void swapItems(int slot, int step) {
-        if (step == 0) {
-            mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
-            mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
-            mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
-        }
-        if (step == 1) {
-            mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
-            mc.playerController.windowClick(0, 36 + mc.player.inventory.currentItem, 0, ClickType.PICKUP, mc.player);
-            mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
-        }
-        mc.playerController.updateController();
-    }
-
-    private int getItemSlot(Item input) {
-        for(int i = 36; i >= 0; i--) {
-            final Item item = mc.player.inventory.getStackInSlot(i).getItem();
-            if(item == input) {
-                if (i < 9) {
-                    i += 36;
-                }
-                return i;
-            }
-        }
-        return -1;
     }
 
     public void doOffHand(Item item){
