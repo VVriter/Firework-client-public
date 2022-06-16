@@ -6,6 +6,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
@@ -99,5 +100,19 @@ public class CrystalUtil {
             }
         }
         return false;
+    }
+
+    public static ArrayList<EntityEnderCrystal> getCrystals(double distance) {
+        ArrayList<EntityEnderCrystal> list = new ArrayList<EntityEnderCrystal>();
+
+        for (Entity entity : mc.world.loadedEntityList) {
+            if (entity instanceof EntityEnderCrystal) {
+                if (entity.getDistance(mc.player) <= distance) {
+                    list.add((EntityEnderCrystal)entity);
+                }
+            }
+        }
+
+        return list;
     }
 }
