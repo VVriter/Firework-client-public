@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class FriendManager {
 
 
-    private static ArrayList<String> friends = new ArrayList<>();
+    public static ArrayList<String> friends = new ArrayList<>();
 
     public static void parse(String args){
         friends.add(args);

@@ -12,10 +12,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class BlockUtil {
     public static final List<Block> blackList = Arrays.asList(Blocks.ENDER_CHEST, Blocks.CHEST, Blocks.TRAPPED_CHEST, Blocks.CRAFTING_TABLE, Blocks.ANVIL, Blocks.BREWING_STAND, Blocks.HOPPER, Blocks.DROPPER, Blocks.DISPENSER, Blocks.TRAPDOOR, Blocks.ENCHANTING_TABLE);
@@ -84,5 +81,39 @@ public class BlockUtil {
         return new Vec3d(pos);
     }
 
+    public static Block getBlock(BlockPos pos) {
+        try {
+            return mc.world.getBlockState(pos).getBlock();
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
 
+    public static List<BlockPos> getAll(int radius) {
+        List<BlockPos> list = new ArrayList<BlockPos>();
+        try {
+            for (int x = (int) (mc.player.posX - radius); x < mc.player.posX + radius; x++) {
+                for (int z = (int) (mc.player.posZ - radius); z < mc.player.posZ + radius; z++) {
+                    for (int y = (int) (mc.player.posY + radius); y > mc.player.posY - radius; y--) {
+                        list.add(new BlockPos(x, y, z));
+                    }
+                }
+            }
+
+            Collections.sort(list, new Comparator<BlockPos>() {
+                @Override
+                public int compare(BlockPos lhs, BlockPos rhs) {
+                    return mc.player.getDistanceSq(lhs) > mc.player.getDistanceSq(rhs) ? 1 : (mc.player.getDistanceSq(lhs) < mc.player.getDistanceSq(rhs)) ? -1 : 0;
+                }
+            });
+
+            return list;
+        } catch (Exception e) {
+            return list;
+        }
+    }
+
+    public static int distance(BlockPos first, BlockPos second) {
+        return Math.abs(first.getX() - second.getX()) + Math.abs(first.getY() - second.getY()) + Math.abs(first.getZ() - second.getZ());
+    }
 }
