@@ -78,7 +78,7 @@ public class Gui extends GuiScreen {
 
                     Module m = (Module) obj;
 
-                    ModuleButton moduleButton = new ModuleButton(m, m.name, xOffset + newXOffset, yOffset, buttonWidth, 14);
+                    ModuleButton moduleButton = new ModuleButton(m, m.name, xOffset + newXOffset, yOffset, buttonWidth, 11);
                     initializedButtons.add(moduleButton);
                     yOffset += moduleButton.offset;
                     if (m.isOpened.getValue()) {
@@ -130,7 +130,7 @@ public class Gui extends GuiScreen {
                 index++;
             }
 
-            EndBlock endBlock = new EndBlock(xOffset + newXOffset - 1, yOffset + 3, buttonWidth+2, 1);
+            EndBlock endBlock = new EndBlock(xOffset + newXOffset - 1, yOffset, buttonWidth+2, 1);
 
             initializedButtons.add(endBlock);
             initializedButtons.add(startBlock);
