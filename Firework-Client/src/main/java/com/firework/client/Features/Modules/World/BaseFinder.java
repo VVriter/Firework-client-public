@@ -13,24 +13,25 @@ import java.util.Arrays;
 @ModuleArgs(name = "BaseFinder",category = Module.Category.WORLD)
 public class BaseFinder extends Module {
 
-    public Setting<String> HuntingMode = new Setting<>("HuntingMode", "Normal", this, Arrays.asList("Normal", "Spiral"));
+    public Setting<String> huntingMode = new Setting<>("HuntingMode", "Normal", this, Arrays.asList("Normal", "Spiral"));
     public Setting<Boolean> isSprint = new Setting<>("Sprint", true, this);
 
-    BlockPos pos;
-    BlockPos posNow;
+    public BlockPos pos;
+    public BlockPos posNow;
 
-    int blocksUWalkedX;
-    int blocksUWalkedZ;
-    int blocksUwalked;
-    int blocksUMustToWalk;
+    public int blocksUWalkedX;
+    public int blocksUWalkedZ;
+    public int blocksUwalked;
+    public int blocksUMustToWalk;
 
-    float yaw = mc.player.rotationYaw;
+    public float yaw;
 
     @Override
     public void onEnable(){
         super.onEnable();
         pos = mc.player.getPosition();
-        if(HuntingMode.getValue().equals("Spiral")){
+        yaw = mc.player.rotationYaw;
+        if(huntingMode.getValue("Spiral")){
             yaw = 0;
             blocksUMustToWalk = 20;
         }
@@ -41,7 +42,7 @@ public class BaseFinder extends Module {
     public void onTick(){
         super.onTick();
 
-        if(HuntingMode.getValue().equals("Normal")){
+        if(huntingMode.getValue("Normal")){
             YawUtil.MakeRoundedYaw();
             mc.player.setSprinting(isSprint.getValue());
         }
@@ -52,7 +53,7 @@ public class BaseFinder extends Module {
         blocksUWalkedZ = pos.getZ() - posNow.getZ();
         blocksUwalked = Math.abs(blocksUWalkedX+blocksUWalkedZ);
 
-        if(HuntingMode.getValue().equals("Spiral")){
+        if(huntingMode.getValue("Spiral")){
             if(blocksUwalked == blocksUMustToWalk){
                 if(yaw == 0){
                     mc.player.rotationYaw = yaw + 90;
@@ -67,10 +68,9 @@ public class BaseFinder extends Module {
         }
     }
 
-    //Это для мода нормал, оно просто будет идти вперед (или же лететь на элитре)
     @SubscribeEvent
     public void onUpdateInput(InputUpdateEvent event) {
-        if(HuntingMode.getValue().equals("Normal"))
+        if(huntingMode.getValue("Normal"))
             event.getMovementInput().moveForward = 1.0f;
     }
 }
