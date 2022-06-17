@@ -101,8 +101,8 @@ public class Firework
         //Chakes for updates
         //UpdateManager.hwidCheck();
         //Creates Folder with client files
-        FriendManager.getFriends();
-        MuteManager.getListOfNamesOfMutedPlayers();
+        //FriendManager.getFriends();
+        //MuteManager.getListOfNamesOfMutedPlayers();
 
         JsonParser.parse();
         JsonPrefixPraser.parse();

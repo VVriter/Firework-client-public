@@ -22,6 +22,10 @@ import com.firework.client.Features.CommandsSystem.Commands.MuteSystem.GetList;
 import com.firework.client.Features.CommandsSystem.Commands.MuteSystem.Mute;
 import com.firework.client.Features.CommandsSystem.Commands.MuteSystem.UnMute;
 import com.firework.client.Features.CommandsSystem.Commands.PeekCommand.PeekCommand;
+import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.HelpCommand.HelpCommand;
+import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.QueueCommand;
+import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.SeenCommand;
+import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.StatsCommand;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -82,6 +86,11 @@ public class CommandManager {
                 new Help2Command(),
                 new Help3Command(),
                 new Help4Command(),
+
+                new HelpCommand(),
+                new QueueCommand(),
+                new SeenCommand(),
+                new StatsCommand(),
 
                 new Mute(),
                 new UnMute(),
