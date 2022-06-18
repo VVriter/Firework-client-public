@@ -26,6 +26,9 @@ public class Step extends Module {
         }if(mode.getValue(modes.ByPass)){
             mc.player.stepHeight = 0.6f;
             //Code for bypass it cringe
+            if(mc.player.collidedHorizontally){
+                mc.player.motionY = 0.1;
+            }
         }
 
 
