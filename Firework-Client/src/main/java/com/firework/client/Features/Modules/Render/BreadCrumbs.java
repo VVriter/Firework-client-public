@@ -16,6 +16,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -84,14 +85,10 @@ public class BreadCrumbs extends Module {
     }
 
     @SubscribeEvent
-    public void onDisplayDeathScreen(GuiOpenEvent event) {
-        if (event.getGui() instanceof GuiGameOver) {
-            if(clearOnDead.getValue()){
-                timerObj = new Timer();
-                timerObj.reset();
-                lastVec = null;
-                points.clear();
-            }
-        }
+    public void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        timerObj = new Timer();
+        timerObj.reset();
+        lastVec = null;
+        points.clear();
     }
 }
