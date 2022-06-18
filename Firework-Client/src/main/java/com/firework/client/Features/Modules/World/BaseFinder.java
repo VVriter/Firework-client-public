@@ -18,21 +18,17 @@ public class BaseFinder extends Module {
 
     public BlockPos pos;
     public BlockPos posNow;
-
     public int blocksUWalkedX;
     public int blocksUWalkedZ;
     public int blocksUwalked;
     public int blocksUMustToWalk;
 
-    public float yaw;
-
     @Override
     public void onEnable(){
         super.onEnable();
         pos = mc.player.getPosition();
-        yaw = mc.player.rotationYaw;
         if(huntingMode.getValue("Spiral")){
-            yaw = 0;
+            mc.player.rotationYaw = 0;
             blocksUMustToWalk = 20;
         }
     }
@@ -47,21 +43,35 @@ public class BaseFinder extends Module {
             mc.player.setSprinting(isSprint.getValue());
         }
 
+        if(huntingMode.getValue("Spiral")){
+            YawUtil.MakeRoundedYaw();
+            mc.player.setSprinting(isSprint.getValue());
+        }
+
+        System.out.println(blocksUwalked);
 
         posNow = mc.player.getPosition();
         blocksUWalkedX = pos.getX() - posNow.getX();
         blocksUWalkedZ = pos.getZ() - posNow.getZ();
         blocksUwalked = Math.abs(blocksUWalkedX+blocksUWalkedZ);
 
+
+
         if(huntingMode.getValue("Spiral")){
             if(blocksUwalked == blocksUMustToWalk){
-                if(yaw == 0){
-                    mc.player.rotationYaw = yaw + 90;
-                }else if(yaw == 90){
+                if(mc.player.rotationYaw == 0){
+                    this.blocksUMustToWalk = blocksUMustToWalk + 20;
+                    this.pos = mc.player.getPosition();
+                    mc.player.rotationYaw = 90;
+                }else if(mc.player.rotationYaw == 90){
+                    this.pos = mc.player.getPosition();
                     mc.player.rotationYaw = 180;
-                }else if(yaw == 180){
+                }else if(mc.player.rotationYaw == 180){
+                    this.blocksUMustToWalk = blocksUMustToWalk + 20;
+                    this.pos = mc.player.getPosition();
                     mc.player.rotationYaw = -90;
-                }else if(yaw == -90){
+                }else if(mc.player.rotationYaw == -90){
+                    this.pos = mc.player.getPosition();
                     mc.player.rotationYaw = 0;
                 }
             }
@@ -70,7 +80,6 @@ public class BaseFinder extends Module {
 
     @SubscribeEvent
     public void onUpdateInput(InputUpdateEvent event) {
-        if(huntingMode.getValue("Normal"))
             event.getMovementInput().moveForward = 1.0f;
     }
 }
