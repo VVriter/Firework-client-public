@@ -21,7 +21,7 @@ public class Surround extends Module {
 
     public Setting<Boolean> shouldCenter = new Setting<>("Center", true, this);
     public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", true, this);
-    public Setting<Double> tickDelay = new Setting<>("TickDelay", 0d, this, 0, 20).setVisibility(shouldToggle, false);
+    public Setting<Integer> tickDelay = new Setting<>("TickDelay", 0, this, 0, 20).setVisibility(shouldToggle, false);
 
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
     public Setting<Boolean> packet = new Setting<>("Packet", true, this);

@@ -11,12 +11,12 @@ import java.awt.*;
 import static com.firework.client.Firework.textManager;
 import static com.firework.client.Implementations.GuiNEO.GuiInfo.fillColorB;
 import static com.firework.client.Implementations.GuiNEO.GuiInfo.outlineColorA;
+import static java.lang.Math.*;
 
 
 public class SliderButton extends Button {
 
     public double difference;
-    public float percent;
     public double renderPercent;
 
     public SliderButton(Setting setting, int x, int y, int width, int height) {
@@ -34,7 +34,7 @@ public class SliderButton extends Button {
 
         RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorB);
 
-        RenderUtils2D.drawRectangle(new Rectangle(x + 2, y + height - 1, (width - 4) * ((double)setting.getValue() - setting.min) / difference, 2), new Color(ColorUtils.astolfoColors(100, 100)));
+        RenderUtils2D.drawRectangle(new Rectangle(x + 2, y + height - 1, (width - 4) * (Double.valueOf(setting.getValue().toString()) - setting.min) / difference, 2), new Color(ColorUtils.astolfoColors(100, 100)));
 
         RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);
@@ -47,9 +47,15 @@ public class SliderButton extends Button {
     }
 
     public void setSettingFromX(int mouseX) {
-        percent = ((float) mouseX - this.x) / ((float) this.width);
-        double result = (Double) this.setting.min + (double) ((float) this.difference * percent);
-        this.setting.setValue((double) Math.round(10.0 * result) / 10.0);
+        if(setting.getValue() instanceof Double) {
+            float percent = ((float) mouseX - this.x) / ((float) this.width);
+            double result = this.setting.min + (double) ((float) this.difference * percent);
+            this.setting.setValue((double) round(10.0 * result) / 10.0);
+        }else if(setting.getValue() instanceof Integer){
+            float percent = ((float) mouseX - this.x) / ((float) this.width);
+            int result = (int)this.setting.min + (int) round((float) this.difference * percent);
+            this.setting.setValue(result);
+        }
     }
 
     @Override
