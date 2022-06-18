@@ -17,7 +17,7 @@ import static com.firework.client.Implementations.GuiNEO.GuiInfo.outlineColorA;
 
 public class BoolButton extends Button {
 
-    public Color activeColor;
+    public int activeColor;
 
     public BoolButton(Setting setting, int x, int y, int width, int height) {
         super(setting, x, y, width, height);
@@ -34,15 +34,12 @@ public class BoolButton extends Button {
         RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);
 
-        if((boolean)setting.getValue()){
-            activeColor = new Color(ColorUtils.astolfoColors(100, 100));
-            RenderUtils2D.drawCheckMarkV2(new Point2D.Double(x + width - 11 + 3.5, y + 8), Color.WHITE);
-        }else{
-            activeColor = Color.WHITE;
-        }
+        activeColor = (boolean) setting.getValue() ? ColorUtils.astolfoColors(100, 100) : Color.white.getRGB();
 
+        int checkMarkWidth = 12;
+        RenderUtils2D.drawCheckMarkV3(new Rectangle(x + width - checkMarkWidth - 2, y + 2, checkMarkWidth, 6), (Boolean) setting.getValue());
         textManager.drawString(setting.name, x+3, y+1,
-                activeColor.getRGB(),false);
+                activeColor,false);
     }
 
     @Override

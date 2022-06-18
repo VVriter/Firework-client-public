@@ -360,6 +360,62 @@ public class RenderUtils2D {
         GlStateManager.disableBlend();
     }
 
+    public static void drawArc(Point point, double r, int start_angle, int end_angle, Color color) {
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        bufferbuilder.begin(GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION_COLOR);
+
+        bufferbuilder.pos(point.getX(), point.getY(), 0.0D).color(white.getRed(), white.getGreen(), white.getBlue(), white.getAlpha()).endVertex();
+
+        for (int i = start_angle; i <= end_angle; i++)
+        {
+            double x2 = Math.sin(((i * Math.PI) / 180)) * r;
+            double y2 = Math.cos(((i * Math.PI) / 180)) * r;
+
+            bufferbuilder.pos(point.getX() + x2, point.getY() + y2, 0.0D).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        }
+        tessellator.draw();
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+    }
+
+    public static void drawRoundedRectangle(Rectangle rectangle, float radius, Color color) {
+
+        double x = rectangle.x;
+        double y = rectangle.y;
+        double width = rectangle.width;
+        double height = rectangle.height;
+
+        Point leftTop = new Point((int) round(x + radius), (int) round(y + radius));
+        drawArc(leftTop, radius, 180, 270, color);
+
+        Point leftDown = new Point((int) round(x + radius), (int) round(y + radius));
+        drawArc(leftDown, radius, 270, 360, color);
+
+        Point rightTop = new Point((int) round(x + width - radius), (int) round(y + radius));
+        drawArc(rightTop, radius, 90, 180, color);
+
+        Point rightDown = new Point((int) round(x + width - radius), (int) round(y + radius));
+        drawArc(rightDown, radius, 0, 90, color);
+
+        Rectangle middleRect = new Rectangle((int) round(x + radius), (int) round(y), width - 2*radius, height);
+        drawRectangle(middleRect, color);
+    }
+
+    public static void drawCheckMarkV3(Rectangle rectangle, boolean enabled){
+        int radius = (int) round(rectangle.height/2);
+        drawRoundedRectangle(rectangle, radius, enabled ? new Color(ColorUtils.astolfoColors(100, 100)) : gray);
+        Point circleMarkPoint = null;
+        if(enabled)
+            circleMarkPoint = new Point((int) round(rectangle.x + rectangle.width - radius),rectangle.y + radius);
+        else
+            circleMarkPoint = new Point(rectangle.x + radius,rectangle.y + radius);
+        drawFilledCircle(circleMarkPoint, white, radius);
+    }
+
     public static double distance(Point one, Point two){
         double ac = abs(two.getY() - one.getY());
         double cb = abs(two.getX() - one.getX());
