@@ -6,6 +6,8 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Timer;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 
 @ModuleArgs(name = "Speed",category = Module.Category.MOVEMENT)
@@ -22,6 +24,8 @@ public class Speed extends Module{
     public Setting<Boolean> step = new Setting<>("Step", true, this).setVisibility(mode,modes.YPort);
     public Setting<Double> yPortSpeed = new Setting<>("Speed", (double)3, this, 1, 20).setVisibility(mode,modes.YPort);
 
+    public Setting<Boolean> strict = new Setting<>("Strict", true, this).setVisibility(mode,modes.Strafe);
+    public Setting<Double> strafeSpeed = new Setting<>("Speed", (double)3, this, 1, 20).setVisibility(mode,modes.Strafe);
 
 
     @Override
@@ -54,8 +58,9 @@ public class Speed extends Module{
         }
 
 
-
-
+        if(mode.getValue() == modes.Strafe){
+            mc.player.stepHeight = 0.6f;
+        }
 
         if (mode.getValue() == modes.Vanilla) {
             if (mc.player == null || mc.world == null) {
@@ -81,7 +86,16 @@ public class Speed extends Module{
         }
     }
 
+    @SubscribeEvent
+    public void onPlayerTickEvent(TickEvent.PlayerTickEvent e) {
+        if (mc.player.onGround) {
+            if(mode.getValue() == modes.BHop){
+                mc.player.stepHeight = 0.6f;
+                mc.player.jump();
+            }
+        }
+    }
     public enum modes{
-        Vanilla, YPort
+        Vanilla, YPort, Strafe, BHop
     }
 }
