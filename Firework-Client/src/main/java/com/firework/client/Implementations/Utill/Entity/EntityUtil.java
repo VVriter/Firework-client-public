@@ -3,11 +3,26 @@ package com.firework.client.Implementations.Utill.Entity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.CPacketUseEntity;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.Vec3d;
 
 public class EntityUtil {
 
     private static Minecraft mc = Minecraft.getMinecraft();
+
+    public static void attackEntity(Entity entity, boolean packet, boolean swingArm) {
+        if (packet) {
+            EntityUtil.mc.player.connection.sendPacket((Packet)new CPacketUseEntity(entity));
+        } else {
+            EntityUtil.mc.playerController.attackEntity((EntityPlayer)EntityUtil.mc.player, entity);
+        }
+        if (swingArm) {
+            EntityUtil.mc.player.swingArm(EnumHand.MAIN_HAND);
+        }
+    }
+
     public static Vec3d getInterpolatedPos(Entity entity, float partialTicks) {
         return new Vec3d(entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ).add(EntityUtil.getInterpolatedAmount(entity, partialTicks));
     }

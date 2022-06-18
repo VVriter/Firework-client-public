@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Utill.Entity;
 
+import com.firework.client.Implementations.Managers.FriendManager;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Util;
 import com.google.common.collect.Lists;
@@ -24,6 +25,37 @@ import java.util.*;
 
 public class PlayerUtil implements Util {
     private static final JsonParser PARSER = new JsonParser();
+
+    public static ArrayList<EntityPlayer> getAll() {
+        try {
+            ArrayList<EntityPlayer> players = new ArrayList<EntityPlayer>();
+
+            for (EntityPlayer player : mc.world.playerEntities) {
+                if (!player.isEntityEqual(mc.player)) {
+                    players.add(player);
+                }
+            }
+
+            return players;
+        } catch (NullPointerException ignored) {
+            return new ArrayList<EntityPlayer>();
+        }
+    }
+
+    public static EntityPlayer getClosest() {
+        double lowestDistance = Integer.MAX_VALUE;
+        EntityPlayer closest = null;
+
+        for (EntityPlayer player : getAll()) {
+            if (player.getDistance(mc.player) < lowestDistance) {
+                if(!FriendManager.friends.contains(player.getDisplayNameString())) {
+                    lowestDistance = player.getDistance(mc.player);
+                    closest = player;
+                }
+            }
+        }
+        return closest;
+    }
 
     public static String getNameFromUUID(UUID uuid) {
         try {

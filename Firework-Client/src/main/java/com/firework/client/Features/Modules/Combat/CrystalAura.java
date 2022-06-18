@@ -181,7 +181,7 @@ public class CrystalAura extends Module{
         for(Entity entity : mc.world.loadedEntityList)
             if(entity instanceof EntityPlayer)
                 if((EntityPlayer)entity != mc.player)
-                    if(BlockUtil.distance(mc.player.getPosition(), entity.getPosition()) <= targetRange.getValue())
+                    if(mc.player.getPositionVector().distanceTo(entity.getPositionVector()) <= targetRange.getValue())
                         if(!FriendManager.friends.contains(((EntityPlayer) entity).getDisplayNameString()))
                             result.add((EntityPlayer) entity);
 

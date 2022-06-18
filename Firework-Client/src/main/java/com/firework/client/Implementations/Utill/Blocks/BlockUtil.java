@@ -112,8 +112,4 @@ public class BlockUtil {
             return list;
         }
     }
-
-    public static int distance(BlockPos first, BlockPos second) {
-        return Math.abs(first.getX() - second.getX()) + Math.abs(first.getY() - second.getY()) + Math.abs(first.getZ() - second.getZ());
-    }
 }

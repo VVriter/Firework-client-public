@@ -15,6 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
@@ -85,10 +86,12 @@ public class BreadCrumbs extends Module {
     }
 
     @SubscribeEvent
-    public void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        timerObj = new Timer();
-        timerObj.reset();
-        lastVec = null;
-        points.clear();
+    public void onRespawn(LivingSpawnEvent event) {
+        if(event.getEntity() == mc.player) {
+            timerObj = new Timer();
+            timerObj.reset();
+            lastVec = null;
+            points.clear();
+        }
     }
 }
