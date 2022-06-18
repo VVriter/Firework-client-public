@@ -5,9 +5,8 @@ import net.minecraft.client.Minecraft;
 public class YawUtil {
 
     public static int ignoreTicks = 0;
-    public static boolean diagonal = true;
 
-    public static void MakeRoundedYaw(int speed){
+    public static void MakeRoundedYaw(int speed, boolean diagonal){
         Minecraft mc = Minecraft.getMinecraft();
         float diff = 360 / (diagonal ? 8f : 4f);
         if (ignoreTicks <= 0) {

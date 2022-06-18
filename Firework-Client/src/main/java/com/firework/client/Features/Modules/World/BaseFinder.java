@@ -69,19 +69,13 @@ public class BaseFinder extends Module {
     public void onTick(){
         super.onTick();
 
-
-
-
-
-
-
         if(huntingMode.getValue(huntingMode1.Normal)){
-            YawUtil.MakeRoundedYaw(40);
+            YawUtil.MakeRoundedYaw(40,true);
             mc.player.setSprinting(isSprint.getValue());
         }
 
         if(huntingMode.getValue(huntingMode1.Spiral)){
-            YawUtil.MakeRoundedYaw(40);
+            YawUtil.MakeRoundedYaw(40,false);
             mc.player.setSprinting(isSprint.getValue());
         }
 
@@ -135,7 +129,9 @@ public class BaseFinder extends Module {
                 if(Shulkers >= shulkers.getValue().intValue()){
                     MessageUtil.sendClientMessage("Founded "+Shulkers+" shulkers near you!",true);
                 }if(c instanceof TileEntityBed){
-                    MessageUtil.sendClientMessage("Founded bed near you",true);
+                    if(bed.getValue()){
+                        MessageUtil.sendClientMessage("Founded bed near you",true);
+                    }
                 }
             }
         }

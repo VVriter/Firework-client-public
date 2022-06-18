@@ -41,10 +41,9 @@ public  class MixinRenderEntityItem
     @Shadow
     protected  int getModelCount(ItemStack var1){return 0;}
 
-    @Shadow
+
     public  boolean shouldSpreadItems(){return true;}
 
-    @Shadow
     public  boolean shouldBob(){return true;}
 
     @Shadow

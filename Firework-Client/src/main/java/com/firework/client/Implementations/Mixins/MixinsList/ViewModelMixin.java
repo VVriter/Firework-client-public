@@ -1,6 +1,5 @@
 package com.firework.client.Implementations.Mixins.MixinsList;
 
-import com.firework.client.Features.Modules.Render.FutureModel;
 import com.firework.client.Features.Modules.Render.ItemViewModel;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -11,8 +10,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.concurrent.Future;
 
 @Mixin(ItemRenderer.class)
 public class ViewModelMixin {
@@ -31,13 +28,6 @@ public class ViewModelMixin {
                 GlStateManager.rotate(-ItemViewModel.rotateXL.getValue().floatValue(), 1, 0, 0);
                 GlStateManager.rotate(ItemViewModel.rotateYL.getValue().floatValue(), 0, 1, 0);
                 GlStateManager.rotate(ItemViewModel.rotateZL.getValue().floatValue(), 0, 0, 1);
-            }
-        }
-        if(FutureModel.enabled.getValue()){
-            if (transform == ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND) {
-                GlStateManager.translate(FutureModel.trX.getValue()*100 / 100F, FutureModel.trY.getValue()*100 / 100F, FutureModel.trZ.getValue()*100 / 100F);
-            }else if (transform == ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND) {
-                GlStateManager.translate(-FutureModel.trX.getValue()*100 / 100F, FutureModel.trY.getValue()*100 / 100F, FutureModel.trZ.getValue()*100 / 100F);
             }
         }
     }

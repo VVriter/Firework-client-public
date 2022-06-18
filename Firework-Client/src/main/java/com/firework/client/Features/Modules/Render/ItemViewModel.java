@@ -32,7 +32,6 @@ public class ItemViewModel extends Module {
     public ItemViewModel(){super("ItemViewModel",Category.RENDER);
 
         enabled = this.isEnabled;
-if(mode.getValue().equals("GL")){
         translateX = new Setting<>("translateX", (double)0,this, -300, 300);
         translateY = new Setting<>("translateY", (double)0,this, -300, 300);
         translateZ = new Setting<>("translateZ", (double)0,this, -300, 300);
@@ -50,7 +49,6 @@ if(mode.getValue().equals("GL")){
         scaleZ = new Setting<>("scaleZ", (double)100,this, -300, 300);
         }
     }
-}
 
 
 
