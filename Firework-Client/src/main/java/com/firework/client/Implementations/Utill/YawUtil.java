@@ -7,7 +7,7 @@ public class YawUtil {
     public static int ignoreTicks = 0;
     public static boolean diagonal = true;
 
-    public static void MakeRoundedYaw(){
+    public static void MakeRoundedYaw(int speed){
         Minecraft mc = Minecraft.getMinecraft();
         float diff = 360 / (diagonal ? 8f : 4f);
         if (ignoreTicks <= 0) {
@@ -19,7 +19,7 @@ public class YawUtil {
                     mc.player.rotationYaw,
                     yaw,
                     mc.getRenderPartialTicks(),
-                    1
+                    speed
             );
         }
     }
