@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Util;
 import net.minecraft.init.Blocks;
@@ -9,12 +10,12 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 
+@ModuleArgs(name = "Anchor", category = Module.Category.MOVEMENT)
 public class Anchor extends Module {
 
     public Setting<Boolean> pull = new Setting<>("Pull", true, this);
-    public  Setting<Double> pitch = new Setting<>("Pitch", 60d, this, 0, 90);
+    public Setting<Double> pitch = new Setting<>("Pitch", 60d, this, 0, 90);
 
-    public Anchor(){super("Anchor",Category.MOVEMENT);}
     private final ArrayList<BlockPos> holes = new ArrayList<BlockPos>();
     int holeblocks;
     public static boolean AnchorING;
@@ -88,7 +89,6 @@ public class Anchor extends Module {
             } else AnchorING = false;
         }
     }
-
 
     public BlockPos getPlayerPos() {
         return new BlockPos(Math.floor(Util.mc.player.posX), Math.floor(Util.mc.player.posY), Math.floor(Util.mc.player.posZ));

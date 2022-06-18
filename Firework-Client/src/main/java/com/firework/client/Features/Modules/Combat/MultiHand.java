@@ -21,26 +21,13 @@ public class MultiHand extends Module {
         super.onTick();
         if(!parallel.getValue()) {
             if (multiHandMode.getValue(modes.Totem))
-                doOffHand(Items.TOTEM_OF_UNDYING, totemHandMode);
+                doMultiHand(Items.TOTEM_OF_UNDYING, totemHandMode);
             else if (multiHandMode.getValue(modes.Crystal))
-                doOffHand(Items.END_CRYSTAL, crystalHandMode);
+                doMultiHand(Items.END_CRYSTAL, crystalHandMode);
         }else {
-            doOffHand(Items.TOTEM_OF_UNDYING, totemHandMode);
-            doOffHand(Items.END_CRYSTAL, crystalHandMode);
+            doMultiHand(Items.TOTEM_OF_UNDYING, totemHandMode);
+            doMultiHand(Items.END_CRYSTAL, crystalHandMode);
         }
-    }
-
-    public void doOffHand(Item item, Setting<hands> hand){
-        if (hand.getValue(hands.MainHand)) {
-            if (mc.player.getHeldItemMainhand().getItem() != item)
-                swapItems(getItemSlot(item), 1);
-        } else if (hand.getValue(hands.OffHand)) {
-            if (mc.player.getHeldItemOffhand().getItem() != item)
-                swapItems(getItemSlot(item), 0);
-        }
-    }
-    public enum hands{
-        MainHand, OffHand
     }
 
     public enum modes {
