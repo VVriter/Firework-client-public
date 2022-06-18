@@ -21,7 +21,10 @@ import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class RenderUtils {
     private static Minecraft mc = Minecraft.getMinecraft();
@@ -38,7 +41,7 @@ public class RenderUtils {
         if (mc.getRenderManager().renderViewEntity != null) {
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glLineWidth(2F);
+            glLineWidth(2F);
 
             GL11.glPushMatrix();
             GL11.glDepthMask(false);
@@ -71,7 +74,7 @@ public class RenderUtils {
     public static void FillLine(Entity entity, AxisAlignedBB box) {
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(GL11.GL_BLEND);
-        GL11.glLineWidth(2.0F);
+        glLineWidth(2.0F);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
@@ -133,8 +136,32 @@ public class RenderUtils {
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }
-    
 
+    public static void drawPoints(Vec3d point1, Vec3d point2, float width, Color c) {
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GlStateManager.disableDepth();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
+        GlStateManager.disableTexture2D();
+        GlStateManager.depthMask(false);
+        GlStateManager.translate(-mc.getRenderManager().viewerPosX, -mc.getRenderManager().viewerPosY, -mc.getRenderManager().viewerPosZ);
+        glEnable(GL_LINE_SMOOTH);
+        glLineWidth(width);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+        bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
+
+        bufferBuilder.pos(point1.x, point1.y, point1.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex();
+        bufferBuilder.pos(point2.x, point2.y, point2.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex();
+
+        tessellator.draw();
+        glDisable(GL_LINE_SMOOTH);
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
+    }
 
 
 }

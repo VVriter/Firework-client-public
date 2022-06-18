@@ -403,6 +403,12 @@ public class RenderUtils2D {
 
         Rectangle middleRect = new Rectangle((int) round(x + radius), (int) round(y), width - 2*radius, height);
         drawRectangle(middleRect, color);
+
+        Rectangle leftRect = new Rectangle((int) round(x), (int) round(y - radius), radius, height-2*radius);
+        drawRectangle(leftRect, color);
+
+        Rectangle right = new Rectangle((int) round(x + width - radius), (int) round(y - radius), radius, height-2*radius);
+        drawRectangle(right, color);
     }
 
     public static void drawCheckMarkV3(Rectangle rectangle, boolean enabled){

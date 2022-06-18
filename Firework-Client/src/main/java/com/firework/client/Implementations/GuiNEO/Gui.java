@@ -229,6 +229,7 @@ public class Gui extends GuiScreen {
                 if(button instanceof BoolButton){
                     if(state == 0) {
                         ((BoolButton) button).initialize(mouseX, mouseY);
+                        shouldInit = true;
                     }
                 }
                 if(button instanceof SliderButton){
