@@ -1,4 +1,5 @@
 package com.firework.client.Implementations.Utill;
+import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -462,11 +463,25 @@ public class InventoryUtil
         return slot;
     }
 
+    public static void doMultiHand(Item item, Setting<hands> hand){
+        if (hand.getValue(hands.MainHand)) {
+            if (mc.player.getHeldItemMainhand().getItem() != item)
+                swapItems(getItemSlot(item), 1);
+        } else if (hand.getValue(hands.OffHand)) {
+            if (mc.player.getHeldItemOffhand().getItem() != item)
+                swapItems(getItemSlot(item), 0);
+        }
+    }
+
     public enum Switch {
         NORMAL,
         SILENT,
         NONE
 
+    }
+
+    public enum hands{
+        MainHand, OffHand
     }
 
     public static class Task {

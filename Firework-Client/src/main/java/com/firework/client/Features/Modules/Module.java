@@ -62,13 +62,15 @@ public class Module {
         if(existCheck)
             if(mc.player == null | mc.world == null) return;
 
-        //if CYCLE
         if(updateTimer != delay) {
             updateTimer++;
         } else {
             updateTimer = 0;
+            onUpdate();
         }
     }
+
+    public void onUpdate(){}
 
     public String getName() {return name;}
 

@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.World.Scaffold;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
@@ -14,6 +15,7 @@ import net.minecraft.util.EnumHand;
 import java.util.ArrayList;
 import java.util.List;
 
+@ModuleArgs(name = "Scaffold", category = Module.Category.WORLD)
 public class Scaffold extends Module {
 
     public Setting<Boolean> rotate  = new Setting<>("Rotates", true, this);
@@ -26,23 +28,11 @@ public class Scaffold extends Module {
 
     public Setting<Double> speed = new Setting<>("Delay", (double)0.7, this, 0, 1);
 
-
     private List<ScaffoldBlock> blocksToRender = new ArrayList<>();
-
-
-    public Scaffold(){super("Scaffold",Category.WORLD);}
-
-
-
-
 
     private BlockPos pos;
 
     private boolean packet = false;
-
-
-
-
     @Override
     public void onTick() {
         super.onTick();
@@ -83,11 +73,7 @@ public class Scaffold extends Module {
                 mc.player.motionX = 0.0D;
             }
         }
-
     }
-
-
-
 
     private boolean isAir(BlockPos pos) {
         return mc.world.getBlockState(pos).getBlock() == Blocks.AIR;
