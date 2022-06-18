@@ -23,7 +23,7 @@ public class Surround extends Module {
     public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", true, this);
     public Setting<Integer> tickDelay = new Setting<>("TickDelay", 0, this, 0, 20).setVisibility(shouldToggle, false);
 
-    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
+    public Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
     public Setting<Boolean> packet = new Setting<>("Packet", true, this);
 
     public Setting<Boolean> useEnderChestIfNoObsFound = new Setting<>("UseEChestAsReserv", true, this);
@@ -46,11 +46,18 @@ public class Surround extends Module {
     public void onUpdate() {
         super.onUpdate();
         delay = tickDelay.getValue().intValue();
-        surround();
+        for (BlockPos blockPos : getBlocksToPlace()) {
+            if (BlockUtil.getBlock(blockPos) == Blocks.AIR) {
+                surround();
+                return;
+            }
+        }
     }
 
     public void surround(){
         EnumHand enumHand = hand.getValue(hands.MainHand) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
+
+        ItemStack oldItem = mc.player.getHeldItem(enumHand);
 
         doMultiHand(mc.player.inventory.hasItemStack(new ItemStack(Blocks.OBSIDIAN)) ? Item.getItemFromBlock(Blocks.OBSIDIAN) :
                 (useEnderChestIfNoObsFound.getValue() ? Item.getItemFromBlock(Blocks.ENDER_CHEST) : null), hand);
@@ -61,6 +68,7 @@ public class Surround extends Module {
             if(BlockUtil.getBlock(pos) == Blocks.AIR)
                 BlockUtil.placeBlock(pos, enumHand, rotate.getValue(), packet.getValue(), shouldSneak);
         }
+        doMultiHand(oldItem.getItem(), hand);
     }
 
     public void center() {
