@@ -8,11 +8,10 @@ import net.minecraft.init.SoundEvents;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
 
-public class Module {
+public class Module extends Info{
 
     public Minecraft mc = Minecraft.getMinecraft();
 
-    public String name;
     public Category category;
 
     private int updateTimer = 0;
@@ -25,11 +24,13 @@ public class Module {
     public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this).setVisibility(false);
     public Setting<Integer> key = new Setting<>("Key", Keyboard.KEY_NONE, this);
     public Module(String name, Category category) {
+        super(name);
         this.name = name;
         this.category = category;
     }
 
     public Module(){
+        super(null);
         if (getClass().isAnnotationPresent(ModuleArgs.class)) {
             ModuleArgs args = getClass().getAnnotation(ModuleArgs.class);
             this.name = args.name();

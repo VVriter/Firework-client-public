@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.ClassFinder;
+import com.firework.client.Implementations.Utill.Client.Pair;
 import org.json.simple.JSONObject;
 
 import java.io.*;
@@ -12,11 +13,13 @@ import java.util.ArrayList;
 
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Set;
 
 public class ModuleManager {
 
     public ArrayList<Module> modules;
+    public ArrayList<Info> infos;
 
     public ModuleManager() {
         modules = new ArrayList<>();
@@ -39,7 +42,47 @@ public class ModuleManager {
             }
         });
         System.out.println("Modules initialised");
-        modules.sort(Comparator.comparing(Module::getName));
+
+        infos = initializeSubModules();
+        infos.sort(Comparator.comparing(Info::getName));
+    }
+
+    public ArrayList<Info> initializeSubModules() {
+        ArrayList<Info> infos = new ArrayList<>();
+
+        ArrayList<Pair> pairs = new ArrayList<>();
+        for (Module module : modules) {
+            if (getClass().isAnnotationPresent(ModuleArgs.class)) {
+                ModuleArgs args = getClass().getAnnotation(ModuleArgs.class);
+                Pair<Module, String> pair = new Pair<>(module, args.subCategory());
+                pairs.add(pair);
+            } else {
+                infos.add(module);
+            }
+        }
+
+        ArrayList<String> usedSubCategories = new ArrayList<>();
+        ArrayList<Pair<String, ArrayList<Module>>> subCategories = new ArrayList<>();
+
+        for (Pair<Module, String> pair : pairs) {
+            if (!usedSubCategories.contains(pair.two)) {
+                usedSubCategories.add(pair.two);
+                Pair<String, ArrayList<Module>> pair2 = new Pair<>(pair.two, new ArrayList<Module>());
+                subCategories.add(pair2);
+            } else {
+                for (Pair<String, ArrayList<Module>> pair3 : subCategories) {
+                    if (pair3.one == pair.two) {
+                        pair3.two.add(pair.one);
+                    }
+                }
+            }
+        }
+
+        for (Pair<String, ArrayList<Module>> pair : subCategories) {
+            SubModule subModule = new SubModule(pair.one, pair.two);
+            infos.add(subModule);
+        }
+        return infos;
     }
 
     public void saveModules() {

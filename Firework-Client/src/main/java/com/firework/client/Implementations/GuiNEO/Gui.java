@@ -1,8 +1,9 @@
 package com.firework.client.Implementations.GuiNEO;
 
 import com.firework.client.Features.Modules.Client.GuiGradient;
+import com.firework.client.Features.Modules.Info;
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Implementations.GuiNEO.Components.Advanced.Frame;
+import com.firework.client.Features.Modules.SubModule;
 import com.firework.client.Implementations.GuiNEO.Components.Advanced.*;
 import com.firework.client.Implementations.GuiNEO.Components.Advanced.SettingsComponents.*;
 import com.firework.client.Implementations.GuiNEO.Components.Button;
@@ -72,10 +73,9 @@ public class Gui extends GuiScreen {
             yOffset += startBlock.offset;
 
             int index = 0;
-            for (Object obj : column.components) {
+            for (Info obj : column.components) {
 
                 if (obj instanceof Module) {
-
                     Module m = (Module) obj;
 
                     ModuleButton moduleButton = new ModuleButton(m, m.name, xOffset + newXOffset, yOffset, buttonWidth, 11);
@@ -114,17 +114,10 @@ public class Gui extends GuiScreen {
                         }
                     }
                 }else if(obj instanceof SubModule){
-                    SubModule sb = (SubModule) obj;
-                    Offset offsetObject = new Offset();
-
-                    offsetObject.register(sb);
-
-                    if((boolean) GuiValueStorage.values[(sb).localIndex].get(0)){
-                        for(Module module : sb.modules)
-                            column.components.add(index, module);
-                    }
-
-                    yOffset += offsetObject.offset;
+                    SubModule subModule = (SubModule) obj;
+                    SubModuleButton subModuleButton  = new SubModuleButton(subModule.modules, subModule.name, xOffset + newXOffset, yOffset, buttonWidth, 11);
+                    initializedButtons.add(subModuleButton);
+                    yOffset += subModuleButton.offset;
                 }
 
                 index++;

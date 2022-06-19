@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import static com.firework.client.Firework.textManager;
 import static com.firework.client.Implementations.GuiClassic.GuiInfo.outlineColorA;
 
-public class SubModule extends Button {
+public class SubModuleButton extends Button {
 
     public ArrayList<Module> modules;
     public String name;
@@ -23,7 +23,7 @@ public class SubModule extends Button {
 
     public ArrayList<Boolean> valuesB = new ArrayList<>();
 
-    public SubModule(ArrayList<Module> modules, String name, int x, int y, int width, int height) {
+    public SubModuleButton(ArrayList<Module> modules, String name, int x, int y, int width, int height) {
         super(x, y, width, height);
         this.modules = modules;
         this.name = name;

@@ -3,12 +3,12 @@ package com.firework.client.Implementations.Utill.Client;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Pair {
+public class Pair<U, K> {
 
-    public Object one;
-    public Object two;
+    public U one;
+    public K two;
 
-    public Pair(Object one, Object two){
+    public Pair(U one, K two){
         this.one = one;
         this.two = two;
     }

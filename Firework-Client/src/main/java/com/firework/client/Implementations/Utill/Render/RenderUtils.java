@@ -1,8 +1,6 @@
 package com.firework.client.Implementations.Utill.Render;
 
 import com.firework.client.Features.Modules.Render.ESP;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -21,8 +19,6 @@ import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Objects;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -137,7 +133,7 @@ public class RenderUtils {
         GL11.glPopMatrix();
     }
 
-    public static void drawPoints(Vec3d point1, Vec3d point2, float width, Color c) {
+    public static void drawLine(Vec3d point1, Vec3d point2, float width, Color c) {
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableDepth();

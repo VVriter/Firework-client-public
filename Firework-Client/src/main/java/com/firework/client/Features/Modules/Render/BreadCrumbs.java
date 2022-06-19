@@ -1,27 +1,16 @@
 package com.firework.client.Features.Modules.Render;
 
-import com.firework.client.Features.Modules.Misc.AutoRespawn;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Chat.MessageUtil;
-import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.Timer;
-import com.mojang.realmsclient.gui.ChatFormatting;
-import net.minecraft.client.gui.GuiGameOver;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 
 @ModuleArgs(name = "BreadCrumbs", category = Module.Category.RENDER)
@@ -79,7 +68,7 @@ public class BreadCrumbs extends Module {
             if(lastPoint == null){
                 lastPoint = vec3d;
             }else{
-                RenderUtils.drawPoints(lastPoint, vec3d, 5, color.getValue().toRGB());
+                RenderUtils.drawLine(lastPoint, vec3d, 5, color.getValue().toRGB());
                 lastPoint = vec3d;
             }
         }

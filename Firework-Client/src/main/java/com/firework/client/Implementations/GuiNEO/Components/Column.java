@@ -1,10 +1,12 @@
 package com.firework.client.Implementations.GuiNEO.Components;
 
+import com.firework.client.Features.Modules.Info;
+
 import java.util.ArrayList;
 
 public class Column {
 
-    public ArrayList<Object> components;
+    public ArrayList<Info> components;
 
     public String name;
 
