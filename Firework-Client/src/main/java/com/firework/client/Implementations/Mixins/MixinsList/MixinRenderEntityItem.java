@@ -53,7 +53,7 @@ public  class MixinRenderEntityItem
         return rotationPitch > 0.0f ? (double)rotationPitch : (double)(-rotationPitch);
     }
 
-    @Overwrite
+
     private int transformModelCount(EntityItem itemIn, double x, double y, double z, float p_177077_8_, IBakedModel p_177077_9_) {
         if (ItemPhysics.enabled.getValue()) {
             ItemStack itemstack = itemIn.getItem();
@@ -90,7 +90,7 @@ public  class MixinRenderEntityItem
         return i;
     }
 
-    @Overwrite
+
     public void doRender(EntityItem entity, double x, double y, double z, float entityYaw, float partialTicks) {
         if (ItemPhysics.enabled.getValue()) {
             double rotation = (double)(System.nanoTime() - this.tick) / 3000000.0;
