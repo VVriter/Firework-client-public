@@ -17,8 +17,9 @@ public class Test extends Module {
     public Setting<HSLColor> colorSetting = new Setting<>("colorN", new HSLColor(1, 54, 43), this);
     public Setting<String> N = new Setting<>("tSN", "Kill", this, Arrays.asList("Eat", "Kill"));
     public Setting<Enum> enumSetting = new Setting<>("tsENUm", TestEnum.un, this, TestEnum.values());
-    public Setting<Boolean> arc = new Setting<>("LOL", false, this).setVisibility(N, "Eat");
-
+    public enum TestEnum{
+        un, lock
+    }
     public Minecraft mc = Minecraft.getMinecraft();
     public boolean e = true;
 
@@ -42,9 +43,5 @@ public class Test extends Module {
         //super.onTick();
         //System.out.println("WORK!");
         //System.out.println(isEnabled.getValue());
-    }
-
-    public enum TestEnum{
-        un, lock
     }
 }

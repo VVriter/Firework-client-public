@@ -70,13 +70,15 @@ public class BaseFinder extends Module {
         super.onTick();
 
         if(huntingMode.getValue(huntingMode1.Normal)){
-            YawUtil.MakeRoundedYaw(40,true);
+            YawUtil.MakeRoundedYaw(10,true);
             mc.player.setSprinting(isSprint.getValue());
+            mc.player.moveForward = 1f;
         }
 
         if(huntingMode.getValue(huntingMode1.Spiral)){
-            YawUtil.MakeRoundedYaw(40,false);
+            YawUtil.MakeRoundedYaw(10,false);
             mc.player.setSprinting(isSprint.getValue());
+            mc.player.moveForward = 1f;
         }
 
         System.out.println(blocksUwalked);
@@ -111,7 +113,7 @@ public class BaseFinder extends Module {
 
 
 
-    @SubscribeEvent
+   /* @SubscribeEvent
     public void onTitleEntity(RenderWorldLastEvent e){
         for (Object c: mc.world.loadedTileEntityList) {
             if(c instanceof TileEntityChest){
@@ -135,19 +137,7 @@ public class BaseFinder extends Module {
                 }
             }
         }
-    }
-
-
-    @SubscribeEvent
-    public void onChunkDataEvent(ChunkDataEvent e){
-
-    }
-    @SubscribeEvent
-    public void onUpdateInput(InputUpdateEvent event) {
-        if(huntingMode.getValue(huntingMode1.Normal) && huntingMode.getValue((huntingMode1.Spiral))){
-            event.getMovementInput().moveForward = 1.0f;
-        }
-    }
+    }*/
 
 
     public enum huntingMode1{
