@@ -68,14 +68,14 @@ public class Firework
 
 
     public void loadManagers(){
+        updaterManager = new UpdaterManager();
+        MinecraftForge.EVENT_BUS.register(updaterManager);
         settingManager = new SettingManager();
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();
         customFontManager = new CustomFontManager("tcm", 16);
         textManager = new TextManager();
         positionManager = new PositionManager();
-        updaterManager = new UpdaterManager();
-        MinecraftForge.EVENT_BUS.register(updaterManager);
     }
 
     public static void unloadManagers(){

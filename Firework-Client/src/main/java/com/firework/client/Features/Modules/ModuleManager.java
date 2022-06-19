@@ -33,11 +33,8 @@ public class ModuleManager {
                 Module module = (Module) aClass.getConstructor().newInstance();
                 modules.add(module);
                 // lookup.put(module.getName().toLowerCase(), module);
-            } catch (InvocationTargetException e) {
-                e.getCause().printStackTrace();
-                System.err.println("Couldn't initiate module " + aClass.getSimpleName() + "! Err: " + e.getClass().getSimpleName() + ", message: " + e.getMessage());
             } catch (Exception e) {
-                e.printStackTrace();
+                e.getCause().printStackTrace();
                 System.err.println("Couldn't initiate module " + aClass.getSimpleName() + "! Err: " + e.getClass().getSimpleName() + ", message: " + e.getMessage());
             }
         });
