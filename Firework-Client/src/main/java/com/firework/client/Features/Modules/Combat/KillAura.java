@@ -60,7 +60,7 @@ public class KillAura extends Module{
 
     public void doKillAura(){
         if (autoSwitch.getValue())
-            InventoryUtil.doMultiHand(getItemStack(WeaponUtil.theMostPoweredSword(target)).getItem(), InventoryUtil.hands.MainHand);
+            InventoryUtil.doMultiHand(getItemStack(WeaponUtil.theMostPoweredWeapon(target)).getItem(), InventoryUtil.hands.MainHand);
 
         if (rotate.getValue())
             RotationUtil.rotate(target.getPositionVector().add(0, 1, 0), packetSpoof.getValue());

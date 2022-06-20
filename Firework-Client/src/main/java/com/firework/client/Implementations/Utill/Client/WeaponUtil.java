@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
@@ -16,7 +15,7 @@ import static com.firework.client.Implementations.Utill.Util.mc;
 
 public class WeaponUtil {
 
-    public static int theMostPoweredSword(Entity target){
+    public static int theMostPoweredWeapon(Entity target){
         Pair<Integer, Float> theMostPowered = null;
         for(int i = 0; i <= 35; i++){
             ItemStack stack = InventoryUtil.getItemStack(i);
