@@ -117,8 +117,6 @@ public class InventoryUtil
         return -1;
     }
 
-
-
     public static void switchToSlotGhost(final int slot) {
         if (slot != -1 && InventoryUtil.mc.player.inventory.currentItem != slot) {
             InventoryUtil.mc.player.connection.sendPacket((Packet)new CPacketHeldItemChange(slot));

@@ -46,10 +46,13 @@ public class Surround extends Module {
     public void onUpdate() {
         super.onUpdate();
         delay = tickDelay.getValue().intValue();
-        for (BlockPos blockPos : getBlocksToPlace()) {
-            if (BlockUtil.getBlock(blockPos) == Blocks.AIR) {
-                surround();
-                return;
+        if(mc.player.inventory.hasItemStack(new ItemStack(Blocks.OBSIDIAN))
+                | (useEnderChestIfNoObsFound.getValue() ? (mc.player.inventory.hasItemStack(new ItemStack(Blocks.ENDER_CHEST)) ? true : false) : false)) {
+            for (BlockPos blockPos : getBlocksToPlace()) {
+                if (BlockUtil.getBlock(blockPos) == Blocks.AIR) {
+                    surround();
+                    return;
+                }
             }
         }
     }
