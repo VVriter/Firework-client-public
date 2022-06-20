@@ -6,11 +6,14 @@ import com.firework.client.Implementations.Settings.Setting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.Arrays;
+
 @ModuleArgs(name = "Custom F3",category = Module.Category.CLIENT)
 public class F3Injection extends Module {
 
     public Setting<Boolean> Coords  = new Setting<>("Coords", true, this);
     public Setting<Boolean> FPS  = new Setting<>("FPS", true, this);
+    public Setting<String> fpsmode = new Setting<>("Mode", "Hide", this, Arrays.asList("Hide", "Fake")).setVisibility(FPS,true);
     public Setting<Boolean> Direction  = new Setting<>("Direction", true, this);
     public Setting<Boolean> Biome  = new Setting<>("Biome ", true, this);
 
@@ -22,8 +25,12 @@ public class F3Injection extends Module {
                 if (Coords.getValue()) {
                     if (event.getLeft().get(i).contains("Looking"))
                         event.getLeft().set(i, "Looking at a block!");
-                    if (event.getLeft().get(i).contains("XYZ"))
-                        event.getLeft().set(i, "XYZ: Hidden!");
+                    if (event.getLeft().get(i).contains("XYZ") && fpsmode.getValue().equals("Fake")){
+                        event.getLeft().set(i, "XYZ: "+mc.player.getPosition().getX()/3*2+325*2/3*2+" "+mc.player.getPosition().getY()/3*2+" "+mc.player.getPosition().getZ()/3*2+325*2/3*2);}
+                    if (event.getLeft().get(i).contains("XYZ") && fpsmode.getValue().equals("Hide")){
+                        event.getLeft().set(i, "XYZ: NO!");}
+
+
                     if (event.getLeft().get(i).contains("Block:"))
                         event.getLeft().set(i, "Block: Hidden!");
                     if (event.getLeft().get(i).contains("Chunk:"))
