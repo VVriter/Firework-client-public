@@ -35,7 +35,7 @@ public class NoSlow extends Module{
     public void onUpdate() {
         mc.player.getActiveItemStack().getItem();
         if (this.sneaking && !mc.player.isHandActive() && this.sneakPacket.getValue().booleanValue()) {
-            mc.player.connection.sendPacket((Packet)new CPacketEntityAction((Entity)mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
+            mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
             this.sneaking = false;
         }
     }
@@ -44,7 +44,7 @@ public class NoSlow extends Module{
     public void onUseItem(PlayerInteractEvent.RightClickItem event) {
         Item item = mc.player.getHeldItem(event.getHand()).getItem();
         if ((item instanceof ItemFood || item instanceof ItemBow || item instanceof ItemPotion && this.sneakPacket.getValue().booleanValue()) && !this.sneaking) {
-            mc.player.connection.sendPacket((Packet)new CPacketEntityAction((Entity)mc.player, CPacketEntityAction.Action.START_SNEAKING));
+            mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
             this.sneaking = true;
         }
     }
