@@ -14,6 +14,7 @@ import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.RotationUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.common.MinecraftForge;
 
 import static com.firework.client.Firework.*;
 import static com.firework.client.Implementations.Utill.InventoryUtil.getItemStack;
@@ -33,9 +34,17 @@ public class KillAura extends Module{
     public EntityPlayer target;
 
     public Setting<Boolean> enabled = this.isEnabled;
+    public boolean lastValue;
 
     public KillAura(){
         updaterManager.registerUpdater(listener1);
+        lastValue = this.isEnabled.getValue();
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        lastValue = false;
     }
 
     @Override
@@ -51,7 +60,7 @@ public class KillAura extends Module{
 
     public void doKillAura(){
         if (autoSwitch.getValue())
-            InventoryUtil.doMultiHand(getItemStack(WeaponUtil.theMostPoweredSword()).getItem(), InventoryUtil.hands.MainHand);
+            InventoryUtil.doMultiHand(getItemStack(WeaponUtil.theMostPoweredSword(target)).getItem(), InventoryUtil.hands.MainHand);
 
         if (rotate.getValue())
             RotationUtil.rotate(target.getPositionVector().add(0, 1, 0), packetSpoof.getValue());
@@ -63,7 +72,7 @@ public class KillAura extends Module{
         @Override
         public void run() {
             if (mc.player == null || mc.world == null) return;
-            if (!enabled.getValue()) {
+            if (!lastValue) {
                 if (autoEnable.getValue()) {
                     this.delay = 20;
                     target = PlayerUtil.getClosest();
@@ -73,7 +82,8 @@ public class KillAura extends Module{
                     if (target.getPositionVector().distanceTo(mc.player.getPositionVector()) <= targetRange.getValue()) {
                         onEnable();
                     } else if (enabled.getValue()) {
-                        onDisable();
+                        enabled.setValue(false);
+                        MinecraftForge.EVENT_BUS.unregister(this);
                     }
                 }
             }

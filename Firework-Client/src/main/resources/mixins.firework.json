@@ -9,6 +9,7 @@
     "MixinAbstractHorse",
     "MixinRenderer",
     "ICPacketCustomPayload",
+    "IItemTool",
     "ViewModelMixin",
     "ISPacketPlayerPosLook",
     "MixinEntityLivingBase",
