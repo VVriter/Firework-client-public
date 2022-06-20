@@ -8,7 +8,7 @@ import com.firework.client.Implementations.Settings.Setting;
 public class Step extends Module {
 
     public Setting<Enum> mode = new Setting<>("Mode", modes.Vanilla, this, modes.values());
-    public Setting<Double> Y = new Setting<>("Height", (double)1, this, 1, 10).setVisibility(mode,modes.Vanilla);
+    public Setting<Integer> Y = new Setting<>("Height", 1, this, 1, 10).setVisibility(mode,modes.Vanilla);
     public Setting<Boolean> reverse = new Setting<>("Reverse", false, this).setVisibility(mode,modes.Vanilla);
 
     @Override
