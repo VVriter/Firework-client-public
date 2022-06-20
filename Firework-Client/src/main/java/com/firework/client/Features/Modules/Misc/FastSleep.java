@@ -13,7 +13,7 @@ public class FastSleep extends Module {
 
 
     @Override
-            public void onTick(){
+    public void onTick(){
         super.onTick();
         EntityPlayerSP player = mc.player;
         if (player.isPlayerSleeping()) {

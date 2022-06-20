@@ -16,7 +16,7 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 
-@ModuleArgs(name = "AutoRespawn", category = Module.Category.MISC)
+@ModuleArgs(name = "DeathFilter", category = Module.Category.MISC)
 public class AutoRespawn extends Module {
 
 
