@@ -4,7 +4,6 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
-import jdk.javadoc.internal.doclets.toolkit.taglets.SeeTaglet;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
