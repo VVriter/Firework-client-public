@@ -21,12 +21,12 @@ public class MultiHand extends Module {
         super.onTick();
         if(!parallel.getValue()) {
             if (multiHandMode.getValue(modes.Totem))
-                doMultiHand(Items.TOTEM_OF_UNDYING, totemHandMode);
+                doMultiHand(Items.TOTEM_OF_UNDYING, totemHandMode.getValue());
             else if (multiHandMode.getValue(modes.Crystal))
-                doMultiHand(Items.END_CRYSTAL, crystalHandMode);
+                doMultiHand(Items.END_CRYSTAL, crystalHandMode.getValue());
         }else {
-            doMultiHand(Items.TOTEM_OF_UNDYING, totemHandMode);
-            doMultiHand(Items.END_CRYSTAL, crystalHandMode);
+            doMultiHand(Items.TOTEM_OF_UNDYING, totemHandMode.getValue());
+            doMultiHand(Items.END_CRYSTAL, crystalHandMode.getValue());
         }
     }
 

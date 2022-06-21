@@ -72,7 +72,7 @@ public class Surround extends Module {
         Item oldItem = getItemStack(hand.getValue(hands.MainHand) ? (36 + mc.player.inventory.currentItem) : 45).getItem();
 
         doMultiHand(mc.player.inventory.hasItemStack(new ItemStack(Blocks.OBSIDIAN)) ? Item.getItemFromBlock(Blocks.OBSIDIAN) :
-                (useEnderChestIfNoObsFound.getValue() ? Item.getItemFromBlock(Blocks.ENDER_CHEST) : null), hand);
+                (useEnderChestIfNoObsFound.getValue() ? Item.getItemFromBlock(Blocks.ENDER_CHEST) : null), hand.getValue());
 
         boolean shouldSneak = BlockUtil.getBlock(getPlayerPos().add(0, -1, 0)).equals(Blocks.ENDER_CHEST) ? true : false;
 
@@ -80,7 +80,7 @@ public class Surround extends Module {
             if(BlockUtil.getBlock(pos) == Blocks.AIR)
                 BlockUtil.placeBlock(pos, enumHand, rotate.getValue(), packet.getValue(), shouldSneak);
         }
-        doMultiHand(oldItem, hand);
+        doMultiHand(oldItem, hand.getValue());
     }
 
     public void center() {
