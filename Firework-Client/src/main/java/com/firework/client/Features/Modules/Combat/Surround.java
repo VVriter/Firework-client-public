@@ -4,15 +4,15 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleArgs;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
-import com.firework.client.Implementations.Utill.Blocks.HoleUtil;
-import com.firework.client.Implementations.Utill.Entity.EntityUtil;
-import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Util;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
 
@@ -21,6 +21,8 @@ public class Surround extends Module {
 
     public Setting<Boolean> shouldCenter = new Setting<>("Center", true, this);
     public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", true, this);
+
+    public Setting<Boolean> shuldDisableOnJump = new Setting<>("DisableOnJump", true, this);
     public Setting<Integer> tickDelay = new Setting<>("TickDelay", 0, this, 0, 20).setVisibility(shouldToggle, false);
 
     public Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
@@ -41,7 +43,6 @@ public class Surround extends Module {
         if(shouldToggle.getValue())
             onDisable();
     }
-
     @Override
     public void onUpdate() {
         super.onUpdate();
@@ -54,6 +55,14 @@ public class Surround extends Module {
                     return;
                 }
             }
+        }
+    }
+
+
+    @SubscribeEvent
+    public void onPlayerJump(LivingEvent.LivingJumpEvent e){
+        if(e.getEntity() instanceof EntityPlayer){
+            if(shuldDisableOnJump.getValue()){this.isEnabled.setValue(false);}
         }
     }
 
