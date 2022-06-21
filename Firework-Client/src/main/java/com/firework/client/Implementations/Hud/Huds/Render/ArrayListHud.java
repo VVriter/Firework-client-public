@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.Hud.Huds.HudManifest;
 import com.firework.client.Implementations.Utill.Render.ColorUtils;
+import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.ibm.icu.text.UTF16;
 
 import java.util.ArrayList;
@@ -12,9 +13,16 @@ import java.util.Comparator;
 import static com.firework.client.Firework.*;
 import static com.firework.client.Implementations.Utill.Util.mc;
 import static java.awt.Color.blue;
+import static java.lang.Math.*;
 
 @HudManifest(name = "ArrayList")
 public class ArrayListHud extends HudComponent {
+
+    public int percent;
+
+    public ArrayListHud(){
+        percent = round(mc.displayHeight/20);
+    }
 
     @Override
     public void draw() {
@@ -29,7 +37,8 @@ public class ArrayListHud extends HudComponent {
         names.sort(new StringComparator());
 
         for(String name : names){
-            textManager.drawString(name, 0, textManager.getFontHeight() * (names.indexOf(name) + 1), blue.getRGB(), false);
+            float y = textManager.getFontHeight() * (names.indexOf(name) + 1);
+            textManager.drawString(name, 0, y, ColorUtils.astolfoColors(round(y)*2,100), false);
         }
     }
     public class StringComparator implements Comparator<String>
