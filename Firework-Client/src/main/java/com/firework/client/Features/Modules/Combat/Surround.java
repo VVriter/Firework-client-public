@@ -62,14 +62,14 @@ public class Surround extends Module {
     @SubscribeEvent
     public void onPlayerJump(LivingEvent.LivingJumpEvent e){
         if(e.getEntity() instanceof EntityPlayer){
-            if(shuldDisableOnJump.getValue()){this.isEnabled.setValue(false);}
+            if(shuldDisableOnJump.getValue()){onDisable();}
         }
     }
 
     public void surround(){
         EnumHand enumHand = hand.getValue(hands.MainHand) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
 
-        ItemStack oldItem = mc.player.getHeldItem(enumHand);
+        Item oldItem = getItemStack(hand.getValue(hands.MainHand) ? (36 + mc.player.inventory.currentItem) : 45).getItem();
 
         doMultiHand(mc.player.inventory.hasItemStack(new ItemStack(Blocks.OBSIDIAN)) ? Item.getItemFromBlock(Blocks.OBSIDIAN) :
                 (useEnderChestIfNoObsFound.getValue() ? Item.getItemFromBlock(Blocks.ENDER_CHEST) : null), hand);
@@ -80,7 +80,7 @@ public class Surround extends Module {
             if(BlockUtil.getBlock(pos) == Blocks.AIR)
                 BlockUtil.placeBlock(pos, enumHand, rotate.getValue(), packet.getValue(), shouldSneak);
         }
-        doMultiHand(oldItem.getItem(), hand);
+        doMultiHand(oldItem, hand);
     }
 
     public void center() {

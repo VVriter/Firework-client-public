@@ -52,7 +52,7 @@ public class HoleFiller extends Module {
     @SubscribeEvent
     public void onPlayerJump(LivingEvent.LivingJumpEvent e){
         if(e.getEntity() instanceof EntityPlayer){
-            if(shuldDisableOnJump.getValue()){this.isEnabled.setValue(false);}
+            if(shuldDisableOnJump.getValue()){onDisable();}
         }
     }
 
