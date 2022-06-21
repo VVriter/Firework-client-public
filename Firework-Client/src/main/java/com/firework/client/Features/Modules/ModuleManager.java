@@ -44,6 +44,15 @@ public class ModuleManager {
         infos.sort(Comparator.comparing(Info::getName));
     }
 
+    public ArrayList<Module> enabledModules(){
+        ArrayList<Module> enabledModules = new ArrayList<>();
+        for(Module module : modules)
+            if(module.isEnabled.getValue())
+                enabledModules.add(module);
+
+        return enabledModules;
+    }
+
     public ArrayList<Info> initializeSubModules() {
         ArrayList<Info> infos = new ArrayList<>();
 
