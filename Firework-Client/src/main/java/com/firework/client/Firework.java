@@ -6,6 +6,7 @@ import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Hud.HudManager;
+import com.firework.client.Implementations.Hud.Huds.Render.PlayerPlayTimeHud.PlayTimeManager;
 import com.firework.client.Implementations.Managers.FriendManager;
 import com.firework.client.Implementations.Managers.MuteManager;
 import com.firework.client.Implementations.Managers.Parser.JsonParser;
@@ -95,6 +96,7 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
+        PlayTimeManager.getCurrendtTime();
         FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir +"\\Firework\\";
         ConnectionUtil.checkForInternetConnection();
         //HwidManager.hwidCheck();
