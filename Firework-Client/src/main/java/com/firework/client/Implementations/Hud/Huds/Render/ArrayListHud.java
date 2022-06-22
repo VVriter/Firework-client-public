@@ -30,21 +30,35 @@ public class ArrayListHud extends HudComponent {
 
         if(mc.player == null && mc.world == null) return;
 
+        int maxWidth = 0;
+
         ArrayList<String> names = new ArrayList<>();
         for(Module module : moduleManager.enabledModules())
-            if(module.name != this.module.name)
+            if(module.name != this.module.name) {
                 names.add(module.name);
+                if(textManager.getStringWidth(module.name) > maxWidth)
+                    maxWidth = textManager.getStringWidth(module.name);
+            }
+
+        this.width = maxWidth;
 
         names.sort(new StringComparator());
 
+        int maxY = 0;
+
         for(String name : names){
-            float y = textManager.getFontHeight() * (names.indexOf(name) + 1);
+            int y = textManager.getFontHeight() * (names.indexOf(name) + 1);
             if(mode.getValue(modes.Astolfo)) {
-                textManager.drawString(name, 0, y, ColorUtils.astolfoColors(round(y) * 2, 100), false);
+                textManager.drawString(name, x, y + this.y, ColorUtils.astolfoColors(round(y) * 2, 100), false);
             }else if(mode.getValue(modes.Classic)){
-                textManager.drawString(name, 0, y, RainbowUtil.generateRainbowFadingColor(round(y) * 2, true), false);
+                textManager.drawString(name, x, y + this.y, RainbowUtil.generateRainbowFadingColor(round(y) * 2, true), false);
             }
+
+            if(y > maxY)
+                maxY = y;
         }
+
+        this.height = maxY - textManager.getFontHeight() * (names.indexOf(name) + 1);
     }
     public class StringComparator implements Comparator<String>
     {

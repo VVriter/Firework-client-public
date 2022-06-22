@@ -4,6 +4,7 @@ import com.firework.client.Implementations.Hud.Components.Button;
 import com.firework.client.Implementations.Hud.Components.HudButton;
 import com.firework.client.Implementations.Hud.Huds.HudComponent;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.math.Vec2f;
 
 import java.awt.*;
@@ -15,18 +16,18 @@ import static java.lang.Math.*;
 
 public class HudGui extends GuiScreen {
 
-    public ArrayList<Button> initializedButtons = new ArrayList<>();
+    public static ArrayList<Button> initializedButtons = new ArrayList<>();
 
-    public int y;
-    public int x;
+    public static int y;
+    public static int x;
 
-    public final int buttonHeight = 10;
+    public static final int buttonHeight = 10;
 
     public HudGui(){
         init();
     }
 
-    public void init(){
+    public static void init(){
         initializedButtons.clear();
 
         x = 20;
@@ -34,14 +35,18 @@ public class HudGui extends GuiScreen {
 
         int maxHeight = 0;
         for(HudComponent hudComponent : hudManager.hudComponents){
-            if(x + hudComponent.width >= mc.displayWidth)
-                y += maxHeight + 20;
+            if(hudComponent.enabled) {
+                if (x + hudComponent.width >= 300) {
+                    y += maxHeight + 20;
+                    x = 20;
+                }
 
-            HudButton hudButton = new HudButton(hudComponent, x, y, hudComponent.width, buttonHeight);
-            x += hudButton.width + round(hudButton.width/7);
-            initializedButtons.add(hudButton);
-            if(maxHeight < hudComponent.height + hudButton.height)
-                maxHeight = hudComponent.height + hudButton.height;
+                HudButton hudButton = new HudButton(hudComponent, x, y, hudComponent.width, buttonHeight);
+                x += hudButton.width + round(hudButton.width / 7);
+                initializedButtons.add(hudButton);
+                if (maxHeight < hudComponent.height + hudButton.height)
+                    maxHeight = hudComponent.height + hudButton.height;
+            }
         }
     }
 

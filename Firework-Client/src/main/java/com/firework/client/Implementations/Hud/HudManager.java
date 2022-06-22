@@ -29,6 +29,7 @@ public class HudManager {
                 System.err.println("Couldn't initiate hud " + aClass.getSimpleName() + "! Err: " + e.getClass().getSimpleName() + ", message: " + e.getMessage());
             }
         });
+
         System.out.println("Hud Components initialised");
     }
 
