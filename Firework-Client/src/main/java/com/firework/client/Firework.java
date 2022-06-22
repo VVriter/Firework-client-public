@@ -5,6 +5,7 @@ package com.firework.client;
 import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
+import com.firework.client.Implementations.Hud.HudManager;
 import com.firework.client.Implementations.Managers.FriendManager;
 import com.firework.client.Implementations.Managers.MuteManager;
 import com.firework.client.Implementations.Managers.Parser.JsonParser;
@@ -57,35 +58,37 @@ public class Firework
 
     private static Logger logger;
 
-
+    public static UpdaterManager updaterManager;
     public static SettingManager settingManager;
     public static ModuleManager moduleManager;
+    public static TextManager textManager;
+    public static HudManager hudManager;
     public static CommandManager commandManager;
     public static CustomFontManager customFontManager;
-    public static TextManager textManager;
     public static PositionManager positionManager;
-    public static UpdaterManager updaterManager;
-
 
     public void loadManagers(){
         updaterManager = new UpdaterManager();
         MinecraftForge.EVENT_BUS.register(updaterManager);
         settingManager = new SettingManager();
         moduleManager = new ModuleManager();
-        commandManager = new CommandManager();
         customFontManager = new CustomFontManager("tcm", 16);
         textManager = new TextManager();
+        hudManager = new HudManager();
+        MinecraftForge.EVENT_BUS.register(hudManager);
+        commandManager = new CommandManager();
         positionManager = new PositionManager();
     }
 
     public static void unloadManagers(){
+        MinecraftForge.EVENT_BUS.unregister(updaterManager); updaterManager = null;
         settingManager = null;
         moduleManager = null;
-        commandManager = null;
-        textManager = null;
         customFontManager = null;
+        textManager = null;
+        MinecraftForge.EVENT_BUS.unregister(hudManager); hudManager = null;
+        commandManager = null;
         positionManager = null;
-        MinecraftForge.EVENT_BUS.unregister(updaterManager); updaterManager = null;
     }
 
 

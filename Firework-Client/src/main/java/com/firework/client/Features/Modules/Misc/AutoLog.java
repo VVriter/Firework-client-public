@@ -1,13 +1,13 @@
 package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.network.play.server.SPacketDisconnect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextComponentString;
 
-@ModuleArgs(name = "AutoLog",category = Module.Category.MISC)
+@ModuleManifest(name = "AutoLog",category = Module.Category.MISC)
 public class AutoLog extends Module {
 
     static String gegra = "";

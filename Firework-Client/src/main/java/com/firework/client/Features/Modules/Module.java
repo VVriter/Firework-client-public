@@ -1,10 +1,7 @@
 package com.firework.client.Features.Modules;
 
-import com.firework.client.Features.CommandsSystem.CommandManifest;
-import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.init.SoundEvents;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
 
@@ -31,8 +28,8 @@ public class Module extends Info{
 
     public Module(){
         super(null);
-        if (getClass().isAnnotationPresent(ModuleArgs.class)) {
-            ModuleArgs args = getClass().getAnnotation(ModuleArgs.class);
+        if (getClass().isAnnotationPresent(ModuleManifest.class)) {
+            ModuleManifest args = getClass().getAnnotation(ModuleManifest.class);
             this.name = args.name();
             this.category = args.category();
             this.subCategory = args.subCategory();
@@ -76,6 +73,6 @@ public class Module extends Info{
     public String getName() {return name;}
 
     public enum Category{
-        CHAT, COMBAT, MOVEMENT, RENDER, MISC, WORLD, CLIENT
+        CHAT, COMBAT, MOVEMENT, RENDER, MISC, WORLD, CLIENT, HUD
     }
 }

@@ -1,25 +1,21 @@
 package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
-import com.firework.client.Implementations.Managers.FriendManager;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Managers.Updater.Updater;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Client.WeaponUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
-import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.RotationUtil;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 
 import static com.firework.client.Firework.*;
 import static com.firework.client.Implementations.Utill.InventoryUtil.getItemStack;
 
-@ModuleArgs(name = "KillAura", category = Module.Category.COMBAT)
+@ModuleManifest(name = "KillAura", category = Module.Category.COMBAT)
 public class KillAura extends Module{
 
     public Setting<Integer> tmpDelay = new Setting<>("Delay", 20, this, 0, 60);

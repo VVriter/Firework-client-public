@@ -1,8 +1,7 @@
 package com.firework.client.Features.Modules.Combat;
 
-import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
@@ -17,7 +16,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 
-@ModuleArgs(name = "HoleFiller",category = Module.Category.COMBAT)
+@ModuleManifest(name = "HoleFiller",category = Module.Category.COMBAT)
 public class HoleFiller extends Module {
 
 
@@ -58,7 +57,7 @@ public class HoleFiller extends Module {
     @SubscribeEvent
     public void onPlayerJump(LivingEvent.LivingJumpEvent e){
         if(e.getEntity() instanceof EntityPlayer){
-            if(shuldDisableOnJump.getValue()){this.isEnabled.setValue(false);}
+            if(shuldDisableOnJump.getValue()){onDisable();}
         }
     }
 

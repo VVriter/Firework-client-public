@@ -1,4 +1,6 @@
-package com.firework.client.Features.Modules;
+package com.firework.client.Implementations.Hud.Huds;
+
+import com.firework.client.Features.Modules.Module;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,8 +9,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface ModuleArgs {
+public @interface HudManifest {
     String name();
-    Module.Category category();
-    String subCategory() default "null";
+    boolean addModule() default false;
 }

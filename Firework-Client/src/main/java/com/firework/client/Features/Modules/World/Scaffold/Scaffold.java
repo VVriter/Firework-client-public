@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.World.Scaffold;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
@@ -15,7 +15,7 @@ import net.minecraft.util.EnumHand;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleArgs(name = "Scaffold", category = Module.Category.WORLD)
+@ModuleManifest(name = "Scaffold", category = Module.Category.WORLD)
 public class Scaffold extends Module {
 
     public Setting<Boolean> rotate  = new Setting<>("Rotates", true, this);

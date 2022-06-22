@@ -1,10 +1,9 @@
 package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
-import net.minecraft.client.renderer.entity.RenderEnderCrystal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -13,7 +12,7 @@ import net.minecraft.util.EnumHand;
 
 import java.util.Arrays;
 
-@ModuleArgs(name = "AutoCrystal", category = Module.Category.COMBAT)
+@ModuleManifest(name = "AutoCrystal", category = Module.Category.COMBAT)
 public class AutoCrystal extends Module {
 
     public Setting<String> timing = new Setting<>("Timing", "Vanilla", this, Arrays.asList("Vanilla", "Strict","Sequential"));

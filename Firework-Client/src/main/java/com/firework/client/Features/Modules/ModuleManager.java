@@ -8,12 +8,10 @@ import org.json.simple.JSONObject;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Set;
 
 public class ModuleManager {
@@ -44,13 +42,30 @@ public class ModuleManager {
         infos.sort(Comparator.comparing(Info::getName));
     }
 
+    public Module getModuleByName(String name){
+        for(Module module : modules)
+            if(module.name == name)
+                return module;
+
+        return null;
+    }
+
+    public ArrayList<Module> enabledModules(){
+        ArrayList<Module> enabledModules = new ArrayList<>();
+        for(Module module : modules)
+            if(module.isEnabled.getValue())
+                enabledModules.add(module);
+
+        return enabledModules;
+    }
+
     public ArrayList<Info> initializeSubModules() {
         ArrayList<Info> infos = new ArrayList<>();
 
         ArrayList<Pair> pairs = new ArrayList<>();
         for (Module module : modules) {
-            if (getClass().isAnnotationPresent(ModuleArgs.class)) {
-                ModuleArgs args = getClass().getAnnotation(ModuleArgs.class);
+            if (getClass().isAnnotationPresent(ModuleManifest.class)) {
+                ModuleManifest args = getClass().getAnnotation(ModuleManifest.class);
                 Pair<Module, String> pair = new Pair<>(module, args.subCategory());
                 pairs.add(pair);
             } else {

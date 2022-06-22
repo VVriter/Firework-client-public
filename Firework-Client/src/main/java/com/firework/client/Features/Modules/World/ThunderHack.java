@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.network.play.server.SPacketEffect;
@@ -12,7 +12,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 
-@ModuleArgs(name = "ThunderCordExploit",category = Module.Category.WORLD)
+@ModuleManifest(name = "ThunderCordExploit",category = Module.Category.WORLD)
 public class ThunderHack extends Module {
     @SubscribeEvent
     public void onPacket(PacketEvent.Receive e) {

@@ -1,14 +1,14 @@
 package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.YawUtil;
 
 import java.util.Arrays;
 
 
-@ModuleArgs(name = "Yaw",category = Module.Category.WORLD)
+@ModuleManifest(name = "Yaw",category = Module.Category.WORLD)
 public class Yaw extends Module {
 
     public Setting<String> dimension = new Setting<>("Dimension", "Normal", this, Arrays.asList("Normal", "Multi"));

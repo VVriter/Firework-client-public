@@ -1,10 +1,10 @@
 package com.firework.client.Features.Modules.Movement;
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 
 
-@ModuleArgs(name = "Step",category = Module.Category.MOVEMENT)
+@ModuleManifest(name = "Step",category = Module.Category.MOVEMENT)
 public class Step extends Module {
 
     public Setting<Enum> mode = new Setting<>("Mode", modes.Vanilla, this, modes.values());

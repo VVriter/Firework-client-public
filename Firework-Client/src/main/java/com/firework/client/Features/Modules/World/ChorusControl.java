@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.ItemUsedEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
@@ -12,7 +12,7 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 
-@ModuleArgs(name = "ChorusControl",category = Module.Category.WORLD)
+@ModuleManifest(name = "ChorusControl",category = Module.Category.WORLD)
 public class ChorusControl extends Module {
     private SPacketPlayerPosLook packet;
     private boolean consumed = false;

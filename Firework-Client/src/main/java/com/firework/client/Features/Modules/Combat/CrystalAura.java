@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Managers.FriendManager;
 import com.firework.client.Implementations.Settings.Setting;
@@ -9,13 +9,11 @@ import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Entity.CrystalUtil;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.Timer;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.network.play.client.CPacketUseEntity;
@@ -31,7 +29,7 @@ import java.util.ArrayList;
 
 import static java.lang.Math.*;
 
-@ModuleArgs(name = "CrystalAura", category = Module.Category.COMBAT)
+@ModuleManifest(name = "CrystalAura", category = Module.Category.COMBAT)
 public class CrystalAura extends Module{
     public Setting<EnumHand> hand = new Setting<>("Hand", EnumHand.MAIN_HAND, this, EnumHand.values());
     public Setting<Double> targetRange = new Setting<>("TargetRange", 10d, this, 0, 15);

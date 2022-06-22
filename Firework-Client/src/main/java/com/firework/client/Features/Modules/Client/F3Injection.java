@@ -1,14 +1,14 @@
 package com.firework.client.Features.Modules.Client;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Arrays;
 
-@ModuleArgs(name = "Custom F3",category = Module.Category.CLIENT)
+@ModuleManifest(name = "Custom F3",category = Module.Category.CLIENT)
 public class F3Injection extends Module {
 
     public Setting<Boolean> Coords  = new Setting<>("Coords", true, this);

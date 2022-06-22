@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 
-@ModuleArgs(name = "Speed",category = Module.Category.MOVEMENT)
+@ModuleManifest(name = "Speed",category = Module.Category.MOVEMENT)
 public class Speed extends Module{
 
 

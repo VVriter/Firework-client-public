@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Enchantments;
@@ -12,7 +12,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemElytra;
 import net.minecraft.item.ItemStack;
 
-@ModuleArgs(name = "ChestSwap", category = Module.Category.COMBAT)
+@ModuleManifest(name = "ChestSwap", category = Module.Category.COMBAT)
 public class ChestSwap extends Module {
 
     public Setting<Boolean> PreferElytra  = new Setting<>("PreferElytra", false, this);

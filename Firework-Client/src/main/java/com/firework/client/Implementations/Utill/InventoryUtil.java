@@ -461,14 +461,14 @@ public class InventoryUtil
         return slot;
     }
 
-    public static void doMultiHand(Item item, Setting<hands> hand){
-        if(item == null) return;
-        if (hand.getValue(hands.MainHand)) {
-            if (mc.player.getHeldItemMainhand().getItem() != item)
-                swapItems(getItemSlot(item), 1);
-        } else if (hand.getValue(hands.OffHand)) {
-            if (mc.player.getHeldItemOffhand().getItem() != item)
-                swapItems(getItemSlot(item), 0);
+    public static void doMultiHand(int slot, hands hand){
+        if(slot == -1) return;
+        if (hand == hands.MainHand) {
+            if (36 + mc.player.inventory.currentItem != slot)
+                swapItems(slot, 1);
+        } else if (hand == hands.OffHand) {
+            if (45 != slot)
+                swapItems(slot, 0);
         }
     }
 

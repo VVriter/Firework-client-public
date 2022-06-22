@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,7 +18,7 @@ import java.util.Comparator;
 import java.util.Objects;
 
 
-@ModuleArgs(name = "AutoNametag",category = Module.Category.MISC)
+@ModuleManifest(name = "AutoNametag",category = Module.Category.MISC)
 public class AutoNametag extends Module {
 
     public Setting<Double> Radius = new Setting<>("Radius", (double)4, this, 0, 10);

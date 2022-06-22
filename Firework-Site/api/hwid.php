@@ -1,10 +1,5 @@
 <?php
-	$host = '31.31.196.85';
-	$port = 3306;
-	$dbname = 'u0910511_firework_db';
-	$user = 'u0910511_admin';
-	$pass = 'fireworkmanager';
-	$charset = 'utf8mb4';
+	require 'header.php';
 
 	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 	try {

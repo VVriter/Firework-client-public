@@ -1,14 +1,14 @@
 package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 
-@ModuleArgs(name = "AimBot",category = Module.Category.COMBAT)
+@ModuleManifest(name = "AimBot",category = Module.Category.COMBAT)
 public class AimBot extends Module {
     @Override
     public void onTick(){
