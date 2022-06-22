@@ -16,20 +16,12 @@ public class HudComponent {
             HudManifest args = getClass().getAnnotation(HudManifest.class);
             this.name = args.name();
             this.addModule = args.addModule();
-            if(addModule)
+            if (addModule){
                 this.module = new Module(name, Module.Category.HUD);
+                moduleManager.modules.add(this.module);
+            }
         }
     }
 
-    public void init(){
-        if(addModule)
-            moduleManager.modules.add(this.module);
-    }
-
-    public void draw(){
-        if(addModule) {
-            if(!module.isEnabled.getValue()) return;
-            module = moduleManager.getModuleByName(this.name);
-        }
-    }
+    public void draw(){}
 }

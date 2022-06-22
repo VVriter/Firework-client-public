@@ -22,19 +22,18 @@ public class ArrayListHud extends HudComponent {
 
     public Setting<modes> mode = new Setting<>("Mode", modes.Astolfo, module, modes.values());
 
-    public ArrayListHud(){
-        init();
-    }
-
     @Override
     public void draw() {
         super.draw();
+
+        if(!module.isEnabled.getValue()) return;
 
         if(mc.player == null && mc.world == null) return;
 
         ArrayList<String> names = new ArrayList<>();
         for(Module module : moduleManager.enabledModules())
-            names.add(module.name);
+            if(module.name != this.module.name)
+                names.add(module.name);
 
         names.sort(new StringComparator());
 
