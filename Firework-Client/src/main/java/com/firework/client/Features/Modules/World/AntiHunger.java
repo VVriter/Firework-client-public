@@ -1,12 +1,12 @@
 package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@ModuleArgs(name = "AntiHunger",category = Module.Category.WORLD)
+@ModuleManifest(name = "AntiHunger",category = Module.Category.WORLD)
 public class AntiHunger extends Module {
     @SubscribeEvent
     public void onPacket(PacketEvent e){

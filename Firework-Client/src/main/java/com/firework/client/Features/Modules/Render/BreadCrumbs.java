@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 
-@ModuleArgs(name = "BreadCrumbs", category = Module.Category.RENDER)
+@ModuleManifest(name = "BreadCrumbs", category = Module.Category.RENDER)
 public class BreadCrumbs extends Module {
 
     public ArrayList<Vec3d> points = new ArrayList<>();

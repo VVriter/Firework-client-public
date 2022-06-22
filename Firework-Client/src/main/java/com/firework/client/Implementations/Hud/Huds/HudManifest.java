@@ -11,4 +11,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface HudManifest {
     String name();
+    boolean addModule() default false;
 }

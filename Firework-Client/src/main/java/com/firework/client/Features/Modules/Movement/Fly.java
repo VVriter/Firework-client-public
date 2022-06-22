@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Wrapper;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -13,7 +13,7 @@ import static java.lang.Math.cos;
 
 import java.util.Arrays;
 
-@ModuleArgs(name = "Fly",category = Module.Category.MOVEMENT)
+@ModuleManifest(name = "Fly",category = Module.Category.MOVEMENT)
 public class Fly extends Module {
     public Setting<String> mode  = new Setting<>("Mode", "Vanilla", this, Arrays.asList("Vanilla", "Motion", "Tp", "Servers"));
 

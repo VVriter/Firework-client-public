@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Util;
 import net.minecraft.init.Blocks;
@@ -10,7 +10,7 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 
-@ModuleArgs(name = "Anchor", category = Module.Category.MOVEMENT)
+@ModuleManifest(name = "Anchor", category = Module.Category.MOVEMENT)
 public class Anchor extends Module {
 
     public Setting<Boolean> pull = new Setting<>("Pull", true, this);

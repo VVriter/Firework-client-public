@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.entity.item.EntityBoat;
@@ -15,7 +15,7 @@ import net.minecraft.util.EnumHand;
 
 import java.util.Comparator;
 
-@ModuleArgs(name = "BoatFly",category = Module.Category.MOVEMENT)
+@ModuleManifest(name = "BoatFly",category = Module.Category.MOVEMENT)
 public class BoatFlyRewrote extends Module {
 
     private EntityBoat target;

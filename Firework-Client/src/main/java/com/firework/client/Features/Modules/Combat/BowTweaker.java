@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
@@ -13,7 +13,7 @@ import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-@ModuleArgs(name = "BowTweaker",category = Module.Category.COMBAT)
+@ModuleManifest(name = "BowTweaker",category = Module.Category.COMBAT)
 public class BowTweaker extends Module {
     public Setting<Boolean> Aim = new Setting<>("Aim", true, this);
     public Setting<Double> BowSpamSpeed = new Setting<>("BowSpamSpeed", 17d, this, 1, 30);

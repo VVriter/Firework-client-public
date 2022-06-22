@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Timer;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
 
-@ModuleArgs(name = "Surround", category = Module.Category.COMBAT)
+@ModuleManifest(name = "Surround", category = Module.Category.COMBAT)
 public class Surround extends Module {
 
     public Setting<Boolean> shouldDisableOnJump = new Setting<>("DisableOnJump", true, this);

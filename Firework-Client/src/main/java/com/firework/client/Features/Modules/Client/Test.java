@@ -2,7 +2,7 @@ package com.firework.client.Features.Modules.Client;
 
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 
 import java.util.Arrays;
 
-@ModuleArgs(name = "Test", category =  Module.Category.CLIENT)
+@ModuleManifest(name = "Test", category =  Module.Category.CLIENT)
 public class Test extends Module {
     public Setting<Boolean> testSetting = new Setting<>("tS", false, this);
     public Setting<Double> td = new Setting<>("tD", (double)3, this, 1, 10);

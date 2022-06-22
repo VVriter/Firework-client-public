@@ -7,7 +7,7 @@ package com.firework.client.Features.Modules.Chat;
 
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.util.text.TextComponentString;
@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
-@ModuleArgs(name = "TimeStamps",category = Module.Category.CHAT)
+@ModuleManifest(name = "TimeStamps",category = Module.Category.CHAT)
 public class TimeStamps extends Module {
 
     public Setting<String> BracketMode = new Setting<>("Brackets", "Bracket", this, Arrays.asList("Bracket","Curly", "Parent"));

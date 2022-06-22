@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -14,7 +14,7 @@ import net.minecraft.network.play.server.SPacketSetPassengers;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 
-@ModuleArgs(name = "EntityDesync",category = Module.Category.WORLD)
+@ModuleManifest(name = "EntityDesync",category = Module.Category.WORLD)
 public class EntityDesync extends Module {
     private static Minecraft mc = Minecraft.getMinecraft();
     private Entity Riding;

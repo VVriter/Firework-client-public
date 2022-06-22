@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface ModuleArgs {
+public @interface ModuleManifest {
     String name();
     Module.Category category();
     String subCategory() default "null";

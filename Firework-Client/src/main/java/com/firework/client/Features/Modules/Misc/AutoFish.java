@@ -3,7 +3,7 @@ package com.firework.client.Features.Modules.Misc;
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 
-@ModuleArgs(name = "AutoFish",category = Module.Category.MISC)
+@ModuleManifest(name = "AutoFish",category = Module.Category.MISC)
 public class AutoFish extends Module {
 
     DiscordWebhook simpleDiscordWebhook;

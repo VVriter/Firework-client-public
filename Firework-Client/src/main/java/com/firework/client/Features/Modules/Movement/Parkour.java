@@ -1,14 +1,14 @@
 package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.util.math.AxisAlignedBB;
 
 import java.util.List;
 
-@ModuleArgs(name = "Parkour",category = Module.Category.MOVEMENT)
+@ModuleManifest(name = "Parkour",category = Module.Category.MOVEMENT)
 public class Parkour extends Module {
     public static Setting<Boolean> enabled = null;
 

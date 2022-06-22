@@ -1,11 +1,11 @@
 package com.firework.client.Features.Modules.Client;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.GuiNEO.Particles.ParticleInfo;
 import com.firework.client.Implementations.Settings.Setting;
 
-@ModuleArgs(name = "GuiParticles", category = Module.Category.CLIENT)
+@ModuleManifest(name = "GuiParticles", category = Module.Category.CLIENT)
 public class GuiParticles extends Module {
     public static Setting<Double> scaleFactor;
     public static Setting<Double> lineLong;

@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.Chat;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.CryptUtil;
 import net.minecraftforge.client.event.ClientChatEvent;
@@ -9,7 +9,7 @@ import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 
-@ModuleArgs(name = "FireworkShifr",category = Module.Category.CHAT)
+@ModuleManifest(name = "FireworkShifr",category = Module.Category.CHAT)
 public class FireworkShifr extends Module {
 
     @SubscribeEvent

@@ -2,12 +2,12 @@ package com.firework.client.Features.Modules.Chat;
 
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 
-@ModuleArgs(name = "ChatSufix",category = Module.Category.CHAT)
+@ModuleManifest(name = "ChatSufix",category = Module.Category.CHAT)
 public class ChatSufix extends Module {
 
     String append = " | FIREWORK";

@@ -1,16 +1,11 @@
 package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
-import net.minecraft.util.EnumHand;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-
-import java.util.Comparator;
 
 
-@ModuleArgs(name = "AutoRemount", category = Module.Category.WORLD)
+@ModuleManifest(name = "AutoRemount", category = Module.Category.WORLD)
 public class AutoRemount extends Module {
     public Setting<Boolean> Bypass  = new Setting<>("Bypass", true, this);
     public Setting<Boolean> boat  = new Setting<>("boat", true, this);

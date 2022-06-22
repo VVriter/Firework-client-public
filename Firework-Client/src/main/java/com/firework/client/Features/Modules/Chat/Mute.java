@@ -1,7 +1,7 @@
 package com.firework.client.Features.Modules.Chat;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Managers.MuteManager;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-@ModuleArgs(name = "Mute",category = Module.Category.CHAT)
+@ModuleManifest(name = "Mute",category = Module.Category.CHAT)
 public class Mute extends Module {
     String string;
     private static ArrayList<String> muted = new ArrayList<>();

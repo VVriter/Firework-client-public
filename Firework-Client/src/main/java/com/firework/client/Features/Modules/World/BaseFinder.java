@@ -1,27 +1,17 @@
 package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.YawUtil;
-import net.minecraft.tileentity.TileEntityBed;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityEnderChest;
-import net.minecraft.tileentity.TileEntityShulkerBox;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.client.event.InputUpdateEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.event.world.ChunkDataEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import net.minecraft.entity.Entity;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-@ModuleArgs(name = "BaseFinder",category = Module.Category.WORLD)
+@ModuleManifest(name = "BaseFinder",category = Module.Category.WORLD)
 public class BaseFinder extends Module {
 
     private final Set<Entity> donkey = new HashSet< Entity >( );

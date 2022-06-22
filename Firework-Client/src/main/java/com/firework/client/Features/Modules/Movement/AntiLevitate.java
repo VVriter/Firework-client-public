@@ -1,14 +1,14 @@
 package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.ModuleArgs;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.potion.Potion;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-@ModuleArgs(name = "AntiLevitate",category = Module.Category.MOVEMENT)
+@ModuleManifest(name = "AntiLevitate",category = Module.Category.MOVEMENT)
 public class AntiLevitate extends Module {
     public Setting<String> setting = new Setting<>("Mode", "EffectRemove", this, Arrays.asList("EffectRemove", "ReverseStep"));
     @Override
