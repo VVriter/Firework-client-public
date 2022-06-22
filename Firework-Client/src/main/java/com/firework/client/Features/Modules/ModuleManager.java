@@ -42,6 +42,14 @@ public class ModuleManager {
         infos.sort(Comparator.comparing(Info::getName));
     }
 
+    public Module getModuleByName(String name){
+        for(Module module : modules)
+            if(module.name == name)
+                return module;
+
+        return null;
+    }
+
     public ArrayList<Module> enabledModules(){
         ArrayList<Module> enabledModules = new ArrayList<>();
         for(Module module : modules)
