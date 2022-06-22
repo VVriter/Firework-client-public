@@ -17,5 +17,7 @@ public class Button {
 
     public void draw(){}
 
-    public void initialize(Vec2f point, int state){}
+    public boolean initialize(Vec2f point, int state) {
+        return false;
+    }
 }

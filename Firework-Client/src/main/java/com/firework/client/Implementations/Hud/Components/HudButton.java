@@ -13,9 +13,13 @@ public class HudButton extends Button{
     }
 
     @Override
-    public void initialize(Vec2f point, int state) {
-        super.initialize(point, state);
-        if(state == 0)
+    public boolean initialize(Vec2f point, int state) {
+        if(state == 0) {
             hudComponent.setEnabled(!hudComponent.enabled);
+            return false;
+        }else if(state == 1){
+            return true;
+        }
+        return false;
     }
 }
