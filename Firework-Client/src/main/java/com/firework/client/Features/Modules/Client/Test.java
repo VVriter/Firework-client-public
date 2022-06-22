@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Client;
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Hud.Huds.Render.PlayerPlayTimeHud.PlayTimeManager;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
@@ -31,8 +32,12 @@ public class Test extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
+        
+        MessageUtil.sendClientMessage(PlayTimeManager.getTimeNow(),false);
+
+
+
         mc.player.setGlowing(true);
-        MessageUtil.sendClickable("Bebrik", CommandManager.prefix+"help",false);
 
         if(enumSetting.getValue(TestEnum.lock))
             System.out.println("checked");
@@ -40,8 +45,6 @@ public class Test extends Module {
 
     @Override
     public void onTick() {
-        //super.onTick();
-        //System.out.println("WORK!");
-        //System.out.println(isEnabled.getValue());
+
     }
 }
