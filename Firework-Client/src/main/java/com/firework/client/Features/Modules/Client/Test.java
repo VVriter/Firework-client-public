@@ -32,8 +32,6 @@ public class Test extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        
-        MessageUtil.sendClientMessage(PlayTimeManager.getTimeNow(),false);
 
 
 
@@ -45,6 +43,6 @@ public class Test extends Module {
 
     @Override
     public void onTick() {
-
+        MessageUtil.sendClientMessage(PlayTimeManager.getTimeNow(),true);
     }
 }
