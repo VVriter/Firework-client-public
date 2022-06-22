@@ -11,6 +11,13 @@ public class HudComponent {
 
     public Module module;
 
+    public int x;
+    public int y;
+    public int width;
+    public int height;
+
+    public boolean enabled;
+
     public HudComponent(){
         if (getClass().isAnnotationPresent(HudManifest.class)) {
             HudManifest args = getClass().getAnnotation(HudManifest.class);
@@ -23,5 +30,15 @@ public class HudComponent {
         }
     }
 
-    public void draw(){}
+    public void draw(){
+        if(addModule)
+            enabled = module.isEnabled.getValue();
+    }
+
+    public void setEnabled(boolean value){
+        if(addModule)
+            module.isEnabled.setValue(value);
+        else
+            enabled = value;
+    }
 }
