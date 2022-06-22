@@ -1,7 +1,7 @@
 <?php
-$ip = '';
-$port = 0;
-$username = '';
-$password = '';
+$host = '';
+$port = 3306;
+$user = '';
+$pass = '';
 $charset = 'utf8mb4';
 ?>
