@@ -10,6 +10,7 @@ public class Step extends Module {
     public Setting<Enum> mode = new Setting<>("Mode", modes.Vanilla, this, modes.values());
     public Setting<Integer> Y = new Setting<>("Height", 1, this, 1, 10).setVisibility(mode,modes.Vanilla);
     public Setting<Boolean> reverse = new Setting<>("Reverse", false, this).setVisibility(mode,modes.Vanilla);
+    public Setting<Boolean> entityStep = new Setting<>("EntityStep", false, this).setVisibility(mode,modes.Vanilla);
 
     @Override
     public void onEnable(){
@@ -32,6 +33,10 @@ public class Step extends Module {
         }
 
 
+        //EntityStep
+        if(entityStep.getValue() && mc.player.isRiding()){
+            mc.player.getRidingEntity().stepHeight = 1;
+        }
 
 
         //Code for reverse step
