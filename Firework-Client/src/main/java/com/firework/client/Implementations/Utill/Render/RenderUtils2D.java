@@ -170,11 +170,11 @@ public class RenderUtils2D {
         //Up side
         drawRectangle(new Rectangle(x, y, w, width), color);
         //Down side
-        drawRectangle(new Rectangle(x, y + (int) (h-width), w, width), color);
+        drawRectangle(new Rectangle(x, y + h, w, width), color);
         //Left side
-        drawRectangle(new Rectangle(x, (int) (y+width), width, h-width), color);
+        drawRectangle(new Rectangle(x, y, width, h), color);
         //Right side
-        drawRectangle(new Rectangle((int) (x + w - width), (int) (y+width), width, h-width), color);
+        drawRectangle(new Rectangle(x + w - width, y, width, h), color);
     }
 
     public static void drawGradientTriangle(ArrayList<Point> points, ArrayList<Color> colors)

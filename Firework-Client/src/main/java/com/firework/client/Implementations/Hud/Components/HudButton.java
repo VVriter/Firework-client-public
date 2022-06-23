@@ -26,7 +26,7 @@ public class HudButton extends Button{
         super.draw();
         RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), fillColorA);
         customFontManager.drawString(hudComponent.name, x  + (width - customFontManager.getWidth(hudComponent.name))/2, y, Color.white.getRGB());
-        RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + HudGui.buttonHeight, width, hudComponent.height), 1, new Color(ColorUtils.astolfoColors(100, 100)));
+        RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + HudGui.buttonHeight, width, hudComponent.height), 0.5f, new Color(ColorUtils.astolfoColors(100, 100)));
         hudComponent.x = x;
         hudComponent.y = y;
     }

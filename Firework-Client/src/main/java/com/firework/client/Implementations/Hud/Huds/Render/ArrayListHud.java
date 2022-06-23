@@ -24,7 +24,7 @@ public class ArrayListHud extends HudComponent {
 
     @Override
     public boolean init() {
-        this.x = 0;
+        this.x = 3;
         this.y = 10;
         return true;
     }
