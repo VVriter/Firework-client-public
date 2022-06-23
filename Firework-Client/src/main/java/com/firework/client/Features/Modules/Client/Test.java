@@ -3,6 +3,8 @@ package com.firework.client.Features.Modules.Client;
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Hud.Huds.Render.CoordsHud.CoordsManager;
+import com.firework.client.Implementations.Hud.Huds.Render.FpsHud.FpsManager;
 import com.firework.client.Implementations.Hud.Huds.Render.MemoryHud.MemoryManager;
 import com.firework.client.Implementations.Hud.Huds.Render.PlayerPlayTimeHud.PlayTimeManager;
 import com.firework.client.Implementations.Settings.Setting;
@@ -44,6 +46,6 @@ public class Test extends Module {
 
     @Override
     public void onTick() {
-        MessageUtil.sendClientMessage(String.valueOf(MemoryManager.memory+"//"+MemoryManager.allocatedMemory+"// Max Memory:"+MemoryManager.maxMemory),true);
+        MessageUtil.sendClientMessage(CoordsManager.getCordsForDrawString(),true);
     }
 }
