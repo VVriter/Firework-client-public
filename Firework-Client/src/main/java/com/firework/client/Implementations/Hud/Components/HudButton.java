@@ -17,20 +17,21 @@ public class HudButton extends Button{
     public HudComponent hudComponent;
 
     public HudButton(HudComponent hudComponent, int x, int y, int width, int height) {
-        super(x-2, y, width+2, height);
+        super(x-2, y - 2, width+2, height);
         this.hudComponent = hudComponent;
     }
 
     @Override
     public void draw() {
         super.draw();
-        if(this.width < 60) this.width = 60;
+        if(this.width < 65) this.width = 65;
         RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), fillColorA);
-        customFontManager.drawString(hudComponent.name, x  + (width - customFontManager.getWidth(hudComponent.name))/2, y, Color.white.getRGB());
+        customFontManager.drawString(hudComponent.name, x  + 2, y, Color.white.getRGB());
         if(hudComponent.opened)
             RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + HudGui.buttonHeight, width, hudComponent.height), 0.5f, new Color(ColorUtils.astolfoColors(100, 100)));
-        hudComponent.x = x;
-        hudComponent.y = y;
+        RenderUtils2D.drawCheckBoxV1(new Rectangle(x + width - 28 - 2, y + 1, 28, 10), hudComponent.enabled);
+        hudComponent.x = x + 2;
+        hudComponent.y = y + 2;
     }
 
     @Override

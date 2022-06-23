@@ -34,7 +34,7 @@ public class ArrayListHud extends HudComponent {
     public void draw() {
         super.draw();
 
-        if((!module.isEnabled.getValue() && !(mc.currentScreen instanceof HudGui)) || !opened) return;
+        if(!module.isEnabled.getValue() && !(mc.currentScreen instanceof HudGui)) return;
 
         if(mc.player == null && mc.world == null) return;
 
@@ -67,7 +67,6 @@ public class ArrayListHud extends HudComponent {
         }
 
         this.height = maxY + textManager.getFontHeight() - this.y;
-        System.out.println(height);
     }
     public class StringComparator implements Comparator<String>
     {

@@ -21,7 +21,7 @@ public class HudGui extends GuiScreen {
     public static int y;
     public static int x;
 
-    public static final int buttonHeight = 10;
+    public static final int buttonHeight = 12;
 
     public HudGui(){
         init();
