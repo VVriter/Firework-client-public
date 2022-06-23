@@ -4,11 +4,14 @@ import com.firework.client.Implementations.Utill.RotationUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
@@ -112,4 +115,44 @@ public class BlockUtil {
             return list;
         }
     }
+
+    public static List<BlockPos> getSphere(float radius, boolean ignoreAir) {
+        ArrayList<BlockPos> sphere = new ArrayList<BlockPos>();
+        BlockPos pos = new BlockPos(BlockUtil.mc.player.getPositionVector());
+        int posX = pos.getX();
+        int posY = pos.getY();
+        int posZ = pos.getZ();
+        int radiuss = (int)radius;
+        int x = posX - radiuss;
+        while ((float)x <= (float)posX + radius) {
+            int z = posZ - radiuss;
+            while ((float)z <= (float)posZ + radius) {
+                int y = posY - radiuss;
+                while ((float)y < (float)posY + radius) {
+                    if ((float)((posX - x) * (posX - x) + (posZ - z) * (posZ - z) + (posY - y) * (posY - y)) < radius * radius) {
+                        BlockPos position = new BlockPos(x, y, z);
+                        if (!ignoreAir || BlockUtil.mc.world.getBlockState(position).getBlock() != Blocks.AIR) {
+                            sphere.add(position);
+                        }
+                    }
+                    ++y;
+                }
+                ++z;
+            }
+            ++x;
+        }
+        return sphere;
+    }
+
+    public static boolean canPlaceCrystal(BlockPos blockPos, boolean check) {
+        if (BlockUtil.mc.world.getBlockState(blockPos).getBlock() != Blocks.BEDROCK && BlockUtil.mc.world.getBlockState(blockPos).getBlock() != Blocks.OBSIDIAN) {
+            return false;
+        }
+        BlockPos boost = blockPos.add(0, 1, 0);
+        if (BlockUtil.mc.world.getBlockState(boost).getBlock() != Blocks.AIR || BlockUtil.mc.world.getBlockState(blockPos.add(0, 2, 0)).getBlock() != Blocks.AIR) {
+            return false;
+        }
+        return BlockUtil.mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB((double)boost.getX(), (double)boost.getY(), (double)boost.getZ(), (double)(boost.getX() + 1), (double)(boost.getY() + (check ? 2 : 1)), (double)(boost.getZ() + 1)), e -> !(e instanceof EntityEnderCrystal)).size() == 0;
+    }
+
 }
