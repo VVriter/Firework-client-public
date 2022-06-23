@@ -17,6 +17,7 @@ import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CustomFontManager;
 import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
+import com.firework.client.Implementations.Utill.Client.HwidUtil;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Features.CommandsSystem.CommandManager;
@@ -38,6 +39,9 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
 import org.lwjgl.opengl.Display;
+import xyz.firework.autentification.HwidCheck.HwidManager;
+import xyz.firework.autentification.Initators.InitAuth;
+import xyz.firework.autentification.Initators.InitConfigs;
 
 
 import java.io.IOException;
@@ -96,36 +100,15 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
-        PlayTimeManager.getCurrendtTime();
         FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir +"\\Firework\\";
-        ConnectionUtil.checkForInternetConnection();
-        //HwidManager.hwidCheck();
-        //HwidUtil.hwidCheck();
-        //Sets System tray icon
+        InitAuth.initate();
+        InitConfigs.initate();
+
         SystemTray.sysTray();
-        //Chakes for updates
-        //UpdateManager.hwidCheck();
-        //Creates Folder with client files
-        //FriendManager.getFriends();
-        //MuteManager.getListOfNamesOfMutedPlayers();
-
-        JsonParser.parse();
-        JsonPrefixPraser.parse();
-        JsonReader.getPrefix();
-        JsonReader.getWebhook();
-        JsonReader.getSpamText();
-        //Set icon
         Firework.setWindowIcon();
-        //Makes this class available for handling events
         MinecraftForge.EVENT_BUS.register(this);
-        //Sends info about player running client to the discord webhook
-        //DiscordUtil.sendInfo();
-        //Sets custom window title when client is loading
-        Display.setTitle("Loading Firework (FMLPreInitializationEvent)");
-        //Loads Managers
+        Display.setTitle("Loading Firework");
         loadManagers();
-
-        //
         logger = event.getModLog();
 
     }
@@ -135,7 +118,7 @@ public class Firework
         //Link to client
         minecraft = Minecraft.getMinecraft();
         //Sets custom window title when client is loading
-        Display.setTitle("Loading Firework (FMLInitializationEvent)");
+        Display.setTitle("Loading Firework");
         //Plays firework sound when loading client
         SoundUtill.playSound(new ResourceLocation("firework/audio/loaded.wav"));
         //Sets custom title when client is loaded Example: Firework | Player123
