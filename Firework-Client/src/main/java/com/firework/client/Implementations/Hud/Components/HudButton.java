@@ -1,6 +1,8 @@
 package com.firework.client.Implementations.Hud.Components;
 
+import com.firework.client.Implementations.Hud.HudGui;
 import com.firework.client.Implementations.Hud.Huds.HudComponent;
+import com.firework.client.Implementations.Utill.Render.ColorUtils;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.util.math.Vec2f;
@@ -22,8 +24,9 @@ public class HudButton extends Button{
     @Override
     public void draw() {
         super.draw();
-        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorA);
+        RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), fillColorA);
         customFontManager.drawString(hudComponent.name, x  + (width - customFontManager.getWidth(hudComponent.name))/2, y, Color.white.getRGB());
+        RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + HudGui.buttonHeight, width, hudComponent.height), 1, new Color(ColorUtils.astolfoColors(100, 100)));
         hudComponent.x = x;
         hudComponent.y = y;
     }

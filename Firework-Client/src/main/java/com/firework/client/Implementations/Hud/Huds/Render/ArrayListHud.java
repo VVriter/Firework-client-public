@@ -66,6 +66,7 @@ public class ArrayListHud extends HudComponent {
         }
 
         this.height = maxY + textManager.getFontHeight() - this.y;
+        System.out.println(height);
     }
     public class StringComparator implements Comparator<String>
     {

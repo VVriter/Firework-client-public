@@ -170,7 +170,7 @@ public class RenderUtils2D {
         //Up side
         drawRectangle(new Rectangle(x, y, w, width), color);
         //Down side
-        drawRectangle(new Rectangle(x, (int) (h-width), w, width), color);
+        drawRectangle(new Rectangle(x, y + (int) (h-width), w, width), color);
         //Left side
         drawRectangle(new Rectangle(x, (int) (y+width), width, h-width), color);
         //Right side

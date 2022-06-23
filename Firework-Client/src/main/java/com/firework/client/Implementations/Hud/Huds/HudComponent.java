@@ -44,10 +44,6 @@ public class HudComponent {
     public void draw(){
         if(addModule)
             enabled = module.isEnabled.getValue();
-
-        if(enabled){
-            RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + HudGui.buttonHeight, width, height), 1, new Color(ColorUtils.astolfoColors(100, 100)));
-        }
     }
 
     public void setEnabled(boolean value){
