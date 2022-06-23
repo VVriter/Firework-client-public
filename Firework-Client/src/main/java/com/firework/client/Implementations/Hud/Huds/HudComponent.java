@@ -23,6 +23,7 @@ public class HudComponent {
     public int height;
 
     public boolean enabled;
+    public boolean opened = true;
 
     public HudComponent(){
         if (getClass().isAnnotationPresent(HudManifest.class)) {

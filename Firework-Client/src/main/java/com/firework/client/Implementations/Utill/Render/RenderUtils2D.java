@@ -469,6 +469,10 @@ public class RenderUtils2D {
         drawFilledCircle(circleMarkPoint, white, radius);
     }
 
+    public static void drawCheckBoxV1(Rectangle rectangle, boolean enabled){
+
+    }
+
     public static double distance(Point one, Point two){
         double ac = abs(two.getY() - one.getY());
         double cb = abs(two.getX() - one.getX());

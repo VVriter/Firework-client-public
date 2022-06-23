@@ -81,6 +81,11 @@ public class HudGui extends GuiScreen {
         }
     }
 
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
+    }
+
     public boolean isHoveringOnTheButton(Button button, Vec2f mousePoint) {
         return mousePoint.x > button.x && mousePoint.x < button.x + button.width && mousePoint.y > button.y && mousePoint.y < button.y + button.height;
     }

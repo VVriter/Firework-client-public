@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Hud.Huds.Render;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Implementations.Hud.HudGui;
 import com.firework.client.Implementations.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.Hud.Huds.HudManifest;
 import com.firework.client.Implementations.Settings.Setting;
@@ -33,7 +34,7 @@ public class ArrayListHud extends HudComponent {
     public void draw() {
         super.draw();
 
-        if(!module.isEnabled.getValue()) return;
+        if((!module.isEnabled.getValue() && !(mc.currentScreen instanceof HudGui)) || !opened) return;
 
         if(mc.player == null && mc.world == null) return;
 
