@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.init.SoundEvents;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 import static com.firework.client.Firework.textManager;
 import static com.firework.client.Implementations.GuiNEO.GuiInfo.fillColorB;
@@ -31,7 +30,7 @@ public class BoolButton extends Button {
 
         RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorB);
 
-        RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
+        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);
 
         activeColor = (boolean) setting.getValue() ? ColorUtils.astolfoColors(100, 100) : Color.white.getRGB();

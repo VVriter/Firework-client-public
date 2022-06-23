@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Hud.Huds.Render.PlayerPlayTimeHud;
+package com.firework.client.Implementations.Managers.PlayTime;
 
 import java.util.Date;
 public class PlayTimeManager {
@@ -8,7 +8,6 @@ public class PlayTimeManager {
     public static void getCurrendtTime(){
         date1 = new Date();
     }
-
 
     public static String getTimeNow(){
         date2 = new Date();

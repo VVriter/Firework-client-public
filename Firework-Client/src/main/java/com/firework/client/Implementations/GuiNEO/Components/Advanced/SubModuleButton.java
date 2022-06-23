@@ -39,7 +39,7 @@ public class SubModuleButton extends Button {
 
         RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), first, second);
 
-        RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
+        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);
 
         textManager.drawString(name, x+3, y+1,

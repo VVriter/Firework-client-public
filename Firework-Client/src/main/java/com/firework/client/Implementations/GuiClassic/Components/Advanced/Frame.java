@@ -15,8 +15,8 @@ public class Frame extends Button {
     @Override
     public void draw() {
 
-        RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width, height), 6, outlineFrameColorA);
-        RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width, height), 2, outlineFrameColorB);
+        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width, height), 6, outlineFrameColorA);
+        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width, height), 2, outlineFrameColorB);
         super.draw();
     }
 }

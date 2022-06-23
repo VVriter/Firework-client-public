@@ -1,12 +1,8 @@
 package com.firework.client.Features.Modules.Client;
 
-import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Implementations.Hud.Huds.Render.CoordsHud.CoordsManager;
-import com.firework.client.Implementations.Hud.Huds.Render.FpsHud.FpsManager;
-import com.firework.client.Implementations.Hud.Huds.Render.MemoryHud.MemoryManager;
-import com.firework.client.Implementations.Hud.Huds.Render.PlayerPlayTimeHud.PlayTimeManager;
+import com.firework.client.Implementations.Managers.Coords.CoordsManager;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;

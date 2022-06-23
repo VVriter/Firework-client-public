@@ -33,7 +33,7 @@ public class KeyButton extends Button {
 
         RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColor);
 
-        RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
+        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);
 
         textManager.drawString(setting.name, x + 3, y + 1,

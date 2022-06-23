@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Hud.Huds.Render.FpsHud;
+package com.firework.client.Implementations.Managers.Fps;
 
 import net.minecraft.client.Minecraft;
 public class FpsManager {

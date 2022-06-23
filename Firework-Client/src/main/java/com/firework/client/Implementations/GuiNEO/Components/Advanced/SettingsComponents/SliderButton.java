@@ -36,7 +36,7 @@ public class SliderButton extends Button {
 
         RenderUtils2D.drawRectangle(new Rectangle(x + 2, y + height - 1, (width - 4) * (Double.valueOf(setting.getValue().toString()) - setting.min) / difference, 2), new Color(ColorUtils.astolfoColors(100, 100)));
 
-        RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
+        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);
 
         textManager.drawString(setting.name, x+3, y+1,

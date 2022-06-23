@@ -110,7 +110,7 @@ public class RenderUtils2D {
         GlStateManager.disableBlend();
     }
 
-    public static void drawRectangleOutline(Rectangle rectangle, float width, Color color) {
+    public static void drawRectangleOutlineLinesMode(Rectangle rectangle, float width, Color color) {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -128,6 +128,22 @@ public class RenderUtils2D {
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+    }
+
+    public static void drawRectangleOutline(Rectangle rectangle, float width, Color color) {
+        int x = rectangle.x;
+        int y = rectangle.y;
+        double w = rectangle.width;
+        double h = rectangle.height;
+
+        //Up side
+        drawRectangle(new Rectangle(x, y, w, width), color);
+        //Down side
+        drawRectangle(new Rectangle(x, (int) (h-width), w, width), color);
+        //Left side
+        drawRectangle(new Rectangle(x, (int) (y-width), width, h-2*width), color);
+        //Right side
+        drawRectangle(new Rectangle((int) (x + w - width), (int) (y-width), width, h-2*width), color);
     }
 
     public static void drawGradientTriangle(ArrayList<Point> points, ArrayList<Color> colors)

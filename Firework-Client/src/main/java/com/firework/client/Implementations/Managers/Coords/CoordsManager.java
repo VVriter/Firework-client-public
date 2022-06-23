@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Hud.Huds.Render.CoordsHud;
+package com.firework.client.Implementations.Managers.Coords;
 
 import net.minecraft.client.Minecraft;
 

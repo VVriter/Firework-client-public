@@ -36,11 +36,11 @@ public class ModuleButton extends Button {
 
         if(module.isEnabled.getValue()) {
             RenderUtils2D.drawRectangle(new Rectangle(x + width - 3, y, 3, height + 1), new Color(ColorUtils.astolfoColors(100, 100)));
-            RenderUtils2D.drawRectangleOutline(new Rectangle(x + width - 3, y, 3,
+            RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x + width - 3, y, 3,
                     height), 2, outlineColorB);
         }
 
-        RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
+        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);
 
         textManager.drawString(name, x+3, y+1,

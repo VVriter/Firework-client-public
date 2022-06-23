@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Hud.Huds.Render.Speed;
+package com.firework.client.Implementations.Managers.Speed;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
