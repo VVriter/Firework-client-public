@@ -94,6 +94,7 @@ public class BoatFlyRewrote extends Module {
         }
     }
 
+
     @SubscribeEvent
     public void onSendPacket(PacketEvent.Send event) {
 
