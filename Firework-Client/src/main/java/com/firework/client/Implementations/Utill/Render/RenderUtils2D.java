@@ -481,8 +481,8 @@ public class RenderUtils2D {
 
         drawRectangleOutline(rectangle, 0.5f, white);
         drawRectangleOutline(new Rectangle(x ,y, width/2, height), 0.5f, white);
-        customFontManager.drawString("OFF", (float) (x + (width/2 - customFontManager.getWidth("OFF"))/2), (float) ((float)y + (height - customFontManager.getHeight("OFF"))/2 + 2), !enabled ? white.getRGB() : gray.getRGB());
-        customFontManager.drawString("ON", (float) (x + width/2 + (width/2 - customFontManager.getWidth("ON"))/2), (float) ((float)y + (height - customFontManager.getHeight("ON"))/2 + 2), enabled ? white.getRGB() : gray.getRGB());
+        customFontManager.drawString("OFF", (float) (x + (width/2 - customFontManager.getWidth("OFF"))/2), (float) ((float)y + (height - customFontManager.getHeight("OFF"))/2 + 1), !enabled ? white.getRGB() : gray.getRGB());
+        customFontManager.drawString("ON", (float) (x + width/2 + (width/2 - customFontManager.getWidth("ON"))/2), (float) ((float)y + (height - customFontManager.getHeight("ON"))/2 + 1), enabled ? white.getRGB() : gray.getRGB());
     }
 
     public static double distance(Point one, Point two){

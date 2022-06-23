@@ -26,7 +26,7 @@ public class HudButton extends Button{
         super.draw();
         if(this.width < 65) this.width = 65;
         RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), fillColorA);
-        customFontManager.drawString(hudComponent.name, x  + 2, y, Color.white.getRGB());
+        customFontManager.drawString(hudComponent.name, x  + 2, y + (height - customFontManager.getHeight(hudComponent.name))/2 + 1, Color.white.getRGB());
         if(hudComponent.opened)
             RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + HudGui.buttonHeight, width, hudComponent.height), 0.5f, new Color(ColorUtils.astolfoColors(100, 100)));
         RenderUtils2D.drawCheckBoxV1(new Rectangle(x + width - 28 - 2, y + 1, 28, 10), hudComponent.enabled);
