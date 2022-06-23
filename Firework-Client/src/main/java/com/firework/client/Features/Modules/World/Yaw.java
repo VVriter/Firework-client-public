@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class Yaw extends Module {
 
     public Setting<String> dimension = new Setting<>("Dimension", "Normal", this, Arrays.asList("Normal", "Multi"));
-    public Setting<Double> intSpeed = new Setting<>("Speed", (double)5, this, 1, 100);
+    public Setting<Double> intSpeed = new Setting<>("Speed", (double)20, this, 1, 100);
 
     @Override
     public void onTick(){
