@@ -95,7 +95,6 @@ public class Firework
         InitAuth.initate();
         InitConfigs.initate();
 
-        SystemTray.sysTray();
         Firework.setWindowIcon();
         MinecraftForge.EVENT_BUS.register(this);
         Display.setTitle("Loading Firework");
