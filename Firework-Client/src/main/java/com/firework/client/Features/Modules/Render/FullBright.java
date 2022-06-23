@@ -1,13 +1,10 @@
 package com.firework.client.Features.Modules.Render;
 
-import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.Util.ApiRequester;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 
 @ModuleManifest(name = "FullBright",category = Module.Category.RENDER)
 public class FullBright extends Module {
-
     @Override
     public void onEnable(){
         new Thread(
@@ -27,9 +24,6 @@ public class FullBright extends Module {
                     }
                 }).start();
     }
-
-
-
     @Override
     public void onDisable(){
         mc.gameSettings.gammaSetting =0;

@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Client;
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Hud.Huds.Render.MemoryHud.MemoryManager;
 import com.firework.client.Implementations.Hud.Huds.Render.PlayerPlayTimeHud.PlayTimeManager;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -43,6 +44,6 @@ public class Test extends Module {
 
     @Override
     public void onTick() {
-        MessageUtil.sendClientMessage(PlayTimeManager.getTimeNow(),true);
+        MessageUtil.sendClientMessage(String.valueOf(MemoryManager.memory+"//"+MemoryManager.allocatedMemory+"// Max Memory:"+MemoryManager.maxMemory),true);
     }
 }
