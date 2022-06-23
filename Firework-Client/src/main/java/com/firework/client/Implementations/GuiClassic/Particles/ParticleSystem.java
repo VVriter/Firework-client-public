@@ -73,6 +73,7 @@ public class ParticleSystem {
     }
 
     //Update particles positions using velocity
+    //Update particles positions using velocity
     public void updatePositions(){
         scale = GuiParticles.scaleFactor.getValue();
         lineLong = GuiParticles.lineLong.getValue();
@@ -81,8 +82,8 @@ public class ParticleSystem {
         if(timer.hasPassed(speed)){
             timer.reset();
             for(Particle particle : particles) {
-                int newX = particle.location.x += particle.dir.x;
-                int newY = particle.location.y += particle.dir.y;
+                int newX = (int) round(particle.location.x += particle.dir.x);
+                int newY = (int) round(particle.location.y += particle.dir.y);
 
                 int radius = (int) round(particle.radius*scale);
 

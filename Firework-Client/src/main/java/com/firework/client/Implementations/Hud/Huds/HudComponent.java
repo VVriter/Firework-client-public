@@ -2,6 +2,12 @@ package com.firework.client.Implementations.Hud.Huds;
 
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Implementations.Hud.HudGui;
+import com.firework.client.Implementations.Utill.Render.ColorUtils;
+import com.firework.client.Implementations.Utill.Render.Rectangle;
+import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
+
+import java.awt.*;
 
 import static com.firework.client.Firework.moduleManager;
 
@@ -27,12 +33,21 @@ public class HudComponent {
                 this.module = new Module(name, Module.Category.HUD);
                 moduleManager.modules.add(this.module);
             }
+            init();
         }
+    }
+
+    public boolean init(){
+        return false;
     }
 
     public void draw(){
         if(addModule)
             enabled = module.isEnabled.getValue();
+
+        if(enabled){
+            RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + HudGui.buttonHeight, width, height), 1, new Color(ColorUtils.astolfoColors(100, 100)));
+        }
     }
 
     public void setEnabled(boolean value){

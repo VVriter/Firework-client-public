@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import static com.firework.client.Firework.*;
 import static com.firework.client.Implementations.GuiClassic.GuiInfo.*;
@@ -48,8 +49,8 @@ public class ColorButton extends Button {
             RenderUtils2D.drawRectangle(new Rectangle(x, y+11, width, height), fillColorB);
             RenderUtils2D.drawColorPickerBaseV2(new Point(x + width/2, y + 9 + height/2), (HSLColor) setting.getValue(), radius);
 
-            Point center = new Point(x + width/2, y + 11 + height/2);
-            Point p = hueToPosition(center, radius, (int) ((HSLColor) setting.getValue()).hue);
+            Point2D.Double center = new Point2D.Double(x + width/2, y + 11 + height/2);
+            Point2D.Double p = hueToPosition(center, radius, (int) ((HSLColor) setting.getValue()).hue);
 
             RenderUtils2D.drawFilledCircle(p, ((HSLColor) setting.getValue()).toRGB(), 3);
             RenderUtils2D.drawCircleOutline(p, 3, 2, Color.white);
@@ -72,10 +73,10 @@ public class ColorButton extends Button {
         }
     }
 
-    public Point hueToPosition(Point center, int r, int hue){
+    public Point2D.Double hueToPosition(Point2D.Double center, int r, int hue){
         double x = Math.sin(((hue * Math.PI) / 180)) * r;
         double y = Math.cos(((hue * Math.PI) / 180)) * r;
 
-        return new Point((int) (center.getX() + x), (int) (center.getY() + y));
+        return new Point2D.Double((int) (center.getX() + x), (int) (center.getY() + y));
     }
 }

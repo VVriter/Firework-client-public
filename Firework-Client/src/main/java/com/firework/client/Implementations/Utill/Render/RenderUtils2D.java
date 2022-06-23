@@ -31,8 +31,8 @@ public class RenderUtils2D {
         float f6 = (float) endColor.getBlue() / 255.0f;
         float f7 = (float) endColor.getAlpha() / 255.0f;
 
-        int x = rectangle.x;
-        int y = rectangle.y;
+        double x = rectangle.x;
+        double y = rectangle.y;
         double w = rectangle.width;
         double h = rectangle.height;
 
@@ -66,8 +66,8 @@ public class RenderUtils2D {
         float f6 = (float) endColor.getBlue() / 255.0f;
         float f7 = (float) endColor.getAlpha() / 255.0f;
 
-        int x = rectangle.x;
-        int y = rectangle.y;
+        double x = rectangle.x;
+        double y = rectangle.y;
         double w = rectangle.width;
         double h = rectangle.height;
 
@@ -88,14 +88,45 @@ public class RenderUtils2D {
         GlStateManager.enableTexture2D();
     }
 
+    public static void drawRectAlpha(Rectangle rectangle, Color color)
+    {
+        double zLevel=0.0;
+
+        float f = (float) color.getRed() / 255.0f;
+        float f1 = (float) color.getGreen() / 255.0f;
+        float f2 = (float) color.getBlue() / 255.0f;
+        float f3 = (float) color.getAlpha() / 255.0f;
+
+        double x = rectangle.x;
+        double y = rectangle.y;
+        double w = rectangle.width;
+        double h = rectangle.height;
+
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.shadeModel(7425);
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos((double)x, (double)y + h, (double)zLevel).color(f, f1, f2, f3).endVertex();
+        bufferbuilder.pos((double)x + w, (double)y + h, (double)zLevel).color(f, f1, f2, f3).endVertex();
+        bufferbuilder.pos((double)x + w, (double)y, (double)zLevel).color(f, f1, f2, f3).endVertex();
+        bufferbuilder.pos((double)x, (double)y, (double)zLevel).color(f, f1, f2, f3).endVertex();
+        tessellator.draw();
+        GlStateManager.shadeModel(7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+    }
+
     public static void drawRectangle(Rectangle rectangle, Color color) {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.glLineWidth(1);
 
-        int x = rectangle.x;
-        int y = rectangle.y;
+        double x = rectangle.x;
+        double y = rectangle.y;
         double w = rectangle.width;
         double h = rectangle.height;
 
@@ -115,8 +146,8 @@ public class RenderUtils2D {
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.glLineWidth(width);
-        int x = rectangle.x;
-        int y = rectangle.y;
+        double x = rectangle.x;
+        double y = rectangle.y;
         double w = rectangle.width;
         double h = rectangle.height;
 
@@ -131,8 +162,8 @@ public class RenderUtils2D {
     }
 
     public static void drawRectangleOutline(Rectangle rectangle, float width, Color color) {
-        int x = rectangle.x;
-        int y = rectangle.y;
+        double x = rectangle.x;
+        double y = rectangle.y;
         double w = rectangle.width;
         double h = rectangle.height;
 
@@ -141,9 +172,9 @@ public class RenderUtils2D {
         //Down side
         drawRectangle(new Rectangle(x, (int) (h-width), w, width), color);
         //Left side
-        drawRectangle(new Rectangle(x, (int) (y-width), width, h-2*width), color);
+        drawRectangle(new Rectangle(x, (int) (y+width), width, h-width), color);
         //Right side
-        drawRectangle(new Rectangle((int) (x + w - width), (int) (y-width), width, h-2*width), color);
+        drawRectangle(new Rectangle((int) (x + w - width), (int) (y+width), width, h-width), color);
     }
 
     public static void drawGradientTriangle(ArrayList<Point> points, ArrayList<Color> colors)
@@ -179,7 +210,7 @@ public class RenderUtils2D {
         GlStateManager.enableTexture2D();
     }
 
-    public static void drawCircleOutline(Point o, float radius, float width, Color color) {
+    public static void drawCircleOutline(Point2D.Double o, float radius, float width, Color color) {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -203,7 +234,7 @@ public class RenderUtils2D {
         GlStateManager.disableBlend();
     }
 
-    public static void drawFilledCircle(Point point, Color color, int r)
+    public static void drawFilledCircle(Point2D.Double point, Color color, int r)
     {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
@@ -290,8 +321,8 @@ public class RenderUtils2D {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.glLineWidth(1);
 
-        int x = rectangle.x;
-        int y = rectangle.y;
+        double x = rectangle.x;
+        double y = rectangle.y;
         double w = rectangle.width;
         double h = rectangle.height;
 
@@ -430,15 +461,22 @@ public class RenderUtils2D {
     public static void drawCheckMarkV3(Rectangle rectangle, boolean enabled){
         int radius = (int) round(rectangle.height/2);
         drawRoundedRectangle(rectangle, radius, enabled ? new Color(ColorUtils.astolfoColors(100, 100)) : gray);
-        Point circleMarkPoint = null;
+        Point2D.Double circleMarkPoint = null;
         if(enabled)
-            circleMarkPoint = new Point((int) round(rectangle.x + rectangle.width - radius),rectangle.y + radius);
+            circleMarkPoint = new Point2D.Double((int) round(rectangle.x + rectangle.width - radius),rectangle.y + radius);
         else
-            circleMarkPoint = new Point(rectangle.x + radius,rectangle.y + radius);
+            circleMarkPoint = new Point2D.Double(rectangle.x + radius,rectangle.y + radius);
         drawFilledCircle(circleMarkPoint, white, radius);
     }
 
     public static double distance(Point one, Point two){
+        double ac = abs(two.getY() - one.getY());
+        double cb = abs(two.getX() - one.getX());
+
+        return sqrt(ac * ac + cb * cb);
+    }
+
+    public static double distance(Point2D.Double one, Point2D.Double two){
         double ac = abs(two.getY() - one.getY());
         double cb = abs(two.getX() - one.getX());
 

@@ -4,12 +4,13 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import static com.firework.client.Implementations.Utill.Render.RenderUtils2D.*;
 
 public class RenderSystem {
 
-    public static void drawGradientLine(Point one, Point two, Color startColor, Color endColor)
+    public static void drawGradientLine(Point2D.Double one, Point2D.Double two, Color startColor, Color endColor)
     {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();

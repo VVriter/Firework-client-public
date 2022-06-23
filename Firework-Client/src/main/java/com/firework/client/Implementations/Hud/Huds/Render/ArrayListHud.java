@@ -23,6 +23,13 @@ public class ArrayListHud extends HudComponent {
     public Setting<modes> mode = new Setting<>("Mode", modes.Astolfo, module, modes.values());
 
     @Override
+    public boolean init() {
+        this.x = 0;
+        this.y = 10;
+        return true;
+    }
+
+    @Override
     public void draw() {
         super.draw();
 
@@ -58,7 +65,7 @@ public class ArrayListHud extends HudComponent {
                 maxY = y;
         }
 
-        this.height = maxY - textManager.getFontHeight() * (names.indexOf(name) + 1);
+        this.height = maxY + textManager.getFontHeight() - this.y;
     }
     public class StringComparator implements Comparator<String>
     {

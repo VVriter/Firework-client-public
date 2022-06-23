@@ -35,17 +35,22 @@ public class HudGui extends GuiScreen {
 
         int maxHeight = 0;
         for(HudComponent hudComponent : hudManager.hudComponents){
-            if(hudComponent.enabled) {
-                if (x + hudComponent.width >= 300) {
-                    y += maxHeight + 20;
-                    x = 20;
-                }
+            if(!hudComponent.init()) {
+                if (hudComponent.enabled) {
+                    if (x + hudComponent.width >= 300) {
+                        y += maxHeight + 20;
+                        x = 20;
+                    }
 
-                HudButton hudButton = new HudButton(hudComponent, x, y, hudComponent.width, buttonHeight);
-                x += hudButton.width + round(hudButton.width / 7);
+                    HudButton hudButton = new HudButton(hudComponent, x, y, hudComponent.width, buttonHeight);
+                    x += hudButton.width + round(hudButton.width / 7);
+                    initializedButtons.add(hudButton);
+                    if (maxHeight < hudComponent.height + hudButton.height)
+                        maxHeight = hudComponent.height + hudButton.height;
+                }
+            }else{
+                HudButton hudButton = new HudButton(hudComponent, hudComponent.x, hudComponent.y, hudComponent.width, buttonHeight);
                 initializedButtons.add(hudButton);
-                if (maxHeight < hudComponent.height + hudButton.height)
-                    maxHeight = hudComponent.height + hudButton.height;
             }
         }
     }
