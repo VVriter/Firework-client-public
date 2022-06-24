@@ -168,14 +168,14 @@ public class RenderUtils2D {
         double w = rectangle.width;
         double h = rectangle.height;
 
+        //Left side
+        drawRectangle(new Rectangle(x, y+width, width, h-width), color);
+        //Right side
+        drawRectangle(new Rectangle(x + w - width, y+width, width, h-width), color);
         //Up side
         drawRectangle(new Rectangle(x, y, w, width), color);
         //Down side
         drawRectangle(new Rectangle(x, y + h, w, width), color);
-        //Left side
-        drawRectangle(new Rectangle(x, y, width, h), color);
-        //Right side
-        drawRectangle(new Rectangle(x + w - width, y, width, h), color);
     }
 
     public static void drawGradientTriangle(ArrayList<Point> points, ArrayList<Color> colors)
@@ -476,13 +476,15 @@ public class RenderUtils2D {
         double width = rectangle.width;
         double height = rectangle.height;
 
-        if(enabled)
-            drawRectangle(new Rectangle(x + width/2, y, width/2, height), new Color(ColorUtils.astolfoColors(100, 100)));
+        if(enabled) {
+            drawRectangle(new Rectangle(x + width * 1/4, y, width * 3/4, height), new Color(ColorUtils.astolfoColors(100, 100)));
+            customFontManager.drawString("ON", (float) (x + width * 1/4 + (width * 3/4 - customFontManager.getWidth("ON"))/2), (float) ((float)y + (height - customFontManager.getHeight("ON"))/2 + 1), white.getRGB());
+        }else {
+            drawRectangle(new Rectangle(x, y, width * 3/4, height), white);
+            customFontManager.drawString("OFF", (float) (x + (width * 3/4 - customFontManager.getWidth("OFF"))/2), (float) ((float)y + (height - customFontManager.getHeight("OFF"))/2 + 1), ColorUtils.astolfoColors(100, 100));
+        }
 
         drawRectangleOutline(rectangle, 0.5f, white);
-        drawRectangleOutline(new Rectangle(x ,y, width/2, height), 0.5f, white);
-        customFontManager.drawString("OFF", (float) (x + (width/2 - customFontManager.getWidth("OFF"))/2), (float) ((float)y + (height - customFontManager.getHeight("OFF"))/2 + 1), !enabled ? white.getRGB() : gray.getRGB());
-        customFontManager.drawString("ON", (float) (x + width/2 + (width/2 - customFontManager.getWidth("ON"))/2), (float) ((float)y + (height - customFontManager.getHeight("ON"))/2 + 1), enabled ? white.getRGB() : gray.getRGB());
     }
 
     public static double distance(Point one, Point two){
