@@ -33,7 +33,9 @@ public class HoleEspRewrote extends Module {
 
     public Setting<Boolean> outline = new Setting<>("Outline", true, this).setVisibility(mode,modes.Box);
 
-    public Setting<Double> wight = new Setting<>("Wight", (double)10, this, 1, 20).setVisibility(mode,modes.Box);
+    public Setting<Double> wight = new Setting<>("Wight", (double)10, this, 1, 20);
+    public Setting<Boolean> square = new Setting<>("Square", true, this).setVisibility(mode,modes.Crosses);
+
     public Setting<Double> height = new Setting<>("Height", (double)0.5, this, 0, 20).setVisibility(mode,modes.Box);
 
     public Setting<Boolean> box = new Setting<>("Box", true, this).setVisibility(mode,modes.Box);
@@ -60,6 +62,33 @@ public class HoleEspRewrote extends Module {
                                 this.box.getValue(),
                                 this.isSafe(pos) ? 200 : 199,
                                 height.getValue().floatValue());
+            }else if(mode.getValue(modes.Crosses)){
+                RenderUtils.renderCrosses(pos, this.isSafe(pos) ?
+                                new Color(this.bedrockColor.getValue().toRGB().getRed(),
+                                this.bedrockColor.getValue().toRGB().getGreen(),
+                                this.bedrockColor.getValue().toRGB().getBlue())
+
+                                : new Color(this.obsidianColor.getValue().toRGB().getRed(),
+                                 this.obsidianColor.getValue().toRGB().getGreen(),
+                                this.obsidianColor.getValue().toRGB().getBlue()),
+
+                                wight.getValue().floatValue());
+            }
+            if(square.getValue() && mode.getValue(modes.Crosses)){
+                RenderUtils.drawBoxESP(pos, this.isSafe(pos) ?
+                                new Color(this.bedrockColor.getValue().toRGB().getRed(),
+                                        this.bedrockColor.getValue().toRGB().getGreen(),
+                                        this.bedrockColor.getValue().toRGB().getBlue())
+
+                                : new Color(this.obsidianColor.getValue().toRGB().getRed(),
+                                this.obsidianColor.getValue().toRGB().getGreen(),
+                                this.obsidianColor.getValue().toRGB().getBlue()),
+
+                                wight.getValue().floatValue(),
+                         true,
+                           false,
+                                this.isSafe(pos) ? 200 : 199,
+                         0.01f);
             }
         }
     }
