@@ -25,7 +25,7 @@ public class HoleEspRewrote extends Module {
 
     public Setting<Enum> mode = new Setting<>("Mode", modes.Box, this, modes.values());
     public enum modes{
-        Crosses, Box
+        Crosses, Box, Sphere
     }
 
     public Setting<HSLColor> bedrockColor = new Setting<>("BedRock", new HSLColor(1, 54, 43), this);
@@ -73,6 +73,8 @@ public class HoleEspRewrote extends Module {
                                 this.obsidianColor.getValue().toRGB().getBlue()),
 
                                 wight.getValue().floatValue());
+            }else if(mode.getValue(modes.Sphere)){
+
             }
             if(square.getValue() && mode.getValue(modes.Crosses)){
                 RenderUtils.drawBoxESP(pos, this.isSafe(pos) ?

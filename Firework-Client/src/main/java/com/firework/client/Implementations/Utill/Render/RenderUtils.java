@@ -16,6 +16,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import org.lwjgl.opengl.GL11;
 
 import org.lwjgl.opengl.*;
@@ -30,6 +31,7 @@ import net.minecraft.entity.*;
 import net.minecraft.util.math.*;
 import java.util.*;
 import net.minecraft.client.renderer.culling.*;
+import org.lwjgl.util.glu.Sphere;
 
 import java.awt.*;
 import java.util.Objects;
@@ -510,29 +512,6 @@ public class RenderUtils {
         }
     }
 
-    public static void renderCrosses(final BlockPos pos, final Color color, final float lineWidth) {
-        final AxisAlignedBB bb = new AxisAlignedBB(pos.getX() - RenderUtils.mc.getRenderManager().viewerPosX, pos.getY() - RenderUtils.mc.getRenderManager().viewerPosY, pos.getZ() - RenderUtils.mc.getRenderManager().viewerPosZ, pos.getX() + 1 - RenderUtils.mc.getRenderManager().viewerPosX, pos.getY() + 1 - RenderUtils.mc.getRenderManager().viewerPosY, pos.getZ() + 1 - RenderUtils.mc.getRenderManager().viewerPosZ);
-        RenderUtils.camera.setPosition(Objects.requireNonNull(RenderUtils.mc.getRenderViewEntity()).posX, RenderUtils.mc.getRenderViewEntity().posY, RenderUtils.mc.getRenderViewEntity().posZ);
-        if (RenderUtils.camera.isBoundingBoxInFrustum(new AxisAlignedBB(pos))) {
-            GlStateManager.pushMatrix();
-            GlStateManager.enableBlend();
-            GlStateManager.disableDepth();
-            GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
-            GlStateManager.disableTexture2D();
-            GlStateManager.depthMask(false);
-            GL11.glEnable(2848);
-            GL11.glHint(3154, 4354);
-            GL11.glLineWidth(lineWidth);
-            renderCrosses(bb, color);
-            GL11.glDisable(2848);
-            GlStateManager.depthMask(true);
-            GlStateManager.enableDepth();
-            GlStateManager.enableTexture2D();
-            GlStateManager.disableBlend();
-            GlStateManager.popMatrix();
-        }
-    }
-
     public static void drawHLine(float x, float y, final float x1, final int y1) {
         if (y < x) {
             final float var5 = x;
@@ -582,6 +561,44 @@ public class RenderUtils {
         RenderUtils.tessellator.draw();
     }
 
+    public static void renderCrosses(final BlockPos pos, final Color color, final float lineWidth) {
+        final AxisAlignedBB bb = new AxisAlignedBB(pos.getX() - RenderUtils.mc.getRenderManager().viewerPosX, pos.getY() - RenderUtils.mc.getRenderManager().viewerPosY, pos.getZ() - RenderUtils.mc.getRenderManager().viewerPosZ, pos.getX() + 1 - RenderUtils.mc.getRenderManager().viewerPosX, pos.getY() + 1 - RenderUtils.mc.getRenderManager().viewerPosY, pos.getZ() + 1 - RenderUtils.mc.getRenderManager().viewerPosZ);
+        RenderUtils.camera.setPosition(Objects.requireNonNull(RenderUtils.mc.getRenderViewEntity()).posX, RenderUtils.mc.getRenderViewEntity().posY, RenderUtils.mc.getRenderViewEntity().posZ);
+        if (RenderUtils.camera.isBoundingBoxInFrustum(new AxisAlignedBB(pos))) {
+            GlStateManager.pushMatrix();
+            GlStateManager.enableBlend();
+            GlStateManager.disableDepth();
+            GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
+            GlStateManager.disableTexture2D();
+            GlStateManager.depthMask(false);
+            GL11.glEnable(2848);
+            GL11.glHint(3154, 4354);
+            GL11.glLineWidth(lineWidth);
+            renderCrosses(bb, color);
+            GL11.glDisable(2848);
+            GlStateManager.depthMask(true);
+            GlStateManager.enableDepth();
+            GlStateManager.enableTexture2D();
+            GlStateManager.disableBlend();
+            GlStateManager.popMatrix();
+        }
+    }
+
+    static Set<Vec3d> buildPoints(Vec3d center, double radius) {
+        Set<Vec3d> points = new HashSet<>(1200);
+
+        double tau = 6.283185307179586D;
+        double pi = tau / 2D;
+        double segment = tau / 48D;
+
+        for (double t = 0.0D; t < tau; t += segment)
+            for (double theta = 0.0D; theta < pi; theta += segment) {
+                double dx = radius * Math.sin(t) * Math.cos(theta);
+                double dz = radius * Math.sin(t) * Math.sin(theta);
+                double dy = radius * Math.cos(t);
+            }
+        return points;
+    }
     static {
         camera = (ICamera)new Frustum();
         tessellator = Tessellator.getInstance();
