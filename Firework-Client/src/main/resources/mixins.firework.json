@@ -10,6 +10,7 @@
     "MixinRenderer",
     "ICPacketCustomPayload",
     "IItemTool",
+	"IKeyBinding",
     "ViewModelMixin",
     "ISPacketPlayerPosLook",
     "MixinEntityLivingBase",
