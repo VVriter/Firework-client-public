@@ -1,9 +1,11 @@
 package com.firework.client.Features.Modules.Render;
 
+import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
+import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -17,9 +19,24 @@ import java.util.List;
 @ModuleManifest(name = "VoidESP",category = Module.Category.RENDER)
 public class VoidESP extends Module {
 
+    static boolean down;
+
 
     public Setting<Double> range = new Setting<>("Range", (double)10, this, 1, 20);
-    public Setting<Boolean> down = new Setting<>("tS", false, this);
+
+
+    public Setting<Enum> mode = new Setting<>("RenderMode", modes.Crosses, this, modes.values());
+    public enum modes{
+        Crosses, Box
+    }
+
+    public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 54, 43), this);
+    public Setting<Double> wight = new Setting<>("LineWight", (double)2, this, 1, 10);
+    public Setting<updowns> updown = new Setting<>("Mode", updowns.Down, this, updowns.values()).setVisibility(mode,modes.Crosses);
+    public enum updowns{
+        Up, Down
+    }
+    public Setting<Double> hihgt = new Setting<>("Height", (double)2, this, 0, 10).setVisibility(mode,modes.Box);
 
 
     private List<BlockPos> holes = new ArrayList<BlockPos>();
@@ -28,6 +45,12 @@ public class VoidESP extends Module {
    public void onTick(){
        super.onTick();
        this.holes = this.calcHoles();
+
+       if(updown.getValue(updowns.Up)){
+           down = true;
+       }else{
+           down = false;
+       }
    }
 
     @SubscribeEvent
@@ -35,9 +58,12 @@ public class VoidESP extends Module {
         int size = this.holes.size();
         for (int i = 0; i < size; ++i) {
             BlockPos pos = this.holes.get(i);
-            RenderUtils.renderCrosses(this.down.getValue() != false ? pos.up() : pos, new Color(255, 255, 255), 2.0f);
+            if(mode.getValue(modes.Crosses)){
+            RenderUtils.renderCrosses(this.down != false ? pos.up() : pos, new Color(color.getValue().toRGB().getRed(), color.getValue().toRGB().getGreen(), color.getValue().toRGB().getBlue()), wight.getValue().floatValue());
+            }else{
+                RenderUtils.drawBoxESP(pos, new Color(color.getValue().toRGB().getRed(), color.getValue().toRGB().getGreen(), color.getValue().toRGB().getBlue(), 255), wight.getValue().floatValue(), true, true, 70, hihgt.getValue().floatValue());}
         }
-    }
+   }
 
 
 
