@@ -174,16 +174,16 @@ public class RenderUtils {
     }
 
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
     //-----------------------------------------------------------------------------------------------------------------------
     public static final Tessellator tessellator;
     private static boolean depth;
@@ -433,6 +433,8 @@ public class RenderUtils {
         final double d5 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * RenderUtils.mc.getRenderPartialTicks();
         RenderGlobal.renderFilledBox(iblockstate.getSelectedBoundingBox((World)RenderUtils.mc.world, pos).grow(0.002).offset(-d3, -d4, -d5), color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, alpha / 255.0f);
     }
+
+
 
     public static void drawBoundingBox(final AxisAlignedBB bb, final Color color, final float lineWidth) {
         GlStateManager.pushMatrix();
