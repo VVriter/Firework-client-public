@@ -31,6 +31,12 @@ public class CommandLineLogger extends Module {
         log("CommandLineLogger is enabled!");
     }
 
+    @Override
+    public void onDisable(){
+        super.onDisable();
+        log("CommandLineLogger is disabled!");
+    }
+
 
     public static void logAboutLoad(){
         System.out.println("FFFFFF  IIIIII  RRRRRRRRRRR  EEEEEEEEEE  WWWW    WWW     WWW  OOOOOOOOOOOO  RRRRRRRRRRR  KK    KK");
