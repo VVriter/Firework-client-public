@@ -24,10 +24,11 @@ public class ArrayListHud extends HudComponent {
     public Setting<modes> mode = new Setting<>("Mode", modes.Astolfo, module, modes.values());
 
     @Override
-    public boolean init() {
+    public void initialize() {
+        super.initialize();
         this.x = 3;
         this.y = 10;
-        return true;
+        initialized = true;
     }
 
     @Override

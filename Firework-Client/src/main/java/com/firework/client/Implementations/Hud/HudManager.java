@@ -33,6 +33,14 @@ public class HudManager {
         System.out.println("Hud Components initialised");
     }
 
+    public HudComponent getHudComponentByName(String name){
+        for(HudComponent hudComponent : hudComponents)
+            if(hudComponent.name == name)
+                return hudComponent;
+
+        return null;
+    }
+
     @SubscribeEvent
     public void onRender(TickEvent.RenderTickEvent event) {
         for (HudComponent component : hudComponents)
