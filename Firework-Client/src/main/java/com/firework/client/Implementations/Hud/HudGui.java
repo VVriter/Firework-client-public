@@ -3,6 +3,7 @@ package com.firework.client.Implementations.Hud;
 import com.firework.client.Implementations.Hud.Components.Button;
 import com.firework.client.Implementations.Hud.Components.HudButton;
 import com.firework.client.Implementations.Hud.Huds.HudComponent;
+import com.firework.client.Implementations.Utill.Client.Pair;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.math.Vec2f;
@@ -23,6 +24,9 @@ public class HudGui extends GuiScreen {
 
     public static final int buttonHeight = 12;
 
+    public static Pair<Boolean, Vec2f> isDragging = new Pair<>(false, null);
+
+    public static ScaledResolution scaledResolution;
     public HudGui(){
         init();
     }
@@ -35,7 +39,7 @@ public class HudGui extends GuiScreen {
 
         int maxHeight = 0;
         for(HudComponent hudComponent : hudManager.hudComponents){
-            if(!hudComponent.init()) {
+            if(!hudComponent.initialized) {
                 if (hudComponent.enabled) {
                     if (x + hudComponent.width >= 300) {
                         y += maxHeight + 20;
@@ -59,26 +63,34 @@ public class HudGui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
+        if(isDragging.one)
+            mouseClicked(mouseX, mouseY, 1);
+
         for(Button button : initializedButtons){
             button.draw();
         }
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int state) throws IOException {
-        super.mouseClicked(mouseX, mouseY, state);
+    protected void mouseClicked(int mouseX, int mouseY, int state) {
         for(Button button : initializedButtons){
             Vec2f mouse = new Vec2f(mouseX, mouseY);
             if(isHoveringOnTheButton(button, mouse)){
+                scaledResolution = new ScaledResolution(mc);
                 boolean shouldInit = false;
                 if (button instanceof HudButton) {
                     shouldInit = button.initialize(mouse, state);
                 }
-
                 if(shouldInit)
                     init();
             }
         }
+    }
+
+    @Override
+    protected void mouseReleased(int mouseX, int mouseY, int state) {
+        super.mouseReleased(mouseX, mouseY, state);
+        isDragging.one = false;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.firework.client.Implementations.Hud.Components;
 
 import com.firework.client.Implementations.Hud.HudGui;
 import com.firework.client.Implementations.Hud.Huds.HudComponent;
+import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.Render.ColorUtils;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
@@ -27,11 +28,10 @@ public class HudButton extends Button{
         if(this.width < 65) this.width = 65;
         RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), fillColorA);
         customFontManager.drawString(hudComponent.name, x  + 2, y + 2 + (8 - customFontManager.getHeight(hudComponent.name))/2 + 1, Color.white.getRGB());
-        if(hudComponent.opened)
-            RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + HudGui.buttonHeight, width, hudComponent.height), 1, new Color(ColorUtils.astolfoColors(100, 100)));
+        RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + HudGui.buttonHeight, width, hudComponent.height), 1, new Color(ColorUtils.astolfoColors(100, 100)));
         RenderUtils2D.drawCheckBoxV1(new Rectangle(x + width - 30 - 2, y + 2, 30, 8), hudComponent.enabled);
-        hudComponent.x = x + 2;
-        hudComponent.y = y + 2;
+        x = hudComponent.x - 2;
+        y = hudComponent.y - 2;
     }
 
     @Override
@@ -40,7 +40,15 @@ public class HudButton extends Button{
             hudComponent.setEnabled(!hudComponent.enabled);
             return false;
         }else if(state == 1){
-            hudComponent.opened = !hudComponent.opened;
+            if(!HudGui.isDragging.one) {
+                HudGui.isDragging = new Pair<>(true, point);
+            }else {
+                float newX = hudComponent.x + point.x - HudGui.isDragging.two.x;
+                float newY = hudComponent.y + point.y - HudGui.isDragging.two.y;
+                hudComponent.x = (int) newX;
+                hudComponent.y = (int) newY;
+                HudGui.isDragging.two = point;
+            }
             return true;
         }
         return false;

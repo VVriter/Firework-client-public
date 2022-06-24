@@ -24,10 +24,11 @@ public class ArrayListHud extends HudComponent {
     public Setting<modes> mode = new Setting<>("Mode", modes.Astolfo, module, modes.values());
 
     @Override
-    public boolean init() {
+    public void initialize() {
+        super.initialize();
         this.x = 3;
         this.y = 10;
-        return true;
+        initialized = true;
     }
 
     @Override
@@ -62,8 +63,8 @@ public class ArrayListHud extends HudComponent {
                 textManager.drawString(name, x, y + this.y, RainbowUtil.generateRainbowFadingColor(round(y) * 2, true), false);
             }
 
-            if(y > maxY)
-                maxY = y;
+            if((y+this.y) > maxY)
+                maxY = y+this.y;
         }
 
         this.height = maxY + textManager.getFontHeight() - this.y;

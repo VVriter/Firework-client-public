@@ -9,6 +9,7 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTippedArrow;
 import net.minecraft.item.ItemTool;
 
 import static com.firework.client.Implementations.Utill.Util.mc;
@@ -19,13 +20,6 @@ public class WeaponUtil {
         Pair<Integer, Float> theMostPowered = null;
         for(int i = 0; i <= 35; i++){
             ItemStack stack = InventoryUtil.getItemStack(i);
-            if(stack.getItem() instanceof ItemSword){
-                if(theMostPowered == null) {
-                    theMostPowered = new Pair(i, ((ItemSword) InventoryUtil.getItemStack(i).getItem()).getAttackDamage());
-                }else if((float)theMostPowered.two < ((ItemSword) InventoryUtil.getItemStack(i).getItem()).getAttackDamage()){
-                    theMostPowered = new Pair(i, ((ItemSword) InventoryUtil.getItemStack(i).getItem()).getAttackDamage());
-                }
-            }
             if (stack.getItem() instanceof ItemSword) {
                 float damage = ((ItemSword) stack.getItem()).getAttackDamage() + EnchantmentHelper.getModifierForCreature(stack, target instanceof EntityLivingBase ? ((EntityLivingBase) target).getCreatureAttribute() : EnumCreatureAttribute.UNDEFINED);
                 if(theMostPowered == null) {
@@ -44,7 +38,6 @@ public class WeaponUtil {
         }
         return (int) theMostPowered.one;
     }
-
     public int findBestWeapon(Entity target) {
         int bestSlot = -1;
         float bestDamage = 0;

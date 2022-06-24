@@ -23,8 +23,7 @@ public class HudComponent {
     public int height;
 
     public boolean enabled;
-    public boolean opened = true;
-
+    public boolean initialized = false;
     public HudComponent(){
         if (getClass().isAnnotationPresent(HudManifest.class)) {
             HudManifest args = getClass().getAnnotation(HudManifest.class);
@@ -34,13 +33,11 @@ public class HudComponent {
                 this.module = new Module(name, Module.Category.HUD);
                 moduleManager.modules.add(this.module);
             }
-            init();
+            initialize();
         }
     }
 
-    public boolean init(){
-        return false;
-    }
+    public void initialize(){}
 
     public void draw(){
         if(addModule)
