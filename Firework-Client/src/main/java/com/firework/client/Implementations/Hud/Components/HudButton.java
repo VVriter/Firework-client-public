@@ -43,8 +43,10 @@ public class HudButton extends Button{
             if(!HudGui.isDragging.one) {
                 HudGui.isDragging = new Pair<>(true, point);
             }else {
-                hudComponent.x += point.x - HudGui.isDragging.two.x;
-                hudComponent.y += point.y - HudGui.isDragging.two.y;
+                float newX = hudComponent.x + point.x - HudGui.isDragging.two.x;
+                float newY = hudComponent.y + point.y - HudGui.isDragging.two.y;
+                hudComponent.x = (int) newX;
+                hudComponent.y = (int) newY;
                 HudGui.isDragging.two = point;
             }
             return true;

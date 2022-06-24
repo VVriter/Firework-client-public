@@ -63,8 +63,8 @@ public class ArrayListHud extends HudComponent {
                 textManager.drawString(name, x, y + this.y, RainbowUtil.generateRainbowFadingColor(round(y) * 2, true), false);
             }
 
-            if(y > maxY)
-                maxY = y;
+            if((y+this.y) > maxY)
+                maxY = y+this.y;
         }
 
         this.height = maxY + textManager.getFontHeight() - this.y;

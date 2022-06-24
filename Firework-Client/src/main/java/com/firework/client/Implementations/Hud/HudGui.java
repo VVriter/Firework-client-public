@@ -26,6 +26,7 @@ public class HudGui extends GuiScreen {
 
     public static Pair<Boolean, Vec2f> isDragging = new Pair<>(false, null);
 
+    public static ScaledResolution scaledResolution;
     public HudGui(){
         init();
     }
@@ -68,7 +69,6 @@ public class HudGui extends GuiScreen {
         for(Button button : initializedButtons){
             button.draw();
         }
-
     }
 
     @Override
@@ -76,11 +76,11 @@ public class HudGui extends GuiScreen {
         for(Button button : initializedButtons){
             Vec2f mouse = new Vec2f(mouseX, mouseY);
             if(isHoveringOnTheButton(button, mouse)){
+                scaledResolution = new ScaledResolution(mc);
                 boolean shouldInit = false;
                 if (button instanceof HudButton) {
                     shouldInit = button.initialize(mouse, state);
                 }
-                System.out.println(shouldInit);
                 if(shouldInit)
                     init();
             }
