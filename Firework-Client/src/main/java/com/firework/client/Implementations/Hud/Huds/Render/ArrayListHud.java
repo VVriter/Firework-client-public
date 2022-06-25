@@ -58,9 +58,9 @@ public class ArrayListHud extends HudComponent {
         for(String name : names){
             int y = textManager.getFontHeight() * (names.indexOf(name) + 1);
             if(mode.getValue(modes.Astolfo)) {
-                textManager.drawString(name, x, y + this.y, ColorUtils.astolfoColors(round(y) * 2, 100), false);
+                textManager.drawString(name, x + 2, y + this.y, ColorUtils.astolfoColors(round(y) * 2, 100), false);
             }else if(mode.getValue(modes.Classic)){
-                textManager.drawString(name, x, y + this.y, RainbowUtil.generateRainbowFadingColor(round(y) * 2, true), false);
+                textManager.drawString(name, x + 2, y + this.y, RainbowUtil.generateRainbowFadingColor(round(y) * 2, true), false);
             }
 
             if((y+this.y) > maxY)

@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Managers.Text.font;
+package com.firework.client.Implementations.Managers.Text;
 
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import org.lwjgl.opengl.GL11;

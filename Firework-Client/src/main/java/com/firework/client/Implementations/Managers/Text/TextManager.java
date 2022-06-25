@@ -26,7 +26,7 @@ public class TextManager {
 
     public int getStringWidth(String text) {
         if(customFont){
-            return round(Firework.customFontManager.getWidth(text));
+            return (int) round(Firework.customFontManager.getWidth(text));
         }else {
             return mc.fontRenderer.getStringWidth(text);
         }

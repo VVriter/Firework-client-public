@@ -1,5 +1,6 @@
-package com.firework.client.Implementations.Managers.Text.font;
+package com.firework.client.Implementations.Managers.Text;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -15,19 +16,62 @@ import java.util.List;
 
 import static com.firework.client.Implementations.Utill.Util.mc;
 
-public class MinecraftFontRenderer extends CFont {
-    CFont.CharData[] boldChars = new CFont.CharData[256],
-            italicChars = new CFont.CharData[256],
-            boldItalicChars = new CFont.CharData[256];
+public class CFontRenderer extends CFont {
+    CharData[] boldChars = new CharData[256],
+            italicChars = new CharData[256],
+            boldItalicChars = new CharData[256];
     int[] colorCode = new int[32];
     String colorcodeIdentifiers = "0123456789abcdefklmnor";
     DynamicTexture texBold, texItalic, texItalicBold;
     int size;
-    public MinecraftFontRenderer(Font font, int size, boolean antiAlias, boolean fractionalMetrics) {
-        super(font, antiAlias, fractionalMetrics);
+
+    public CFontRenderer(String fontName, int size, boolean antiAlias, boolean fractionalMetrics) {
+        super(getUnicodeFont(fontName, size).getFont(), antiAlias, fractionalMetrics);
         this.setupMinecraftColorcodes();
         this.setupBoldItalicIDs();
         this.size = size;
+    }
+
+    private static UnicodeFont getUnicodeFont(String fontName, float fontSize) {
+        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
+        float prevScaleFactor = resolution.getScaleFactor();
+        UnicodeFont unicodeFont = null;
+        try {
+            prevScaleFactor = resolution.getScaleFactor();
+            unicodeFont = new UnicodeFont(
+                    getFontByName(fontName).deriveFont(fontSize * prevScaleFactor / 2));
+            unicodeFont.addAsciiGlyphs();
+            unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
+            unicodeFont.loadGlyphs();
+        } catch (FontFormatException | IOException | SlickException e) {
+            e.printStackTrace();
+        }
+        return unicodeFont;
+    }
+
+    private static Font getFontByName(String name) throws IOException, FontFormatException {
+        if (name.equalsIgnoreCase("roboto condensed")) {
+            return getFontFromInput("/assets/minecraft/firework/fonts/RobotoCondensed-Regular.ttf");
+        } else if (name.equalsIgnoreCase("roboto")) {
+            return getFontFromInput("/assets/minecraft/firework/fonts/Roboto-Regular.ttf");
+        } else if (name.equalsIgnoreCase("roboto medium")) {
+            return getFontFromInput("/assets/minecraft/firework/fonts/Roboto-Medium.ttf");
+        } else if (name.equalsIgnoreCase("montserrat")) {
+            return getFontFromInput("/assets/minecraft/firework/fonts/Montserrat-Regular.ttf");
+        } else if (name.equalsIgnoreCase("segoeui") || name.equalsIgnoreCase("segoeui light")) {
+            return getFontFromInput("/assets/minecraft/firework/fonts/SegoeUI-Light.ttf");
+        } else if (name.equalsIgnoreCase("jellee bold")) {
+            return getFontFromInput("/assets/minecraft/firework/fonts/Jellee-Bold.ttf");
+        } else if (name.equalsIgnoreCase("tcm")) {
+            return getFontFromInput("/assets/minecraft/firework/fonts/Tcm.ttf");
+        } else {
+            // Need to return the default font.
+            return getFontFromInput("assets/fonts/Roboto-Regular.ttf");
+        }
+    }
+
+    private static Font getFontFromInput(String path) throws IOException, FontFormatException {
+        return Font.createFont(Font.TRUETYPE_FONT, CFontRenderer.class.getResourceAsStream(path));
     }
 
     public int drawStringWithShadow(String text, double x2, float y2, int color) {
@@ -54,19 +98,19 @@ public class MinecraftFontRenderer extends CFont {
     }
 
     public double getPasswordWidth(String text) {
-        return this.getStringWidth(text.replaceAll(".", "."), 8);
+        return this.getWidth(text.replaceAll(".", "."), 8);
     }
 
     public float drawCenteredString(String text, float x2, float y2, int color) {
-        return this.drawString(text, x2 - (float) (this.getStringWidth(text) / 2), y2, color);
+        return this.drawString(text, x2 - (float) (this.getWidth(text) / 2), y2, color);
     }
 
     public float drawNoBSCenteredString(String text, float x2, float y2, int color) {
-        return this.drawNoBSString(text, x2 - (float) (this.getStringWidth(text) / 2), y2, color);
+        return this.drawNoBSString(text, x2 - (float) (this.getWidth(text) / 2), y2, color);
     }
 
     public float drawCenteredStringWithShadow(String text, float x2, float y2, int color) {
-        return this.drawStringWithShadow(text, x2 - (float) (this.getStringWidth(text) / 2), y2, color);
+        return this.drawStringWithShadow(text, x2 - (float) (this.getWidth(text) / 2), y2, color);
     }
 
     public float drawString(String text, double x, double y, int color, boolean shadow, float kerning) {
@@ -96,16 +140,13 @@ public class MinecraftFontRenderer extends CFont {
                 strikethrough = false,
                 underline = false,
                 render = true;
-        x *= 2;
-        y = (y - 3) * 2;
-        GL11.glPushMatrix();
-
         ScaledResolution resolution = new ScaledResolution(mc);
         float antiAliasingFactor = resolution.getScaleFactor();
+
+        GlStateManager.pushMatrix();
         GlStateManager.scale(1 / antiAliasingFactor, 1 / antiAliasingFactor, 1 / antiAliasingFactor);
         x *= antiAliasingFactor;
         y *= antiAliasingFactor;
-
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.color((float) (color >> 16 & 255) / 255f, (float) (color >> 8 & 255) / 255f, (float) (color & 255) / 255f, alpha);
@@ -445,7 +486,9 @@ public class MinecraftFontRenderer extends CFont {
         return (float) x / 2f;
     }
 
-    public double getStringWidth(String text) {
+    public double getWidth(String text) {
+        ScaledResolution resolution = new ScaledResolution(mc);
+        float antiAliasingFactor = resolution.getScaleFactor();
         if (text == null) {
             return 0;
         }
@@ -469,10 +512,12 @@ public class MinecraftFontRenderer extends CFont {
             }
         }
 
-        return width / 2;
+        return width / antiAliasingFactor;
     }
 
-    public double getStringWidth(String text, float kerning) {
+    public double getWidth(String text, float kerning) {
+        ScaledResolution resolution = new ScaledResolution(mc);
+        float antiAliasingFactor = resolution.getScaleFactor();
         if (text == null) {
             return 0;
         }
@@ -496,7 +541,7 @@ public class MinecraftFontRenderer extends CFont {
             }
         }
 
-        return width / 2;
+        return width / antiAliasingFactor;
     }
 
     public int getHeight() {
@@ -537,10 +582,10 @@ public class MinecraftFontRenderer extends CFont {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
-    public List<String> wrapWords(String text, double width) {
+    public java.util.List<String> wrapWords(String text, double width) {
         ArrayList<String> finalWords = new ArrayList<>();
 
-        if (getStringWidth(text) > width) {
+        if (getWidth(text) > width) {
             String[] words = text.split(" ");
             StringBuilder currentWord = new StringBuilder();
             char lastColorCode = 65535;
@@ -554,7 +599,7 @@ public class MinecraftFontRenderer extends CFont {
                     }
                 }
 
-                if (getStringWidth(currentWord + word + " ") < width) {
+                if (getWidth(currentWord + word + " ") < width) {
                     currentWord.append(word).append(" ");
                 } else {
                     finalWords.add(currentWord.toString());
@@ -563,7 +608,7 @@ public class MinecraftFontRenderer extends CFont {
             }
 
             if (currentWord.length() > 0) {
-                if (getStringWidth(currentWord.toString()) < width) {
+                if (getWidth(currentWord.toString()) < width) {
                     finalWords.add("\u00a7" + lastColorCode + currentWord + " ");
                     currentWord = new StringBuilder();
                 } else {
@@ -590,7 +635,7 @@ public class MinecraftFontRenderer extends CFont {
                 lastColorCode = chars[index + 1];
             }
 
-            if (getStringWidth(currentWord.toString() + c) < width) {
+            if (getWidth(currentWord.toString() + c) < width) {
                 currentWord.append(c);
             } else {
                 finalWords.add(currentWord.toString());
