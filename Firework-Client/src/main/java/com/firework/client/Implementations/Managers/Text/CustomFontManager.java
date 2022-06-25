@@ -114,10 +114,10 @@ public class CustomFontManager {
 
         char[] characters = text.toCharArray();
 
-        GlStateManager.disableLighting();
         GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(770, 771);
+        GlStateManager.color((color >> 16 & 0xFF) / 255.0F, (color >> 8 & 0xFF) / 255.0F, (color & 0xFF) / 255.0F, alpha);
+        GlStateManager.enableTexture2D();
 
         String[] parts = COLOR_CODE_PATTERN.split(text);
         int index = 0;
@@ -142,8 +142,8 @@ public class CustomFontManager {
             }
         }
 
-        GlStateManager.color(1F, 1F, 1F, 1F);
-        GlStateManager.popMatrix();
+        GL11.glHint(3155, 4352);
+        GL11.glPopMatrix();
         return (int) x;
     }
 

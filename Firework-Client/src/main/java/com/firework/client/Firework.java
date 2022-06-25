@@ -10,6 +10,7 @@ import com.firework.client.Implementations.Managers.PositionManager;
 import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CustomFontManager;
 import com.firework.client.Implementations.Managers.Text.TextManager;
+import com.firework.client.Implementations.Managers.Text.font.FontUtil;
 import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
@@ -64,6 +65,7 @@ public class Firework
     public static PositionManager positionManager;
 
     public void loadManagers(){
+        FontUtil.bootstrap();
         updaterManager = new UpdaterManager();
         MinecraftForge.EVENT_BUS.register(updaterManager);
         settingManager = new SettingManager();

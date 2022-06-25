@@ -4,6 +4,8 @@ import com.firework.client.Implementations.Hud.HudGui;
 import com.firework.client.Implementations.Hud.HudInfo;
 import com.firework.client.Implementations.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.Hud.Huds.HudManifest;
+import com.firework.client.Implementations.Managers.Text.CustomFontRenderer.CustomFontUtil;
+import com.firework.client.Implementations.Managers.Text.font.FontUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
@@ -66,8 +68,8 @@ public class TargetHud extends HudComponent {
             RenderUtils2D.drawRectangleOutline(new Rectangle(x + width - 120 - 2, y + height - 2, 120, 10), 1, Color.white);
 
             float health = round(10 * target.getHealth() / (target.getMaxHealth() + target.getAbsorptionAmount()) / 10 * 100);
-            customFontManager.drawString("Health", x + width - 120, y + height - 1, Color.white.getRGB());
-            customFontManager.drawString(String.valueOf(health), x + width - customFontManager.getWidth(String.valueOf(health)) - 2 - 2, y + height - 1, Color.white.getRGB());
+            FontUtil.normal.drawString("Health", x + width - 120, y + height - 1, Color.white.getRGB());
+            FontUtil.normal.drawString(String.valueOf(health), x + width - customFontManager.getWidth(String.valueOf(health)) - 2 - 2, y + height - 1, Color.white.getRGB());
         }
     }
 
