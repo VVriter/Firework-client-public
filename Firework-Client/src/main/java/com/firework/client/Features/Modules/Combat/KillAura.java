@@ -47,7 +47,7 @@ public class KillAura extends Module{
     public void onUpdate() {
         super.onUpdate();
         this.delay = tmpDelay.getValue();
-        target = PlayerUtil.getClosest();
+        target = PlayerUtil.getClosestTarget();
 
         if(target != null)
             if (target.getPositionVector().distanceTo(mc.player.getPositionVector()) <= distance.getValue())

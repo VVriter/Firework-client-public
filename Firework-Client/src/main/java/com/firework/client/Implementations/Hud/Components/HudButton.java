@@ -30,8 +30,8 @@ public class HudButton extends Button{
         customFontManager.drawString(hudComponent.name, x  + 2, y + 2 + (8 - customFontManager.getHeight())/2 + 1, Color.white.getRGB());
         RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + HudGui.buttonHeight, width, hudComponent.height), 1, new Color(ColorUtils.astolfoColors(100, 100)));
         RenderUtils2D.drawCheckBoxV1(new Rectangle(x + width - 30 - 2, y + 2, 30, 8), hudComponent.enabled);
-        x = hudComponent.x - 2;
-        y = hudComponent.y - HudGui.buttonHeight;
+        hudComponent.x = x;
+        hudComponent.y = y + HudGui.buttonHeight;
     }
 
     @Override
@@ -43,10 +43,10 @@ public class HudButton extends Button{
             if(!HudGui.isDragging.one) {
                 HudGui.isDragging = new Pair<>(true, point);
             }else {
-                float newX = hudComponent.x + point.x - HudGui.isDragging.two.x;
-                float newY = hudComponent.y + point.y - HudGui.isDragging.two.y;
+                float newX = x + point.x - HudGui.isDragging.two.x;
+                float newY = y + point.y - HudGui.isDragging.two.y;
                 hudComponent.x = (int) newX;
-                hudComponent.y = (int) newY;
+                hudComponent.y = (int) newY + HudGui.buttonHeight;
                 HudGui.isDragging.two = point;
             }
             return true;

@@ -53,7 +53,7 @@ public class HudGui extends GuiScreen {
                         maxHeight = hudComponent.height + hudButton.height;
                 }
             }else{
-                HudButton hudButton = new HudButton(hudComponent, hudComponent.x, hudComponent.y, hudComponent.width, buttonHeight);
+                HudButton hudButton = new HudButton(hudComponent, hudComponent.x, hudComponent.y - HudGui.buttonHeight, hudComponent.width, buttonHeight);
                 initializedButtons.add(hudButton);
             }
         }
