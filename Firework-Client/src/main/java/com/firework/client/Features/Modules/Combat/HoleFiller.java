@@ -8,11 +8,15 @@ import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
+import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockObsidian;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemEndCrystal;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -35,32 +39,48 @@ public class HoleFiller extends Module {
         Normal, Smart
     }
     public Setting<Double> distance = new Setting<>("Distance", (double)5, this, 1, 10);
-    public Setting<Double> delay = new Setting<>("Delay", (double)1, this, 1, 10);
+    public Setting<Double> tickDelay = new Setting<>("Delay", (double)1, this, 1, 100);
 
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
-    public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(rotate,true);
-    public Setting<Boolean> raytrace = new Setting<>("Raytrace", true, this).setVisibility(rotate,true);
-
+    public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(rotate,true).setVisibility(rotate,true);
     public Setting<Boolean> shuldDisableOnJump = new Setting<>("DisableOnJump", true, this);
+    public Setting<Boolean> shuldDisableOnOk = new Setting<>("DisableOnFill", true, this);
     public Setting<HSLColor> renderColor = new Setting<>("RenderColor", new HSLColor(1, 54, 43), this);
 
 
+    Timer timer;
+
+    @Override
+    public void onEnable(){
+        super.onEnable();
+        timer = new Timer();
+        timer.reset();
+    }
 
     @Override
     public void onTick(){
         super.onTick();
 
+
+
+        //OnTick calcs holes
         this.holes = this.calcHoles();
 
-
+        //AutoDisable
+        if(shuldDisableOnOk.getValue() && this.holes.isEmpty()){
+            onDisable();
+        }
 
         if(mode.getValue(modes.Normal)){
-            makeHoleFill(delay.getValue(), rotate.getValue(), raytrace.getValue());
+            if(timer.passedS(tickDelay.getValue())) {
+                makeHoleFill();
+                timer.reset();
+            }
         }else if(mode.getValue(modes.Smart)){
             for (Entity e : mc.world.loadedEntityList) {
                 if (e instanceof EntityPlayer && e != mc.player) {
                     if (mc.player.getDistance(e) <= distance.getValue() && mc.player.getDistance(e) <= distance.getValue() ) {
-                        makeHoleFill(delay.getValue(), rotate.getValue(), raytrace.getValue());
+                        makeHoleFill();
                     }
                 }
             }
@@ -71,6 +91,8 @@ public class HoleFiller extends Module {
 
 
 
+
+ //OnJump disable
     @SubscribeEvent
     public void onPlayerJump(LivingEvent.LivingJumpEvent e){
         if(e.getEntity() instanceof EntityPlayer){
@@ -79,6 +101,7 @@ public class HoleFiller extends Module {
     }
 
 
+    //Hole calculator
     private List<BlockPos> holes = new ArrayList<BlockPos>();
     private final BlockPos[] surroundOffset = BlockUtil.toBlockPos(BlockUtil.holeOffsets);
 
@@ -111,7 +134,9 @@ public class HoleFiller extends Module {
         return isSafe;
     }
 
-    public void makeHoleFill( double Delay,boolean Rotate, boolean raytrase) {
+
+    //HoleFill code
+    public void makeHoleFill() {
         //HoleFillCode
         MessageUtil.sendClientMessage("Im Holefiling now", -1117);
         int size = this.holes.size();
@@ -121,6 +146,13 @@ public class HoleFiller extends Module {
         }
     }
 
+    //Switch code
+    public void makeNormalSwitch(){
+
+    }
+
+
+    //Render
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent e) {
         int size = this.holes.size();
