@@ -3,14 +3,25 @@ package com.firework.client.Implementations.Utill.Client;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.List;
 import java.util.Random;
 
 public class MathUtil {
     private static Minecraft mc = Minecraft.getMinecraft();
+    private static FloatBuffer screenCoords = BufferUtils.createFloatBuffer(3);
+    private static IntBuffer viewport = BufferUtils.createIntBuffer(16);
+    private static FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
+    private static FloatBuffer projection = BufferUtils.createFloatBuffer(16);
+
 
     public static int randomValue(int min, int max){
         Random r = new Random();
@@ -79,6 +90,17 @@ public class MathUtil {
         double posX = (double) forward * speed * cos + (double) side * speed * sin;
         double posZ = (double) forward * speed * sin - (double) side * speed * cos;
         return new double[]{posX, posZ};
+    }
+
+    public static Vec3d to2D(final double x, final double y, final double z) {
+        GL11.glGetFloat(2982, modelView);
+        GL11.glGetFloat(2983, projection);
+        GL11.glGetInteger(2978, viewport);
+        final boolean result = GLU.gluProject((float)x, (float)y, (float)z, modelView, projection, viewport, screenCoords);
+        if (result) {
+            return new Vec3d((double)screenCoords.get(0), (double)(Display.getHeight() - screenCoords.get(1)), (double)screenCoords.get(2));
+        }
+        return null;
     }
 
 }
