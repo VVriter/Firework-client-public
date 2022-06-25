@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Features.Modules.World.Burrow.SelfBlock;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -45,6 +46,8 @@ public class HoleFiller extends Module {
     public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(rotate,true).setVisibility(rotate,true);
     public Setting<Boolean> shuldDisableOnJump = new Setting<>("DisableOnJump", true, this);
     public Setting<Boolean> shuldDisableOnOk = new Setting<>("DisableOnFill", true, this);
+
+    public Setting<Boolean> autoBurrow = new Setting<>("AutoBurrow", true, this);
     public Setting<HSLColor> renderColor = new Setting<>("RenderColor", new HSLColor(1, 54, 43), this);
 
 
@@ -55,6 +58,13 @@ public class HoleFiller extends Module {
         super.onEnable();
         timer = new Timer();
         timer.reset();
+        if(autoBurrow.getValue()
+                && SelfBlock.enabled.getValue() == false
+                && mc.player.onGround
+                && mc.player.isInLava()
+                && mc.player.isInWater()){
+            SelfBlock.enabled.setValue(true);
+        }
     }
 
     @Override
