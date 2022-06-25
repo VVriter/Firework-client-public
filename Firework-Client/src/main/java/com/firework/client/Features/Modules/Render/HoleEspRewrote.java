@@ -35,8 +35,9 @@ public class HoleEspRewrote extends Module {
 
     public Setting<Double> wight = new Setting<>("Wight", (double)10, this, 1, 20);
     public Setting<Boolean> square = new Setting<>("Square", true, this).setVisibility(mode,modes.Crosses);
+    public Setting<Boolean> box1 = new Setting<>("Box", true, this).setVisibility(mode,modes.Crosses);
 
-    public Setting<Double> height = new Setting<>("Height", (double)0.5, this, 0, 20).setVisibility(mode,modes.Box);
+    public Setting<Double> height = new Setting<>("Height", (double)0.5, this, -1, 20).setVisibility(mode,modes.Box);
 
     public Setting<Boolean> box = new Setting<>("Box", true, this).setVisibility(mode,modes.Box);
 
@@ -88,7 +89,7 @@ public class HoleEspRewrote extends Module {
 
                                 wight.getValue().floatValue(),
                          true,
-                           false,
+                                box1.getValue(),
                                 this.isSafe(pos) ? 200 : 199,
                          0.01f);
             }
