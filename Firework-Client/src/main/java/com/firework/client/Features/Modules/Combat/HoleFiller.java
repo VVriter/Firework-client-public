@@ -3,17 +3,27 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.Render.RenderUtils;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @ModuleManifest(name = "HoleFiller",category = Module.Category.COMBAT)
@@ -39,17 +49,24 @@ public class HoleFiller extends Module {
     @Override
     public void onTick(){
         super.onTick();
+
+        this.holes = this.calcHoles();
+
+
+
         if(mode.getValue(modes.Normal)){
-            makeHoleFill(distance.getValue(), delay.getValue(), rotate.getValue(), raytrace.getValue());
+            makeHoleFill(delay.getValue(), rotate.getValue(), raytrace.getValue());
         }else if(mode.getValue(modes.Smart)){
             for (Entity e : mc.world.loadedEntityList) {
                 if (e instanceof EntityPlayer && e != mc.player) {
                     if (mc.player.getDistance(e) <= distance.getValue() && mc.player.getDistance(e) <= distance.getValue() ) {
-                        makeHoleFill(distance.getValue(), delay.getValue(), rotate.getValue(), raytrace.getValue());
+                        makeHoleFill(delay.getValue(), rotate.getValue(), raytrace.getValue());
                     }
                 }
             }
         }
+
+
     }
 
 
@@ -62,11 +79,55 @@ public class HoleFiller extends Module {
     }
 
 
+    private List<BlockPos> holes = new ArrayList<BlockPos>();
+    private final BlockPos[] surroundOffset = BlockUtil.toBlockPos(BlockUtil.holeOffsets);
 
-
-    public void makeHoleFill(double distance, double Delay,boolean Rotate, boolean raytrase){
-        //HoleFillCode
-        MessageUtil.sendClientMessage("Im Holefiling now",-1117);
-        
+    public List<BlockPos> calcHoles() {
+        ArrayList<BlockPos> safeSpots = new ArrayList<BlockPos>();
+        List<BlockPos> positions = BlockUtil.getSphere(this.distance.getValue().floatValue(), false);
+        int size = positions.size();
+        for (int i = 0; i < size; ++i) {
+            BlockPos pos = positions.get(i);
+            if (!this.mc.world.getBlockState(pos).getBlock().equals(Blocks.AIR) || !this.mc.world.getBlockState(pos.add(0, 1, 0)).getBlock().equals(Blocks.AIR) || !this.mc.world.getBlockState(pos.add(0, 2, 0)).getBlock().equals(Blocks.AIR)) continue;
+            boolean isSafe = true;
+            for (BlockPos offset : this.surroundOffset) {
+                Block block = this.mc.world.getBlockState(pos.add((Vec3i)offset)).getBlock();
+                if (block == Blocks.BEDROCK || block == Blocks.OBSIDIAN) continue;
+                isSafe = false;
+            }
+            if (!isSafe) continue;
+            safeSpots.add(pos);
+        }
+        return safeSpots;
     }
+
+    private boolean isSafe(BlockPos pos) {
+        boolean isSafe = true;
+        for (BlockPos offset : this.surroundOffset) {
+            if (this.mc.world.getBlockState(pos.add((Vec3i)offset)).getBlock() == Blocks.BEDROCK) continue;
+            isSafe = false;
+            break;
+        }
+        return isSafe;
+    }
+
+    public void makeHoleFill( double Delay,boolean Rotate, boolean raytrase) {
+        //HoleFillCode
+        MessageUtil.sendClientMessage("Im Holefiling now", -1117);
+        int size = this.holes.size();
+        for (int i = 0; i < size; ++i) {
+            BlockPos pos = this.holes.get(i);
+            BlockUtil.placeBlock(pos,EnumHand.MAIN_HAND,rotate.getValue(),packet.getValue(),false);
+        }
+    }
+
+    @SubscribeEvent
+    public void onRender(RenderWorldLastEvent e) {
+        int size = this.holes.size();
+        for (int i = 0; i < size; ++i) {
+            BlockPos pos = this.holes.get(i);
+        RenderUtils.drawBoxESP(pos,new Color(renderColor.getValue().toRGB().getRed(),renderColor.getValue().toRGB().getGreen(),renderColor.getValue().toRGB().getBlue()),5,true,true,200,1);
+        }
+    }
+
 }
