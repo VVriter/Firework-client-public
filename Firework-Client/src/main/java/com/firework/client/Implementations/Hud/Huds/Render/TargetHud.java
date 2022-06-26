@@ -22,6 +22,7 @@ import static java.lang.Math.round;
 public class TargetHud extends HudComponent {
 
     private AnimationUtil animationUtil;
+    private boolean autoWidth = true;
     public TargetHud(){
         animationUtil = new AnimationUtil();
         animationUtil.reset();
@@ -49,6 +50,9 @@ public class TargetHud extends HudComponent {
 
         EntityPlayer target = mc.player;
         if(target == null) return;
+        if(autoWidth)
+            animationUtil.width = 120 * target.getHealth() / target.getMaxHealth();
+        autoWidth = false;
 
         //Draws hud background
         RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), HudInfo.fillColorA);
@@ -56,17 +60,8 @@ public class TargetHud extends HudComponent {
             mc.getTextureManager().bindTexture(resourceLocation("firework/textures/skull.png"));
             RenderUtils2D.drawCompleteImage(x + 5, y + 5, height - 10, height - 10);
             //customFontManager.drawString("PLAYER LOST");
-            animationUtil = new AnimationUtil();
-            animationUtil.reset();
-            animationUtil.delayS = 0.01f;
+            autoWidth = true;
         }else {
-            /*
-            EntityRenderBuilder2D entityRenderBuilder2D = new EntityRenderBuilder2D(target)
-                    .setPosition(x + 30, y + 50)
-                    .setRotationToCursor(0, 0)
-                    .setScale(25)
-                    .setHeadRotation(target.rotationYaw)
-                    .render();*/
             //Draw Target heads
             ((AbstractClientPlayer)target).getLocationSkin();
             mc.getTextureManager().bindTexture(((AbstractClientPlayer)target).getLocationSkin());
@@ -77,7 +72,7 @@ public class TargetHud extends HudComponent {
             customFontManager.drawString(playerInfo, x + width - 120 - 2 + (120 - customFontManager.getWidth(playerInfo))/2, y + 2, Color.white.getRGB());
 
             //Draws Target healthbar
-            animationUtil.setValues(120 * target.getHealth() / target.getMaxHealth(), 0.2f);
+            animationUtil.setValues(120 * target.getHealth() / target.getMaxHealth(), 0.3f);
             animationUtil.update();
             RenderUtils2D.drawRectangle(new Rectangle(x + width - 120 - 2, y + height - 12 - 2, animationUtil.width, 10), healthColor(target));
             RenderUtils2D.drawRectangleOutline(new Rectangle(x + width - 120 - 2, y + height - 12 - 2, 120, 10), 1, Color.white);
