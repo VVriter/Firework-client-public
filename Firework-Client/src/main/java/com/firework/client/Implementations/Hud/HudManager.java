@@ -3,12 +3,15 @@ package com.firework.client.Implementations.Hud;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.Utill.Client.ClassFinder;
+import net.minecraft.client.gui.GuiGameOver;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
 import java.util.Set;
+
+import static com.firework.client.Implementations.Utill.Util.mc;
 
 public class HudManager {
 
@@ -44,6 +47,8 @@ public class HudManager {
     @SubscribeEvent
     public void onRender(TickEvent.RenderTickEvent event) {
         for (HudComponent component : hudComponents)
-            component.draw();
+            if(mc.player!=null)
+                if(mc.currentScreen == null || mc.currentScreen instanceof GuiGameOver)
+                    component.draw();
     }
 }

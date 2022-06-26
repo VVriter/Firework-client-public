@@ -19,7 +19,7 @@ public class EntityRenderBuilder2D {
 
     public EntityRenderBuilder2D(EntityLivingBase entityLivingBase){
         this.entityLivingBase = entityLivingBase;
-        this.entityLivingBase.setCustomNameTag("");
+        this.entityLivingBase.setAlwaysRenderNameTag(false);
     }
 
     public EntityRenderBuilder2D setPosition(double posX, double posY){
@@ -53,10 +53,11 @@ public class EntityRenderBuilder2D {
     }
 
     public EntityRenderBuilder2D render(){
+        System.out.println(this.entityLivingBase.getAlwaysRenderNameTag());
         GlStateManager.enableColorMaterial();
         GlStateManager.pushMatrix();
         GlStateManager.translate(posX, posY, 50.0F);
-        GlStateManager.scale((float)(-scale), (float)scale, (float)scale);
+        GlStateManager.scale(-scale, scale, scale);
         GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
         float f = entityLivingBase.renderYawOffset;
         float f1 = entityLivingBase.rotationYaw;
@@ -73,8 +74,8 @@ public class EntityRenderBuilder2D {
         entityLivingBase.prevRotationYawHead = rotationYawHead;
         GlStateManager.translate(0.0F, 0.0F, 0.0F);
         RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        rendermanager.setRenderOutlines(false);
         rendermanager.setPlayerViewY(180.0F);
-        rendermanager.setRenderShadow(false);
         rendermanager.renderEntity(entityLivingBase, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
         rendermanager.setRenderShadow(true);
         entityLivingBase.renderYawOffset = f;

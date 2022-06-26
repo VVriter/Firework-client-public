@@ -4,16 +4,18 @@ import com.firework.client.Implementations.Hud.HudGui;
 import com.firework.client.Implementations.Hud.HudInfo;
 import com.firework.client.Implementations.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.Hud.Huds.HudManifest;
+import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
-import com.firework.client.Implementations.Utill.Render.EntityRenderBuilder2D;
-import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.Render.*;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
-import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
@@ -43,40 +45,63 @@ public class TargetHud extends HudComponent {
         if(mc.player == null && mc.world == null) return;
 
 
-        EntityPlayer target = PlayerUtil.getClosestTarget();
+        EntityPlayer target = mc.player;
         if(target == null) return;
 
+        //Draws hud background
         RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), HudInfo.fillColorA);
         if(target.isDead){
             mc.getTextureManager().bindTexture(resourceLocation("firework/textures/skull.png"));
-            RenderUtils2D.drawCompleteImage(x + 15, y + 15, height-20, height-20);
+            RenderUtils2D.drawCompleteImage(x + 5, y + 5, height - 10, height - 10);
             //customFontManager.drawString("PLAYER LOST");
         }else {
+            /*
             EntityRenderBuilder2D entityRenderBuilder2D = new EntityRenderBuilder2D(target)
                     .setPosition(x + 30, y + 50)
                     .setRotationToCursor(0, 0)
                     .setScale(25)
-                    .setHeadRotation(225)
-                    .render();
+                    .setHeadRotation(target.rotationYaw)
+                    .render();*/
+            //Draw Target heads
+            ((AbstractClientPlayer)target).getLocationSkin();
+            mc.getTextureManager().bindTexture(((AbstractClientPlayer)target).getLocationSkin());
+            Gui.drawScaledCustomSizeModalRect(x + 5, y + 5, 8.0F, 8, 8, 8, height - 10, height - 10, 64.0F, 64.0F);
 
-            RenderUtils2D.drawRectangle(new Rectangle(x + width - 120 - 2, y + height - 12, 120 * target.getHealth() / target.getMaxHealth(), 10), healthColor(target));
-            RenderUtils2D.drawRectangleOutline(new Rectangle(x + width - 120 - 2, y + height - 12, 120, 10), 1, Color.white);
+            //Draws Target name
+            String playerInfo = target.getDisplayNameString() + "|" + mc.getConnection().getPlayerInfo(target.getUniqueID()).getResponseTime() + "ms";
+            customFontManager.drawString(playerInfo, x + width - 120 - 2 + (120 - customFontManager.getWidth(playerInfo))/2, y + 2, Color.white.getRGB());
 
+            //Draws Target healthbar
+            RenderUtils2D.drawRectangle(new Rectangle(x + width - 120 - 2, y + height - 12 - 2, 120 * target.getHealth() / target.getMaxHealth(), 10), healthColor(target));
+            RenderUtils2D.drawRectangleOutline(new Rectangle(x + width - 120 - 2, y + height - 12 - 2, 120, 10), 1, Color.white);
+
+            //Draws health info
             float health = round(10 * target.getHealth() / (target.getMaxHealth() + target.getAbsorptionAmount()) / 10 * 100);
-            customFontManager.drawString("Health", x + width - 120, y + height - 12, Color.white.getRGB());
-            customFontManager.drawString(String.valueOf(health), x + width - customFontManager.getWidth(String.valueOf(health)) - 2 - 2, y + height - 12, Color.white.getRGB());
-            int startWidth = x + width - 120;
+            customFontManager.drawString("Health", x + width - 120, y + height - 12 - 2, Color.white.getRGB());
+            customFontManager.drawString(String.valueOf(health), x + width - customFontManager.getWidth(String.valueOf(health)) - 2 - 2, y + height - 12 - 2, Color.white.getRGB());
+
+            //Draws Target armor
+            int newX = x + width - 120;
             for (ItemStack itemStack : mc.player.inventory.armorInventory) {
-                GlStateManager.enableDepth();
-                mc.getRenderItem().zLevel = 200F;
-                mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, startWidth, y + height - 2 - 10 - 7 - 12);
-                mc.getRenderItem().renderItemOverlays(mc.fontRenderer,itemStack, startWidth, y + height - 2 - 10 - 7 + 2 - 12);
-                mc.getRenderItem().zLevel = 0F;
-                GlStateManager.enableTexture2D();
-                GlStateManager.disableLighting();
-                GlStateManager.disableDepth();
-                startWidth += 15;
+                mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, newX, y + height - 2 - 10 - 7 - 12 - 2);
+                mc.getRenderItem().renderItemOverlays(mc.fontRenderer,itemStack, newX, y + height - 2 - 10 - 7 - 12);
+                newX += 18;
             }
+
+            //Draws MainHand item
+            newX = x + width - 18 - 3;
+            ItemStack heldItemMain = target.getHeldItemMainhand();
+            mc.getRenderItem().renderItemAndEffectIntoGUI(heldItemMain, newX, y + height - 2 - 10 - 7 - 12 - 2);
+
+            //Draws OffHand item
+            newX = x + width - 36 - 3;
+            ItemStack heldItemOffHand = target.getHeldItemOffhand();
+            mc.getRenderItem().renderItemAndEffectIntoGUI(heldItemOffHand, newX, y + height - 2 - 10 - 7 - 12 - 2);
+            //Outlines armor block
+            RenderUtils2D.drawRectangleOutline(new Rectangle(x + width - 120 - 2,y + height - 2 - 10 - 7 - 12 - 3, 72 + 3, 17), 1, new Color(ColorUtils.astolfoColors(100, 100)));
+
+            //Outlines held items block
+            RenderUtils2D.drawRectangleOutline(new Rectangle(x + width - 36 - 3 - 2,y + height - 2 - 10 - 7 - 12 - 3, 36 + 3, 17), 1, new Color(ColorUtils.astolfoColors(100, 100)));
         }
     }
 

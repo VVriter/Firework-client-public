@@ -66,6 +66,9 @@ public class HudGui extends GuiScreen {
         if(isDragging.one)
             mouseClicked(mouseX, mouseY, 1);
 
+        for(HudComponent hudComponent : hudManager.hudComponents)
+            hudComponent.draw();
+
         for(Button button : initializedButtons){
             button.draw();
         }

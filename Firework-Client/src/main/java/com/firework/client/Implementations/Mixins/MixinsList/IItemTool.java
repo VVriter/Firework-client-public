@@ -9,5 +9,4 @@ public interface IItemTool {
 
     @Accessor(value = "attackDamage")
     float getAttackDamage();
-
 }
