@@ -25,7 +25,7 @@ public class TargetHud extends HudComponent {
     public TargetHud(){
         animationUtil = new AnimationUtil();
         animationUtil.reset();
-        animationUtil.delayS = 0.08f;
+        animationUtil.delayS = 0.01f;
     }
 
     @Override
@@ -56,6 +56,9 @@ public class TargetHud extends HudComponent {
             mc.getTextureManager().bindTexture(resourceLocation("firework/textures/skull.png"));
             RenderUtils2D.drawCompleteImage(x + 5, y + 5, height - 10, height - 10);
             //customFontManager.drawString("PLAYER LOST");
+            animationUtil = new AnimationUtil();
+            animationUtil.reset();
+            animationUtil.delayS = 0.01f;
         }else {
             /*
             EntityRenderBuilder2D entityRenderBuilder2D = new EntityRenderBuilder2D(target)
@@ -74,7 +77,7 @@ public class TargetHud extends HudComponent {
             customFontManager.drawString(playerInfo, x + width - 120 - 2 + (120 - customFontManager.getWidth(playerInfo))/2, y + 2, Color.white.getRGB());
 
             //Draws Target healthbar
-            animationUtil.setValues(120 * target.getHealth() / target.getMaxHealth(), 0.05f);
+            animationUtil.setValues(120 * target.getHealth() / target.getMaxHealth(), 0.2f);
             animationUtil.update();
             RenderUtils2D.drawRectangle(new Rectangle(x + width - 120 - 2, y + height - 12 - 2, animationUtil.width, 10), healthColor(target));
             RenderUtils2D.drawRectangleOutline(new Rectangle(x + width - 120 - 2, y + height - 12 - 2, 120, 10), 1, Color.white);
