@@ -24,24 +24,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-
 @ModuleManifest(name = "HoleFiller",category = Module.Category.COMBAT)
 public class HoleFiller extends Module {
-
-
     public Setting<Enum> mode = new Setting<>("Mode", modes.Normal, this, modes.values());
     public enum modes{
         Normal, Smart
     }
     public Setting<Double> distance = new Setting<>("Distance", (double)5, this, 1, 10);
     public Setting<Double> tickDelay = new Setting<>("Delay", (double)1, this, 1, 100);
-
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
     public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(rotate,true).setVisibility(rotate,true);
     public Setting<Boolean> shuldDisableOnJump = new Setting<>("DisableOnJump", true, this);
@@ -52,37 +47,32 @@ public class HoleFiller extends Module {
 
 
     Timer timer;
-
     @Override
     public void onEnable(){
         super.onEnable();
         timer = new Timer();
         timer.reset();
-        if(autoBurrow.getValue()
-                && SelfBlock.enabled.getValue() == false
+       /* if(autoBurrow.getValue()
                 && mc.player.onGround
-                && mc.player.isInLava()
-                && mc.player.isInWater()){
+                && !mc.player.isInLava()
+                && !mc.player.isInWater()){
             SelfBlock.enabled.setValue(true);
-        }
+        }*/
     }
+
 
     @Override
     public void onTick(){
         super.onTick();
-
-
-
         //OnTick calcs holes
         this.holes = this.calcHoles();
-
         //AutoDisable
         if(shuldDisableOnOk.getValue() && this.holes.isEmpty()){
             onDisable();
         }
-
         if(mode.getValue(modes.Normal)){
             if(timer.passedS(tickDelay.getValue())) {
+                makeNormalSwitch();
                 makeHoleFill();
                 timer.reset();
             }
@@ -95,26 +85,17 @@ public class HoleFiller extends Module {
                 }
             }
         }
-
-
     }
-
-
-
-
- //OnJump disable
+    //OnJump disable
     @SubscribeEvent
     public void onPlayerJump(LivingEvent.LivingJumpEvent e){
         if(e.getEntity() instanceof EntityPlayer){
             if(shuldDisableOnJump.getValue()){onDisable();}
         }
     }
-
-
     //Hole calculator
     private List<BlockPos> holes = new ArrayList<BlockPos>();
     private final BlockPos[] surroundOffset = BlockUtil.toBlockPos(BlockUtil.holeOffsets);
-
     public List<BlockPos> calcHoles() {
         ArrayList<BlockPos> safeSpots = new ArrayList<BlockPos>();
         List<BlockPos> positions = BlockUtil.getSphere(this.distance.getValue().floatValue(), false);
@@ -133,7 +114,6 @@ public class HoleFiller extends Module {
         }
         return safeSpots;
     }
-
     private boolean isSafe(BlockPos pos) {
         boolean isSafe = true;
         for (BlockPos offset : this.surroundOffset) {
@@ -143,8 +123,6 @@ public class HoleFiller extends Module {
         }
         return isSafe;
     }
-
-
     //HoleFill code
     public void makeHoleFill() {
         //HoleFillCode
@@ -155,21 +133,17 @@ public class HoleFiller extends Module {
             BlockUtil.placeBlock(pos,EnumHand.MAIN_HAND,rotate.getValue(),packet.getValue(),false);
         }
     }
-
     //Switch code
     public void makeNormalSwitch(){
-
+        InventoryUtil.doMultiHand(new ItemStack(Blocks.OBSIDIAN).getItem(),InventoryUtil.hands.MainHand);
     }
-
-
     //Render
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent e) {
         int size = this.holes.size();
         for (int i = 0; i < size; ++i) {
             BlockPos pos = this.holes.get(i);
-        RenderUtils.drawBoxESP(pos,new Color(renderColor.getValue().toRGB().getRed(),renderColor.getValue().toRGB().getGreen(),renderColor.getValue().toRGB().getBlue()),5,true,true,200,1);
+            RenderUtils.drawBoxESP(pos,new Color(renderColor.getValue().toRGB().getRed(),renderColor.getValue().toRGB().getGreen(),renderColor.getValue().toRGB().getBlue()),5,true,true,200,1);
         }
     }
-
 }

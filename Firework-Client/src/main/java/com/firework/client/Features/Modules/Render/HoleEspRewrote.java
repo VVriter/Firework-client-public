@@ -25,7 +25,7 @@ public class HoleEspRewrote extends Module {
 
     public Setting<Enum> mode = new Setting<>("Mode", modes.Box, this, modes.values());
     public enum modes{
-        Crosses, Box, Sphere
+        Crosses, Box, Wireframe
     }
 
     public Setting<HSLColor> bedrockColor = new Setting<>("BedRock", new HSLColor(1, 54, 43), this);
@@ -38,6 +38,8 @@ public class HoleEspRewrote extends Module {
     public Setting<Boolean> box1 = new Setting<>("Box", true, this).setVisibility(mode,modes.Crosses);
 
     public Setting<Double> height = new Setting<>("Height", (double)0.5, this, -1, 20).setVisibility(mode,modes.Box);
+
+    public Setting<Double> radius = new Setting<>("Radius", (double)0.5, this, -1, 20).setVisibility(mode,modes.Wireframe);
 
     public Setting<Boolean> box = new Setting<>("Box", true, this).setVisibility(mode,modes.Box);
 
@@ -74,8 +76,15 @@ public class HoleEspRewrote extends Module {
                                 this.obsidianColor.getValue().toRGB().getBlue()),
 
                                 wight.getValue().floatValue());
-            }else if(mode.getValue(modes.Sphere)){
+            }else if(mode.getValue(modes.Wireframe)){
+                RenderUtils.drawSphere(BlockUtil.posToVec3d(pos),radius.getValue(),5,this.isSafe(pos) ?
+                        new Color(this.bedrockColor.getValue().toRGB().getRed(),
+                                this.bedrockColor.getValue().toRGB().getGreen(),
+                                this.bedrockColor.getValue().toRGB().getBlue())
 
+                        : new Color(this.obsidianColor.getValue().toRGB().getRed(),
+                        this.obsidianColor.getValue().toRGB().getGreen(),
+                        this.obsidianColor.getValue().toRGB().getBlue()));
             }
             if(square.getValue() && mode.getValue(modes.Crosses)){
                 RenderUtils.drawBoxESP(pos, this.isSafe(pos) ?
