@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.World;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.block.Block;
@@ -32,9 +33,6 @@ public class PacketMine extends Module {
     @Override
     public void onTick(){
         super.onTick();
-
-
-        
 
 
         //For queue
@@ -81,5 +79,12 @@ public class PacketMine extends Module {
                         200,1);
             }
         }
+    }
+
+
+    @Override
+    public void onDisable(){
+        super.onDisable();
+        blocks.clear();
     }
 }
