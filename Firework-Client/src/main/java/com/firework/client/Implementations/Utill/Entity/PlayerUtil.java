@@ -55,15 +55,17 @@ public class PlayerUtil implements Util {
         return closest;
     }
 
-    public static EntityPlayer getClosestTarget() {
+    public static EntityPlayer getClosestTarget(int maxRange) {
         double lowestDistance = Integer.MAX_VALUE;
         EntityPlayer closest = null;
 
         for (EntityPlayer player : getAll()) {
             if (player.getDistance(mc.player) < lowestDistance) {
                 if(!FriendManager.friends.contains(player.getDisplayNameString())) {
-                    lowestDistance = player.getDistance(mc.player);
-                    closest = player;
+                    if(player.getPositionVector().distanceTo(mc.player.getPositionVector()) <= maxRange) {
+                        lowestDistance = player.getDistance(mc.player);
+                        closest = player;
+                    }
                 }
             }
         }

@@ -1,11 +1,13 @@
 package com.firework.client.Implementations.Utill.Entity;
 
+import com.firework.client.Implementations.Utill.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 public class EntityUtil {
@@ -46,6 +48,10 @@ public class EntityUtil {
             return EntityUtil.mc.gameSettings.keyBindForward.isKeyDown() || EntityUtil.mc.gameSettings.keyBindBack.isKeyDown() || EntityUtil.mc.gameSettings.keyBindLeft.isKeyDown() || EntityUtil.mc.gameSettings.keyBindRight.isKeyDown();
         }
         return entity.motionX != 0.0 || entity.motionY != 0.0 || entity.motionZ != 0.0;
+    }
+
+    public static BlockPos getFlooredPos(Entity entity) {
+        return new BlockPos(Math.floor(entity.posX), Math.floor(entity.posY), Math.floor(entity.posZ));
     }
 
 }

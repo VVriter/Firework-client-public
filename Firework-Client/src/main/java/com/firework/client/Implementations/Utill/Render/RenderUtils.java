@@ -482,6 +482,26 @@ public class RenderUtils {
         GlStateManager.popMatrix();
     }
 
+    public static void drawProperBox(final BlockPos pos, final Color color) {
+        final AxisAlignedBB bb = new AxisAlignedBB(pos.getX() - RenderUtils.mc.getRenderManager().viewerPosX, pos.getY() - RenderUtils.mc.getRenderManager().viewerPosY, pos.getZ() - RenderUtils.mc.getRenderManager().viewerPosZ, pos.getX() + 1 - RenderUtils.mc.getRenderManager().viewerPosX, pos.getY() + 1 - RenderUtils.mc.getRenderManager().viewerPosY, pos.getZ() + 1 - RenderUtils.mc.getRenderManager().viewerPosZ);
+        RenderUtils.camera.setPosition(Objects.requireNonNull(RenderUtils.mc.getRenderViewEntity()).posX, RenderUtils.mc.getRenderViewEntity().posY, RenderUtils.mc.getRenderViewEntity().posZ);
+        if(RenderUtils.camera.isBoundingBoxInFrustum(new AxisAlignedBB(pos))) {
+            GlStateManager.pushMatrix();
+            GlStateManager.enableBlend();
+            GlStateManager.disableDepth();
+            GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
+            GlStateManager.disableTexture2D();
+            GL11.glEnable(2848);
+            GL11.glHint(3154, 4354);
+            RenderGlobal.renderFilledBox(bb, color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, color.getAlpha() / 255.0f);
+            GL11.glDisable(2848);
+            GlStateManager.enableDepth();
+            GlStateManager.enableTexture2D();
+            GlStateManager.disableBlend();
+            GlStateManager.popMatrix();
+        }
+    }
+
     public static void drawProperBox(final BlockPos pos, final Color color, final int alpha) {
         final IBlockState iblockstate = RenderUtils.mc.world.getBlockState(pos);
         final Entity player = RenderUtils.mc.getRenderViewEntity();
@@ -490,7 +510,6 @@ public class RenderUtils {
         final double d5 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * RenderUtils.mc.getRenderPartialTicks();
         RenderGlobal.renderFilledBox(iblockstate.getSelectedBoundingBox((World)RenderUtils.mc.world, pos).grow(0.002).offset(-d3, -d4, -d5), color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, alpha / 255.0f);
     }
-
 
 
     public static void drawBoundingBox(final AxisAlignedBB bb, final Color color, final float lineWidth) {

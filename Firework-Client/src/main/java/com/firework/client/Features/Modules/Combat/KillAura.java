@@ -47,11 +47,10 @@ public class KillAura extends Module{
     public void onUpdate() {
         super.onUpdate();
         this.delay = tmpDelay.getValue();
-        target = PlayerUtil.getClosestTarget();
+        target = PlayerUtil.getClosestTarget(distance.getValue());
 
         if(target != null)
-            if (target.getPositionVector().distanceTo(mc.player.getPositionVector()) <= distance.getValue())
-                doKillAura();
+            doKillAura();
     }
 
     public void doKillAura(){
