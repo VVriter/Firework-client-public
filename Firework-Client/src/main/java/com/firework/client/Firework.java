@@ -3,6 +3,7 @@
 package com.firework.client;
 
 import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
+import com.firework.client.Features.Modules.Client.CommandLineLogger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Hud.HudManager;
@@ -91,6 +92,10 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
+
+        CommandLineLogger.logAboutLoad();
+
+
         FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir +"\\Firework\\";
         InitAuth.initate();
         InitConfigs.initate();

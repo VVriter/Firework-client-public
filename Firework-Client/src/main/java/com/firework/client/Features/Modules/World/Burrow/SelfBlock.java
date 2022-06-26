@@ -27,7 +27,11 @@ public class SelfBlock extends Module {
     public Setting<Boolean> anvil   = new Setting<>("Use anvil", false, this);
 
 
-    public SelfBlock(){super("SelfBlock",Category.WORLD);}
+    public static Setting<Boolean> enabled = null;
+
+    public SelfBlock(){super("SelfBlock",Category.WORLD);
+        enabled = this.isEnabled;
+    }
 
     private BlockPos originalPos;
     private int oldSlot = -1;
