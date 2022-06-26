@@ -175,8 +175,75 @@ public class RenderUtils {
         GlStateManager.popMatrix();
     }
 
+    public static void drawSphere(Vec3d vec3d, double radius, int lineWidth, Color color){
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GlStateManager.disableDepth();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
+        GlStateManager.disableTexture2D();
+        GlStateManager.depthMask(false);
+        GlStateManager.translate(-mc.getRenderManager().viewerPosX, -mc.getRenderManager().viewerPosY, -mc.getRenderManager().viewerPosZ);
+        glEnable(GL_LINE_SMOOTH);
+        glLineWidth(lineWidth);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+        bufferBuilder.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION_COLOR);
 
+        for (int i = 0; i <= 360; i++)
+        {
+            double x2 = Math.sin(((i * Math.PI) / 180)) * radius;
+            double y2 = Math.cos(((i * Math.PI) / 180)) * radius;
 
+            Vec3d vec3d1 = vec3d.add(x2, y2, 0);
+            double r = vec3d1.distanceTo(vec3d.add(0, y2, 0));
+            for (int u = 0; u <= 360; u++)
+            {
+                double x3 = Math.sin(((u * Math.PI) / 180)) * r;
+                double z3 = Math.cos(((u * Math.PI) / 180)) * r;
+
+                bufferBuilder.pos(vec3d.x + x3, vec3d.y + y2, vec3d.z + z3).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+            }
+        }
+
+        tessellator.draw();
+        glDisable(GL_LINE_SMOOTH);
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
+    }
+
+    public static void drawCircle(Vec3d vec3d, double radius, Color color){
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GlStateManager.disableDepth();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
+        GlStateManager.disableTexture2D();
+        GlStateManager.depthMask(false);
+        GlStateManager.translate(-mc.getRenderManager().viewerPosX, -mc.getRenderManager().viewerPosY, -mc.getRenderManager().viewerPosZ);
+        glEnable(GL_LINE_SMOOTH);
+        glLineWidth(1);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+        bufferBuilder.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION_COLOR);
+
+        for (int i = 0; i <= 360; i++)
+        {
+            double x2 = Math.sin(((i * Math.PI) / 180)) * radius;
+            double z2 = Math.cos(((i * Math.PI) / 180)) * radius;
+
+            bufferBuilder.pos(vec3d.x + x2, vec3d.y, vec3d.z + z2).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
+        }
+
+        tessellator.draw();
+        glDisable(GL_LINE_SMOOTH);
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
+    }
 
 
 

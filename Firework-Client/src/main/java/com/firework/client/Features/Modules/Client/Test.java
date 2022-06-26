@@ -5,9 +5,15 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Managers.Coords.CoordsManager;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
+import com.firework.client.Implementations.Utill.Render.ColorUtils;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.awt.*;
 import java.util.Arrays;
 
 @ModuleManifest(name = "Test", category =  Module.Category.CLIENT)
@@ -22,6 +28,7 @@ public class Test extends Module {
     }
     public Minecraft mc = Minecraft.getMinecraft();
     public boolean e = true;
+    public Vec3d vec3d;
 
     public Test() {
         isEnabled.setValue(false);
@@ -31,7 +38,7 @@ public class Test extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-
+        vec3d = mc.player.getPositionVector();
 
 
         mc.player.setGlowing(true);
@@ -40,8 +47,8 @@ public class Test extends Module {
             System.out.println("checked");
     }
 
-    @Override
-    public void onTick() {
-        MessageUtil.sendClientMessage(CoordsManager.getCordsForDrawString(),true);
+    @SubscribeEvent
+    public void onRender(RenderWorldLastEvent event){
+        RenderUtils.drawSphere(vec3d, 0.6, 5, new Color(ColorUtils.astolfoColors(100, 100)));
     }
 }
