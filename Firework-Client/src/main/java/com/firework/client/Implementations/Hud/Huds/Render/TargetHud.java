@@ -4,18 +4,13 @@ import com.firework.client.Implementations.Hud.HudGui;
 import com.firework.client.Implementations.Hud.HudInfo;
 import com.firework.client.Implementations.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.Hud.Huds.HudManifest;
-import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Render.*;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.renderer.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
@@ -25,6 +20,13 @@ import static java.lang.Math.round;
 
 @HudManifest(name = "TargetHud")
 public class TargetHud extends HudComponent {
+
+    private AnimationUtil animationUtil;
+    public TargetHud(){
+        animationUtil = new AnimationUtil();
+        animationUtil.reset();
+        animationUtil.delayS = 0.08f;
+    }
 
     @Override
     public void initialize() {
@@ -72,7 +74,9 @@ public class TargetHud extends HudComponent {
             customFontManager.drawString(playerInfo, x + width - 120 - 2 + (120 - customFontManager.getWidth(playerInfo))/2, y + 2, Color.white.getRGB());
 
             //Draws Target healthbar
-            RenderUtils2D.drawRectangle(new Rectangle(x + width - 120 - 2, y + height - 12 - 2, 120 * target.getHealth() / target.getMaxHealth(), 10), healthColor(target));
+            animationUtil.setValues(120 * target.getHealth() / target.getMaxHealth(), 0.05f);
+            animationUtil.update();
+            RenderUtils2D.drawRectangle(new Rectangle(x + width - 120 - 2, y + height - 12 - 2, animationUtil.width, 10), healthColor(target));
             RenderUtils2D.drawRectangleOutline(new Rectangle(x + width - 120 - 2, y + height - 12 - 2, 120, 10), 1, Color.white);
 
             //Draws health info
