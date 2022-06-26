@@ -16,24 +16,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import org.lwjgl.opengl.GL11;
-
-import org.lwjgl.opengl.*;
-import net.minecraft.client.*;
 import net.minecraft.entity.player.*;
-import net.minecraft.client.renderer.vertex.*;
 import java.awt.*;
 import net.minecraft.world.*;
-import net.minecraft.client.renderer.*;
 import net.minecraft.block.state.*;
-import net.minecraft.entity.*;
-import net.minecraft.util.math.*;
 import java.util.*;
-import net.minecraft.client.renderer.culling.*;
-import org.lwjgl.util.glu.Sphere;
-
-import java.awt.*;
 import java.util.Objects;
 
 import static org.lwjgl.opengl.GL11.*;
