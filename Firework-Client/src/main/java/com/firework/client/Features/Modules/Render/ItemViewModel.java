@@ -1,5 +1,6 @@
 package com.firework.client.Features.Modules.Render;
 
+import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
@@ -11,7 +12,17 @@ public class ItemViewModel extends Module {
 
     public static Setting<Boolean> enabled = null;
 
-    public Setting<String> mode = new Setting<>("Mode", "Mixin", this, Arrays.asList("GL", "Mixin"));
+
+    public Setting<Enum> page = new Setting<>("Page", pages.Translate, this, pages.values());
+    public enum pages{
+        Translate, Rotate, Scale, Misc
+    }
+
+    public static Setting<Boolean> SlowAnimations = null;
+    public static Setting<Double> SlowVal = null;
+
+
+
 
         public static Setting<Double> translateX  = null;
         public static Setting<Double> translateY   = null;
@@ -31,22 +42,25 @@ public class ItemViewModel extends Module {
 
     public ItemViewModel(){super("ItemViewModel",Category.RENDER);
 
+        SlowAnimations = new Setting<>("SlowAnimations", false, this).setVisibility(page,pages.Misc);
+        SlowVal = new Setting<>("AnimationSpeed", (double)20, this, 1, 40).setVisibility(SlowAnimations,true);
+
         enabled = this.isEnabled;
-        translateX = new Setting<>("translateX", (double)0,this, -300, 300);
-        translateY = new Setting<>("translateY", (double)0,this, -300, 300);
-        translateZ = new Setting<>("translateZ", (double)0,this, -300, 300);
+        translateX = new Setting<>("TranslateX", (double)0,this, -300, 300).setVisibility(page,pages.Translate);
+        translateY = new Setting<>("TranslateY", (double)0,this, -300, 300).setVisibility(page,pages.Translate);
+        translateZ = new Setting<>("TranslateZ", (double)0,this, -300, 300).setVisibility(page,pages.Translate);
 
-        rotateXR = new Setting<>("rotateXR", (double)0,this, -300, 300);
-        rotateYR = new Setting<>("rotateYR", (double)0,this, -300, 300);
-        rotateZR = new Setting<>("rotateZR", (double)0,this, -300, 300);
+        rotateXR = new Setting<>("RotateXR", (double)0,this, -300, 300).setVisibility(page,pages.Rotate);
+        rotateYR = new Setting<>("RotateYR", (double)0,this, -300, 300).setVisibility(page,pages.Rotate);
+        rotateZR = new Setting<>("RotateZR", (double)0,this, -300, 300).setVisibility(page,pages.Rotate);
 
-        rotateXL = new Setting<>("rotateXL", (double)0,this, -300, 300);
-        rotateYL = new Setting<>("rotateYL", (double)0,this, -300, 300);
-        rotateZL = new Setting<>("rotateZL", (double)0,this, -300, 300);
+        rotateXL = new Setting<>("RotateXL", (double)0,this, -300, 300).setVisibility(page,pages.Rotate);
+        rotateYL = new Setting<>("RotateYL", (double)0,this, -300, 300).setVisibility(page,pages.Rotate);
+        rotateZL = new Setting<>("RotateZL", (double)0,this, -300, 300).setVisibility(page,pages.Rotate);
 
-        scaleX = new Setting<>("scaleX", (double)100,this, -300, 300);
-        scaleY = new Setting<>("scaleY", (double)100,this, -300, 300);
-        scaleZ = new Setting<>("scaleZ", (double)100,this, -300, 300);
+        scaleX = new Setting<>("ScaleX", (double)100,this, -300, 300).setVisibility(page,pages.Scale);
+        scaleY = new Setting<>("ScaleY", (double)100,this, -300, 300).setVisibility(page,pages.Scale);
+        scaleZ = new Setting<>("ScaleZ", (double)100,this, -300, 300).setVisibility(page,pages.Scale);
         }
     }
 

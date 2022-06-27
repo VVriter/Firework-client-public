@@ -1,6 +1,6 @@
 package com.firework.client.Implementations.Mixins.MixinsList;
 
-import com.firework.client.Features.Modules.Render.SlowAnimations;
+import com.firework.client.Features.Modules.Render.ItemViewModel;
 import net.minecraft.entity.EntityLivingBase;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinEntityLivingBase {
     @Inject(method={"getArmSwingAnimationEnd"}, at={@At(value="HEAD")}, cancellable=true)
     private void getArmSwingAnimationEnd(CallbackInfoReturnable<Integer> info) {
-        if (SlowAnimations.enabled.getValue()) {
-            info.setReturnValue(SlowAnimations.swingDelay.getValue().intValue());
+        if (ItemViewModel.enabled.getValue() && ItemViewModel.SlowAnimations.getValue()) {
+            info.setReturnValue(ItemViewModel.SlowVal.getValue().intValue());
         }
     }
 }
