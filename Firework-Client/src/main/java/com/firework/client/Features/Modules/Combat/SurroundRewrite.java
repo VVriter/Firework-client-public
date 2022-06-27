@@ -22,14 +22,17 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
 
 @ModuleManifest(name = "SurroundRewrite", category = Module.Category.COMBAT)
 public class SurroundRewrite extends Module{
-    public Setting<Boolean> shouldDisableOnJump = new Setting<>("DisableOnJump", true, this);
+    public Setting<Boolean> shouldDisableOnJump = new Setting<>("DisableOnJump", false, this);
+    public Setting<Double> keyClearDelay = new Setting<>("KeyDelayS", 0.3d, this, 0, 3).setVisibility(shouldDisableOnJump, false);
     public Setting<Boolean> shouldCenter = new Setting<>("Center", true, this);
 
-    public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", true, this);
+    public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", false, this);
     public Setting<Integer> tickDelay = new Setting<>("TickDelay", 0, this, 0, 20).setVisibility(shouldToggle, false);
     public Setting<Double> placeDelay = new Setting<>("PlaceDelayS", 0d, this, 0, 20).setVisibility(shouldToggle, false);
 
@@ -41,6 +44,7 @@ public class SurroundRewrite extends Module{
     public Setting<hands> hand = new Setting<>("hand", hands.MainHand, this, hands.values());
 
     Timer placeTimer;
+    Timer keyClearTimer;
     int lastKeyCode;
     ArrayList<BlockPos> line;
 
@@ -55,8 +59,16 @@ public class SurroundRewrite extends Module{
         placeTimer = new Timer();
         placeTimer.reset();
 
-        if(shouldCenter.getValue())
+        keyClearTimer = new Timer();
+        keyClearTimer.reset();
+
+        if (shouldCenter.getValue())
             center();
+
+        if (shouldToggle.getValue()){
+            doSurround(getBlocksToPlace());
+            onDisable();
+        }
     }
 
     @Override
@@ -82,16 +94,18 @@ public class SurroundRewrite extends Module{
                     line.remove(i);
             }
 
-            for (BlockPos blockPos : getBlocksToPlace()) {
+            for (BlockPos blockPos : blocksToPlace) {
                 if (BlockUtil.getBlock(blockPos) == Blocks.AIR) {
                     line.add(blockPos);
                 }
             }
 
             for (BlockPos blockPos : line){
-                if(placeTimer.passedS(placeDelay.getValue())){
-                    BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), true);
-                    placeTimer.reset();
+                if(blockPos != EntityUtil.getFlooredPos(mc.player)) {
+                    if (placeTimer.passedS(placeDelay.getValue())) {
+                        BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), true);
+                        placeTimer.reset();
+                    }
                 }
             }
         }else{
@@ -113,7 +127,10 @@ public class SurroundRewrite extends Module{
 
     @SubscribeEvent
     public void onPressedKey(InputEvent.KeyInputEvent event) {
-        lastKeyCode = Keyboard.getEventKey();
+        if(keyClearTimer.passedS(keyClearDelay.getValue())) {
+            lastKeyCode = Keyboard.getEventKey();
+            keyClearTimer.reset();
+        }
     }
 
     public void center() {
