@@ -36,7 +36,6 @@ public class SurroundRewrite extends Module{
     public Setting<Boolean> shouldCenter = new Setting<>("Center", true, this);
 
     public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", false, this);
-    public Setting<Integer> tickDelay = new Setting<>("TickDelay", 0, this, 0, 20).setVisibility(shouldToggle, false);
     public Setting<Double> placeDelay = new Setting<>("PlaceDelayS", 0d, this, 0, 20).setVisibility(shouldToggle, false);
 
     public Setting<switchModes> switchMode = new Setting<>("Switch", switchModes.Fast, this, switchModes.values());
@@ -80,10 +79,14 @@ public class SurroundRewrite extends Module{
     @Override
     public void onTick() {
         super.onTick();
+        if(shouldCenter.getValue())
+            center();
+
         doSurround(getBlocksToPlace());
     }
 
     public void doSurround(BlockPos[] blocksToPlace){
+
         EnumHand enumHand = hand.getValue(InventoryUtil.hands.MainHand) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
 
         int switchBack = -1;
@@ -115,7 +118,7 @@ public class SurroundRewrite extends Module{
                 }
             }
 
-            if(!line.isEmpty()){
+            if(!line.isEmpty() && placeTimer.passedS(placeDelay.getValue())){
                 oldItem = getItemStack(36 + mc.player.inventory.currentItem).getItem();
                 switchBack = switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand, switchMode.getValue());
             }
@@ -139,7 +142,7 @@ public class SurroundRewrite extends Module{
                     oldItem = getItemStack(36 + mc.player.inventory.currentItem).getItem();
                     switchBack = switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand, switchMode.getValue());
                 }
-                
+
                 for (BlockPos blockPos : getBlocksToPlace()) {
                     BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), true);
                 }
@@ -185,9 +188,6 @@ public class SurroundRewrite extends Module{
                             switchHotBarSlot(getHotbarItemSlot(item));
                         }
                         break;
-                    case Universal:
-                        swapSlots(getItemSlot(item), 36 + mc.player.inventory.currentItem);
-                        break;
                 }
             }else{
                 return -1;
@@ -204,10 +204,8 @@ public class SurroundRewrite extends Module{
 
     public void swapSlots(int from, int to){
         mc.playerController.windowClick(0, from, 0, ClickType.PICKUP, mc.player);
-        ItemStack itemStack = getItemStack(to);
         mc.playerController.windowClick(0, to, 0, ClickType.PICKUP, mc.player);
-        if(!itemStack.isEmpty())
-            mc.playerController.windowClick(0, from, 0, ClickType.PICKUP, mc.player);
+        mc.playerController.windowClick(0, from, 0, ClickType.PICKUP, mc.player);
     }
 
     public void center() {

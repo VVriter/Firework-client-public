@@ -24,7 +24,7 @@ public class InventoryUtil
     public static ItemStack getItemStack(int id) {
         try {
             return mc.player.inventory.getStackInSlot(id);
-        } catch (NullPointerException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }
     }
@@ -80,6 +80,7 @@ public class InventoryUtil
         }
         return -1;
     }
+
     public static void switchToHotbarSlot(Class clazz, boolean silent) {
         int slot = InventoryUtil.findHotbarBlock(clazz);
         if (slot > -1) {
