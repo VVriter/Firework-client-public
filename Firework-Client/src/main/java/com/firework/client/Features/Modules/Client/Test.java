@@ -62,6 +62,8 @@ public class Test extends Module {
         BlockRenderBuilder blockRenderBuilder = new BlockRenderBuilder(vec3d)
                 .addRenderMode(new RenderMode(RenderMode.renderModes.Fill,
                         Arrays.asList(new Color(ColorUtils.astolfoColors(100, 100)))))
+                .addRenderMode(new RenderMode(RenderMode.renderModes.OutLine,
+                        Arrays.asList(Color.white, 3f)))
                 .render();
     }
 }
