@@ -9,11 +9,15 @@ import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.network.play.client.CPacketPlayerDigging;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -37,11 +41,11 @@ public class PacketMine extends Module {
     public void onTick(){
         super.onTick();
 
+
+        //For queue
         int size = this.blocks.size();
         for (int i = 0; i < size; ++i) {
             pos = this.blocks.get(i);}
-
-        //For queue
         if(!queue.getValue()){
             blocks.clear();
         } if(blocks.size() >= queueLimit.getValue().intValue()){
@@ -54,12 +58,22 @@ public class PacketMine extends Module {
     }
 
 
+    //Mine code
+    @SubscribeEvent
+    public void onBlockEvent(BlockEvent event) {
+        mc.player.swingArm(EnumHand.MAIN_HAND);
+        mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.START_DESTROY_BLOCK, event.getPos(), EnumFacing.UP));
+        mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK, event.getPos(), EnumFacing.UP));
+        mc.playerController.onPlayerDestroyBlock(pos);
+        mc.world.setBlockToAir(pos);
+    }
+
 
     private List<BlockPos> blocks = new ArrayList<BlockPos>();
     @SubscribeEvent
     public void onBlockHit(PlayerInteractEvent.LeftClickBlock e){
         pos = e.getPos();
-            isTargeted = true;
+        isTargeted = true;
             if(!blocks.contains(pos)) {
                 blocks.add(pos);
             }
@@ -78,7 +92,7 @@ public class PacketMine extends Module {
         }else{
             int size = this.blocks.size();
             for (int i = 0; i < size; ++i) {
-                BlockPos pos = this.blocks.get(i);
+                pos = this.blocks.get(i);
                 RenderUtils.drawBoxESP(pos,new Color(renderColor.getValue().toRGB().getRed(),
                                 renderColor.getValue().toRGB().getGreen(),
                                 renderColor.getValue().toRGB().getBlue()),

@@ -17,6 +17,7 @@
     "MixinItemFood",
     "MixinRenderItem",
     "MixinBufferBuilder",
-    "MixinBlock"
+    "MixinBlock",
+    "MixinPlayerControllerMP"
   ]
 }
