@@ -328,62 +328,6 @@ public class RenderUtils {
         GL11.glEnable(3553);
     }
 
-    public static void drawRect(final Rectangle rectangle, final int color) {
-        drawRect((float)rectangle.x, (float)rectangle.y, (float)(rectangle.x + rectangle.width), (float)(rectangle.y + rectangle.height), color);
-    }
-
-    public static void drawRect(final float x, final float y, final float x1, final float y1, final int color) {
-        final float alpha = (color >> 24 & 0xFF) / 255.0f;
-        final float red = (color >> 16 & 0xFF) / 255.0f;
-        final float green = (color >> 8 & 0xFF) / 255.0f;
-        final float blue = (color & 0xFF) / 255.0f;
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        final BufferBuilder builder = RenderUtils.tessellator.getBuffer();
-        builder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        builder.pos((double)x, (double)y1, 0.0).color(red, green, blue, alpha).endVertex();
-        builder.pos((double)x1, (double)y1, 0.0).color(red, green, blue, alpha).endVertex();
-        builder.pos((double)x1, (double)y, 0.0).color(red, green, blue, alpha).endVertex();
-        builder.pos((double)x, (double)y, 0.0).color(red, green, blue, alpha).endVertex();
-        RenderUtils.tessellator.draw();
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
-    }
-
-    public static void drawRect(final float x, final float y, final float x1, final float y1) {
-        final BufferBuilder builder = RenderUtils.tessellator.getBuffer();
-        builder.begin(7, DefaultVertexFormats.POSITION);
-        builder.pos((double)x, (double)y1, 0.0).endVertex();
-        builder.pos((double)x1, (double)y1, 0.0).endVertex();
-        builder.pos((double)x1, (double)y, 0.0).endVertex();
-        builder.pos((double)x, (double)y, 0.0).endVertex();
-        RenderUtils.tessellator.draw();
-    }
-
-    public static void drawBorderedRect(float x, float y, float x1, float y1, final int insideC, final int borderC) {
-        enableGL2D();
-        x *= 2.0f;
-        x1 *= 2.0f;
-        y *= 2.0f;
-        y1 *= 2.0f;
-        GL11.glScalef(0.5f, 0.5f, 0.5f);
-        drawVLine(x, y, y1 - 1.0f, borderC);
-        drawVLine(x1 - 1.0f, y, y1, borderC);
-        drawHLine(x, x1 - 1.0f, y, borderC);
-        drawHLine(x, x1 - 2.0f, y1 - 1.0f, borderC);
-        drawRect(x + 1.0f, y + 1.0f, x1 - 1.0f, y1 - 1.0f, insideC);
-        GL11.glScalef(2.0f, 2.0f, 2.0f);
-        disableGL2D();
-    }
-
-    public static void drawOutlineRect(final float x, final float y, final float w, final float h, final float lineWidth, final int c) {
-        drawRect(x, y, x - lineWidth, h, c);
-        drawRect(w + lineWidth, y, w, h, c);
-        drawRect(x, y, w, y - lineWidth, c);
-        drawRect(x, h + lineWidth, w, h, c);
-    }
-
     public static void disableGL2D(final boolean unused) {
         GL11.glEnable(3553);
         GL11.glDisable(3042);
@@ -427,34 +371,7 @@ public class RenderUtils {
         GlStateManager.disableBlend();
     }
 
-
-
-    public static void drawGradientHRect(final float x, final float y, final float x1, final float y1, final int topColor, final int bottomColor) {
-        final float alpha = (topColor >> 24 & 0xFF) / 255.0f;
-        final float red = (topColor >> 16 & 0xFF) / 255.0f;
-        final float green = (topColor >> 8 & 0xFF) / 255.0f;
-        final float blue = (topColor & 0xFF) / 255.0f;
-        final float alpha2 = (bottomColor >> 24 & 0xFF) / 255.0f;
-        final float red2 = (bottomColor >> 16 & 0xFF) / 255.0f;
-        final float green2 = (bottomColor >> 8 & 0xFF) / 255.0f;
-        final float blue2 = (bottomColor & 0xFF) / 255.0f;
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        GlStateManager.shadeModel(7425);
-        final BufferBuilder builder = RenderUtils.tessellator.getBuffer();
-        builder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        builder.pos((double)x, (double)y, 0.0).color(red, green, blue, alpha).endVertex();
-        builder.pos((double)x, (double)y1, 0.0).color(red, green, blue, alpha).endVertex();
-        builder.pos((double)x1, (double)y1, 0.0).color(red2, green2, blue2, alpha2).endVertex();
-        builder.pos((double)x1, (double)y, 0.0).color(red2, green2, blue2, alpha2).endVertex();
-        RenderUtils.tessellator.draw();
-        GlStateManager.shadeModel(7424);
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
-    }
-
-    private static void drawProperOutline(final BlockPos pos, final Color color) {
+    public static void drawProperOutline(final BlockPos pos, final Color color) {
         final IBlockState iblockstate = RenderUtils.mc.world.getBlockState(pos);
         final Entity player = RenderUtils.mc.getRenderViewEntity();
         final double d3 = player.lastTickPosX + (player.posX - player.lastTickPosX) * RenderUtils.mc.getRenderPartialTicks();
@@ -500,6 +417,76 @@ public class RenderUtils {
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
         }
+    }
+
+    public static void drawProperGradientBox(final BlockPos pos, final Color color1, final Color color2) {
+        final AxisAlignedBB bb = new AxisAlignedBB(pos.getX() - RenderUtils.mc.getRenderManager().viewerPosX, pos.getY() - RenderUtils.mc.getRenderManager().viewerPosY, pos.getZ() - RenderUtils.mc.getRenderManager().viewerPosZ, pos.getX() + 1 - RenderUtils.mc.getRenderManager().viewerPosX, pos.getY() + 1 - RenderUtils.mc.getRenderManager().viewerPosY, pos.getZ() + 1 - RenderUtils.mc.getRenderManager().viewerPosZ);
+        RenderUtils.camera.setPosition(Objects.requireNonNull(RenderUtils.mc.getRenderViewEntity()).posX, RenderUtils.mc.getRenderViewEntity().posY, RenderUtils.mc.getRenderViewEntity().posZ);
+        if(RenderUtils.camera.isBoundingBoxInFrustum(new AxisAlignedBB(pos))) {
+            GlStateManager.pushMatrix();
+            GlStateManager.enableBlend();
+            GlStateManager.disableDepth();
+            GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
+            GlStateManager.disableTexture2D();
+            GL11.glEnable(2848);
+            GL11.glHint(3154, 4354);
+
+            renderGradientFilledBox(bb, color1.getRed() / 255.0f, color1.getGreen() / 255.0f, color1.getBlue() / 255.0f, color1.getAlpha() / 255.0f);
+
+            GL11.glDisable(2848);
+            GlStateManager.enableDepth();
+            GlStateManager.enableTexture2D();
+            GlStateManager.disableBlend();
+            GlStateManager.popMatrix();
+        }
+    }
+
+    public static void renderGradientFilledBox(AxisAlignedBB aabb, float red, float green, float blue, float alpha)
+    {
+        renderGradientFilledBox(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, red, green, blue, alpha);
+    }
+
+    public static void renderGradientFilledBox(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, float red, float green, float blue, float alpha)
+    {
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        bufferbuilder.begin(5, DefaultVertexFormats.POSITION_COLOR);
+        addChainedGradientBoxVertices(bufferbuilder, minX, minY, minZ, maxX, maxY, maxZ, red, green, blue, alpha);
+        tessellator.draw();
+    }
+
+    public static void addChainedGradientBoxVertices(BufferBuilder builder, double x1, double y1, double z1, double x2, double y2, double z2, float red, float green, float blue, float alpha)
+    {
+        builder.pos(x1, y1, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y1, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y1, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y1, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y2, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y2, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y2, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y1, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y2, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y1, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y1, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y1, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y2, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y2, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y2, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y1, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y2, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y1, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y1, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y1, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y1, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y1, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y1, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y2, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y2, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x1, y2, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y2, z1).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y2, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y2, z2).color(red, green, blue, alpha).endVertex();
+        builder.pos(x2, y2, z2).color(red, green, blue, alpha).endVertex();
     }
 
     public static void drawProperBox(final BlockPos pos, final Color color, final int alpha) {
@@ -586,31 +573,9 @@ public class RenderUtils {
         }
     }
 
-    public static void drawHLine(float x, float y, final float x1, final int y1) {
-        if (y < x) {
-            final float var5 = x;
-            x = y;
-            y = var5;
-        }
-        drawRect(x, x1, y + 1.0f, x1 + 1.0f, y1);
-    }
-
-    public static void drawGradientHLine(float x, float y, final float x1, final int color1, final int color2) {
-        if (y < x) {
-            final float var5 = x;
-            x = y;
-            y = var5;
-        }
-        drawGradientHRect(x, x1, y + 1.0f, x1 + 1.0f, color1, color2);
-    }
-
-    public static void drawVLine(final float x, float y, float x1, final int y1) {
-        if (x1 < y) {
-            final float var5 = y;
-            y = x1;
-            x1 = var5;
-        }
-        drawRect(x, y + 1.0f, x + 1.0f, x1, y1);
+    public static AxisAlignedBB getBB(BlockPos pos) {
+        return new AxisAlignedBB(pos.getX() - mc.getRenderManager().viewerPosX, pos.getY() - mc.getRenderManager().viewerPosY, pos.getZ() - mc.getRenderManager().viewerPosZ,
+                pos.getX() + 1 - mc.getRenderManager().viewerPosX, pos.getY() + (1) - mc.getRenderManager().viewerPosY, pos.getZ() + 1 - mc.getRenderManager().viewerPosZ);
     }
 
     public static void glColor(final int hex) {

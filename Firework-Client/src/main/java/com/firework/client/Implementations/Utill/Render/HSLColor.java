@@ -3,16 +3,24 @@ package com.firework.client.Implementations.Utill.Render;
 import java.awt.*;
 
 public class HSLColor {
-    public float hue, saturation, light;
+    public float hue, saturation, light, alpha;
     public HSLColor(float hue, float saturation, float light){
         this.hue = hue;
         this.saturation = saturation;
         this.light = light;
+        this.alpha = 1;
+    }
+
+    public HSLColor(float hue, float saturation, float light, float alpha){
+        this.hue = hue;
+        this.saturation = saturation;
+        this.light = light;
+        this.alpha = alpha;
     }
 
     public Color toRGB()
     {
-        int alpha = 1;
+        float alpha = this.alpha;
         float hue = this.hue;
         float saturation = this.saturation;
         float light = this.light;
