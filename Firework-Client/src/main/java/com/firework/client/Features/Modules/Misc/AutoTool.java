@@ -4,29 +4,27 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 
+import com.firework.client.Implementations.Utill.InventoryUtil;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @ModuleManifest(name = "AutoTool",category = Module.Category.MISC)
 public class AutoTool extends Module {
     public Setting<Enum> mode = new Setting<>("Mode", modes.Normal, this, modes.values());
-    public enum modes{
+    public enum modes {
         Normal, MultiHand, Silent
     }
 
 
     @SubscribeEvent
-    public void on(PlayerInteractEvent.LeftClickBlock e){
+    public void on (PlayerInteractEvent.LeftClickBlock e) {
         switchSlot(e.getPos());
     }
 
-    public void switchSlot(final BlockPos blockPos) {
+    public void switchSlot (final BlockPos blockPos) {
         float bestSpeed = 1.0f;
         int bestSlot = -1;
         final Block block = mc.world.getBlockState(blockPos).getBlock();
@@ -41,8 +39,11 @@ public class AutoTool extends Module {
             }
         }
         if (bestSlot != -1) {
+            if (mode.getValue(modes.Normal)) {
             mc.player.inventory.currentItem = bestSlot;
+            } else if (mode.getValue(modes.MultiHand)){
+                InventoryUtil.doMultiHand(36+bestSlot,InventoryUtil.hands.MainHand);
+            }
         }
     }
-
 }
