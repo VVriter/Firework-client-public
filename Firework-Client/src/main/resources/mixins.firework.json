@@ -18,6 +18,7 @@
     "MixinRenderItem",
     "MixinBufferBuilder",
     "MixinBlock",
-    "MixinPlayerControllerMP"
+    "MixinPlayerControllerMP",
+    "MixinEntityRenderer"
   ]
 }
