@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Mixins.MixinsList.IKeyBinding;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
@@ -35,13 +36,7 @@ public class Quiver extends Module {
     @Override public void onEnable() { super.onEnable();
         if(mode.getValue(modes.Auto)) {
             doSwitch();
-
-            if (mc.player.getHeldItemMainhand().getItem() instanceof ItemBow && mc.player.getItemInUseMaxCount() >= spamSpeed.getValue()) {
-                mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, mc.player.getHorizontalFacing()));
-                mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(mc.player.getActiveHand()));
-                mc.player.stopActiveHand();
-            }
-            onDisable();
+            ((IKeyBinding)mc.gameSettings.keyBindUseItem).setPressed(true);
         }else {
             //Ok
         }
@@ -56,6 +51,10 @@ public class Quiver extends Module {
             mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, mc.player.getHorizontalFacing()));
             mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(mc.player.getActiveHand()));
             mc.player.stopActiveHand();
+            if(mode.getValue(modes.Auto)){
+                ((IKeyBinding)mc.gameSettings.keyBindUseItem).setPressed(false);
+                onDisable();
+            }
         }
     }
 
