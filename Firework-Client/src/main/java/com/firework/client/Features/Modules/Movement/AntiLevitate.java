@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @ModuleManifest(name = "AntiLevitate",category = Module.Category.MOVEMENT)
 public class AntiLevitate extends Module {
-    public Setting<String> setting = new Setting<>("Mode", "EffectRemove", this, Arrays.asList("EffectRemove", "ReverseStep"));
+    public Setting<String> setting = new Setting<>("Mode", "EffectRemove", this, Arrays.asList("EffectRemove", "Fly"));
     @Override
     public void onTick(){
         super.onTick();
@@ -18,8 +18,16 @@ public class AntiLevitate extends Module {
             if (mc.player.isPotionActive((Potion) Objects.requireNonNull(Potion.getPotionFromResourceLocation("levitation")))) {
                 mc.player.removeActivePotionEffect(Potion.getPotionFromResourceLocation("levitation"));
             }else{
-                //OKKKKKKK
+                if(mc.player.isPotionActive((Potion) Objects.requireNonNull(Potion.getPotionFromResourceLocation("Fly")))){
+                    Fly.enabled.setValue(true);
+                }
             }
         }
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        Fly.enabled.setValue(false);
     }
 }

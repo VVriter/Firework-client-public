@@ -173,4 +173,18 @@ public class BlockUtil {
         return Math.sqrt((deltaX * deltaX) + (deltaY * deltaY) + (deltaZ * deltaZ));
     }
 
+
+
+    public static void bebraBlocks( List<BlockPos> list) {
+        BlockPos x = mc.player.getPosition().add(1,0,0);
+        list.add(x);
+        BlockPos minusX = mc.player.getPosition().add(-1,0,0);
+        list.add(minusX);
+        BlockPos z = mc.player.getPosition().add(0,0,1);
+        list.add(z);
+        BlockPos minusZ = mc.player.getPosition().add(0,0,-1);
+        list.add(minusZ);
+    }
+
+
 }

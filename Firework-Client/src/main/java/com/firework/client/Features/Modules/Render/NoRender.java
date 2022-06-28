@@ -36,7 +36,6 @@ public class NoRender extends Module {
         if(!viewBobbing.getValue()){mc.gameSettings.viewBobbing = true;}
     }
 
-
     @SubscribeEvent
     public void fogDensity(EntityViewRenderEvent.FogDensity event) {
         if(antiFog.getValue()){
