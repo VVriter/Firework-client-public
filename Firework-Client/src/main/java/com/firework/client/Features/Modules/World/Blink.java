@@ -5,7 +5,6 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
-import com.firework.client.Implementations.Utill.Entity.FakePlayer;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraft.util.math.BlockPos;
 
@@ -34,7 +33,7 @@ public class Blink extends Module {
         super.onTick();
         pos2 = mc.player.getPosition();
         if(autoDisable.getValue()){
-            if(BlockUtil.getDistanceFromBlockToEntity(pos1,pos2)>distance.getValue()){
+            if(BlockUtil.getDistance(pos1,pos2)>distance.getValue()){
                 onDisable();
             }
         }

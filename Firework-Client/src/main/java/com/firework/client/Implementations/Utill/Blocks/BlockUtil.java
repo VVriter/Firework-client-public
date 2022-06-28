@@ -6,7 +6,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
@@ -17,8 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.*;
-
-import static com.firework.client.Implementations.Utill.Util.mc;
 
 public class BlockUtil {
     public static final List<Block> blackList = Arrays.asList(Blocks.ENDER_CHEST, Blocks.CHEST, Blocks.TRAPPED_CHEST, Blocks.CRAFTING_TABLE, Blocks.ANVIL, Blocks.BREWING_STAND, Blocks.HOPPER, Blocks.DROPPER, Blocks.DISPENSER, Blocks.TRAPDOOR, Blocks.ENCHANTING_TABLE);
@@ -178,7 +175,7 @@ public class BlockUtil {
         return list;
     }
 
-    public static double getDistanceFromBlockToEntity(BlockPos pos1, BlockPos pos2) {
+    public static double getDistance(BlockPos pos1, BlockPos pos2) {
         double deltaX = pos1.getX() - pos2.getX();
         double deltaY = pos1.getY() - pos2.getY();
         double deltaZ = pos1.getZ() - pos2.getZ();

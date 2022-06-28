@@ -35,11 +35,11 @@ import static java.lang.Math.*;
 public class TargetWeb extends Module{
 
     //Target search range
-    private Setting<Integer> targetRange = new Setting<>("TargetRange", 1, this, 0, 12);
-    //Predict scale XZ scaleFactor
-    private Setting<Integer> predictTicks = new Setting<>("PredictTicks", 1, this, 0, 12);
-    //Web place delay in seconds
-    private Setting<Double> placeDelay = new Setting<>("PlaceDelayS", 0d, this, 0, 20);
+    private Setting<Integer> targetRange = new Setting<>("TargetRange", 6, this, 0, 12);
+    //Web place range
+    private Setting<Integer> placeRange = new Setting<>("PlaceRange", 3, this, 0, 6);
+    //Web place delay in ticks
+    private Setting<Integer> tickDelay = new Setting<>("TickDelay", 0, this, 0, 20);
     //Hand the module will use to place web
     private Setting<hands> hand = new Setting<>("hand", hands.MainHand, this, hands.values());
     //Should rotate to place
@@ -49,8 +49,6 @@ public class TargetWeb extends Module{
     //Blocks to place queue
     private ArrayList<BlockPos> line;
 
-    //Place timer
-    private Timer placeTimer;
 
     //Web predicted pos
     BlockPos webPos;
@@ -62,9 +60,6 @@ public class TargetWeb extends Module{
     @Override
     public void onEnable() {
         super.onEnable();
-        //Initializes timer & resets timer time
-        placeTimer = new Timer();
-        placeTimer.reset();
     }
 
     @Override
@@ -83,17 +78,30 @@ public class TargetWeb extends Module{
         //Predicts web pos to place
         webPos = getPredictedWebPos(target, 2);
         //PLACES WEB
-        if(BlockUtil.canPlaceBlock(webPos))
-            line.add(webPos);
-        if(BlockUtil.canPlaceBlock(webPos))
-            line.add(EntityUtil.getFlooredPos(target));
+        if(BlockUtil.getBlock(webPos) == Blocks.AIR)
+            if(BlockUtil.getDistance(webPos, EntityUtil.getFlooredPos(mc.player)) <= placeRange.getValue())
+                line.add(webPos);
+
+        //Initializes switch values
+        int switchBack = -1;
+        Item oldItem = null;
+
+        //Sets oldItem
+        oldItem = getItemStack(mc.player.inventory.currentItem).getItem();
+        //Sets "should switch back" var, returns 0 if should switch back
+        switchBack = switchItems(Item.getItemFromBlock(Blocks.WEB), hands.MainHand);
 
         //Places webs
         for(BlockPos blockPos : line){
-            if(placeTimer.passedS(placeDelay.getValue())){
-                placeBlock(blockPos);
-                placeTimer.reset();
-            }
+            placeBlock(blockPos);
+        }
+
+        //Back switch
+        if(switchBack == 0) {
+            switchItems(oldItem, hands.MainHand);
+
+            switchBack = -1;
+            oldItem = null;
         }
 
         //Delete placed webs from the queue
@@ -132,28 +140,11 @@ public class TargetWeb extends Module{
 
     //BlockPos to place
     public void placeBlock(final BlockPos blockPos){
-        //Initializes switch values
-        int switchBack = -1;
-        Item oldItem = null;
-
-        //Sets oldItem
-        oldItem = getItemStack(mc.player.inventory.currentItem).getItem();
-        //Sets "should switch back" var, returns 0 if should switch back
-        switchBack = switchItems(Item.getItemFromBlock(Blocks.WEB), hands.MainHand);
-
         //Gets "enumHand" enum from "hands" enum
         EnumHand enumHand = hand.getValue(InventoryUtil.hands.MainHand) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
 
         //Places block
         BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), BlockUtil.blackList.contains(BlockUtil.getBlock(blockPos.add(0, -1, 0))) ? true : false);
-
-        //Back switch
-        if(switchBack == 0) {
-            switchItems(oldItem, hands.MainHand);
-
-            switchBack = -1;
-            oldItem = null;
-        }
     }
 
     @SubscribeEvent
@@ -195,6 +186,6 @@ public class TargetWeb extends Module{
     }
 
     public Vec3i getVec3i(Vec3d vec3d){
-        return new Vec3i(floor(vec3d.x), floor(vec3d.y), floor(vec3d.z));
+        return new Vec3i(round(vec3d.x), round(vec3d.y), round(vec3d.z));
     }
 }
