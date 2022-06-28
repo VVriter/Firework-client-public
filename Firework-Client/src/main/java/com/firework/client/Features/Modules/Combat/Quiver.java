@@ -18,26 +18,48 @@ import net.minecraft.util.math.BlockPos;
 @ModuleManifest(name = "Quiver",category = Module.Category.COMBAT)
 public class Quiver extends Module {
 
+    public Setting<Enum> mode = new Setting<>("Mode", modes.Handly, this, modes.values());
+    public enum modes{
+        Handly, Auto
+    }
 
-    public Setting<Enum> switchModes = new Setting<>("Switch", switchmod.Normal, this, switchmod.values());
+    public Setting<switchmod> switchModes = new Setting<>("Switch", switchmod.Normal, this, switchmod.values()).setVisibility(mode,modes.Auto);
     public enum switchmod{
         Normal, Multihand, Silent
     }
 
+    public Setting<Double> spamSpeed = new Setting<>("Speed", (double)3.2, this, 1, 30);
 
 
-    @Override public void onEnable() {super.onEnable();
-        doSwitch();
-        mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, mc.player.getHorizontalFacing()));
-        mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(mc.player.getActiveHand()));
-        mc.player.stopActiveHand();
+
+    @Override public void onEnable() { super.onEnable();
+        if(mode.getValue(modes.Auto)) {
+            doSwitch();
+
+            if (mc.player.getHeldItemMainhand().getItem() instanceof ItemBow && mc.player.getItemInUseMaxCount() >= spamSpeed.getValue()) {
+                mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, mc.player.getHorizontalFacing()));
+                mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(mc.player.getActiveHand()));
+                mc.player.stopActiveHand();
+            }
+            onDisable();
+        }else {
+            //Ok
+        }
     }
 
-    @Override public void onTick() {super.onTick();
+    @Override public void onTick() { super.onTick();
+        if (mc.player.getHeldItemMainhand().getItem() instanceof ItemBow) {
         mc.player.connection.sendPacket(new CPacketPlayer.Rotation(mc.player.rotationYaw, -90, true));
+        }
+
+        if (mc.player.getHeldItemMainhand().getItem() instanceof ItemBow && mc.player.getItemInUseMaxCount() >= spamSpeed.getValue()) {
+            mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, mc.player.getHorizontalFacing()));
+            mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(mc.player.getActiveHand()));
+            mc.player.stopActiveHand();
+        }
     }
 
-    @Override public void onDisable() {super.onDisable();
+    @Override public void onDisable() { super.onDisable();
 
     }
 
