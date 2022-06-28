@@ -8,7 +8,7 @@ import org.lwjgl.input.Keyboard;
 
 public class Module extends Info{
 
-    public Minecraft mc = Minecraft.getMinecraft();
+    public static Minecraft mc = Minecraft.getMinecraft();
 
     public Category category;
 

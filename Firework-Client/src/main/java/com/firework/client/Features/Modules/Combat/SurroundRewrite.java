@@ -6,6 +6,7 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
+import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Timer;
@@ -38,7 +39,6 @@ public class SurroundRewrite extends Module{
     public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", false, this);
     public Setting<Double> placeDelay = new Setting<>("PlaceDelayS", 0d, this, 0, 20).setVisibility(shouldToggle, false);
 
-    public Setting<switchModes> switchMode = new Setting<>("Switch", switchModes.Fast, this, switchModes.values());
     public Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
     public Setting<Boolean> packet = new Setting<>("Packet", true, this);
 
@@ -68,7 +68,7 @@ public class SurroundRewrite extends Module{
         if (shouldCenter.getValue())
             center();
 
-        switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand, switchMode.getValue());
+        switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand);
 
         if (shouldToggle.getValue()){
             doSurround(getBlocksToPlace());
@@ -82,6 +82,11 @@ public class SurroundRewrite extends Module{
         if(shouldCenter.getValue())
             center();
 
+        if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
+            MessageUtil.sendError("Place obby blocks to the hotbar", -1117);
+            return;
+        }
+
         doSurround(getBlocksToPlace());
     }
 
@@ -93,14 +98,14 @@ public class SurroundRewrite extends Module{
         Item oldItem = null;
 
         if(lastKeyCode == mc.gameSettings.keyBindJump.getKeyCode()) {
-            oldItem = getItemStack(36 + mc.player.inventory.currentItem).getItem();
-            switchBack = switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand, switchMode.getValue());
+            oldItem = getItemStack(mc.player.inventory.currentItem).getItem();
+            switchBack = switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand);
 
             BlockUtil.placeBlock(EntityUtil.getFlooredPos(mc.player).add(0, -1, 0), enumHand, rotate.getValue(), packet.getValue(), true);
             lastKeyCode = -1;
 
             if(switchBack == 0)
-                switchItems(oldItem, hands.MainHand, switchMode.getValue());
+                switchItems(oldItem, hands.MainHand);
 
             switchBack = -1;
             oldItem = null;
@@ -119,8 +124,8 @@ public class SurroundRewrite extends Module{
             }
 
             if(!line.isEmpty() && placeTimer.passedS(placeDelay.getValue())){
-                oldItem = getItemStack(36 + mc.player.inventory.currentItem).getItem();
-                switchBack = switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand, switchMode.getValue());
+                oldItem = getItemStack(mc.player.inventory.currentItem).getItem();
+                switchBack = switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand);
             }
 
             for (BlockPos blockPos : line){
@@ -131,7 +136,7 @@ public class SurroundRewrite extends Module{
             }
 
             if(switchBack == 0){
-                switchItems(oldItem, hands.MainHand, switchMode.getValue());
+                switchItems(oldItem, hands.MainHand);
 
                 switchBack = -1;
                 oldItem = null;
@@ -139,8 +144,8 @@ public class SurroundRewrite extends Module{
         }else{
             if(containsAir(getBlocksToPlace())) {
                 if (!Arrays.asList(getBlocksToPlace()).isEmpty()) {
-                    oldItem = getItemStack(36 + mc.player.inventory.currentItem).getItem();
-                    switchBack = switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand, switchMode.getValue());
+                    oldItem = getItemStack(mc.player.inventory.currentItem).getItem();
+                    switchBack = switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand);
                 }
 
                 for (BlockPos blockPos : getBlocksToPlace()) {
@@ -148,7 +153,7 @@ public class SurroundRewrite extends Module{
                 }
 
                 if(switchBack == 0){
-                    switchItems(oldItem, hands.MainHand, switchMode.getValue());
+                    switchItems(oldItem, hands.MainHand);
 
                     switchBack = -1;
                     oldItem = null;
@@ -175,19 +180,15 @@ public class SurroundRewrite extends Module{
         }
     }
 
-    public int switchItems(Item item, hands hand, switchModes mode){
+    public int switchItems(Item item, hands hand){
         if(hand == hands.MainHand){
-            if(getItemSlot(item) !=  (36 + mc.player.inventory.currentItem)){
-                System.out.println(getItemSlot(item) + "|" + (36 + mc.player.inventory.currentItem));
-                switch(mode){
-                    case Fast:
-                        if(getHotbarItemSlot(item) != -1){
-                            switchHotBarSlot(getHotbarItemSlot(item));
-                        }else{
-                            swapSlots(getItemSlot(item), getHotbarItemSlot(Item.getItemFromBlock(Blocks.AIR)));
-                            switchHotBarSlot(getHotbarItemSlot(item));
-                        }
-                        break;
+            if(getClickSlot(getItemSlot(item)) !=  getClickSlot(mc.player.inventory.currentItem)){
+                System.out.println(getClickSlot(getItemSlot(item)) + "|" + getClickSlot(mc.player.inventory.currentItem));
+                if(getHotbarItemSlot(item) != -1){
+                    switchHotBarSlot(getHotbarItemSlot(item));
+                }else{
+                    swapSlots(getItemSlot(item), getHotbarItemSlot(Item.getItemFromBlock(Blocks.AIR)));
+                    switchHotBarSlot(getHotbarItemSlot(item));
                 }
             }else{
                 return -1;
@@ -202,10 +203,10 @@ public class SurroundRewrite extends Module{
         InventoryUtil.mc.playerController.updateController();
     }
 
-    public void swapSlots(int from, int to){
-        mc.playerController.windowClick(0, from, 0, ClickType.PICKUP, mc.player);
-        mc.playerController.windowClick(0, to, 0, ClickType.PICKUP, mc.player);
-        mc.playerController.windowClick(0, from, 0, ClickType.PICKUP, mc.player);
+    public static void swapSlots(int from, int to){
+        mc.playerController.windowClick(0, getClickSlot(from), 0, ClickType.PICKUP, mc.player);
+        mc.playerController.windowClick(0, getClickSlot(to), 0, ClickType.PICKUP, mc.player);
+        mc.playerController.windowClick(0, getClickSlot(from), 0, ClickType.PICKUP, mc.player);
     }
 
     public void center() {
