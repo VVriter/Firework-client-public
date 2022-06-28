@@ -3,10 +3,8 @@ package com.firework.client.Implementations.GuiClassic.Components.Advanced.Setti
 import com.firework.client.Implementations.GuiClassic.Components.Button;
 import com.firework.client.Implementations.Managers.Updater.Updater;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Render.ColorUtils;
-import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.Render.*;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
-import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -42,7 +40,7 @@ public class ColorRainbowButton extends Button {
         super.draw();
 
         if((boolean)values[localIndex].get(0)){
-            activeColor = new Color(ColorUtils.astolfoColors(100, 100));
+            activeColor = new Color(RainbowUtil.astolfoColors(100, 100));
         }else {
             activeColor = Color.WHITE;
         }

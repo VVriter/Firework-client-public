@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.GuiNEO.Components.Button;
 import com.firework.client.Implementations.GuiNEO.GuiValueStorage;
 import com.firework.client.Implementations.Utill.Render.ColorUtils;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 
@@ -43,7 +44,7 @@ public class SubModuleButton extends Button {
                 height), outlineWidth, outlineColorA);
 
         textManager.drawString(name, x+3, y+1,
-                new Color(ColorUtils.astolfoColors(100, 100)).getRGB(),false);
+                new Color(RainbowUtil.astolfoColors(100, 100)).getRGB(),false);
     }
 
     @Override

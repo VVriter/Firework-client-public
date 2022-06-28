@@ -14,4 +14,14 @@ public class RainbowUtil {
         return (int) Long.parseLong(Integer.toHexString(Color.HSBtoRGB(hue, DEFAULT_COLOR_SATURATION, DEFAULT_COLOR_BRIGHTNESS)), 16);
 
     }
+
+    public static int astolfoColors(int yOffset, int yTotal) {
+        float hue;
+        float speed = 2900.0f;
+        for (hue = (float) (System.currentTimeMillis() % (long) ((int)speed)) + (float) ((yTotal - yOffset) * 9); hue > speed; hue -= speed) {}
+        if ((double) (hue /= speed) > 0.5) {
+            hue = 0.5f - (hue - 0.5f);
+        }
+        return Color.HSBtoRGB(hue += 0.5f, 0.5f, 1.0f);
+    }
 }

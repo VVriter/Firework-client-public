@@ -2,7 +2,7 @@ package com.firework.client.Implementations.GuiClassic.Components.Advanced.Setti
 
 import com.firework.client.Implementations.GuiClassic.Components.Button;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Render.ColorUtils;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 
@@ -34,7 +34,7 @@ public class SliderButton extends Button {
 
         RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorB);
 
-        RenderUtils2D.drawRectangle(new Rectangle(x, y, width * ((double)setting.getValue() - setting.min) / difference, height), new Color(ColorUtils.astolfoColors(100, 100)));
+        RenderUtils2D.drawRectangle(new Rectangle(x, y, width * ((double)setting.getValue() - setting.min) / difference, height), new Color(RainbowUtil.astolfoColors(100, 100)));
 
         RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);

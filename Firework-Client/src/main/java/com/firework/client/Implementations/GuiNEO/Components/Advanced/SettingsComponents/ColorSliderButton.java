@@ -3,10 +3,8 @@ package com.firework.client.Implementations.GuiNEO.Components.Advanced.SettingsC
 import com.firework.client.Implementations.GuiNEO.Components.Button;
 import com.firework.client.Implementations.GuiNEO.Gui;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Render.ColorUtils;
-import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.Render.*;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
-import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 
 import java.awt.*;
 
@@ -58,7 +56,7 @@ public class ColorSliderButton extends Button {
             value = ((HSLColor) setting.getValue()).light;
             RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new HSLColor(((HSLColor) setting.getValue()).hue, 50, 50).toRGB(), Color.BLACK);
         }
-        RenderUtils2D.drawMarker(new Rectangle((int) (x + round(width * value - 0) / difference), y, 6, height), new Color(ColorUtils.astolfoColors(100, 100)));
+        RenderUtils2D.drawMarker(new Rectangle((int) (x + round(width * value - 0) / difference), y, 6, height), new Color(RainbowUtil.astolfoColors(100, 100)));
     }
 
     public void setSettingFromX(int mouseX) {
