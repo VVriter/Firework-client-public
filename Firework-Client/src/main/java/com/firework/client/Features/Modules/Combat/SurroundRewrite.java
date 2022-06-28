@@ -83,7 +83,7 @@ public class SurroundRewrite extends Module{
             center();
 
         if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
-            MessageUtil.sendError("Place obby blocks to the hotbar", -1117);
+            MessageUtil.sendError("No obby found in the hotbar", -1117);
             return;
         }
 
