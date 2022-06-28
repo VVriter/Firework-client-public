@@ -573,11 +573,6 @@ public class RenderUtils {
         }
     }
 
-    public static AxisAlignedBB getBB(BlockPos pos) {
-        return new AxisAlignedBB(pos.getX() - mc.getRenderManager().viewerPosX, pos.getY() - mc.getRenderManager().viewerPosY, pos.getZ() - mc.getRenderManager().viewerPosZ,
-                pos.getX() + 1 - mc.getRenderManager().viewerPosX, pos.getY() + (1) - mc.getRenderManager().viewerPosY, pos.getZ() + 1 - mc.getRenderManager().viewerPosZ);
-    }
-
     public static void glColor(final int hex) {
         final float alpha = (hex >> 24 & 0xFF) / 255.0f;
         final float red = (hex >> 16 & 0xFF) / 255.0f;
