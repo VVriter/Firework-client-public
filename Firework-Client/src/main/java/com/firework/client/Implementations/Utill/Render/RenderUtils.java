@@ -37,11 +37,11 @@ public class RenderUtils {
         return (c >> location & 0xFF) / 255.0F;
     }
 
-    public static void trace(Minecraft mc, Entity e, float partialTicks, int mode) {
+    public static void trace(Minecraft mc, Entity e, float partialTicks, int mode,float width) {
         if (mc.getRenderManager().renderViewEntity != null) {
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             GL11.glDisable(GL11.GL_LIGHTING);
-            glLineWidth(2F);
+            glLineWidth(width);
 
             GL11.glPushMatrix();
             GL11.glDepthMask(false);
@@ -61,7 +61,7 @@ public class RenderUtils {
             double y = e.lastTickPosY + (e.posY - e.lastTickPosY) * partialTicks;
             double z = e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * partialTicks;
 
-            GL11.glVertex3d(x - r.viewerPosX, y - r.viewerPosY + 0.25, z - r.viewerPosZ);
+            GL11.glVertex3d(x - r.viewerPosX, y - r.viewerPosY + 0.5, z - r.viewerPosZ);
 
             GL11.glEnd();
             GL11.glDepthMask(true);
