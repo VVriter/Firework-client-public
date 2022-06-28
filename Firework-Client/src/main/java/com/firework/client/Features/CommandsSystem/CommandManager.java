@@ -18,6 +18,7 @@ import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help1Com
 import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help2Command;
 import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help3Command;
 import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help4Command;
+import com.firework.client.Features.CommandsSystem.Commands.Hide.HideCommand;
 import com.firework.client.Features.CommandsSystem.Commands.MuteSystem.GetList;
 import com.firework.client.Features.CommandsSystem.Commands.MuteSystem.Mute;
 import com.firework.client.Features.CommandsSystem.Commands.MuteSystem.UnMute;
@@ -81,6 +82,7 @@ public class CommandManager {
     public void init() {
         register(
 
+                new HideCommand(),
 
                 new Help1Command(),
                 new Help2Command(),

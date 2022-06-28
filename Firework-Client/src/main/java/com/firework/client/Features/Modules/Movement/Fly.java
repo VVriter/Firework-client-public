@@ -19,6 +19,11 @@ public class Fly extends Module {
 
     public Setting<Double> speed  = new Setting<>("Speed ", (double)3, this, 1, 10);
 
+    public static Setting<Boolean> enabled = null;
+
+    public Fly(){
+        enabled = this.isEnabled;
+    }
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (mode.getValue().equals("Clicktp")) {
