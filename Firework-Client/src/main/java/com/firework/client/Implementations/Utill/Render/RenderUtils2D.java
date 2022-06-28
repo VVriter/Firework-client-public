@@ -461,7 +461,7 @@ public class RenderUtils2D {
 
     public static void drawCheckMarkV3(Rectangle rectangle, boolean enabled){
         int radius = (int) round(rectangle.height/2);
-        drawRoundedRectangle(rectangle, radius, enabled ? new Color(ColorUtils.astolfoColors(100, 100)) : gray);
+        drawRoundedRectangle(rectangle, radius, enabled ? new Color(RainbowUtil.astolfoColors(100, 100)) : gray);
         Point2D.Double circleMarkPoint = null;
         if(enabled)
             circleMarkPoint = new Point2D.Double((int) round(rectangle.x + rectangle.width - radius),rectangle.y + radius);
@@ -477,11 +477,11 @@ public class RenderUtils2D {
         double height = rectangle.height;
 
         if(enabled) {
-            drawRectangle(new Rectangle(x + width * 1/4, y, width * 3/4, height), new Color(ColorUtils.astolfoColors(100, 100)));
+            drawRectangle(new Rectangle(x + width * 1/4, y, width * 3/4, height), new Color(RainbowUtil.astolfoColors(100, 100)));
             customFontManager.drawString("ON", (float) (x + width * 1/4 + (width * 3/4 - customFontManager.getWidth("ON"))/2), (float) ((float)y + (height - customFontManager.getHeight())/2 + 1), white.getRGB());
         }else {
             drawRectangle(new Rectangle(x, y, width * 3/4, height), white);
-            customFontManager.drawString("OFF", (float) (x + (width * 3/4 - customFontManager.getWidth("OFF"))/2), (float) ((float)y + (height - customFontManager.getHeight())/2 + 1), ColorUtils.astolfoColors(100, 100));
+            customFontManager.drawString("OFF", (float) (x + (width * 3/4 - customFontManager.getWidth("OFF"))/2), (float) ((float)y + (height - customFontManager.getHeight())/2 + 1), RainbowUtil.astolfoColors(100, 100));
         }
 
         drawRectangleOutline(rectangle, 0.5f, white);

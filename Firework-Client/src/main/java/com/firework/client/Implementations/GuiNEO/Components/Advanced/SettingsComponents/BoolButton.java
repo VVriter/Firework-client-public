@@ -2,7 +2,7 @@ package com.firework.client.Implementations.GuiNEO.Components.Advanced.SettingsC
 
 import com.firework.client.Implementations.GuiNEO.Components.Button;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Render.ColorUtils;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.Minecraft;
@@ -33,7 +33,7 @@ public class BoolButton extends Button {
         RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
                 height), outlineWidth, outlineColorA);
 
-        activeColor = (boolean) setting.getValue() ? ColorUtils.astolfoColors(100, 100) : Color.white.getRGB();
+        activeColor = (boolean) setting.getValue() ? RainbowUtil.astolfoColors(100, 100) : Color.white.getRGB();
 
         int checkMarkWidth = 12;
         RenderUtils2D.drawCheckMarkV3(new Rectangle(x + width - checkMarkWidth - 2, y + 2, checkMarkWidth, 6), (Boolean) setting.getValue());

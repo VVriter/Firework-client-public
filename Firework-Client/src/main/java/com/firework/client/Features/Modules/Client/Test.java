@@ -2,17 +2,13 @@ package com.firework.client.Features.Modules.Client;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Implementations.Managers.Coords.CoordsManager;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
-import com.firework.client.Implementations.Utill.Render.ColorUtils;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
-import com.firework.client.Implementations.Utill.Render.RenderUtils;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -59,11 +55,12 @@ public class Test extends Module {
                         Arrays.asList(new Color(ColorUtils.astolfoColors(100, 100)))))
                 .render();*/
 
-        BlockRenderBuilder blockRenderBuilder = new BlockRenderBuilder(vec3d)
-                .addRenderMode(new RenderMode(RenderMode.renderModes.Fill,
-                        Arrays.asList(new Color(ColorUtils.astolfoColors(100, 100)))))
-                .addRenderMode(new RenderMode(RenderMode.renderModes.OutLine,
-                        Arrays.asList(Color.white, 3f)))
-                .render();
+        new BlockRenderBuilder(vec3d)
+                .addRenderModes(
+                        new RenderMode(RenderMode.renderModes.Fill,
+                                new Color(RainbowUtil.astolfoColors(100, 100))),
+                        new RenderMode(RenderMode.renderModes.OutLine,
+                                Color.white, 3f)
+                ).render();
     }
 }

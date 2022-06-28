@@ -2,7 +2,7 @@ package com.firework.client.Implementations.GuiNEO.Components.Advanced;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.GuiNEO.Components.Button;
-import com.firework.client.Implementations.Utill.Render.ColorUtils;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.Minecraft;
@@ -38,7 +38,7 @@ public class ModuleButton extends Button {
                 height), outlineWidth, outlineColorA);
 
         textManager.drawString(name, x + (width-textWidth)/2, y+1,
-                module.isEnabled.getValue() ? new Color(ColorUtils.astolfoColors(100, 100)).getRGB() : Color.white.getRGB(),false);
+                module.isEnabled.getValue() ? new Color(RainbowUtil.astolfoColors(100, 100)).getRGB() : Color.white.getRGB(),false);
 
     }
 

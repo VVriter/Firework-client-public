@@ -2,7 +2,7 @@ package com.firework.client.Implementations.GuiClassic.Components.Advanced;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.GuiClassic.Components.Button;
-import com.firework.client.Implementations.Utill.Render.ColorUtils;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.Minecraft;
@@ -35,7 +35,7 @@ public class ModuleButton extends Button {
         RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorA);
 
         if(module.isEnabled.getValue()) {
-            RenderUtils2D.drawRectangle(new Rectangle(x + width - 3, y, 3, height + 1), new Color(ColorUtils.astolfoColors(100, 100)));
+            RenderUtils2D.drawRectangle(new Rectangle(x + width - 3, y, 3, height + 1), new Color(RainbowUtil.astolfoColors(100, 100)));
             RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x + width - 3, y, 3,
                     height), 2, outlineColorB);
         }
@@ -44,7 +44,7 @@ public class ModuleButton extends Button {
                 height), outlineWidth, outlineColorA);
 
         textManager.drawString(name, x+3, y+1,
-                new Color(ColorUtils.astolfoColors(100, 100)).getRGB(),false);
+                new Color(RainbowUtil.astolfoColors(100, 100)).getRGB(),false);
 
     }
 

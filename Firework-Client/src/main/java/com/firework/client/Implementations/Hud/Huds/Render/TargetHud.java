@@ -100,10 +100,10 @@ public class TargetHud extends HudComponent {
             ItemStack heldItemOffHand = target.getHeldItemOffhand();
             mc.getRenderItem().renderItemAndEffectIntoGUI(heldItemOffHand, newX, y + height - 2 - 10 - 7 - 12 - 2);
             //Outlines armor block
-            RenderUtils2D.drawRectangleOutline(new Rectangle(x + width - 120 - 2,y + height - 2 - 10 - 7 - 12 - 3, 72 + 3, 17), 1, new Color(ColorUtils.astolfoColors(100, 100)));
+            RenderUtils2D.drawRectangleOutline(new Rectangle(x + width - 120 - 2,y + height - 2 - 10 - 7 - 12 - 3, 72 + 3, 17), 1, new Color(RainbowUtil.astolfoColors(100, 100)));
 
             //Outlines held items block
-            RenderUtils2D.drawRectangleOutline(new Rectangle(x + width - 36 - 3 - 2,y + height - 2 - 10 - 7 - 12 - 3, 36 + 3, 17), 1, new Color(ColorUtils.astolfoColors(100, 100)));
+            RenderUtils2D.drawRectangleOutline(new Rectangle(x + width - 36 - 3 - 2,y + height - 2 - 10 - 7 - 12 - 3, 36 + 3, 17), 1, new Color(RainbowUtil.astolfoColors(100, 100)));
         }
     }
 

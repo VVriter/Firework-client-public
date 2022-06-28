@@ -2,7 +2,7 @@ package com.firework.client.Implementations.GuiClassic.Components.Advanced.Setti
 
 import com.firework.client.Implementations.GuiClassic.Components.Button;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Render.ColorUtils;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.Minecraft;
@@ -38,7 +38,7 @@ public class BoolButton extends Button {
                 7), 1, Color.WHITE);
 
         if((boolean)setting.getValue()){
-            activeColor = new Color(ColorUtils.astolfoColors(100, 100));
+            activeColor = new Color(RainbowUtil.astolfoColors(100, 100));
             RenderUtils2D.drawCheckMarkV2(new Point2D.Double(x + width - 11 + 3.5, y + 8), Color.WHITE);
         }else{
             activeColor = Color.WHITE;

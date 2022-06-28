@@ -25,8 +25,10 @@ public class BlockRenderBuilder {
         this.modes = new ArrayList<>();
     }
 
-    public BlockRenderBuilder addRenderMode(RenderMode mode){
-        modes.add(mode);
+    public BlockRenderBuilder addRenderModes(RenderMode... modes){
+        for(RenderMode mode : modes){
+            this.modes.add(mode);
+        }
         return this;
     }
 
