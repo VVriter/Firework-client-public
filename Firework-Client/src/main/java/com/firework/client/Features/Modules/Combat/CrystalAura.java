@@ -131,7 +131,7 @@ public class CrystalAura extends Module{
         }
 
         if (displayPlacedCrystals.getValue()) {
-            if (timerObj.hasPassed(resetTimer.getValue())) {
+            if (timerObj.hasPassedMs(resetTimer.getValue())) {
                 timerObj.reset();
                 if (crystalBlocks.size() > 1)
                     crystalBlocks.remove(0);

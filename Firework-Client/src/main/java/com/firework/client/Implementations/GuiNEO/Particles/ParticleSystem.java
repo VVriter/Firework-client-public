@@ -78,7 +78,7 @@ public class ParticleSystem {
         lineLong = GuiParticles.lineLong.getValue();
 
         ScaledResolution scaledResolution = new ScaledResolution(mc);
-        if(timer.hasPassed(speed)){
+        if(timer.hasPassedMs(speed)){
             timer.reset();
             for(Particle particle : particles) {
                 int newX = (int) round(particle.location.x += particle.dir.x);

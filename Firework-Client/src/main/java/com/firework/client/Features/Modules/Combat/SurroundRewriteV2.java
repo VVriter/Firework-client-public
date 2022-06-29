@@ -2,13 +2,13 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Firework;
+import com.firework.client.Implementations.Managers.Updater.Updater;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
-import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
-import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -17,13 +17,11 @@ import net.minecraft.item.Item;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -33,11 +31,13 @@ import static com.firework.client.Implementations.Utill.InventoryUtil.getClickSl
 @ModuleManifest(name = "SurroundRewriteV2", category = Module.Category.COMBAT)
 public class SurroundRewriteV2 extends Module {
     public Setting<Boolean> shouldDisableOnJump = new Setting<>("DisableOnJump", true, this);
-    public Setting<Double> keyClearDelay = new Setting<>("KeyDelayS", 0.1d, this, 0, 3).setVisibility(shouldDisableOnJump, false);
+    public Setting<Double> keyClearDelay = new Setting<>("KeyDelay", 0.1d, this, 0, 3).setVisibility(shouldDisableOnJump, false);
     public Setting<Boolean> shouldCenter = new Setting<>("Center", true, this);
 
     public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", false, this);
-    public Setting<Double> placeDelay = new Setting<>("PlaceDelayS", 0d, this, 0, 3);
+    public Setting<Integer> placeDelay = new Setting<>("PlaceDelayMs", 0, this, 0, 500);
+
+    public Setting<Integer> tickDelay = new Setting<>("TickDelay", 0, this, 0, 60);
 
     public Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
     public Setting<Boolean> packet = new Setting<>("Packet", true, this);
@@ -57,6 +57,9 @@ public class SurroundRewriteV2 extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
+        //Registers new listener
+        Firework.updaterManager.registerUpdater(listener1);
+
         //Clears old queue
         line.clear();
 
@@ -73,21 +76,33 @@ public class SurroundRewriteV2 extends Module {
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void onDisable() {
+        super.onDisable();
+        Firework.updaterManager.removeUpdater(listener1);
+    }
 
+    public Updater listener1 = new Updater(){
+        @Override
+        public void run() {
+            super.run();
+            this.delay = tickDelay.getValue();
+            doSurroundPre();
+        }
+    };
+
+    public void doSurroundPre() {
         if (shouldToggle.getValue()){
-            doSurround(getBlocksToPlace());
+            doSurroundInit(getBlocksToPlace());
             if(!containsAir(getBlocksToPlace()))
                 onDisable();
         }else{
             if(containsAir(getBlocksToPlace()))
-                doSurround(getBlocksToPlace());
+                doSurroundInit(getBlocksToPlace());
         }
     }
 
     //Places blocks from the list
-    public void doSurround(BlockPos[] blocksToPlace){
+    public void doSurroundInit(BlockPos[] blocksToPlace){
         //Stops process if obby wasn't found in a hotbar
         if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
             MessageUtil.sendError("No obby found in the hotbar", -1117);
@@ -109,10 +124,10 @@ public class SurroundRewriteV2 extends Module {
 
         //Places blocks
         for(BlockPos blockPos : line){
-            if(placeTimer.hasPassedS(placeDelay.getValue())) {
+            if(placeTimer.hasPassedMs(placeDelay.getValue())) {
                 placeBlock(blockPos);
                 placeTimer.reset();
-                if(placeDelay.getValue(0d))
+                if(placeDelay.getValue(0))
                     break;
             }
         }
@@ -124,7 +139,7 @@ public class SurroundRewriteV2 extends Module {
             if(shouldDisableOnJump.getValue())
                 onDisable();
             else
-                /* Places surround blocks including jump offset */ doSurround(getBlocksToPlace(new BlockPos(0, 1, 0)));
+                /* Places surround blocks including jump offset */ doSurroundInit(getBlocksToPlace(new BlockPos(0, 1, 0)));
         }
     }
 

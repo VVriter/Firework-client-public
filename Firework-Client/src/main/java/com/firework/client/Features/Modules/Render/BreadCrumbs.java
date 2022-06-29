@@ -47,7 +47,7 @@ public class BreadCrumbs extends Module {
     public void onTick() {
         super.onTick();
         if(resetTimer.getValue()) {
-            if (timerObj.hasPassed(timer.getValue().doubleValue() * 60)) {
+            if (timerObj.hasPassedMs(timer.getValue().doubleValue() * 60)) {
                 timerObj.reset();
                 points.remove(0);
             }

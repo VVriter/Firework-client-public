@@ -8,7 +8,7 @@ public final class Timer {
         time = System.currentTimeMillis();
     }
 
-    public boolean hasPassed(double ms) {
+    public boolean hasPassedMs(double ms) {
         return System.currentTimeMillis() - time >= ms;
     }
 
