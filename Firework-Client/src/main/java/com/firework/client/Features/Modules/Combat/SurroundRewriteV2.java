@@ -19,9 +19,9 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
-import scala.actors.threadpool.Arrays;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
 import static com.firework.client.Implementations.Utill.InventoryUtil.getClickSlot;
@@ -29,7 +29,7 @@ import static com.firework.client.Implementations.Utill.InventoryUtil.getClickSl
 @ModuleManifest(name = "SurroundRewriteV2", category = Module.Category.COMBAT)
 public class SurroundRewriteV2 extends Module {
     public Setting<Boolean> shouldDisableOnJump = new Setting<>("DisableOnJump", true, this);
-    public Setting<Double> keyClearDelay = new Setting<>("KeyDelayS", 0.3d, this, 0, 3).setVisibility(shouldDisableOnJump, false);
+    public Setting<Double> keyClearDelay = new Setting<>("KeyDelayS", 0.1d, this, 0, 3).setVisibility(shouldDisableOnJump, false);
     public Setting<Boolean> shouldCenter = new Setting<>("Center", true, this);
 
     public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", false, this);
