@@ -35,7 +35,7 @@ public class SurroundRewriteV2 extends Module {
     public Setting<Boolean> shouldCenter = new Setting<>("Center", true, this);
 
     public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", false, this);
-    public Setting<Integer> placeDelay = new Setting<>("PlaceDelayMs", 0, this, 0, 500);
+    public Setting<Integer> placeDelay = new Setting<>("PlaceDelayMs", 0, this, 0, 50);
 
     public Setting<Integer> tickDelay = new Setting<>("TickDelay", 0, this, 0, 60);
 
