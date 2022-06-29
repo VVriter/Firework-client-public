@@ -6,20 +6,15 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -52,7 +47,7 @@ public class PacketMine extends Module {
             blocks.remove(1);
         } if(mc.world.getBlockState(pos).getBlock().equals(Blocks.AIR)){
             blocks.remove(pos);
-        } if(BlockUtil.getDistanceFromBlockToEntity(mc.player.getPosition(),pos)>range.getValue()){
+        } if(BlockUtil.getDistance(mc.player.getPosition(),pos)>range.getValue()){
             blocks.remove(pos);
         }
     }
