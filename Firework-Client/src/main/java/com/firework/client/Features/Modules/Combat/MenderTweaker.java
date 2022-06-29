@@ -77,7 +77,15 @@ public class MenderTweaker extends Module {
         }
 
 
-
+        //Auto Disable
+        if(disable.getValue()){
+            if(!(mc.player.inventory.getStackInSlot(39).getItem() instanceof ItemArmor)
+                    && !(mc.player.inventory.getStackInSlot(38).getItem() instanceof ItemArmor)
+                    && !(mc.player.inventory.getStackInSlot(37).getItem() instanceof ItemArmor)
+                    && !(mc.player.inventory.getStackInSlot(36).getItem() instanceof ItemArmor)){
+                onDisable();
+            }
+        }
 
 
         //Armour changer
