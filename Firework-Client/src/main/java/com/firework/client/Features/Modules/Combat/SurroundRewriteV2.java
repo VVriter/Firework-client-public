@@ -7,6 +7,8 @@ import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -15,11 +17,13 @@ import net.minecraft.item.Item;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -33,7 +37,7 @@ public class SurroundRewriteV2 extends Module {
     public Setting<Boolean> shouldCenter = new Setting<>("Center", true, this);
 
     public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", false, this);
-    public Setting<Double> placeDelay = new Setting<>("PlaceDelayS", 0d, this, 0, 5);
+    public Setting<Double> placeDelay = new Setting<>("PlaceDelayS", 0d, this, 0, 3);
 
     public Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
     public Setting<Boolean> packet = new Setting<>("Packet", true, this);
@@ -77,7 +81,8 @@ public class SurroundRewriteV2 extends Module {
             if(!containsAir(getBlocksToPlace()))
                 onDisable();
         }else{
-            doSurround(getBlocksToPlace());
+            if(containsAir(getBlocksToPlace()))
+                doSurround(getBlocksToPlace());
         }
     }
 
@@ -102,15 +107,6 @@ public class SurroundRewriteV2 extends Module {
         //Returns if no blocks to place found
         if(line.isEmpty()) return;
 
-        //Initializes switch values
-        int switchBack = -1;
-        Item oldItem = null;
-
-        //Sets oldItem
-        oldItem = getItemStack(mc.player.inventory.currentItem).getItem();
-        //Sets "should switch back" var, returns 0 if should switch back
-        switchBack = switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand);
-
         //Places blocks
         for(BlockPos blockPos : line){
             if(placeTimer.hasPassedS(placeDelay.getValue())) {
@@ -119,14 +115,6 @@ public class SurroundRewriteV2 extends Module {
                 if(placeDelay.getValue(0d))
                     break;
             }
-        }
-
-        //Back switch
-        if(switchBack == 0) {
-            switchItems(oldItem, hands.MainHand);
-
-            switchBack = -1;
-            oldItem = null;
         }
     }
 
@@ -166,6 +154,9 @@ public class SurroundRewriteV2 extends Module {
         //Return if block pos is null
         if(blockPos == null)
             return;
+
+        //Switchs
+        switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand);
 
         //Gets "enumHand" enum from "hands" enum
         EnumHand enumHand = hand.getValue(InventoryUtil.hands.MainHand) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
