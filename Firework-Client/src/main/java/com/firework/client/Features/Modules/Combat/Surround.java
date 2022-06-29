@@ -86,7 +86,7 @@ public class Surround extends Module {
 
         for (BlockPos pos : getBlocksToPlace()) {
             if (BlockUtil.getBlock(pos) == Blocks.AIR) {
-                if(placeTimer.passedS(placeDelay.getValue())) {
+                if(placeTimer.hasPassedS(placeDelay.getValue())) {
                     BlockUtil.placeBlock(pos, enumHand, rotate.getValue(), packet.getValue(), shouldSneak);
                     placeTimer.reset();
                 }

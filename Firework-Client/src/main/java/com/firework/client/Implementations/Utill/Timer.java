@@ -12,32 +12,8 @@ public final class Timer {
         return System.currentTimeMillis() - time >= ms;
     }
 
-    public boolean passedS(double s) {
-        return this.getMs(System.nanoTime() - this.time) >= (long) (s * 1000.0);
-    }
-
-    public boolean passedM(double m) {
-        return this.getMs(System.nanoTime() - this.time) >= (long) (m * 1000.0 * 60.0);
-    }
-
-    public boolean passedDms(double dms) {
-        return this.getMs(System.nanoTime() - this.time) >= (long) (dms * 10.0);
-    }
-
-    public boolean passedDs(double ds) {
-        return this.getMs(System.nanoTime() - this.time) >= (long) (ds * 100.0);
-    }
-
-    public boolean passedMs(long ms) {
-        return this.getMs(System.nanoTime() - this.time) >= ms;
-    }
-
-    public boolean passedNS(long ns) {
-        return System.nanoTime() - this.time >= ns;
-    }
-
-    public void setMs(long ms) {
-        this.time = System.nanoTime() - ms * 1000000L;
+    public boolean hasPassedS(double s) {
+        return System.currentTimeMillis() - time >= (long) (s * 1000.0);
     }
 
     public long getMs(long time) {

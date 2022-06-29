@@ -10,10 +10,10 @@ public class FullBright extends Module {
         super.onEnable();
         new Thread(() -> {
                     try {
-                        for(int i=0;i<500;){
+                        for(int i=1;i<101;){
                             try{
                                 Thread.sleep(50);
-                                mc.gameSettings.gammaSetting = i+1;
+                                mc.gameSettings.gammaSetting = i;
                                 i++;}catch (InterruptedException e){
                                 e.printStackTrace();
                             }

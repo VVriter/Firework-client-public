@@ -1,7 +1,6 @@
 package com.firework.client.Implementations.Utill.Render;
 
 import com.firework.client.Implementations.Utill.Client.Pair;
-import com.firework.client.Implementations.Utill.Client.Triple;
 import com.firework.client.Implementations.Utill.Timer;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class AnimationUtil {
     }
 
     public void update(){
-        if(timer.passedS(delayS)) {
+        if(timer.hasPassedS(delayS)) {
             for (Pair<Double, Boolean> task : tasks) {
                 if (!task.two) {
                     if(width < task.one) {

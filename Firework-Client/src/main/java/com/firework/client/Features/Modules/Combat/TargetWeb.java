@@ -38,8 +38,6 @@ public class TargetWeb extends Module{
     private Setting<Integer> targetRange = new Setting<>("TargetRange", 6, this, 0, 12);
     //Web place range
     private Setting<Integer> placeRange = new Setting<>("PlaceRange", 3, this, 0, 6);
-    //Web place delay in ticks
-    private Setting<Integer> tickDelay = new Setting<>("TickDelay", 0, this, 0, 20);
     //Hand the module will use to place web
     private Setting<hands> hand = new Setting<>("hand", hands.MainHand, this, hands.values());
     //Should rotate to place

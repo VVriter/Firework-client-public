@@ -1,25 +1,20 @@
 package com.firework.client.Features.Modules.Combat;
 
-import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Timer;
-import net.minecraft.client.gui.GuiChat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -123,13 +118,13 @@ public class SurroundRewrite extends Module{
                 }
             }
 
-            if(!line.isEmpty() && placeTimer.passedS(placeDelay.getValue())){
+            if(!line.isEmpty() && placeTimer.hasPassedS(placeDelay.getValue())){
                 oldItem = getItemStack(mc.player.inventory.currentItem).getItem();
                 switchBack = switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand);
             }
 
             for (BlockPos blockPos : line){
-                if (placeTimer.passedS(placeDelay.getValue())) {
+                if (placeTimer.hasPassedS(placeDelay.getValue())) {
                     BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), true);
                     placeTimer.reset();
                 }
@@ -174,7 +169,7 @@ public class SurroundRewrite extends Module{
 
     @SubscribeEvent
     public void onPressedKey(InputEvent.KeyInputEvent event) {
-        if(keyClearTimer.passedS(keyClearDelay.getValue())) {
+        if(keyClearTimer.hasPassedS(keyClearDelay.getValue())) {
             lastKeyCode = Keyboard.getEventKey();
             keyClearTimer.reset();
         }
