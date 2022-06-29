@@ -76,11 +76,12 @@ public class TargetWeb extends Module{
         }
 
         //Predicts web pos to place
-        webPos = getPredictedWebPos(target, 2);
+        webPos = EntityUtil.getFlooredPos(target);
         //PLACES WEB
-        if(BlockUtil.getBlock(webPos) == Blocks.AIR)
-            if(BlockUtil.getDistance(webPos, EntityUtil.getFlooredPos(mc.player)) <= placeRange.getValue())
-                line.add(webPos);
+        if(webPos != null)
+            if(BlockUtil.getBlock(webPos) == Blocks.AIR)
+                if(BlockUtil.getDistance(webPos, EntityUtil.getFlooredPos(mc.player)) <= placeRange.getValue())
+                    line.add(webPos);
 
         //Initializes switch values
         int switchBack = -1;
@@ -159,7 +160,6 @@ public class TargetWeb extends Module{
     public int switchItems(Item item, InventoryUtil.hands hand){
         if(hand == InventoryUtil.hands.MainHand){
             if(getClickSlot(getItemSlot(item)) !=  getClickSlot(mc.player.inventory.currentItem)){
-                System.out.println(getClickSlot(getItemSlot(item)) + "|" + getClickSlot(mc.player.inventory.currentItem));
                 if(getHotbarItemSlot(item) != -1){
                     switchHotBarSlot(getHotbarItemSlot(item));
                 }else{
