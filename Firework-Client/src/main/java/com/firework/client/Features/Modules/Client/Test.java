@@ -1,6 +1,5 @@
 package com.firework.client.Features.Modules.Client;
 
-import com.firework.client.Features.Modules.Combat.SurroundRewrite;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
@@ -52,7 +51,7 @@ public class Test extends Module {
 
         oldItem = null;
         oldItem = getItemStack(mc.player.inventory.currentItem).getItem();
-        SurroundRewrite.swapSlots(InventoryUtil.getItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)), mc.player.inventory.currentItem);
+        //SurroundRewrite.swapSlots(InventoryUtil.getItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)), mc.player.inventory.currentItem);
 
         if(enumSetting.getValue(TestEnum.lock))
             System.out.println("checked");
@@ -62,7 +61,7 @@ public class Test extends Module {
     public void onDisable() {
         super.onDisable();
 
-        SurroundRewrite.swapSlots(InventoryUtil.getItemSlot(oldItem), mc.player.inventory.currentItem);
+        //SurroundRewrite.swapSlots(InventoryUtil.getItemSlot(oldItem), mc.player.inventory.currentItem);
     }
 
     @SubscribeEvent

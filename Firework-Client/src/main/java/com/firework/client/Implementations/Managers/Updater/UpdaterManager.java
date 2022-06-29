@@ -28,7 +28,6 @@ public class UpdaterManager {
 
     public void removeUpdater(Updater updater){
         updaters.remove(updater);
-        System.out.println("d");
     }
     public void removeUpdater(int index){
         Updater up = null;
