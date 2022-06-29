@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Render;
 import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -21,7 +22,10 @@ public class ItemViewModel extends Module {
     public static Setting<Boolean> SlowAnimations = null;
     public static Setting<Double> SlowVal = null;
 
-
+    public Setting<swings> swing = new Setting<>("Swing", swings.MainHand, this, swings.values()).setVisibility(page,pages.Misc);
+    public enum swings{
+        MainHand,OffHand,None
+    }
 
 
         public static Setting<Double> translateX  = null;
@@ -40,7 +44,7 @@ public class ItemViewModel extends Module {
         public static Setting<Double> scaleY   = null;
         public static Setting<Double> scaleZ   = null;
 
-    public ItemViewModel(){super("ItemViewModel",Category.RENDER);
+    public ItemViewModel(){super("ItemViewModifer",Category.RENDER);
 
         SlowAnimations = new Setting<>("SlowAnimations", false, this).setVisibility(page,pages.Misc);
         SlowVal = new Setting<>("AnimationSpeed", (double)20, this, 1, 40).setVisibility(SlowAnimations,true);
@@ -62,6 +66,27 @@ public class ItemViewModel extends Module {
         scaleY = new Setting<>("ScaleY", (double)100,this, -300, 300).setVisibility(page,pages.Scale);
         scaleZ = new Setting<>("ScaleZ", (double)100,this, -300, 300).setVisibility(page,pages.Scale);
         }
+
+        @Override
+        public void onTick(){
+            super.onTick();
+            //Swing---------------------------------------------------------------------------------------------------------------------
+            if(swing.getValue(swings.MainHand)){
+                mc.player.swingingHand = EnumHand.MAIN_HAND;
+            }else if(swing.getValue(swings.OffHand)){
+                mc.player.swingingHand = EnumHand.OFF_HAND;
+            }else if(swing.getValue(swings.None)){
+                mc.player.isSwingInProgress = false;
+                mc.player.swingProgressInt = 0;
+                mc.player.swingProgress = 0.0f;
+                mc.player.prevSwingProgress = 0.0f;
+            }
+        }
+
+
+
+
+
     }
 
 

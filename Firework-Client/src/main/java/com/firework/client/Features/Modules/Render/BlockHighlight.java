@@ -5,6 +5,9 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -20,7 +23,6 @@ public class BlockHighlight extends Module {
     public Setting<Double> width = new Setting<>("Width", (double)3, this, 1, 10);
     public Setting<Boolean> outline = new Setting<>("Outline", true, this);
     public Setting<Boolean> box = new Setting<>("Box", true, this);
-
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent e) {
         RayTraceResult mouseOver = mc.objectMouseOver;
