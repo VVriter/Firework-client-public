@@ -4,13 +4,20 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.InventoryUtil;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemExpBottle;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.util.EnumHand;
+
+import java.util.Map;
+
+import static com.firework.client.Implementations.Utill.InventoryUtil.*;
 
 @ModuleManifest(name = "AutoMend",category = Module.Category.COMBAT)
 public class AutoMend extends Module {
@@ -30,11 +37,14 @@ public class AutoMend extends Module {
     public Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
 
 
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        getInfAbtHelmet();
+    }
 
-
-
-  @Override
-  public void onTick(){
+    @Override
+    public void onTick(){
         super.onTick();
 
         if(!onSneak.getValue()){
@@ -50,7 +60,7 @@ public class AutoMend extends Module {
             mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
         }
 
-  }
+    }
 
 
 
@@ -81,5 +91,20 @@ public class AutoMend extends Module {
         } else if (switchMode.getValue(switches.Silent)){
           mc.player.connection.sendPacket(new CPacketHeldItemChange(findExpInHotbar()));
       }
+    }
+
+    //Info ab armor
+    private boolean getInfAbtHelmet() {
+        ItemStack helmet = mc.player.inventory.armorItemInSlot(3);
+        if(helmet.getItem() == Items.DIAMOND_HELMET ) {
+            System.out.println("helmot is on");
+            Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(helmet);
+            if(enchants.containsKey(Enchantment.getEnchantmentByLocation("mending"))){
+                System.out.println("found");
+            }
+        }else {
+            return false;
+        }
+        return false;
     }
 }
