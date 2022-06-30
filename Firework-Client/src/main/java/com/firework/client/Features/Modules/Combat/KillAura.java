@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Managers.Updater.Updater;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.WeaponUtil;
@@ -11,6 +12,7 @@ import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.RotationUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import static com.firework.client.Firework.*;
 import static com.firework.client.Implementations.Utill.InventoryUtil.getItemStack;
@@ -70,11 +72,9 @@ public class KillAura extends Module{
             if (!lastValue) {
                 if (autoEnable.getValue()) {
                     this.delay = 20;
-                    target = PlayerUtil.getClosest();
+                    target = PlayerUtil.getClosestTarget(targetRange.getValue());
 
-                    if (target == null) return;
-
-                    if (target.getPositionVector().distanceTo(mc.player.getPositionVector()) <= targetRange.getValue()) {
+                    if (target != null) {
                         onEnable();
                     } else if (enabled.getValue()) {
                         enabled.setValue(false);
@@ -84,4 +84,13 @@ public class KillAura extends Module{
             }
         }
     };
+
+    @SubscribeEvent
+    public void settingChangeValue(SettingChangeValueEvent event){
+        if(event.setting == autoEnable){
+            if(!autoEnable.getValue() && target != null && (target.getPositionVector().distanceTo(mc.player.getPositionVector())) <= targetRange.getValue()) {
+                onDisable();
+            }
+        }
+    }
 }
