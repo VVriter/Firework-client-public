@@ -3,6 +3,7 @@ package com.firework.client.Implementations.Hud;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.Utill.Client.ClassFinder;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -48,7 +49,7 @@ public class HudManager {
     public void onRender(TickEvent.RenderTickEvent event) {
         for (HudComponent component : hudComponents)
             if(mc.player!=null)
-                if(mc.currentScreen == null || mc.currentScreen instanceof GuiGameOver)
+                if(mc.currentScreen == null || mc.currentScreen instanceof GuiGameOver || mc.currentScreen instanceof GuiChat)
                     component.draw();
     }
 }
