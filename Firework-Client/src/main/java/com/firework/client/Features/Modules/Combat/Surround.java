@@ -242,18 +242,6 @@ public class Surround extends Module {
         return Math.abs(centerPos[0] - mc.player.posX) <= 0.1 && Math.abs(centerPos[2] - mc.player.posZ) <= 0.1;
     }
 
-    //Gets blocks to place without any offset
-    public BlockPos[] getBlocksToPlace() {
-        BlockPos p = EntityUtil.getFlooredPos(mc.player);
-        return new BlockPos[]{p.add(1, -1, 0), p.add(-1, -1, 0), p.add(0, -1, 1), p.add(0, -1, -1), p.add(1, 0, 0), p.add(-1, 0, 0), p.add(0, 0, 1), p.add(0, 0, -1)};
-    }
-
-    //Gets blocks to place with custom offset
-    public BlockPos[] getBlocksToPlace(BlockPos offset) {
-        BlockPos p = EntityUtil.getFlooredPos(mc.player);
-        return new BlockPos[]{p.add(1, -1, 0).add(offset), p.add(-1, -1, 0).add(offset), p.add(0, -1, 1).add(offset), p.add(0, -1, -1).add(offset), p.add(1, 0, 0).add(offset), p.add(-1, 0, 0).add(offset), p.add(0, 0, 1).add(offset), p.add(0, 0, -1).add(offset)};
-    }
-
     //Gets fist layer of blocks to place
     public BlockPos[] getsFirstLayerOfBlocksToPlace(BlockPos offset) {
         BlockPos p = EntityUtil.getFlooredPos(mc.player);
