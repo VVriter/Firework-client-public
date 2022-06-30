@@ -15,6 +15,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -33,6 +34,11 @@ public class Surround extends Module {
     public Setting<Boolean> shouldDisableOnJump = new Setting<>("DisableOnJump", true, this);
     public Setting<Double> keyClearDelay = new Setting<>("KeyDelay", 0.1d, this, 0, 3).setVisibility(shouldDisableOnJump, false);
     public Setting<Boolean> shouldCenter = new Setting<>("Center", true, this);
+
+    public Setting<centerModes> centerMode = new Setting<>("CMode", centerModes.Motion, this, centerModes.values());
+    public enum centerModes{
+        Motion, TP
+    }
 
     public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", false, this);
     public Setting<Integer> placeDelay = new Setting<>("PlaceDelayMs", 0, this, 0, 50);
@@ -63,16 +69,22 @@ public class Surround extends Module {
         //Clears old queue
         line.clear();
 
-        //Setups & reset place timer
+        //Setups & resets the place timer
         placeTimer = new Timer();
         placeTimer.reset();
 
-        //Setups & reset key clear timer
+        //Setups & resets the key clear timer
         keyClearTimer = new Timer();
         keyClearTimer.reset();
 
-        if (shouldCenter.getValue())
-            centerMotion();
+        //Moves player to a center
+        if (shouldCenter.getValue()) {
+            if (centerMode.getValue(centerModes.Motion)) {
+                centerMotion();
+            } else if(centerMode.getValue(centerModes.TP)) {
+                centerTeleport();
+            }
+        }
     }
 
     @Override
@@ -152,7 +164,7 @@ public class Surround extends Module {
         }
     }
 
-    //Moves player to center
+    //Moves player to a center
     public void centerMotion() {
         if (isCentered()) {
             return;
@@ -162,6 +174,17 @@ public class Surround extends Module {
 
         mc.player.motionX = (centerPos[0] - mc.player.posX) / 2;
         mc.player.motionZ = (centerPos[2] - mc.player.posZ) / 2;
+    }
+
+    //Teleports player to a center
+    public void centerTeleport() {
+        if (isCentered()) {
+            return;
+        }
+
+        double[] centerPos = {Math.floor(mc.player.posX) + 0.5, Math.floor(mc.player.posY), Math.floor(mc.player.posZ) + 0.5};
+        mc.player.connection.sendPacket(new CPacketPlayer.Position(centerPos[0], mc.player.posY, centerPos[2], mc.player.onGround));
+        mc.player.setPosition(centerPos[0], mc.player.posY, centerPos[2]);
     }
 
     //BlockPos to place
