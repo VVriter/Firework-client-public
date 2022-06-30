@@ -2,7 +2,6 @@
 
 package com.firework.client;
 
-import com.firework.client.Features.CustomMainMenu.OnGuiOpenEvent;
 import com.firework.client.Features.Modules.Client.CommandLineLogger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
@@ -18,7 +17,6 @@ import com.firework.client.Features.CommandsSystem.CommandManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Session;  
 import net.minecraft.util.Util;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -118,8 +116,6 @@ public class Firework
         SoundUtill.playSound(new ResourceLocation("firework/audio/loaded.wav"));
         //Sets custom title when client is loaded Example: Firework | Player123
         Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
-        //Sets CustomMainMenu
-        MinecraftForge.EVENT_BUS.register(new OnGuiOpenEvent());
     }
 
 
@@ -177,42 +173,4 @@ public class Firework
     }
 
     //End------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-   /**@Author*BUSH1ROOT
-    * Pasted from https://github.com/bush1root/TutorialClient/
-    * Using for alt manager*/
-   //Start--------------------------------------------------------------------------------------------------------------------------------------
-    public static void setSession(Session s) {
-        Class<? extends Minecraft> mc = Minecraft.getMinecraft().getClass();
-
-        try {
-            Field session = null;
-
-            for (Field f : mc.getDeclaredFields()) {
-                if (f.getType().isInstance(s)) {
-                    session = f;
-                }
-            }
-
-            if (session == null) {
-                throw new IllegalStateException("Session Null");
-            }
-
-            session.setAccessible(true);
-            session.set(Minecraft.getMinecraft(), s);
-            session.setAccessible(false);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    //End--------------------------------------------------------------------------------------------------------------------------------------
 }
