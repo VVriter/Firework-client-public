@@ -2,13 +2,15 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.WorldClientInitEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class BreadCrumbs extends Module {
     @Override
     public void onTick() {
         super.onTick();
-        if(resetTimer.getValue()) {
+        if(resetTimer.getValue() &&  !points.isEmpty()) {
             if (timerObj.hasPassedMs(timer.getValue().doubleValue() * 60)) {
                 timerObj.reset();
                 points.remove(0);
@@ -75,8 +77,17 @@ public class BreadCrumbs extends Module {
     }
 
     @SubscribeEvent
-    public void onRespawn(LivingSpawnEvent event) {
-        if(event.getEntity() == mc.player) {
+    public void onWorldJoin(WorldClientInitEvent event) {
+        timerObj = new Timer();
+        timerObj.reset();
+        lastVec = null;
+        points.clear();
+    }
+
+    @SubscribeEvent
+    public void onPlayerRespawn(EntityJoinWorldEvent event){
+        if(mc.player == null || mc.world == null) return;
+        if (event.getEntity().getEntityId() == mc.player.getEntityId()){
             timerObj = new Timer();
             timerObj.reset();
             lastVec = null;
