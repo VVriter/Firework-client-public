@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Mixins.MixinsList;
 
+import com.firework.client.Features.Modules.Misc.CameraClip;
 import com.firework.client.Features.Modules.Misc.Reach;
 import com.google.common.base.Predicate;
 import java.util.ArrayList;
@@ -133,13 +134,13 @@ public abstract class MixinEntityRenderer {
         return worldClient.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
     }
 
- /*   @ModifyVariable(method={"orientCamera"}, ordinal=3, at=@At(value="STORE", ordinal=0), require=1)
+    @ModifyVariable(method={"orientCamera"}, ordinal=3, at=@At(value="STORE", ordinal=0), require=1)
     public double changeCameraDistanceHook(double range) {
-        return CameraClip.getInstance().isEnabled() && CameraClip.getInstance().extend.getValue() != false ? CameraClip.getInstance().distance.getValue() : range;
-    }*/
+        return CameraClip.enabled.getValue() && CameraClip.extend.getValue() != false ? CameraClip.valX.getValue() : range;
+    }
 
-   /* @ModifyVariable(method={"orientCamera"}, ordinal=7, at=@At(value="STORE", ordinal=0), require=1)
+    @ModifyVariable(method={"orientCamera"}, ordinal=7, at=@At(value="STORE", ordinal=0), require=1)
     public double orientCameraHook(double range) {
-        return CameraClip.getInstance().isEnabled() && CameraClip.getInstance().extend.getValue() != false ? CameraClip.getInstance().distance.getValue() : (CameraClip.getInstance().isEnabled() && CameraClip.getInstance().extend.getValue() == false ? 4.0 : range);
-    }*/
+        return CameraClip.enabled.getValue() && CameraClip.extend.getValue() != false ? CameraClip.valX.getValue() : (CameraClip.enabled.getValue() && CameraClip.extend.getValue() == false ? 4.0 : range);
+    }
 }

@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 
 public class Gui extends Module {
 
+    public static Setting<Boolean> enabled = null;
     public static Setting<Double> scrollSpeed;
     public static Setting<Boolean> background;
     public static Setting<HSLColor> upStartBlockColor;
@@ -15,6 +16,7 @@ public class Gui extends Module {
 
     public Gui(){super("GuiModule",Category.CLIENT);
     this.key.setValue(Keyboard.KEY_RSHIFT) ;
+    enabled = this.isEnabled;
     scrollSpeed = new Setting<>("ScrollSpeed", 3d, this, 0.1, 10);
     background = new Setting<>("Background", false, this);
     upStartBlockColor = new Setting<>("upStartBlockColor", new HSLColor(175, 50, 50), this);
