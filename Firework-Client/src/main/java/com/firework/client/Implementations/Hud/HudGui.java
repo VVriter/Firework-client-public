@@ -24,8 +24,6 @@ public class HudGui extends GuiScreen {
 
     public static final int buttonHeight = 12;
 
-    public static Pair<Boolean, Vec2f> isDragging = new Pair<>(false, null);
-
     public static ScaledResolution scaledResolution;
     public HudGui(){
         init();
@@ -63,15 +61,24 @@ public class HudGui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        if(isDragging.one)
-            mouseClicked(mouseX, mouseY, 1);
-
         for(HudComponent hudComponent : hudManager.hudComponents)
             hudComponent.draw();
 
         for(Button button : initializedButtons){
             button.draw();
         }
+
+        boolean shouldInit = false;
+        for(HudComponent hudComponent : hudManager.hudComponents){
+            if(hudComponent.picked){
+                hudComponent.x = (int) (mouseX - hudComponent.offsetX);
+                hudComponent.y = (int) (mouseY - hudComponent.offsetY);
+                shouldInit = true;
+            }
+        }
+
+        if(shouldInit)
+            init();
     }
 
     @Override
@@ -88,12 +95,6 @@ public class HudGui extends GuiScreen {
                     init();
             }
         }
-    }
-
-    @Override
-    protected void mouseReleased(int mouseX, int mouseY, int state) {
-        super.mouseReleased(mouseX, mouseY, state);
-        isDragging.one = false;
     }
 
     @Override

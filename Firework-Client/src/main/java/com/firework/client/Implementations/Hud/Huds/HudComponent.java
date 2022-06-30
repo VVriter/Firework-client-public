@@ -22,8 +22,12 @@ public class HudComponent {
     public int width;
     public int height;
 
+    public float offsetX = 0;
+    public float offsetY = 0;
+
     public boolean enabled;
     public boolean initialized = false;
+    public boolean picked = false;
     public HudComponent(){
         if (getClass().isAnnotationPresent(HudManifest.class)) {
             HudManifest args = getClass().getAnnotation(HudManifest.class);
