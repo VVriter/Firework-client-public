@@ -83,18 +83,18 @@ public class HudGui extends GuiScreen {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int state) {
+        boolean shouldInit = false;
         for(Button button : initializedButtons){
             Vec2f mouse = new Vec2f(mouseX, mouseY);
             if(isHoveringOnTheButton(button, mouse)){
                 scaledResolution = new ScaledResolution(mc);
-                boolean shouldInit = false;
                 if (button instanceof HudButton) {
                     shouldInit = button.initialize(mouse, state);
                 }
-                if(shouldInit)
-                    init();
             }
         }
+        if(shouldInit)
+            init();
     }
 
     @Override
