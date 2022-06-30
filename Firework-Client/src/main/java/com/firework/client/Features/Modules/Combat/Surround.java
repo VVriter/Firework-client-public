@@ -25,6 +25,7 @@ import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
 import static com.firework.client.Implementations.Utill.InventoryUtil.getClickSlot;
@@ -35,7 +36,7 @@ public class Surround extends Module {
     public Setting<Double> keyClearDelay = new Setting<>("KeyDelay", 0.1d, this, 0, 3).setVisibility(shouldDisableOnJump, false);
     public Setting<Boolean> shouldCenter = new Setting<>("Center", true, this);
 
-    public Setting<centerModes> centerMode = new Setting<>("CMode", centerModes.Motion, this, centerModes.values());
+    public Setting<centerModes> centerMode = new Setting<>("CMode", centerModes.Motion, this, centerModes.values()).setVisibility(shouldCenter, true);
     public enum centerModes{
         Motion, TP
     }
@@ -103,18 +104,19 @@ public class Surround extends Module {
     };
 
     public void doSurroundPre() {
+        List<BlockPos> blocksToPlace = getDynamicBlocksToPlaceList(new BlockPos(0, 0, 0));
         if (shouldToggle.getValue()){
-            doSurroundInit(getBlocksToPlace());
-            if(!containsAir(getBlocksToPlace()))
+            doSurroundInit(blocksToPlace);
+            if(!containsAir(blocksToPlace))
                 onDisable();
         }else{
-            if(containsAir(getBlocksToPlace()))
-                doSurroundInit(getBlocksToPlace());
+            if(containsAir(blocksToPlace))
+                doSurroundInit(blocksToPlace);
         }
     }
 
     //Places blocks from the list
-    public void doSurroundInit(BlockPos[] blocksToPlace){
+    public void doSurroundInit(List<BlockPos> blocksToPlace){
         //Stops process if obby wasn't found in a hotbar
         if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
             MessageUtil.sendError("No obby found in the hotbar", -1117);
@@ -122,7 +124,7 @@ public class Surround extends Module {
         }
 
         //Adds blocks to place to the queue
-        line.addAll(Arrays.asList(blocksToPlace));
+        line.addAll(blocksToPlace);
 
         //Deletes placed blocks from the queue
         for (int i = 0; i < line.size(); i++) {
@@ -151,7 +153,7 @@ public class Surround extends Module {
             if(shouldDisableOnJump.getValue())
                 onDisable();
             else
-                /* Places surround blocks including jump offset */ doSurroundInit(getBlocksToPlace(new BlockPos(0, 1, 0)));
+                /* Places surround blocks including jump offset */ doSurroundInit(getDynamicBlocksToPlaceList(new BlockPos(0, 1, 0)));
         }
     }
 
@@ -203,6 +205,7 @@ public class Surround extends Module {
         BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), BlockUtil.blackList.contains(BlockUtil.getBlock(blockPos.add(0, -1, 0))) ? true : false);
     }
 
+    //Switches to needed item
     public int switchItems(Item item, InventoryUtil.hands hand){
         if(hand == InventoryUtil.hands.MainHand){
             if(getClickSlot(getItemSlot(item)) !=  getClickSlot(mc.player.inventory.currentItem)){
@@ -219,34 +222,59 @@ public class Surround extends Module {
         return 0;
     }
 
+    //Switches hotbar active slot
     public void switchHotBarSlot(int slot){
         InventoryUtil.mc.player.connection.sendPacket(new CPacketHeldItemChange(slot));
         InventoryUtil.mc.player.inventory.currentItem = slot;
         InventoryUtil.mc.playerController.updateController();
     }
 
+    //Swaps items between 2 slots
     public static void swapSlots(int from, int to){
         mc.playerController.windowClick(0, getClickSlot(from), 0, ClickType.PICKUP, mc.player);
         mc.playerController.windowClick(0, getClickSlot(to), 0, ClickType.PICKUP, mc.player);
         mc.playerController.windowClick(0, getClickSlot(from), 0, ClickType.PICKUP, mc.player);
     }
 
+    //Checks if player was centered
     public boolean isCentered() {
         double[] centerPos = {Math.floor(mc.player.posX) + 0.5, Math.floor(mc.player.posY), Math.floor(mc.player.posZ) + 0.5};
         return Math.abs(centerPos[0] - mc.player.posX) <= 0.1 && Math.abs(centerPos[2] - mc.player.posZ) <= 0.1;
     }
 
+    //Gets blocks to place without any offset
     public BlockPos[] getBlocksToPlace() {
         BlockPos p = EntityUtil.getFlooredPos(mc.player);
         return new BlockPos[]{p.add(1, -1, 0), p.add(-1, -1, 0), p.add(0, -1, 1), p.add(0, -1, -1), p.add(1, 0, 0), p.add(-1, 0, 0), p.add(0, 0, 1), p.add(0, 0, -1)};
     }
 
+    //Gets blocks to place with custom offset
     public BlockPos[] getBlocksToPlace(BlockPos offset) {
         BlockPos p = EntityUtil.getFlooredPos(mc.player);
         return new BlockPos[]{p.add(1, -1, 0).add(offset), p.add(-1, -1, 0).add(offset), p.add(0, -1, 1).add(offset), p.add(0, -1, -1).add(offset), p.add(1, 0, 0).add(offset), p.add(-1, 0, 0).add(offset), p.add(0, 0, 1).add(offset), p.add(0, 0, -1).add(offset)};
     }
 
-    public boolean containsAir(BlockPos[] blocks){
+    //Gets fist layer of blocks to place
+    public BlockPos[] getsFirstLayerOfBlocksToPlace(BlockPos offset) {
+        BlockPos p = EntityUtil.getFlooredPos(mc.player);
+        return new BlockPos[]{p.add(1, 0, 0).add(offset), p.add(-1, 0, 0).add(offset), p.add(0, 0, 1).add(offset), p.add(0, 0, -1).add(offset)};
+    }
+
+    //Gets blocks to place by checking their neighbors
+    public List<BlockPos> getDynamicBlocksToPlaceList(BlockPos offset){
+        ArrayList<BlockPos> blocksToPlace = new ArrayList<>(Arrays.asList(getsFirstLayerOfBlocksToPlace(offset)));
+        ArrayList<BlockPos> blocksToInsert = new ArrayList<>();
+        for(int i = 0; i < blocksToPlace.size(); i++){
+            BlockPos pos = blocksToPlace.get(i);
+            if(BlockUtil.getPossibleSides(pos).isEmpty())
+                blocksToInsert.add(pos.add(0, -1, 0));
+        }
+        blocksToInsert.addAll(blocksToPlace);
+        return blocksToInsert;
+    }
+
+    //Checks if a blockpos array has any air blocks
+    public boolean containsAir(List<BlockPos> blocks){
         for(BlockPos blockPos : blocks){
             if(BlockUtil.getBlock(blockPos) == Blocks.AIR){
                 return true;
