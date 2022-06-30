@@ -36,7 +36,7 @@ public class HoleFiller extends Module {
     public Setting<Boolean> shuldDisableOnJump = new Setting<>("DisableOnJump", true, this);
     public Setting<Boolean> shuldDisableOnOk = new Setting<>("DisableOnFill", true, this);
 
-   // public Setting<Boolean> autoBurrow = new Setting<>("AutoBurrow", true, this);
+    public Setting<Boolean> autoBurrow = new Setting<>("AutoBurrow", true, this);
     public Setting<HSLColor> renderColor = new Setting<>("RenderColor", new HSLColor(1, 54, 43), this);
 
 
@@ -65,7 +65,7 @@ public class HoleFiller extends Module {
             onDisable();
         }
         if(mode.getValue(modes.Normal)){
-            if(timer.hasPassedS(tickDelay.getValue()/100)) {
+            if(timer.hasPassedS(tickDelay.getValue())) {
                 makeNormalSwitch();
                 makeHoleFill();
                 timer.reset();
@@ -123,10 +123,8 @@ public class HoleFiller extends Module {
         MessageUtil.sendClientMessage("Im Holefiling now", -1117);
         int size = this.holes.size();
         for (int i = 0; i < size; ++i) {
-            if(timer.hasPassedS(tickDelay.getValue()/100)){
-                 BlockPos pos = this.holes.get(i);
-                BlockUtil.placeBlock(pos,EnumHand.MAIN_HAND,rotate.getValue(),packet.getValue(),false);
-            }
+            BlockPos pos = this.holes.get(i);
+            BlockUtil.placeBlock(pos,EnumHand.MAIN_HAND,rotate.getValue(),packet.getValue(),false);
         }
     }
     //Switch code

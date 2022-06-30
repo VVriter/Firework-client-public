@@ -14,7 +14,6 @@ import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Features.CommandsSystem.CommandManager;
-import com.firework.client.Shaders.Shaders;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.ResourceLocation;
@@ -45,7 +44,6 @@ import java.lang.reflect.Field;
 @Mod(modid = Firework.MODID, name = Firework.NAME, version = Firework.VERSION)
 public class Firework
 {
-    public static Shaders shaders;
     public static final String MODID = "firework";
     public static final String NAME = "FireWork Client";
     public static final String VERSION = "0.1";
@@ -92,7 +90,7 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
-        shaders = new Shaders( );
+
         CommandLineLogger.logAboutLoad();
 
 
