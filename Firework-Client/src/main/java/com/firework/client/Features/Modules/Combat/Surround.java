@@ -98,6 +98,8 @@ public class Surround extends Module {
         @Override
         public void run() {
             super.run();
+            if(mc.player == null || mc.world == null) return;
+
             this.delay = tickDelay.getValue();
             doSurroundPre();
         }
