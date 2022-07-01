@@ -16,7 +16,7 @@ import static com.firework.client.Firework.settingManager;
 
 public class Setting<T> {
 
-    private T value;
+    public T value;
     public String name;
     public Module module;
 

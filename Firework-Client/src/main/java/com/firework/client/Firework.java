@@ -70,7 +70,7 @@ public class Firework
         updaterManager = new UpdaterManager(); MinecraftForge.EVENT_BUS.register(updaterManager);
         settingManager = new SettingManager();
         moduleManager = new ModuleManager();
-        customFontManager = new CFontRenderer("tcm", 22, true, true);
+        customFontManager = new CFontRenderer("tcm", 23, true, true);
         textManager = new TextManager();
         hudManager = new HudManager(); MinecraftForge.EVENT_BUS.register(hudManager);
         commandManager = new CommandManager();

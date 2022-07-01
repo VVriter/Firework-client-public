@@ -31,10 +31,11 @@ public class ConfigManager{
         JSONArray jsonArray = new JSONArray();
         JSONObject config =  new JSONObject();
         for(Setting setting : Firework.settingManager.modulesSettings(module)){
-            config.put(setting.name, setting.getValue());
+            config.put(setting.name, String.valueOf(setting.getValue()));
         }
         jsonArray.add(config);
 
+        //Config file declaration
         File configFile = new File(configDir + module.name + ".json");
         try {
             //Creates file config if didn't create one
@@ -63,9 +64,17 @@ public class ConfigManager{
                     ArrayList<Setting> settings = new ArrayList<>();
                     for (int i = 0; i < Firework.settingManager.modulesSettings(module).size(); i++) {
                         Setting setting = Firework.settingManager.modulesSettings(module).get(0);
-                        System.out.println(module.name);
-                        System.out.println(config.get(setting.name));
-                        Firework.settingManager.settings.get(Firework.settingManager.settings.indexOf(Firework.settingManager.getSetting(module, setting.name))).setValue(config.get(setting.name));
+                        //System.out.println(module.name);
+                        //System.out.println(config.get(setting.name));
+                        Setting setting1 = Firework.settingManager.settings.get(Firework.settingManager.settings.indexOf(Firework.settingManager.getSetting(module, setting.name)));
+                        if(setting.value instanceof Integer)
+                            setting1.setValue(Integer.parseInt(String.valueOf(config.get(setting.name))));
+                        else if(setting.value instanceof Double)
+                            setting1.setValue(Double.parseDouble(String.valueOf(config.get(setting.name))));
+                        else if(setting.value instanceof Boolean)
+                            setting1.setValue(Boolean.parseBoolean(String.valueOf(config.get(setting.name))));
+                        else if(setting.mode == Setting.Mode.MODE)
+                            setting1.setValue(String.valueOf(config.get(setting.name)));
                     }
                 }
                 if(module.isEnabled.getValue())
