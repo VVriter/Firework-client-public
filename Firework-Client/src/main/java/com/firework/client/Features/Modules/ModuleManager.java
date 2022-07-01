@@ -96,27 +96,4 @@ public class ModuleManager {
         }
         return infos;
     }
-
-    public void saveModules() {
-        for (Module module : modules) {
-            JSONObject moduleJson = new JSONObject();
-            moduleJson.put("isEnabled", module.isEnabled);
-            for (Field var : module.getClass().getDeclaredFields()) {
-                if(Setting.class.isAssignableFrom(var.getType())) {
-                    Setting setting = null;
-                    try {
-                        setting = (Setting) var.get(this);
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    }
-                    moduleJson.put("settings/"+setting.name, setting);
-                }
-            }
-            try (FileWriter file = new FileWriter(Firework.FIREWORK_DIRECTORY + "/Modules/" + module.getClass().getSimpleName() + ".json")) {
-                file.write(moduleJson.toJSONString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

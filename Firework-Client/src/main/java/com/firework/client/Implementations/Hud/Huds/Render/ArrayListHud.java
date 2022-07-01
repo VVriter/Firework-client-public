@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Hud.Huds.HudManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -18,6 +19,14 @@ import static java.lang.Math.*;
 public class ArrayListHud extends HudComponent {
 
     public Setting<modes> mode = new Setting<>("Mode", modes.Astolfo, module, modes.values());
+    public enum modes{
+        Astolfo, Classic
+    }
+
+    public Setting<drawModes> drawMode = new Setting<>("Side", drawModes.Left, module, drawModes.values());
+    public enum drawModes{
+        Left, Right
+    }
 
     @Override
     public void initialize() {
@@ -53,11 +62,15 @@ public class ArrayListHud extends HudComponent {
 
         for(String name : names){
             int y = textManager.getFontHeight() * (names.indexOf(name) + 1);
+            int textWidth = textManager.getStringWidth(name);
+            int textColor = 0;
             if(mode.getValue(modes.Astolfo)) {
-                textManager.drawString(name, x + 2, y + this.y, RainbowUtil.astolfoColors(round(y) * 2, 100), false);
+                textColor = RainbowUtil.astolfoColors(round(y) * 2, 100);
             }else if(mode.getValue(modes.Classic)){
-                textManager.drawString(name, x + 2, y + this.y, RainbowUtil.generateRainbowFadingColor(round(y) * 2, true), false);
+                textColor = RainbowUtil.generateRainbowFadingColor(round(y) * 2, true);
             }
+
+            textManager.drawString(name, drawMode.getValue(drawModes.Left) ? (x + 2) : (x + width - textWidth - 2), y + this.y, textColor, false);
 
             if((y+this.y) > maxY)
                 maxY = y+this.y;
@@ -73,10 +86,5 @@ public class ArrayListHud extends HudComponent {
             return s2.length()-s1.length();
         }
     }
-
-    public enum modes{
-        Astolfo, Classic
-    }
-
 }
 
