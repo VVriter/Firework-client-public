@@ -16,7 +16,7 @@ public class ItemViewModel extends Module {
 
     public Setting<Enum> page = new Setting<>("Page", pages.Translate, this, pages.values());
     public enum pages{
-        Translate, Rotate, Scale, Misc
+        Translate, Rotate, Scale, Charms, Misc
     }
 
     public static Setting<Boolean> SlowAnimations = null;
@@ -82,11 +82,6 @@ public class ItemViewModel extends Module {
                 mc.player.prevSwingProgress = 0.0f;
             }
         }
-
-
-
-
-
     }
 
 

@@ -17,9 +17,12 @@ import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class NoRender extends Module {
+    public static Setting<Boolean> enabled = null;
 
-
-    public Setting<Boolean> antiFog = new Setting<>("AntiFog", true, this);
+    public static Setting<Boolean> antiFog = null;
+    public static Setting<Boolean> skylight = null;
+    public static Setting<Boolean> totemPops = null;
+    public static Setting<Boolean> hurtcam = null;
     public Setting<Boolean> viewBobbing = new Setting<>("ViewBobbing", true, this);
     public Setting<Boolean> blockoverlay = new Setting<>("BlockOverlay", true, this);
 
@@ -28,7 +31,14 @@ public class NoRender extends Module {
     public Setting<Boolean> explosions = new Setting<>("Explosions", true, this);
     public Setting<Boolean> particles = new Setting<>("Particles", true, this);
 
-    public NoRender(){super("NoRender",Category.RENDER);}
+    public NoRender(){
+        super("NoRender",Category.RENDER);
+        enabled = this.isEnabled;
+        antiFog = new Setting<>("AntiFog", true, this);
+        skylight = new Setting<>("Skylight", true, this);
+        totemPops = new Setting<>("TotemPops", true, this);
+        hurtcam = new Setting<>("Hurtcam", true, this);
+    }
 
     public void onEnable(){
         super.onEnable();
