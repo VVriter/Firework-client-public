@@ -87,27 +87,27 @@ public class Gui extends GuiScreen {
                             if(!setting.hidden) {
                                 if (setting.mode == Setting.Mode.BOOL) {
                                     offsetObject.register(
-                                            new BoolButton(setting, xOffset + newXOffset + 2, yOffset, buttonWidth - 2, 11));
+                                            new BoolButton(setting, xOffset + newXOffset + 1, yOffset, buttonWidth - 1, 11));
                                 }
                                 if (setting.mode == Setting.Mode.MODE) {
                                     offsetObject.register(
-                                            new ModeButton(setting, xOffset + newXOffset + 2, yOffset, buttonWidth - 2, 11));
+                                            new ModeButton(setting, xOffset + newXOffset + 1, yOffset, buttonWidth - 1, 11));
                                 }
                                 if (setting.mode == Setting.Mode.NUMBER) {
                                     offsetObject.register(
-                                            new SliderButton(setting, xOffset + newXOffset + 2, yOffset, buttonWidth - 2, 11));
+                                            new SliderButton(setting, xOffset + newXOffset + 1, yOffset, buttonWidth - 1, 11));
                                 }
                                 if (setting.mode == Setting.Mode.KEY) {
                                     offsetObject.register(
-                                            new KeyButton(setting, xOffset + newXOffset + 2, yOffset, buttonWidth - 2, 11));
+                                            new KeyButton(setting, xOffset + newXOffset + 1, yOffset, buttonWidth - 1, 11));
                                 }
                                 if (setting.mode == Setting.Mode.COLOR) {
                                     offsetObject.register(
-                                            new ColorButton(setting, xOffset + newXOffset + 2, yOffset, buttonWidth - 2, 11),
-                                            new ColorSliderButton(setting, xOffset + newXOffset + 2, yOffset + 71, buttonWidth - 2, 12, ColorSliderButton.CSliderMode.HUE),
-                                            new ColorSliderButton(setting, xOffset + newXOffset + 2, yOffset + 84, buttonWidth - 2, 12, ColorSliderButton.CSliderMode.SATURATION),
-                                            new ColorSliderButton(setting, xOffset + newXOffset + 2, yOffset + 97, buttonWidth - 2, 12, ColorSliderButton.CSliderMode.LIGHT),
-                                            new ColorRainbowButton(setting, xOffset + newXOffset + 2, yOffset + 110, buttonWidth - 2, 12));
+                                            new ColorButton(setting, xOffset + newXOffset + 1, yOffset, buttonWidth - 1, 11),
+                                            new ColorSliderButton(setting, xOffset + newXOffset + 1, yOffset + 71, buttonWidth - 1, 12, ColorSliderButton.CSliderMode.HUE),
+                                            new ColorSliderButton(setting, xOffset + newXOffset + 1, yOffset + 84, buttonWidth - 1, 12, ColorSliderButton.CSliderMode.SATURATION),
+                                            new ColorSliderButton(setting, xOffset + newXOffset + 1, yOffset + 97, buttonWidth - 1, 12, ColorSliderButton.CSliderMode.LIGHT),
+                                            new ColorRainbowButton(setting, xOffset + newXOffset + 1, yOffset + 110, buttonWidth - 1, 12));
                                 }
                                 yOffset += offsetObject.offset;
                             }
@@ -123,7 +123,7 @@ public class Gui extends GuiScreen {
                 index++;
             }
 
-            EndBlock endBlock = new EndBlock(xOffset + newXOffset - 1, yOffset, buttonWidth+2, 1);
+            EndBlock endBlock = new EndBlock(xOffset + newXOffset, yOffset, buttonWidth, 1);
 
             initializedButtons.add(endBlock);
             initializedButtons.add(startBlock);

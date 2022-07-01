@@ -21,9 +21,9 @@ public class ConfigManager{
     public ConfigManager(){
         new File(configDir).mkdirs();
 
-        for(Module module : Firework.moduleManager.modules){
-            loadModuleSettings(module);
-        }
+        //for(Module module : Firework.moduleManager.modules){
+        //    loadModuleSettings(module);
+        //}
     }
 
     public void saveModuleSettings(Module module){
@@ -63,6 +63,8 @@ public class ConfigManager{
                     ArrayList<Setting> settings = new ArrayList<>();
                     for (int i = 0; i < Firework.settingManager.modulesSettings(module).size(); i++) {
                         Setting setting = Firework.settingManager.modulesSettings(module).get(0);
+                        System.out.println(module.name);
+                        System.out.println(config.get(setting.name));
                         Firework.settingManager.settings.get(Firework.settingManager.settings.indexOf(Firework.settingManager.getSetting(module, setting.name))).setValue(config.get(setting.name));
                     }
                 }

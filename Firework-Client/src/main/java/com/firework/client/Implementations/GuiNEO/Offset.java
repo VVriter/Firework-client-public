@@ -21,7 +21,7 @@ public class Offset {
             x = b.x;
         }
 
-        SettingIndicator settingIndicator = new SettingIndicator(x-2, y, 2, offset);
+        SettingIndicator settingIndicator = new SettingIndicator(x-1, y, 2, offset);
         Gui.initializedButtons.add(settingIndicator);
     }
 }
