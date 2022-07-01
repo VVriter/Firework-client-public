@@ -2,6 +2,7 @@ package com.firework.client.Implementations.GuiNEO.Components.Advanced;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.GuiNEO.Components.Button;
+import com.firework.client.Implementations.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
@@ -32,10 +33,7 @@ public class ModuleButton extends Button {
         int outlineWidth = 3;
         int textWidth = textManager.getStringWidth(name);
 
-        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorA);
-
-        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
-                height), outlineWidth, outlineColorA);
+        GuiInfo.drawBaseButton(this, fillColorA, outlineColorA);
 
         textManager.drawString(name, x + (width-textWidth)/2, y+1,
                 module.isEnabled.getValue() ? new Color(RainbowUtil.astolfoColors(100, 100)).getRGB() : Color.white.getRGB(),false);

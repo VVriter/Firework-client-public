@@ -2,7 +2,9 @@ package com.firework.client.Implementations.GuiNEO.Components.Advanced.SettingsC
 
 import com.firework.client.Implementations.GuiNEO.Components.Button;
 import com.firework.client.Implementations.GuiNEO.Gui;
+import com.firework.client.Implementations.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.Minecraft;
@@ -28,19 +30,15 @@ public class KeyButton extends Button {
 
         String value = Keyboard.getKeyName((Integer) setting.getValue());
 
-        int outlineWidth = 3;
         int textWidth = textManager.getStringWidth(value);
 
-        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColor);
-
-        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
-                height), outlineWidth, outlineColorA);
+        GuiInfo.drawBaseButton(this, fillColor, outlineColorA);
 
         textManager.drawString(setting.name, x + 3, y + 1,
                 Color.WHITE.getRGB(), false);
 
         textManager.drawString(value, x+width-2-textWidth, y + 1,
-                Color.WHITE.getRGB(), false);
+                RainbowUtil.astolfoColors(100, 100), false);
     }
 
     @Override

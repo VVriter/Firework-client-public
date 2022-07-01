@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.GuiNEO.Components.Advanced.SettingsComponents;
 
 import com.firework.client.Implementations.GuiNEO.Components.Button;
+import com.firework.client.Implementations.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.Managers.Updater.Updater;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.*;
@@ -46,18 +47,13 @@ public class ColorRainbowButton extends Button {
             activeColor = Color.WHITE;
         }
 
-        int outlineWidth = 3;
-
         String text = "RAINBOW";
 
         int textWidth = textManager.getStringWidth(text);
 
-        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorA);
+        GuiInfo.drawBaseButton(this, fillColorA, outlineColorA);
 
-        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
-                height), outlineWidth, outlineColorA);
-
-        textManager.drawString(text, x+3, y+1,
+        textManager.drawString(text, x+(width-textWidth)/2, y+1,
                 activeColor.getRGB(),false);
 
     }

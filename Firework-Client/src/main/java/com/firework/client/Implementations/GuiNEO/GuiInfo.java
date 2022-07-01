@@ -1,14 +1,19 @@
 package com.firework.client.Implementations.GuiNEO;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Implementations.GuiNEO.Components.Button;
 import com.firework.client.Implementations.GuiNEO.Components.Column;
 import com.firework.client.Implementations.Utill.Client.Pair;
+import com.firework.client.Implementations.Utill.Render.Rectangle;
+import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 import static com.firework.client.Firework.resourceLocation;
+import static com.firework.client.Implementations.GuiClassic.GuiInfo.fillColorA;
+import static com.firework.client.Implementations.GuiClassic.GuiInfo.outlineColorA;
 
 public class GuiInfo {
 
@@ -81,4 +86,17 @@ public class GuiInfo {
         return null;
     }
 
+    //2D render stuff
+    public static void drawBaseButton(Button button, Color color1, Color color2){
+        float x = button.x;
+        float y = button.y;
+        float width = button.width;
+        float height = button.height;
+        int outlineWidth = 1;
+
+        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), color1);
+
+        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
+                height), outlineWidth, color2);
+    }
 }

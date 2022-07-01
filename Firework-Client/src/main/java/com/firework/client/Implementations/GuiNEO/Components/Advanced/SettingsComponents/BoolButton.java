@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.GuiNEO.Components.Advanced.SettingsComponents;
 
 import com.firework.client.Implementations.GuiNEO.Components.Button;
+import com.firework.client.Implementations.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
@@ -26,12 +27,7 @@ public class BoolButton extends Button {
     public void draw() {
         super.draw();
 
-        int outlineWidth = 3;
-
-        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorB);
-
-        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
-                height), outlineWidth, outlineColorA);
+        GuiInfo.drawBaseButton(this, fillColorB, outlineColorA);
 
         activeColor = (boolean) setting.getValue() ? RainbowUtil.astolfoColors(100, 100) : Color.white.getRGB();
 

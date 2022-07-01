@@ -2,6 +2,7 @@ package com.firework.client.Implementations.GuiNEO.Components.Advanced.SettingsC
 
 import com.firework.client.Implementations.GuiNEO.Components.Button;
 import com.firework.client.Implementations.GuiNEO.Gui;
+import com.firework.client.Implementations.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.*;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
@@ -38,13 +39,7 @@ public class ColorSliderButton extends Button {
         if(setting.opened != true) return;
         super.draw();
 
-        int outlineWidth = 3;
-        int renderWidth = 2;
-
-        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorB);
-
-        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
-                height), outlineWidth, outlineColorA);
+        GuiInfo.drawBaseButton(this, fillColorB, outlineColorA);
 
         float value = 0;
         if(mode == CSliderMode.HUE){

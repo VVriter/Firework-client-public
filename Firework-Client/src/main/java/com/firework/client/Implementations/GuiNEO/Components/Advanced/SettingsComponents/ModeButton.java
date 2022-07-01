@@ -1,7 +1,9 @@
 package com.firework.client.Implementations.GuiNEO.Components.Advanced.SettingsComponents;
 
 import com.firework.client.Implementations.GuiNEO.Components.Button;
+import com.firework.client.Implementations.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 
@@ -21,19 +23,15 @@ public class ModeButton extends Button {
     public void draw() {
         super.draw();
 
-        int outlineWidth = 3;
         int textWidth = textManager.getStringWidth(setting.getValue().toString());
 
-        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorB);
-
-        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
-                height), outlineWidth, outlineColorA);
+        GuiInfo.drawBaseButton(this, fillColorB, outlineColorA);
 
         textManager.drawString(setting.name, x+3, y+1,
                 Color.WHITE.getRGB(),false);
 
         textManager.drawString(setting.getValue().toString(), x+width-2-textWidth, y+1,
-                Color.WHITE.getRGB(),false);
+                RainbowUtil.astolfoColors(100, 100),false);
     }
 
     @Override

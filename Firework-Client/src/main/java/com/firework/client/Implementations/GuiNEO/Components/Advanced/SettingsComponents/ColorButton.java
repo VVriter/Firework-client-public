@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.GuiNEO.Components.Advanced.SettingsComponents;
 
 import com.firework.client.Implementations.GuiNEO.Components.Button;
+import com.firework.client.Implementations.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
@@ -26,10 +27,7 @@ public class ColorButton extends Button {
 
         int outlineWidth = 3;
 
-        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorB);
-
-        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
-                height), outlineWidth, outlineColorA);
+        GuiInfo.drawBaseButton(this, fillColorB, outlineColorA);
 
         RenderUtils2D.drawRectangle(new Rectangle(x + width-11, y+2, 7,
                 7), ((HSLColor) setting.getValue()).toRGB());

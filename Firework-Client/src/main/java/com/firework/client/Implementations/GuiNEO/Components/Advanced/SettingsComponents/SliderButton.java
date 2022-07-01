@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.GuiNEO.Components.Advanced.SettingsComponents;
 
 import com.firework.client.Implementations.GuiNEO.Components.Button;
+import com.firework.client.Implementations.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
@@ -29,15 +30,11 @@ public class SliderButton extends Button {
     public void draw() {
         super.draw();
 
-        int outlineWidth = 3;
         int textWidth = textManager.getStringWidth(setting.getValue().toString());
 
-        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), fillColorB);
+        GuiInfo.drawBaseButton(this, fillColorB, outlineColorA);
 
         RenderUtils2D.drawRectangle(new Rectangle(x + 2, y + height - 1, (width - 4) * (Double.valueOf(setting.getValue().toString()) - setting.min) / difference, 2), new Color(RainbowUtil.astolfoColors(100, 100)));
-
-        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
-                height), outlineWidth, outlineColorA);
 
         textManager.drawString(setting.name, x+3, y+1,
                 Color.WHITE.getRGB(),false);
