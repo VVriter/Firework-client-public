@@ -28,6 +28,7 @@ public class AntiVoid extends Module {
     }
 
     public void onDisable() {
+        super.onDisable();
         mc.player.moveVertical = 0.0f;
     }
 }

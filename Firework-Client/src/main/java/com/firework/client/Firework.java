@@ -2,6 +2,7 @@
 
 package com.firework.client;
 
+import com.firework.client.Features.Modules.Client.Client;
 import com.firework.client.Features.Modules.Client.CommandLineLogger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
@@ -96,7 +97,7 @@ public class Firework
         CommandLineLogger.logAboutLoad();
 
 
-        FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir +"\\Firework\\";
+        FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir+"";
         InitAuth.initate();
         InitConfigs.initate();
 
@@ -114,8 +115,10 @@ public class Firework
         minecraft = Minecraft.getMinecraft();
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework");
-        //Plays firework sound when loading client
-        SoundUtill.playSound(new ResourceLocation("firework/audio/loaded.wav"));
+        if(Client.enabled.getValue() && Client.loadedSound.getValue()) {
+            //Plays firework sound when loading client
+            SoundUtill.playSound(new ResourceLocation("firework/audio/loaded.wav"));
+        }
         //Sets custom title when client is loaded Example: Firework | Player123
         Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
     }
