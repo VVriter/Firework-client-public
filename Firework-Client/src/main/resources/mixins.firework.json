@@ -20,6 +20,7 @@
     "MixinPlayerControllerMP",
     "MixinEntityRenderer",
     "MixinWorldClient",
-    "MixinRenderBoat"
+    "MixinRenderBoat",
+    "MixinTileEntityEnchantmentTableRenderer"
   ]
 }

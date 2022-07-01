@@ -28,6 +28,9 @@ public class NoRender extends Module {
     public static Setting<Boolean> fov = null;
 
     public static Setting<Boolean> blockBreak = null;
+
+    public static Setting<Boolean> enchatntTable = null;
+
     public Setting<Boolean> viewBobbing = new Setting<>("ViewBobbing", true, this);
     public Setting<Boolean> blockoverlay = new Setting<>("BlockOverlay", true, this);
 
@@ -47,6 +50,7 @@ public class NoRender extends Module {
         hands = new Setting<>("Hands", true, this);
         fov = new Setting<>("Fov", true, this);
         blockBreak = new Setting<>("BlockBreak", true, this);
+        enchatntTable = new Setting<>("EnchantTable", true, this);
     }
 
     public void onEnable(){
