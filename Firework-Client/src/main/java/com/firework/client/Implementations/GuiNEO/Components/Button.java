@@ -16,7 +16,7 @@ public class Button {
 
     public Setting setting = null;
 
-    public int offset = 11;
+    public int offset = 10;
 
     public int localIndex;
 

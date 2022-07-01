@@ -38,8 +38,8 @@ public class ModuleManager {
         });
         System.out.println("Modules initialised");
 
+        modules.sort(Comparator.comparing(Module::getName));
         infos = initializeSubModules();
-        infos.sort(Comparator.comparing(Info::getName));
     }
 
     public Module getModuleByName(String name){
