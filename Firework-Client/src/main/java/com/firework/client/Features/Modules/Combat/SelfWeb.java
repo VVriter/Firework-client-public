@@ -20,14 +20,29 @@ import static com.firework.client.Implementations.Utill.InventoryUtil.getClickSl
 @ModuleManifest(name = "SelfWeb", category = Module.Category.COMBAT)
 public class SelfWeb extends Module {
 
+    //Should toggle onEnable
     private Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", true, this);
+    //Should toggle on pos change
+    private Setting<Boolean> toggleOnMove = new Setting<>("ToggleOnMove", true, this);
 
+    //Should rotate on block place
     private Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
+    //Should send packet confirmation on block place
     private Setting<Boolean> packet = new Setting<>("Packet", true, this);
-
-    private Setting<Surround.switchModes> switchMode = new Setting<>("Switch", Surround.switchModes.Fast, this, Surround.switchModes.values());
+    //Switch mode
+    private Setting<switchModes> switchMode = new Setting<>("Switch", switchModes.Fast, this, switchModes.values());
     private enum switchModes{
         Fast, Silent
+    }
+
+    //Last block pos resets onDisable and is being used to check did player move or not
+    private BlockPos lastBlockPos = null;
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        //Resets last block pos
+        lastBlockPos = null;
     }
 
     @Override
@@ -35,9 +50,21 @@ public class SelfWeb extends Module {
         super.onTick();
 
         //Stops process if web wasn't found in a hotbar
-        if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
+        if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.WEB)) == -1) {
             MessageUtil.sendError("No web found in the hotbar", -1117);
             return;
+        }
+
+        //Sets last block pos
+        if(lastBlockPos == null)
+            lastBlockPos = EntityUtil.getFlooredPos(mc.player);
+
+        //Turns off if player moved to another block
+        if(toggleOnMove.getValue()) {
+            if (!EntityUtil.getFlooredPos(mc.player).equals(lastBlockPos)) {
+                onDisable();
+                return;
+            }
         }
 
         //Places web at ur feet if u feel free ;)
@@ -64,7 +91,8 @@ public class SelfWeb extends Module {
         //Places block
         BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), BlockUtil.blackList.contains(BlockUtil.getBlock(blockPos.add(0, -1, 0))) ? true : false);
 
-        if(switchMode.getValue(Surround.switchModes.Silent)) {
+        //Do silent switch
+        if(switchMode.getValue(switchModes.Silent)) {
             switchItems(getItemStack(backSwitch).getItem(), hands.MainHand);
         }
     }
