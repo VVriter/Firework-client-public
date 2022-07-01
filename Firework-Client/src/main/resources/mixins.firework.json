@@ -19,6 +19,7 @@
     "MixinBufferBuilder",
     "MixinPlayerControllerMP",
     "MixinEntityRenderer",
-    "MixinWorldClient"
+    "MixinWorldClient",
+    "MixinRenderBoat"
   ]
 }

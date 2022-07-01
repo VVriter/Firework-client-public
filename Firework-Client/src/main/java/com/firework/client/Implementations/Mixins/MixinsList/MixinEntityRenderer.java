@@ -43,9 +43,44 @@ public abstract class MixinEntityRenderer {
     @Shadow
     public abstract void getMouseOver(float var1);
 
+  /*  @Inject(method={"getFOVModifier"}, at={@At(value="HEAD")}, cancellable=true)
+    public void fov(CallbackInfo info) {
+        if (NoRender.enabled.getValue() && NoRender.fov.getValue()) {
+            info.cancel();
+        }
+    }*/
+
+    @Inject(method={"updateFovModifierHand"}, at={@At(value="HEAD")}, cancellable=true)
+    public void fov2(CallbackInfo info) {
+        if (NoRender.enabled.getValue() && NoRender.fov.getValue()) {
+            info.cancel();
+        }
+    }
+
+ /*   @Inject(method={"renderHand"}, at={@At(value="HEAD")}, cancellable=true)
+    public void renderHand(CallbackInfo info) {
+        if (NoRender.enabled.getValue() && NoRender.hands.getValue()) {
+            info.cancel();
+        }
+    } */
+
+    @Inject(method={"renderRainSnow"}, at={@At(value="HEAD")}, cancellable=true)
+    public void renderRainSnow(CallbackInfo info) {
+        if (NoRender.enabled.getValue() && NoRender.weather.getValue()) {
+            info.cancel();
+        }
+    }
+
     @Inject(method={"renderItemActivation"}, at={@At(value="HEAD")}, cancellable=true)
     public void renderItemActivationHook(CallbackInfo info) {
         if (this.itemActivationItem != null && NoRender.enabled.getValue() && NoRender.totemPops.getValue().booleanValue() && this.itemActivationItem.getItem() == Items.TOTEM_OF_UNDYING) {
+            info.cancel();
+        }
+    }
+
+    @Inject(method={"addRainParticles"}, at={@At(value="HEAD")}, cancellable=true)
+    public void addRainParticles(CallbackInfo info) {
+        if (NoRender.enabled.getValue() && NoRender.weather.getValue()) {
             info.cancel();
         }
     }

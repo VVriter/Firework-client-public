@@ -34,7 +34,14 @@ public class BoatFlyRewrote extends Module {
     public Setting<Double> interact    = new Setting<>("interact", (double)3, this, 1, 10);
 
     public Setting<Double> scale    = new Setting<>("BoatScale", (double)3, this, 1, 10);
-    
+
+    public static Setting<Boolean> noRenderBoat  = null;
+    public static Setting<Boolean> enabled = null;
+
+    public BoatFlyRewrote() {
+        enabled = this.isEnabled;
+        noRenderBoat  = new Setting<>("NoRenderBoat", true, this);
+    }
 
     @Override
     public void onTick() {

@@ -23,6 +23,11 @@ public class NoRender extends Module {
     public static Setting<Boolean> skylight = null;
     public static Setting<Boolean> totemPops = null;
     public static Setting<Boolean> hurtcam = null;
+    public static Setting<Boolean> weather = null;
+    public static Setting<Boolean> hands = null;
+    public static Setting<Boolean> fov = null;
+
+    public static Setting<Boolean> blockBreak = null;
     public Setting<Boolean> viewBobbing = new Setting<>("ViewBobbing", true, this);
     public Setting<Boolean> blockoverlay = new Setting<>("BlockOverlay", true, this);
 
@@ -38,6 +43,10 @@ public class NoRender extends Module {
         skylight = new Setting<>("Skylight", true, this);
         totemPops = new Setting<>("TotemPops", true, this);
         hurtcam = new Setting<>("Hurtcam", true, this);
+        weather = new Setting<>("Weather", true, this);
+        hands = new Setting<>("Hands", true, this);
+        fov = new Setting<>("Fov", true, this);
+        blockBreak = new Setting<>("BlockBreak", true, this);
     }
 
     public void onEnable(){
