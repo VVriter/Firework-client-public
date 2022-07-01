@@ -16,6 +16,7 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -43,6 +44,11 @@ public class Surround extends Module {
 
     public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", false, this);
     public Setting<Integer> placeDelay = new Setting<>("PlaceDelayMs", 0, this, 0, 50);
+
+    public Setting<switchModes> switchMode = new Setting<>("Switch", switchModes.Fast, this, switchModes.values());
+    public enum switchModes{
+        Fast, Silent
+    }
 
     public Setting<Integer> tickDelay = new Setting<>("TickDelay", 0, this, 0, 60);
 
@@ -198,25 +204,31 @@ public class Surround extends Module {
             return;
 
         //Switchs
-        switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand);
+        int backSwitch = switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand);
 
         //Gets "enumHand" enum from "hands" enum
         EnumHand enumHand = hand.getValue(InventoryUtil.hands.MainHand) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
 
         //Places block
         BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), BlockUtil.blackList.contains(BlockUtil.getBlock(blockPos.add(0, -1, 0))) ? true : false);
+
+        if(switchMode.getValue(switchModes.Silent)) {
+            switchItems(getItemStack(backSwitch).getItem(), hands.MainHand);
+        }
     }
 
     //Switches to needed item
     public int switchItems(Item item, InventoryUtil.hands hand){
         if(hand == InventoryUtil.hands.MainHand){
             if(getClickSlot(getItemSlot(item)) !=  getClickSlot(mc.player.inventory.currentItem)){
-                if(getHotbarItemSlot(item) != -1){
+                int prevSlot = mc.player.inventory.currentItem;
+                if (getHotbarItemSlot(item) != -1) {
                     switchHotBarSlot(getHotbarItemSlot(item));
-                }else{
+                } else {
                     swapSlots(getItemSlot(item), getHotbarItemSlot(Item.getItemFromBlock(Blocks.AIR)));
                     switchHotBarSlot(getHotbarItemSlot(item));
                 }
+                return prevSlot;
             }else{
                 return -1;
             }

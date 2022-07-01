@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.CPacketEntityAction;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -43,6 +44,7 @@ public class BlockUtil {
         if (rotate) {
             RotationUtil.faceVector(hitVec, true);
         }
+        mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(hand));
         BlockUtil.rightClickBlock(neighbour, hitVec, hand, opposite, packet);
         Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
         return sneaking || isSneaking;
