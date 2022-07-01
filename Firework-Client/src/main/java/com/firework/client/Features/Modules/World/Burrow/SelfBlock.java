@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.BlockEnderChest;
 import net.minecraft.block.BlockObsidian;
+import net.minecraft.block.BlockWeb;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
@@ -25,6 +26,8 @@ public class SelfBlock extends Module {
 
     public Setting<Boolean> echest   = new Setting<>("Use echest", false, this);
     public Setting<Boolean> anvil   = new Setting<>("Use anvil", false, this);
+
+    public Setting<Boolean> cobweb   = new Setting<>("CobWeb", false, this);
 
 
     public static Setting<Boolean> enabled = null;
@@ -70,6 +73,8 @@ public class SelfBlock extends Module {
             BurrowUtil.switchToSlot(BurrowUtil.findHotbarBlock(BlockAnvil.class));
         } else if (echest.getValue() ? BurrowUtil.findHotbarBlock(BlockEnderChest.class) != -1 : BurrowUtil.findHotbarBlock(BlockObsidian.class) != -1) {
             BurrowUtil.switchToSlot(echest.getValue() ? BurrowUtil.findHotbarBlock(BlockEnderChest.class) : BurrowUtil.findHotbarBlock(BlockObsidian.class));
+        }else if (cobweb.getValue() ? BurrowUtil.findHotbarBlock(BlockWeb.class) != -1 : BurrowUtil.findHotbarBlock(BlockObsidian.class) != -1) {
+            BurrowUtil.switchToSlot(cobweb.getValue() ? BurrowUtil.findHotbarBlock(BlockWeb.class) : BurrowUtil.findHotbarBlock(BlockObsidian.class));
         } else {
             MessageUtil.sendClientMessage("Unable to place burrow block (anvil, ec or oby)",true);
             this.isEnabled.setValue(false);
