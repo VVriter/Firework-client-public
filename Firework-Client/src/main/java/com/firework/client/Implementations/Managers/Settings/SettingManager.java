@@ -21,6 +21,13 @@ public class SettingManager {
         }
     }
 
+    public Setting getSetting(Module module, String name){
+        for(Setting setting : modulesSettings(module))
+            if(setting.name == name)
+                return setting;
+        return null;
+    }
+
     public Setting getSettingByName(String name){
         for(Setting setting : settings)
             if(setting.name == name)
