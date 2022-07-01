@@ -6,6 +6,7 @@ import com.firework.client.Features.Modules.Client.CommandLineLogger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Hud.HudManager;
+import com.firework.client.Implementations.Managers.ConfigManager;
 import com.firework.client.Implementations.Managers.PositionManager;
 import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CFontRenderer;
@@ -27,6 +28,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.Logger;
+import org.checkerframework.checker.units.qual.C;
 import org.lwjgl.input.Keyboard;
 
 import org.lwjgl.opengl.Display;
@@ -61,18 +63,18 @@ public class Firework
     public static CommandManager commandManager;
     public static CFontRenderer customFontManager;
     public static PositionManager positionManager;
+    public static ConfigManager configManager;
 
     public void loadManagers(){
-        updaterManager = new UpdaterManager();
-        MinecraftForge.EVENT_BUS.register(updaterManager);
+        updaterManager = new UpdaterManager(); MinecraftForge.EVENT_BUS.register(updaterManager);
         settingManager = new SettingManager();
         moduleManager = new ModuleManager();
         customFontManager = new CFontRenderer("tcm", 25, true, true);
         textManager = new TextManager();
-        hudManager = new HudManager();
-        MinecraftForge.EVENT_BUS.register(hudManager);
+        hudManager = new HudManager(); MinecraftForge.EVENT_BUS.register(hudManager);
         commandManager = new CommandManager();
         positionManager = new PositionManager();
+        configManager = new ConfigManager(); MinecraftForge.EVENT_BUS.register(configManager);
     }
 
     public static void unloadManagers(){
@@ -84,6 +86,7 @@ public class Firework
         MinecraftForge.EVENT_BUS.unregister(hudManager); hudManager = null;
         commandManager = null;
         positionManager = null;
+        MinecraftForge.EVENT_BUS.unregister(configManager); configManager = null;
     }
 
 
