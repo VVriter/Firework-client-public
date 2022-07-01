@@ -39,7 +39,7 @@ public class Surround extends Module {
 
     public Setting<centerModes> centerMode = new Setting<>("CMode", centerModes.Motion, this, centerModes.values()).setVisibility(shouldCenter, true);
     public enum centerModes{
-        Motion, TP
+        Motion, TP, NONE
     }
 
     public Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", false, this);
