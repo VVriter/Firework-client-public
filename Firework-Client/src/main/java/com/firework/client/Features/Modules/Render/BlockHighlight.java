@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
 
-@ModuleManifest(name = " BlockHighlight",category = Module.Category.RENDER)
+@ModuleManifest(name = "BlockHighlight",category = Module.Category.RENDER)
 public class BlockHighlight extends Module {
 
     public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 54, 43), this);
