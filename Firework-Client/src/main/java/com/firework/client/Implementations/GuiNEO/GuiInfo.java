@@ -96,7 +96,7 @@ public class GuiInfo {
 
         RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), color1);
 
-        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width,
+        RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
                 height), outlineWidth, color2);
     }
 }
