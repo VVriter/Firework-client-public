@@ -90,7 +90,6 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
-
         CommandLineLogger.logAboutLoad();
 
 

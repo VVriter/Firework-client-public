@@ -51,9 +51,11 @@ public class MenderTweaker extends Module {
 
 
         //Rotates
-        if(rotate.getValue() && !switchMode.getValue(switches.None)){
+        if(rotate.getValue() && !switchMode.getValue(switches.None) && mendmode.getValue(mendmodes.Auto)){
             mc.player.connection.sendPacket(new CPacketPlayer.Rotation(mc.player.rotationYaw, 90, true));
-        }else if (switchMode.getValue(switches.None) && rotate.getValue() && mc.player.getHeldItemMainhand().getItem() instanceof ItemExpBottle){
+        } else if (rotate.getValue() && mendmode.getValue(mendmodes.OnSneak) && mc.gameSettings.keyBindSneak.isKeyDown()) {
+            mc.player.connection.sendPacket(new CPacketPlayer.Rotation(mc.player.rotationYaw, 90, true));
+        } else if (rotate.getValue() && mendmode.getValue(mendmodes.Handly) && mc.gameSettings.keyBindUseItem.isKeyDown()) {
             mc.player.connection.sendPacket(new CPacketPlayer.Rotation(mc.player.rotationYaw, 90, true));
         }
 
@@ -72,7 +74,9 @@ public class MenderTweaker extends Module {
             mc.player.inventory.currentItem = findExpInHotbar();
         } else if (switchMode.getValue(switches.Multihand)) {
             InventoryUtil.doMultiHand (findExpInHotbar()+36, InventoryUtil.hands.MainHand);
-        } else if (switchMode.getValue(switches.Silent)){
+        } else if (switchMode.getValue(switches.Silent) && !mendmode.getValue(mendmodes.OnSneak)){
+            mc.player.connection.sendPacket(new CPacketHeldItemChange(findExpInHotbar()));
+        } else if (switchMode.getValue(switches.Silent) && mendmode.getValue(mendmodes.OnSneak) && mc.gameSettings.keyBindSneak.isKeyDown()) {
             mc.player.connection.sendPacket(new CPacketHeldItemChange(findExpInHotbar()));
         }
 
