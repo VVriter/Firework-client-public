@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Utill.Render.BlockRenderBuilder;
 
+import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -48,14 +49,6 @@ public class BlockRenderBuilder {
     public void drawESP(final BlockPos pos) {
         RenderUtils.camera.setPosition(Objects.requireNonNull(mc.getRenderViewEntity()).posX, mc.getRenderViewEntity().posY, mc.getRenderViewEntity().posZ);
         if (RenderUtils.camera.isBoundingBoxInFrustum(new AxisAlignedBB(pos))) {
-            GlStateManager.pushMatrix();
-            GlStateManager.enableBlend();
-            GlStateManager.disableDepth();
-            GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
-            GlStateManager.disableTexture2D();
-            GlStateManager.depthMask(false);
-            GL11.glEnable(2848);
-            GL11.glHint(3154, 4354);
             if (getRenderMode(RenderMode.renderModes.OutLine) != null) {
                 GL11.glLineWidth((Float) getRenderMode(RenderMode.renderModes.OutLine).values.get(1));
                 final Color color = (Color) getRenderMode(RenderMode.renderModes.OutLine).values.get(0);
@@ -65,17 +58,17 @@ public class BlockRenderBuilder {
                 final Color color = (Color) getRenderMode(RenderMode.renderModes.Fill).values.get(0);
                 drawProperBox(pos, color, color.getAlpha());
             }
-            if (getRenderMode(RenderMode.renderModes.Gradient) != null) {
-                final Color color1 = (Color) getRenderMode(RenderMode.renderModes.Gradient).values.get(0);
-                final Color color2 = (Color) getRenderMode(RenderMode.renderModes.Gradient).values.get(1);
-                drawProperGradientBox(pos, color1, color2);
+            if (getRenderMode(RenderMode.renderModes.OutlineGradient) != null) {
+                final Color color1 = (Color) getRenderMode(RenderMode.renderModes.OutlineGradient).values.get(0);
+                final Color color2 = (Color) getRenderMode(RenderMode.renderModes.OutlineGradient).values.get(1);
+                final float lineWidth = (Float) getRenderMode(RenderMode.renderModes.OutlineGradient).values.get(2);
+                drawGradientBlockOutline(pos, color1, color2, lineWidth);
             }
-            GL11.glDisable(2848);
-            GlStateManager.depthMask(true);
-            GlStateManager.enableDepth();
-            GlStateManager.enableTexture2D();
-            GlStateManager.disableBlend();
-            GlStateManager.popMatrix();
+            if (getRenderMode(RenderMode.renderModes.FilledGradient) != null) {
+                final Color color1 = (Color) getRenderMode(RenderMode.renderModes.FilledGradient).values.get(0);
+                final Color color2 = (Color) getRenderMode(RenderMode.renderModes.FilledGradient).values.get(1);
+                drawGradientFilledBox(pos, color1, color2);
+            }
         }
     }
 }

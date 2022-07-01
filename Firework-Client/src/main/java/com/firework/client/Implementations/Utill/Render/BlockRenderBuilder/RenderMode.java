@@ -14,7 +14,7 @@ public class RenderMode {
         this.values = Arrays.asList(values);
     }
 
-    public static enum renderModes{
-        OutLine, Gradient, Fill
+    public enum renderModes{
+        OutLine, Fill, OutlineGradient, FilledGradient
     }
 }

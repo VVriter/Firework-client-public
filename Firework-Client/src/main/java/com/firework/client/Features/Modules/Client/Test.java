@@ -3,11 +3,13 @@ package com.firework.client.Features.Modules.Client;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
+import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -79,6 +81,14 @@ public class Test extends Module {
                                 new Color(RainbowUtil.astolfoColors(100, 100))),
                         new RenderMode(RenderMode.renderModes.OutLine,
                                 Color.white, 3f)
+                );
+
+        new BlockRenderBuilder(vec3d)
+                .addRenderModes(
+                        new RenderMode(RenderMode.renderModes.FilledGradient,
+                                new Color(RainbowUtil.astolfoColors(100, 100)), new Color(RainbowUtil.astolfoColors(150, 100)))
                 ).render();
+
+        //RenderUtils.drawGradientBlockOutline(BoundingBoxUtil.getBB(vec3d), Color.white, Color.yellow, 3);
     }
 }
