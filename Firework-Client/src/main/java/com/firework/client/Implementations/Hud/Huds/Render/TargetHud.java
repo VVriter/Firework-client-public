@@ -25,8 +25,6 @@ public class TargetHud extends HudComponent {
     private boolean autoWidth = true;
     public TargetHud(){
         animationUtil = new AnimationUtil();
-        animationUtil.reset();
-        animationUtil.delayS = 0.01f;
     }
 
     @Override
@@ -59,7 +57,6 @@ public class TargetHud extends HudComponent {
         if(target.isDead){
             mc.getTextureManager().bindTexture(resourceLocation("firework/textures/skull.png"));
             RenderUtils2D.drawCompleteImage(x + 5, y + 5, height - 10, height - 10);
-            //customFontManager.drawString("PLAYER LOST");
             autoWidth = true;
         }else {
             //Draw Target heads
