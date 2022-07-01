@@ -2,6 +2,7 @@ package com.firework.client.Implementations.Mixins.MixinsList;
 
 import com.firework.client.Features.Modules.Misc.CameraClip;
 import com.firework.client.Features.Modules.Misc.Reach;
+import com.firework.client.Features.Modules.Render.NoRender;
 import com.google.common.base.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value={EntityRenderer.class})
 public abstract class MixinEntityRenderer {
-  /*  @Shadow
+   @Shadow
     private ItemStack itemActivationItem;
     @Shadow
     @Final
@@ -44,17 +45,17 @@ public abstract class MixinEntityRenderer {
 
     @Inject(method={"renderItemActivation"}, at={@At(value="HEAD")}, cancellable=true)
     public void renderItemActivationHook(CallbackInfo info) {
-        if (this.itemActivationItem != null && NoRender.getInstance().isOn() && NoRender.getInstance().totemPops.getValue().booleanValue() && this.itemActivationItem.getItem() == Items.TOTEM_OF_UNDYING) {
+        if (this.itemActivationItem != null && NoRender.enabled.getValue() && NoRender.totemPops.getValue().booleanValue() && this.itemActivationItem.getItem() == Items.TOTEM_OF_UNDYING) {
             info.cancel();
         }
     }
 
     @Inject(method={"updateLightmap"}, at={@At(value="HEAD")}, cancellable=true)
     private void updateLightmap(float partialTicks, CallbackInfo info) {
-        if (NoRender.getInstance().isOn() && (NoRender.getInstance().skylight.getValue() == NoRender.Skylight.ENTITY || NoRender.getInstance().skylight.getValue() == NoRender.Skylight.ALL)) {
+        if (NoRender.enabled.getValue() && (NoRender.skylight.getValue())) {
             info.cancel();
         }
-    }*/
+    }
 
   /*  @Inject(method={"getMouseOver(F)V"}, at={@At(value="HEAD")}, cancellable=true)
     public void getMouseOverHook(float partialTicks, CallbackInfo info) {
@@ -104,27 +105,19 @@ public abstract class MixinEntityRenderer {
         Project.gluPerspective((float)f, (float)perspectiveEvent.getAspect(), (float)f3, (float)f4);
     }*/
 
-/*    @Inject(method={"setupFog"}, at={@At(value="HEAD")}, cancellable=true)
+  @Inject(method={"setupFog"}, at={@At(value="HEAD")}, cancellable=true)
     public void setupFogHook(int startCoords, float partialTicks, CallbackInfo info) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().fog.getValue() == NoRender.Fog.NOFOG) {
+        if (NoRender.enabled.getValue() && NoRender.antiFog.getValue()) {
             info.cancel();
         }
-    }*/
+    }
 
-  /*  @Redirect(method={"setupFog"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/renderer/ActiveRenderInfo;getBlockStateAtEntityViewpoint(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;F)Lnet/minecraft/block/state/IBlockState;"))
-    public IBlockState getBlockStateAtEntityViewpointHook(World worldIn, Entity entityIn, float p_186703_2_) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().fog.getValue() == NoRender.Fog.AIR) {
-            return Blocks.AIR.defaultBlockState;
-        }
-        return ActiveRenderInfo.getBlockStateAtEntityViewpoint((World)worldIn, (Entity)entityIn, (float)p_186703_2_);
-    }*/
-
-  /*  @Inject(method={"hurtCameraEffect"}, at={@At(value="HEAD")}, cancellable=true)
+    @Inject(method={"hurtCameraEffect"}, at={@At(value="HEAD")}, cancellable=true)
     public void hurtCameraEffectHook(float ticks, CallbackInfo info) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().hurtcam.getValue().booleanValue()) {
+        if (NoRender.enabled.getValue() && NoRender.hurtcam.getValue().booleanValue()) {
             info.cancel();
         }
-    }*/
+    }
 
     @Redirect(method={"getMouseOver"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/multiplayer/WorldClient;getEntitiesInAABBexcluding(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/AxisAlignedBB;Lcom/google/common/base/Predicate;)Ljava/util/List;"))
     public List<Entity> getEntitiesInAABBexcludingHook(WorldClient worldClient, @Nullable Entity entityIn, AxisAlignedBB boundingBox, @Nullable Predicate<? super Entity> predicate) {

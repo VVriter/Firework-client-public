@@ -9,9 +9,7 @@ import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.GuiContainerEvent;
 import net.minecraftforge.fml.client.GuiModList;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @ModuleManifest(name = "Blur",category = Module.Category.CLIENT)
 public class Blur extends Module {

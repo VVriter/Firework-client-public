@@ -9,6 +9,7 @@ import com.firework.client.Implementations.Utill.InventoryUtil;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
@@ -24,7 +25,7 @@ public class Quiver extends Module {
 
     public Setting<switchmod> switchModes = new Setting<>("Switch", switchmod.Normal, this, switchmod.values()).setVisibility(mode,modes.Auto);
     public enum switchmod{
-        Normal, Multihand, Silent
+        Normal, Multihand
     }
 
     public Setting<Double> spamSpeed = new Setting<>("Speed", (double)3.2, this, 1, 30);
@@ -64,7 +65,16 @@ public class Quiver extends Module {
     }
 
 
-
+    private int findBowInHotbar() {
+        int slot = 0;
+        for (int i = 0; i < 9; i++) {
+            if (mc.player.inventory.getStackInSlot(i).getItem() == Items.BOW) {
+                slot = i;
+                break;
+            }
+        }
+        return slot;
+    }
     public void doSwitch() {
         if(switchModes.getValue(switchmod.Normal)){
             if(mc.player.inventory.hasItemStack(new ItemStack(Items.BOW))) {
@@ -87,8 +97,6 @@ public class Quiver extends Module {
                 MessageUtil.sendError("You need to have ItemBow in Inventory",-1117);
                 onDisable();
             }
-        }else {
-
         }
     }
 }
