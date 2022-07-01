@@ -66,6 +66,8 @@ public class ConfigManager{
                         Firework.settingManager.settings.get(Firework.settingManager.settings.indexOf(Firework.settingManager.getSetting(module, setting.name))).setValue(config.get(setting.name));
                     }
                 }
+                if(module.isEnabled.getValue())
+                    module.onEnable();
             }
         }catch (Exception e){
             System.out.println(e);
