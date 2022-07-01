@@ -6,7 +6,7 @@ import com.firework.client.Features.Modules.Client.Client;
 import com.firework.client.Features.Modules.Client.CommandLineLogger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
-import com.firework.client.Implementations.Hud.HudManager;
+import com.firework.client.Implementations.UI.Hud.HudManager;
 import com.firework.client.Implementations.Managers.ConfigManager;
 import com.firework.client.Implementations.Managers.PositionManager;
 import com.firework.client.Implementations.Managers.Settings.SettingManager;
@@ -29,7 +29,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.Logger;
-import org.checkerframework.checker.units.qual.C;
 import org.lwjgl.input.Keyboard;
 
 import org.lwjgl.opengl.Display;
@@ -40,7 +39,6 @@ import xyz.firework.autentification.Initators.InitConfigs;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.lang.reflect.Field;
 
 
 //Main class to load Firework client

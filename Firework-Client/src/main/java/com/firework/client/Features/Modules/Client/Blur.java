@@ -2,7 +2,7 @@ package com.firework.client.Features.Modules.Client;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Implementations.GuiNEO.Gui;
+import com.firework.client.Implementations.UI.GuiNEO.Gui;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiEditSign;

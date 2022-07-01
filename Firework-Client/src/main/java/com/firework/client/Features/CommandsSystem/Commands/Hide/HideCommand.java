@@ -3,7 +3,6 @@ package com.firework.client.Features.CommandsSystem.Commands.Hide;
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Features.Modules.Client.Notifications;
-import com.firework.client.Implementations.Hud.Huds.Render.ArrayListHud;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 
 
