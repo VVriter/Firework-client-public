@@ -20,7 +20,7 @@ public class SaveConfigCommand extends Command {
     public void execute(String[] args) {
         //Plays Notification sound
         Notifications.notificate();
-        Firework.moduleManager.saveModules();
+        //Firework.moduleManager.saveModules();
         MessageUtil.sendClientMessage("ModulesSaved!",true);
     }
 }
