@@ -2,10 +2,13 @@ package com.firework.client.Implementations.GuiNEO.Particles;
 
 import com.firework.client.Features.Modules.Client.GuiParticles;
 import com.firework.client.Implementations.Utill.Client.Pair;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.client.gui.ScaledResolution;
+import org.checkerframework.checker.units.qual.C;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import static com.firework.client.Implementations.Utill.Util.mc;
@@ -46,7 +49,11 @@ public class ParticleSystem {
     //Draws Particles
     public void drawParticles(){
         for(Particle particle : particles){
-            RenderUtils2D.drawFilledCircle(particle.location, particle.color, (int) round(particle.radius * scale));
+            Color color = particle.color;
+            if(ParticleInfo.mode == ParticleInfo.colorMode.Astolfo){
+                color = new Color(RainbowUtil.astolfoColors((int) (particle.location.y * 2), 100));
+            }
+            RenderUtils2D.drawFilledCircle(particle.location, color, (int) round(particle.radius * scale));
         }
     }
 
@@ -56,7 +63,13 @@ public class ParticleSystem {
         for(Pair pair : lines){
             Particle one = ((Particle)pair.one);
             Particle two = ((Particle)pair.two);
-            RenderSystem.drawGradientLine(one.location, two.location, one.color, two.color);
+            Color one1 = one.color;
+            Color two1 = two.color;
+            if(ParticleInfo.mode == ParticleInfo.colorMode.Astolfo){
+                one1 = new Color(RainbowUtil.astolfoColors((int) (one.location.y * 2), 100));
+                two1 = new Color(RainbowUtil.astolfoColors((int) (two.location.y * 2), 100));
+            }
+            RenderSystem.drawGradientLine(one.location, two.location, one1, two1);
         }
         lines.clear();
 
