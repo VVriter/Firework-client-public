@@ -49,6 +49,9 @@ public class BlockFly extends Module {
         Motion, TP, NONE
     }
 
+    //New motionY
+    private Setting<Double> motionY = new Setting<>("MotionY", 0d, this, 0, 1);
+
     //Timer that will count fly delay for the updater
     Timer flyTimer = null;
     //Timer that will count place delay for the updater
@@ -81,12 +84,12 @@ public class BlockFly extends Module {
                     if (EntityUtil.getFlooredPos(mc.player).getY() - lastBlockPos.getY() > 2)
                         return;
                 //Makes player flying
-                mc.player.jump();
-                mc.player.motionX = 0;
-                mc.player.motionZ = 0;
+                mc.player.motionY = 0.42;
                 //Resets fly timer
                 flyTimer.reset();
             }
+            mc.player.motionX = 0;
+            mc.player.motionZ = 0;
         }
     };
 
