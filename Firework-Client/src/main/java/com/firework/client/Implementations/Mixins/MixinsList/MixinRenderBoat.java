@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+
 @Mixin(value={RenderBoat.class})
 public abstract class MixinRenderBoat {
     @Inject(method={"doRender"}, at={@At(value="HEAD")}, cancellable=true)
