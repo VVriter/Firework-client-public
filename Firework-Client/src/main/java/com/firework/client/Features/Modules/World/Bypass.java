@@ -3,12 +3,17 @@ package com.firework.client.Features.Modules.World;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
+
 import net.minecraft.item.ItemBoat;
+
 import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
+
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
 import org.lwjgl.input.Mouse;
 
 public class Bypass extends Module {
@@ -44,8 +49,4 @@ public class Bypass extends Module {
                     }
                 }
             }
-
-
         }
-
-
