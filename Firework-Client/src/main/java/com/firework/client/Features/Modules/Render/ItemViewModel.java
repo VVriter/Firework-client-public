@@ -99,6 +99,7 @@ public class ItemViewModel extends Module {
                 scaleX.setValue(100D);
                 scaleY.setValue(100D);
                 scaleZ.setValue(100D);
+                resetScale.setValue(false);
             }
 
 
