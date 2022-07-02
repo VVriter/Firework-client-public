@@ -37,7 +37,7 @@ public class BlockFly extends Module {
     private Setting<Boolean> packet = new Setting<>("Packet", true, this);
 
     //Delay for the fly updater
-    private Setting<Integer> flyDelay = new Setting<>("FlyDelayMs", 0, this, 0, 200);
+    private Setting<Integer> flyDelay = new Setting<>("FlyDelayMs", 119, this, 0, 200);
     //Delay for the place updater
     private Setting<Integer> placeDelay = new Setting<>("PlaceDelayDelayS", 0, this, 0, 10);
     //Should center
@@ -48,9 +48,6 @@ public class BlockFly extends Module {
     private enum centerModes{
         Motion, TP, NONE
     }
-
-    //New motionY
-    private Setting<Double> motionY = new Setting<>("MotionY", 0d, this, 0, 1);
 
     //Timer that will count fly delay for the updater
     Timer flyTimer = null;
