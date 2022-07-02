@@ -49,6 +49,9 @@ public class Setting<T> {
         if(value instanceof HSLColor)
             this.mode = Mode.COLOR;
 
+        if(getClass().isAnnotationPresent(SubCategory.class))
+            this.mode = Mode.SUB;
+
         settingManager.settings.add(this);
     }
 
@@ -126,6 +129,6 @@ public class Setting<T> {
     }
 
     public enum Mode{
-        BOOL, NUMBER, MODE, KEY, COLOR
+        BOOL, NUMBER, MODE, KEY, COLOR, SUB
     }
 }

@@ -82,13 +82,13 @@ public class CrystalUtil {
         return CrystalUtil.calculateDamage((double)pos.getX() + 0.5, pos.getY() + 1, (double)pos.getZ() + 0.5, entity);
     }
 
-    public static boolean canPlaceCrystal(BlockPos pos) {
+    public static boolean canPlaceCrystal(BlockPos pos, boolean legal) {
         Block block = BlockUtil.getBlock(pos);
         if (block == Blocks.OBSIDIAN || block == Blocks.BEDROCK) {
             Block floor = mc.world.getBlockState(pos.add(0, 1, 0)).getBlock();
             Block ceil = mc.world.getBlockState(pos.add(0, 2, 0)).getBlock();
 
-            if (floor == Blocks.AIR && ceil == Blocks.AIR) {
+            if (legal ? (floor == Blocks.AIR && ceil == Blocks.AIR) : (floor == Blocks.AIR)) {
                 ArrayList<Entity> entities = new ArrayList<Entity>();
                 entities.addAll(mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos.add(0, 1, 0))));
                 for (Entity entity : entities) {
