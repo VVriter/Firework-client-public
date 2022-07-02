@@ -14,17 +14,20 @@ import java.awt.geom.Point2D;
 @ModuleManifest(name = "Crosshair",category = Module.Category.RENDER)
 public class Crosshair extends Module {
 
-    public Setting<Enum> mode = new Setting<>("Mode", modes.Gradient, this, modes.values());
-    public enum modes{
+
+    public Setting<Enum> colorMode = new Setting<>("Color", colorModes.Gradient, this, colorModes.values());
+    public enum colorModes {
         Gradient, Static
     }
 
-    public Setting<Double> size = new Setting<>("Size", (double)30, this, -0.3, 300).setVisibility(mode,modes.Gradient);
+    public Setting<Double> size = new Setting<>("Size", (double)30, this, -0.3, 300);
     public Setting<Double> lineWidth = new Setting<>("LineWidth", (double)5, this, 1, 10);
-    public Setting<HSLColor> startColor = new Setting<>("StartColor", new HSLColor(120, 54, 43), this).setVisibility(mode,modes.Gradient);
-    public Setting<HSLColor> endColor = new Setting<>("EndColor", new HSLColor(1, 54, 43), this).setVisibility(mode,modes.Gradient);
+    public Setting<HSLColor> startColor = new Setting<>("StartColor", new HSLColor(120, 54, 43), this).setVisibility(colorMode, colorModes.Gradient);
+    public Setting<HSLColor> endColor = new Setting<>("EndColor", new HSLColor(1, 54, 43), this).setVisibility(colorMode, colorModes.Gradient);
 
-    public Setting<Boolean> dot = new Setting<>("Dot", false, this).setVisibility(mode,modes.Gradient);
+    public Setting<HSLColor> staticColor = new Setting<>("Color", new HSLColor(1, 54, 43), this).setVisibility(colorMode, colorModes.Static);
+
+    public Setting<Boolean> dot = new Setting<>("Dot", false, this);
     public Setting<Double> dotSize = new Setting<>("DotSize", (double)3, this, -0.3, 100).setVisibility(dot,true);
 
     @SubscribeEvent
@@ -32,7 +35,7 @@ public class Crosshair extends Module {
         if(e.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS) {
            e.setCanceled(true);
            
-           if (mode.getValue(modes.Gradient) && !dot.getValue()) {
+           if (colorMode.getValue(colorModes.Gradient) && !dot.getValue()) {
             ScaledResolution sr = new ScaledResolution(mc);
             Point2D.Double aDouble = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2);
             Point2D.Double bDouble = new Point2D.Double(sr.getScaledWidth()/2+size.getValue(),sr.getScaledHeight()/2);
@@ -51,7 +54,7 @@ public class Crosshair extends Module {
             RenderUtils2D.drawGradientLine(pun1, pun2, startColor.getValue().toRGB(),endColor.getValue().toRGB(),lineWidth.getValue().intValue());
             RenderUtils2D.drawGradientLine(aDouble, bDouble, startColor.getValue().toRGB(),endColor.getValue().toRGB(),lineWidth.getValue().intValue());
 
-            } else if (mode.getValue(modes.Gradient) && dot.getValue()) {
+            } else if (colorMode.getValue(colorModes.Gradient) && dot.getValue()) {
                ScaledResolution sr = new ScaledResolution(mc);
                Point2D.Double aDouble = new Point2D.Double(sr.getScaledWidth()/2+dotSize.getValue(),sr.getScaledHeight()/2);
                Point2D.Double bDouble = new Point2D.Double(sr.getScaledWidth()/2+size.getValue()+dotSize.getValue(),sr.getScaledHeight()/2);
@@ -69,6 +72,45 @@ public class Crosshair extends Module {
                RenderUtils2D.drawGradientLine(bebrio1, bebrio2, startColor.getValue().toRGB(),endColor.getValue().toRGB(),lineWidth.getValue().intValue());
                RenderUtils2D.drawGradientLine(pun1, pun2, startColor.getValue().toRGB(),endColor.getValue().toRGB(),lineWidth.getValue().intValue());
                RenderUtils2D.drawGradientLine(aDouble, bDouble, startColor.getValue().toRGB(),endColor.getValue().toRGB(),lineWidth.getValue().intValue());
+
+           } else if (colorMode.getValue(colorModes.Static) && !dot.getValue()) {
+               ScaledResolution sr = new ScaledResolution(mc);
+               Point2D.Double aDouble = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2);
+               Point2D.Double bDouble = new Point2D.Double(sr.getScaledWidth()/2+size.getValue(),sr.getScaledHeight()/2);
+
+               Point2D.Double bebro1 = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2);
+               Point2D.Double bebro2 = new Point2D.Double(sr.getScaledWidth()/2-size.getValue(),sr.getScaledHeight()/2);
+
+               Point2D.Double bebrio1 = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2);
+               Point2D.Double bebrio2 = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2+size.getValue());
+
+               Point2D.Double pun1 = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2);
+               Point2D.Double pun2 = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2-size.getValue());
+
+               RenderUtils2D.drawGradientLine(bebro1, bebro2, staticColor.getValue().toRGB(),staticColor.getValue().toRGB(),lineWidth.getValue().intValue());
+               RenderUtils2D.drawGradientLine(bebrio1, bebrio2, staticColor.getValue().toRGB(),staticColor.getValue().toRGB(),lineWidth.getValue().intValue());
+               RenderUtils2D.drawGradientLine(pun1, pun2, staticColor.getValue().toRGB(),staticColor.getValue().toRGB(),lineWidth.getValue().intValue());
+               RenderUtils2D.drawGradientLine(aDouble, bDouble, staticColor.getValue().toRGB(),staticColor.getValue().toRGB(),lineWidth.getValue().intValue());
+
+           } else if (colorMode.getValue(colorModes.Static) && dot.getValue()) {
+               ScaledResolution sr = new ScaledResolution(mc);
+               Point2D.Double aDouble = new Point2D.Double(sr.getScaledWidth()/2+dotSize.getValue(),sr.getScaledHeight()/2);
+               Point2D.Double bDouble = new Point2D.Double(sr.getScaledWidth()/2+size.getValue()+dotSize.getValue(),sr.getScaledHeight()/2);
+
+               Point2D.Double bebro1 = new Point2D.Double(sr.getScaledWidth()/2-dotSize.getValue(),sr.getScaledHeight()/2);
+               Point2D.Double bebro2 = new Point2D.Double(sr.getScaledWidth()/2-size.getValue()-dotSize.getValue(),sr.getScaledHeight()/2);
+
+               Point2D.Double bebrio1 = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2+dotSize.getValue());
+               Point2D.Double bebrio2 = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2+size.getValue()+dotSize.getValue());
+
+               Point2D.Double pun1 = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2-dotSize.getValue());
+               Point2D.Double pun2 = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2-size.getValue()-dotSize.getValue());
+
+               RenderUtils2D.drawGradientLine(bebro1, bebro2, staticColor.getValue().toRGB(),staticColor.getValue().toRGB(),lineWidth.getValue().intValue());
+               RenderUtils2D.drawGradientLine(bebrio1, bebrio2, staticColor.getValue().toRGB(),staticColor.getValue().toRGB(),lineWidth.getValue().intValue());
+               RenderUtils2D.drawGradientLine(pun1, pun2, staticColor.getValue().toRGB(),staticColor.getValue().toRGB(),lineWidth.getValue().intValue());
+               RenderUtils2D.drawGradientLine(aDouble, bDouble, staticColor.getValue().toRGB(),staticColor.getValue().toRGB(),lineWidth.getValue().intValue());
+
            }
         }
     }
