@@ -69,7 +69,7 @@ public class CrystalAura extends Module{
             crystalPlaceableBlocks.clear();
             crystalBlocks.clear();
             for (BlockPos block : BlockUtil.getAll((int) round(placeRange.getValue().doubleValue()))) {
-                if (CrystalUtil.canPlaceCrystal(block))
+                if (CrystalUtil.canPlaceCrystal(block, true))
                     crystalPlaceableBlocks.add(block);
             }
 
