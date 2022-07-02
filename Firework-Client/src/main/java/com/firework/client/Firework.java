@@ -2,6 +2,7 @@
 
 package com.firework.client;
 
+import com.firework.client.Features.MainMenu.Shaders;
 import com.firework.client.Features.Modules.Client.Client;
 import com.firework.client.Features.Modules.Client.CommandLineLogger;
 import com.firework.client.Features.Modules.Module;
@@ -45,6 +46,7 @@ import java.nio.ByteBuffer;
 @Mod(modid = Firework.MODID, name = Firework.NAME, version = Firework.VERSION)
 public class Firework
 {
+    public static Shaders shaders;
     public static final String MODID = "firework";
     public static final String NAME = "FireWork Client";
     public static final String VERSION = "0.1";
@@ -109,6 +111,7 @@ public class Firework
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        shaders = new Shaders();
         //Link to client
         minecraft = Minecraft.getMinecraft();
         //Sets custom window title when client is loading
