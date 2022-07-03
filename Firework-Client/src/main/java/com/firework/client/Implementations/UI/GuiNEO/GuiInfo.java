@@ -25,7 +25,7 @@ public class GuiInfo {
     public static Color outlineColorA = new Color(63, 63, 63);
     public static Color outlineColorB = new Color(65, 65, 65);
     public static Color outlineColorC = new Color(70, 70, 70);
-    public static Color fillColorA = new Color(72, 72, 72);
+    public static Color fillColorA = new Color(70, 70, 70);
     public static Color fillColorB = new Color(63, 61, 63);
 
     //Colors for frames
