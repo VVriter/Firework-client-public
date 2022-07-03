@@ -5,15 +5,12 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Mixins.MixinsList.IKeyBinding;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
-
 @ModuleManifest(name = "Jesus",category = Module.Category.MOVEMENT)
 public class Jesus extends Module {
-
     public Setting<Enum> mode = new Setting<>("Mode", modes.Bypass, this, modes.values());
     public enum modes{
         Bypass, Strict, Bounce
     }
-
     public Setting<Boolean> speedBool = new Setting<>("Speed", true, this);
     public Setting<Double> speedDouble = new Setting<>("Reduction", (double)2.1, this, 1, 5).setVisibility(speedBool,true);
     @Override
@@ -31,17 +28,24 @@ public class Jesus extends Module {
                 ((IKeyBinding)mc.gameSettings.keyBindJump).setPressed(false);
             }
         }
-        if (speedBool.getValue() && mc.player.isInWater() || mc.player.isInLava()) {
+
+        if (mc.player.onGround) {
+            ((IKeyBinding)mc.gameSettings.keyBindJump).setPressed(false);
+        }
+
+        if (speedBool.getValue() && !mc.player.collidedHorizontally && mc.player.isInWater() || mc.player.isInLava()) {
             if (mc.player == null || mc.world == null) {return;}
             double[] calc = MathUtil.directionSpeed(this.speedDouble.getValue() / 10.0);
             mc.player.motionX = calc[0];
             mc.player.motionZ = calc[1];
         }
 
+        if (mc.player.collidedHorizontally && Jesus.mc.gameSettings.keyBindJump.isKeyDown()) {
+            mc.player.motionY = 0.2;
+        }
 
         if (mc.gameSettings.keyBindSneak.isKeyDown() &&  mc.player.isInWater() || mc.player.isInLava()) {
             mc.player.motionY = -0.1;
         }
-
     }
 }
