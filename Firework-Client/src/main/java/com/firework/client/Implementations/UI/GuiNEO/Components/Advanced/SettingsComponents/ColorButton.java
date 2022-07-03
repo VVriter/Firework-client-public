@@ -65,7 +65,6 @@ public class ColorButton extends Button {
                 values.get(tmpIndex).set(1, new Point2D.Double(mouseX, mouseY));
             }
             Point2D.Double p = (Point2D.Double) values.get(tmpIndex).get(1);
-            System.out.println(p);
             setting.setValue(colorFromPoint(p));
             RenderUtils2D.drawFilledCircle(p, ((HSLColor) setting.getValue()).toRGB(), 3);
             RenderUtils2D.drawCircleOutline(p, 3, 2, Color.white);
