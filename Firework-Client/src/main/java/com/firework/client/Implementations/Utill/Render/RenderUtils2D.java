@@ -516,6 +516,11 @@ public class RenderUtils2D {
         }
     }
 
+    public static void drawColorPickerBase(Rectangle rectangle, Color color){
+        drawGradientRectHorizontal(rectangle, color, white);
+        drawGradientRectVertical(rectangle, black, new Color(1, 1, 1, 0));
+    }
+
     public static double distance(Point one, Point two){
         double ac = abs(two.getY() - one.getY());
         double cb = abs(two.getX() - one.getX());

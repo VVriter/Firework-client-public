@@ -21,8 +21,8 @@ public class ColorRainbowButton extends Button {
     public ColorRainbowButton(Setting setting, int x, int y, int width, int height) {
         super(setting, x, y, width, height);
 
-        this.originOffset = setting.opened ? 13 : 0; this.offset = setting.opened ? 13 : 0;
-        this.originHeight = setting.opened ? 12 : 0; this.height = setting.opened ? 12 : 0;
+        this.offset = setting.opened ? 10 : 0; this.originOffset = this.offset;
+        this.height = setting.opened ? 10 : 0; this.originHeight = this.height;
 
         try {
             if (values[localIndex].get(0) == null)
