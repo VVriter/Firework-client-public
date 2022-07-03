@@ -84,7 +84,9 @@ public class GuiInfo {
         return null;
     }
 
-    //2D render stuff
+    //----------2D render stuff----------
+
+    //Draws single color basic button
     public static void drawBaseButton(Button button, Color color1, Color color2){
         float x = button.x;
         float y = button.y;
@@ -96,5 +98,34 @@ public class GuiInfo {
 
         RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
                 height), outlineWidth, color2);
+    }
+
+    public static void drawBaseButton(Button button, Color color1, Color color2, boolean outline){
+        float x = button.x;
+        float y = button.y;
+        float width = button.width;
+        float height = button.height;
+        int outlineWidth = 1;
+
+        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), color1);
+
+        if(outline)
+            RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
+                    height), outlineWidth, color2);
+    }
+
+    //Draws gradient color basic button
+    public static void drawBaseButtonGradient(Button button, Color color1, Color color2, Color color3, boolean outline){
+        float x = button.x;
+        float y = button.y;
+        float width = button.width;
+        float height = button.height;
+        int outlineWidth = 1;
+
+        RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), color1, color2);
+
+        if(outline)
+            RenderUtils2D.drawRectangleOutline(new Rectangle(x, y, width,
+                    height), outlineWidth, color3);
     }
 }

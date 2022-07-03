@@ -48,7 +48,7 @@ public class ColorRainbowButton extends Button {
 
         int textWidth = textManager.getStringWidth(text);
 
-        GuiInfo.drawBaseButton(this, fillColorA, outlineColorA);
+        GuiInfo.drawBaseButtonGradient(this, new Color(RainbowUtil.astolfoColors(100, 100)),new Color(RainbowUtil.astolfoColors(250, 100)), outlineColorA, false);
 
         textManager.drawString(text, x+(width-textWidth)/2, y+1,
                 activeColor.getRGB(),false);

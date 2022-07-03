@@ -39,7 +39,7 @@ public class ColorSliderButton extends Button {
         if(setting.opened != true) return;
         super.draw(mouseX, mouseY);
 
-        GuiInfo.drawBaseButton(this, fillColorB, outlineColorA);
+        GuiInfo.drawBaseButton(this, fillColorB, outlineColorA, false);
 
         float value = 0;
         if(mode == CSliderMode.HUE){
