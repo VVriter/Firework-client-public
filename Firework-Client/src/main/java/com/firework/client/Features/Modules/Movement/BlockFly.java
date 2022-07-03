@@ -152,6 +152,7 @@ public class BlockFly extends Module {
                 if(placeTimerSC.hasPassedMs(placeDelaySC.getValue())){
                     placeBlock(blockPos);
                     placedBlocks.add(blockPos);
+                    System.out.println(blockPos);
                     placeTimerSC.reset();
                 }
             }
@@ -161,18 +162,25 @@ public class BlockFly extends Module {
                 queue.remove(queue.indexOf(blockPos));
             }
 
-            if(!mc.player.isSprinting() || mc.player.motionY == 0){
-                BlockPos blockToPlace = EntityUtil.getFlooredPos(mc.player).add(0, -1, 0);
-                if(!BlockUtil.getPossibleSides(blockToPlace).isEmpty()){
-                    queue.add(blockToPlace);
-                }else{
-                    for(BlockPos neighbor : getNeighbors(blockToPlace)){
-                        if(!BlockUtil.getPossibleSides(neighbor).isEmpty()){
-                            queue.add(neighbor);
-                            queue.add(blockToPlace);
-                            break;
+            BlockPos blockToPlace = EntityUtil.getFlooredPos(mc.player).add(0, -1, 0);
+            if(!mc.player.isSprinting()){
+                if(BlockUtil.getBlock(blockToPlace) == Blocks.AIR) {
+                    if (!BlockUtil.getPossibleSides(blockToPlace).isEmpty()) {
+                        queue.add(blockToPlace);
+                    } else {
+                        for (BlockPos neighbor : getNeighbors(blockToPlace)) {
+                            if (!BlockUtil.getPossibleSides(neighbor).isEmpty()) {
+                                queue.add(neighbor);
+                                queue.add(blockToPlace);
+                                break;
+                            }
                         }
                     }
+                }
+            }else{
+                if(BlockUtil.getBlock(blockToPlace) == Blocks.AIR) {
+                    queue.add(blockToPlace);
+                    queue.add(blockToPlace.offset(mc.player.getHorizontalFacing()));
                 }
             }
         }
