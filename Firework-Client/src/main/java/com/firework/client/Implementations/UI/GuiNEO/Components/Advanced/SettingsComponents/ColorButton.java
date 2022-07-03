@@ -17,6 +17,7 @@ import static com.firework.client.Implementations.UI.GuiNEO.GuiInfo.*;
 
 public class ColorButton extends Button {
 
+    
     public ColorButton(Setting setting, int x, int y, int width, int height) {
         super(setting, x, y, width, height);
 
@@ -71,7 +72,9 @@ public class ColorButton extends Button {
         }
         if(state==0){
             if(setting.opened){
-                double radius = 28;
+               if(mouseY >= y + 10){
+
+               }
             }
         }
     }

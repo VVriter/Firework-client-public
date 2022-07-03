@@ -52,7 +52,7 @@ public class SubModuleButton extends Button {
         super.initialize(mouseX, mouseY, state);
         if(state == 1){
             valuesB.set(0, !valuesB.get(0));
-            GuiValueStorage.values[localIndex] = valuesB;
+            GuiValueStorage.values.set(localIndex, valuesB);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.firework.client.Implementations.UI.GuiNEO.Components;
 
 import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.UI.GuiNEO.GuiValueStorage;
 
 public class Button {
 
@@ -28,6 +29,9 @@ public class Button {
 
         GuiInfo.index++;
         this.localIndex = GuiInfo.index;
+
+        if(GuiValueStorage.values.size() < localIndex)
+            GuiValueStorage.values.add(null);
     }
 
     public Button(Setting setting, int x, int y, int width, int height){
@@ -43,6 +47,9 @@ public class Button {
 
         GuiInfo.index++;
         this.localIndex = GuiInfo.index;
+
+        if(GuiValueStorage.values.size() < localIndex)
+            GuiValueStorage.values.add(null);
     }
 
     public void draw(){
