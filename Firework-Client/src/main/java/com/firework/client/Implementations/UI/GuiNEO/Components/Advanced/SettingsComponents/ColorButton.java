@@ -6,6 +6,7 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
+import net.minecraft.client.renderer.entity.Render;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -19,8 +20,8 @@ public class ColorButton extends Button {
     public ColorButton(Setting setting, int x, int y, int width, int height) {
         super(setting, x, y, width, height);
 
-        this.originOffset = setting.opened ? 71 : 11; this.offset = setting.opened ? 71 : 11;
-        this.originHeight = setting.opened ? 73 : 11; this.height = setting.opened ? 73 : 11;
+        this.offset = setting.opened ? 10 + 40 : 10; this.originOffset = this.offset;
+        this.height = setting.opened ? 40 : 10; this.originHeight = this.height;
     }
 
     public void drawBase(){
@@ -46,10 +47,13 @@ public class ColorButton extends Button {
         drawBase();
         if(setting.opened) {
             RenderUtils2D.drawRectangle(new Rectangle(x, y+11, width, height), fillColorB);
-            RenderUtils2D.drawColorPickerBaseV2(new Point(x + width/2, y + 9 + height/2), (HSLColor) setting.getValue(), radius);
+            RenderUtils2D.drawColorPickerBase(new Rectangle(x, y+11, width, height), new HSLColor(((HSLColor) setting.getValue()).hue, 50, 50).toRGB());
+            RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + 11, width,
+                    height), 1, outlineColorA);
 
-            Point2D.Double center = new Point2D.Double(x + width/2, y + 11 + height/2);
-            Point2D.Double p = hueToPosition(center, radius, (int) ((HSLColor) setting.getValue()).hue);
+            float saturation = ((HSLColor) setting.getValue()).saturation;
+            float light = ((HSLColor) setting.getValue()).light;
+            Point2D.Double p = new Point2D.Double(x + width*saturation/100, y + 11 + height -(height)*light/100);
 
             RenderUtils2D.drawFilledCircle(p, ((HSLColor) setting.getValue()).toRGB(), 3);
             RenderUtils2D.drawCircleOutline(p, 3, 2, Color.white);
@@ -62,20 +66,13 @@ public class ColorButton extends Button {
         if(state==1){
             setting.opened = !setting.opened;
             settingManager.updateSettingsByName(setting);
-            this.originOffset = setting.opened ? 66 : 11;
-            this.originHeight = setting.opened ? 66 : 11;
+            this.originOffset = setting.opened ? 40 + 10 : 10;
+            this.originHeight = setting.opened ? 40 : 10;
         }
         if(state==0){
             if(setting.opened){
                 double radius = 28;
             }
         }
-    }
-
-    public Point2D.Double hueToPosition(Point2D.Double center, int r, int hue){
-        double x = Math.sin(((hue * Math.PI) / 180)) * r;
-        double y = Math.cos(((hue * Math.PI) / 180)) * r;
-
-        return new Point2D.Double((int) (center.getX() + x), (int) (center.getY() + y));
     }
 }
