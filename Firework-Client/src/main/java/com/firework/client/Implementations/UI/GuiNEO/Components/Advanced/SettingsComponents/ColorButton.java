@@ -29,6 +29,7 @@ public class ColorButton extends Button {
         if(values.get(tmpIndex) == null){
             values.set(tmpIndex, new ArrayList());
             values.get(tmpIndex).add(0, false);
+            values.get(tmpIndex).add(1, pointFromColor((HSLColor) setting.getValue()));
         }
     }
 
@@ -50,8 +51,6 @@ public class ColorButton extends Button {
     @Override
     public void draw(int mouseX, int mouseY) {
 
-        int radius = 24;
-
         drawBase();
         if(setting.opened) {
             RenderUtils2D.drawRectangle(new Rectangle(x, y+11, width, height), fillColorB);
@@ -59,16 +58,12 @@ public class ColorButton extends Button {
             RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + 11, width,
                     height), 1, outlineColorA);
 
-            Point2D.Double p;
             if((boolean)values.get(tmpIndex).get(0)) {
-                 p = new Point2D.Double(mouseX, mouseY);
-            }else{
-                float saturation = ((HSLColor) setting.getValue()).saturation;
-                float light = ((HSLColor) setting.getValue()).light;
-                p = new Point2D.Double(x + width*saturation/100, y + 11 + height -(height)*light/100);
+                values.get(tmpIndex).set(1, new Point2D.Double(mouseX, mouseY));
             }
-
-            RenderUtils2D.drawFilledCircle(p, colorFromPoint(p).toRGB(), 3);
+            Point2D.Double p = (Point2D.Double) values.get(tmpIndex).get(1);
+            setting.setValue(colorFromPoint(p));
+            RenderUtils2D.drawFilledCircle(p, ((HSLColor) setting.getValue()).toRGB(), 3);
             RenderUtils2D.drawCircleOutline(p, 3, 2, Color.white);
         }
     }
@@ -92,6 +87,12 @@ public class ColorButton extends Button {
     }
 
     private HSLColor colorFromPoint(Point2D.Double point){
-        return new HSLColor(((HSLColor) setting.getValue()).hue, (float) ((point.x-x)/width*100), (float) (point.y-y-11*100/height));
+        return new HSLColor(((HSLColor) setting.getValue()).hue, (float) Math.abs(100*(point.x-x)/width), (float) Math.abs(100*(height-(point.y-y-11))/height));
+    }
+
+    private Point2D.Double pointFromColor(HSLColor color){
+        float saturation = ((HSLColor) setting.getValue()).saturation;
+        float light = ((HSLColor) setting.getValue()).light;
+        return new Point2D.Double(x + width*saturation/100, y + 11 + height -(height)*light/100);
     }
 }
