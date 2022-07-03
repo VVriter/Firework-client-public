@@ -10,19 +10,26 @@ import net.minecraft.client.renderer.entity.Render;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import static com.firework.client.Firework.settingManager;
 import static com.firework.client.Firework.textManager;
 import static com.firework.client.Implementations.UI.GuiNEO.GuiInfo.*;
+import static com.firework.client.Implementations.UI.GuiNEO.GuiValueStorage.values;
 
 public class ColorButton extends Button {
-
-    
+    private int tmpIndex;
     public ColorButton(Setting setting, int x, int y, int width, int height) {
         super(setting, x, y, width, height);
 
         this.offset = setting.opened ? 10 + 40 : 10; this.originOffset = this.offset;
         this.height = setting.opened ? 40 : 10; this.originHeight = this.height;
+
+        tmpIndex = localIndex - 1;
+        if(values.get(tmpIndex) == null){
+            values.set(tmpIndex, new ArrayList());
+            values.get(tmpIndex).add(0, false);
+        }
     }
 
     public void drawBase(){
@@ -41,7 +48,7 @@ public class ColorButton extends Button {
     }
 
     @Override
-    public void draw() {
+    public void draw(int mouseX, int mouseY) {
 
         int radius = 24;
 
@@ -52,11 +59,16 @@ public class ColorButton extends Button {
             RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + 11, width,
                     height), 1, outlineColorA);
 
-            float saturation = ((HSLColor) setting.getValue()).saturation;
-            float light = ((HSLColor) setting.getValue()).light;
-            Point2D.Double p = new Point2D.Double(x + width*saturation/100, y + 11 + height -(height)*light/100);
+            Point2D.Double p;
+            if((boolean)values.get(tmpIndex).get(0)) {
+                 p = new Point2D.Double(mouseX, mouseY);
+            }else{
+                float saturation = ((HSLColor) setting.getValue()).saturation;
+                float light = ((HSLColor) setting.getValue()).light;
+                p = new Point2D.Double(x + width*saturation/100, y + 11 + height -(height)*light/100);
+            }
 
-            RenderUtils2D.drawFilledCircle(p, ((HSLColor) setting.getValue()).toRGB(), 3);
+            RenderUtils2D.drawFilledCircle(p, colorFromPoint(p).toRGB(), 3);
             RenderUtils2D.drawCircleOutline(p, 3, 2, Color.white);
         }
     }
@@ -73,9 +85,13 @@ public class ColorButton extends Button {
         if(state==0){
             if(setting.opened){
                if(mouseY >= y + 10){
-
+                   values.get(tmpIndex).set(0, !(boolean)values.get(tmpIndex).get(0));
                }
             }
         }
+    }
+
+    private HSLColor colorFromPoint(Point2D.Double point){
+        return new HSLColor(((HSLColor) setting.getValue()).hue, (float) ((point.x-x)/width*100), (float) (point.y-y-11*100/height));
     }
 }

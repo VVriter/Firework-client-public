@@ -52,7 +52,7 @@ public class Button {
             GuiValueStorage.values.add(null);
     }
 
-    public void draw(){
+    public void draw(int mouseX, int mouseY){
         if(setting != null){
             if(!setting.hidden) {
                 this.height = setting.hidden ? 0 : originHeight;

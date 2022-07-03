@@ -12,10 +12,10 @@ public class Frame extends Button {
     }
 
     @Override
-    public void draw() {
+    public void draw(int mouseX, int mouseY) {
 
         RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width, height), 6, GuiInfo.outlineFrameColorA);
         RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x, y, width, height), 2, GuiInfo.outlineFrameColorB);
-        super.draw();
+        super.draw(mouseX, mouseY);
     }
 }

@@ -35,9 +35,9 @@ public class ColorSliderButton extends Button {
     }
 
     @Override
-    public void draw() {
+    public void draw(int mouseX, int mouseY) {
         if(setting.opened != true) return;
-        super.draw();
+        super.draw(mouseX, mouseY);
 
         GuiInfo.drawBaseButton(this, fillColorB, outlineColorA);
 

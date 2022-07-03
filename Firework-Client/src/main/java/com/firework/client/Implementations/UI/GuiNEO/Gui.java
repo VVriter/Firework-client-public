@@ -164,7 +164,7 @@ public class Gui extends GuiScreen {
         }
 
         for(com.firework.client.Implementations.UI.GuiNEO.Components.Button button : initializedButtons){
-            button.draw();
+            button.draw(mouseX, mouseY);
         }
 
 
