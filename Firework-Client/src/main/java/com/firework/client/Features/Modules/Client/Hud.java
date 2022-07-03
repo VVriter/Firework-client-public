@@ -9,6 +9,7 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.GuiModList;
@@ -29,6 +30,7 @@ public class Hud extends Module{
     @Override
     public void onTick(){
         super.onTick();
+        GameSettings.Options.FOV.setValueMax(176F);
         if (!blur.getValue()) {
             mc.entityRenderer.getShaderGroup().deleteShaderGroup();
         }
