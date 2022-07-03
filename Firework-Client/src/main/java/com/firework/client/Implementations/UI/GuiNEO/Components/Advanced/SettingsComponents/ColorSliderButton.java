@@ -44,6 +44,7 @@ public class ColorSliderButton extends Button {
         float value = 0;
         if(mode == CSliderMode.HUE){
             value = ((HSLColor) setting.getValue()).hue;
+            RenderUtils2D.drawHueBar(new Rectangle(x, y, width, height));
         }else if(mode == CSliderMode.SATURATION){
             value = ((HSLColor) setting.getValue()).saturation;
             RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new HSLColor(((HSLColor) setting.getValue()).hue, 50, 50).toRGB(), Color.GRAY);
