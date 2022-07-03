@@ -40,7 +40,7 @@ public class Jesus extends Module {
             mc.player.motionZ = calc[1];
         }
 
-        if (mc.player.collidedHorizontally && Jesus.mc.gameSettings.keyBindJump.isKeyDown()) {
+        if (mc.player.collidedHorizontally && Jesus.mc.gameSettings.keyBindJump.isKeyDown() && mc.player.isInWater() || mc.player.isInLava()) {
             mc.player.motionY = 0.2;
         }
 
