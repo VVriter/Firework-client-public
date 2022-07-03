@@ -37,5 +37,11 @@ public class Jesus extends Module {
             mc.player.motionX = calc[0];
             mc.player.motionZ = calc[1];
         }
+
+
+        if (mc.gameSettings.keyBindSneak.isKeyDown() &&  mc.player.isInWater() || mc.player.isInLava()) {
+            mc.player.motionY = -0.1;
+        }
+
     }
 }
