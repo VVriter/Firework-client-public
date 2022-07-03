@@ -6,7 +6,9 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
+import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
@@ -21,9 +23,12 @@ import static com.firework.client.Implementations.Utill.InventoryUtil.getClickSl
 public class SelfWeb extends Module {
 
     //Should toggle onEnable
-    private Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", true, this);
+    private Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", false, this);
     //Should toggle on pos change
     private Setting<Boolean> toggleOnMove = new Setting<>("ToggleOnMove", true, this);
+
+    //Should place web only if predicted that Target wants to get into the hole
+    private Setting<Boolean> predictTargetMove = new Setting<>("PredictPlace", true, this);
 
     //Should rotate on block place
     private Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
@@ -37,6 +42,9 @@ public class SelfWeb extends Module {
 
     //Last block pos resets onDisable and is being used to check did player move or not
     private BlockPos lastBlockPos = null;
+
+    //Target
+    private EntityPlayer target = null;
 
     @Override
     public void onEnable() {
@@ -67,9 +75,18 @@ public class SelfWeb extends Module {
             }
         }
 
-        //Places web at ur feet if u feel free ;)
-        if(BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player)) != Blocks.WEB)
-            placeBlock(EntityUtil.getFlooredPos(mc.player));
+        target = PlayerUtil.getClosest();
+        //Places web at ur feet
+        if(predictTargetMove.getValue()) {
+            if(target == null) return;
+            if(target.posY - mc.player.posY > 0.25 && Math.abs(mc.player.posX - target.posX) < 2 && Math.abs(mc.player.posZ - target.posZ) < 2) {
+                if (BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player)) != Blocks.WEB)
+                    placeBlock(EntityUtil.getFlooredPos(mc.player));
+            }
+        }else{
+            if (BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player)) != Blocks.WEB)
+                placeBlock(EntityUtil.getFlooredPos(mc.player));
+        }
 
         //Turns off if should
         if(shouldToggle.getValue())

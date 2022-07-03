@@ -505,6 +505,17 @@ public class RenderUtils2D {
         drawRectangleOutline(rectangle, 0.5f, white);
     }
 
+    public static void drawHueBar(Rectangle rectangle){
+        double x = rectangle.x;
+        double y = rectangle.y;
+        double w = rectangle.width;
+        double h = rectangle.height;
+        for(int i = 0; i < 360; i++){
+            Color color = new HSLColor(i, 50, 50).toRGB();
+            drawRectangle(new Rectangle(x + (i*w/360), y, w/360,h), color);
+        }
+    }
+
     public static double distance(Point one, Point two){
         double ac = abs(two.getY() - one.getY());
         double cb = abs(two.getX() - one.getX());
