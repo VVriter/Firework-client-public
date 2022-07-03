@@ -108,8 +108,6 @@ public class Gui extends GuiScreen {
                                     offsetObject.register(
                                             new ColorButton(setting, xOffset + newXOffset + 1, yOffset, buttonWidth - 1, 10),
                                             new ColorSliderButton(setting, xOffset + newXOffset + 1, yOffset + 51, buttonWidth - 1, 10, ColorSliderButton.CSliderMode.HUE),
-                                            new ColorSliderButton(setting, xOffset + newXOffset + 1, yOffset + 62, buttonWidth - 1, 10, ColorSliderButton.CSliderMode.SATURATION),
-                                            new ColorSliderButton(setting, xOffset + newXOffset + 1, yOffset + 73, buttonWidth - 1, 10, ColorSliderButton.CSliderMode.LIGHT),
                                             new ColorRainbowButton(setting, xOffset + newXOffset + 1, yOffset + 84, buttonWidth - 1, 10));
                                 }
                                 yOffset += offsetObject.offset;
@@ -282,7 +280,7 @@ public class Gui extends GuiScreen {
         initializedButtons.clear();
     }
 
-    public boolean isHoveringOnTheButton(Button button, Vec2f mousePoint) {
+    public static boolean isHoveringOnTheButton(Button button, Vec2f mousePoint) {
         return mousePoint.x > button.x && mousePoint.x < button.x + button.width && mousePoint.y > button.y && mousePoint.y < button.y + button.height;
     }
 
