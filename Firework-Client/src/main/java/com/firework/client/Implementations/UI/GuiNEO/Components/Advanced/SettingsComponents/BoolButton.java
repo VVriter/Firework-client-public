@@ -22,8 +22,8 @@ public class BoolButton extends Button {
     }
 
     @Override
-    public void draw() {
-        super.draw();
+    public void draw(int mouseX, int mouseY) {
+        super.draw(mouseX, mouseY);
 
         GuiInfo.drawBaseButton(this, GuiInfo.fillColorB, GuiInfo.outlineColorA);
 

@@ -32,8 +32,8 @@ public class SubModuleButton extends Button {
         valuesB.set(0, false);
     }
     @Override
-    public void draw() {
-        super.draw();
+    public void draw(int mouseX, int mouseY) {
+        super.draw(mouseX, mouseY);
 
         int outlineWidth = 3;
         int textWidth = textManager.getStringWidth(name);
@@ -52,7 +52,7 @@ public class SubModuleButton extends Button {
         super.initialize(mouseX, mouseY, state);
         if(state == 1){
             valuesB.set(0, !valuesB.get(0));
-            GuiValueStorage.values[localIndex] = valuesB;
+            GuiValueStorage.values.set(localIndex, valuesB);
         }
     }
 }

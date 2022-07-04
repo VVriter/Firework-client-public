@@ -35,11 +35,11 @@ public class ColorSliderButton extends Button {
     }
 
     @Override
-    public void draw() {
+    public void draw(int mouseX, int mouseY) {
         if(setting.opened != true) return;
-        super.draw();
+        super.draw(mouseX, mouseY);
 
-        GuiInfo.drawBaseButton(this, fillColorB, outlineColorA);
+        GuiInfo.drawBaseButton(this, fillColorB, outlineColorA, false);
 
         float value = 0;
         if(mode == CSliderMode.HUE){
@@ -52,7 +52,7 @@ public class ColorSliderButton extends Button {
             value = ((HSLColor) setting.getValue()).light;
             RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new HSLColor(((HSLColor) setting.getValue()).hue, 50, 50).toRGB(), Color.BLACK);
         }
-        RenderUtils2D.drawMarker(new Rectangle((int) (x + round(width * value - 0) / difference), y, 6, height), new Color(RainbowUtil.astolfoColors(100, 100)));
+        RenderUtils2D.drawRectangle(new Rectangle((int) (x + round(width * value) / difference) - 1, y, 2, height), Color.white);
     }
 
     public void setSettingFromX(int mouseX) {

@@ -17,6 +17,7 @@ import static com.firework.client.Implementations.UI.GuiNEO.GuiValueStorage.valu
 
 public class ColorRainbowButton extends Button {
     public Color activeColor;
+    private int tmpIndex;
 
     public ColorRainbowButton(Setting setting, int x, int y, int width, int height) {
         super(setting, x, y, width, height);
@@ -24,34 +25,32 @@ public class ColorRainbowButton extends Button {
         this.offset = setting.opened ? 10 : 0; this.originOffset = this.offset;
         this.height = setting.opened ? 10 : 0; this.originHeight = this.height;
 
-        try {
-            if (values[localIndex].get(0) == null)
-
-            System.out.println(localIndex);
-        }catch (NullPointerException exception){
-            values[localIndex] = new ArrayList<>();
-            values[localIndex].add(false);
+        tmpIndex = localIndex - 1;
+        if(values.get(tmpIndex) == null){
+            values.set(tmpIndex, new ArrayList());
+            values.get(tmpIndex).add(0, false);
         }
 
     }
 
     @Override
-    public void draw() {
+    public void draw(int mouseX, int mouseY) {
         if(setting.opened != true) return;
-        super.draw();
+        super.draw(mouseX, mouseY);
 
-        if((boolean)values[localIndex].get(0)){
-            activeColor = new Color(RainbowUtil.astolfoColors(100, 100));
-        }else {
-            activeColor = Color.WHITE;
-        }
+
 
         String text = "RAINBOW";
 
         int textWidth = textManager.getStringWidth(text);
 
-        GuiInfo.drawBaseButton(this, fillColorA, outlineColorA);
-
+        if((boolean)values.get(tmpIndex).get(0)){
+            activeColor = Color.white;
+            GuiInfo.drawBaseButtonGradient(this, new Color(RainbowUtil.astolfoColors(100, 100)),new Color(RainbowUtil.astolfoColors(150, 100)), outlineColorA, false);
+        }else {
+            activeColor = new Color(RainbowUtil.astolfoColors(100, 100));
+            GuiInfo.drawBaseButton(this, fillColorA, outlineColorA);
+        }
         textManager.drawString(text, x+(width-textWidth)/2, y+1,
                 activeColor.getRGB(),false);
 
@@ -61,9 +60,9 @@ public class ColorRainbowButton extends Button {
     public void initialize(int mouseX, int mouseY, int state) {
         super.initialize(mouseX, mouseY, state);
         if(state == 0){
-            values[localIndex].set(0, !(boolean)values[localIndex].get(0));
-            if(updaterManager.containsIndex(localIndex)) {
-                updaterManager.removeUpdater(localIndex);
+            values.get(tmpIndex).set(0, !(boolean)values.get(tmpIndex).get(0));
+            if(updaterManager.containsIndex(tmpIndex)) {
+                updaterManager.removeUpdater(tmpIndex);
             }else {
                 updaterManager.registerUpdater(updater);
             }
@@ -74,7 +73,7 @@ public class ColorRainbowButton extends Button {
         @Override
         public void run() {
             this.delay = 20;
-            this.index = localIndex;
+            this.index = tmpIndex;
             super.run();
 
             float saturation = ((HSLColor)setting.getValue()).saturation;
