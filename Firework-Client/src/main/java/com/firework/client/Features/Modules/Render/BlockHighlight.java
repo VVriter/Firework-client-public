@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.Render.RenderText;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -35,6 +36,7 @@ public class BlockHighlight extends Module {
                                 width.getValue().floatValue(),
                                 outline.getValue(),box.getValue(),
                         200,height.getValue().floatValue());
+            RenderText.drawText(pos,"Hello World!");
         }
     }
 

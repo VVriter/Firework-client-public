@@ -4,7 +4,6 @@ import com.firework.client.Firework;
 import com.firework.client.Implementations.UI.GuiNEO.Gui;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.spongepowered.asm.mixin.Mixin;
