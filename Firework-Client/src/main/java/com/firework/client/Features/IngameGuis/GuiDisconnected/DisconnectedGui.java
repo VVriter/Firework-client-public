@@ -1,6 +1,5 @@
 package com.firework.client.Features.IngameGuis.GuiDisconnected;
 
-import com.firework.client.Firework;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
