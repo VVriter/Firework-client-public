@@ -46,7 +46,7 @@ public class ColorRainbowButton extends Button {
 
         if((boolean)values.get(tmpIndex).get(0)){
             activeColor = Color.white;
-            GuiInfo.drawBaseButtonGradient(this, new Color(RainbowUtil.astolfoColors(100, 100)),new Color(RainbowUtil.astolfoColors(150, 100)), outlineColorA, false);
+            GuiInfo.drawBaseButtonGradient(this, new Color(RainbowUtil.astolfoColors(100, 100)),new Color(RainbowUtil.astolfoColors(50, 100)), outlineColorA, false);
         }else {
             activeColor = new Color(RainbowUtil.astolfoColors(100, 100));
             GuiInfo.drawBaseButton(this, fillColorA, outlineColorA);
