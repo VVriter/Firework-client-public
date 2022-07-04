@@ -6,6 +6,8 @@ import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.*;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
+import net.minecraft.client.gui.GuiScreenServerList;
+import net.minecraft.client.multiplayer.GuiConnecting;
 
 import java.awt.*;
 
@@ -20,10 +22,11 @@ public class ColorSliderButton extends Button {
     public float difference;
     public float percent;
 
+    public static boolean bon = true;
     public ColorSliderButton(Setting setting, int x, int y, int width, int height, CSliderMode mode) {
         super(setting, x, y, width, height);
         this.mode = mode;
-
+        this.bon
         if(mode == CSliderMode.HUE) {
             this.difference = 360;
         }else if (mode == CSliderMode.SATURATION || mode == CSliderMode.LIGHT){
@@ -44,7 +47,7 @@ public class ColorSliderButton extends Button {
         float value = 0;
         if(mode == CSliderMode.HUE){
             value = ((HSLColor) setting.getValue()).hue;
-            RenderUtils2D.drawHueBar(new Rectangle(x, y, width, height));
+            RenderUtils2D.drawHueBar(new Rectangle(x, y+3, width, height-6));
         }else if(mode == CSliderMode.SATURATION){
             value = ((HSLColor) setting.getValue()).saturation;
             RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new HSLColor(((HSLColor) setting.getValue()).hue, 50, 50).toRGB(), Color.GRAY);
@@ -52,7 +55,7 @@ public class ColorSliderButton extends Button {
             value = ((HSLColor) setting.getValue()).light;
             RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new HSLColor(((HSLColor) setting.getValue()).hue, 50, 50).toRGB(), Color.BLACK);
         }
-        RenderUtils2D.drawRectangle(new Rectangle((int) (x + round(width * value) / difference) - 1, y, 2, height), Color.white);
+        RenderUtils2D.drawRectangle(new Rectangle((int) (x + round(width * value) / difference) - 1, y+1, 2, height-2), Color.white);
     }
 
     public void setSettingFromX(int mouseX) {
