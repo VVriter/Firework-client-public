@@ -22,11 +22,9 @@ public class ColorSliderButton extends Button {
     public float difference;
     public float percent;
 
-    public static boolean bon = true;
     public ColorSliderButton(Setting setting, int x, int y, int width, int height, CSliderMode mode) {
         super(setting, x, y, width, height);
         this.mode = mode;
-        this.bon
         if(mode == CSliderMode.HUE) {
             this.difference = 360;
         }else if (mode == CSliderMode.SATURATION || mode == CSliderMode.LIGHT){
