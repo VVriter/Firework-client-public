@@ -2,7 +2,8 @@
 
 package com.firework.client;
 
-import com.firework.client.Features.MainMenu.Shaders;
+import com.firework.client.Features.IngameGuis.Loader;
+import com.firework.client.Features.IngameGuis.MainMenu.Shaders;
 import com.firework.client.Features.Modules.Client.Client;
 import com.firework.client.Features.Modules.Client.CommandLineLogger;
 import com.firework.client.Features.Modules.Module;
@@ -94,6 +95,7 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
+        MinecraftForge.EVENT_BUS.register(new Loader());
         CommandLineLogger.logAboutLoad();
 
 

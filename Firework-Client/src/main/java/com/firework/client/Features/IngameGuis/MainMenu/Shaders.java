@@ -1,4 +1,6 @@
-package com.firework.client.Features.MainMenu;
+package com.firework.client.Features.IngameGuis.MainMenu;
+
+import com.firework.client.Features.IngameGuis.MainMenu.GLSLSandboxShader;
 
 import java.io.File;
 import java.io.FileInputStream;
