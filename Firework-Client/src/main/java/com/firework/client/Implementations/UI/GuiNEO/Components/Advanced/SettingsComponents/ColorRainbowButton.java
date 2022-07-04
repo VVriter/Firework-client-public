@@ -38,18 +38,19 @@ public class ColorRainbowButton extends Button {
         if(setting.opened != true) return;
         super.draw(mouseX, mouseY);
 
-        if((boolean)values.get(tmpIndex).get(0)){
-            activeColor = new Color(RainbowUtil.astolfoColors(100, 100));
-        }else {
-            activeColor = Color.WHITE;
-        }
+
 
         String text = "RAINBOW";
 
         int textWidth = textManager.getStringWidth(text);
 
-        GuiInfo.drawBaseButtonGradient(this, new Color(RainbowUtil.astolfoColors(100, 100)),new Color(RainbowUtil.astolfoColors(250, 100)), outlineColorA, false);
-
+        if((boolean)values.get(tmpIndex).get(0)){
+            activeColor = Color.white;
+            GuiInfo.drawBaseButtonGradient(this, new Color(RainbowUtil.astolfoColors(100, 100)),new Color(RainbowUtil.astolfoColors(150, 100)), outlineColorA, false);
+        }else {
+            activeColor = new Color(RainbowUtil.astolfoColors(100, 100));
+            GuiInfo.drawBaseButton(this, fillColorA, outlineColorA);
+        }
         textManager.drawString(text, x+(width-textWidth)/2, y+1,
                 activeColor.getRGB(),false);
 
