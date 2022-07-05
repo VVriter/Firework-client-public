@@ -4,7 +4,10 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.RenderText;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.client.Minecraft;
@@ -30,14 +33,22 @@ public class BlockHighlight extends Module {
         RayTraceResult mouseOver = mc.objectMouseOver;
         if (mouseOver != null && mouseOver.typeOfHit.equals(RayTraceResult.Type.BLOCK)) {
             BlockPos pos = mouseOver.getBlockPos();
-           RenderUtils.drawBoxESP(pos,new Color(color.getValue().toRGB().getRed(),
+         /*  RenderUtils.drawBoxESP(pos,new Color(color.getValue().toRGB().getRed(),
                                 color.getValue().toRGB().getGreen(),
                                 color.getValue().toRGB().getBlue()),
                                 width.getValue().floatValue(),
                                 outline.getValue(),box.getValue(),
-                        200,height.getValue().floatValue());
+                        200,height.getValue().floatValue()); */
+
+            new BlockRenderBuilder(pos)
+                    .addRenderModes(
+                            new RenderMode(RenderMode.renderModes.FilledGradient,
+                                    new Color(RainbowUtil.astolfoColors(100, 100)), new Color(RainbowUtil.astolfoColors(150, 100)))
+                    ).render();
+
+
+
             RenderText.drawText(pos,"Hello World!");
         }
     }
-
 }

@@ -4,7 +4,10 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -25,7 +28,7 @@ public class HoleEspRewrote extends Module {
 
     public Setting<Enum> mode = new Setting<>("Mode", modes.Box, this, modes.values());
     public enum modes{
-        Crosses, Box, Wireframe
+        Crosses, Box, GradientBox
     }
 
     public Setting<HSLColor> bedrockColor = new Setting<>("BedRock", new HSLColor(1, 54, 43), this);
@@ -39,7 +42,7 @@ public class HoleEspRewrote extends Module {
 
     public Setting<Double> height = new Setting<>("Height", (double)0.5, this, -1, 20).setVisibility(mode,modes.Box);
 
-    public Setting<Double> radius = new Setting<>("Radius", (double)0.5, this, -1, 20).setVisibility(mode,modes.Wireframe);
+    public Setting<Double> radius = new Setting<>("Radius", (double)0.5, this, -1, 20).setVisibility(mode,modes.GradientBox);
 
     public Setting<Boolean> box = new Setting<>("Box", true, this).setVisibility(mode,modes.Box);
 
@@ -76,15 +79,12 @@ public class HoleEspRewrote extends Module {
                                 this.obsidianColor.getValue().toRGB().getBlue()),
 
                                 wight.getValue().floatValue());
-            }else if(mode.getValue(modes.Wireframe)){
-                RenderUtils.drawSphere(BlockUtil.posToVec3d(pos),radius.getValue(),5,this.isSafe(pos) ?
-                        new Color(this.bedrockColor.getValue().toRGB().getRed(),
-                                this.bedrockColor.getValue().toRGB().getGreen(),
-                                this.bedrockColor.getValue().toRGB().getBlue())
-
-                        : new Color(this.obsidianColor.getValue().toRGB().getRed(),
-                        this.obsidianColor.getValue().toRGB().getGreen(),
-                        this.obsidianColor.getValue().toRGB().getBlue()));
+            }else if(mode.getValue(modes.GradientBox)){
+                new BlockRenderBuilder(pos)
+                        .addRenderModes(
+                                new RenderMode(RenderMode.renderModes.FilledGradient,
+                                        new Color(RainbowUtil.astolfoColors(100, 100)), new Color(RainbowUtil.astolfoColors(150, 100)))
+                        ).render();
             }
             if(square.getValue() && mode.getValue(modes.Crosses)){
                 RenderUtils.drawBoxESP(pos, this.isSafe(pos) ?
