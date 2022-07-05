@@ -20,6 +20,7 @@ public class ShaderChams extends Module{
 
     @SubscribeEvent
     public void renderEntities(RenderWorldLastEvent event){
+        if(shader.getValue("NONE")) return;
         GlStateManager.matrixMode(5889);
         GlStateManager.pushMatrix();
         GlStateManager.matrixMode(5888);
