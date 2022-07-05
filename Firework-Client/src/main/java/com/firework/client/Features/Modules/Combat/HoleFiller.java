@@ -30,7 +30,7 @@ public class HoleFiller extends Module {
         Normal, Smart
     }
     public Setting<Double> distance = new Setting<>("Distance", (double)5, this, 1, 10);
-    public Setting<Double> tickDelay = new Setting<>("Delay", (double)1, this, 1, 100);
+    public Setting<Double> tickDelay = new Setting<>("Delay", (double)1, this, 1, 10);
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
     public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(rotate,true).setVisibility(rotate,true);
     public Setting<Boolean> shuldDisableOnJump = new Setting<>("DisableOnJump", true, this);
@@ -65,11 +65,9 @@ public class HoleFiller extends Module {
             onDisable();
         }
         if(mode.getValue(modes.Normal)){
-            if(timer.hasPassedS(tickDelay.getValue())) {
                 makeNormalSwitch();
                 makeHoleFill();
                 timer.reset();
-            }
         }else if(mode.getValue(modes.Smart)){
             for (Entity e : mc.world.loadedEntityList) {
                 if (e instanceof EntityPlayer && e != mc.player) {
@@ -122,9 +120,15 @@ public class HoleFiller extends Module {
         //HoleFillCode
         MessageUtil.sendClientMessage("Im Holefiling now", -1117);
         int size = this.holes.size();
-        for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; ++i ) {
+            if (timer.hasPassedS(tickDelay.getValue()/100)) {
             BlockPos pos = this.holes.get(i);
+            if (pos == mc.player.getPosition()) {
+                holes.remove(pos);
+                pos = null;
+            }
             BlockUtil.placeBlock(pos,EnumHand.MAIN_HAND,rotate.getValue(),packet.getValue(),false);
+            }
         }
     }
     //Switch code

@@ -24,6 +24,7 @@
     "MixinTileEntityEnchantmentTableRenderer",
 
     "MixinGuiMainMenu",
-    "MixinMinecraft"
+    "MixinMinecraft",
+    "MixinGuiChat"
   ]
 }
