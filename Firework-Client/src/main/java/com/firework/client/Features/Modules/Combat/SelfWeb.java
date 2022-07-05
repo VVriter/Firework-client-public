@@ -80,8 +80,11 @@ public class SelfWeb extends Module {
         if(predictTargetMove.getValue()) {
             if(target == null) return;
             if(target.posY - mc.player.posY > 0.25 && Math.abs(mc.player.posX - target.posX) < 2 && Math.abs(mc.player.posZ - target.posZ) < 2) {
-                if (BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player)) != Blocks.WEB)
+                if (BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player)) != Blocks.WEB) {
                     placeBlock(EntityUtil.getFlooredPos(mc.player));
+                    if(shouldToggle.getValue())
+                        onDisable();
+                }
             }
         }else{
             if (BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player)) != Blocks.WEB)
@@ -89,8 +92,9 @@ public class SelfWeb extends Module {
         }
 
         //Turns off if should
-        if(shouldToggle.getValue())
-            onDisable();
+        if(!predictTargetMove.getValue())
+            if(shouldToggle.getValue())
+                onDisable();
     }
 
     //BlockPos to place
