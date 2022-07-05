@@ -106,7 +106,7 @@ public class Firework
         CommandLineLogger.logAboutLoad();
 
 
-        FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir+"\\Firework\\";
+        FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir+"/Firework/";
         InitAuth.initate();
         InitConfigs.initate();
 
