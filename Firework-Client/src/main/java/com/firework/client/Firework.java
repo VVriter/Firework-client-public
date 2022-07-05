@@ -38,9 +38,12 @@ import xyz.firework.autentification.Initators.InitAuth;
 import xyz.firework.autentification.Initators.InitConfigs;
 
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+
+import static com.firework.client.Implementations.Utill.Util.mc;
 
 
 //Main class to load Firework client
@@ -129,59 +132,8 @@ public class Firework
 
     @SubscribeEvent
     public void onPressedKey(InputEvent.KeyInputEvent event) {
-        if(Keyboard.isKeyDown(Keyboard.KEY_EQUALS) && CommandManager.prefix == "=") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-
-            //Nums
-        } if(Keyboard.isKeyDown(Keyboard.KEY_0) && CommandManager.prefix == "0") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_1) && CommandManager.prefix == "1") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_2) && CommandManager.prefix == "2") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_3) && CommandManager.prefix == "3") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_4) && CommandManager.prefix == "4") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_5) && CommandManager.prefix == "5") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_6) && CommandManager.prefix == "6") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_7) && CommandManager.prefix == "7") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_8) && CommandManager.prefix == "8") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_9) && CommandManager.prefix == "9") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-
-            //Laters
-        }if(Keyboard.isKeyDown(Keyboard.KEY_A) && CommandManager.prefix == "A" || CommandManager.prefix == "a") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_B) && CommandManager.prefix == "B" || CommandManager.prefix == "b") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_C) && CommandManager.prefix == "С" || CommandManager.prefix == "с") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_D) && CommandManager.prefix == "D" || CommandManager.prefix == "d") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_E) && CommandManager.prefix == "E" || CommandManager.prefix == "e") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_F) && CommandManager.prefix == "F" || CommandManager.prefix == "f") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_G) && CommandManager.prefix == "G" || CommandManager.prefix == "g") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_H) && CommandManager.prefix == "H" || CommandManager.prefix == "h") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_I) && CommandManager.prefix == "I" || CommandManager.prefix == "i") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_J) && CommandManager.prefix == "J" || CommandManager.prefix == "j") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_K) && CommandManager.prefix == "K" || CommandManager.prefix == "k") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_L) && CommandManager.prefix == "L" || CommandManager.prefix == "l") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }if(Keyboard.isKeyDown(Keyboard.KEY_M) && CommandManager.prefix == "M" || CommandManager.prefix == "m") {
-            Firework.minecraft.displayGuiScreen(new GuiChat(CommandManager.prefix));
-        }
+        if(Keyboard.getEventCharacter() == CommandManager.prefix.toCharArray()[0])
+                mc.displayGuiScreen(new GuiChat(CommandManager.prefix));
 
         for(Module module : moduleManager.modules){
             if(Keyboard.isKeyDown(module.key.getValue()))
