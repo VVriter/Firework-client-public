@@ -1,6 +1,5 @@
 package com.firework.client.Implementations.Utill.Render.Shaders;
 
-import com.firework.client.Implementations.Mixins.MixinsList.IEntityRenderer;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.*;
@@ -18,7 +17,7 @@ public abstract class FramebufferShader extends Shader {
         super(fragmentShader);
     }
 
-    public void startDraw() {
+    public void startDraw(float partialTicks) {
         GlStateManager.enableAlpha();
         GlStateManager.pushMatrix();
         GlStateManager.pushAttrib();
@@ -26,9 +25,10 @@ public abstract class FramebufferShader extends Shader {
         FramebufferShader.framebuffer.bindFramebuffer(true);
         entityShadows = mc.gameSettings.entityShadows;
         mc.gameSettings.entityShadows = false;
+        mc.entityRenderer.setupCameraTransform(partialTicks, 0);
     }
 
-    public void stopDraw(float partialTicks) {
+    public void stopDraw() {
         mc.gameSettings.entityShadows = this.entityShadows;
         GL11.glEnable(3042);
         GL11.glBlendFunc(770, 771);
@@ -42,7 +42,6 @@ public abstract class FramebufferShader extends Shader {
         mc.entityRenderer.disableLightmap();
         GlStateManager.popMatrix();
         GlStateManager.popAttrib();
-        //((IEntityRenderer)mc.entityRenderer).setupCameraTransform(partialTicks, 0);
     }
 
     public Framebuffer setupFrameBuffer(Framebuffer frameBuffer) {
