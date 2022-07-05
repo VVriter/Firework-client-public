@@ -17,6 +17,8 @@ public class Jesus extends Module {
     public Setting<Double> UpSped = new Setting<>("UpSpeed", (double)0.3, this, 0.1, 1).setVisibility(mode,modes.Fly);
     public Setting<Double> DpwnSped = new Setting<>("DownSpeed", (double)0.3, this, 0.1, 1).setVisibility(mode,modes.Fly);
     public Setting<Boolean> antikick = new Setting<>("AntiKick", true, this).setVisibility(mode, modes.Fly);
+
+    public Setting<Boolean> entityJesus = new Setting<>("Entity", true, this);
     @Override
     public void onTick () { super.onTick();
         if (mc.player.isInWater() || mc.player.isInLava()) {
@@ -47,6 +49,15 @@ public class Jesus extends Module {
         if (mc.player.onGround) {
             ((IKeyBinding)mc.gameSettings.keyBindJump).setPressed(false);
         }
+
+        if (entityJesus.getValue() && mc.player.isRiding()) {
+            if (mc.player.getRidingEntity().isInWater() || mc.player.getRidingEntity().isInLava()) {
+                mc.player.getRidingEntity().motionY = 0;
+            } if (mc.player.getRidingEntity().collidedHorizontally && mc.gameSettings.keyBindJump.isKeyDown() && mc.player.getRidingEntity().isInWater() || mc.player.getRidingEntity().isInLava()) {
+                mc.player.getRidingEntity().motionY = 0.2;
+            }
+        }
+
 
         if (speedBool.getValue() && !mc.player.collidedHorizontally && mc.player.isInWater() || mc.player.isInLava()) {
             if (mc.player == null || mc.world == null) {return;}

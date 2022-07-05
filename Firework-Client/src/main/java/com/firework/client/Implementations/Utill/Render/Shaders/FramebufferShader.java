@@ -12,11 +12,9 @@ public abstract class FramebufferShader extends Shader {
     public static Framebuffer framebuffer;
     public boolean entityShadows;
     public int animationSpeed;
-
     public FramebufferShader(final String fragmentShader) {
         super(fragmentShader);
     }
-
     public void startDraw(float partialTicks) {
         GlStateManager.enableAlpha();
         GlStateManager.pushMatrix();
