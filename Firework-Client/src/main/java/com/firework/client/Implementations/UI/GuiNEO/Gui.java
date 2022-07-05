@@ -222,39 +222,45 @@ public class Gui extends GuiScreen {
                 }
                 if(button instanceof BoolButton){
                     if(state == 0) {
-                        ((BoolButton) button).initialize(mouseX, mouseY);
+                        button.initialize(mouseX, mouseY);
+                        shouldInit = true;
+                    }
+                }
+                if(button instanceof SubBoolButton){
+                    if(state == 1) {
+                        button.initialize(mouseX, mouseY);
                         shouldInit = true;
                     }
                 }
                 if(button instanceof SliderButton){
                     if(state == 0) {
-                        ((SliderButton) button).initialize(mouseX, mouseY);
+                        button.initialize(mouseX, mouseY);
                         isDragging = true;
                     }
                 }
                 if(button instanceof KeyButton){
                     if(state == 0){
-                        ((KeyButton) button).initialize(mouseX, mouseY);
-                        activeKeyModule = ((KeyButton) button).setting.module.name;
+                        button.initialize(mouseX, mouseY);
+                        activeKeyModule = button.setting.module.name;
                         keyIsDragging = true;
                     }
                 }
                 if(button instanceof ModeButton){
                     if(state == 0) {
-                        ((ModeButton) button).initialize(mouseX, mouseY);
+                        button.initialize(mouseX, mouseY);
                         shouldInit = true;
                     }
                 }
                 if(button instanceof ColorButton){
-                    ((ColorButton) button).initialize(mouseX, mouseY, state);
+                    button.initialize(mouseX, mouseY, state);
                     shouldInit = true;
                 }
                 if(button instanceof ColorSliderButton){
-                    ((ColorSliderButton) button).initialize(mouseX, mouseY, state);
+                    button.initialize(mouseX, mouseY, state);
                     shouldInit = true;
                 }
                 if(button instanceof ColorRainbowButton){
-                    ((ColorRainbowButton) button).initialize(mouseX, mouseY, state);
+                    button.initialize(mouseX, mouseY, state);
                 }
 
                 for(Setting setting : settingManager.settings)
