@@ -3,14 +3,17 @@ package com.firework.client.Features.Modules.Client;
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Mixins.MixinsList.MixinGuiChat;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
+import org.spongepowered.asm.mixin.Mixin;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 @ModuleManifest(name = "Client",category = Module.Category.CLIENT)
 public class Client extends Module {
@@ -25,7 +28,7 @@ public class Client extends Module {
         loadedSound = new Setting<>("LoadingSound", true, this);
         enabled.setValue(true);
     }
-
+    
     @Override
     public void onTick() {
         super.onTick();
