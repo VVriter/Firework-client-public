@@ -20,7 +20,7 @@ public abstract class Shader {
         int vertexShaderID;
         int fragmentShaderID;
         try {
-            final InputStream vertexStream = new FileInputStream(ShaderManager.shaderDir + "/vertex.vert");
+            final InputStream vertexStream = new FileInputStream(ShaderManager.shaderDir + "\\vertex.vert");
             vertexShaderID = this.createShader(IOUtils.toString(vertexStream, Charset.defaultCharset()), 35633);
             IOUtils.closeQuietly(vertexStream);
             final InputStream fragmentStream = new FileInputStream(ShaderManager.shaderDir + fragmentShader);
