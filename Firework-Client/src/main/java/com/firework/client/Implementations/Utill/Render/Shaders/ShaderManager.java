@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class ShaderManager {
 
     public static ArrayList<CShader> shaders;
-    public static String shaderDir = Firework.FIREWORK_DIRECTORY + "\\Shaders\\";
+    public static String shaderDir = "shaders";
     public static File shadersFolder = new File(shaderDir);
     public ShaderManager(){
         shaders = new ArrayList<>();
