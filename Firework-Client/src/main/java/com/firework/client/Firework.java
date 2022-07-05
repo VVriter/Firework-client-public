@@ -73,19 +73,20 @@ public class Firework
     public static ShaderManager shaderManager;
 
     public void loadManagers(){
+        shaderManager = new ShaderManager();
         updaterManager = new UpdaterManager(); MinecraftForge.EVENT_BUS.register(updaterManager);
         settingManager = new SettingManager();
         moduleManager = new ModuleManager();
-        customFontManager = new CFontRenderer("tcm", 23, true, true);
+        customFontManager = new CFontRenderer("Tcm", 23, true, true);
         textManager = new TextManager();
         hudManager = new HudManager(); MinecraftForge.EVENT_BUS.register(hudManager);
         commandManager = new CommandManager();
         positionManager = new PositionManager();
         configManager = new ConfigManager(); MinecraftForge.EVENT_BUS.register(configManager);
-        shaderManager = new ShaderManager();
     }
 
     public static void unloadManagers(){
+        shaderManager = null;
         MinecraftForge.EVENT_BUS.unregister(updaterManager); updaterManager = null;
         settingManager = null;
         moduleManager = null;
@@ -95,7 +96,6 @@ public class Firework
         commandManager = null;
         positionManager = null;
         MinecraftForge.EVENT_BUS.unregister(configManager); configManager = null;
-        shaderManager = null;
     }
 
 

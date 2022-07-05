@@ -50,24 +50,7 @@ public class CFontRenderer extends CFont {
     }
 
     private static Font getFontByName(String name) throws IOException, FontFormatException {
-        if (name.equalsIgnoreCase("roboto condensed")) {
-            return getFontFromInput("/assets/minecraft/firework/fonts/RobotoCondensed-Regular.ttf");
-        } else if (name.equalsIgnoreCase("roboto")) {
-            return getFontFromInput("/assets/minecraft/firework/fonts/Roboto-Regular.ttf");
-        } else if (name.equalsIgnoreCase("roboto medium")) {
-            return getFontFromInput("/assets/minecraft/firework/fonts/Roboto-Medium.ttf");
-        } else if (name.equalsIgnoreCase("montserrat")) {
-            return getFontFromInput("/assets/minecraft/firework/fonts/Montserrat-Regular.ttf");
-        } else if (name.equalsIgnoreCase("segoeui") || name.equalsIgnoreCase("segoeui light")) {
-            return getFontFromInput("/assets/minecraft/firework/fonts/SegoeUI-Light.ttf");
-        } else if (name.equalsIgnoreCase("jellee bold")) {
-            return getFontFromInput("/assets/minecraft/firework/fonts/Jellee-Bold.ttf");
-        } else if (name.equalsIgnoreCase("tcm")) {
-            return getFontFromInput("/assets/minecraft/firework/fonts/Tcm.ttf");
-        } else {
-            // Need to return the default font.
-            return getFontFromInput("assets/fonts/Roboto-Regular.ttf");
-        }
+        return getFontFromInput("/assets/minecraft/firework/fonts/" + name +".ttf");
     }
 
     private static Font getFontFromInput(String path) throws IOException, FontFormatException {

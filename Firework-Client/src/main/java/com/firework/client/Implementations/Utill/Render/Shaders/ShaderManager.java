@@ -1,6 +1,8 @@
 package com.firework.client.Implementations.Utill.Render.Shaders;
 
 import com.firework.client.Firework;
+import org.apache.commons.compress.compressors.FileNameUtil;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +39,8 @@ public class ShaderManager {
     public ArrayList<String> getShadersNames(){
         ArrayList<String> names = new ArrayList<>();
         for(File file : shadersFolder.listFiles()){
-            names.add(file.getName());
+            if(file.getName().endsWith(".frag"))
+                names.add(FilenameUtils.removeExtension(file.getName()));
         }
         return names;
     }
