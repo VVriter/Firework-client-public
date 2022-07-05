@@ -55,13 +55,7 @@ public class HoleEspRewrote extends Module {
             BlockPos pos = this.holes.get(i);
             if(mode.getValue(modes.Box)){
                 RenderUtils.drawBoxESP(pos, this.isSafe(pos) ?
-                        new Color(this.bedrockColor.getValue().toRGB().getRed(),
-                                this.bedrockColor.getValue().toRGB().getGreen(),
-                                this.bedrockColor.getValue().toRGB().getBlue())
-
-                                : new Color(this.obsidianColor.getValue().toRGB().getRed(),
-                                this.obsidianColor.getValue().toRGB().getGreen(),
-                                 this.obsidianColor.getValue().toRGB().getBlue()),
+                        this.bedrockColor.getValue().toRGB() : this.obsidianColor.getValue().toRGB(),
 
                                 wight.getValue().floatValue(),
                                 this.outline.getValue(),
@@ -70,14 +64,7 @@ public class HoleEspRewrote extends Module {
                                 height.getValue().floatValue());
             }else if(mode.getValue(modes.Crosses)){
                 RenderUtils.renderCrosses(pos, this.isSafe(pos) ?
-                                new Color(this.bedrockColor.getValue().toRGB().getRed(),
-                                this.bedrockColor.getValue().toRGB().getGreen(),
-                                this.bedrockColor.getValue().toRGB().getBlue())
-
-                                : new Color(this.obsidianColor.getValue().toRGB().getRed(),
-                                 this.obsidianColor.getValue().toRGB().getGreen(),
-                                this.obsidianColor.getValue().toRGB().getBlue()),
-
+                                this.bedrockColor.getValue().toRGB() : this.obsidianColor.getValue().toRGB(),
                                 wight.getValue().floatValue());
             }else if(mode.getValue(modes.GradientBox)){
                 new BlockRenderBuilder(pos)
@@ -88,13 +75,7 @@ public class HoleEspRewrote extends Module {
             }
             if(square.getValue() && mode.getValue(modes.Crosses)){
                 RenderUtils.drawBoxESP(pos, this.isSafe(pos) ?
-                                new Color(this.bedrockColor.getValue().toRGB().getRed(),
-                                        this.bedrockColor.getValue().toRGB().getGreen(),
-                                        this.bedrockColor.getValue().toRGB().getBlue())
-
-                                : new Color(this.obsidianColor.getValue().toRGB().getRed(),
-                                this.obsidianColor.getValue().toRGB().getGreen(),
-                                this.obsidianColor.getValue().toRGB().getBlue()),
+                                this.bedrockColor.getValue().toRGB() : this.obsidianColor.getValue().toRGB(),
 
                                 wight.getValue().floatValue(),
                          true,
