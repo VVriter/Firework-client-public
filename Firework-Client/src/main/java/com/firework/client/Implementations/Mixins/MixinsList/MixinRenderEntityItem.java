@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(value={RenderEntityItem.class})
-public  class MixinRenderEntityItem
+public abstract class MixinRenderEntityItem
         extends MixinRenderer<EntityItem> {
     private final Minecraft mc = Minecraft.getMinecraft();
     @Shadow
@@ -41,18 +41,20 @@ public  class MixinRenderEntityItem
     @Shadow
     protected  int getModelCount(ItemStack var1){return 0;}
 
+    public boolean shouldSpreadItems(){return true;}
 
-    public  boolean shouldSpreadItems(){return true;}
-
-    public  boolean shouldBob(){return true;}
+    public boolean shouldBob(){return true;}
 
     @Shadow
-    protected  ResourceLocation getEntityTexture(EntityItem var1){return null;}
+    protected ResourceLocation getEntityTexture(EntityItem var1) {
+        return this.getEntityTexture(var1);
+    }
+
+    @Shadow protected abstract ResourceLocation getEntityTexture(Entity par1);
 
     private double formPositive(float rotationPitch) {
         return rotationPitch > 0.0f ? (double)rotationPitch : (double)(-rotationPitch);
     }
-
 
     private int transformModelCount(EntityItem itemIn, double x, double y, double z, float p_177077_8_, IBakedModel p_177077_9_) {
         if (ItemPhysics.enabled.getValue()) {
@@ -89,7 +91,6 @@ public  class MixinRenderEntityItem
         GlStateManager.color((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         return i;
     }
-
 
     public void doRender(EntityItem entity, double x, double y, double z, float entityYaw, float partialTicks) {
         if (ItemPhysics.enabled.getValue()) {
