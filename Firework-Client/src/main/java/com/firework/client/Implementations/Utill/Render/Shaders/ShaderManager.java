@@ -42,6 +42,7 @@ public class ShaderManager {
             if(file.getName().endsWith(".frag"))
                 names.add(FilenameUtils.removeExtension(file.getName()));
         }
+        names.add("NONE");
         return names;
     }
 }
