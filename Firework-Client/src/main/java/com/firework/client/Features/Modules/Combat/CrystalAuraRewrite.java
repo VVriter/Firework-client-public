@@ -36,8 +36,6 @@ public class CrystalAuraRewrite extends Module{
 
     //Should display poses of placed crystals
     public Setting<Boolean> displayPlacedCrystals = new Setting<>("DisplayPlacedCrystals", true, this);
-    //Resets clear timer delay
-    public Setting<Double> resetTimer = new Setting<>("ResetTimerDelayMs", 50d, this, 0, 60).setVisibility(displayPlacedCrystals, true);
 
     //Ticks delay
     public Setting<Integer> ticksDelay = new Setting<>("TicksDelay", 0, this, 0, 60);
