@@ -149,8 +149,6 @@ public class Surround extends Module {
             if(placeTimer.hasPassedMs(placeDelay.getValue())) {
                 placeBlock(blockPos);
                 placeTimer.reset();
-                if(placeDelay.getValue(0))
-                    break;
             }
         }
     }
