@@ -3,6 +3,8 @@ package com.firework.client.Implementations.Utill.Render.Shaders;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.opengl.GL20;
 
+import static com.firework.client.Implementations.Utill.Util.mc;
+
 public class CShader extends FramebufferShader{
     public float time;
     public float timeMult = 0.05f;
