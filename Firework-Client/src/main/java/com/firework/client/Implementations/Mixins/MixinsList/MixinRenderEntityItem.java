@@ -23,9 +23,10 @@ import net.minecraftforge.client.ForgeHooksClient;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(value={RenderEntityItem.class})
+@Mixin(RenderEntityItem.class)
 public abstract class MixinRenderEntityItem
         extends MixinRenderer<EntityItem> {
     private final Minecraft mc = Minecraft.getMinecraft();
@@ -38,21 +39,22 @@ public abstract class MixinRenderEntityItem
     private long tick;
 
     @Shadow
-    protected int getModelCount(ItemStack var1){return 0;}
-
-    public boolean shouldSpreadItems(){return true;}
-
-    public boolean shouldBob(){return true;}
+    protected abstract int getModelCount(ItemStack var1);
 
     @Shadow
-    protected ResourceLocation getEntityTexture(EntityItem var1) {
-        return this.getEntityTexture(var1);
-    }
+    public abstract boolean shouldSpreadItems();
+
+    @Shadow
+    public abstract boolean shouldBob();
+
+    @Shadow
+    protected abstract ResourceLocation getEntityTexture(EntityItem var1);
 
     private double formPositive(float rotationPitch) {
         return rotationPitch > 0.0f ? (double)rotationPitch : (double)(-rotationPitch);
     }
 
+    @Overwrite
     private int transformModelCount(EntityItem itemIn, double x, double y, double z, float p_177077_8_, IBakedModel p_177077_9_) {
         if (ItemPhysics.enabled.getValue()) {
             ItemStack itemstack = itemIn.getItem();
@@ -89,6 +91,7 @@ public abstract class MixinRenderEntityItem
         return i;
     }
 
+    @Overwrite
     public void doRender(EntityItem entity, double x, double y, double z, float entityYaw, float partialTicks) {
         if (ItemPhysics.enabled.getValue()) {
             double rotation = (double)(System.nanoTime() - this.tick) / 3000000.0;
@@ -232,15 +235,5 @@ public abstract class MixinRenderEntityItem
         if (flag) {
             this.renderManager.renderEngine.getTexture(this.getEntityTexture(entity)).restoreLastBlurMipmap();
         }
-    }
-
-    @Override
-    protected boolean bindEntityTexture(EntityItem var1) {
-        return false;
-    }
-
-    @Override
-    protected int getTeamColor(EntityItem var1) {
-        return 0;
     }
 }
