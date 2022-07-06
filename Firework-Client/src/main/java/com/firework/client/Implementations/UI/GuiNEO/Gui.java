@@ -147,6 +147,18 @@ public class Gui extends GuiScreen {
             for(Button button : column.buttons)
                 button.draw(mouseX, mouseY);
 
+        boolean shouldInit = false;
+        for(Column column : GuiInfo.columns)
+            if(column.picked){
+                column.x = mouseX - column.xPickOffset;
+                column.y = mouseY - column.yPickOffset;
+                shouldInit = true;
+                break;
+            }
+
+        if(shouldInit)
+            init();
+
         if(isDragging) {
             mouseClicked(mouseX, mouseY, 0);
         }

@@ -45,5 +45,10 @@ public class StartBlock extends Button {
         super.initialize(mouseX, mouseY, state);
         if(state == 1)
             GuiInfo.getColumnByName(name).opened = !GuiInfo.getColumnByName(name).opened;
+        else if (state == 0) {
+            GuiInfo.getColumnByName(name).picked = !GuiInfo.getColumnByName(name).picked;
+            GuiInfo.getColumnByName(name).xPickOffset = mouseX - x;
+            GuiInfo.getColumnByName(name).yPickOffset = mouseY - y;
+        }
     }
 }

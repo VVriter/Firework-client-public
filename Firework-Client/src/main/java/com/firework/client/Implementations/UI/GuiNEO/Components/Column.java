@@ -16,7 +16,10 @@ public class Column {
     public int yOffset = 0;
 
     public boolean opened = true;
+    public boolean picked = false;
 
+    public int xPickOffset = 0;
+    public int yPickOffset = 0;
     public Column(String name, int x, int y){
         components = new ArrayList<>();
         buttons = new ArrayList<>();
