@@ -6,8 +6,8 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import net.minecraft.network.play.client.CPacketCloseWindow;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@ModuleManifest(name = "SecretClose",category = Module.Category.MISC)
-public class SecretClose extends Module {
+@ModuleManifest(name = "XCarry",category = Module.Category.MISC)
+public class XCarry extends Module {
     @SubscribeEvent
     public void onPacket(PacketEvent.Send e){
         if(e.getPacket() instanceof CPacketCloseWindow){
