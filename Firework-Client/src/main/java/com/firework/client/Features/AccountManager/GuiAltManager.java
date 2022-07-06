@@ -92,7 +92,7 @@ public class GuiAltManager
             }
         }
         this.drawDefaultBackground();
-        this.drawString(this.fontRenderer, this.mc.session.getUsername(), 10, 10, -7829368);
+        this.drawString(this.fontRenderer, this.mc.getSession().getUsername(), 10, 10, -7829368);
         FontRenderer fontRendererObj = this.fontRenderer;
         StringBuilder sb2 = new StringBuilder("Account Manager - ");
 
