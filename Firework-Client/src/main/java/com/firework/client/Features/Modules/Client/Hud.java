@@ -1,11 +1,13 @@
 package com.firework.client.Features.Modules.Client;
 
+import com.firework.client.Features.AltManagerRewrite.Guis.AltManagerGui;
 import com.firework.client.Features.IngameGuis.GuiDisconnected.DisconnectedGui;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.UI.GuiNEO.Gui;
 import com.firework.client.Implementations.UI.Hud.HudGui;
+import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiEditSign;
@@ -17,9 +19,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.fml.client.GuiModList;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
+
+import java.awt.*;
+import java.awt.geom.Point2D;
 
 @ModuleManifest(name = "Hud", category = Module.Category.CLIENT)
 public class Hud extends Module{
@@ -69,6 +75,20 @@ public class Hud extends Module{
         }
     }
 
+    @SubscribeEvent
+    public void renderTick(TickEvent.RenderTickEvent e) {
+        if (mc.currentScreen instanceof AltManagerGui) {
+            ScaledResolution sr = new ScaledResolution(this.mc);
+
+            //Center
+            Point2D.Double screenCenter = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2);
+
+            Point2D.Double leftLine1stpoint = new Point2D.Double(screenCenter.getX()-100,200);
+            Point2D.Double leftLine2ndpoint = new Point2D.Double(screenCenter.getX()-100, 100);
+
+            RenderUtils2D.drawGradientLine(leftLine1stpoint,leftLine2ndpoint,new Color(140, 40, 175),new Color(78, 129, 218),5);
+        }
+    }
     @Override
     public void onEnable() {
         super.onEnable();
