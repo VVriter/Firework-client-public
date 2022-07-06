@@ -36,8 +36,6 @@ public class Gui extends GuiScreen {
     public static boolean keyIsDragging = false;
     public static String activeKeyModule = "";
 
-    public int origYOffset = 20;
-
     public int buttonWidth = 70;
 
     public Gui(){
@@ -62,54 +60,55 @@ public class Gui extends GuiScreen {
             StartBlock startBlock = new StartBlock(column.name, column.x,  column.y, buttonWidth, 15);
 
             column.yOffset += startBlock.offset;
+            if(column.opened) {
 
-            for (Info obj : column.components) {
+                for (Info obj : column.components) {
 
-                if (obj instanceof Module) {
-                    Module m = (Module) obj;
+                    if (obj instanceof Module) {
+                        Module m = (Module) obj;
 
-                    ModuleButton moduleButton = new ModuleButton(m, m.name, column.x, column.y + column.yOffset, buttonWidth, 10);
-                    column.buttons.add(moduleButton);
-                    column.yOffset += moduleButton.offset;
-                    if (m.isOpened.getValue()) {
-                        for (Setting setting : settingManager.modulesSettings(m)) {
-                            Offset offsetObject = new Offset();
-                            if(!setting.hidden) {
-                                if (setting.mode == Setting.Mode.BOOL) {
-                                    offsetObject.register(
-                                            new BoolButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10));
+                        ModuleButton moduleButton = new ModuleButton(m, m.name, column.x, column.y + column.yOffset, buttonWidth, 10);
+                        column.buttons.add(moduleButton);
+                        column.yOffset += moduleButton.offset;
+                        if (m.isOpened.getValue()) {
+                            for (Setting setting : settingManager.modulesSettings(m)) {
+                                Offset offsetObject = new Offset();
+                                if (!setting.hidden) {
+                                    if (setting.mode == Setting.Mode.BOOL) {
+                                        offsetObject.register(
+                                                new BoolButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10));
+                                    }
+                                    if (setting.mode == Setting.Mode.MODE) {
+                                        offsetObject.register(
+                                                new ModeButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10));
+                                    }
+                                    if (setting.mode == Setting.Mode.NUMBER) {
+                                        offsetObject.register(
+                                                new SliderButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10));
+                                    }
+                                    if (setting.mode == Setting.Mode.KEY) {
+                                        offsetObject.register(
+                                                new KeyButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10));
+                                    }
+                                    if (setting.mode == Setting.Mode.COLOR) {
+                                        offsetObject.register(
+                                                new ColorButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10),
+                                                new ColorSliderButton(setting, column.x + 1, column.y + column.yOffset + 51, buttonWidth - 1, 10, ColorSliderButton.CSliderMode.HUE),
+                                                new ColorRainbowButton(setting, column.x + 1, column.y + column.yOffset + 61, buttonWidth - 1, 10));
+                                    }
+                                    column.buttons.addAll(offsetObject.buttons);
+                                    column.yOffset += offsetObject.offset;
                                 }
-                                if (setting.mode == Setting.Mode.MODE) {
-                                    offsetObject.register(
-                                            new ModeButton(setting, column.x + 1, column.y + column.yOffset,buttonWidth - 1, 10));
-                                }
-                                if (setting.mode == Setting.Mode.NUMBER) {
-                                    offsetObject.register(
-                                            new SliderButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10));
-                                }
-                                if (setting.mode == Setting.Mode.KEY) {
-                                    offsetObject.register(
-                                            new KeyButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10));
-                                }
-                                if (setting.mode == Setting.Mode.COLOR) {
-                                    offsetObject.register(
-                                            new ColorButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10),
-                                            new ColorSliderButton(setting, column.x + 1, column.y + column.yOffset + 51, buttonWidth - 1, 10, ColorSliderButton.CSliderMode.HUE),
-                                            new ColorRainbowButton(setting, column.x + 1, column.y + column.yOffset + 61, buttonWidth - 1, 10));
-                                }
-                                column.buttons.addAll(offsetObject.buttons);
-                                column.yOffset += offsetObject.offset;
                             }
                         }
+                    } else if (obj instanceof SubModule) {
+                        SubModule subModule = (SubModule) obj;
+                        SubModuleButton subModuleButton = new SubModuleButton(subModule.modules, subModule.name, column.x, column.y, buttonWidth, 10);
+                        column.buttons.add(subModuleButton);
+                        column.yOffset += subModuleButton.offset;
                     }
-                }else if(obj instanceof SubModule){
-                    SubModule subModule = (SubModule) obj;
-                    SubModuleButton subModuleButton  = new SubModuleButton(subModule.modules, subModule.name, column.x, column.y, buttonWidth, 10);
-                    column.buttons.add(subModuleButton);
-                    column.yOffset += subModuleButton.offset;
                 }
             }
-
             EndBlock endBlock = new EndBlock(column.x, column.y + column.yOffset, buttonWidth, 1);
 
             column.buttons.add(endBlock);
@@ -242,8 +241,12 @@ public class Gui extends GuiScreen {
                     }
                     if (button instanceof ColorRainbowButton) {
                         button.initialize(mouseX, mouseY, state);
+                        shouldInit = true;
                     }
-
+                    if (button instanceof StartBlock) {
+                        button.initialize(mouseX, mouseY, state);
+                        shouldInit = true;
+                    }
                     for (Setting setting : settingManager.settings)
                         setting.updateSettingVisibility();
 

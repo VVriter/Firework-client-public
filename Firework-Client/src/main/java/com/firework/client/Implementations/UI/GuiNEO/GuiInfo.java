@@ -56,6 +56,14 @@ public class GuiInfo {
         }
     }
 
+    //Returns column by name
+    public static Column getColumnByName(String name){
+        for(Column column : columns)
+            if(column.name == name)
+                return column;
+        return null;
+    }
+
     //Setup icons
     public static void icons(){
         icons.add(new Pair(Module.Category.CLIENT, resourceLocation("firework/textures/client.png")));

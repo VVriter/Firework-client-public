@@ -28,9 +28,6 @@ public class StartBlock extends Button {
         int outlineWidth = 3;
         int textWidth = textManager.getStringWidth(name);
 
-        //RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x-2, y, width+4
-        //        , height), new HSLColor(165, 50, 50).toRGB(), new HSLColor(333, 50, 50).toRGB());
-
         RenderUtils2D.drawGradientRectVertical(new Rectangle(x-2, y, width+4,
                 height), Gui.downStartBlockColor.getValue().toRGB(), Gui.upStartBlockColor.getValue().toRGB());
 
@@ -41,5 +38,12 @@ public class StartBlock extends Button {
             mc.getTextureManager().bindTexture(GuiInfo.resourceLocationByCategory(name));
             RenderUtils2D.drawCompleteImage(x + width-13, y+1, 13, 13);
         }
+    }
+
+    @Override
+    public void initialize(int mouseX, int mouseY, int state) {
+        super.initialize(mouseX, mouseY, state);
+        if(state == 1)
+            GuiInfo.getColumnByName(name).opened = !GuiInfo.getColumnByName(name).opened;
     }
 }

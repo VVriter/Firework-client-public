@@ -14,6 +14,9 @@ public class Column {
     public int x;
     public int y;
     public int yOffset = 0;
+
+    public boolean opened = true;
+
     public Column(String name, int x, int y){
         components = new ArrayList<>();
         buttons = new ArrayList<>();
