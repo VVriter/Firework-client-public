@@ -13,6 +13,7 @@
 	"IKeyBinding",
     "ViewModelMixin",
     "ISPacketPlayerPosLook",
+    "ICPacketPlayer",
     "MixinEntityLivingBase",
     "MixinItemFood",
     "MixinRenderItem",
