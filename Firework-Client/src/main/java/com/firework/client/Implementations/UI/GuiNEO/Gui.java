@@ -167,10 +167,12 @@ public class Gui extends GuiScreen {
 
 
         if(scroll == 1)
-            origYOffset+=speed;
+            for(Column column : GuiInfo.columns)
+                column.y += speed;
 
         if(scroll == -1)
-            origYOffset-=speed;
+            for(Column column : GuiInfo.columns)
+                column.y -= speed;
 
         if(scroll != 0)
             init();

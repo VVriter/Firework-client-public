@@ -43,7 +43,7 @@ public class GuiInfo {
         columns.clear();
         int index = 0;
         for(Module.Category c : Module.Category.values()){
-            columns.add(new Column(c.toString(), (int) (20 + index*70*1.7), 20));
+            columns.add(new Column(c.toString(), 20 + index*80, 20));
             index++;
         }
     }
