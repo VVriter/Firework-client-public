@@ -2,6 +2,9 @@
 
 package com.firework.client;
 
+import com.firework.client.Features.AccountManager.AltManager;
+import com.firework.client.Features.AltManagerV2.AccountManager;
+import com.firework.client.Features.AltManagerV2.Events;
 import com.firework.client.Features.IngameGuis.Loader;
 import com.firework.client.Features.IngameGuis.MainMenu.Shaders;
 import com.firework.client.Features.Modules.Client.Client;
@@ -62,6 +65,7 @@ public class Firework
 
     private static Logger logger;
 
+    public static AltManager altManager;
     public static UpdaterManager updaterManager;
     public static SettingManager settingManager;
     public static ModuleManager moduleManager;
@@ -74,6 +78,7 @@ public class Firework
     public static ShaderManager shaderManager;
 
     public void loadManagers(){
+        altManager = new AltManager();
         shaderManager = new ShaderManager();
         updaterManager = new UpdaterManager(); MinecraftForge.EVENT_BUS.register(updaterManager);
         settingManager = new SettingManager();
@@ -125,6 +130,9 @@ public class Firework
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+      //  MinecraftForge.EVENT_BUS.register(new Events());
+        AccountManager.init();
+        AccountManager.read();
         shaders = new Shaders();
         //Link to client
         minecraft = Minecraft.getMinecraft();
