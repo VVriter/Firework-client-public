@@ -38,7 +38,7 @@ public abstract class MixinRenderEntityItem
     private long tick;
 
     @Shadow
-    protected  int getModelCount(ItemStack var1){return 0;}
+    protected int getModelCount(ItemStack var1){return 0;}
 
     public boolean shouldSpreadItems(){return true;}
 
@@ -48,8 +48,6 @@ public abstract class MixinRenderEntityItem
     protected ResourceLocation getEntityTexture(EntityItem var1) {
         return this.getEntityTexture(var1);
     }
-
-    @Shadow protected abstract ResourceLocation getEntityTexture(Entity par1);
 
     private double formPositive(float rotationPitch) {
         return rotationPitch > 0.0f ? (double)rotationPitch : (double)(-rotationPitch);

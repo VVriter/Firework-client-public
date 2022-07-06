@@ -60,7 +60,7 @@ public class TimeStamps extends Module {
 
         //Bracket Formatting
         bracketFormatting = bracketColor.getValue();
-        
+
         //Time Formatting
         timeFormatting = timeColor.getValue();
     }
