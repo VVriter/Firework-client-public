@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Mixins.MixinsList;
 
+import com.firework.client.Features.AccountManager.GuiAltManager;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.UI.GuiNEO.Gui;
 import net.minecraft.client.gui.*;
@@ -64,6 +65,8 @@ public class MixinGuiMainMenu extends GuiScreen {
             mc.displayGuiScreen(new GuiMultiplayer(this));
         } if (button.id == 2) {
             mc.displayGuiScreen(new Gui());
+        } if (button.id == 3) {
+            mc.displayGuiScreen(new GuiAltManager());
         }
         super.actionPerformed(button);
     }
