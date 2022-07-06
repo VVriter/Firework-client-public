@@ -41,8 +41,10 @@ public class GuiInfo {
     //Makes columns, for each category
     public static void setupModulesColumns(){
         columns.clear();
+        int index = 0;
         for(Module.Category c : Module.Category.values()){
-            columns.add(new Column(c.toString()));
+            columns.add(new Column(c.toString(), (int) (20 + index*70*1.7), 20));
+            index++;
         }
     }
 

@@ -8,6 +8,7 @@ import com.firework.client.Features.Modules.Client.Client;
 import com.firework.client.Features.Modules.Client.CommandLineLogger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
+import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.UI.Hud.HudManager;
 import com.firework.client.Implementations.Managers.ConfigManager;
 import com.firework.client.Implementations.Managers.PositionManager;
@@ -83,6 +84,10 @@ public class Firework
         commandManager = new CommandManager();
         positionManager = new PositionManager();
         configManager = new ConfigManager(); MinecraftForge.EVENT_BUS.register(configManager);
+        GuiInfo.setupModulesColumns();
+        for(Module m : moduleManager.modules)
+            GuiInfo.addModuleToColumn(m);
+        GuiInfo.icons();
     }
 
     public static void unloadManagers(){

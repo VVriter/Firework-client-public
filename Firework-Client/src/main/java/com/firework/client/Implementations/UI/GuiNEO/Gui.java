@@ -32,8 +32,6 @@ public class Gui extends GuiScreen {
 
     public ParticleSystem particleSystem;
 
-    public static ArrayList<com.firework.client.Implementations.UI.GuiNEO.Components.Button> initializedButtons;
-
     public static boolean isDragging = false;
     public static boolean keyIsDragging = false;
     public static String activeKeyModule = "";
@@ -45,17 +43,8 @@ public class Gui extends GuiScreen {
     public Gui(){
         particleSystem = new ParticleSystem();
 
-        GuiInfo.setupModulesColumns();
-        for(Module m : moduleManager.modules)
-            GuiInfo.addModuleToColumn(m);
-
         isDragging = false;
         keyIsDragging = false;
-
-        initializedButtons = null;
-        initializedButtons = new ArrayList<>();
-
-        GuiInfo.icons();
 
         init();
     }
@@ -63,74 +52,68 @@ public class Gui extends GuiScreen {
     public void init() {
         GuiInfo.index = 0;
 
-        int newXOffset = 0;
-
-        initializedButtons.clear();
+        for(Column column : GuiInfo.columns) {
+            column.buttons.clear();
+            column.yOffset = 0;
+        }
 
         for (Column column : GuiInfo.columns) {
-            int xOffset = buttonWidth/7;
-            int yOffset = origYOffset;
 
-            StartBlock startBlock = new StartBlock(column.name, xOffset + newXOffset, yOffset, buttonWidth, 15);
+            StartBlock startBlock = new StartBlock(column.name, column.x,  column.y, buttonWidth, 15);
 
-            yOffset += startBlock.offset;
+            column.yOffset += startBlock.offset;
 
-            int index = 0;
             for (Info obj : column.components) {
 
                 if (obj instanceof Module) {
                     Module m = (Module) obj;
 
-                    ModuleButton moduleButton = new ModuleButton(m, m.name, xOffset + newXOffset, yOffset, buttonWidth, 10);
-                    initializedButtons.add(moduleButton);
-                    yOffset += moduleButton.offset;
+                    ModuleButton moduleButton = new ModuleButton(m, m.name, column.x, column.y + column.yOffset, buttonWidth, 10);
+                    column.buttons.add(moduleButton);
+                    column.yOffset += moduleButton.offset;
                     if (m.isOpened.getValue()) {
                         for (Setting setting : settingManager.modulesSettings(m)) {
                             Offset offsetObject = new Offset();
                             if(!setting.hidden) {
                                 if (setting.mode == Setting.Mode.BOOL) {
                                     offsetObject.register(
-                                            new BoolButton(setting, xOffset + newXOffset + 1, yOffset, buttonWidth - 1, 10));
+                                            new BoolButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10));
                                 }
                                 if (setting.mode == Setting.Mode.MODE) {
                                     offsetObject.register(
-                                            new ModeButton(setting, xOffset + newXOffset + 1, yOffset, buttonWidth - 1, 10));
+                                            new ModeButton(setting, column.x + 1, column.y + column.yOffset,buttonWidth - 1, 10));
                                 }
                                 if (setting.mode == Setting.Mode.NUMBER) {
                                     offsetObject.register(
-                                            new SliderButton(setting, xOffset + newXOffset + 1, yOffset, buttonWidth - 1, 10));
+                                            new SliderButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10));
                                 }
                                 if (setting.mode == Setting.Mode.KEY) {
                                     offsetObject.register(
-                                            new KeyButton(setting, xOffset + newXOffset + 1, yOffset, buttonWidth - 1, 10));
+                                            new KeyButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10));
                                 }
                                 if (setting.mode == Setting.Mode.COLOR) {
                                     offsetObject.register(
-                                            new ColorButton(setting, xOffset + newXOffset + 1, yOffset, buttonWidth - 1, 10),
-                                            new ColorSliderButton(setting, xOffset + newXOffset + 1, yOffset + 51, buttonWidth - 1, 10, ColorSliderButton.CSliderMode.HUE),
-                                            new ColorRainbowButton(setting, xOffset + newXOffset + 1, yOffset + 61, buttonWidth - 1, 10));
+                                            new ColorButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10),
+                                            new ColorSliderButton(setting, column.x + 1, column.y + column.yOffset + 51, buttonWidth - 1, 10, ColorSliderButton.CSliderMode.HUE),
+                                            new ColorRainbowButton(setting, column.x + 1, column.y + column.yOffset + 61, buttonWidth - 1, 10));
                                 }
-                                yOffset += offsetObject.offset;
+                                column.buttons.addAll(offsetObject.buttons);
+                                column.yOffset += offsetObject.offset;
                             }
                         }
                     }
                 }else if(obj instanceof SubModule){
                     SubModule subModule = (SubModule) obj;
-                    SubModuleButton subModuleButton  = new SubModuleButton(subModule.modules, subModule.name, xOffset + newXOffset, yOffset, buttonWidth, 10);
-                    initializedButtons.add(subModuleButton);
-                    yOffset += subModuleButton.offset;
+                    SubModuleButton subModuleButton  = new SubModuleButton(subModule.modules, subModule.name, column.x, column.y, buttonWidth, 10);
+                    column.buttons.add(subModuleButton);
+                    column.yOffset += subModuleButton.offset;
                 }
-
-                index++;
             }
 
-            EndBlock endBlock = new EndBlock(xOffset + newXOffset, yOffset, buttonWidth, 1);
+            EndBlock endBlock = new EndBlock(column.x, column.y + column.yOffset, buttonWidth, 1);
 
-            initializedButtons.add(endBlock);
-            initializedButtons.add(startBlock);
-
-            newXOffset += buttonWidth + buttonWidth/7;
-
+            column.buttons.add(endBlock);
+            column.buttons.add(startBlock);
         }
     }
 
@@ -151,8 +134,8 @@ public class Gui extends GuiScreen {
         }
 
         if(com.firework.client.Features.Modules.Client.Gui.background.getValue()){
-                this.drawDefaultBackground();
-            }
+            this.drawDefaultBackground();
+        }
 
 
         if(ParticleInfo.isEnabled) {
@@ -161,14 +144,9 @@ public class Gui extends GuiScreen {
             particleSystem.drawParticles();
         }
 
-        for(com.firework.client.Implementations.UI.GuiNEO.Components.Button button : initializedButtons){
-            button.draw(mouseX, mouseY);
-        }
-
-
-        GuiInfo.setupModulesColumns();
-        for(Module m : moduleManager.modules)
-            GuiInfo.addModuleToColumn(m);
+        for(Column column : GuiInfo.columns)
+            for(Button button : column.buttons)
+                button.draw(mouseX, mouseY);
 
         if(isDragging) {
             mouseClicked(mouseX, mouseY, 0);
@@ -201,75 +179,77 @@ public class Gui extends GuiScreen {
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         super.keyTyped(typedChar, keyCode);
-        for(com.firework.client.Implementations.UI.GuiNEO.Components.Button button : initializedButtons){
-            button.onKeyTyped(keyCode);
-        }
+        for(Column column : GuiInfo.columns)
+            for(Button button : column.buttons)
+                button.onKeyTyped(keyCode);
     }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int state) {
-        for(com.firework.client.Implementations.UI.GuiNEO.Components.Button button : initializedButtons){
-            if(isHoveringOnTheButton(button, new Vec2f(mouseX, mouseY))){
-                boolean shouldInit = false;
-                if(button instanceof ModuleButton){
-                    if(state == 0) {
-                        button.initialize(mouseX, mouseY);
-                    }else{
-                        ((ModuleButton) button).module.isOpened.setValue(!((ModuleButton) button).module.isOpened.getValue());
-                        mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
+        for(Column column : GuiInfo.columns) {
+            for (Button button : column.buttons) {
+                if (isHoveringOnTheButton(button, new Vec2f(mouseX, mouseY))) {
+                    boolean shouldInit = false;
+                    if (button instanceof ModuleButton) {
+                        if (state == 0) {
+                            button.initialize(mouseX, mouseY);
+                        } else {
+                            ((ModuleButton) button).module.isOpened.setValue(!((ModuleButton) button).module.isOpened.getValue());
+                            mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
+                            shouldInit = true;
+                        }
+                    }
+                    if (button instanceof BoolButton) {
+                        if (state == 0) {
+                            button.initialize(mouseX, mouseY);
+                            shouldInit = true;
+                        }
+                    }
+                    if (button instanceof SubBoolButton) {
+                        if (state == 1) {
+                            button.initialize(mouseX, mouseY);
+                            shouldInit = true;
+                        }
+                    }
+                    if (button instanceof SliderButton) {
+                        if (state == 0) {
+                            button.initialize(mouseX, mouseY);
+                            isDragging = true;
+                        }
+                    }
+                    if (button instanceof KeyButton) {
+                        if (state == 0) {
+                            button.initialize(mouseX, mouseY);
+                            activeKeyModule = button.setting.module.name;
+                            keyIsDragging = true;
+                        }
+                    }
+                    if (button instanceof ModeButton) {
+                        if (state == 0) {
+                            button.initialize(mouseX, mouseY);
+                            shouldInit = true;
+                        }
+                    }
+                    if (button instanceof ColorButton) {
+                        button.initialize(mouseX, mouseY, state);
                         shouldInit = true;
                     }
-                }
-                if(button instanceof BoolButton){
-                    if(state == 0) {
-                        button.initialize(mouseX, mouseY);
+                    if (button instanceof ColorSliderButton) {
+                        button.initialize(mouseX, mouseY, state);
                         shouldInit = true;
                     }
-                }
-                if(button instanceof SubBoolButton){
-                    if(state == 1) {
-                        button.initialize(mouseX, mouseY);
-                        shouldInit = true;
+                    if (button instanceof ColorRainbowButton) {
+                        button.initialize(mouseX, mouseY, state);
                     }
-                }
-                if(button instanceof SliderButton){
-                    if(state == 0) {
-                        button.initialize(mouseX, mouseY);
-                        isDragging = true;
-                    }
-                }
-                if(button instanceof KeyButton){
-                    if(state == 0){
-                        button.initialize(mouseX, mouseY);
-                        activeKeyModule = button.setting.module.name;
-                        keyIsDragging = true;
-                    }
-                }
-                if(button instanceof ModeButton){
-                    if(state == 0) {
-                        button.initialize(mouseX, mouseY);
-                        shouldInit = true;
-                    }
-                }
-                if(button instanceof ColorButton){
-                    button.initialize(mouseX, mouseY, state);
-                    shouldInit = true;
-                }
-                if(button instanceof ColorSliderButton){
-                    button.initialize(mouseX, mouseY, state);
-                    shouldInit = true;
-                }
-                if(button instanceof ColorRainbowButton){
-                    button.initialize(mouseX, mouseY, state);
-                }
 
-                for(Setting setting : settingManager.settings)
-                    setting.updateSettingVisibility();
+                    for (Setting setting : settingManager.settings)
+                        setting.updateSettingVisibility();
 
-                if(shouldInit)
-                    init();
+                    if (shouldInit)
+                        init();
 
-                return;
+                    return;
+                }
             }
         }
     }
@@ -283,7 +263,8 @@ public class Gui extends GuiScreen {
     @Override
     public void onGuiClosed() {
         super.onGuiClosed();
-        initializedButtons.clear();
+        for(Column column : GuiInfo.columns)
+            column.buttons.clear();
     }
 
     public static boolean isHoveringOnTheButton(Button button, Vec2f mousePoint) {
