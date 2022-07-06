@@ -3,6 +3,8 @@
 package com.firework.client;
 
 import com.firework.client.Features.AccountManager.AltManager;
+import com.firework.client.Features.AltManagerV2.AccountManager;
+import com.firework.client.Features.AltManagerV2.Events;
 import com.firework.client.Features.IngameGuis.Loader;
 import com.firework.client.Features.IngameGuis.MainMenu.Shaders;
 import com.firework.client.Features.Modules.Client.Client;
@@ -123,6 +125,9 @@ public class Firework
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+      //  MinecraftForge.EVENT_BUS.register(new Events());
+        AccountManager.init();
+        AccountManager.read();
         shaders = new Shaders();
         //Link to client
         minecraft = Minecraft.getMinecraft();
