@@ -197,22 +197,37 @@ public class Surround extends Module {
 
     //BlockPos to place
     public void placeBlock(final BlockPos blockPos){
-        //Return if block pos is null
-        if(blockPos == null)
-            return;
+        try {
+            //Return if block pos is null
+            if (blockPos == null)
+                return;
 
-        //Switchs
-        int backSwitch = switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand);
+            //Switchs
+            int backSwitch = switchItems(Item.getItemFromBlock(Blocks.OBSIDIAN), hands.MainHand);
 
-        //Gets "enumHand" enum from "hands" enum
-        EnumHand enumHand = hand.getValue(InventoryUtil.hands.MainHand) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
+            //Gets "enumHand" enum from "hands" enum
+            EnumHand enumHand = hand.getValue(InventoryUtil.hands.MainHand) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
 
-        //Places block
-        BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), BlockUtil.blackList.contains(BlockUtil.getBlock(blockPos.add(0, -1, 0))) ? true : false);
+            //Places block
+            if (BlockUtil.getPossibleSides(blockPos) == null) {
+                BlockPos pos = null;
+                for (BlockPos blockPos1 : BlockUtil.getNeighbors(blockPos)) {
+                    if (BlockUtil.getPossibleSides(blockPos1) != null) {
+                        pos = blockPos1.offset(BlockUtil.getPossibleSides(blockPos1).get(0));
+                        break;
+                    }
+                }
+                if (pos != null)
+                    BlockUtil.placeBlock(pos, enumHand, rotate.getValue(), packet.getValue(), BlockUtil.blackList.contains(BlockUtil.getBlock(blockPos.add(0, -1, 0))) ? true : false);
+                else
+                    line.add(pos);
+            } else
+                BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), BlockUtil.blackList.contains(BlockUtil.getBlock(blockPos.add(0, -1, 0))) ? true : false);
 
-        if(switchMode.getValue(switchModes.Silent)) {
-            switchItems(getItemStack(backSwitch).getItem(), hands.MainHand);
-        }
+            if (switchMode.getValue(switchModes.Silent)) {
+                switchItems(getItemStack(backSwitch).getItem(), hands.MainHand);
+            }
+        }catch (NullPointerException e){}
     }
 
     //Switches to needed item

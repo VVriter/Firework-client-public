@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @ModuleManifest(name = "StepRewrite", category = Module.Category.MOVEMENT)
 public class StepRewrite extends Module {
+    private Setting<Boolean> stopMotion = new Setting<>("StopMotion", true, this);
     private Setting<Boolean> shouldSneak = new Setting<>("Sneak", true, this);
     private Setting<Boolean> forceGroundPacket = new Setting<>("ForceGround", true, this);
     private Setting<Double> vanillaSpeed = new Setting<>("Speed", 2.1d, this, 1, 20);
@@ -67,6 +68,10 @@ public class StepRewrite extends Module {
                 BlockPos pos1 = playerPos.offset(mc.player.getHorizontalFacing());
                 if (BlockUtil.getBlock(pos1) != Blocks.AIR && BlockUtil.getBlock(pos1.add(0, 1, 0)) == Blocks.AIR && BlockUtil.getBlock(pos1.add(0, 2, 0)) == Blocks.AIR && BlockUtil.getBlock(playerPos.add(0, 2, 0)) == Blocks.AIR) {
                     if (jumpTimer.hasPassedMs(jumpTimerDelay.getValue())) {
+                        if(stopMotion.getValue()){
+                            mc.player.motionX = 0;
+                            mc.player.motionZ = 0;
+                        }
                         mc.player.jump();
                         canBoost = true;
                         jumpTimer.reset();

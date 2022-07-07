@@ -63,6 +63,10 @@ public class BlockUtil {
         return facings;
     }
 
+    public static BlockPos[] getNeighbors(BlockPos p) {
+        return new BlockPos[]{p.add(1, 0, 0), p.add(-1, 0, 0), p.add(0, 0, 1), p.add(0, 0, -1), p.add(0, 1, 0), p.add(0, -1, 0)};
+    }
+
     public static boolean canPlaceBlock(BlockPos pos) {
         ArrayList<Entity> entities = new ArrayList<Entity>();
         entities.addAll(mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos.add(0, 1, 0))));
