@@ -34,6 +34,16 @@ public class HoleEspRewrote extends Module {
     public Setting<HSLColor> bedrockColor = new Setting<>("BedRock", new HSLColor(1, 54, 43), this);
     public Setting<HSLColor> obsidianColor = new Setting<>("Obsidian", new HSLColor(1, 54, 43), this);
 
+
+
+
+    public Setting<HSLColor> startColorBebrok = new Setting<>("BedRockStart", new HSLColor(1, 54, 43), this).setVisibility(mode,modes.GradientBox);
+    public Setting<HSLColor> endColorBebrok = new Setting<>("BedrockEnd", new HSLColor(1, 54, 43), this).setVisibility(mode,modes.GradientBox);
+
+    public Setting<HSLColor> startColorObby = new Setting<>("BedRockStart", new HSLColor(1, 54, 43), this).setVisibility(mode,modes.GradientBox);
+    public Setting<HSLColor> endColorObby = new Setting<>("BedrockEnd", new HSLColor(1, 54, 43), this).setVisibility(mode,modes.GradientBox);
+
+
     public Setting<Boolean> outline = new Setting<>("Outline", true, this).setVisibility(mode,modes.Box);
 
     public Setting<Double> wight = new Setting<>("Wight", (double)10, this, 1, 20);
@@ -41,9 +51,6 @@ public class HoleEspRewrote extends Module {
     public Setting<Boolean> box1 = new Setting<>("Box", true, this).setVisibility(mode,modes.Crosses);
 
     public Setting<Double> height = new Setting<>("Height", (double)0.5, this, -1, 20).setVisibility(mode,modes.Box);
-
-    public Setting<Double> radius = new Setting<>("Radius", (double)0.5, this, -1, 20).setVisibility(mode,modes.GradientBox);
-
     public Setting<Boolean> box = new Setting<>("Box", true, this).setVisibility(mode,modes.Box);
 
 
@@ -67,11 +74,24 @@ public class HoleEspRewrote extends Module {
                                 this.bedrockColor.getValue().toRGB() : this.obsidianColor.getValue().toRGB(),
                                 wight.getValue().floatValue());
             }else if(mode.getValue(modes.GradientBox)){
+
+
+                if (isSafe(pos)) {
                 new BlockRenderBuilder(pos)
                         .addRenderModes(
                                 new RenderMode(RenderMode.renderModes.FilledGradient,
-                                        new Color(RainbowUtil.astolfoColors(100, 100)), new Color(RainbowUtil.astolfoColors(150, 100)))
+                                        startColorBebrok.getValue().toRGB(), endColorBebrok.getValue().toRGB())
                         ).render();
+
+                } else if (!isSafe(pos)) {
+                    new BlockRenderBuilder(pos)
+                            .addRenderModes(
+                                    new RenderMode(RenderMode.renderModes.FilledGradient,
+                                           startColorObby.getValue().toRGB(), endColorObby.getValue().toRGB())
+                            ).render();
+                }
+
+
             }
             if(square.getValue() && mode.getValue(modes.Crosses)){
                 RenderUtils.drawBoxESP(pos, this.isSafe(pos) ?
