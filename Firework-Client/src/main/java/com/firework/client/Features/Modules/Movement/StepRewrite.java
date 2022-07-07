@@ -33,9 +33,8 @@ public class StepRewrite extends Module {
 
     private Setting<mode> moveMode = new Setting<>("Mode", mode.Motion, this, mode.values());
     private enum mode{
-        Motion, Tp
+        Motion, Tp, Combined
     }
-
     private boolean oldAutoJump = false;
 
     private boolean canBoost = false;
@@ -62,10 +61,10 @@ public class StepRewrite extends Module {
     public void onTick() {
         super.onTick();
         if(mc.player.collidedHorizontally) {
-            if(mc.player.fallDistance < 1 && fallDistance.getValue()) {
+            if(checkFallDistance(1) && fallDistance.getValue()) {
                 BlockPos playerPos = EntityUtil.getFlooredPos(mc.player);
                 BlockPos pos1 = playerPos.offset(mc.player.getHorizontalFacing());
-                if (BlockUtil.getBlock(pos1) != Blocks.AIR && BlockUtil.getBlock(pos1.add(0, 1, 0)) == Blocks.AIR) {
+                if (BlockUtil.getBlock(pos1) != Blocks.AIR && BlockUtil.getBlock(pos1.add(0, 1, 0)) == Blocks.AIR && BlockUtil.getBlock(pos1.add(0, 2, 0)) == Blocks.AIR && BlockUtil.getBlock(playerPos.add(0, 2, 0)) == Blocks.AIR) {
                     if (jumpTimer.hasPassedMs(jumpTimerDelay.getValue())) {
                         mc.player.jump();
                         canBoost = true;
@@ -89,8 +88,16 @@ public class StepRewrite extends Module {
                     } else if(moveMode.getValue(mode.Tp)){
                         BlockPos playerPos = EntityUtil.getFlooredPos(mc.player);
                         BlockPos pos1 = playerPos.offset(mc.player.getHorizontalFacing());
-                        mc.player.connection.sendPacket(new CPacketPlayer.Position(pos1.getX(), mc.player.posY, pos1.getZ(), mc.player.onGround));
-                        mc.player.setPosition(pos1.getX(), mc.player.posY, pos1.getZ());
+                        mc.player.connection.sendPacket(new CPacketPlayer.Position(pos1.getX()+0.5, mc.player.posY, pos1.getZ()+0.5, mc.player.onGround));
+                        mc.player.setPosition(pos1.getX()+0.5, mc.player.posY, pos1.getZ()+0.5);
+                    } else if(moveMode.getValue(mode.Combined)){
+                        double[] calc = MathUtil.directionSpeed(this.vanillaSpeed.getValue() / 10.0);
+                        mc.player.motionX = calc[0];
+                        mc.player.motionZ = calc[1];
+                        BlockPos playerPos = EntityUtil.getFlooredPos(mc.player);
+                        BlockPos pos1 = playerPos.offset(mc.player.getHorizontalFacing());
+                        mc.player.connection.sendPacket(new CPacketPlayer.Position(pos1.getX()+0.5, mc.player.posY, pos1.getZ()+0.5, mc.player.onGround));
+                        mc.player.setPosition(pos1.getX()+0.5, mc.player.posY, pos1.getZ()+0.5);
                     }
 
                     canBoost = false;
@@ -98,6 +105,17 @@ public class StepRewrite extends Module {
                 }
             }
         }
+    }
+
+    public boolean checkFallDistance(int distance){
+        BlockPos playerPos = EntityUtil.getFlooredPos(mc.player);
+        for(int i = 0; i < distance; i++){
+            if(BlockUtil.getBlock(playerPos.add(0, -(i + 1), 0)) != Blocks.AIR)
+                return true;
+            else
+                return false;
+        }
+        return false;
     }
 
     @SubscribeEvent
