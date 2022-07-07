@@ -11,30 +11,47 @@ import com.firework.client.Implementations.Utill.Timer;
 public class TickShift extends Module {
 
     Timer timer = new Timer();
-    float defoultTickLeght;
+    Timer inhibitorTimer = new Timer();
 
-    public Setting<Double> ticks = new Setting<>("Ticks", (double)40, this, 1, 50);
-    public Setting<Double> timerms = new Setting<>("Time", (double)1000, this, 1, 5000);
+    float defoultTickLeght;
+    float speedTo;
+    float currentTickLeght;
+
+    public Setting<Boolean> disable = new Setting<>("AutoDisable", true, this);
+    public Setting<Double> ticks = new Setting<>("Ticks", (double) 40, this, 1, 50);
+    public Setting<Double> timerms = new Setting<>("Time", (double) 1000, this, 1, 5000);
+
+ /*   public Setting<Boolean> inhibitor = new Setting<>("Inhibitor", false, this);
+    public Setting<Double> startSpeed = new Setting<>("StartSpeed", (double) 250, this, 1, 1000).setVisibility(inhibitor, true);
+    public Setting<Double> endSpeed = new Setting<>("EndSpeed", (double) 250, this, 1, 1000).setVisibility(inhibitor, true); */
+
 
     @Override
     public void onEnable() {
         super.onEnable();
         timer.reset();
-        defoultTickLeght =  ((ITimer)((IMinecraft)mc).getTimer()).getTickLength();
+        inhibitorTimer.reset();
+        defoultTickLeght = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
     }
+
     @Override
     public void onTick() {
         super.onTick();
+
+        speedTo = ticks.getValue().floatValue();
+        currentTickLeght = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
+
         if (!(mc.player.moveForward > 0) && !(mc.player.moveVertical > 0)) {
             //If player stands
             timer.reset();
-           ((ITimer)((IMinecraft)mc).getTimer()).setTickLength(defoultTickLeght);
+            ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defoultTickLeght);
+
         } else {
-            //Else
             if (!timer.hasPassedMs(timerms.getValue())) {
-                ((ITimer)((IMinecraft)mc).getTimer()).setTickLength(ticks.getValue().floatValue());
+                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(ticks.getValue().floatValue());
             } else {
-                ((ITimer)((IMinecraft)mc).getTimer()).setTickLength(defoultTickLeght);
+                if (disable.getValue()) {onDisable();}
+                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defoultTickLeght);
             }
         }
     }
@@ -44,6 +61,7 @@ public class TickShift extends Module {
     public void onDisable() {
         super.onDisable();
         timer.reset();
+        inhibitorTimer.reset();
         ((ITimer)((IMinecraft)mc).getTimer()).setTickLength(defoultTickLeght);
     }
 
