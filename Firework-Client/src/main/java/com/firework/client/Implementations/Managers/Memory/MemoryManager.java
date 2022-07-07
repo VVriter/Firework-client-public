@@ -5,10 +5,7 @@ public class MemoryManager {
      static long maxMemory = Runtime.getRuntime().maxMemory() / 1048576L;
      static long allocatedMemory = Runtime.getRuntime().totalMemory() / 1048576L;
 
-
-    public static String memoryInfo(){
+     public static String memoryInfo(){
         return memory+"//"+allocatedMemory+"//"+maxMemory;
     }
-
-
 }

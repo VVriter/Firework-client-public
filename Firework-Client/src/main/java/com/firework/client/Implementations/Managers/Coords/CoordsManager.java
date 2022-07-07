@@ -3,7 +3,7 @@ package com.firework.client.Implementations.Managers.Coords;
 import net.minecraft.client.Minecraft;
 
 public class CoordsManager {
-   static Minecraft mc = Minecraft.getMinecraft();
+    static Minecraft mc = Minecraft.getMinecraft();
 
     public static String getCordsForDrawString(){
         if(mc.world.getBiome(mc.player.getPosition()).getBiomeName().equals("Hell")){

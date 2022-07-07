@@ -18,7 +18,6 @@ public class JsonPrefixPraser {
         JSONObject obj = new JSONObject();
         obj.put("Prefix", ".");
 
-
         //Creates dir if it really needed
         File theDir = new File(Firework.FIREWORK_DIRECTORY+"Prefix.json");
         if (!theDir.exists()){
@@ -29,6 +28,4 @@ public class JsonPrefixPraser {
             }
         }
     }
-
-
 }

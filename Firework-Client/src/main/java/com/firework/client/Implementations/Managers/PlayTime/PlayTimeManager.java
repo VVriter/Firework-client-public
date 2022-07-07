@@ -23,6 +23,4 @@ public class PlayTimeManager {
 
         return diffHours+":"+diffMinutes+":"+diffSeconds;
     }
-
-
 }

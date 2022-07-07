@@ -16,34 +16,26 @@ import java.io.Reader;
 public class JsonReader {
 
     public static void getPrefix() {
-
         JSONParser parser = new JSONParser();
 
         try (Reader reader = new FileReader(Firework.FIREWORK_DIRECTORY + "\\Prefix.json")) {
-
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
             System.out.println(jsonObject);
 
             String prefix = (String) jsonObject.get("Prefix");
             System.out.println(prefix);
             CommandManager.prefix = prefix;
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
     }
 
     public static void getSpamText() {
-
         JSONParser parser = new JSONParser();
 
         try (Reader reader = new FileReader(Firework.FIREWORK_DIRECTORY + "\\Spam.json")) {
-
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
             System.out.println(jsonObject);
 
@@ -51,21 +43,17 @@ public class JsonReader {
             System.out.println(text);
             Spammer.message = text;
 
-
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
     }
 
     public static void getWebhook(){
         JSONParser parser = new JSONParser();
 
         try (Reader reader1 = new FileReader(Firework.FIREWORK_DIRECTORY + "\\Webhook.json")) {
-
             JSONObject jsonObject = (JSONObject) parser.parse(reader1);
             System.out.println(jsonObject);
 
@@ -73,14 +61,10 @@ public class JsonReader {
             System.out.println(webhook);
             DiscordNotificator.webhook = webhook;
 
-
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
-
-
 }

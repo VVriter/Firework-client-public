@@ -12,18 +12,14 @@ public class JsonParser {
     public static void parse() {
         Desktop desktop = Desktop.getDesktop();
 
-        //Creates new JSon object
+        //Creates new Json object
         JSONObject obj = new JSONObject();
         obj.put("Firework", "bebra");
-
 
         //Creates dir if it really needed
         File theDir = new File(Firework.FIREWORK_DIRECTORY);
         if (!theDir.exists()){
             theDir.mkdirs();
-
-
-
             //If this is first start, open link with advertising
             DiscordUtil.OpenServer();
             //Creates main Json file
@@ -36,10 +32,10 @@ public class JsonParser {
     }
     //For WebhookCommand
     public static String DISORD_WEBHOOK = "";
+
     public static void createWebhookJsonFile(){
 
        // File theWebhookJsonFileDir = new File(Firework.FIREWORK_DIRECTORY+"Webhook.json");
-
 
         //Creates new JSon object
         JSONObject web = new JSONObject();
@@ -51,5 +47,4 @@ public class JsonParser {
             e.printStackTrace();
         }
     }
-
 }
