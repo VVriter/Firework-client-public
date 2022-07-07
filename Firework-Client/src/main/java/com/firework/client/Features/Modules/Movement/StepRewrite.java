@@ -31,6 +31,11 @@ public class StepRewrite extends Module {
 
     private Setting<Boolean> fallDistance = new Setting<>("FallDistance", true, this);
 
+    private Setting<mode> moveMode = new Setting<>("Mode", mode.Motion, this, mode.values());
+    private enum mode{
+        Motion, Tp
+    }
+
     private boolean oldAutoJump = false;
 
     private boolean canBoost = false;
@@ -77,9 +82,16 @@ public class StepRewrite extends Module {
                 if (fowardBoostTimer.hasPassedMs(boostTimer.getValue())) {
                     ((IKeyBinding) mc.gameSettings.keyBindSneak).setPressed(false);
 
-                    double[] calc = MathUtil.directionSpeed(this.vanillaSpeed.getValue() / 10.0);
-                    mc.player.motionX = calc[0];
-                    mc.player.motionZ = calc[1];
+                    if(moveMode.getValue(mode.Motion)) {
+                        double[] calc = MathUtil.directionSpeed(this.vanillaSpeed.getValue() / 10.0);
+                        mc.player.motionX = calc[0];
+                        mc.player.motionZ = calc[1];
+                    } else if(moveMode.getValue(mode.Tp)){
+                        BlockPos playerPos = EntityUtil.getFlooredPos(mc.player);
+                        BlockPos pos1 = playerPos.offset(mc.player.getHorizontalFacing());
+                        mc.player.connection.sendPacket(new CPacketPlayer.Position(pos1.getX(), mc.player.posY, pos1.getZ(), mc.player.onGround));
+                        mc.player.setPosition(pos1.getX(), mc.player.posY, pos1.getZ());
+                    }
 
                     canBoost = false;
                     fowardBoostTimer.reset();
