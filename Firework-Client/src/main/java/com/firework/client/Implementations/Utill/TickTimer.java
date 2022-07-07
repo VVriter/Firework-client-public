@@ -14,10 +14,13 @@ public class TickTimer {
 
     public boolean hasPassedTicks(int ticks) {
         if (this.ticks >= ticks) {
-            this.ticks = 0;
             return true;
         }
         return false;
+    }
+
+    public void reset(){
+        ticks = 0;
     }
 
     @SubscribeEvent
