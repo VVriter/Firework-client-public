@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Managers.Parser;
+package com.firework.client.Implementations.Utill.Client.Parser;
 
 import com.firework.client.Features.Modules.Chat.Spammer;
 import com.firework.client.Features.Modules.Client.DiscordNotificator;

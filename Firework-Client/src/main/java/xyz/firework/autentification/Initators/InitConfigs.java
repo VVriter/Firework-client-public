@@ -1,8 +1,8 @@
 package xyz.firework.autentification.Initators;
 
-import com.firework.client.Implementations.Managers.Parser.JsonParser;
-import com.firework.client.Implementations.Managers.Parser.JsonPrefixPraser;
-import com.firework.client.Implementations.Managers.Parser.JsonReader;
+import com.firework.client.Implementations.Utill.Client.Parser.JsonParser;
+import com.firework.client.Implementations.Utill.Client.Parser.JsonPrefixPraser;
+import com.firework.client.Implementations.Utill.Client.Parser.JsonReader;
 
 public class InitConfigs {
     public static void initate(){

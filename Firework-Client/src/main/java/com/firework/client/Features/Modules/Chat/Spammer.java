@@ -2,7 +2,7 @@ package com.firework.client.Features.Modules.Chat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
-import com.firework.client.Implementations.Managers.Parser.JsonReader;
+import com.firework.client.Implementations.Utill.Client.Parser.JsonReader;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;

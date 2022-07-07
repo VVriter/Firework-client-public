@@ -5,7 +5,7 @@ import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Client.Notifications;
-import com.firework.client.Implementations.Managers.Parser.JsonParser;
+import com.firework.client.Implementations.Utill.Client.Parser.JsonParser;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 
