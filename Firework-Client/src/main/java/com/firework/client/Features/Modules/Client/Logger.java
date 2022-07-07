@@ -7,14 +7,14 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.util.text.TextComponentString;
 
-@ModuleManifest(name = "CommandLineLogger",category = Module.Category.CLIENT)
-public class CommandLineLogger extends Module {
+@ModuleManifest(name = "Logger",category = Module.Category.CLIENT)
+public class Logger extends Module {
 
     public static Setting<Boolean> onModuleEnable;
     public static Setting<Boolean> onModuleDisable;
 
     public static Setting<Boolean> enabled = null;
-    public CommandLineLogger(){
+    public Logger(){
         onModuleEnable = new Setting<>("OnEnableLog", true, this);
         onModuleDisable = new Setting<>("OnDisableLog", true, this);
         enabled = this.isEnabled;
@@ -22,8 +22,8 @@ public class CommandLineLogger extends Module {
     }
 
     public static void log(Module module){
-        System.out.println("FIREWORK: " + "Module with the name "+module.name+" is enabled!");
-        addMessage( getColor(module) + module.name + " enabled", false);
+        System.out.println("FIREWORK: " + "Module with the name "+module.name+" is" + (module.isEnabled.getValue() ? " enabled" : " disabled") + "!");
+        addMessage( getModuleStatusColor(module) + module.name + (module.isEnabled.getValue() ? " enabled" : " disabled"), false);
     }
 
     public static void addMessage(String message, boolean silent) {
@@ -31,7 +31,7 @@ public class CommandLineLogger extends Module {
         if (silent) mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(new TextComponentString(prefix + message), 1); else mc.ingameGUI.getChatGUI().printChatMessage(new TextComponentString(prefix + message));
     }
 
-    public static ChatFormatting getColor(Module module){
+    public static ChatFormatting getModuleStatusColor(Module module){
         return module.isEnabled.getValue() ? ChatFormatting.GREEN : ChatFormatting.RED;
     }
 

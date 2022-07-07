@@ -4,11 +4,10 @@ package com.firework.client;
 
 import com.firework.client.Features.AccountManager.AltManager;
 import com.firework.client.Features.AltManagerV2.AccountManager;
-import com.firework.client.Features.AltManagerV2.Events;
 import com.firework.client.Features.IngameGuis.Loader;
 import com.firework.client.Features.IngameGuis.MainMenu.Shaders;
 import com.firework.client.Features.Modules.Client.Client;
-import com.firework.client.Features.Modules.Client.CommandLineLogger;
+import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Managers.Manager;
@@ -36,7 +35,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.apache.logging.log4j.Logger;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -44,7 +42,6 @@ import xyz.firework.autentification.Initators.InitAuth;
 import xyz.firework.autentification.Initators.InitConfigs;
 
 
-import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -104,16 +101,10 @@ public class Firework
     }
 
     public static void unloadManagers(){
-        shaderManager = null;
-        MinecraftForge.EVENT_BUS.unregister(updaterManager); updaterManager = null;
-        settingManager = null;
-        moduleManager = null;
-        customFontManager = null;
-        textManager = null;
-        MinecraftForge.EVENT_BUS.unregister(hudManager); hudManager = null;
-        commandManager = null;
-        positionManager = null;
-        MinecraftForge.EVENT_BUS.unregister(configManager); configManager = null;
+        for(Manager manager : managers)
+            manager.destory();
+
+        managers.clear();
     }
 
     public static void addManagers(Manager... managers){
@@ -123,7 +114,7 @@ public class Firework
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
         MinecraftForge.EVENT_BUS.register(new Loader());
-        CommandLineLogger.logAboutLoad();
+        Logger.logAboutLoad();
 
 
         FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir+"/Firework/";

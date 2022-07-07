@@ -1,6 +1,6 @@
 package com.firework.client.Features.Modules;
 
-import com.firework.client.Features.Modules.Client.CommandLineLogger;
+import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -40,15 +40,15 @@ public class Module extends Info{
     public void onEnable() {
         isEnabled.setValue(true);
         MinecraftForge.EVENT_BUS.register(this);
-        if(CommandLineLogger.enabled.getValue() && CommandLineLogger.onModuleEnable.getValue()){
-            CommandLineLogger.log(this);
+        if(Logger.enabled.getValue() && Logger.onModuleEnable.getValue()){
+            Logger.log(this);
         }
     }
     public void onDisable() {
         isEnabled.setValue(false);
         MinecraftForge.EVENT_BUS.unregister(this);
-        if(CommandLineLogger.enabled.getValue() && CommandLineLogger.onModuleDisable.getValue()){
-            CommandLineLogger.log(this);
+        if(Logger.enabled.getValue() && Logger.onModuleDisable.getValue()){
+            Logger.log(this);
         }
     }
 
