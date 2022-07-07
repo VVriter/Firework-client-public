@@ -15,8 +15,8 @@ public class CommandLineLogger extends Module {
 
     public static Setting<Boolean> enabled = null;
     public CommandLineLogger(){
-        onModuleEnable = new Setting<>("OnEnableLog", false, this);
-        onModuleDisable = new Setting<>("OnDisableLog", false, this);
+        onModuleEnable = new Setting<>("OnEnableLog", true, this);
+        onModuleDisable = new Setting<>("OnDisableLog", true, this);
         enabled = this.isEnabled;
         this.onEnable();
     }
