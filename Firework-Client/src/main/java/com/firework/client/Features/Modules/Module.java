@@ -18,8 +18,8 @@ public class Module extends Info{
 
     public String subCategory;
 
-    public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this).setVisibility(false);
-    public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this).setVisibility(false);
+    public Setting<Boolean> isEnabled = new Setting<>("isEnabled", true, this).setVisibility(false);
+    public Setting<Boolean> isOpened = new Setting<>("isOpened", true, this).setVisibility(false);
     public Setting<Integer> key = new Setting<>("Key", Keyboard.KEY_NONE, this);
     public Module(String name, Category category) {
         super(name);
@@ -41,14 +41,14 @@ public class Module extends Info{
         isEnabled.setValue(true);
         MinecraftForge.EVENT_BUS.register(this);
         if(CommandLineLogger.enabled.getValue() && CommandLineLogger.onModuleEnable.getValue()){
-            CommandLineLogger.log("Module with the name "+this.name+" is enabled!");
+            CommandLineLogger.log(this);
         }
     }
     public void onDisable() {
         isEnabled.setValue(false);
         MinecraftForge.EVENT_BUS.unregister(this);
         if(CommandLineLogger.enabled.getValue() && CommandLineLogger.onModuleDisable.getValue()){
-            CommandLineLogger.log("Module with the name "+this.name+" is disabled!");
+            CommandLineLogger.log(this);
         }
     }
 
