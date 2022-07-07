@@ -73,6 +73,7 @@ public class Firework
     public static HudManager hudManager;
     public static CommandManager commandManager;
     public static CFontRenderer customFontManager;
+    public static CFontRenderer customFontForAlts;
     public static PositionManager positionManager;
     public static ConfigManager configManager;
     public static ShaderManager shaderManager;
@@ -84,6 +85,7 @@ public class Firework
         settingManager = new SettingManager();
         moduleManager = new ModuleManager();
         customFontManager = new CFontRenderer("Tcm", 23, true, true);
+        customFontForAlts = new CFontRenderer("Tcm",40,true,true);
         textManager = new TextManager();
         hudManager = new HudManager(); MinecraftForge.EVENT_BUS.register(hudManager);
         commandManager = new CommandManager();
