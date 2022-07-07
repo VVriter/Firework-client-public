@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @ModuleManifest(name = "StepRewrite", category = Module.Category.MOVEMENT)
 public class StepRewrite extends Module {
+    private Setting<Boolean> shouldSneak = new Setting<>("Sneak", true, this);
     private Setting<Boolean> forceGroundPacket = new Setting<>("ForceGround", true, this);
     private Setting<Double> vanillaSpeed = new Setting<>("Speed", 2.1d, this, 1, 20);
 
@@ -76,10 +77,12 @@ public class StepRewrite extends Module {
 
         if(canBoost) {
             if (mc.player.motionY > 0) {
-                ((IKeyBinding) mc.gameSettings.keyBindSneak).setPressed(true);
+                if(shouldSneak.getValue())
+                    ((IKeyBinding) mc.gameSettings.keyBindSneak).setPressed(true);
             } else if (mc.player.motionY < 0) {
                 if (fowardBoostTimer.hasPassedMs(boostTimer.getValue())) {
-                    ((IKeyBinding) mc.gameSettings.keyBindSneak).setPressed(false);
+                    if(shouldSneak.getValue())
+                        ((IKeyBinding) mc.gameSettings.keyBindSneak).setPressed(false);
 
                     if(moveMode.getValue(mode.Motion)) {
                         double[] calc = MathUtil.directionSpeed(this.vanillaSpeed.getValue() / 10.0);
