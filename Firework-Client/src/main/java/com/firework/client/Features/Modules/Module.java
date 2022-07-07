@@ -41,14 +41,14 @@ public class Module extends Info{
         isEnabled.setValue(true);
         MinecraftForge.EVENT_BUS.register(this);
         if(CommandLineLogger.enabled.getValue() && CommandLineLogger.onModuleEnable.getValue()){
-            CommandLineLogger.log("Module with the name "+this.name+" is enabled!");
+            CommandLineLogger.log(this);
         }
     }
     public void onDisable() {
         isEnabled.setValue(false);
         MinecraftForge.EVENT_BUS.unregister(this);
         if(CommandLineLogger.enabled.getValue() && CommandLineLogger.onModuleDisable.getValue()){
-            CommandLineLogger.log("Module with the name "+this.name+" is disabled!");
+            CommandLineLogger.log(this);
         }
     }
 

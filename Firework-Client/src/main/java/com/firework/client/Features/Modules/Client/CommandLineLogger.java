@@ -1,16 +1,17 @@
 package com.firework.client.Features.Modules.Client;
 
+import com.firework.client.Features.AltManagerV2.utils.TextFormatting;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
+import com.mojang.realmsclient.gui.ChatFormatting;
+import net.minecraft.util.text.TextComponentString;
 
 @ModuleManifest(name = "CommandLineLogger",category = Module.Category.CLIENT)
 public class CommandLineLogger extends Module {
 
     public static Setting<Boolean> onModuleEnable;
     public static Setting<Boolean> onModuleDisable;
-
-
 
     public static Setting<Boolean> enabled = null;
     public CommandLineLogger(){
@@ -20,23 +21,19 @@ public class CommandLineLogger extends Module {
         this.onEnable();
     }
 
-    public static void log(String msg){
-        System.out.println("FIREWORK: "+msg);
+    public static void log(Module module){
+        System.out.println("FIREWORK: " + "Module with the name "+module.name+" is enabled!");
+        addMessage( getColor(module) + module.name + " enabled", false);
     }
 
-
-    @Override
-    public void onEnable(){
-        super.onEnable();
-        log("CommandLineLogger is enabled!");
+    public static void addMessage(String message, boolean silent) {
+        String prefix = TextFormatting.LIGHT_PURPLE + "<FireWork> " + TextFormatting.RESET;
+        if (silent) mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(new TextComponentString(prefix + message), 1); else mc.ingameGUI.getChatGUI().printChatMessage(new TextComponentString(prefix + message));
     }
 
-    @Override
-    public void onDisable(){
-        super.onDisable();
-        log("CommandLineLogger is disabled!");
+    public static ChatFormatting getColor(Module module){
+        return module.isEnabled.getValue() ? ChatFormatting.GREEN : ChatFormatting.RED;
     }
-
 
     public static void logAboutLoad(){
         System.out.println("FFFFFF  IIIIII  RRRRRRRRRRR  EEEEEEEEEE  WWWW    WWW     WWW  OOOOOOOOOOOO  RRRRRRRRRRR  KK    KK");
