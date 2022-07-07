@@ -28,6 +28,7 @@ import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.QueueCo
 import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.SeenCommand;
 import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.StatsCommand;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Managers.Manager;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
@@ -38,11 +39,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CommandManager {
+public class CommandManager extends Manager {
 
     private final List<Command> commands = new ArrayList<>();
 
-    public CommandManager () {
+    public CommandManager() {
+        super(true);
         this.init();
     }
 

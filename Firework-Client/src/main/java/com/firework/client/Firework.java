@@ -11,6 +11,7 @@ import com.firework.client.Features.Modules.Client.Client;
 import com.firework.client.Features.Modules.Client.CommandLineLogger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
+import com.firework.client.Implementations.Managers.Manager;
 import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.UI.Hud.HudManager;
 import com.firework.client.Implementations.Managers.ConfigManager;
@@ -47,6 +48,8 @@ import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import static com.firework.client.Implementations.Utill.Util.mc;
 
@@ -63,7 +66,7 @@ public class Firework
     public static Minecraft minecraft;
     public static String FIREWORK_DIRECTORY;
 
-    private static Logger logger;
+    public static ArrayList<Manager> managers = new ArrayList<>();
 
     public static AltManager altManager;
     public static UpdaterManager updaterManager;
@@ -79,18 +82,21 @@ public class Firework
     public static ShaderManager shaderManager;
 
     public void loadManagers(){
-        altManager = new AltManager();
-        shaderManager = new ShaderManager();
-        updaterManager = new UpdaterManager(); MinecraftForge.EVENT_BUS.register(updaterManager);
-        settingManager = new SettingManager();
-        moduleManager = new ModuleManager();
+        addManagers(
+                altManager = new AltManager(),
+                shaderManager = new ShaderManager(),
+                updaterManager = new UpdaterManager(),
+                settingManager = new SettingManager(),
+                moduleManager = new ModuleManager(),
+                textManager = new TextManager(),
+                hudManager = new HudManager(),
+                commandManager = new CommandManager(),
+                positionManager = new PositionManager(),
+                configManager = new ConfigManager()
+            );
+
         customFontManager = new CFontRenderer("Tcm", 23, true, true);
         customFontForAlts = new CFontRenderer("Tcm",40,true,true);
-        textManager = new TextManager();
-        hudManager = new HudManager(); MinecraftForge.EVENT_BUS.register(hudManager);
-        commandManager = new CommandManager();
-        positionManager = new PositionManager();
-        configManager = new ConfigManager(); MinecraftForge.EVENT_BUS.register(configManager);
         GuiInfo.setupModulesColumns();
         for(Module m : moduleManager.modules)
             GuiInfo.addModuleToColumn(m);
@@ -110,7 +116,9 @@ public class Firework
         MinecraftForge.EVENT_BUS.unregister(configManager); configManager = null;
     }
 
-
+    public static void addManagers(Manager... managers){
+        Collections.addAll(Firework.managers, managers);
+    }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
@@ -126,8 +134,6 @@ public class Firework
         MinecraftForge.EVENT_BUS.register(this);
         Display.setTitle("Loading Firework");
         loadManagers();
-        logger = event.getModLog();
-
     }
 
     @EventHandler

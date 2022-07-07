@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules;
 
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Managers.Manager;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.ClassFinder;
 import com.firework.client.Implementations.Utill.Client.Pair;
@@ -14,12 +15,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Set;
 
-public class ModuleManager {
+public class ModuleManager extends Manager {
 
     public ArrayList<Module> modules;
     public ArrayList<Info> infos;
 
     public ModuleManager() {
+        super(false);
         modules = new ArrayList<>();
         registerModules();
     }

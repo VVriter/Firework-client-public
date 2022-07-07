@@ -15,10 +15,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
-public class ConfigManager{
+public class ConfigManager extends Manager{
     public String configDir = Firework.FIREWORK_DIRECTORY + "\\Configs\\";
 
     public ConfigManager(){
+        super(true);
         new File(configDir).mkdirs();
 
         //for(Module module : Firework.moduleManager.modules){

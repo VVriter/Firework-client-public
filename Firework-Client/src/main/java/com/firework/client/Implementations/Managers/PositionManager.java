@@ -3,13 +3,17 @@ package com.firework.client.Implementations.Managers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayer;
 
-public class PositionManager {
+public class PositionManager extends Manager{
 
     private static Minecraft mc = Minecraft.getMinecraft();
     private double x;
     private double y;
     private double z;
     private boolean onground;
+
+    public PositionManager() {
+        super(false);
+    }
 
     public void updatePosition() {
         this.x = PositionManager.mc.player.posX;

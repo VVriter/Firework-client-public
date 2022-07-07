@@ -9,10 +9,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FriendManager {
-
+public class FriendManager extends Manager{
 
     public static ArrayList<String> friends = new ArrayList<>();
+
+    public FriendManager() {
+        super(false);
+    }
 
     public static void parse(String args){
         friends.add(args);
@@ -45,8 +48,6 @@ public class FriendManager {
             System.out.println(friends);
         }
     }
-
-
 
     public static void remove(String name){
         friends.remove(name);

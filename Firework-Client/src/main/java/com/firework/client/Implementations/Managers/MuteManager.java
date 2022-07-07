@@ -9,9 +9,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MuteManager {
+public class MuteManager extends Manager{
 
     private static ArrayList<String> muted = new ArrayList<>();
+
+    public MuteManager() {
+        super(false);
+    }
 
     public static void addMuted(String name){
         File theDir = new File(Firework.FIREWORK_DIRECTORY+"Muted");

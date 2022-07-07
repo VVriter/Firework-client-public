@@ -1,15 +1,20 @@
 package com.firework.client.Implementations.Managers.Text;
 
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Managers.Manager;
 import net.minecraft.client.Minecraft;
 
 import static java.lang.Math.*;
 
-public class TextManager {
+public class TextManager extends Manager {
 
     Minecraft mc = Minecraft.getMinecraft();
 
     public static boolean customFont = true;
+
+    public TextManager() {
+        super(false);
+    }
 
     public void drawStringWithShadow(String text, float x, float y, int color) {
         this.drawString(text, x, y, color, true);

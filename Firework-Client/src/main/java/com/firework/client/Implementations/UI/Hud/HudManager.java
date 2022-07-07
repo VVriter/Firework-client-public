@@ -1,9 +1,11 @@
 package com.firework.client.Implementations.UI.Hud;
 
+import com.firework.client.Implementations.Managers.Manager;
 import com.firework.client.Implementations.UI.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.Utill.Client.ClassFinder;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiGameOver;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -12,11 +14,12 @@ import java.util.Set;
 
 import static com.firework.client.Implementations.Utill.Util.mc;
 
-public class HudManager {
+public class HudManager extends Manager {
 
     public ArrayList<HudComponent> hudComponents = new ArrayList<>();
 
     public HudManager(){
+        super(true);
         registerHuds();
     }
 
@@ -44,10 +47,10 @@ public class HudManager {
     }
 
     @SubscribeEvent
-    public void onRender(TickEvent.RenderTickEvent event) {
-        for (HudComponent component : hudComponents)
-            if(mc.player!=null)
-                if(mc.currentScreen == null || mc.currentScreen instanceof GuiGameOver || mc.currentScreen instanceof GuiChat)
+    public void onRender(RenderGameOverlayEvent event) {
+        if(event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR)
+            for (HudComponent component : hudComponents)
+                if(mc.player!=null)
                     component.draw();
     }
 }

@@ -1,14 +1,20 @@
 package com.firework.client.Features.AccountManager;
 
+import com.firework.client.Implementations.Managers.Manager;
+
 import java.util.ArrayList;
 
 
-public class AltManager {
+public class AltManager extends Manager {
     public static Alt lastAlt;
     public static ArrayList<Alt> registry;
 
     static {
         registry = new ArrayList();
+    }
+
+    public AltManager() {
+        super(false);
     }
 
     public ArrayList<Alt> getRegistry() {

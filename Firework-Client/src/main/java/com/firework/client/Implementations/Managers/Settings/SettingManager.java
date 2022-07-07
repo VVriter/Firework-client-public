@@ -1,16 +1,18 @@
 package com.firework.client.Implementations.Managers.Settings;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Implementations.Managers.Manager;
 import com.firework.client.Implementations.Settings.Setting;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 
-public class SettingManager {
+public class SettingManager extends Manager {
 
     public ArrayList<Setting> settings;
 
     public SettingManager(){
+        super(false);
         settings = new ArrayList<>();
     }
 

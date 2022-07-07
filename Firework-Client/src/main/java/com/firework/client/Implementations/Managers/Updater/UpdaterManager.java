@@ -1,16 +1,18 @@
 package com.firework.client.Implementations.Managers.Updater;
 
+import com.firework.client.Implementations.Managers.Manager;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
 
-public class UpdaterManager {
+public class UpdaterManager extends Manager {
 
     public ArrayList<Updater> updaters;
     public int index = 0;
 
     public UpdaterManager(){
+        super(true);
         this.updaters = new ArrayList<>();
     }
 
