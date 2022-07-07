@@ -75,7 +75,8 @@ public class KillAura extends Module{
                     target = PlayerUtil.getClosestTarget(targetRange.getValue());
 
                     if (target != null) {
-                        onEnable();
+                        isEnabled.setValue(true);
+                        MinecraftForge.EVENT_BUS.register(this);
                     } else if (enabled.getValue()) {
                         enabled.setValue(false);
                         MinecraftForge.EVENT_BUS.unregister(this);
