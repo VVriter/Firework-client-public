@@ -1,10 +1,11 @@
 package com.firework.client.Features.AltManagerRewrite.Guis;
 
+import com.firework.client.Firework;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.*;
+import net.minecraft.client.renderer.GlStateManager;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -28,14 +29,14 @@ public class AltManagerGui extends GuiScreen {
         this.buttonList.add(new GuiButton(2, this.width / 2 + 51, sr.getScaledHeight()-51 , 100,
                 20, "New Account"));
 
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 49, sr.getScaledHeight()-28 , 100,
+        this.buttonList.add(new GuiButton(3, this.width / 2 - 49, sr.getScaledHeight()-28 , 100,
                 20, "Login"));
-        this.buttonList.add(new GuiButton(2, this.width / 2 - 49, sr.getScaledHeight()-51 , 100,
+        this.buttonList.add(new GuiButton(4, this.width / 2 - 49, sr.getScaledHeight()-51 , 100,
                 20, "Delete"));
 
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 149, sr.getScaledHeight()-28 , 100,
+        this.buttonList.add(new GuiButton(5, this.width / 2 - 149, sr.getScaledHeight()-28 , 100,
                 20, "Import"));
-        this.buttonList.add(new GuiButton(2, this.width / 2 - 149, sr.getScaledHeight()-51 , 100,
+        this.buttonList.add(new GuiButton(6, this.width / 2 - 149, sr.getScaledHeight()-51 , 100,
                 20, "Edit"));
     }
 
@@ -44,7 +45,7 @@ public class AltManagerGui extends GuiScreen {
         if (button.id == 1) {
             mc.displayGuiScreen(new GuiMainMenu());
         } else if (button.id == 2) {
-
+            mc.displayGuiScreen(new GuiAddFirst());
         }
         super.actionPerformed(button);
     }
@@ -70,6 +71,14 @@ public class AltManagerGui extends GuiScreen {
     private void drawLinesStuff() {
         ScaledResolution sr = new ScaledResolution(this.mc);
 
+
+       // Firework.customFontForAlts.drawCenteredString("Firework account manager",sr.getScaledWidth()/2,sr.getScaledHeight()/2-140, new Color(222, 53, 53).getRGB());
+
+      //  drawCenteredString(fontRenderer,"Firework account manager",sr.getScaledWidth()/2,sr.getScaledHeight()/2-140, RainbowUtil.generateRainbowFadingColor(1,true));
+
+        drawString(2,"Firework account manager",sr.getScaledWidth()/2+15,sr.getScaledHeight()/2-160, RainbowUtil.generateRainbowFadingColor(1,true));
+
+
         //Center
         Point2D.Double screenCenter = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2);
 
@@ -92,6 +101,15 @@ public class AltManagerGui extends GuiScreen {
         Point2D.Double downline1stPoint = new Point2D.Double(screenCenter.getX() - sr.getScaledWidth()/2, screenCenter.getY()+110);
         Point2D.Double downline2ndPoint = new Point2D.Double(screenCenter.getX() + sr.getScaledWidth()/2, screenCenter.getY()+110);
         RenderUtils2D.drawGradientLine(downline1stPoint,downline2ndPoint,new Color(140, 40, 175),new Color(78, 129, 218),5);
+    }
+
+
+    public static void drawString(final double scale, final String text,
+                                  final float x, final float y, final int color) {
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(scale, scale, scale);
+        Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(text, x, y, color);
+        GlStateManager.popMatrix();
     }
 
 }
