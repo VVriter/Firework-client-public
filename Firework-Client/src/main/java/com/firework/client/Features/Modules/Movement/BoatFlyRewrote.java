@@ -164,7 +164,9 @@ public class BoatFlyRewrote extends Module {
     @Override
     public void onDisable(){
         super.onDisable();
+        if (mc.player.isRiding()) {
         mc.player.getRidingEntity().setNoGravity(false);
+        }
     }
     
 }

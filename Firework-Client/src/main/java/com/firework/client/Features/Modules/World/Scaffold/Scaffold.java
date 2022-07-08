@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
+import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.math.BlockPos;
@@ -17,6 +18,8 @@ import java.util.List;
 
 @ModuleManifest(name = "Scaffold", category = Module.Category.WORLD)
 public class Scaffold extends Module {
+
+    Timer timer = new Timer();
 
     public Setting<Boolean> rotate  = new Setting<>("Rotates", true, this);
 
@@ -33,6 +36,16 @@ public class Scaffold extends Module {
     private BlockPos pos;
 
     private boolean packet = false;
+
+
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        timer.reset();
+    }
+
+
     @Override
     public void onTick() {
         super.onTick();
@@ -66,12 +79,32 @@ public class Scaffold extends Module {
                 }
             }
 
-        if(Tower.getValue()){
-            if(mc.gameSettings.keyBindJump.isKeyDown() && mc.player.moveForward == 0.0F && mc.player.moveStrafing == 0.0F&& !mc.player.isPotionActive(MobEffects.JUMP_BOOST)){
+        if(Tower.getValue() && mc.gameSettings.keyBindJump.isKeyDown() && !mc.player.isElytraFlying() && timer.hasPassedMs(250)){
+         /*   if(mc.gameSettings.keyBindJump.isKeyDown() && mc.player.moveForward == 0.0F && mc.player.moveStrafing == 0.0F&& !mc.player.isPotionActive(MobEffects.JUMP_BOOST)){
                 mc.player.motionY = 0.2444441D;
                 mc.player.motionZ = 0.0D;
                 mc.player.motionX = 0.0D;
+            } */
+
+
+         /*   Scaffold.mc.player.motionX *= 0.3;
+            Scaffold.mc.player.motionZ *= 0.3;
+            //Scaffold.mc.player.jump();
+            mc.player.motionY = 0.2444441D;
+            if (this.timer.hasPassedMs(1500L)) {
+                Scaffold.mc.player.motionY = -0.28;
+                this.timer.reset();
+            } */
+
+            if (timer.hasPassedMs(3000)) {
+                timer.reset();
+                mc.player.motionY = -0.28f;
+            } else {
+                final float towerMotion = 0.2199999f;
+
+                mc.player.setVelocity(0, towerMotion, 0);
             }
+
         }
     }
 
@@ -82,6 +115,7 @@ public class Scaffold extends Module {
     @Override
     public void onDisable() {
         super.onDisable();
+        timer.reset();
         blocksToRender.clear();
     }
 }
