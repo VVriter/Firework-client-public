@@ -3,12 +3,14 @@ package com.firework.client.Features.Modules;
 import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
 
 public class Module extends Info{
 
     public static Minecraft mc = Minecraft.getMinecraft();
+    public static EntityPlayerSP mcp = Minecraft.getMinecraft().player;
 
     public Category category;
 

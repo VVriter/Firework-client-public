@@ -103,4 +103,16 @@ public class MathUtil {
         return null;
     }
 
+    public static float clamp(float val, float min, float max) {
+        if (val <= min) {
+            val = min;
+        }
+
+        if (val >= max) {
+            val = max;
+        }
+
+        return val;
+    }
+
 }
