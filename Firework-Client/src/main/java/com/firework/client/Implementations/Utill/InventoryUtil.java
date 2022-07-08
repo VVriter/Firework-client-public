@@ -532,8 +532,7 @@ public class InventoryUtil
         }
     }
 
-    public static
-    int findAnyBlock ( ) {
+    public static int findAnyBlock ( ) {
         for (int i = 0; i < 9; ++ i) {
             ItemStack stack = InventoryUtil.mc.player.inventory.getStackInSlot ( i );
             if ( stack == ItemStack.EMPTY || ! ( stack.getItem ( ) instanceof ItemBlock ) )
