@@ -45,6 +45,8 @@ public class BlockFlyRewriteV2 extends Module {
     private Setting<Boolean> setPos  = new Setting<>("SetPos", true, this);
     private Setting<Boolean> noLagBack  = new Setting<>("NoLagBag", true, this);
 
+    private Setting<Boolean> tp  = new Setting<>("Tp", true, this);
+
     private List<ScaffoldBlock> blocksToRender = new ArrayList<>();
 
     private BlockPos pos;
@@ -91,7 +93,6 @@ public class BlockFlyRewriteV2 extends Module {
         if(Tower.getValue()){
             if(mc.gameSettings.keyBindJump.isKeyDown() && mc.player.moveForward == 0.0F && mc.player.moveStrafing == 0.0F){
                 if(flyTimer.hasPassedMs(flyTimerDelay.getValue())) {
-                    Firework.positionManager.setPositionPacket(mc.player.posX, mc.player.posY -0.2444441D, mc.player.posZ, onGround.getValue(), setPos.getValue(), noLagBack.getValue());
                     mc.player.motionY = -0.2444441D;
                     mc.player.motionZ = 0.0D;
                     mc.player.motionX = 0.0D;
@@ -99,6 +100,8 @@ public class BlockFlyRewriteV2 extends Module {
                     mc.player.setVelocity(0, 0.42, 0);
                     Firework.positionManager.setPositionPacket(mc.player.posX, mc.player.posY + 0.42, mc.player.posZ, onGround.getValue(), setPos.getValue(), noLagBack.getValue());
                     flyTimer.reset();
+                }else if(tp.getValue()){
+                    Firework.positionManager.setPositionPacket(mc.player.posX, mc.player.posY + 0.42, mc.player.posZ, onGround.getValue(), setPos.getValue(), noLagBack.getValue());
                 }
             }
         }
