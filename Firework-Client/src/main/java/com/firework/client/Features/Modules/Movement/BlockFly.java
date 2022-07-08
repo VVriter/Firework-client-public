@@ -4,7 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Managers.Updater.Updater;
-import com.firework.client.Implementations.Mixins.MixinsList.IKeyBinding;
+import com.firework.client.Implementations.Mixins.MixinsList.Interfaces.IKeyBinding;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;

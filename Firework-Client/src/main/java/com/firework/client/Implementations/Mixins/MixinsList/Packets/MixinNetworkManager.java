@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Mixins.MixinsList;
+package com.firework.client.Implementations.Mixins.MixinsList.Packets;
 
 import com.firework.client.Implementations.Events.PacketEvent;
 import io.netty.channel.ChannelHandlerContext;

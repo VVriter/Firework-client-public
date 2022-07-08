@@ -1,6 +1,6 @@
 package com.firework.client.Implementations.Utill.Client;
 
-import com.firework.client.Implementations.Mixins.MixinsList.IItemTool;
+import com.firework.client.Implementations.Mixins.MixinsList.Interfaces.IItemTool;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -9,7 +9,6 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTippedArrow;
 import net.minecraft.item.ItemTool;
 
 import static com.firework.client.Implementations.Utill.Util.mc;

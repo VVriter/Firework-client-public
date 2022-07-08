@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Mixins.MixinsList;
+package com.firework.client.Implementations.Mixins.MixinsList.Render;
 
 import com.firework.client.Features.Modules.Misc.CameraClip;
 import com.firework.client.Features.Modules.Misc.Reach;

@@ -3,22 +3,16 @@ package com.firework.client.Features.Modules.Movement;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
-import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
-import com.firework.client.Implementations.Mixins.MixinsList.IKeyBinding;
+import com.firework.client.Implementations.Mixins.MixinsList.Interfaces.ICPacketPlayer;
+import com.firework.client.Implementations.Mixins.MixinsList.Interfaces.IKeyBinding;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Timer;
-import com.sun.jna.platform.win32.Winspool;
-import net.minecraft.client.gui.GuiOverlayDebug;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @ModuleManifest(name = "StepRewrite", category = Module.Category.MOVEMENT)
