@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Features.Modules.Movement.BlockFly;
 import com.firework.client.Features.Modules.World.Scaffold.ScaffoldBlock;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
@@ -95,6 +96,7 @@ public class BlockFlyRewriteV2 extends Module {
                     mc.player.motionX = 0.0D;
 
                     mc.player.setVelocity(0, 0.42, 0);
+                    Firework.positionManager.setPositionPacket(mc.player.posX, mc.player.posY + 0.42, mc.player.posZ, true, false, true);
                     flyTimer.reset();
                 }
             }
