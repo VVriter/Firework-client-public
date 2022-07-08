@@ -1,6 +1,5 @@
 package com.firework.client.Implementations.Utill.Entity;
 
-import com.firework.client.Features.Modules.Movement.BlockFlyRewrite;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.network.play.client.CPacketPlayer;
 

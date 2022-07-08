@@ -1,7 +1,6 @@
 package com.firework.client.Implementations.Utill.Blocks;
 
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.Movement.BlockFlyRewrite;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.InventoryUtil;
