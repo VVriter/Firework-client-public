@@ -19,6 +19,64 @@ public class RenderUtils2D {
     public static Tessellator tessellator = Tessellator.getInstance();
     public static BufferBuilder bufferbuilder = tessellator.getBuffer();
 
+    public static void drawRect(int left, int top, int right, int bottom, int color) {
+        int f3;
+
+        if (left < right) {
+            f3 = left;
+            left = right;
+            right = f3;
+        }
+
+        if (top < bottom) {
+            f3 = top;
+            top = bottom;
+            bottom = f3;
+        }
+
+        float f31 = (float) (color >> 24 & 255) / 255.0F;
+        float f = (float) (color >> 16 & 255) / 255.0F;
+        float f1 = (float) (color >> 8 & 255) / 255.0F;
+        float f2 = (float) (color & 255) / 255.0F;
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.color(f, f1, f2, f31);
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
+        bufferbuilder.pos((double) left, (double) bottom, 0.0D).endVertex();
+        bufferbuilder.pos((double) right, (double) bottom, 0.0D).endVertex();
+        bufferbuilder.pos((double) right, (double) top, 0.0D).endVertex();
+        bufferbuilder.pos((double) left, (double) top, 0.0D).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
+
+    public static void drawHorizontalLine(int startX, int endX, int y, int color) {
+        if (endX < startX) {
+            int i = startX;
+
+            startX = endX;
+            endX = i;
+        }
+
+        drawRect(startX, y, endX + 1, y + 1, color);
+    }
+
+    public static void drawVerticalLine(int x, int startY, int endY, int color) {
+        if (endY < startY) {
+            int i = startY;
+
+            startY = endY;
+            endY = i;
+        }
+
+        drawRect(x, startY + 1, x + 1, endY, color);
+    }
     public static void drawGradientLine(Point2D.Double one, Point2D.Double two, Color startColor, Color endColor, int lineWidth)
     {
         GlStateManager.disableTexture2D();

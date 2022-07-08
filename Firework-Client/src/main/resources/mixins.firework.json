@@ -30,6 +30,7 @@
     "MixinMinecraft",
     "MixinGuiChat",
     "MixinRenderChunk",
-    "MixinChunkRenderContainer"
+    "MixinChunkRenderContainer",
+    "MixinGuiScreen"
   ]
 }
