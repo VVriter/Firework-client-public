@@ -18,8 +18,8 @@ public class TickShift extends Module {
     float currentTickLeght;
 
     public Setting<Boolean> disable = new Setting<>("AutoDisable", true, this);
-    public Setting<Double> ticks = new Setting<>("Ticks", (double) 40, this, 1, 50);
-    public Setting<Double> timerms = new Setting<>("Time", (double) 1000, this, 1, 5000);
+    public Setting<Double> ticks = new Setting<>("Ticks", (double) 20, this, 1, 50);
+    public Setting<Double> timerms = new Setting<>("Time", (double) 1, this, -0.3, 5);
 
  /*   public Setting<Boolean> inhibitor = new Setting<>("Inhibitor", false, this);
     public Setting<Double> startSpeed = new Setting<>("StartSpeed", (double) 250, this, 1, 1000).setVisibility(inhibitor, true);
@@ -47,16 +47,14 @@ public class TickShift extends Module {
             ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defoultTickLeght);
 
         } else {
-            if (!timer.hasPassedMs(timerms.getValue())) {
-                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(ticks.getValue().floatValue());
+            if (!timer.hasPassedMs(timerms.getValue()*1000)) {
+                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defoultTickLeght - ticks.getValue().floatValue());
             } else {
                 if (disable.getValue()) {onDisable();}
                 ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defoultTickLeght);
             }
         }
     }
-
-
     @Override
     public void onDisable() {
         super.onDisable();
@@ -64,5 +62,4 @@ public class TickShift extends Module {
         inhibitorTimer.reset();
         ((ITimer)((IMinecraft)mc).getTimer()).setTickLength(defoultTickLeght);
     }
-
 }
