@@ -79,7 +79,7 @@ public class Scaffold extends Module {
                 }
             }
 
-        if(Tower.getValue() && mc.gameSettings.keyBindJump.isKeyDown() && !mc.player.isElytraFlying() && timer.hasPassedMs(250)){
+        if(Tower.getValue() && mc.gameSettings.keyBindJump.isKeyDown() && !mc.player.isElytraFlying() && timer.hasPassedMs(1000)){
          /*   if(mc.gameSettings.keyBindJump.isKeyDown() && mc.player.moveForward == 0.0F && mc.player.moveStrafing == 0.0F&& !mc.player.isPotionActive(MobEffects.JUMP_BOOST)){
                 mc.player.motionY = 0.2444441D;
                 mc.player.motionZ = 0.0D;
