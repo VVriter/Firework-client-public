@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Mixins.MixinsList;
+package com.firework.client.Implementations.Mixins.MixinsList.Chunks;
 
 import com.firework.client.Implementations.Events.EventRenderChunk;
 import net.minecraft.client.renderer.chunk.RenderChunk;

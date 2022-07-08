@@ -3,7 +3,7 @@ package com.firework.client.Features.Modules.Client;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
-import com.firework.client.Implementations.Mixins.MixinsList.ICPacketCustomPayload;
+import com.firework.client.Implementations.Mixins.MixinsList.Interfaces.ICPacketCustomPayload;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.CPacketCustomPayload;

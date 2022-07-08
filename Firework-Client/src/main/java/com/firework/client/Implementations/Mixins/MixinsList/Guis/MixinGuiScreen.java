@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Mixins.MixinsList;
+package com.firework.client.Implementations.Mixins.MixinsList.Guis;
 
 import java.awt.Color;
 

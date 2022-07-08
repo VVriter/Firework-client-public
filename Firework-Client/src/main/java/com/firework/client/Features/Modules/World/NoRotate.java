@@ -2,7 +2,7 @@ package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Events.PacketEvent;
-import com.firework.client.Implementations.Mixins.MixinsList.ISPacketPlayerPosLook;
+import com.firework.client.Implementations.Mixins.MixinsList.Interfaces.ISPacketPlayerPosLook;
 import net.minecraft.client.gui.GuiDownloadTerrain;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

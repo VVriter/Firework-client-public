@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Mixins.MixinsList;
+package com.firework.client.Implementations.Mixins.MixinsList.Misc;
 
 import com.firework.client.Features.Modules.World.EntityControl;
 import net.minecraft.entity.passive.AbstractHorse;

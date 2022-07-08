@@ -2,11 +2,10 @@ package com.firework.client.Features.Modules.Movement.blockFly;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Features.Modules.Movement.BlockFly;
 import com.firework.client.Features.Modules.World.Scaffold.ScaffoldBlock;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
-import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
+import com.firework.client.Implementations.Mixins.MixinsList.Interfaces.ICPacketPlayer;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
@@ -15,10 +14,7 @@ import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 

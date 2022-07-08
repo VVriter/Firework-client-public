@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Mixins.MixinsList;
+package com.firework.client.Implementations.Mixins.MixinsList.Interfaces;
 
 
 import net.minecraft.network.PacketBuffer;
