@@ -28,6 +28,8 @@
 
     "MixinGuiMainMenu",
     "MixinMinecraft",
-    "MixinGuiChat"
+    "MixinGuiChat",
+    "MixinRenderChunk",
+    "MixinChunkRenderContainer"
   ]
 }
