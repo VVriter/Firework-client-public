@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @ModuleManifest(name = "StepRewrite", category = Module.Category.MOVEMENT)
 public class StepRewrite extends Module {
     private Setting<Boolean> stopMotion = new Setting<>("StopMotion", true, this);
-    private Setting<Boolean> shouldSneak = new Setting<>("Sneak", true, this);
+    private Setting<Boolean> shouldSneak = new Setting<>("Sneak", false, this);
     private Setting<Boolean> forceGroundPacket = new Setting<>("ForceGround", true, this);
     private Setting<Double> vanillaSpeed = new Setting<>("Speed", 2.1d, this, 1, 20);
 
