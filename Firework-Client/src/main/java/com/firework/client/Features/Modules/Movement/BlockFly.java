@@ -111,11 +111,6 @@ public class BlockFly extends Module {
         if(event.getPacket() instanceof SPacketPlayerPosLook)
             if(resetOnPacketLookPos.getValue())
                 flyTimer.reset();
-
-        if (event.getPacket() instanceof SPacketEntityVelocity) {
-            if (((SPacketEntityVelocity) event.getPacket()).getEntityID() == mc.player.getEntityId())
-                event.setCanceled(velocity.getValue());
-        }
     }
 
     @SubscribeEvent
