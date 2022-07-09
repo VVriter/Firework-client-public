@@ -254,6 +254,22 @@ public class RenderUtils2D {
         drawRectangle(new Rectangle(x, y + h, w, width), color);
     }
 
+    public static void drawGradientRectangleOutline(Rectangle rectangle, float width, Color color1, Color color2) {
+        double x = rectangle.x;
+        double y = rectangle.y;
+        double w = rectangle.width;
+        double h = rectangle.height;
+
+        //Left side
+        drawGradientRectVertical(new Rectangle(x, y+width, width, h-width), color2, color1);
+        //Right side
+        drawGradientRectVertical(new Rectangle(x + w - width, y+width, width, h-width), color2, color1);
+        //Up side
+        drawRectangle(new Rectangle(x, y, w, width), color1);
+        //Down side
+        drawRectangle(new Rectangle(x, y + h, w, width), color2);
+    }
+
     public static void drawGradientTriangle(ArrayList<Point> points, ArrayList<Color> colors)
     {
         double zLevel=0.0;

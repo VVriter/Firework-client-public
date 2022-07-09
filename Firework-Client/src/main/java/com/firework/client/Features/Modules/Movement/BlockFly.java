@@ -15,6 +15,7 @@ import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.network.play.client.CPacketConfirmTeleport;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
@@ -108,8 +109,14 @@ public class BlockFly extends Module {
     @SubscribeEvent
     public void onPacketReceive(PacketEvent.Receive event){
         if(event.getPacket() instanceof SPacketPlayerPosLook)
-            if(resetOnPacketLookPos.getValue())
+            if(resetOnPacketLookPos.getValue()) {
                 flyTimer.reset();
+                SPacketPlayerPosLook packet = (SPacketPlayerPosLook)event.getPacket();
+                mc.player.setPosition(packet.getX(), packet.getY(), packet.getZ());
+
+                mc.getConnection().sendPacket(new CPacketConfirmTeleport(packet.getTeleportId()));
+                mc.getConnection().sendPacket(new CPacketPlayer.PositionRotation(packet.getX(), packet.getY(), packet.getZ(), packet.getYaw(), packet.getPitch(), false));
+            }
     }
 
     @SubscribeEvent

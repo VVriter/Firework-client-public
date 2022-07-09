@@ -15,6 +15,9 @@ import com.firework.client.Implementations.UI.Particles.ParticleInfo;
 import com.firework.client.Implementations.UI.Particles.ParticleSystem;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.Pair;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
+import com.firework.client.Implementations.Utill.Render.Rectangle;
+import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.Vec2f;
@@ -120,6 +123,8 @@ public class Gui extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) throws ConcurrentModificationException {
         super.drawScreen(mouseX, mouseY, partialTicks);
+
+        RenderUtils2D.drawGradientRectangleOutline(new Rectangle(100, 100, 100, 100), 1, new Color(RainbowUtil.astolfoColors(0, 100)), new Color(RainbowUtil.astolfoColors(50, 100)));
 
        if (GuiGradient.enabled.getValue()) {
             drawGradientRect(0, 0, mc.displayWidth, mc.displayHeight,
