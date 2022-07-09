@@ -51,7 +51,7 @@ public class BlockFly extends Module {
 
     private Setting<Boolean> velocity  = new Setting<>("Velocity", true, this);
 
-    private Setting<Boolean> resetOnPacketLookPos  = new Setting<>("ResetOnPacketLookPos", false, this);
+    private Setting<Boolean> resetOnPacketLookPos  = new Setting<>("ResetOnPacketLookPos", true, this);
 
     private List<ScaffoldBlock> blocksToRender = new ArrayList<>();
 

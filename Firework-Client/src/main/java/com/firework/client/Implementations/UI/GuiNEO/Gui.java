@@ -123,9 +123,6 @@ public class Gui extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) throws ConcurrentModificationException {
         super.drawScreen(mouseX, mouseY, partialTicks);
-
-        RenderUtils2D.drawGradientRectangleOutline(new Rectangle(100, 100, 100, 100), 1, new Color(RainbowUtil.astolfoColors(0, 100)), new Color(RainbowUtil.astolfoColors(50, 100)));
-
        if (GuiGradient.enabled.getValue()) {
             drawGradientRect(0, 0, mc.displayWidth, mc.displayHeight,
                             new Color(GuiGradient.Color1.getValue().toRGB().getRed(),
