@@ -234,7 +234,7 @@ public class Gui extends GuiScreen {
                     if (button instanceof KeyButton) {
                         if (state == 0) {
                             button.initialize(mouseX, mouseY);
-                            activeKeyPair = new Pair(button.setting.module.name, button.setting);
+                            activeKeyPair = new Pair(button.setting.module.name, button.setting.name);
                             keyIsDragging = true;
                         }
                     }
