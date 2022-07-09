@@ -42,7 +42,7 @@ public class BlockFly extends Module {
     private Setting<Boolean> slowness  = new Setting<>("Slowness", true, this);
     private Setting<Double> speed = new Setting<>("Delay", 0d, this, 0, 1).setVisibility(slowness, true);
 
-    private Setting<Integer> flyTimerDelay = new Setting<>("FlyDelayMs", 139, this, 0, 400);
+    private Setting<Integer> flyTimerDelay = new Setting<>("FlyDelayMs", 116, this, 0, 400);
 
     private Setting<Boolean> onGround  = new Setting<>("OnGround", true, this);
     private Setting<Boolean> setPos  = new Setting<>("SetPos", false, this);
@@ -76,12 +76,6 @@ public class BlockFly extends Module {
         super.onTick();
         if (mc.player == null || mc.world == null) return;
 
-        pos = new BlockPos(mc.player.posX, mc.player.posY - 1.0, mc.player.posZ);
-        if (isAir(pos)) {
-            blockPlacer.placeBlock(pos, Block.getBlockFromItem(InventoryUtil.getItemStack(InventoryUtil.findAnyBlock()).getItem()));
-            blocksToRender.add(new ScaffoldBlock(BlockUtil.posToVec3d(pos)));
-        }
-
         if(swing.getValue()){
             mc.player.isSwingInProgress = false;
             mc.player.swingProgressInt = 0;
@@ -101,6 +95,11 @@ public class BlockFly extends Module {
                     mc.player.setVelocity(0, 0.42, 0);
                     Firework.positionManager.setPositionPacket(mc.player.posX, mc.player.posY + 0.42, mc.player.posZ, onGround.getValue(), setPos.getValue(), noLagBack.getValue());
                     flyTimer.reset();
+                }
+                pos = new BlockPos(mc.player.posX, mc.player.posY - 1.0, mc.player.posZ);
+                if (isAir(pos)) {
+                    blockPlacer.placeBlock(pos, Block.getBlockFromItem(InventoryUtil.getItemStack(InventoryUtil.findAnyBlock()).getItem()));
+                    blocksToRender.add(new ScaffoldBlock(BlockUtil.posToVec3d(pos)));
                 }
             }
         }
