@@ -11,6 +11,7 @@ import net.minecraft.init.SoundEvents;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
+import java.util.Objects;
 
 import static com.firework.client.Firework.textManager;
 
@@ -51,7 +52,7 @@ public class KeyButton extends Button {
     public void onKeyTyped(int keyCode) {
         super.onKeyTyped(keyCode);
         if(Gui.keyIsDragging){
-            if(Gui.activeKeyPair == new Pair(setting.module.name, setting.name)) {
+            if(Objects.equals(Gui.activeKeyPair, new Pair(setting.module.name, setting.name))) {
                 Gui.keyIsDragging = false;
                 fillColor = GuiInfo.fillColorB;
                 setting.setValue(keyCode);
