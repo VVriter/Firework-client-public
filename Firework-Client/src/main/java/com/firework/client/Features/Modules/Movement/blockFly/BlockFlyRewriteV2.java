@@ -16,6 +16,7 @@ import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -25,7 +26,7 @@ import java.util.List;
 @ModuleManifest(name = "BlockFlyRewriteV2", category = Module.Category.MOVEMENT)
 public class BlockFlyRewriteV2 extends Module {
 
-    private Setting<Boolean> packet  = new Setting<>("Packet", true, this);
+    private Setting<Boolean> packet  = new Setting<>("Packet", false, this);
 
     private Setting<Boolean> rotate  = new Setting<>("Rotate", true, this);
 
@@ -37,15 +38,16 @@ public class BlockFlyRewriteV2 extends Module {
     private Setting<Boolean> Tower  = new Setting<>("Tower", true, this);
 
     private Setting<Boolean> slowness  = new Setting<>("Slowness", true, this);
-    private Setting<Double> speed = new Setting<>("Delay", 0.7, this, 0, 1).setVisibility(slowness, true);
+    private Setting<Double> speed = new Setting<>("Delay", 0d, this, 0, 1).setVisibility(slowness, true);
 
-    private Setting<Integer> flyTimerDelay = new Setting<>("FlyDelayMs", 220, this, 0, 400);
+    private Setting<Integer> flyTimerDelay = new Setting<>("FlyDelayMs", 139, this, 0, 400);
 
     private Setting<Boolean> onGround  = new Setting<>("OnGround", true, this);
-    private Setting<Boolean> setPos  = new Setting<>("SetPos", true, this);
-    private Setting<Boolean> noLagBack  = new Setting<>("NoLagBag", true, this);
+    private Setting<Boolean> setPos  = new Setting<>("SetPos", false, this);
+    private Setting<Boolean> noLagBack  = new Setting<>("NoLagBag", false, this);
+    private Setting<Boolean> tp  = new Setting<>("Tp", false, this);
 
-    private Setting<Boolean> tp  = new Setting<>("Tp", true, this);
+    private Setting<Boolean> resetOnPacketLookPos  = new Setting<>("ResetOnPacketLookPos", true, this);
 
     private List<ScaffoldBlock> blocksToRender = new ArrayList<>();
 
@@ -105,6 +107,13 @@ public class BlockFlyRewriteV2 extends Module {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onPacketReceive(PacketEvent.Receive event){
+        if(event.getPacket() instanceof SPacketPlayerPosLook)
+            if(resetOnPacketLookPos.getValue())
+                flyTimer.reset();
     }
 
     private boolean isAir(BlockPos pos) {
