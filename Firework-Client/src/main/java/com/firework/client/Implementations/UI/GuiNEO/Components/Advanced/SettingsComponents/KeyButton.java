@@ -55,7 +55,7 @@ public class KeyButton extends Button {
                 Gui.keyIsDragging = false;
                 fillColor = GuiInfo.fillColorB;
                 setting.setValue(keyCode);
-                Gui.activeKeyModule = "";
+                Gui.activeKeyPair = new Pair(null, null);
             }
         }
     }
