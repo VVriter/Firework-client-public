@@ -14,6 +14,7 @@ import com.firework.client.Implementations.UI.GuiNEO.Components.Advanced.SubModu
 import com.firework.client.Implementations.UI.Particles.ParticleInfo;
 import com.firework.client.Implementations.UI.Particles.ParticleSystem;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Client.Pair;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.Vec2f;
@@ -34,7 +35,7 @@ public class Gui extends GuiScreen {
 
     public static boolean isDragging = false;
     public static boolean keyIsDragging = false;
-    public static String activeKeyModule = "";
+    public static Pair activeKeyPair = new Pair(null, null);
 
     public int buttonWidth = 70;
 
@@ -233,7 +234,7 @@ public class Gui extends GuiScreen {
                     if (button instanceof KeyButton) {
                         if (state == 0) {
                             button.initialize(mouseX, mouseY);
-                            activeKeyModule = button.setting.module.name;
+                            activeKeyPair = new Pair(button.setting.module.name, button.setting);
                             keyIsDragging = true;
                         }
                     }

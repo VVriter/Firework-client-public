@@ -4,6 +4,7 @@ import com.firework.client.Implementations.UI.GuiNEO.Components.Button;
 import com.firework.client.Implementations.UI.GuiNEO.Gui;
 import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.SoundEvents;
@@ -50,7 +51,7 @@ public class KeyButton extends Button {
     public void onKeyTyped(int keyCode) {
         super.onKeyTyped(keyCode);
         if(Gui.keyIsDragging){
-            if(Gui.activeKeyModule == setting.module.name) {
+            if(Gui.activeKeyPair == new Pair(setting.module.name, setting.name)) {
                 Gui.keyIsDragging = false;
                 fillColor = GuiInfo.fillColorB;
                 setting.setValue(keyCode);
