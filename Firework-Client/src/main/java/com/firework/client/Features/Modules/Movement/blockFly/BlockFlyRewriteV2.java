@@ -16,8 +16,10 @@ import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
@@ -45,7 +47,8 @@ public class BlockFlyRewriteV2 extends Module {
     private Setting<Boolean> onGround  = new Setting<>("OnGround", true, this);
     private Setting<Boolean> setPos  = new Setting<>("SetPos", false, this);
     private Setting<Boolean> noLagBack  = new Setting<>("NoLagBag", false, this);
-    private Setting<Boolean> tp  = new Setting<>("Tp", false, this);
+
+    private Setting<Boolean> velocity  = new Setting<>("Velocity", true, this);
 
     private Setting<Boolean> resetOnPacketLookPos  = new Setting<>("ResetOnPacketLookPos", true, this);
 
@@ -95,15 +98,9 @@ public class BlockFlyRewriteV2 extends Module {
         if(Tower.getValue()){
             if(mc.gameSettings.keyBindJump.isKeyDown() && mc.player.moveForward == 0.0F && mc.player.moveStrafing == 0.0F){
                 if(flyTimer.hasPassedMs(flyTimerDelay.getValue())) {
-                    mc.player.motionY = -0.2444441D;
-                    mc.player.motionZ = 0.0D;
-                    mc.player.motionX = 0.0D;
-
                     mc.player.setVelocity(0, 0.42, 0);
                     Firework.positionManager.setPositionPacket(mc.player.posX, mc.player.posY + 0.42, mc.player.posZ, onGround.getValue(), setPos.getValue(), noLagBack.getValue());
                     flyTimer.reset();
-                }else if(tp.getValue()){
-                    Firework.positionManager.setPositionPacket(mc.player.posX, mc.player.posY + 0.42, mc.player.posZ, onGround.getValue(), setPos.getValue(), noLagBack.getValue());
                 }
             }
         }
@@ -114,6 +111,16 @@ public class BlockFlyRewriteV2 extends Module {
         if(event.getPacket() instanceof SPacketPlayerPosLook)
             if(resetOnPacketLookPos.getValue())
                 flyTimer.reset();
+
+        if (event.getPacket() instanceof SPacketEntityVelocity) {
+            if (((SPacketEntityVelocity) event.getPacket()).getEntityID() == mc.player.getEntityId())
+                event.setCanceled(velocity.getValue());
+        }
+    }
+
+    @SubscribeEvent
+    public void onPush(PlayerSPPushOutOfBlocksEvent e){
+        e.setCanceled(velocity.getValue());
     }
 
     private boolean isAir(BlockPos pos) {
