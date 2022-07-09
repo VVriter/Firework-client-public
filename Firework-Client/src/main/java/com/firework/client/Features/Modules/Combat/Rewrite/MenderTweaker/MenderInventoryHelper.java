@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.Combat.Rewrite;
+package com.firework.client.Features.Modules.Combat.Rewrite.MenderTweaker;
 
 import net.minecraft.init.Items;
 
