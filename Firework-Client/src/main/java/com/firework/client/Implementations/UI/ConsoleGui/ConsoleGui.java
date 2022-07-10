@@ -37,5 +37,4 @@ public class ConsoleGui extends GuiScreen {
     public boolean doesGuiPauseGame() {
         return false;
     }
-
 }

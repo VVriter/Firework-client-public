@@ -11,6 +11,7 @@ import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Managers.Manager;
+import com.firework.client.Implementations.UI.ConsoleGui.Command.ConsoleManager;
 import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.UI.Hud.HudManager;
 import com.firework.client.Implementations.Managers.ConfigManager;
@@ -78,6 +79,8 @@ public class Firework
     public static ConfigManager configManager;
     public static ShaderManager shaderManager;
 
+    public static ConsoleManager consoleManager;
+
     public void loadManagers(){
         addManagers(
                 altManager = new AltManager(),
@@ -89,7 +92,8 @@ public class Firework
                 hudManager = new HudManager(),
                 commandManager = new CommandManager(),
                 positionManager = new PositionManager(),
-                configManager = new ConfigManager()
+                configManager = new ConfigManager(),
+                consoleManager = new ConsoleManager()
             );
 
         customFontManager = new CFontRenderer("Tcm", 23, true, true);
