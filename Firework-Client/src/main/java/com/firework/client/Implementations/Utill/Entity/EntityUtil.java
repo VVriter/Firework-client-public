@@ -26,13 +26,7 @@ public class EntityUtil {
     }
 
     public static Vec3d getInterpolatedRenderPos(final Entity entity, final float ticks) {
-        return interpolateEntity(entity, ticks).subtract(Minecraft.getMinecraft().getRenderManager().viewerPosX, Minecraft.getMinecraft().getRenderManager().viewerPosY, Minecraft.getMinecraft().getRenderManager().viewerPosZ);
-    }
-
-    public static Vec3d interpolateEntity(Entity entity, float time) {
-        return new Vec3d(entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * time,
-                entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * time,
-                entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * time);
+        return getInterpolatedPos(entity, ticks).subtract(Minecraft.getMinecraft().getRenderManager().viewerPosX, Minecraft.getMinecraft().getRenderManager().viewerPosY, Minecraft.getMinecraft().getRenderManager().viewerPosZ);
     }
 
     public static Vec3d getInterpolatedPos(Entity entity, float partialTicks) {
@@ -64,4 +58,7 @@ public class EntityUtil {
         return new BlockPos(Math.floor(entity.posX), Math.floor(entity.posY), Math.floor(entity.posZ));
     }
 
+    public static BlockPos getFlooredPos(double x, double y, double z) {
+        return new BlockPos(Math.floor(x), Math.floor(y), Math.floor(z));
+    }
 }
