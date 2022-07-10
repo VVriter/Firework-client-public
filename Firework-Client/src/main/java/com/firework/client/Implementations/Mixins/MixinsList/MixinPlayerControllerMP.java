@@ -17,10 +17,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerControllerMP.class)
 public abstract class MixinPlayerControllerMP {
 
-
     @Shadow
     public abstract void syncCurrentPlayItem();
-
 
     @Inject(method={"getBlockReachDistance"}, at={@At(value="RETURN")}, cancellable=true)
     private void getReachDistanceHook(CallbackInfoReturnable<Float> distance) {

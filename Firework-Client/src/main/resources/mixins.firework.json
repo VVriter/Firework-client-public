@@ -21,6 +21,7 @@
     "Render.MixinRenderItem",
     "MixinBufferBuilder",
     "MixinPlayerControllerMP",
+    "MixinEntityPlayerSP",
     "Render.MixinEntityRenderer",
     "Misc.MixinWorldClient",
     "Render.MixinRenderBoat",
