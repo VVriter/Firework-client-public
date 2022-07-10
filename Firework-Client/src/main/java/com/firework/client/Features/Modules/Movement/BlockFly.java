@@ -7,6 +7,7 @@ import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.Interfaces.ICPacketPlayer;
+import com.firework.client.Implementations.Mixins.MixinsList.Interfaces.ISPacketPlayerPosLook;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
@@ -52,6 +53,9 @@ public class BlockFly extends Module {
     private Setting<Boolean> velocity  = new Setting<>("Velocity", true, this);
 
     private Setting<Boolean> resetOnPacketLookPos  = new Setting<>("ResetOnPacketLookPos", true, this);
+    private Setting<Boolean> confirmTeleport  = new Setting<>("ConfirmTeleport", false, this);
+
+    private Setting<Boolean> noForceRotate  = new Setting<>("NoForceRotate", true, this);
 
     private List<ScaffoldBlock> blocksToRender = new ArrayList<>();
 
@@ -108,15 +112,24 @@ public class BlockFly extends Module {
 
     @SubscribeEvent
     public void onPacketReceive(PacketEvent.Receive event){
-        if(event.getPacket() instanceof SPacketPlayerPosLook)
-            if(resetOnPacketLookPos.getValue()) {
+        if(event.getPacket() instanceof SPacketPlayerPosLook) {
+            if (resetOnPacketLookPos.getValue())
                 flyTimer.reset();
-                SPacketPlayerPosLook packet = (SPacketPlayerPosLook)event.getPacket();
+            if (confirmTeleport.getValue()) {
+                SPacketPlayerPosLook packet = (SPacketPlayerPosLook) event.getPacket();
                 mc.player.setPosition(packet.getX(), packet.getY(), packet.getZ());
 
                 mc.getConnection().sendPacket(new CPacketConfirmTeleport(packet.getTeleportId()));
                 mc.getConnection().sendPacket(new CPacketPlayer.PositionRotation(packet.getX(), packet.getY(), packet.getZ(), packet.getYaw(), packet.getPitch(), false));
             }
+            if(noForceRotate.getValue()){
+                SPacketPlayerPosLook packet = (SPacketPlayerPosLook) event.getPacket();
+                ((ISPacketPlayerPosLook) packet).setYaw(mc.player.rotationYaw);
+                ((ISPacketPlayerPosLook) packet).setPitch(mc.player.rotationPitch);
+                packet.getFlags().remove(SPacketPlayerPosLook.EnumFlags.X_ROT);
+                packet.getFlags().remove(SPacketPlayerPosLook.EnumFlags.Y_ROT);
+            }
+        }
     }
 
     @SubscribeEvent
