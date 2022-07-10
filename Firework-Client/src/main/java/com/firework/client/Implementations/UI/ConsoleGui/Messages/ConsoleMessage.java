@@ -21,4 +21,8 @@ public class ConsoleMessage {
     public static void rainbow(String prefix ,String text, double x1, float x2) {
         Firework.customFontManager.drawString("["+prefix+"] " + text, x1,x2, new Color(RainbowUtil.generateRainbowFadingColor(1,true)).getRGB());
     }
+
+    public static void num(String text, double x1, float x2) {
+        Firework.customFontManager.drawString(text, x1,x2, Color.WHITE.getRGB());
+    }
 }

@@ -1,14 +1,9 @@
 package com.firework.client.Implementations.UI.ConsoleGui;
 
 import com.firework.client.Features.Modules.Client.Console;
-import com.firework.client.Firework;
 import com.firework.client.Implementations.UI.ConsoleGui.Components.DrawSquareBorderedBox;
-import com.firework.client.Implementations.UI.ConsoleGui.Messages.ConsoleMessage;
-import com.firework.client.Implementations.Utill.Render.RainbowUtil;
+import com.firework.client.Implementations.UI.ConsoleGui.Components.LinesNumerator;
 import net.minecraft.client.gui.GuiScreen;
-
-import java.awt.*;
-
 public class ConsoleGui extends GuiScreen {
     public ConsoleGui(){
         super();
@@ -24,12 +19,15 @@ public class ConsoleGui extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         DrawSquareBorderedBox.draw();
-        Firework.customFontManager.drawString(">",73,101,new Color(RainbowUtil.generateRainbowFadingColor(1,true)).getRGB());
+        LinesNumerator.doNumeratorStuff();
+
+
+
         if (Console.boolTest.getValue()) {
-            ConsoleMessage.log("MINECRAFT","Logger message!",73, 110);
-            ConsoleMessage.error("ERROR","Error message!",73,120);
-            ConsoleMessage.warning("WARNING","Warning message",73,130);
-            ConsoleMessage.rainbow("RAINBOW","Rainbow message",73,140);
+        /*    ConsoleMessage.log("MINECRAFT","Logger message!",Console.x.getValue()+3, Console.y.getValue().floatValue()+10);
+            ConsoleMessage.error("ERROR","Error message!",Console.x.getValue()+3,Console.y.getValue().floatValue()+20);
+            ConsoleMessage.warning("WARNING","Warning message",Console.x.getValue()+3,Console.y.getValue().floatValue()+30);
+            ConsoleMessage.rainbow("RAINBOW","Rainbow message",Console.x.getValue()+3,Console.y.getValue().floatValue()+40); */
         }
     }
 
