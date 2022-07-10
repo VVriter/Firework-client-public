@@ -56,7 +56,7 @@ public class BlockFly extends Module {
     private Setting<Boolean> confirmTeleport  = new Setting<>("ConfirmTeleport", false, this);
 
     private Setting<Boolean> noForceRotate  = new Setting<>("NoForceRotate", true, this);
-
+    private Setting<Boolean> jumpIfColliededHoriz  = new Setting<>("JumpOnCollide", true, this);
     private List<ScaffoldBlock> blocksToRender = new ArrayList<>();
 
     private BlockPos pos;
@@ -135,6 +135,8 @@ public class BlockFly extends Module {
     @SubscribeEvent
     public void onPush(PlayerSPPushOutOfBlocksEvent e){
         e.setCanceled(velocity.getValue());
+        if(mc.player.collidedHorizontally && jumpIfColliededHoriz.getValue())
+            mc.player.jump();
     }
 
     @SubscribeEvent
