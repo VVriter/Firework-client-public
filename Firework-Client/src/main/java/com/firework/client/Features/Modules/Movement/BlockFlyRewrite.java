@@ -91,7 +91,7 @@ public class BlockFlyRewrite extends Module {
                     rollBackTimer.reset();
                     mc.player.motionY = -0.28f;
                 }else {
-                    final float towerMotion = 0.42f;
+                    final float towerMotion = 0.41999998688f;
                     mc.player.setVelocity(0, towerMotion, 0);
                     Firework.positionManager.setPositionPacket(mc.player.posX, mc.player.posY + towerMotion, mc.player.posZ, true, false, false);
                 }
