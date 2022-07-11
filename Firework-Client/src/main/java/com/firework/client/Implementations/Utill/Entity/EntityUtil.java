@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Utill.Entity;
 
+import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -12,7 +13,16 @@ import net.minecraft.util.math.Vec3d;
 
 public class EntityUtil {
 
+
     private static Minecraft mc = Minecraft.getMinecraft();
+
+
+    public static double getDistanceFromEntityToEntity(Entity e) {
+        BlockPos pos1 = mc.player.getPosition();
+        BlockPos pos2 = e.getPosition();
+
+        return BlockUtil.getDistance(pos1,pos2);
+    }
 
     public static void attackEntity(Entity entity, boolean packet, boolean swingArm) {
         if (packet) {
