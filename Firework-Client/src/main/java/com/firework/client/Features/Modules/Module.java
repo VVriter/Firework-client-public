@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules;
 
 import com.firework.client.Features.Modules.Client.Logger;
+import com.firework.client.Features.Modules.Client.TestNotifications;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -45,6 +46,8 @@ public class Module extends Info{
         if(Logger.enabled.getValue() && Logger.onModuleEnable.getValue()){
             Logger.log(this);
         }
+
+        TestNotifications.doItShit(this.getName()+" is enabled!","1");
     }
     public void onDisable() {
         isEnabled.setValue(false);
@@ -52,6 +55,8 @@ public class Module extends Info{
         if(Logger.enabled.getValue() && Logger.onModuleDisable.getValue()){
             Logger.log(this);
         }
+
+        TestNotifications.doItShit(this.getName()+" is disabled","");
     }
 
     public void onToggle() {
