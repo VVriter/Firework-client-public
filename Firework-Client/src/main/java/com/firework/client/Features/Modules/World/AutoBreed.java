@@ -15,9 +15,7 @@ public class AutoBreed extends Module {
 
 
     public Setting<Double> distance = new Setting<>("Distance", (double) 5, this, 1, 10);
-    public Setting<Double> delay = new Setting<>("Delay", (double) 250, this, 1, 1000);
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
-    public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(rotate, true);
 
     Timer timer = new Timer();
 
