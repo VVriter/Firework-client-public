@@ -2,7 +2,7 @@ package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Implementations.Mixins.MixinsList.Interfaces.IKeyBinding;
+import com.firework.client.Implementations.Mixins.MixinsList.IKeyBinding;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 @ModuleManifest(name = "Jesus",category = Module.Category.MOVEMENT)

@@ -2,8 +2,8 @@ package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Implementations.Mixins.MixinsList.Interfaces.IMinecraft;
-import com.firework.client.Implementations.Mixins.MixinsList.Interfaces.ITimer;
+import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
+import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Timer;
 

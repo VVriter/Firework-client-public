@@ -1,6 +1,6 @@
 package com.firework.client.Implementations.Utill.Client;
 
-import com.firework.client.Implementations.Mixins.MixinsList.Interfaces.IItemTool;
+import com.firework.client.Implementations.Mixins.MixinsList.IItemTool;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
