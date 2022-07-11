@@ -71,9 +71,9 @@ public class TestNotifications extends Module {
 
          RenderUtils2D.drawGradientRectHorizontal(new Rectangle(sr.getScaledWidth()+xAdd,sr.getScaledHeight()-80,200,50),new Color(166, 29, 124,150),new Color(86, 45, 189,150));
          RenderUtils2D.drawGradientRectangleOutline(new Rectangle(sr.getScaledWidth()+xAdd,sr.getScaledHeight()-80,200,50), 2, Color.RED,Color.CYAN);
-         Firework.customFontManager.drawCenteredString(header,sr.getScaledWidth()+xAdd+160,sr.getScaledHeight()-75,Color.white.getRGB());
+         Firework.customFontForAlts.drawCenteredString(header,sr.getScaledWidth()+xAdd+110,sr.getScaledHeight()-75,Color.white.getRGB());
          mc.getTextureManager().bindTexture(new ResourceLocation("firework/notifications/book.png"));
-         RenderUtils2D.drawCompleteImage(sr.getScaledWidth()+xAdd,sr.getScaledHeight()-83,60,58);
+         RenderUtils2D.drawCompleteImage(sr.getScaledWidth()+xAdd+3,sr.getScaledHeight()-75,40,38);
      }
 
     void returner() {

@@ -75,6 +75,8 @@ public class Firework
     public static CommandManager commandManager;
     public static CFontRenderer customFontManager;
     public static CFontRenderer customFontForAlts;
+
+    public static CFontRenderer customFontForNotifications;
     public static PositionManager positionManager;
     public static ConfigManager configManager;
     public static ShaderManager shaderManager;
