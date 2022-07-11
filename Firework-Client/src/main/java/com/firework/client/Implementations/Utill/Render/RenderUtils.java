@@ -1,6 +1,6 @@
 package com.firework.client.Implementations.Utill.Render;
 
-import com.firework.client.Features.Modules.Render.ESP;
+import com.firework.client.Features.Modules.Render.ESP.ESP;
 import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -26,6 +26,12 @@ import java.util.*;
 import java.util.Objects;
 
 import static org.lwjgl.opengl.GL11.*;
+
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL14;
 
 public class RenderUtils {
     private static Minecraft mc = Minecraft.getMinecraft();
@@ -72,22 +78,6 @@ public class RenderUtils {
         }
     }
 
-    public static void FillLine(Entity entity, AxisAlignedBB box) {
-        GL11.glBlendFunc(770, 771);
-        GL11.glEnable(GL11.GL_BLEND);
-        glLineWidth(2.0F);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(false);
-
-        RenderGlobal.renderFilledBox(box, ESP.playerColor1.getValue().toRGB().getRed(), ESP.playerColor1.getValue().toRGB().getGreen(), ESP.playerColor1.getValue().toRGB().getBlue(), 0.3F);
-        RenderGlobal.drawSelectionBoundingBox(box, ESP.playerColor2.getValue().toRGB().getRed(), ESP.playerColor2.getValue().toRGB().getGreen(), ESP.playerColor2.getValue().toRGB().getBlue(), 0.8F);
-
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(true);
-        GL11.glDisable(GL11.GL_BLEND);
-    }
 
     public static void renderEntity(EntityLivingBase entity, int scale, int posX, int posY) {
         GlStateManager.enableTexture2D();
