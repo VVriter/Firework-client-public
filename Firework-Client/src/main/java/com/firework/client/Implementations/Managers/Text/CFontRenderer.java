@@ -23,21 +23,18 @@ public class CFontRenderer extends CFont {
     int[] colorCode = new int[32];
     String colorcodeIdentifiers = "0123456789abcdefklmnor";
     DynamicTexture texBold, texItalic, texItalicBold;
-    int size;
 
     public CFontRenderer(String fontName, int size, boolean antiAlias, boolean fractionalMetrics) {
         super(getUnicodeFont(fontName, size).getFont(), antiAlias, fractionalMetrics);
         this.setupMinecraftColorcodes();
         this.setupBoldItalicIDs();
-        this.size = size;
     }
 
     private static UnicodeFont getUnicodeFont(String fontName, float fontSize) {
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
-        float prevScaleFactor = resolution.getScaleFactor();
         UnicodeFont unicodeFont = null;
         try {
-            prevScaleFactor = resolution.getScaleFactor();
+            float prevScaleFactor = resolution.getScaleFactor();
             unicodeFont = new UnicodeFont(
                     getFontByName(fontName).deriveFont(fontSize * prevScaleFactor / 2));
             unicodeFont.addAsciiGlyphs();
