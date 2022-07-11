@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class CFont {
-    float imgSize = 512;
+    float imgSize = 1536;
     CharData[] charData = new CharData[256];
     Font font;
     boolean antiAlias, fractionalMetrics;

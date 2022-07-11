@@ -32,8 +32,11 @@ public class ColorButton extends Button {
             values.set(tmpIndex, new ArrayList());
             values.get(tmpIndex).add(0, false);
             values.get(tmpIndex).add(1, pointFromColor((HSLColor) setting.getValue()));
-        }else{
-            values.get(tmpIndex).set(1, pointFromColor((HSLColor) setting.getValue()));
+        }else {
+            if(values.get(tmpIndex).size() > 1)
+                values.get(tmpIndex).set(1, pointFromColor((HSLColor) setting.getValue()));
+            else
+                values.get(tmpIndex).add(pointFromColor((HSLColor) setting.getValue()));
         }
     }
 
@@ -63,6 +66,8 @@ public class ColorButton extends Button {
 
             if((boolean)values.get(tmpIndex).get(0) && Gui.isHoveringOnTheButton(new Button(x, y + 11, width, height-11), new Vec2f(mouseX, mouseY))) {
                 values.get(tmpIndex).set(1, new Point2D.Double(mouseX, mouseY));
+            }else if((boolean)values.get(tmpIndex).get(0)){
+                values.get(tmpIndex).set(0, false);
             }
             Point2D.Double p = (Point2D.Double) values.get(tmpIndex).get(1);
             setting.setValue(colorFromPoint(p));
