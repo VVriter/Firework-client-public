@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Mixins.MixinsList.Interfaces;
+package com.firework.client.Implementations.Mixins.MixinsList;
 
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiTextField;

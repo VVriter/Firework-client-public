@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Mixins.MixinsList.Interfaces;
+package com.firework.client.Implementations.Mixins.MixinsList;
 
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import org.spongepowered.asm.mixin.Mixin;
