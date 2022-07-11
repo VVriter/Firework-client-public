@@ -1,7 +1,6 @@
 package com.firework.client.Implementations.Utill.Render.BlockRenderBuilder;
 
-import scala.actors.threadpool.Arrays;
-
+import java.util.Arrays;
 import java.util.List;
 
 public class RenderMode {
