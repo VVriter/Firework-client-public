@@ -4,66 +4,60 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
+import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.MathHelper;
 
 @ModuleManifest(name = "AutoBread",category = Module.Category.WORLD)
 public class AutoBreed extends Module {
 
-    public Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
+
+    public Setting<Double> distance = new Setting<>("Distance", (double) 5, this, 1, 10);
+    public Setting<Double> delay = new Setting<>("Delay", (double) 250, this, 1, 1000);
+    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
+    public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(rotate, true);
+
+    Timer timer = new Timer();
 
     @Override
-    public void onUpdate() {
-        for (Entity entity : mc.world.loadedEntityList) {
-            if (entity != null && entity instanceof EntityAnimal) {
-                EntityAnimal entityAnimal = (EntityAnimal)entity;
-                if (entityAnimal.getHealth() > 0.0F && !entityAnimal.isChild() && !entityAnimal.isInLove())
-                    if (EntityUtil.getDistanceFromEntityToEntity(entityAnimal) <= 5 && entityAnimal.isBreedingItem(mc.player.inventory.getCurrentItem())) {
-                        mc.playerController.interactWithEntity((EntityPlayer)mc.player, (Entity)entityAnimal, EnumHand.MAIN_HAND);
-                        if (rotate.getValue()) {
-                            float[] arrayOfFloat = getRotationsToward((Entity)entityAnimal);
-                            float f1 = getSensitivityMultiplier();
-                            float f2 = Math.round(arrayOfFloat[0] / f1) * f1;
-                            float f3 = Math.round(arrayOfFloat[1] / f1) * f1;
-                            mc.player.rotationYaw = f2;
-                            mc.player.rotationPitch = f3;
-                            mc.player.rotationYawHead = f2;
-                            mc.player.renderYawOffset = f2;
-                        }
+    public void onEnable() {
+        super.onEnable();
+        timer.reset();
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        timer.reset();
+    }
+
+    EntityAnimal toFeed;
+
+    @Override
+    public void onTick() {
+        super.onTick();
+        for (Entity e : mc.world.loadedEntityList) {
+            if (e instanceof EntityAnimal) {
+                final EntityAnimal animal = (EntityAnimal) e;
+                if (animal.getHealth() > 0) {
+                    if (!animal.isChild() && !animal.isInLove() && EntityUtil.getDistanceFromEntityToEntity(animal) <= 4.5f && animal.isBreedingItem(mc.player.inventory.getCurrentItem())) {
+                        toFeed = animal;
+                        doFeedStuff(rotate.getValue());
                     }
+                }
             }
         }
     }
 
-    private float getSensitivityMultiplier() {
-        float f = mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
-        return f * f * f * 8.0F * 0.15F;
+    void doFeedStuff(Boolean rotate) {
+        if (rotate) {
+                mc.player.connection.sendPacket(new CPacketPlayer.Rotation(toFeed.prevRotationYaw, toFeed.prevRotationPitch, true));
+                mc.playerController.interactWithEntity(mc.player, toFeed, EnumHand.MAIN_HAND);
+            } else {
+                mc.playerController.interactWithEntity(mc.player, toFeed, EnumHand.MAIN_HAND);
+        }
     }
-
-    private float[] getRotationsToward(Entity paramEntity) {
-        double d1 = paramEntity.posX - mc.player.posX;
-        double d2 = paramEntity.posY + paramEntity.getEyeHeight() - mc.player.posY + mc.player.getEyeHeight();
-        double d3 = paramEntity.posZ - mc.player.posZ;
-        double d4 = MathHelper.sqrt(d1 * d1 + d3 * d3);
-        float f1 = fixRotation(mc.player.rotationYaw, (float)(MathHelper.atan2(d3, d1) * 180.0D / Math.PI) - 90.0F, 360.0F);
-        float f2 = fixRotation(mc.player.rotationPitch, (float)-(MathHelper.atan2(d2, d4) * 180.0D / Math.PI), 360.0F);
-        return new float[] { f1, f2 };
-    }
-
-
-
-    private float fixRotation(float paramFloat1, float paramFloat2, float paramFloat3) {
-        float f = MathHelper.wrapDegrees(paramFloat2 - paramFloat1);
-        if (f > paramFloat3)
-            f = paramFloat3;
-        if (f < -paramFloat3)
-            f = -paramFloat3;
-        return paramFloat1 + f;
-    }
-
-
 }
 
