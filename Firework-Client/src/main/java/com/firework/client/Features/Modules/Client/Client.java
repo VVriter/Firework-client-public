@@ -3,7 +3,11 @@ package com.firework.client.Features.Modules.Client;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Timer;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @ModuleManifest(name = "Client",category = Module.Category.CLIENT)
 public class Client extends Module {
@@ -18,6 +22,7 @@ public class Client extends Module {
         loadedSound = new Setting<>("LoadingSound", true, this);
         enabled.setValue(true);
     }
+
     
     @Override
     public void onTick() {
@@ -25,6 +30,9 @@ public class Client extends Module {
         updateLastConnectedServer();
     }
 
+    Timer timer = new Timer();
+
+  //  TestNotifications.doItShit("Press RSHIFT to open gui","");
     public void updateLastConnectedServer() {
         ServerData data = mc.getCurrentServerData();
         if (data != null) {
@@ -35,6 +43,7 @@ public class Client extends Module {
     public void onDisable() {
         super.onDisable();
         onEnable();
+        timer.reset();
     }
 
 }
