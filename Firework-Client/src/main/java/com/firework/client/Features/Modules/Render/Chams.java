@@ -29,9 +29,6 @@ public class Chams extends Module{
     public void renderEntities(RenderWorldLastEvent event){
         if(mode.getValue(modes.Shader)) {
             if (Firework.shaderManager.getShaderByName(shader.getValue()) == null) return;
-            GlStateManager.matrixMode(5889);
-            GlStateManager.pushMatrix();
-            GlStateManager.matrixMode(5888);
             GlStateManager.pushMatrix();
             Firework.shaderManager.getShaderByName(shader.getValue()).startDraw(event.getPartialTicks());
             for (Entity entity : mc.world.loadedEntityList) {
@@ -41,9 +38,6 @@ public class Chams extends Module{
             }
             Firework.shaderManager.getShaderByName(shader.getValue()).stopDraw();
             GlStateManager.color(1f, 1f, 1f);
-            GlStateManager.matrixMode(5889);
-            GlStateManager.popMatrix();
-            GlStateManager.matrixMode(5888);
             GlStateManager.popMatrix();
         }
     }
