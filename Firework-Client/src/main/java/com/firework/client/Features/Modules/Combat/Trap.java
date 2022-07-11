@@ -103,7 +103,7 @@ public class Trap extends Module {
         if(shouldAdd) {
             if(!isTrapped(entityTarget)) {
                 for (BlockPos pos : trapBlocks(entityTarget)) {
-                    if (isAir(pos))
+                    if (isAir(pos) && !line.contains(pos))
                         line.add(pos);
                 }
             }
@@ -113,9 +113,11 @@ public class Trap extends Module {
 
         for(BlockPos pos : line){
             if(placeTimer.hasPassedMs(placedDelayMs.getValue())){
-                blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
-                blocksToClear.add(pos);
-                placeTimer.reset();
+                if(BlockUtil.canPlaceBlock(pos)) {
+                    blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
+                    blocksToClear.add(pos);
+                    placeTimer.reset();
+                }
             }else{
                 break;
             }

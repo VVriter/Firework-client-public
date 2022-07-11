@@ -26,7 +26,7 @@ public class KillAura extends Module{
     public Setting<Boolean> packetSpoof = new Setting<>("Packet", true, this).setVisibility(rotate, true);
     public Setting<Boolean> swing = new Setting<>("Swing", true, this);
     public Setting<Integer> distance = new Setting<>("Distance", 3, this, 0, 6);
-    public Setting<Boolean> autoEnable = new Setting<>("AutoEnable", true, this);
+    public Setting<Boolean> autoEnable = new Setting<>("AutoEnable", false, this);
     public Setting<Integer> targetRange = new Setting<>("TargetRange", 1, this, 0, 6).setVisibility(autoEnable, true);
 
     public EntityPlayer target;
@@ -80,6 +80,7 @@ public class KillAura extends Module{
                     } else if (enabled.getValue()) {
                         enabled.setValue(false);
                         MinecraftForge.EVENT_BUS.unregister(this);
+                        lastValue = false;
                     }
                 }
             }
