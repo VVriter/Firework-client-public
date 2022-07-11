@@ -123,8 +123,7 @@ public class Trap extends Module {
             }
         }
 
-        for(BlockPos blockPos : blocksToClear)
-            line.remove(blockPos);
+        line.removeAll(blocksToClear);
     }
 
     @SubscribeEvent
