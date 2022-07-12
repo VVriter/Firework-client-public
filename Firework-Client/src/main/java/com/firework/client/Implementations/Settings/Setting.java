@@ -72,7 +72,7 @@ public class Setting<T> {
         this.value = value;
         this.module = module;
 
-        this.list = Arrays.asList(list);
+        this.list = Arrays.asList(list.toArray());
 
         this.mode = Mode.MODE;
 
@@ -84,7 +84,7 @@ public class Setting<T> {
         this.value = value;
         this.module = module;
 
-        this.list = Arrays.asList(list);
+        this.list = Arrays.asList(Arrays.stream(list).toArray());
 
         this.mode = Mode.MODE;
 
