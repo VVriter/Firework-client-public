@@ -73,7 +73,6 @@ public class GuiInfo {
         icons.add(new Pair(Module.Category.RENDER, resourceLocation("firework/textures/render.png")));
         icons.add(new Pair(Module.Category.MOVEMENT, resourceLocation("firework/textures/movement.png")));
         icons.add(new Pair(Module.Category.WORLD, resourceLocation("firework/textures/world.png")));
-        icons.add(new Pair(Module.Category.HUD, resourceLocation("firework/textures/hud.png")));
     }
 
     //Has icon

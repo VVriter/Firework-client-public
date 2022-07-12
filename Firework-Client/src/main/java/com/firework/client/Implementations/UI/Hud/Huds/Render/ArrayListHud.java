@@ -14,15 +14,15 @@ import static com.firework.client.Firework.*;
 import static com.firework.client.Implementations.Utill.Util.mc;
 import static java.lang.Math.*;
 
-@HudManifest(name = "ArrayList", addModule = true)
+@HudManifest(name = "ArrayList")
 public class ArrayListHud extends HudComponent {
 
-    public Setting<modes> mode = new Setting<>("Mode", modes.Astolfo, module, modes.values());
+    public modes mode = modes.Astolfo;
     public enum modes{
         Astolfo, Classic
     }
 
-    public Setting<drawModes> drawMode = new Setting<>("Side", drawModes.Left, module, drawModes.values());
+    public drawModes drawMode = drawModes.Left;
     public enum drawModes{
         Left, Right
     }
@@ -39,19 +39,19 @@ public class ArrayListHud extends HudComponent {
     public void draw() {
         super.draw();
 
-        if(!module.isEnabled.getValue() && !(mc.currentScreen instanceof HudGui)) return;
+        if(!enabled && !(mc.currentScreen instanceof HudGui)) return;
 
         if(mc.player == null && mc.world == null) return;
 
         int maxWidth = 0;
 
         ArrayList<String> names = new ArrayList<>();
-        for(Module module : moduleManager.enabledModules())
-            if(module.name != this.module.name) {
-                names.add(module.name);
-                if(textManager.getStringWidth(module.name) > maxWidth)
-                    maxWidth = textManager.getStringWidth(module.name);
-            }
+        for(Module module : moduleManager.enabledModules()) {
+            names.add(module.name);
+            if (textManager.getStringWidth(module.name) > maxWidth)
+                maxWidth = textManager.getStringWidth(module.name);
+        }
+
 
         this.width = maxWidth;
 
@@ -63,13 +63,13 @@ public class ArrayListHud extends HudComponent {
             int y = textManager.getFontHeight() * (names.indexOf(name) + 1);
             int textWidth = textManager.getStringWidth(name);
             int textColor = 0;
-            if(mode.getValue(modes.Astolfo)) {
+            if(mode == modes.Astolfo) {
                 textColor = RainbowUtil.astolfoColors(round(y) * 2, 100);
-            }else if(mode.getValue(modes.Classic)){
+            }else if(mode == modes.Classic){
                 textColor = RainbowUtil.generateRainbowFadingColor(round(y) * 2, true);
             }
 
-            textManager.drawString(name, drawMode.getValue(drawModes.Left) ? (x + 2) : (x + width - textWidth - 2), y + this.y, textColor, false);
+            textManager.drawString(name, drawMode == drawModes.Left ? (x + 2) : (x + width - textWidth - 2), y + this.y, textColor, false);
 
             if((y+this.y) > maxY)
                 maxY = y+this.y;
