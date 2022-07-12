@@ -89,7 +89,7 @@ public class HoleFiller extends Module {
         for(BlockPos pos : line){
             new BlockRenderBuilder(pos)
                     .addRenderModes(
-                            new RenderMode(RenderMode.renderModes.Fill, color.getValue())
+                            new RenderMode(RenderMode.renderModes.Fill, color.getValue().toRGB())
                     ).render();
         }
     }

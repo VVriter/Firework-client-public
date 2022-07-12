@@ -135,7 +135,6 @@ public class Trap extends Module {
                     ).render();
         }
     }
-
     //Gets fist layer of blocks to place
     private BlockPos[] trapBlocks(EntityPlayer target) {
         BlockPos p = EntityUtil.getFlooredPos(target);
@@ -144,6 +143,16 @@ public class Trap extends Module {
                 p.add(1, 1, 0), p.add(-1, 1, 0), p.add(0, 1, 1), p.add(0, 1, -1),
                 p.add(0, 2, 0).offset(target.getHorizontalFacing()),
                 p.add(0, 2, 0)};
+    }
+
+    private BlockPos nearestTrapBlock(BlockPos... blocks){
+        int lastDistance = -1;
+        for(BlockPos blockPos : blocks){
+            //if(BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player))){
+
+            //}
+        }
+        return null;
     }
 
     //Returns true if given player is trapped

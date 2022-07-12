@@ -17,7 +17,7 @@ import java.awt.*;
 public class TestNotifications extends Module {
 
     public TestNotifications() {
-        this.isEnabled.setValue(true);
+        onEnable();
     }
     static Timer startMoveTimer = new Timer();
     static Timer endMoveTimer = new Timer();
