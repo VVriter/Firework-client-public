@@ -83,7 +83,7 @@ public class TargetHud extends HudComponent {
 
             //Draws Target armor
             int newX = x + width - 120;
-            for (ItemStack itemStack : mc.player.inventory.armorInventory) {
+            for (ItemStack itemStack : target.inventory.armorInventory) {
                 mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, newX, y + height - 2 - 10 - 7 - 12 - 2 -2);
                 mc.getRenderItem().renderItemOverlays(mc.fontRenderer,itemStack, newX, y + height - 2 - 10 - 7 - 12 -2);
                 newX += 18;
