@@ -1,4 +1,4 @@
-package com.firework.client.Features.AltManagerV2;
+package AltManagerV2;
 
 public class Account {
     private final String email;

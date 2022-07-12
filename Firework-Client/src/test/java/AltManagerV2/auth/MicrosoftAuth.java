@@ -1,6 +1,6 @@
-package com.firework.client.Features.AltManagerV2.auth;
+package AltManagerV2.auth;
 
-import com.firework.client.Features.AltManagerV2.utils.SystemUtils;
+import AltManagerV2.utils.SystemUtils;
 import com.google.gson.*;
 import com.sun.net.httpserver.HttpServer;
 import net.minecraft.util.Session;

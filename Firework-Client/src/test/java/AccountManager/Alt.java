@@ -1,4 +1,4 @@
-package com.firework.client.Features.AccountManager;
+package AccountManager;
 
 public final class Alt {
     private String mask = "";

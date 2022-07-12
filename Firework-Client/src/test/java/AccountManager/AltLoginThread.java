@@ -1,4 +1,4 @@
-package com.firework.client.Features.AccountManager;
+package AccountManager;
 
 import java.lang.reflect.Field;
 import java.net.Proxy;

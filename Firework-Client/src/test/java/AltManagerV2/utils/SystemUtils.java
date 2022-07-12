@@ -1,4 +1,4 @@
-package com.firework.client.Features.AltManagerV2.utils;
+package AltManagerV2.utils;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

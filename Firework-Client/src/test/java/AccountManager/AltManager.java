@@ -1,4 +1,4 @@
-package com.firework.client.Features.AccountManager;
+package AccountManager;
 
 import com.firework.client.Implementations.Managers.Manager;
 

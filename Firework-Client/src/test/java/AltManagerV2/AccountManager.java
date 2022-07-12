@@ -1,7 +1,7 @@
-package com.firework.client.Features.AltManagerV2;
+package AltManagerV2;
 
-import com.firework.client.Features.AltManagerV2.utils.FileEncryption;
-import com.firework.client.Features.AltManagerV2.utils.SystemUtils;
+import AltManagerV2.utils.FileEncryption;
+import AltManagerV2.utils.SystemUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

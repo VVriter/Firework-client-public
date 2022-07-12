@@ -1,11 +1,9 @@
-package com.firework.client.Features.AccountManager;
+package AccountManager;
 
 import java.io.IOException;
 
 import com.firework.client.Firework;
-import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
-import net.minecraftforge.fml.client.config.GuiUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;

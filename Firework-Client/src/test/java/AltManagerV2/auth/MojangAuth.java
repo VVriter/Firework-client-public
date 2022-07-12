@@ -1,4 +1,4 @@
-package com.firework.client.Features.AltManagerV2.auth;
+package AltManagerV2.auth;
 
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.UserAuthentication;

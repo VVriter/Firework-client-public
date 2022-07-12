@@ -1,4 +1,4 @@
-package com.firework.client.Features.AccountManager;
+package AccountManager;
 
 import java.io.IOException;
 import java.net.Proxy;

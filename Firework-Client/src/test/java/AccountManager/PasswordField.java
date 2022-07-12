@@ -1,4 +1,4 @@
-package com.firework.client.Features.AccountManager;
+package AccountManager;
 
 import net.minecraft.util.*;
 import net.minecraft.client.gui.*;

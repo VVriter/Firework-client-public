@@ -1,4 +1,4 @@
-package com.firework.client.Features.AltManagerV2.auth;
+package AltManagerV2.auth;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;

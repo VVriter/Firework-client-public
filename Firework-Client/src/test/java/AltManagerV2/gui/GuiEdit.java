@@ -1,6 +1,6 @@
-package com.firework.client.Features.AltManagerV2.gui;
-import com.firework.client.Features.AltManagerV2.Account;
-import com.firework.client.Features.AltManagerV2.AccountManager;
+package AltManagerV2.gui;
+import AltManagerV2.Account;
+import AltManagerV2.AccountManager;
 import net.minecraft.client.gui.GuiScreen;
 
 class GuiEdit extends GuiAbstractInput {

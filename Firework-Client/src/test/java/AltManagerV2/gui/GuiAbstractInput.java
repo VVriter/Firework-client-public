@@ -1,7 +1,7 @@
-package com.firework.client.Features.AltManagerV2.gui;
+package AltManagerV2.gui;
 
 
-import com.firework.client.Features.AltManagerV2.AccountManager;
+import AltManagerV2.AccountManager;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;

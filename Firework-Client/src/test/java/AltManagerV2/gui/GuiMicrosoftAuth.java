@@ -1,9 +1,9 @@
-package com.firework.client.Features.AltManagerV2.gui;
+package AltManagerV2.gui;
 
-import com.firework.client.Features.AltManagerV2.auth.MicrosoftAuth;
-import com.firework.client.Features.AltManagerV2.auth.SessionManager;
-import com.firework.client.Features.AltManagerV2.utils.Notification;
-import com.firework.client.Features.AltManagerV2.utils.TextFormatting;
+import AltManagerV2.auth.MicrosoftAuth;
+import AltManagerV2.auth.SessionManager;
+import AltManagerV2.utils.Notification;
+import AltManagerV2.utils.TextFormatting;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
