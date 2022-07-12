@@ -34,45 +34,42 @@ public class ItemViewModel extends Module {
         MainHand,OffHand,None
     }
 
-        public static Setting<Boolean> restTranslate = null;
+    public static Setting<Boolean> restTranslate = null;
 
     public static Setting<Boolean> noEat = null;
-         public static Setting<Double> translateX  = null;
-        public static Setting<Double> translateY   = null;
-        public static Setting<Double> translateZ   = null;
-         public static Setting<Boolean> resetRotations = null;
-        public static Setting<Double> rotateXR   = null;
-        public static Setting<Double> rotateYR   = null;
-        public static Setting<Double> rotateZR   = null;
+    public static Setting<Double> translateX  = null;
+    public static Setting<Double> translateY   = null;
+    public static Setting<Double> translateZ   = null;
+    public static Setting<Boolean> resetRotations = null;
+    public static Setting<Double> rotateXR   = null;
+    public static Setting<Double> rotateYR   = null;
+    public static Setting<Double> rotateZR   = null;
 
-        public static Setting<Double> rotateXL  = null;
-        public static Setting<Double> rotateYL   = null;
-        public static Setting<Double> rotateZL   = null;
+    public static Setting<Double> rotateXL  = null;
+    public static Setting<Double> rotateYL   = null;
+    public static Setting<Double> rotateZL   = null;
 
-         public static Setting<Boolean> resetScale = null;
-        public static Setting<Double> scaleX   = null;
-        public static Setting<Double> scaleY   = null;
-        public static Setting<Double> scaleZ   = null;
-
-
+    public static Setting<Boolean> resetScale = null;
+    public static Setting<Double> scaleX   = null;
+    public static Setting<Double> scaleY   = null;
+    public static Setting<Double> scaleZ   = null;
 
 
+    //Animations
+    public static Setting<Boolean> animationXR = null;
+    public static Setting<Double> animationXRSpeed  = null;
+    public static Setting<Boolean> animationYR = null;
+    public static Setting<Double> animationYRSpeed  = null;
+    public static Setting<Boolean> animationZR = null;
+    public static Setting<Double> animationZRSpeed  = null;
 
-        //Animations
-        public static Setting<Boolean> animationXR = null;
-        public static Setting<Double> animationXRSpeed  = null;
-        public static Setting<Boolean> animationYR = null;
-        public static Setting<Double> animationYRSpeed  = null;
-        public static Setting<Boolean> animationZR = null;
-        public static Setting<Double> animationZRSpeed  = null;
 
-
-        public static Setting<Boolean> animationXL = null;
-        public static Setting<Double> animationXLSpeed  = null;
-        public static Setting<Boolean> animationYL = null;
-        public static Setting<Double> animationYLSpeed  = null;
-        public static Setting<Boolean> animationZL = null;
-        public static Setting<Double> animationZLSpeed  = null;
+    public static Setting<Boolean> animationXL = null;
+    public static Setting<Double> animationXLSpeed  = null;
+    public static Setting<Boolean> animationYL = null;
+    public static Setting<Double> animationYLSpeed  = null;
+    public static Setting<Boolean> animationZL = null;
+    public static Setting<Double> animationZLSpeed  = null;
 
     public ItemViewModel(){super("ItemViewModifer",Category.RENDER);
 
@@ -126,10 +123,6 @@ public class ItemViewModel extends Module {
             timerYL.reset();
             timerZL.reset();
         }
-
-        double defTranslateX;
-        double defTranslateY;
-        double defTranslateZ;
         @Override
         public void onTick(){
             super.onTick();

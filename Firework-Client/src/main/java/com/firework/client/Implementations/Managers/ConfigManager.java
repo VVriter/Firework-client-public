@@ -22,9 +22,9 @@ public class ConfigManager extends Manager{
         super(true);
         new File(configDir).mkdirs();
 
-        //for(Module module : Firework.moduleManager.modules){
-        //    loadModuleSettings(module);
-        //}
+        for(Module module : Firework.moduleManager.modules){
+            //loadModuleSettings(module);
+        }
     }
 
     public void saveModuleSettings(Module module){
@@ -62,20 +62,17 @@ public class ConfigManager extends Manager{
                 JSONArray configArray = (JSONArray) obj;
                 for(Object object : configArray) {
                     JSONObject config = (JSONObject) object;
-                    ArrayList<Setting> settings = new ArrayList<>();
-                    for (int i = 0; i < Firework.settingManager.modulesSettings(module).size(); i++) {
-                        Setting setting = Firework.settingManager.modulesSettings(module).get(0);
-                        //System.out.println(module.name);
-                        //System.out.println(config.get(setting.name));
-                        Setting setting1 = Firework.settingManager.settings.get(Firework.settingManager.settings.indexOf(Firework.settingManager.getSetting(module, setting.name)));
-                        if(setting.value instanceof Integer)
-                            setting1.setValue(Integer.parseInt(String.valueOf(config.get(setting.name))));
-                        else if(setting.value instanceof Double)
-                            setting1.setValue(Double.parseDouble(String.valueOf(config.get(setting.name))));
-                        else if(setting.value instanceof Boolean)
-                            setting1.setValue(Boolean.parseBoolean(String.valueOf(config.get(setting.name))));
-                        else if(setting.mode == Setting.Mode.MODE)
-                            setting1.setValue(String.valueOf(config.get(setting.name)));
+                    for (int i = 0; i < Firework.settingManager.modulesSettings(module).size(); i++) {;
+                        Setting setting1 = Firework.settingManager.settings.get(Firework.settingManager.settings.indexOf(Firework.settingManager.modulesSettings(module).get(i)));
+                        System.out.println(setting1.name + "|" + config.get(setting1.name));
+                        if(setting1.value instanceof Integer)
+                            setting1.setValue(new Integer(String.valueOf(config.get(setting1.name))).intValue());
+                        else if(setting1.value instanceof Double)
+                            setting1.setValue(new Double(String.valueOf(config.get(setting1.name))).doubleValue());
+                        else if(setting1.value instanceof Boolean)
+                            setting1.setValue(Boolean.parseBoolean(String.valueOf(config.get(setting1.name))));
+
+                        System.out.println(setting1.getValue());
                     }
                 }
                 if(module.isEnabled.getValue())
