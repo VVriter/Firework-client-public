@@ -10,8 +10,10 @@ import net.minecraft.world.chunk.EmptyChunk;
 public class EntityControl extends Module {
     public static EntityControl INSTANCE;
     public Setting<Boolean> saddle = new Setting<>("Saddle", true, this);
-    public Setting<Double> speed = new Setting<>("Speed", (double)3, this, 0.5, 10);
-    public Setting<Boolean> antiStuck = new Setting<>("AntiStuck", true, this);
+
+    public Setting<Boolean> EntitySpeed = new Setting<>("EntitySpeed", true, this);
+    public Setting<Double> speed = new Setting<>("Speed", (double)3, this, 0, 8).setVisibility(EntitySpeed,true);
+    public Setting<Boolean> antiStuck = new Setting<>("AntiStuck", true, this).setVisibility(EntitySpeed,true);
     public EntityControl(){super("EntityControl",Category.WORLD);
         INSTANCE = this;
     }
@@ -19,6 +21,7 @@ public class EntityControl extends Module {
     @Override
     public void onTick() {
         super.onTick();
+        if (EntitySpeed.getValue()) {
         if (Firework.minecraft.player.getRidingEntity() != null) {
             MovementInput movementInput = Firework.minecraft.player.movementInput;
             double forward = movementInput.moveForward;
@@ -51,6 +54,7 @@ public class EntityControl extends Module {
 
                 Firework.minecraft.player.getRidingEntity().motionX = (forward * speed.getValue() * cos + strafe * speed.getValue() * sin);
                 Firework.minecraft.player.getRidingEntity().motionZ = (forward * speed.getValue() * sin - strafe * speed.getValue() * cos);
+                }
             }
         }
     }
