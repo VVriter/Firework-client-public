@@ -12,8 +12,8 @@ public class PacketUse extends Module {
     public static Setting<Boolean> all = null;
     public PacketUse(){
         enabled = this.isEnabled;
-        food =  new Setting<>("Food", false, this);
-        potion =  new Setting<>("Potion", false, this);
-        all =  new Setting<>("All", false, this);
+        food =  new Setting<>("Food", true, this).setVisibility(all,false);
+        potion =  new Setting<>("Potion", true, this).setVisibility(all,false);
+        all =  new Setting<>("All", true, this);
     }
 }
