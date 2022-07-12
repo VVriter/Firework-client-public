@@ -13,11 +13,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 @ModuleManifest(name = "Speed",category = Module.Category.MOVEMENT)
 public class Speed extends Module{
 
-
     private double playerSpeed;
     private final Timer timer = new Timer();
-
-
 
     public Setting<Enum> mode = new Setting<>("Mode", modes.Vanilla, this, modes.values());
     public Setting<Double> vanillaSpeed = new Setting<>("Speed", (double)3, this, 1, 20).setVisibility(mode,modes.Vanilla);
