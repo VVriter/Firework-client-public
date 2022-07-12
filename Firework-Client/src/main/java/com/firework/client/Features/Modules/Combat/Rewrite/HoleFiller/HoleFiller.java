@@ -87,6 +87,7 @@ public class HoleFiller extends Module {
 
     @SubscribeEvent
     public void onRender(final RenderWorldLastEvent event){
+        if(line == null) return;
         for(BlockPos pos : line){
             new BlockRenderBuilder(pos)
                     .addRenderModes(
