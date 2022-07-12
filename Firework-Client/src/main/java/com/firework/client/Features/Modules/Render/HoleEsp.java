@@ -7,7 +7,6 @@ import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
-import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -16,12 +15,11 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleManifest(name = "HoleEspRewrote",category = Module.Category.RENDER)
-public class HoleEspRewrote extends Module {
+@ModuleManifest(name = "HoleEsp",category = Module.Category.RENDER)
+public class HoleEsp extends Module {
 
     public Setting<Double> range = new Setting<>("Range", (double)10, this, 1, 20);
 
