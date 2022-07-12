@@ -10,6 +10,8 @@ import com.firework.client.Implementations.Settings.Setting;
 public class Timer extends Module {
 
     public Setting<Double> ticksTo = new Setting<>("TicksAdd", (double)25, this, 0, 50);
+    public Setting<Boolean> onMove = new Setting<>("OnMove", true, this);
+
 
     float defaultTimerTicks;
 
@@ -23,7 +25,16 @@ public class Timer extends Module {
     @Override
     public void onTick() {
         super.onTick();
-        ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTimerTicks - ticksTo.getValue().floatValue());
+        System.out.println();
+        if (!onMove.getValue()) {
+            ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTimerTicks - ticksTo.getValue().floatValue());
+        } else {
+            if (mc.player.moveForward > 0) {
+                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTimerTicks - ticksTo.getValue().floatValue());
+            } else {
+                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTimerTicks);
+            }
+        }
     }
 
 

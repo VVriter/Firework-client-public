@@ -22,7 +22,6 @@ public class TestNotifications extends Module {
     static Timer startMoveTimer = new Timer();
     static Timer endMoveTimer = new Timer();
     static Timer waitTimer = new Timer();
-
     static boolean shudMoveLeft;
     static boolean isShudMoveRight;
 
