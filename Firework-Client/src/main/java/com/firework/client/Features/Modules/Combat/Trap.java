@@ -141,18 +141,26 @@ public class Trap extends Module {
         return new BlockPos[]{p.add(1, -1, 0), p.add(-1, -1, 0), p.add(0, -1, 1), p.add(0, -1, -1),
                 p.add(1, 0, 0), p.add(-1, 0, 0), p.add(0, 0, 1), p.add(0, 0, -1),
                 p.add(1, 1, 0), p.add(-1, 1, 0), p.add(0, 1, 1), p.add(0, 1, -1),
-                p.add(0, 2, 0).offset(target.getHorizontalFacing()),
+                nearestTrapBlock(p.add(1, 2, 0), p.add(-1, 2, 0), p.add(0, 2, 1), p.add(0, 2, -1)),
                 p.add(0, 2, 0)};
     }
 
+    //Return nearest block from a given list
     private BlockPos nearestTrapBlock(BlockPos... blocks){
-        int lastDistance = -1;
+        double lastDistance = -1;
+        BlockPos lastBlock = null;
         for(BlockPos blockPos : blocks){
-            //if(BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player))){
-
-            //}
+            if(lastDistance == -1){
+                lastDistance = BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player));
+                lastBlock = blockPos;
+            }else{
+                if(lastDistance>BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player))) {
+                    lastBlock = blockPos;
+                    lastDistance = BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player));
+                }
+            }
         }
-        return null;
+        return lastBlock;
     }
 
     //Returns true if given player is trapped

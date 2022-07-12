@@ -19,7 +19,7 @@ public class ViewModelMixin {
 
     @Inject(method = "renderItemSide", at = @At("HEAD"))
     public void renderItemSide(EntityLivingBase entitylivingbaseIn, ItemStack heldStack, ItemCameraTransforms.TransformType transform, boolean leftHanded, CallbackInfo ci) {
-        if (ItemViewModel.enabled.getValue()) {
+        if (ItemViewModel.enabled.getValue() && mc.player != null && mc.world != null) {
             GlStateManager.scale(ItemViewModel.scaleX.getValue() / 100F, ItemViewModel.scaleY.getValue() / 100F, ItemViewModel.scaleZ.getValue() / 100F);
             if (transform == ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND) {
                 if (ItemViewModel.noEat.getValue()) {
