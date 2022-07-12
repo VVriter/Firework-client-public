@@ -4,6 +4,7 @@ import com.firework.client.Implementations.UI.Hud.HudGui;
 import com.firework.client.Implementations.UI.Hud.HudInfo;
 import com.firework.client.Implementations.UI.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.UI.Hud.Huds.HudManifest;
+import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Render.*;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -46,7 +47,7 @@ public class TargetHud extends HudComponent {
         if(mc.player == null && mc.world == null) return;
 
 
-        EntityPlayer target = mc.player;
+        EntityPlayer target = PlayerUtil.getClosest();
         if(target == null) return;
         if(autoWidth)
             animationUtil.width = 120 * target.getHealth() / target.getMaxHealth();
@@ -64,10 +65,11 @@ public class TargetHud extends HudComponent {
             mc.getTextureManager().bindTexture(((AbstractClientPlayer)target).getLocationSkin());
             Gui.drawScaledCustomSizeModalRect(x + 5, y + 5, 8.0F, 8, 8, 8, height - 10, height - 10, 64.0F, 64.0F);
 
-            //Draws Target name
-            String playerInfo = target.getDisplayNameString() + "|" + mc.getConnection().getPlayerInfo(target.getUniqueID()).getResponseTime() + "ms";
-            customFontManager.drawString(playerInfo, x + width - 120 - 2 + (120 - customFontManager.getWidth(playerInfo))/2, y + 2, Color.white.getRGB());
-
+            try {
+                //Draws Target name
+                String playerInfo = target.getDisplayNameString() + "|" + mc.getConnection().getPlayerInfo(target.getUniqueID()).getResponseTime() + "ms";
+                customFontManager.drawString(playerInfo, x + width - 120 - 2 + (120 - customFontManager.getWidth(playerInfo)) / 2, y + 2, Color.white.getRGB());
+            }catch (Exception e){}
             //Draws Target healthbar
             animationUtil.setValues(120 * target.getHealth() / target.getMaxHealth(), 0.3f);
             animationUtil.update();
@@ -82,8 +84,8 @@ public class TargetHud extends HudComponent {
             //Draws Target armor
             int newX = x + width - 120;
             for (ItemStack itemStack : mc.player.inventory.armorInventory) {
-                mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, newX, y + height - 2 - 10 - 7 - 12 - 2);
-                mc.getRenderItem().renderItemOverlays(mc.fontRenderer,itemStack, newX, y + height - 2 - 10 - 7 - 12);
+                mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, newX, y + height - 2 - 10 - 7 - 12 - 2 -2);
+                mc.getRenderItem().renderItemOverlays(mc.fontRenderer,itemStack, newX, y + height - 2 - 10 - 7 - 12 -2);
                 newX += 18;
             }
 
