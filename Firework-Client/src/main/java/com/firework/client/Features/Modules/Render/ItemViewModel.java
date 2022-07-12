@@ -3,6 +3,8 @@ package com.firework.client.Features.Modules.Render;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Timer;
+import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 
 
@@ -33,6 +35,8 @@ public class ItemViewModel extends Module {
     }
 
         public static Setting<Boolean> restTranslate = null;
+
+    public static Setting<Boolean> noEat = null;
          public static Setting<Double> translateX  = null;
         public static Setting<Double> translateY   = null;
         public static Setting<Double> translateZ   = null;
@@ -76,7 +80,8 @@ public class ItemViewModel extends Module {
         SlowVal = new Setting<>("AnimationSpeed", (double)20, this, 1, 40).setVisibility(SlowAnimations,true);
 
         enabled = this.isEnabled;
-        restTranslate = new Setting<>("Reset", false, this).setVisibility(page,pages.Translate);;
+        restTranslate = new Setting<>("Reset", false, this).setVisibility(page,pages.Translate);
+        noEat = new Setting<>("NoEat", true, this).setVisibility(page,pages.Translate);
         translateX = new Setting<>("TranslateX", (double)0,this, -300, 300).setVisibility(page,pages.Translate);
         translateY = new Setting<>("TranslateY", (double)0,this, -300, 300).setVisibility(page,pages.Translate);
         translateZ = new Setting<>("TranslateZ", (double)0,this, -300, 300).setVisibility(page,pages.Translate);
@@ -122,6 +127,9 @@ public class ItemViewModel extends Module {
             timerZL.reset();
         }
 
+        double defTranslateX;
+        double defTranslateY;
+        double defTranslateZ;
         @Override
         public void onTick(){
             super.onTick();
@@ -193,8 +201,6 @@ public class ItemViewModel extends Module {
                 mc.player.prevSwingProgress = 0.0f;
             }
         }
-
-
         @Override
         public void onDisable() {
             super.onDisable();

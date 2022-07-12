@@ -1,6 +1,5 @@
 package com.firework.client.Implementations.Utill.Render;
 
-import com.firework.client.Features.Modules.Render.ESP.ESP;
 import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -26,12 +25,6 @@ import java.util.*;
 import java.util.Objects;
 
 import static org.lwjgl.opengl.GL11.*;
-
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL14;
 
 public class RenderUtils {
     private static Minecraft mc = Minecraft.getMinecraft();
