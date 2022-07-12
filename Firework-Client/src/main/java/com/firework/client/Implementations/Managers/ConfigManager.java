@@ -3,7 +3,10 @@ package com.firework.client.Implementations.Managers;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
+import com.firework.client.Implementations.Events.WorldClientInitEvent;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
+import com.firework.client.Implementations.Utill.Timer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.checkerframework.checker.units.qual.A;
 import org.json.simple.JSONArray;
@@ -17,6 +20,8 @@ import java.util.ArrayList;
 
 public class ConfigManager extends Manager{
     public String configDir = Firework.FIREWORK_DIRECTORY + "/Configs/";
+
+    public ArrayList<Module> modulesToEnable = new ArrayList<>();
 
     public ConfigManager(){
         super(true);
