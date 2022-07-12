@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat.Rewrite.HoleFiller;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.WorldClientInitEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
@@ -92,6 +93,13 @@ public class HoleFiller extends Module {
                             new RenderMode(RenderMode.renderModes.Fill, color.getValue().toRGB())
                     ).render();
         }
+    }
+
+    @SubscribeEvent
+    public void onWorldJoin(WorldClientInitEvent event) {
+        line.clear(); line = null;
+        blockPlacer = null;
+        placeTimer.reset(); placeTimer = null;
     }
 
     private boolean isAir(BlockPos pos) {
