@@ -98,9 +98,12 @@ public class HoleFiller extends Module {
 
     @SubscribeEvent
     public void onWorldJoin(WorldClientInitEvent event) {
-        line.clear(); line = null;
-        blockPlacer = null;
-        placeTimer.reset(); placeTimer = null;
+        placeTimer = new Timer();
+        placeTimer.reset();
+
+        blockPlacer = new BlockPlacer(this, switchMode, rotate, packet);
+
+        line = new ArrayList<>();
     }
 
     private boolean isAir(BlockPos pos) {
