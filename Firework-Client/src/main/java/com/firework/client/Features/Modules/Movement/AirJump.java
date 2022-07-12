@@ -18,7 +18,5 @@ public class AirJump extends Module {
     public void onTick() {
         super.onTick();
         mc.player.onGround = true;
-        if(Parkour.enabled.getValue()){
-            MessageUtil.sendError("U are dumb dont use air jump with parkour helper",-1117);}else {mc.player.onGround = true;}
     }
 }
