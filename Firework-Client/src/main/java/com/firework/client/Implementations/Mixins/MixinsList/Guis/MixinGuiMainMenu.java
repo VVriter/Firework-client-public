@@ -1,6 +1,5 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Guis;
 
-import com.firework.client.Features.AccountManager.GuiAltManager;
 import com.firework.client.Features.AltManagerRewrite.Guis.AltManagerGui;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.UI.GuiNEO.Gui;

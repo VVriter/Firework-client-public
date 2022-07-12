@@ -1,6 +1,5 @@
 package com.firework.client.Features.Modules.Client;
 
-import com.firework.client.Features.AltManagerV2.utils.TextFormatting;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
@@ -27,7 +26,7 @@ public class Logger extends Module {
     }
 
     public static void addMessage(String message, boolean silent) {
-        String prefix = TextFormatting.LIGHT_PURPLE + "<FireWork> " + TextFormatting.RESET;
+        String prefix = ChatFormatting.LIGHT_PURPLE + "<FireWork> " + ChatFormatting.RESET;
         if (silent) mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(new TextComponentString(prefix + message), 1); else mc.ingameGUI.getChatGUI().printChatMessage(new TextComponentString(prefix + message));
     }
 
