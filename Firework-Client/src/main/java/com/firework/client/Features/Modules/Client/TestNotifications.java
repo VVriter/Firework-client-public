@@ -32,7 +32,7 @@ public class TestNotifications extends Module {
    public static String header;
    public static String footer;
 
-    public static void doItShit(String header1, String footer1) {
+    public static void notificate(String header1, String footer1) {
         needToRender = true;
         header = header1;
         footer = footer1;

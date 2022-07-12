@@ -47,7 +47,7 @@ public class Module extends Info{
             Logger.log(this);
         }
 
-        TestNotifications.doItShit(this.getName()+" is enabled!","1");
+        TestNotifications.notificate(this.getName()+" is enabled!","1");
     }
     public void onDisable() {
         isEnabled.setValue(false);
@@ -56,7 +56,7 @@ public class Module extends Info{
             Logger.log(this);
         }
 
-        TestNotifications.doItShit(this.getName()+" is disabled","");
+        TestNotifications.notificate(this.getName()+" is disabled","");
     }
 
     public void onToggle() {
