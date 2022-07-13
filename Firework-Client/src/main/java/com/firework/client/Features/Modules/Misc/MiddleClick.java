@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Managers.FriendManager;
 import com.firework.client.Implementations.Settings.Setting;
@@ -17,6 +18,7 @@ import org.lwjgl.input.Mouse;
 
 import java.io.File;
 
+@ModuleManifest(name = "MiddleClick", category = Module.Category.MISC)
 public class MiddleClick extends Module {
 
     private static Minecraft mc = Minecraft.getMinecraft();
@@ -25,11 +27,6 @@ public class MiddleClick extends Module {
     public Setting<Boolean> pearl = new Setting<>("Pearl", true, this);
     public Setting<Boolean> friend = new Setting<>("Friend", true, this);
     public Setting<Boolean> notify = new Setting<>("NotifyFriend", true, this);
-
-
-    public MiddleClick(){super("MiddleClick",Category.MISC);}
-
-
 
     @Override
     public void onTick() {
