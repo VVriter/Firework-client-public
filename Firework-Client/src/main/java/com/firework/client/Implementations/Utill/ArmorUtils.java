@@ -8,5 +8,4 @@ public class ArmorUtils {
         float durability = stack.getMaxDamage() - stack.getItemDamage();
         return (durability / (float) stack.getMaxDamage()) * 100F;
     }
-
 }
