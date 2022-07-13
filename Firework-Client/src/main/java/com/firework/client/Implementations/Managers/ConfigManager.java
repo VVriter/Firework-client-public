@@ -21,8 +21,6 @@ import java.util.ArrayList;
 public class ConfigManager extends Manager{
     public String configDir = Firework.FIREWORK_DIRECTORY + "/Configs/";
 
-    public ArrayList<Module> modulesToEnable = new ArrayList<>();
-
     public ConfigManager(){
         super(true);
         new File(configDir).mkdirs();
