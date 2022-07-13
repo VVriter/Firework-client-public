@@ -3,18 +3,10 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
-import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Items.ItemUser;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.CPacketHeldItemChange;
-import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
-import net.minecraft.util.EnumHand;
-
-import static com.firework.client.Implementations.Utill.InventoryUtil.getHotbarItemSlot;
 
 @ModuleManifest(name = "AutoPotionRewrite", category = Module.Category.COMBAT)
 public class AutoPotionRewrite extends Module {
