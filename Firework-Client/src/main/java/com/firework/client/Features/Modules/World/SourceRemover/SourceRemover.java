@@ -1,17 +1,14 @@
 package com.firework.client.Features.Modules.World.SourceRemover;
 
-import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.util.EnumHand;
@@ -44,25 +41,27 @@ public class SourceRemover extends Module {
     }
     @Override public void onDisable() {super.onDisable();
         timer.reset();
+        mc.player.connection.sendPacket(new CPacketHeldItemChange(mc.player.inventory.currentItem));
     }
 
 
 
     @Override
     public void onTick() {
-        calcPoses();
+        super.onTick();
         for (BlockPos posers : calcPoses()) {
+            if (posers != null) {
             if (timer.hasPassedMs(delay.getValue()*100)) {
                 doSwitch();
                 BlockUtil.placeBlock(posers, EnumHand.MAIN_HAND,rotate.getValue(),packet.getValue(), sneak.getValue());
                 timer.reset();
-            }
+                 }
+             }
         }
     }
 
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent e) {
-        calcPoses();
         for (BlockPos posers : calcPoses()) {
             RenderUtils.drawBoxESP(posers,color.getValue().toRGB(),5,true,false,200,1);
         }
@@ -73,7 +72,7 @@ public class SourceRemover extends Module {
         List<BlockPos> positions = BlockUtil.getSphere(this.range.getValue().floatValue(), true);
         ArrayList<BlockPos> posToFill = new ArrayList<>();
         for (BlockPos pos : positions) {
-            if (BlockUtil.getBlock(pos) == Blocks.FLOWING_LAVA) {
+            if (BlockUtil.getBlock(pos) == Blocks.FLOWING_LAVA || BlockUtil.getBlock(pos) == Blocks.LAVA || BlockUtil.getBlock(pos) == Blocks.FLOWING_WATER || BlockUtil.getBlock(pos) == Blocks.WATER) {
                 posToFill.add(pos);
             }
         }
