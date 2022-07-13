@@ -4,6 +4,9 @@ import com.firework.client.Features.Modules.Client.Console;
 import com.firework.client.Implementations.UI.ConsoleGui.Components.DrawSquareBorderedBox;
 import com.firework.client.Implementations.UI.ConsoleGui.Components.LinesNumerator;
 import net.minecraft.client.gui.GuiScreen;
+
+import java.io.IOException;
+
 public class ConsoleGui extends GuiScreen {
     public ConsoleGui(){
         super();
@@ -14,7 +17,7 @@ public class ConsoleGui extends GuiScreen {
 
     }
 
-    public static String text;
+    public static String text = "";
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -31,6 +34,12 @@ public class ConsoleGui extends GuiScreen {
         }
     }
 
+    @Override
+    public void keyTyped(char typedChar, int keyCode) throws IOException {
+        super.keyTyped(typedChar, keyCode);
+        text = text + typedChar;
+        System.out.println(text);
+    }
     @Override
     public boolean doesGuiPauseGame() {
         return false;
