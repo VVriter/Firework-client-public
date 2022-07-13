@@ -2,8 +2,11 @@ package com.firework.client.Features.Modules.Client;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Mixins.MixinsList.IEntity;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
+import com.firework.client.Implementations.Utill.Chat.MessageUtil;
+import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
@@ -43,52 +46,14 @@ public class Test extends Module {
         System.out.println("Module status:" + isEnabled.getValue());
     }
 
+
     @Override
     public void onEnable() {
         super.onEnable();
-        vec3d = mc.player.getPosition();
-
-
-        mc.player.setGlowing(true);
-
-        oldItem = null;
-        oldItem = getItemStack(mc.player.inventory.currentItem).getItem();
-        //SurroundRewrite.swapSlots(InventoryUtil.getItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)), mc.player.inventory.currentItem);
-
-        if(enumSetting.getValue(TestEnum.lock))
-            System.out.println("checked");
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-
-        //SurroundRewrite.swapSlots(InventoryUtil.getItemSlot(oldItem), mc.player.inventory.currentItem);
-    }
-
-    @SubscribeEvent
-    public void onRender(RenderWorldLastEvent event){
-        //RenderUtils.drawSphere(vec3d, 0.6, 5, new Color(ColorUtils.astolfoColors(100, 100)));
-        /*
-        BlockRenderBuilder blockRenderBuilder = new BlockRenderBuilder(vec3d)
-                .addRenderMode(new RenderMode(RenderMode.renderModes.Fill,
-                        Arrays.asList(new Color(ColorUtils.astolfoColors(100, 100)))))
-                .render();*/
-
-        new BlockRenderBuilder(vec3d)
-                .addRenderModes(
-                        new RenderMode(RenderMode.renderModes.Fill,
-                                new Color(RainbowUtil.astolfoColors(100, 100))),
-                        new RenderMode(RenderMode.renderModes.OutLine,
-                                Color.white, 3f)
-                );
-
-        new BlockRenderBuilder(vec3d)
-                .addRenderModes(
-                        new RenderMode(RenderMode.renderModes.FilledGradient,
-                                new Color(RainbowUtil.astolfoColors(100, 100)), new Color(RainbowUtil.astolfoColors(150, 100)))
-                ).render();
-
-        //RenderUtils.drawGradientBlockOutline(BoundingBoxUtil.getBB(vec3d), Color.white, Color.yellow, 3);
+       if (((IEntity)mc.player).isInWeb()) {
+           MessageUtil.sendClientMessage("TRUE",-1177);
+       } else {
+           MessageUtil.sendError("FALSE",-1177);
+       }
     }
 }

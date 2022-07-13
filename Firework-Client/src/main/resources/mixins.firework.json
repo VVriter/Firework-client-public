@@ -31,6 +31,7 @@
     "MixinGuiChat",
     "Chunks.MixinRenderChunk",
     "Chunks.MixinChunkRenderContainer",
-    "Guis.MixinGuiScreen"
+    "Guis.MixinGuiScreen",
+    "IEntity"
   ]
 }
