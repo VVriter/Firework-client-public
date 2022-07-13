@@ -3,7 +3,10 @@ package com.firework.client.Features.Modules.Client;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Blocks.BlockBreaker;
+import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
+import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
@@ -12,6 +15,7 @@ import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -42,12 +46,18 @@ public class Test extends Module {
         isEnabled.setValue(false);
         System.out.println("Module status:" + isEnabled.getValue());
     }
+    private Setting<BlockBreaker.mineModes> switchMode = new Setting<>("Switch", BlockBreaker.mineModes.Packet, this, BlockBreaker.mineModes.values());
+
+    private Setting<Boolean> rayTrace = new Setting<>("RayTrace", false, this);
+    private Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
+    private Setting<Boolean> packet = new Setting<>("Packet", true, this);
+    BlockBreaker blockBreaker;
 
     @Override
     public void onEnable() {
         super.onEnable();
         vec3d = mc.player.getPosition();
-
+        blockBreaker = new BlockBreaker(this, switchMode, rayTrace, rotate, packet);
 
         mc.player.setGlowing(true);
 
@@ -63,7 +73,14 @@ public class Test extends Module {
     public void onDisable() {
         super.onDisable();
 
+
         //SurroundRewrite.swapSlots(InventoryUtil.getItemSlot(oldItem), mc.player.inventory.currentItem);
+    }
+
+    @Override
+    public void onTick() {
+        super.onTick();
+        blockBreaker.breakBlock(EntityUtil.getFlooredPos(mc.player).add(0, -1, 0), Items.DIAMOND_PICKAXE);
     }
 
     @SubscribeEvent
