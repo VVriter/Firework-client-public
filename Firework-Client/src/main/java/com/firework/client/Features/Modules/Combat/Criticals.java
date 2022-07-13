@@ -24,9 +24,11 @@ public class Criticals extends Module {
     //PacketMode
     @SubscribeEvent
     public void onPacketSend(final PacketEvent.Send event) {
+        CPacketUseEntity packet;
+
         if (mode.getValue(modes.Packet)) {
             if (inWebToo.getValue() && ((IEntity)mc.player).isInWeb()) {
-                if (event.getPacket() instanceof CPacketUseEntity && (!(event.getPacket() instanceof EntityEnderCrystal))) {
+                if (event.getPacket() instanceof CPacketUseEntity && (packet = (CPacketUseEntity)event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && (!(event.getPacket() instanceof EntityEnderCrystal))) {
                     if (((CPacketUseEntity)event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && mc.player.onGround) {
                     Criticals.mc.player.connection.sendPacket(new CPacketPlayer.Position(Criticals.mc.player.posX, Criticals.mc.player.posY + 0.11, Criticals.mc.player.posZ, false));
                     Criticals.mc.player.connection.sendPacket(new CPacketPlayer.Position(Criticals.mc.player.posX, Criticals.mc.player.posY + 0.1100013579, Criticals.mc.player.posZ, false));
@@ -35,7 +37,7 @@ public class Criticals extends Module {
                     }
                 }
             } else  if (!inWebToo.getValue() && !((IEntity)mc.player).isInWeb()) {
-                if (event.getPacket() instanceof CPacketUseEntity && (!(event.getPacket() instanceof EntityEnderCrystal))) {
+                if (event.getPacket() instanceof CPacketUseEntity && (packet = (CPacketUseEntity)event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && (!(event.getPacket() instanceof EntityEnderCrystal))) {
                     if (((CPacketUseEntity)event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && mc.player.onGround) {
                         Criticals.mc.player.connection.sendPacket(new CPacketPlayer.Position(Criticals.mc.player.posX, Criticals.mc.player.posY + 0.11, Criticals.mc.player.posZ, false));
                         Criticals.mc.player.connection.sendPacket(new CPacketPlayer.Position(Criticals.mc.player.posX, Criticals.mc.player.posY + 0.1100013579, Criticals.mc.player.posZ, false));
@@ -50,14 +52,14 @@ public class Criticals extends Module {
 
         if (mode.getValue(modes.MiniJump)) {
             if (inWebToo.getValue() && ((IEntity)mc.player).isInWeb()) {
-                if (event.getPacket() instanceof CPacketUseEntity && (!(event.getPacket() instanceof EntityEnderCrystal))) {
+                if (event.getPacket() instanceof CPacketUseEntity && (packet = (CPacketUseEntity)event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && (!(event.getPacket() instanceof EntityEnderCrystal))) {
                     if (mc.player.onGround) {
                         mc.player.jump();
                         mc.player.motionY = 0.25;
                         }
                     }
                 } else if (!inWebToo.getValue() && !((IEntity)mc.player).isInWeb()) {
-                if (event.getPacket() instanceof CPacketUseEntity && (!(event.getPacket() instanceof EntityEnderCrystal))) {
+                if (event.getPacket() instanceof CPacketUseEntity && (packet = (CPacketUseEntity)event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && (!(event.getPacket() instanceof EntityEnderCrystal))) {
                     if (mc.player.onGround) {
                         mc.player.jump();
                         mc.player.motionY = 0.25;

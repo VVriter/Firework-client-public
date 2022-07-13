@@ -14,5 +14,9 @@ public class ToolTips extends Module {
     public static Setting<Double> scaling = null;
     public static Setting<HSLColor> color = null;
     public static Setting<HSLColor> color2 = null;
-    public ToolTips() {enabled = this.isEnabled;  scaling = new Setting<>("Opacity", 200d, this, 5, 255); color2 = new Setting<>("FillColor", new HSLColor(1, 54, 43), this); color = new Setting<>("Color", new HSLColor(1, 54, 43), this);}
+    public ToolTips() {
+        enabled = this.isEnabled;
+        scaling = new Setting<>("Opacity", 200d, this, 5, 255);
+        color2 = new Setting<>("FillColor", new HSLColor(1, 54, 43), this);
+        color = new Setting<>("Color", new HSLColor(1, 54, 43), this);}
 }
