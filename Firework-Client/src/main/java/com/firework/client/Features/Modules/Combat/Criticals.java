@@ -21,7 +21,7 @@ public class Criticals extends Module {
 
     @SubscribeEvent
     public void onPacketSend(final PacketEvent.Send event) {
-        if (!(event.getPacket() instanceof CPacketPlayer)) return;
+        if (!(event.getPacket() instanceof CPacketUseEntity)) return;
         if (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK
                 && ((inWebToo.getValue() && !mc.player.onGround) ? (((IEntity) mc.player).isInWeb() ? true : false) : mc.player.onGround)) {
             if (mode.getValue(modes.Packet)) {
