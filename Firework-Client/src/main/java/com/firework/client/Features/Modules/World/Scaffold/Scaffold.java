@@ -6,7 +6,6 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Timer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.math.BlockPos;
 

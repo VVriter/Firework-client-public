@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.init.SoundEvents;
 import org.lwjgl.input.Keyboard;
 

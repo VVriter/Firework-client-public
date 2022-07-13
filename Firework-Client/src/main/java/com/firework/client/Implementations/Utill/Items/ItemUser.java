@@ -1,82 +1,56 @@
-package com.firework.client.Implementations.Utill.Blocks;
+package com.firework.client.Implementations.Utill.Items;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
+import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
+import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
 import static com.firework.client.Implementations.Utill.InventoryUtil.getClickSlot;
+import static com.firework.client.Implementations.Utill.Util.mc;
 
-public class BlockPlacer {
+public class ItemUser {
     private Module module;
-    private Block block;
-    private Setting<switchModes> switchMode;
+    private Setting<ItemUser.switchModes> switchMode;
     private Setting<Boolean> rotate;
-    private Setting<Boolean> packet;
 
-    public BlockPlacer(Module module, Block targetBlock, Setting switchMode, Setting rotate, Setting packet){
-        this.module = module;
-        this.block = targetBlock;
-        this.switchMode = switchMode;
-        this.rotate = rotate;
-        this.packet = packet;
-    }
-
-    public BlockPlacer(Module module, Setting switchMode, Setting rotate, Setting packet){
+    public ItemUser(Module module, Setting switchMode, Setting rotate){
         this.module = module;
         this.switchMode = switchMode;
         this.rotate = rotate;
-        this.packet = packet;
     }
 
-    //BlockPos to place
-    public void placeBlock(final BlockPos blockPos){
+    //Uses item
+    public void useItem(final Item item, final int pitch){
         //Updates local settings
         updateSettings();
-        //Return if block pos is null
-        if(blockPos == null)
-            return;
 
         //Switchs
-        int backSwitch = switchItems(Item.getItemFromBlock(block), InventoryUtil.hands.MainHand);
+        int backSwitch = switchItems(item, InventoryUtil.hands.MainHand);
 
-        //Gets "enumHand" enum
-        EnumHand enumHand = EnumHand.MAIN_HAND;
-
-        //Places block
-        BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), BlockUtil.blackList.contains(BlockUtil.getBlock(blockPos.add(0, -1, 0))) ? true : false);
-
-        if(switchMode.getValue(switchModes.Silent)) {
-            switchItems(getItemStack(backSwitch).getItem(), InventoryUtil.hands.MainHand);
+        //Uses item
+        int oldPitch = (int) mc.player.rotationPitch;
+        if (rotate.getValue()) {
+            mc.player.rotationPitch = pitch;
+            mc.player.connection.sendPacket(new CPacketPlayer.Rotation(mc.player.rotationYaw, pitch, true));
         }
-    }
+        mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
+        if (rotate.getValue()) {
+            mc.player.rotationPitch = oldPitch;
+        }
 
-    //BlockPos to place
-    public void placeBlock(final BlockPos blockPos, final Block block1){
-        //Updates local settings
-        updateSettings();
-        //Return if block pos is null
-        if(blockPos == null)
-            return;
-
-        //Switchs
-        int backSwitch = switchItems(Item.getItemFromBlock(block1), InventoryUtil.hands.MainHand);
-
-        //Gets "enumHand" enum
-        EnumHand enumHand = EnumHand.MAIN_HAND;
-
-        //Places block
-        BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), BlockUtil.blackList.contains(BlockUtil.getBlock(blockPos.add(0, -1, 0))) ? true : false);
-
-        if(switchMode.getValue(switchModes.Silent)) {
+        if(switchMode.getValue(ItemUser.switchModes.Silent)) {
             switchItems(getItemStack(backSwitch).getItem(), InventoryUtil.hands.MainHand);
         }
     }
@@ -88,10 +62,8 @@ public class BlockPlacer {
                 int prevSlot = mc.player.inventory.currentItem;
                 if (getHotbarItemSlot(item) != -1) {
                     switchHotBarSlot(getHotbarItemSlot(item));
-                } else {
-                    swapSlots(getItemSlot(item), getHotbarItemSlot(Item.getItemFromBlock(Blocks.AIR)));
-                    switchHotBarSlot(getHotbarItemSlot(item));
-                }
+                }else
+                    return -1;
                 return prevSlot;
             }else{
                 return -1;
@@ -118,7 +90,6 @@ public class BlockPlacer {
     private void updateSettings(){
         this.switchMode = Firework.settingManager.getSetting(module, switchMode.name);
         this.rotate = Firework.settingManager.getSetting(module, rotate.name);
-        this.packet = Firework.settingManager.getSetting(module, packet.name);
     }
 
     //Switch modes

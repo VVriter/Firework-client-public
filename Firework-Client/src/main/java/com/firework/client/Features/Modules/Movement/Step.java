@@ -65,10 +65,8 @@ public class Step extends Module {
     public void onTick() {
         super.onTick();
 
-
         if (moderio.getValue(modes.Vanilla)) {
             mc.player.stepHeight = Y.getValue().floatValue();
-
             if(reverse.getValue()){
                 if(mc.player.onGround){
                     mc.player.motionY -= 1.0;
@@ -80,60 +78,55 @@ public class Step extends Module {
             }
         }
 
-
-
-
-
-
         if (moderio.getValue(modes.MegaBypass)) {
-        if(mc.player.collidedHorizontally) {
-            if(checkFallDistance(1) && fallDistance.getValue()) {
-                BlockPos playerPos = EntityUtil.getFlooredPos(mc.player);
-                BlockPos pos1 = playerPos.offset(mc.player.getHorizontalFacing());
-                if (BlockUtil.getBlock(pos1) != Blocks.AIR && BlockUtil.getBlock(pos1.add(0, 1, 0)) == Blocks.AIR && BlockUtil.getBlock(pos1.add(0, 2, 0)) == Blocks.AIR && BlockUtil.getBlock(playerPos.add(0, 2, 0)) == Blocks.AIR) {
-                    if (jumpTimer.hasPassedMs(jumpTimerDelay.getValue())) {
-                        if(stopMotion.getValue()){
-                            mc.player.motionX = 0;
-                            mc.player.motionZ = 0;
+            if (mc.player.collidedHorizontally) {
+                if (checkFallDistance(1) && fallDistance.getValue()) {
+                    BlockPos playerPos = EntityUtil.getFlooredPos(mc.player);
+                    BlockPos pos1 = playerPos.offset(mc.player.getHorizontalFacing());
+                    if (BlockUtil.getBlock(pos1) != Blocks.AIR && BlockUtil.getBlock(pos1.add(0, 1, 0)) == Blocks.AIR && BlockUtil.getBlock(pos1.add(0, 2, 0)) == Blocks.AIR && BlockUtil.getBlock(playerPos.add(0, 2, 0)) == Blocks.AIR) {
+                        if (jumpTimer.hasPassedMs(jumpTimerDelay.getValue())) {
+                            if (stopMotion.getValue()) {
+                                mc.player.motionX = 0;
+                                mc.player.motionZ = 0;
+                            }
+                            mc.player.jump();
+                            canBoost = true;
+                            jumpTimer.reset();
                         }
-                        mc.player.jump();
-                        canBoost = true;
-                        jumpTimer.reset();
                     }
                 }
             }
-        }
 
-        if(canBoost) {
-            if (mc.player.motionY > 0) {
-                if(shouldSneak.getValue())
-                    ((IKeyBinding) mc.gameSettings.keyBindSneak).setPressed(true);
-            } else if (mc.player.motionY < 0) {
-                if (fowardBoostTimer.hasPassedMs(boostTimer.getValue())) {
-                    if(shouldSneak.getValue())
-                        ((IKeyBinding) mc.gameSettings.keyBindSneak).setPressed(false);
+            if (canBoost) {
+                if (mc.player.motionY > 0) {
+                    if (shouldSneak.getValue())
+                        ((IKeyBinding) mc.gameSettings.keyBindSneak).setPressed(true);
+                } else if (mc.player.motionY < 0) {
+                    if (fowardBoostTimer.hasPassedMs(boostTimer.getValue())) {
+                        if (shouldSneak.getValue())
+                            ((IKeyBinding) mc.gameSettings.keyBindSneak).setPressed(false);
 
-                    if(moveMode.getValue(mode.Motion)) {
-                        double[] calc = MathUtil.directionSpeed(this.vanillaSpeed.getValue() / 10.0);
-                        mc.player.motionX = calc[0];
-                        mc.player.motionZ = calc[1];
-                    } else if(moveMode.getValue(mode.Tp)){
-                        BlockPos playerPos = EntityUtil.getFlooredPos(mc.player);
-                        BlockPos pos1 = playerPos.offset(mc.player.getHorizontalFacing());
-                        mc.player.connection.sendPacket(new CPacketPlayer.Position(pos1.getX()+0.5, mc.player.posY, pos1.getZ()+0.5, mc.player.onGround));
-                        mc.player.setPosition(pos1.getX()+0.5, mc.player.posY, pos1.getZ()+0.5);
-                    } else if(moveMode.getValue(mode.Combined)){
-                        double[] calc = MathUtil.directionSpeed(this.vanillaSpeed.getValue() / 10.0);
-                        mc.player.motionX = calc[0];
-                        mc.player.motionZ = calc[1];
-                        BlockPos playerPos = EntityUtil.getFlooredPos(mc.player);
-                        BlockPos pos1 = playerPos.offset(mc.player.getHorizontalFacing());
-                        mc.player.connection.sendPacket(new CPacketPlayer.Position(pos1.getX()+0.5, mc.player.posY, pos1.getZ()+0.5, mc.player.onGround));
-                        mc.player.setPosition(pos1.getX()+0.5, mc.player.posY, pos1.getZ()+0.5);
-                    }
+                        if (moveMode.getValue(mode.Motion)) {
+                            double[] calc = MathUtil.directionSpeed(this.vanillaSpeed.getValue() / 10.0);
+                            mc.player.motionX = calc[0];
+                            mc.player.motionZ = calc[1];
+                        } else if (moveMode.getValue(mode.Tp)) {
+                            BlockPos playerPos = EntityUtil.getFlooredPos(mc.player);
+                            BlockPos pos1 = playerPos.offset(mc.player.getHorizontalFacing());
+                            mc.player.connection.sendPacket(new CPacketPlayer.Position(pos1.getX() + 0.5, mc.player.posY, pos1.getZ() + 0.5, mc.player.onGround));
+                            mc.player.setPosition(pos1.getX() + 0.5, mc.player.posY, pos1.getZ() + 0.5);
+                        } else if (moveMode.getValue(mode.Combined)) {
+                            double[] calc = MathUtil.directionSpeed(this.vanillaSpeed.getValue() / 10.0);
+                            mc.player.motionX = calc[0];
+                            mc.player.motionZ = calc[1];
+                            BlockPos playerPos = EntityUtil.getFlooredPos(mc.player);
+                            BlockPos pos1 = playerPos.offset(mc.player.getHorizontalFacing());
+                            mc.player.connection.sendPacket(new CPacketPlayer.Position(pos1.getX() + 0.5, mc.player.posY, pos1.getZ() + 0.5, mc.player.onGround));
+                            mc.player.setPosition(pos1.getX() + 0.5, mc.player.posY, pos1.getZ() + 0.5);
+                        }
 
-                    canBoost = false;
-                    fowardBoostTimer.reset();
+                        canBoost = false;
+                        fowardBoostTimer.reset();
                     }
                 }
             }

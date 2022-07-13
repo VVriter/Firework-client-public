@@ -4,7 +4,6 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 
-
 @ModuleManifest(name = "AutoRemount", category = Module.Category.WORLD)
 public class AutoRemount extends Module {
     public Setting<Boolean> Bypass  = new Setting<>("Bypass", true, this);
