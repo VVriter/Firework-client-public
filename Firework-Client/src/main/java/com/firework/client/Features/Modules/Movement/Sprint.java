@@ -16,6 +16,16 @@ public class Sprint extends Module {
             if (mc.player.moveForward > 0 && !mc.player.collidedHorizontally) {
                 mc.player.setSprinting(true);
             }
+        } else if (mode.getValue().equals("Multi")) {
+            if (Sprint.mc.player == null) {
+                return;
+            }
+            if ((Sprint.mc.player.moveForward != 0.0f || Sprint.mc.player.moveStrafing != 0.0f)) {
+                Sprint.mc.player.setSprinting(true);
+            }
+            else {
+                Sprint.mc.player.setSprinting(Sprint.mc.player.moveForward > 0.0f || Sprint.mc.player.moveStrafing > 0.0f);
+            }
         }
     }
 }
