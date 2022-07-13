@@ -21,16 +21,11 @@ public class Speed extends Module{
     public Setting<Boolean> step = new Setting<>("Step", true, this).setVisibility(mode,modes.YPort);
     public Setting<Double> yPortSpeed = new Setting<>("Speed", (double)3, this, 1, 20).setVisibility(mode,modes.YPort);
 
-    public Setting<Boolean> strict = new Setting<>("Strict", true, this).setVisibility(mode,modes.Strafe);
-    public Setting<Double> strafeSpeed = new Setting<>("Speed", (double)3, this, 1, 20).setVisibility(mode,modes.Strafe);
-
-
     @Override
     public void onEnable(){
         super.onEnable();
         playerSpeed = PlayerUtil.getBaseMoveSpeed();
     }
-
 
     @Override
     public void onDisable() {
@@ -41,58 +36,53 @@ public class Speed extends Module{
         }
     }
 
-
-
     @Override
     public void onTick(){
         super.onTick();
-
-
-        if (step.getValue()) {
-            mc.player.stepHeight = 2.0f;
-        }if (step.getValue() == false) {
+        if(mode.getValue(modes.Strafe)){
             mc.player.stepHeight = 0.6f;
-        }
-
-
-        if(mode.getValue() == modes.Strafe){
-            mc.player.stepHeight = 0.6f;
-        }
-
-        if (mode.getValue() == modes.Vanilla) {
+        }else if (mode.getValue() == modes.Vanilla) {
             if (mc.player == null || mc.world == null) {
                 return;
             }
             double[] calc = MathUtil.directionSpeed(this.vanillaSpeed.getValue() / 10.0);
             mc.player.motionX = calc[0];
             mc.player.motionZ = calc[1];
-        }
-
-        if (mode.getValue() == modes.YPort) {
-        if (!PlayerUtil.isMoving(mc.player) || mc.player.isInWater() && mc.player.isInLava() || mc.player.collidedHorizontally) {
-            return;
-        }
-        if (mc.player.onGround) {
-            //EntityUtil.setTimer(1.15f);
-            mc.player.jump();
-            PlayerUtil.setSpeed(mc.player, PlayerUtil.getBaseMoveSpeed() + yPortSpeed.getValue() / 10);
-        } else {
-            mc.player.motionY = -1;
-            //EntityUtil.resetTimer();
+        }else if (mode.getValue(modes.YPort)) {
+            if (step.getValue()) {
+                mc.player.stepHeight = 2.0f;
+            }if (step.getValue() == false) {
+                mc.player.stepHeight = 0.6f;
+            }
+            if (!PlayerUtil.isMoving(mc.player) || mc.player.isInWater() && mc.player.isInLava() || mc.player.collidedHorizontally) {
+                return;
+            }
+            if (mc.player.onGround) {
+                //EntityUtil.setTimer(1.15f);
+                mc.player.jump();
+                PlayerUtil.setSpeed(mc.player, PlayerUtil.getBaseMoveSpeed() + yPortSpeed.getValue() / 10);
+            } else {
+                mc.player.motionY = -1;
+                //EntityUtil.resetTimer();
+            }
+        }else if(mode.getValue(modes.BHop)){
+            if (mc.player.onGround) {
+                mc.player.stepHeight = 0.6f;
+                mc.player.jump();
+            }
+        }else if(mode.getValue(modes.MiniJumps)){
+            if (mc.player.onGround) {
+                mc.player.jump();
+                mc.player.motionY = 0.25;
             }
         }
     }
 
     @SubscribeEvent
     public void onPlayerTickEvent(TickEvent.PlayerTickEvent e) {
-        if (mc.player.onGround) {
-            if(mode.getValue() == modes.BHop){
-                mc.player.stepHeight = 0.6f;
-                mc.player.jump();
-            }
-        }
+
     }
     public enum modes{
-        Vanilla, YPort, Strafe, BHop
+        Vanilla, YPort, Strafe, BHop, MiniJumps
     }
 }
