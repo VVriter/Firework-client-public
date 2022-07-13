@@ -16,7 +16,7 @@ import net.minecraft.util.EnumHand;
 import java.util.Comparator;
 
 @ModuleManifest(name = "BoatFly",category = Module.Category.MOVEMENT)
-public class BoatFlyRewrote extends Module {
+public class BoatFly extends Module {
 
     private Entity target;
     private int teleportID;
@@ -31,7 +31,7 @@ public class BoatFlyRewrote extends Module {
     public static Setting<Boolean> noRenderBoat  = null;
     public static Setting<Boolean> enabled = null;
 
-    public BoatFlyRewrote() {
+    public BoatFly() {
         enabled = this.isEnabled;
         noRenderBoat  = new Setting<>("NoRenderBoat", true, this);
     }

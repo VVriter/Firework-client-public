@@ -1,6 +1,5 @@
 package com.firework.client.Implementations.Mixins.MixinsList;
 
-import com.firework.client.Features.Modules.Movement.BoatFlyRewrote;
 import com.firework.client.Features.Modules.Render.NoRender;
 import net.minecraft.client.renderer.tileentity.TileEntityEnchantmentTableRenderer;
 import org.spongepowered.asm.mixin.Mixin;
