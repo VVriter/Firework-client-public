@@ -20,8 +20,6 @@ public class Criticals extends Module {
 
     public Setting<Boolean> inWebToo = new Setting<>("InWebToo", true, this);
 
-
-    //PacketMode
     @SubscribeEvent
     public void onPacketSend(final PacketEvent.Send event) {
         if (!(event.getPacket() instanceof CPacketPlayer)) return;
