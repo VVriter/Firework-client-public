@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.World.SourceRemover;
+package com.firework.client.Features.Modules.World.CoolStuff;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;

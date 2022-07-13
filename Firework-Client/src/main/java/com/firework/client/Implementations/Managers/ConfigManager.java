@@ -19,7 +19,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class ConfigManager extends Manager{
-    public String configDir = Firework.FIREWORK_DIRECTORY + "/Configs/";
+    public String configDir = Firework.FIREWORK_DIRECTORY + "Configs/";
 
     public ConfigManager(){
         super(true);
