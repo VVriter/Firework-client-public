@@ -15,7 +15,7 @@ public class Criticals extends Module {
 
     public Setting<Enum> mode = new Setting<>("Mode", modes.Packet, this, modes.values());
     public enum modes{
-       Packet, MiniJump
+        Packet, MiniJump, Jump
     }
 
     public Setting<Boolean> inWebToo = new Setting<>("InWebToo", true, this);
@@ -24,48 +24,21 @@ public class Criticals extends Module {
     //PacketMode
     @SubscribeEvent
     public void onPacketSend(final PacketEvent.Send event) {
-        CPacketUseEntity packet;
-
-        if (mode.getValue(modes.Packet)) {
-            if (inWebToo.getValue() && ((IEntity)mc.player).isInWeb()) {
-                if (event.getPacket() instanceof CPacketUseEntity && (packet = (CPacketUseEntity)event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && (!(event.getPacket() instanceof EntityEnderCrystal))) {
-                    if (((CPacketUseEntity)event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && mc.player.onGround) {
-                    Criticals.mc.player.connection.sendPacket(new CPacketPlayer.Position(Criticals.mc.player.posX, Criticals.mc.player.posY + 0.11, Criticals.mc.player.posZ, false));
-                    Criticals.mc.player.connection.sendPacket(new CPacketPlayer.Position(Criticals.mc.player.posX, Criticals.mc.player.posY + 0.1100013579, Criticals.mc.player.posZ, false));
-                    Criticals.mc.player.connection.sendPacket(new CPacketPlayer.Position(Criticals.mc.player.posX, Criticals.mc.player.posY + 1.3579E-6, Criticals.mc.player.posZ, false));
-                    Criticals.mc.player.connection.sendPacket(new CPacketPlayer());
-                    }
+        if (!(event.getPacket() instanceof CPacketPlayer)) return;
+        if (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK
+                && ((inWebToo.getValue() && !mc.player.onGround) ? (((IEntity) mc.player).isInWeb() ? true : false) : mc.player.onGround)) {
+            if (mode.getValue(modes.Packet)) {
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.11, mc.player.posZ, false));
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.1100013579, mc.player.posZ, false));
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.3579E-6, mc.player.posZ, false));
+                mc.player.connection.sendPacket(new CPacketPlayer());
+            } else if (mode.getValue(modes.MiniJump)) {
+                if (mc.player.onGround) {
+                    mc.player.jump();
+                    mc.player.motionY = 0.25;
                 }
-            } else  if (!inWebToo.getValue() && !((IEntity)mc.player).isInWeb()) {
-                if (event.getPacket() instanceof CPacketUseEntity && (packet = (CPacketUseEntity)event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && (!(event.getPacket() instanceof EntityEnderCrystal))) {
-                    if (((CPacketUseEntity)event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && mc.player.onGround) {
-                        Criticals.mc.player.connection.sendPacket(new CPacketPlayer.Position(Criticals.mc.player.posX, Criticals.mc.player.posY + 0.11, Criticals.mc.player.posZ, false));
-                        Criticals.mc.player.connection.sendPacket(new CPacketPlayer.Position(Criticals.mc.player.posX, Criticals.mc.player.posY + 0.1100013579, Criticals.mc.player.posZ, false));
-                        Criticals.mc.player.connection.sendPacket(new CPacketPlayer.Position(Criticals.mc.player.posX, Criticals.mc.player.posY + 1.3579E-6, Criticals.mc.player.posZ, false));
-                        Criticals.mc.player.connection.sendPacket(new CPacketPlayer());
-                    }
-                }
-            }
-        }
-
-
-
-        if (mode.getValue(modes.MiniJump)) {
-            if (inWebToo.getValue() && ((IEntity)mc.player).isInWeb()) {
-                if (event.getPacket() instanceof CPacketUseEntity && (packet = (CPacketUseEntity)event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && (!(event.getPacket() instanceof EntityEnderCrystal))) {
-                    if (mc.player.onGround) {
-                        mc.player.jump();
-                        mc.player.motionY = 0.25;
-                        }
-                    }
-                } else if (!inWebToo.getValue() && !((IEntity)mc.player).isInWeb()) {
-                if (event.getPacket() instanceof CPacketUseEntity && (packet = (CPacketUseEntity)event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && (!(event.getPacket() instanceof EntityEnderCrystal))) {
-                    if (mc.player.onGround) {
-                        mc.player.jump();
-                        mc.player.motionY = 0.25;
-                    }
-                }
-            }
+            } else if (mode.getValue(modes.Jump))
+                mc.player.jump();
         }
     }
 }
