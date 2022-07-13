@@ -5,7 +5,6 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IEntity;
 import com.firework.client.Implementations.Settings.Setting;
-import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
