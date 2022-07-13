@@ -12,6 +12,10 @@ public class Sprint extends Module {
     @Override
     public void onTick(){
         super.onTick();
-        mc.player.setSprinting(true);
+        if (mode.getValue().equals("Legit")) {
+            if (mc.player.moveForward > 0 && !mc.player.collidedHorizontally) {
+                mc.player.setSprinting(true);
+            }
+        }
     }
 }

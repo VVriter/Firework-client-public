@@ -18,23 +18,16 @@ import java.util.Comparator;
 @ModuleManifest(name = "BoatFly",category = Module.Category.MOVEMENT)
 public class BoatFlyRewrote extends Module {
 
-    private EntityBoat target;
+    private Entity target;
     private int teleportID;
     private int packetCounter = 0;
     private boolean bebra = false;
-
     public Setting<Boolean> fixYaw  = new Setting<>("FixYaw", true, this);
-
     public Setting<Boolean> noKick  = new Setting<>("AntiKick", true, this);
-
-
     public Setting<Double> speed  = new Setting<>("Speed", (double)3, this, 1, 10);
     public Setting<Double> verticalSpeed   = new Setting<>("VSpeed", (double)3, this, 1, 10);
 
     public Setting<Double> interact    = new Setting<>("interact", (double)3, this, 1, 10);
-
-    public Setting<Double> scale    = new Setting<>("BoatScale", (double)3, this, 1, 10);
-
     public static Setting<Boolean> noRenderBoat  = null;
     public static Setting<Boolean> enabled = null;
 
@@ -48,7 +41,7 @@ public class BoatFlyRewrote extends Module {
         super.onTick();
 
         if (fixYaw.getValue()) {
-            EntityBoat playerBoat = (EntityBoat) mc.player.getRidingEntity();
+            Entity playerBoat = mc.player.getRidingEntity();
             playerBoat.rotationYaw = mc.player.rotationYaw;
         }
         
@@ -59,9 +52,7 @@ public class BoatFlyRewrote extends Module {
         if (mc.world == null || mc.player.getRidingEntity() == null) {
             return;
         }
-        if (mc.player.getRidingEntity() instanceof EntityBoat) {
-            target = (EntityBoat)mc.player.getRidingEntity();
-        }
+        target = mc.player.getRidingEntity();
         mc.player.getRidingEntity().setNoGravity(true);
         mc.player.getRidingEntity().motionY = 0.0;
         if (mc.gameSettings.keyBindJump.isKeyDown()) {
