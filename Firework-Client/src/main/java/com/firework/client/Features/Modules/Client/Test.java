@@ -51,11 +51,6 @@ public class Test extends Module {
         isEnabled.setValue(false);
         System.out.println("Module status:" + isEnabled.getValue());
     }
-    private Setting<BlockBreaker.mineModes> switchMode = new Setting<>("Switch", BlockBreaker.mineModes.Packet, this, BlockBreaker.mineModes.values());
-
-    private Setting<Boolean> rayTrace = new Setting<>("RayTrace", false, this);
-    private Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
-    private Setting<Boolean> packet = new Setting<>("Packet", true, this);
     @Override
     public void onEnable() {
         super.onEnable();
@@ -77,7 +72,7 @@ public class Test extends Module {
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent event){
         if (vec3d != null) {
-            posRenderer.doRender(vec3d,colorSetting.getValue().toRGB());
+            posRenderer.doRender(vec3d,colorSetting.getValue().toRGB(),1);
         }
     }
 }
