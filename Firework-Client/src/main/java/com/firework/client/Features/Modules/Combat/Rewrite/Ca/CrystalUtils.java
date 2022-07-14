@@ -4,7 +4,10 @@ import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Client.Triple;
 import com.firework.client.Implementations.Utill.Entity.CrystalUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
 public class CrystalUtils {
@@ -30,5 +33,15 @@ public class CrystalUtils {
         }
 
         return bestPosition.one;
+    }
+
+    public static EntityEnderCrystal getCrystalAtPos(BlockPos pos) {
+        for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos.add(0, 1, 0)))) {
+            if (entity instanceof EntityEnderCrystal && entity.isEntityAlive()) {
+                return (EntityEnderCrystal)entity;
+            }
+        }
+
+        return null;
     }
 }
