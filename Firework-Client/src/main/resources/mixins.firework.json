@@ -16,6 +16,7 @@
     "Render.ViewModelMixin",
     "ISPacketPlayerPosLook",
     "ICPacketPlayer",
+    "ICPacketUseEntity",
     "Misc.MixinEntityLivingBase",
     "Misc.MixinItemFood",
     "Render.MixinRenderItem",

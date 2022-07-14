@@ -19,7 +19,6 @@ import java.awt.*;
 @ModuleManifest(name = "CAura",category = Module.Category.COMBAT)
 public class CAura extends Module {
 
-
     public Setting<Integer> range = new Setting<>("Range", 5, this, 1, 10);
     public Setting<Boolean> legal = new Setting<>("Legal", true, this);
 
