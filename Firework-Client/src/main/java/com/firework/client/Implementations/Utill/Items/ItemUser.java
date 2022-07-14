@@ -6,6 +6,7 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
+import com.firework.client.Implementations.Utill.RotationUtil;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ClickType;
@@ -13,8 +14,11 @@ import net.minecraft.item.Item;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
 import static com.firework.client.Implementations.Utill.InventoryUtil.getClickSlot;
@@ -49,6 +53,26 @@ public class ItemUser {
         if (rotate.getValue()) {
             mc.player.rotationPitch = oldPitch;
         }
+
+        if(switchMode.getValue(ItemUser.switchModes.Silent)) {
+            switchItems(getItemStack(backSwitch).getItem(), InventoryUtil.hands.MainHand);
+        }
+    }
+
+    //Uses item
+    public void useItem(final Item item, final BlockPos blockPos, final EnumHand hand, final boolean packet){
+        //Updates local settings
+        updateSettings();
+
+        //Switchs
+        int backSwitch = switchItems(item, InventoryUtil.hands.MainHand);
+
+        //Uses item
+        if (rotate.getValue()) {
+            RotationUtil.rotate(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5), packet);
+        }
+        mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(blockPos, EnumFacing.UP, hand, 0, 0,0));
+
 
         if(switchMode.getValue(ItemUser.switchModes.Silent)) {
             switchItems(getItemStack(backSwitch).getItem(), InventoryUtil.hands.MainHand);
