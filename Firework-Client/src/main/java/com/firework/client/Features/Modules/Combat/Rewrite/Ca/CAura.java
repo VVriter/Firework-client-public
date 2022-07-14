@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat.Rewrite.Ca;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketUseEntity;
 import com.firework.client.Implementations.Settings.Setting;
@@ -20,6 +21,7 @@ import net.minecraft.network.play.server.SPacketSpawnObject;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -70,6 +72,7 @@ public class CAura extends Module {
                 final ICPacketUseEntity use = (ICPacketUseEntity)new CPacketUseEntity();
                 use.setEntityId(packet.getEntityID());
                 use.setAction(CPacketUseEntity.Action.ATTACK);
+                Firework.rotationManager.rotateSpoof(new Vec3d(packet.getX() + 0.5, packet.getY() + 0.5, packet.getZ() + 0.5));
                 mc.getConnection().sendPacket((Packet<?>) use);
                 mc.player.swingArm(EnumHand.MAIN_HAND);
                 packets.add((Packet) use);

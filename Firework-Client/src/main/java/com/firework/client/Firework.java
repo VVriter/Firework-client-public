@@ -9,6 +9,7 @@ import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Managers.Manager;
+import com.firework.client.Implementations.Managers.RotationManager;
 import com.firework.client.Implementations.UI.ConsoleGui.Command.ConsoleManager;
 import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.UI.Hud.HudManager;
@@ -75,6 +76,7 @@ public class Firework
 
     public static CFontRenderer customFontForNotifications;
     public static PositionManager positionManager;
+    public static RotationManager rotationManager;
     public static ConfigManager configManager;
     public static ShaderManager shaderManager;
 
@@ -90,6 +92,7 @@ public class Firework
                 hudManager = new HudManager(),
                 commandManager = new CommandManager(),
                 positionManager = new PositionManager(),
+                rotationManager = new RotationManager(),
                 configManager = new ConfigManager(),
                 consoleManager = new ConsoleManager()
             );

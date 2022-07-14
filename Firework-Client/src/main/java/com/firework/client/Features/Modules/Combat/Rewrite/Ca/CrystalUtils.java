@@ -41,12 +41,12 @@ public class CrystalUtils {
         for(Entity entity : mc.world.loadedEntityList){
             if(entity instanceof EntityEnderCrystal) {
                 if (bestCrystal == null) {
-                    float selfDamage = CrystalUtil.calculateDamage(entity, mc.player);
-                    float targetDamage = CrystalUtil.calculateDamage(entity, target);
+                    float selfDamage = CrystalUtil.calculateDamage(entity.getPosition(), mc.player)/2;
+                    float targetDamage = CrystalUtil.calculateDamage(entity.getPosition(), target);
                     bestCrystal = new Triple<>((EntityEnderCrystal) entity, selfDamage, targetDamage);
                 } else {
-                    float selfDamage = CrystalUtil.calculateDamage(entity, mc.player);
-                    float targetDamage = CrystalUtil.calculateDamage(entity, target);
+                    float selfDamage = CrystalUtil.calculateDamage(entity.getPosition(), mc.player)/2;
+                    float targetDamage = CrystalUtil.calculateDamage(entity.getPosition(), target);
                     if (targetDamage - selfDamage > bestCrystal.three - bestCrystal.two) {
                         bestCrystal = new Triple<>((EntityEnderCrystal)entity, selfDamage, targetDamage);
                     }
