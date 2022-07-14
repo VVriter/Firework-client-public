@@ -35,6 +35,30 @@ public class CrystalUtils {
         return bestPosition.one;
     }
 
+    public static BlockPos bestCrystalPos(EntityPlayer target, final int range, final boolean legal, final float maxSelfDamage, final float minTargetDamage){
+        //BlockPos | SelfDamage | TargetDamage
+        Triple<BlockPos, Float, Float> bestPosition = null;
+        for(BlockPos pos : BlockUtil.getSphere(range, true)){
+            if(CrystalUtil.canPlaceCrystal(pos, legal)) {
+                if (bestPosition == null) {
+                    float selfDamage = CrystalUtil.calculateDamage(pos, mc.player);
+                    float targetDamage = CrystalUtil.calculateDamage(pos, target);
+                    if(selfDamage > maxSelfDamage || targetDamage < minTargetDamage) continue;
+                    bestPosition = new Triple<>(pos, selfDamage, targetDamage);
+                } else {
+                    float selfDamage = CrystalUtil.calculateDamage(pos, mc.player);
+                    float targetDamage = CrystalUtil.calculateDamage(pos, target);
+                    if(selfDamage > maxSelfDamage || targetDamage < minTargetDamage) continue;
+                    if (targetDamage - selfDamage > bestPosition.three - bestPosition.two) {
+                        bestPosition = new Triple<>(pos, selfDamage, targetDamage);
+                    }
+                }
+            }
+        }
+
+        return bestPosition.one;
+    }
+
     public static EntityEnderCrystal getCrystalAtPos(BlockPos pos) {
         for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos.add(0, 1, 0)))) {
             if (entity instanceof EntityEnderCrystal && entity.isEntityAlive()) {
