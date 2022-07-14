@@ -2,6 +2,8 @@ package com.firework.client.Features.Modules.Combat.Rewrite.Ca;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Mixins.MixinsList.ICPacketUseEntity;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Items.ItemUser;
@@ -9,12 +11,16 @@ import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.CPacketUseEntity;
+import net.minecraft.network.play.server.SPacketSpawnObject;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 @ModuleManifest(name = "CAura",category = Module.Category.COMBAT)
 public class CAura extends Module {
@@ -23,8 +29,7 @@ public class CAura extends Module {
     public Setting<Boolean> legal = new Setting<>("Legal", true, this);
 
     public Setting<Integer> placeDelay = new Setting<>("PaceDelay", 200, this, 1, 1000);
-    public Setting<Double> td = new Setting<>("tD", (double)3, this, 1, 10);
-
+    public Setting<Integer> breakDelay = new Setting<>("BreakDelay", 200, this, 1, 1000);
     public Setting<Integer> minTargetDmg = new Setting<>("MinTargetDmg", 5, this, 1, 20);
     public Setting<Integer> maxSelfDmg = new Setting<>("MaxSelfDmg", 5, this, 1, 20);
 
@@ -57,7 +62,22 @@ public class CAura extends Module {
         target = PlayerUtil.getClosestTarget(range.getValue());
     }
 
+    @SubscribeEvent
+    public void onPacketReceive(final PacketEvent.Receive event){
+        if (event.getPacket() instanceof SPacketSpawnObject) {
+            final SPacketSpawnObject packet = (SPacketSpawnObject) event.getPacket();
+            if (packet.getType() == 51 && this.posesCrystalsPlaced.contains(new BlockPos(packet.getX(), packet.getY() - 1.0, packet.getZ()))) {
+                final ICPacketUseEntity use = (ICPacketUseEntity)new CPacketUseEntity();
+                use.setEntityId(packet.getEntityID());
+                use.setAction(CPacketUseEntity.Action.ATTACK);
+                mc.getConnection().sendPacket((Packet)use);
+                mc.player.swingArm(EnumHand.MAIN_HAND);
+                return;
+            }
+        }
+    }
     BlockPos posToPlace;
+    ArrayList<BlockPos> posesCrystalsPlaced = new ArrayList<>();
     @Override public void onTick() {super.onTick();
         posToPlace = CrystalUtils.bestCrystalPos(target,range.getValue(),legal.getValue());
 
@@ -65,12 +85,14 @@ public class CAura extends Module {
             //AutoCrystal code
             if (placeTimer.hasPassedMs(placeDelay.getValue())) {
                 user.useItem(Items.END_CRYSTAL,posToPlace, EnumHand.MAIN_HAND, packet.getValue());
+                posesCrystalsPlaced.add(posToPlace);
                 placeTimer.reset();
             }
         }
     }
 
     @SubscribeEvent public void onRender(RenderWorldLastEvent e) {
+        if(posToPlace == null) return;
         if (target != null) {
             RenderUtils.drawProperBox(target.getPosition(),new Color(203, 3, 3,200));
             RenderUtils.drawBoxESP(CrystalUtils.bestCrystalPos(target,range.getValue(),legal.getValue()),Color.BLUE,1,true,true,200,1);
