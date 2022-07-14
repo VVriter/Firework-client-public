@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.function.UnaryOperator;
 
 @ModuleManifest(name = "CAura",category = Module.Category.COMBAT)
 public class CAura extends Module {
@@ -62,6 +63,8 @@ public class CAura extends Module {
         target = PlayerUtil.getClosestTarget(range.getValue());
     }
 
+    ArrayList<Packet> packets = new ArrayList<>();
+
     @SubscribeEvent
     public void onPacketReceive(final PacketEvent.Receive event){
         if (event.getPacket() instanceof SPacketSpawnObject) {
@@ -70,8 +73,9 @@ public class CAura extends Module {
                 final ICPacketUseEntity use = (ICPacketUseEntity)new CPacketUseEntity();
                 use.setEntityId(packet.getEntityID());
                 use.setAction(CPacketUseEntity.Action.ATTACK);
-                mc.getConnection().sendPacket((Packet)use);
-                mc.player.swingArm(EnumHand.MAIN_HAND);
+               /* mc.getConnection().sendPacket((Packet)use);
+                mc.player.swingArm(EnumHand.MAIN_HAND); */
+                packets.add((Packet) use);
                 return;
             }
         }
@@ -89,13 +93,25 @@ public class CAura extends Module {
                 placeTimer.reset();
             }
         }
+
+        ArrayList<Packet> sendedPackets = new ArrayList<>();
+        for (Packet packet1 : packets) {
+            if (breakTimer.hasPassedMs(breakDelay.getValue())) {
+                mc.getConnection().sendPacket(packet1);
+                mc.player.swingArm(EnumHand.MAIN_HAND);
+                sendedPackets.add(packet1);
+                breakTimer.reset();
+            } else {
+                break;
+            }
+        }
+        packets.removeAll(sendedPackets);
     }
 
     @SubscribeEvent public void onRender(RenderWorldLastEvent e) {
-        if(posToPlace == null) return;
-        if (target != null) {
+        if (target != null && posToPlace != null) {
             RenderUtils.drawProperBox(target.getPosition(),new Color(203, 3, 3,200));
-            RenderUtils.drawBoxESP(CrystalUtils.bestCrystalPos(target,range.getValue(),legal.getValue()),Color.BLUE,1,true,true,200,1);
+            RenderUtils.drawBoxESP(posToPlace,Color.BLUE,1,true,true,200,1);
         }
     }
 }
