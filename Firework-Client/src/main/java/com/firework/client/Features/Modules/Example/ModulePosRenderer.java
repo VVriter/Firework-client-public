@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRe
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @ModuleManifest(
@@ -38,7 +39,7 @@ public class ModulePosRenderer extends Module {
     }
 
     @SubscribeEvent
-    public void render(RenderGameOverlayEvent e) {
+    public void onRender(RenderWorldLastEvent e) {
         if (posRenderer != null) {
             posRenderer.doRender(
                     posTorender,
