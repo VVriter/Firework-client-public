@@ -76,6 +76,8 @@ public class Test extends Module {
 
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent event){
-        posRenderer.doRender(vec3d,colorSetting.getValue().toRGB());
+        if (vec3d != null) {
+            posRenderer.doRender(vec3d,colorSetting.getValue().toRGB());
+        }
     }
 }

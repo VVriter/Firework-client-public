@@ -18,13 +18,7 @@ public class PosRenderer {
 
     public void doRender(BlockPos posTorender, Color color) {
         if (posTorender != null) {
-            if (renderMode.getValue(renderModes.OutLine)) {
-                new BlockRenderBuilder(posTorender)
-                        .addRenderModes(
-                                new RenderMode(RenderMode.renderModes.OutLine,
-                                        color)
-                        ).render();
-            }  else if (renderMode.getValue(renderModes.Fill)) {
+            if (renderMode.getValue(renderModes.Fill)) {
                 new BlockRenderBuilder(posTorender)
                         .addRenderModes(
                                 new RenderMode(RenderMode.renderModes.Fill,
