@@ -8,7 +8,9 @@ import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
+import com.firework.client.Implementations.Utill.Items.ItemUser;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
@@ -36,6 +38,9 @@ public class Test extends Module {
     public enum TestEnum{
         un, lock
     }
+
+    public Setting<PosRenderer.renderModes> renderMode = new Setting<>("SwitchMode", PosRenderer.renderModes.Beacon, this, PosRenderer.renderModes.values());
+    PosRenderer posRenderer;
     public Minecraft mc = Minecraft.getMinecraft();
     public boolean e = true;
     public BlockPos vec3d;
@@ -54,13 +59,14 @@ public class Test extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
+        posRenderer = new PosRenderer(this,renderMode);
         vec3d = mc.player.getPosition();
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
-
+        posRenderer = null;
     }
 
     @Override
@@ -70,12 +76,6 @@ public class Test extends Module {
 
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent event){
-        if (vec3d != null) {
-            new BlockRenderBuilder(vec3d)
-                    .addRenderModes(
-                            new RenderMode(RenderMode.renderModes.Beacon,
-                                    Color.CYAN)
-                    ).render();
-        }
+        posRenderer.doRender(vec3d,colorSetting.getValue().toRGB());
     }
 }
