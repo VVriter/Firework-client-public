@@ -14,6 +14,6 @@ public class RenderMode {
     }
 
     public enum renderModes{
-        OutLine, Fill, OutlineGradient, FilledGradient
+        OutLine, Fill, OutlineGradient, FilledGradient, Beacon
     }
 }

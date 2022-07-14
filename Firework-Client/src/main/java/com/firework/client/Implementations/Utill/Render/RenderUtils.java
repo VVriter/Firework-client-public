@@ -409,7 +409,7 @@ public class RenderUtils {
     public static void drawBoxESP(final BlockPos pos, final Color color, final float lineWidth, final boolean outline, final boolean box, final int boxAlpha, final float height) {
         final AxisAlignedBB bb = new AxisAlignedBB(pos.getX() - RenderUtils.mc.getRenderManager().viewerPosX, pos.getY() - RenderUtils.mc.getRenderManager().viewerPosY, pos.getZ() - RenderUtils.mc.getRenderManager().viewerPosZ, pos.getX() + 1 - RenderUtils.mc.getRenderManager().viewerPosX, pos.getY() + height - RenderUtils.mc.getRenderManager().viewerPosY, pos.getZ() + 1 - RenderUtils.mc.getRenderManager().viewerPosZ);
         RenderUtils.camera.setPosition(Objects.requireNonNull(RenderUtils.mc.getRenderViewEntity()).posX, RenderUtils.mc.getRenderViewEntity().posY, RenderUtils.mc.getRenderViewEntity().posZ);
-        if (RenderUtils.camera.isBoundingBoxInFrustum(new AxisAlignedBB(pos))) {
+        //if (RenderUtils.camera.isBoundingBoxInFrustum(new AxisAlignedBB(pos))) {
             GlStateManager.pushMatrix();
             GlStateManager.enableBlend();
             GlStateManager.disableDepth();
@@ -431,7 +431,7 @@ public class RenderUtils {
             GlStateManager.enableTexture2D();
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
-        }
+        //}
     }
 
     public static void drawGradientBlockOutline(BlockPos pos, Color startColor, Color endColor, float linewidth) {

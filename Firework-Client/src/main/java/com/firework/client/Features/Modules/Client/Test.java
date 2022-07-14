@@ -51,61 +51,31 @@ public class Test extends Module {
     private Setting<Boolean> rayTrace = new Setting<>("RayTrace", false, this);
     private Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
     private Setting<Boolean> packet = new Setting<>("Packet", true, this);
-    BlockBreaker blockBreaker;
-
     @Override
     public void onEnable() {
         super.onEnable();
         vec3d = mc.player.getPosition();
-        blockBreaker = new BlockBreaker(this, switchMode, rayTrace, rotate, packet);
-
-        mc.player.setGlowing(true);
-
-        oldItem = null;
-        oldItem = getItemStack(mc.player.inventory.currentItem).getItem();
-        //SurroundRewrite.swapSlots(InventoryUtil.getItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)), mc.player.inventory.currentItem);
-
-        if(enumSetting.getValue(TestEnum.lock))
-            System.out.println("checked");
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
 
-
-        //SurroundRewrite.swapSlots(InventoryUtil.getItemSlot(oldItem), mc.player.inventory.currentItem);
     }
 
     @Override
     public void onTick() {
         super.onTick();
-        blockBreaker.breakBlock(EntityUtil.getFlooredPos(mc.player).add(0, -1, 0), Items.DIAMOND_PICKAXE);
     }
 
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent event){
-        //RenderUtils.drawSphere(vec3d, 0.6, 5, new Color(ColorUtils.astolfoColors(100, 100)));
-        /*
-        BlockRenderBuilder blockRenderBuilder = new BlockRenderBuilder(vec3d)
-                .addRenderMode(new RenderMode(RenderMode.renderModes.Fill,
-                        Arrays.asList(new Color(ColorUtils.astolfoColors(100, 100)))))
-                .render();*/
-
-        new BlockRenderBuilder(vec3d)
-                .addRenderModes(
-                        new RenderMode(RenderMode.renderModes.Fill,
-                                new Color(RainbowUtil.astolfoColors(100, 100))),
-                        new RenderMode(RenderMode.renderModes.OutLine,
-                                Color.white, 3f)
-                );
-
-        new BlockRenderBuilder(vec3d)
-                .addRenderModes(
-                        new RenderMode(RenderMode.renderModes.FilledGradient,
-                                new Color(RainbowUtil.astolfoColors(100, 100)), new Color(RainbowUtil.astolfoColors(150, 100)))
-                ).render();
-
-        //RenderUtils.drawGradientBlockOutline(BoundingBoxUtil.getBB(vec3d), Color.white, Color.yellow, 3);
+        if (vec3d != null) {
+            new BlockRenderBuilder(vec3d)
+                    .addRenderModes(
+                            new RenderMode(RenderMode.renderModes.Beacon,
+                                    Color.CYAN)
+                    ).render();
+        }
     }
 }
