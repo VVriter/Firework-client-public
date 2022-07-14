@@ -12,7 +12,9 @@ import com.google.gson.JsonParser;
 import com.mojang.util.UUIDTypeAdapter;
 import net.minecraft.advancements.AdvancementManager;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
@@ -45,6 +47,22 @@ public class PlayerUtil implements Util {
         }
     }
 
+    public static ArrayList<EntityEnderCrystal> getAll1() {
+        try {
+            ArrayList<EntityEnderCrystal> players = new ArrayList<EntityEnderCrystal>();
+
+            for (Entity player : mc.world.loadedEntityList) {
+                if (player instanceof EntityEnderCrystal) {
+                    players.add((EntityEnderCrystal) player);
+                }
+            }
+
+            return players;
+        } catch (NullPointerException ignored) {
+            return new ArrayList<EntityEnderCrystal>();
+        }
+    }
+
     public static EntityPlayer getClosest() {
         double lowestDistance = Integer.MAX_VALUE;
         EntityPlayer closest = null;
@@ -65,6 +83,23 @@ public class PlayerUtil implements Util {
         for (EntityPlayer player : getAll()) {
             if (player.getDistance(mc.player) < lowestDistance) {
                 if(!FriendManager.friends.contains(player.getDisplayNameString())) {
+                    if(player.getPositionVector().distanceTo(mc.player.getPositionVector()) <= maxRange) {
+                        lowestDistance = player.getDistance(mc.player);
+                        closest = player;
+                    }
+                }
+            }
+        }
+        return closest;
+    }
+
+    public static EntityEnderCrystal getClosestCrystal(int maxRange) {
+        double lowestDistance = Integer.MAX_VALUE;
+        EntityEnderCrystal closest = null;
+
+        for (EntityEnderCrystal player : getAll1()) {
+            if (player.getDistance(mc.player) < lowestDistance) {
+                if(!FriendManager.friends.contains(player.getDisplayName())) {
                     if(player.getPositionVector().distanceTo(mc.player.getPositionVector()) <= maxRange) {
                         lowestDistance = player.getDistance(mc.player);
                         closest = player;

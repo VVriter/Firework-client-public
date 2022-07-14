@@ -69,6 +69,11 @@ public class BlockRenderBuilder {
                 final Color color2 = (Color) getRenderMode(RenderMode.renderModes.FilledGradient).values.get(1);
                 drawGradientFilledBox(pos, color1, color2);
             }
+            if (getRenderMode(RenderMode.renderModes.Beacon) != null) {
+                final Color color = (Color) getRenderMode(RenderMode.renderModes.Beacon).values.get(0);
+                drawBoxESP(pos, color,2,true,true,0,1);
+                drawBoxESP(pos, color,2,true,true,200,mc.world.getHeight());
+            }
         }
     }
 }

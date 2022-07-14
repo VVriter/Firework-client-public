@@ -87,6 +87,6 @@ public class Module extends Info{
     public String getName() {return name;}
 
     public enum Category{
-        CHAT, COMBAT, MOVEMENT, RENDER, MISC, WORLD, CLIENT
+        CHAT, COMBAT, MOVEMENT, RENDER, MISC, WORLD, CLIENT, EXAMPLE
     }
 }
