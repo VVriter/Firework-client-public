@@ -35,6 +35,28 @@ public class CrystalUtils {
         return bestPosition.one;
     }
 
+    public static EntityEnderCrystal getBestCrystal(EntityPlayer target, final int range){
+        //Crystal | SelfDamage | TargetDamage
+        Triple<EntityEnderCrystal, Float, Float> bestCrystal = null;
+        for(Entity entity : mc.world.loadedEntityList){
+            if(entity instanceof EntityEnderCrystal) {
+                if (bestCrystal == null) {
+                    float selfDamage = CrystalUtil.calculateDamage(entity, mc.player);
+                    float targetDamage = CrystalUtil.calculateDamage(entity, target);
+                    bestCrystal = new Triple<>((EntityEnderCrystal) entity, selfDamage, targetDamage);
+                } else {
+                    float selfDamage = CrystalUtil.calculateDamage(entity, mc.player);
+                    float targetDamage = CrystalUtil.calculateDamage(entity, target);
+                    if (targetDamage - selfDamage > bestCrystal.three - bestCrystal.two) {
+                        bestCrystal = new Triple<>((EntityEnderCrystal)entity, selfDamage, targetDamage);
+                    }
+                }
+            }
+        }
+
+        return bestCrystal.one;
+    }
+
     public static BlockPos bestCrystalPos(EntityPlayer target, final int range, final boolean legal, final float maxSelfDamage, final float minTargetDamage){
         //BlockPos | SelfDamage | TargetDamage
         Triple<BlockPos, Float, Float> bestPosition = null;

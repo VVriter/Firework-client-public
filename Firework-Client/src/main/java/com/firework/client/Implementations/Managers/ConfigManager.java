@@ -26,7 +26,7 @@ public class ConfigManager extends Manager{
         new File(configDir).mkdirs();
 
         for(Module module : Firework.moduleManager.modules){
-            loadModuleSettings(module);
+            //loadModuleSettings(module);
         }
     }
 

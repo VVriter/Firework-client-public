@@ -70,6 +70,8 @@ public class CAura extends Module {
                 final ICPacketUseEntity use = (ICPacketUseEntity)new CPacketUseEntity();
                 use.setEntityId(packet.getEntityID());
                 use.setAction(CPacketUseEntity.Action.ATTACK);
+                mc.getConnection().sendPacket((Packet<?>) use);
+                mc.player.swingArm(EnumHand.MAIN_HAND);
                 packets.add((Packet) use);
             }
         }else if (event.getPacket() instanceof SPacketSoundEffect) {
@@ -95,20 +97,10 @@ public class CAura extends Module {
 
         if (target != null && posToPlace != null) {
             //AutoCrystal code
-            if (delayTimer.hasPassedMs(delayValue.getValue())) {
-                user.useItem(Items.END_CRYSTAL,posToPlace, EnumHand.MAIN_HAND, packet.getValue());
-                posesCrystalsPlaced.add(posToPlace);
-                delayTimer.reset();
-            }
+            user.useItem(Items.END_CRYSTAL,posToPlace, EnumHand.MAIN_HAND, packet.getValue());
+            posesCrystalsPlaced.add(posToPlace);
         }
 
-        ArrayList<Packet> sendedPackets = new ArrayList<>();
-        for (Packet packet1 : packets) {
-            mc.getConnection().sendPacket(packet1);
-            mc.player.swingArm(EnumHand.MAIN_HAND);
-            sendedPackets.add(packet1);
-        }
-        packets.removeAll(sendedPackets);
     }
 
     @SubscribeEvent
