@@ -2,8 +2,10 @@ package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Mixins.MixinsList.IPig;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.util.MovementInput;
 import net.minecraft.world.chunk.EmptyChunk;
 
@@ -21,6 +23,8 @@ public class EntityControl extends Module {
     @Override
     public void onTick() {
         super.onTick();
+
+
         if (EntitySpeed.getValue()) {
         if (Firework.minecraft.player.getRidingEntity() != null) {
             MovementInput movementInput = Firework.minecraft.player.movementInput;
