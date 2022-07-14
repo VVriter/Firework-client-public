@@ -32,7 +32,6 @@ import static com.firework.client.Implementations.Utill.InventoryUtil.getItemSta
 public class Test extends Module {
     public Setting<Boolean> testSetting = new Setting<>("tS", false, this);
     public Setting<Double> td = new Setting<>("tD", (double)3, this, 1, 10);
-    public Setting<HSLColor> colorSetting = new Setting<>("colorN", new HSLColor(1, 54, 43), this);
     public Setting<String> N = new Setting<>("tSN", "Kill", this, Arrays.asList("Eat", "Kill"));
     public Setting<Enum> enumSetting = new Setting<>("tsENUm", TestEnum.un, this, TestEnum.values());
     public enum TestEnum{
@@ -40,6 +39,10 @@ public class Test extends Module {
     }
 
     public Setting<PosRenderer.renderModes> renderMode = new Setting<>("SwitchMode", PosRenderer.renderModes.Beacon, this, PosRenderer.renderModes.values());
+    public Setting<HSLColor> colorSetting = new Setting<>("colorN", new HSLColor(1, 54, 43), this);
+    public Setting<HSLColor> gradCo1 = new Setting<>("Color1", new HSLColor(1, 54, 43), this);
+    public Setting<HSLColor> gradCo2 = new Setting<>("Color2", new HSLColor(200, 54, 43), this);
+    public Setting<Double> width = new Setting<>("Width", (double)3, this, 1, 10);
     PosRenderer posRenderer;
     public Minecraft mc = Minecraft.getMinecraft();
     public boolean e = true;
@@ -72,7 +75,13 @@ public class Test extends Module {
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent event){
         if (vec3d != null) {
-            posRenderer.doRender(vec3d,colorSetting.getValue().toRGB(),1);
+            posRenderer.doRender(
+                    vec3d,
+                    colorSetting.getValue().toRGB(),
+                    width.getValue().floatValue(),
+                    gradCo1.getValue().toRGB(),
+                    gradCo2.getValue().toRGB()
+            );
         }
     }
 }

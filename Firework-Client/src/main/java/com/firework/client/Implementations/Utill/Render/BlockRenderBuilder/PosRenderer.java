@@ -16,7 +16,7 @@ public class PosRenderer {
         this.renderMode = renderMode;
     }
 
-    public void doRender(BlockPos posTorender, Color color, float with) {
+    public void doRender(BlockPos posTorender, Color color, float with, Color gradientColor1, Color gradientColor2) {
         if (posTorender != null) {
             if (renderMode.getValue(renderModes.OutLine)) {
                 new BlockRenderBuilder(posTorender)
@@ -36,6 +36,23 @@ public class PosRenderer {
                         .addRenderModes(
                                 new RenderMode(RenderMode.renderModes.Beacon,
                                         color)
+                        ).render();
+            } else if (renderMode.getValue(renderModes.FilledGradient)) {
+                new BlockRenderBuilder(posTorender)
+                        .addRenderModes(
+                                new RenderMode(RenderMode.renderModes.FilledGradient,
+                                        gradientColor1,
+                                        gradientColor2
+                                )
+                        ).render();
+            } else if (renderMode.getValue(renderModes.OutlineGradient)) {
+                new BlockRenderBuilder(posTorender)
+                        .addRenderModes(
+                                new RenderMode(RenderMode.renderModes.OutlineGradient,
+                                        gradientColor1,
+                                        gradientColor2,
+                                        with
+                                )
                         ).render();
             }
         }
