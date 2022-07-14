@@ -10,19 +10,21 @@ import net.minecraft.util.math.BlockPos;
 public class CrystalUtils {
     private static Minecraft mc = Minecraft.getMinecraft();
 
-    public static BlockPos bestCrystalPos(EntityPlayer target, int range){
+    public static BlockPos bestCrystalPos(EntityPlayer target, final int range, final boolean legal){
         //BlockPos | SelfDamage | TargetDamage
         Triple<BlockPos, Float, Float> bestPosition = null;
         for(BlockPos pos : BlockUtil.getSphere(range, true)){
-            if(bestPosition == null){
-                float selfDamage = CrystalUtil.calculateDamage(pos, mc.player);
-                float targetDamage = CrystalUtil.calculateDamage(pos, target);
-                bestPosition = new Triple<>(pos, selfDamage, targetDamage);
-            }else{
-                float selfDamage = CrystalUtil.calculateDamage(pos, mc.player);
-                float targetDamage = CrystalUtil.calculateDamage(pos, target);
-                if(targetDamage - selfDamage > bestPosition.three - bestPosition.two){
+            if(CrystalUtil.canPlaceCrystal(pos, legal)) {
+                if (bestPosition == null) {
+                    float selfDamage = CrystalUtil.calculateDamage(pos, mc.player);
+                    float targetDamage = CrystalUtil.calculateDamage(pos, target);
                     bestPosition = new Triple<>(pos, selfDamage, targetDamage);
+                } else {
+                    float selfDamage = CrystalUtil.calculateDamage(pos, mc.player);
+                    float targetDamage = CrystalUtil.calculateDamage(pos, target);
+                    if (targetDamage - selfDamage > bestPosition.three - bestPosition.two) {
+                        bestPosition = new Triple<>(pos, selfDamage, targetDamage);
+                    }
                 }
             }
         }
