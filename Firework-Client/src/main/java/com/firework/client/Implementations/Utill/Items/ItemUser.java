@@ -3,12 +3,7 @@ package com.firework.client.Implementations.Utill.Items;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
-import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
-import com.firework.client.Implementations.Utill.RotationUtil;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
@@ -60,7 +55,7 @@ public class ItemUser {
     }
 
     //Uses item
-    public void useItem(final Item item, final BlockPos blockPos, final EnumHand hand, final boolean packet){
+    public void useItem(final Item item, final BlockPos blockPos, final EnumHand hand){
         //Updates local settings
         updateSettings();
 
@@ -69,7 +64,7 @@ public class ItemUser {
 
         //Uses item
         if (rotate.getValue()) {
-            RotationUtil.rotate(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5), packet);
+            Firework.rotationManager.rotateSpoof(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5));
         }
         mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(blockPos, EnumFacing.UP, hand, 0, 0,0));
 

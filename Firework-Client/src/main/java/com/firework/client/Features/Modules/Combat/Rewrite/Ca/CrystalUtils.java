@@ -37,7 +37,7 @@ public class CrystalUtils {
 
     public static EntityEnderCrystal getBestCrystal(EntityPlayer target, final int range){
         //Crystal | SelfDamage | TargetDamage
-        Triple<EntityEnderCrystal, Float, Float> bestCrystal = null;
+        Triple<EntityEnderCrystal, Float, Float> bestCrystal = new Triple<>(null, 0f, 0f);
         for(EntityEnderCrystal entity : CrystalUtil.getCrystals(range)){
             if (bestCrystal == null) {
                 float selfDamage = CrystalUtil.calculateDamage(entity.getPosition(), mc.player)/2;

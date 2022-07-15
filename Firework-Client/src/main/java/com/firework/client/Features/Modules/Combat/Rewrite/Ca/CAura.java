@@ -5,7 +5,6 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
-import com.firework.client.Implementations.Mixins.MixinsList.ICPacketUseEntity;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Items.ItemUser;
@@ -15,14 +14,10 @@ import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.network.play.server.SPacketSoundEffect;
-import net.minecraft.network.play.server.SPacketSpawnObject;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -55,6 +50,7 @@ public class CAura extends Module {
         super.onEnable();
         delayTimer = new Timer();
         user = new ItemUser(this,switchMode,rotate);
+        canBreak = true;
     }
 
     @Override
@@ -78,10 +74,9 @@ public class CAura extends Module {
             }
         }
     }
-    BlockPos posToPlace;
-    EntityEnderCrystal entityEnderCrystal;
-    boolean canBreak = true;
-    boolean canPlace = true;
+    BlockPos posToPlace = null;
+    EntityEnderCrystal entityEnderCrystal = null;
+    boolean canBreak;
     @Override
     public void onTick() {
         super.onTick();
@@ -91,11 +86,11 @@ public class CAura extends Module {
 
         if(delayTimer.hasPassedMs(breakDelay.getValue()) && canBreak) {
             entityEnderCrystal = CrystalUtils.getBestCrystal(target, range.getValue());
-            System.out.println(entityEnderCrystal);
+
+            canBreak = false;
             if (entityEnderCrystal != null) {
                 breakCrystal(entityEnderCrystal);
                 entityEnderCrystal = null;
-                canBreak = false;
                 return;
             }
         }
@@ -112,11 +107,10 @@ public class CAura extends Module {
                 return;
             }
         }
-
     }
 
     public void placeCrystal(BlockPos pos){
-        user.useItem(Items.END_CRYSTAL, pos, EnumHand.MAIN_HAND, packet.getValue());
+        user.useItem(Items.END_CRYSTAL, pos, EnumHand.MAIN_HAND);
     }
 
     public void breakCrystal(EntityEnderCrystal enderCrystal){
@@ -141,7 +135,6 @@ public class CAura extends Module {
     public void onSettingChangeEvent(SettingChangeValueEvent event){
         if(event.setting == placeDelay || event.setting == breakDelay) {
             delayTimer.reset();
-            canPlace = true;
             entityEnderCrystal = null;
             posToPlace = null;
         }
