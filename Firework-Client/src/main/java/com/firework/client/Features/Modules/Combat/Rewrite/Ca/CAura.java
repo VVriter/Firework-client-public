@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketUseEntity;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
@@ -34,7 +35,8 @@ public class CAura extends Module {
     public Setting<Integer> range = new Setting<>("Range", 5, this, 1, 10);
     public Setting<Boolean> legal = new Setting<>("Legal", true, this);
 
-    public Setting<Integer> delayValue = new Setting<>("Delay", 200, this, 1, 1000);
+    public Setting<Integer> placeDelay = new Setting<>("PlaceDelay", 200, this, 1, 1000);
+    public Setting<Integer> breakDelay = new Setting<>("BreakDelay", 200, this, 1, 1000);
     public Setting<Integer> minTargetDmg = new Setting<>("MinTargetDmg", 5, this, 1, 20);
     public Setting<Integer> maxSelfDmg = new Setting<>("MaxSelfDmg", 5, this, 1, 20);
 
@@ -62,22 +64,9 @@ public class CAura extends Module {
         user = null;
     }
 
-    ArrayList<Packet> packets = new ArrayList<>();
-
     @SubscribeEvent
     public void onPacketReceive(final PacketEvent.Receive event){
-        if (event.getPacket() instanceof SPacketSpawnObject) {
-            final SPacketSpawnObject packet = (SPacketSpawnObject) event.getPacket();
-            if (packet.getType() == 51 && this.posesCrystalsPlaced.contains(new BlockPos(packet.getX(), packet.getY() - 1.0, packet.getZ()))) {
-                final ICPacketUseEntity use = (ICPacketUseEntity)new CPacketUseEntity();
-                use.setEntityId(packet.getEntityID());
-                use.setAction(CPacketUseEntity.Action.ATTACK);
-                Firework.rotationManager.rotateSpoof(new Vec3d(packet.getX() + 0.5, packet.getY() + 0.5, packet.getZ() + 0.5));
-                mc.getConnection().sendPacket((Packet<?>) use);
-                mc.player.swingArm(EnumHand.MAIN_HAND);
-                packets.add((Packet) use);
-            }
-        }else if (event.getPacket() instanceof SPacketSoundEffect) {
+        if (event.getPacket() instanceof SPacketSoundEffect) {
             final SPacketSoundEffect packet2 = (SPacketSoundEffect) event.getPacket();
             if (packet2.getCategory() == SoundCategory.BLOCKS && packet2.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
                 final SPacketSoundEffect sPacketSoundEffect = new SPacketSoundEffect();
@@ -90,27 +79,71 @@ public class CAura extends Module {
         }
     }
     BlockPos posToPlace;
-    ArrayList<BlockPos> posesCrystalsPlaced = new ArrayList<>();
+    EntityEnderCrystal entityEnderCrystal;
+    boolean canBreak = true;
+    boolean canPlace = true;
     @Override
     public void onTick() {
         super.onTick();
         target = PlayerUtil.getClosestTarget(range.getValue());
 
-        posToPlace = CrystalUtils.bestCrystalPos(target,range.getValue(),legal.getValue(), maxSelfDmg.getValue(), minTargetDmg.getValue());
+        if(target == null) return;
 
-        if (target != null && posToPlace != null) {
-            //AutoCrystal code
-            user.useItem(Items.END_CRYSTAL,posToPlace, EnumHand.MAIN_HAND, packet.getValue());
-            posesCrystalsPlaced.add(posToPlace);
+        if(delayTimer.hasPassedMs(breakDelay.getValue()) && canBreak) {
+            entityEnderCrystal = CrystalUtils.getBestCrystal(target, range.getValue());
+            System.out.println(entityEnderCrystal);
+            if (entityEnderCrystal != null) {
+                breakCrystal(entityEnderCrystal);
+                entityEnderCrystal = null;
+                canBreak = false;
+                return;
+            }
+        }
+
+        if(delayTimer.hasPassedMs(placeDelay.getValue() + breakDelay.getValue())) {
+            posToPlace = CrystalUtils.bestCrystalPos(target,range.getValue(),legal.getValue(), maxSelfDmg.getValue(), minTargetDmg.getValue());
+
+            if (posToPlace != null) {
+                //AutoCrystal code
+                placeCrystal(posToPlace);
+                posToPlace = null;
+                canBreak = true;
+                delayTimer.reset();
+                return;
+            }
         }
 
     }
 
+    public void placeCrystal(BlockPos pos){
+        user.useItem(Items.END_CRYSTAL, pos, EnumHand.MAIN_HAND, packet.getValue());
+    }
+
+    public void breakCrystal(EntityEnderCrystal enderCrystal){
+        Firework.rotationManager.rotateSpoof(enderCrystal.getPositionVector());
+        mc.playerController.attackEntity(mc.player, enderCrystal);
+        mc.player.swingArm(EnumHand.MAIN_HAND);
+    }
+
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent e) {
-        if (target != null && posToPlace != null) {
+        if(target == null) return;
+        if (posToPlace != null) {
             RenderUtils.drawProperBox(target.getPosition(),new Color(203, 3, 3,200));
             RenderUtils.drawBoxESP(posToPlace,Color.BLUE,1,true,true,200,1);
+        }
+        if(entityEnderCrystal != null){
+            RenderUtils.drawBoundingBox(entityEnderCrystal.getRenderBoundingBox(), Color.GREEN, 3);
+        }
+    }
+
+    @SubscribeEvent
+    public void onSettingChangeEvent(SettingChangeValueEvent event){
+        if(event.setting == placeDelay || event.setting == breakDelay) {
+            delayTimer.reset();
+            canPlace = true;
+            entityEnderCrystal = null;
+            posToPlace = null;
         }
     }
 }
