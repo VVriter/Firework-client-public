@@ -33,7 +33,6 @@
     "Chunks.MixinRenderChunk",
     "Chunks.MixinChunkRenderContainer",
     "Guis.MixinGuiScreen",
-    "IEntity",
-    "IPig"
+    "IEntity"
   ]
 }
