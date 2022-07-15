@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ModuleManifest(
-        name = "FastWebBeta",
-        category = Module.Category.EXAMPLE
+        name = "FastWeb",
+        category = Module.Category.COMBAT
 )
 public class FastWebBeta extends Module {
     public Setting<Enum> mode = new Setting<>("Mode", modes.Motion, this, modes.values());
