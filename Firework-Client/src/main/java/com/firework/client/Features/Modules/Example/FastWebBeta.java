@@ -63,14 +63,6 @@ public class FastWebBeta extends Module {
     @Override
     public void onUpdate() {
         super.onUpdate();
-
-        List<BlockPos> positions = BlockUtil.getSphere(this.range.getValue().floatValue(), false);
-        for (BlockPos posers : positions) {
-            if (BlockUtil.getBlock(posers) == Blocks.WEB) {
-                posToderder.add(posers);
-            }
-        }
-
         if (mode.getValue(modes.Timer)) {
         if (((IEntity)mc.player).isInWeb() && mode.getValue(modes.Timer)) {
             if (mc.gameSettings.keyBindSneak.isKeyDown()) {
@@ -86,16 +78,25 @@ public class FastWebBeta extends Module {
         mc.player.motionY = -reduction.getValue();
     }
 
-
-    ArrayList<BlockPos> posToderder = new ArrayList<>();
+    public List<BlockPos> calcPoses() {
+        ArrayList<BlockPos> safeSpots = new ArrayList<BlockPos>();
+        List<BlockPos> positions = BlockUtil.getSphere(this.range.getValue().floatValue(), false);
+        int size = positions.size();
+        for (int i = 0; i < size; ++i) {
+            BlockPos pos = positions.get(i);
+            if (BlockUtil.getBlock(pos) == Blocks.WEB) {
+                safeSpots.add(pos);
+            }
+        }
+        return safeSpots;
+    }
 
     //Render
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent e) {
         if (render.getValue()) {
-        for (BlockPos poses : posToderder) {
-            if (BlockUtil.getBlock(poses) == Blocks.WEB) {
-            if (posRenderer != null) {
+        for (BlockPos poses : calcPoses()) {
+            if (posRenderer != null && poses != null) {
                 posRenderer.doRender(
                         poses,
                         colorSetting.getValue().toRGB(),
@@ -104,9 +105,6 @@ public class FastWebBeta extends Module {
                         gradCo2.getValue().toRGB()
                         );
                     }
-                } else {
-                    posToderder.remove(poses);
-                }
             }
         }
     }
