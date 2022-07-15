@@ -6,6 +6,7 @@ import com.firework.client.Implementations.Mixins.MixinsList.IPig;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.util.MovementInput;
 import net.minecraft.world.chunk.EmptyChunk;
 
@@ -23,7 +24,7 @@ public class EntityControl extends Module {
     @Override
     public void onTick() {
         super.onTick();
-
+        ((IPig)mc.player.getRidingEntity()).setSaddled(new DataParameter<>());
 
         if (EntitySpeed.getValue()) {
         if (Firework.minecraft.player.getRidingEntity() != null) {

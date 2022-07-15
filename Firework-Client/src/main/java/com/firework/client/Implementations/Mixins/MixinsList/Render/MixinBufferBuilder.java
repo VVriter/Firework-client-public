@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Mixins.MixinsList;
+package com.firework.client.Implementations.Mixins.MixinsList.Render;
 
 import com.firework.client.Implementations.Events.ColorMultiplierEvent;
 import net.minecraft.client.renderer.BufferBuilder;

@@ -20,19 +20,20 @@
     "Misc.MixinEntityLivingBase",
     "Misc.MixinItemFood",
     "Render.MixinRenderItem",
-    "MixinBufferBuilder",
-    "MixinPlayerControllerMP",
-    "MixinEntityPlayerSP",
+    "Render.MixinBufferBuilder",
+    "Misc.MixinPlayerControllerMP",
+    "Misc.MixinEntityPlayerSP",
     "Render.MixinEntityRenderer",
     "Misc.MixinWorldClient",
     "Render.MixinRenderBoat",
-    "MixinTileEntityEnchantmentTableRenderer",
+    "Render.MixinTileEntityEnchantmentTableRenderer",
     "Guis.MixinGuiMainMenu",
     "Misc.MixinMinecraft",
     "MixinGuiChat",
     "Chunks.MixinRenderChunk",
     "Chunks.MixinChunkRenderContainer",
     "Guis.MixinGuiScreen",
-    "IEntity"
+    "IEntity",
+    "IPig"
   ]
 }
