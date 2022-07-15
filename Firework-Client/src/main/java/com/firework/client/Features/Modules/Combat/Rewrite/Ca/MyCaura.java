@@ -5,7 +5,6 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketUseEntity;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Items.ItemUser;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
@@ -23,7 +22,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.function.UnaryOperator;
 
 @ModuleManifest(name = "MyCAura",category = Module.Category.COMBAT)
 public class MyCaura extends Module {
@@ -90,7 +88,7 @@ public class MyCaura extends Module {
         if (target != null && posToPlace != null) {
             //AutoCrystal code
             if (placeTimer.hasPassedMs(placeDelay.getValue())) {
-                user.useItem(Items.END_CRYSTAL,posToPlace, EnumHand.MAIN_HAND, packet.getValue());
+                user.useItem(Items.END_CRYSTAL,posToPlace, EnumHand.MAIN_HAND);
                 posesCrystalsPlaced.add(posToPlace);
                 placeTimer.reset();
             }

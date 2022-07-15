@@ -1,4 +1,5 @@
 package com.firework.client.Implementations.Utill.Blocks;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.RotationUtil;
 
 import net.minecraft.block.*;
@@ -42,7 +43,7 @@ public class BlockUtil {
             sneaking = true;
         }
         if (rotate) {
-            RotationUtil.faceVector(hitVec, true);
+            Firework.rotationManager.rotateSpoof(hitVec);
         }
         mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(hand));
         BlockUtil.rightClickBlock(neighbour, hitVec, hand, opposite, packet);

@@ -35,8 +35,8 @@ public class Trap extends Module {
 
     private Setting<BlockPlacer.switchModes> switchMode = new Setting<>("Switch", BlockPlacer.switchModes.Fast, this, BlockPlacer.switchModes.values());
 
-    private Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
-    private Setting<Boolean> packet = new Setting<>("Packet", true, this);
+    private Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
+    private Setting<Boolean> packet = new Setting<>("Packet", false, this);
 
     private Setting<Boolean> autoDisable = new Setting<>("AutoDisable", true, this);
 
