@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.UI.GuiNEO.Components.Advanced;
 
+import com.firework.client.Features.Modules.Client.Gui;
 import com.firework.client.Implementations.UI.GuiNEO.Components.Button;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
@@ -15,7 +16,9 @@ public class EndBlock extends Button {
     @Override
     public void draw(int mouseX, int mouseY) {
         super.draw(mouseX, mouseY);
-       // RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), new Color(RainbowUtil.astolfoColors(100, 100)));
-        RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x,y,width,height),new Color(RainbowUtil.generateRainbowFadingColor(1,true)),new Color(0x5151B2));
+        if(Gui.endBlock.getValue(Gui.endBlockMode.Static))
+            RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), new Color(RainbowUtil.astolfoColors(100, 100)));
+        else if(Gui.endBlock.getValue(Gui.endBlockMode.Dynamic))
+            RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x,y,width,height),new Color(RainbowUtil.astolfoColors(0, 100)), new Color(RainbowUtil.astolfoColors(50, 100)));
     }
 }

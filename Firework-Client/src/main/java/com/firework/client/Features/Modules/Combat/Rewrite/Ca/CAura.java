@@ -18,6 +18,7 @@ import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -114,7 +115,7 @@ public class CAura extends Module {
     }
 
     public void breakCrystal(EntityEnderCrystal enderCrystal){
-        Firework.rotationManager.rotateSpoof(enderCrystal.getPositionVector());
+        Firework.rotationManager.rotateSpoof(new Vec3d(enderCrystal.posX + 0.5, enderCrystal.posY + 0.5, enderCrystal.posZ + 0.5));
         mc.playerController.attackEntity(mc.player, enderCrystal);
         mc.player.swingArm(EnumHand.MAIN_HAND);
     }
