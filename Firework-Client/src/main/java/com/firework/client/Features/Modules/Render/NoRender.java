@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderArmorStand;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketExplosion;
@@ -15,7 +16,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.lwjgl.opengl.GL11;
+
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glPolygonOffset;
 
 public class NoRender extends Module {
 
@@ -47,6 +53,8 @@ public class NoRender extends Module {
 
     public static Setting<Boolean> breakingParticles = null;
 
+    public static Setting<Boolean> breakblock = null;
+
     public NoRender(){
         super("NoRender",Category.RENDER);
         enabled = this.isEnabled;
@@ -66,6 +74,7 @@ public class NoRender extends Module {
         mob = new Setting<>("Mob", true, this).setVisibility(page,pages.Misc);
         xp = new Setting<>("Xp", true, this).setVisibility(page,pages.Misc);
         explosions = new Setting<>("Explosions", true, this).setVisibility(page,pages.Misc);
+        breakblock = new Setting<>("BreakBlock", false, this).setVisibility(page,pages.Misc);
 
 
         breakingParticles = new Setting<>("BreakingParticles", true, this).setVisibility(page,pages.Particles);
@@ -92,6 +101,15 @@ public class NoRender extends Module {
         }
     }
 
+
+    @SubscribeEvent
+    public void onRender3d(RenderWorldLastEvent e) {
+        if (blockBreak.getValue()) {
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
+            glEnable(GL11.GL_POLYGON_OFFSET_FILL);
+            glPolygonOffset(1.0f, -1100000.0f);
+        }
+    }
     @SubscribeEvent
     public void onPacketReceive(PacketEvent.Receive event){
         Packet packet = event.getPacket();
