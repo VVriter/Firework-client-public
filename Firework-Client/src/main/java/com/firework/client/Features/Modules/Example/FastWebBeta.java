@@ -58,6 +58,9 @@ public class FastWebBeta extends Module {
                 }
             }
         }
+        if (!((IEntity)mc.player).isInWeb() && ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength() != oldTicks ) {
+            ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(oldTicks);
+        }
     }
 
     @Override
