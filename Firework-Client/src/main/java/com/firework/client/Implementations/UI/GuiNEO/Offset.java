@@ -18,8 +18,6 @@ public class Offset {
             offset += b.offset;
             if(y == 0)
                 y = b.y;
-            if(b.x < y)
-                y = b.y;
             x = b.x;
         }
 
