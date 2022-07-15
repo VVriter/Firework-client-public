@@ -24,8 +24,6 @@ public class EntityControl extends Module {
     @Override
     public void onTick() {
         super.onTick();
-        ((IPig)mc.player.getRidingEntity()).setSaddled(new DataParameter<>());
-
         if (EntitySpeed.getValue()) {
         if (Firework.minecraft.player.getRidingEntity() != null) {
             MovementInput movementInput = Firework.minecraft.player.movementInput;
