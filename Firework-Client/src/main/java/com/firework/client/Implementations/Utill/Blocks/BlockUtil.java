@@ -42,12 +42,14 @@ public class BlockUtil {
             Minecraft.getMinecraft().player.setSneaking(true);
             sneaking = true;
         }
-        if (rotate) {
+        if (rotate)
             Firework.rotationManager.rotateSpoof(hitVec);
-        }
+
         mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(hand));
         BlockUtil.rightClickBlock(neighbour, hitVec, hand, opposite, packet);
         Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
+        if(rotate)
+            Firework.rotationManager.stopRotating();
         return sneaking || isSneaking;
     }
 

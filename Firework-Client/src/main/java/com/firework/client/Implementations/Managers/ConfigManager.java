@@ -3,19 +3,17 @@ package com.firework.client.Implementations.Managers;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
-import com.firework.client.Implementations.Events.WorldClientInitEvent;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
-import com.firework.client.Implementations.Utill.Timer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.checkerframework.checker.units.qual.A;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ConfigManager extends Manager{
@@ -57,36 +55,38 @@ public class ConfigManager extends Manager{
     }
 
     public void loadModuleSettings(Module module){
-        try {
-            //Config file obj declaration
-            File configFile = new File(configDir + module.name + ".json");
-            if (configFile.exists()) {
-                JSONParser parser = new JSONParser();
-                Object obj = parser.parse(new FileReader(configFile));
-                JSONArray configArray = (JSONArray) obj;
-                //For loop for each array (there only one usually)
-                for(Object object : configArray) {
-                    JSONObject config = (JSONObject) object;
-                    //Loads values for each setting
-                    for (int i = 0; i < Firework.settingManager.modulesSettings(module).size(); i++) {;
-                        Setting setting1 = Firework.settingManager.settings.get(Firework.settingManager.settings.indexOf(Firework.settingManager.modulesSettings(module).get(i)));
-
-                        if(setting1.value instanceof Integer)
-                            setting1.setValue(new Integer(String.valueOf(config.get(setting1.name))).intValue());
-                        else if(setting1.value instanceof Double)
-                            setting1.setValue(new Double(String.valueOf(config.get(setting1.name))).doubleValue());
-                        else if(setting1.value instanceof Boolean)
-                            setting1.setValue(Boolean.parseBoolean(String.valueOf(config.get(setting1.name))));
-                        else if(setting1.value instanceof Enum)
-                            setting1.setValue(((Enum)setting1.getValue()).valueOf(((Enum)setting1.getValue()).getClass(), String.valueOf(config.get(setting1.name))));
-
-                    }
-                }
-                if(module.isEnabled.getValue())
-                    module.onEnable();
+        //Config file obj declaration
+        File configFile = new File(configDir + module.name + ".json");
+        if (configFile.exists()) {
+            JSONParser parser = new JSONParser();
+            Object obj = null;
+            try {
+                obj = parser.parse(new FileReader(configFile));
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-        }catch (Exception e){
-            System.out.println(e);
+            JSONArray configArray = (JSONArray) obj;
+            //For loop for each array (there only one usually)
+            for(Object object : configArray) {
+                JSONObject config = (JSONObject) object;
+                //Loads values for each setting
+                for (int i = 0; i < Firework.settingManager.modulesSettings(module).size(); i++) {;
+                    Setting setting1 = Firework.settingManager.settings.get(Firework.settingManager.settings.indexOf(Firework.settingManager.modulesSettings(module).get(i)));
+
+                    if(setting1.value instanceof Integer)
+                        setting1.setValue(new Integer(String.valueOf(config.get(setting1.name))).intValue());
+                    else if(setting1.value instanceof Double)
+                        setting1.setValue(new Double(String.valueOf(config.get(setting1.name))).doubleValue());
+                    else if(setting1.value instanceof Boolean)
+                        setting1.setValue(Boolean.parseBoolean(String.valueOf(config.get(setting1.name))));
+                    else if(setting1.value instanceof String)
+                        setting1.setValue(String.valueOf(config.get(setting1.name)));
+                    else if(setting1.value instanceof Enum)
+                        setting1.setEnumValue(String.valueOf(config.get(setting1.name)));
+                }
+            }
         }
     }
 

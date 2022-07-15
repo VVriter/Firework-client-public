@@ -37,7 +37,6 @@ public class RotationManager extends Manager{
 
         mc.player.connection.sendPacket(new CPacketPlayer.Rotation(yaw, pitch, mc.player.onGround));
         isRotateSpoofing = true;
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public void rotateSpoofNoPacket(Vec3d vec) {
@@ -45,7 +44,6 @@ public class RotationManager extends Manager{
         yaw = rotations[0];
         pitch = rotations[1];
         isRotateSpoofing = true;
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public void stopRotating() {
@@ -80,6 +78,7 @@ public class RotationManager extends Manager{
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent e) {
+        if(mc.player == null || mc.world == null) return;
         try {
             if (yawMinusCount < 10) {
                 yawMinusCount++;

@@ -97,6 +97,21 @@ public class Setting<T> {
         MinecraftForge.EVENT_BUS.post(new SettingChangeValueEvent(this));
     }
 
+    public void setEnumValue(String value) {
+        if(getEnumByString(value) != null) {
+            this.value = (T) getEnumByString(value);
+        }
+    }
+
+    public Enum getEnumByString(String value) {
+        for (Enum e : ((Enum) this.value).getClass().getEnumConstants()) {
+            if (e.name().equalsIgnoreCase(value)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
     public Setting<T> setVisibility(boolean visibility){
         this.hidden = !visibility;
         settingManager.updateSettingsByName(this);
