@@ -68,7 +68,7 @@ public class FastWebBeta extends Module {
         super.onUpdate();
         if (mode.getValue(modes.Timer)) {
         if (((IEntity)mc.player).isInWeb() && mode.getValue(modes.Timer)) {
-            if (mc.gameSettings.keyBindSneak.isKeyDown()) {
+            if (mc.gameSettings.keyBindSneak.isKeyDown() && !mc.player.onGround) {
                 ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(oldTicks-ticks.getValue().floatValue());
             } else {
                 ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(oldTicks);
