@@ -15,6 +15,7 @@ public class EndBlock extends Button {
     @Override
     public void draw(int mouseX, int mouseY) {
         super.draw(mouseX, mouseY);
-        RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), new Color(RainbowUtil.astolfoColors(100, 100)));
+       // RenderUtils2D.drawRectangle(new Rectangle(x, y, width, height), new Color(RainbowUtil.astolfoColors(100, 100)));
+        RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x,y,width,height),new Color(RainbowUtil.generateRainbowFadingColor(1,true)),new Color(0x5151B2));
     }
 }
