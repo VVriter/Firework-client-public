@@ -93,7 +93,7 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.3-SNAPSHOT:processor'
 
     jarLibs group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
-    jarLibs 'com.googlecode.json-simple:json-simple:1.1.1'
+    jarLibs 'com.google.code.gson:gson:2.8.9'
     jarLibs group: 'org.slick2d', name: 'slick2d-core', version: '1.0.1'
     jarLibs 'com.discord4j:discord4j-core:3.2.2'
 
@@ -111,7 +111,6 @@ dependencies {
 
     jarLibs 'club.minnced:java-discord-rpc:2.0.2'
     jarLibs 'net.lingala.zip4j:zip4j:2.10.0'
-    jarLibs 'com.googlecode.json-simple:json-simple:1.1.1'
     jarLibs group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
 
     jarLibs group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'

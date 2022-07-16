@@ -1,14 +1,9 @@
 package com.firework.client.Features.Modules;
 
-import com.firework.client.Firework;
 import com.firework.client.Implementations.Managers.Manager;
-import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.ClassFinder;
 import com.firework.client.Implementations.Utill.Client.Pair;
-import org.json.simple.JSONObject;
 
-import java.io.*;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 

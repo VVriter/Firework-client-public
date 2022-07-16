@@ -1,8 +1,9 @@
 package com.firework.client.Implementations.Managers;
 
 import com.firework.client.Firework;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.apache.commons.io.FilenameUtils;
-import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -23,10 +24,10 @@ public class FriendManager extends Manager{
         if (!theDir.exists()){
             theDir.mkdirs();}
 
-        JSONObject obj = new JSONObject();
-        obj.put(args,args);
+        JsonObject obj = new JsonObject();
+        obj.addProperty(args,args);
         try (FileWriter file = new FileWriter(Firework.FIREWORK_DIRECTORY + "Friends/" + args + ".json")) {
-            file.write(obj.toJSONString());
+            new Gson().toJson(obj ,file);
         } catch (IOException e) {
             e.printStackTrace();
         }

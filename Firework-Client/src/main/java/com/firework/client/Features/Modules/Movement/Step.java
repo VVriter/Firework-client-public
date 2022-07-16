@@ -31,7 +31,7 @@ public class Step extends Module {
     public Setting<Double> boostTimer = new Setting<>("FWBoostDelayMs", 29.8d, this, 1, 200).setVisibility(v-> moderio.getValue(modes.MegaBypass));
     public Setting<Double> jumpTimerDelay = new Setting<>("JumpDelayMs", 185.6d, this, 1, 200).setVisibility(v-> moderio.getValue(modes.MegaBypass));
 
-    public Setting<mode> moveMode = new Setting<>("Mode", mode.Motion, this, mode.values()).setVisibility(v-> moderio.getValue(modes.MegaBypass));
+    public Setting<mode> moveMode = new Setting<>("SubMode", mode.Motion, this, mode.values()).setVisibility(v-> moderio.getValue(modes.MegaBypass));
 
     public Setting<Integer> Y = new Setting<>("Height", 1, this, 0, 10).setVisibility(v-> moderio.getValue(modes.Vanilla));
     public Setting<Boolean> reverse = new Setting<>("Reverse", false, this).setVisibility(v-> moderio.getValue(modes.Vanilla));

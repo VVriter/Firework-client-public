@@ -8,7 +8,6 @@ import com.firework.client.Features.CommandsSystem.Commands.Client.*;
 import com.firework.client.Features.CommandsSystem.Commands.Dirs.ImgurCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Dirs.OpenDirCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Dirs.SaveConfigCommand;
-import com.firework.client.Features.CommandsSystem.Commands.Dirs.WebhookCommand;
 import com.firework.client.Features.CommandsSystem.Commands.FriendSys.FriendAdd;
 import com.firework.client.Features.CommandsSystem.Commands.FriendSys.FriendDell;
 import com.firework.client.Features.CommandsSystem.Commands.Fun.*;
@@ -108,7 +107,6 @@ public class CommandManager extends Manager {
                 new PenisCommand(),
                 new PeekCommand(),
                 new CoordsCommand(),
-                new WebhookCommand(),
                 new FovCommand(),
                 new SaveConfigCommand(),
                 new NameMcCommand(),

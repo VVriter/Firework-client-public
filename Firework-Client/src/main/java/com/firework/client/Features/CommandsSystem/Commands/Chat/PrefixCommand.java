@@ -5,7 +5,9 @@ import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Firework;
 import com.firework.client.Features.CommandsSystem.CommandManager;
-import org.json.simple.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,12 +20,13 @@ public class PrefixCommand extends Command {
         //Plays Notification sound
         Notifications.notificate();
         //Creates new JSon object
-        JSONObject obj = new JSONObject();
-        obj.put("Prefix", args[1]);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonObject obj = new JsonObject();
+        obj.addProperty("Prefix", args[1]);
 
 
             try (FileWriter file = new FileWriter(Firework.FIREWORK_DIRECTORY + "Prefix.json")) {
-                file.write(obj.toJSONString());
+                gson.toJson(obj, file);
                 CommandManager.prefix = args[1];
             } catch (IOException e) {
                 e.printStackTrace();

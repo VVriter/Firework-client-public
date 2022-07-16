@@ -1,15 +1,11 @@
 package com.firework.client.Implementations.Settings;
 
-import com.firework.client.Firework;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraftforge.common.MinecraftForge;
 
-import java.awt.*;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -96,7 +92,12 @@ public class Setting<T> {
         MinecraftForge.EVENT_BUS.post(new SettingChangeValueEvent(this));
     }
 
-    public void setEnumValue(String value) {
+    public void setValueNoEvent(T newValue){
+        this.value = newValue;
+        settingManager.updateSettingsByName(this);
+    }
+
+    public void setEnumValueNoEvent(String value) {
         if(getEnumByString(value) != null) {
             this.value = (T) getEnumByString(value);
         }

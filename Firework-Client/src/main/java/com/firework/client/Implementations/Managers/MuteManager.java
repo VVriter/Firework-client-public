@@ -1,8 +1,10 @@
 package com.firework.client.Implementations.Managers;
 
 import com.firework.client.Firework;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import org.apache.commons.io.FilenameUtils;
-import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -22,10 +24,10 @@ public class MuteManager extends Manager{
         if (!theDir.exists()){
             theDir.mkdirs();}
 
-        JSONObject obj = new JSONObject();
-        obj.put(name,name);
+        JsonObject obj = new JsonObject();
+        obj.addProperty(name,name);
         try (FileWriter file = new FileWriter(Firework.FIREWORK_DIRECTORY + "Muted/" + name + ".json")) {
-            file.write(obj.toJSONString());
+            new GsonBuilder().setPrettyPrinting().create().toJson(obj, file);
         } catch (IOException e) {
             e.printStackTrace();
         }
