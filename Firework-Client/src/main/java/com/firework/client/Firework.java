@@ -153,7 +153,7 @@ public class Firework
 
         for(Module module : moduleManager.modules){
             if(Keyboard.isKeyDown(module.key.getValue()))
-                module.onToggle();
+                module.toggle();
         }
     }
 
