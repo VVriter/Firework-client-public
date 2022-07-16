@@ -129,8 +129,7 @@ public class Setting<T> {
     }
 
     public boolean getValue(T checkValue){
-        if(getValue() == checkValue) return true;
-        return false;
+        return getValue() == checkValue;
     }
 
     public enum Mode{
