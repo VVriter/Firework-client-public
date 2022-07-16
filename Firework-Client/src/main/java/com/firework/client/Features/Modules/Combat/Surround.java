@@ -14,7 +14,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
 
@@ -67,8 +69,8 @@ public class Surround extends Module {
         placeTimer = null;
     }
 
-    @Override
-    public void onTick() {
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onTick(final TickEvent.ClientTickEvent event) {
         super.onTick();
         if(mc.player == null || mc.world == null) return;
 
