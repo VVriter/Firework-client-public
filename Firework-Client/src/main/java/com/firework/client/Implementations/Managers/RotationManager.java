@@ -30,6 +30,11 @@ public class RotationManager extends Manager{
         mc.player.rotationPitch = rotations[1];
     }
 
+    public void setPlayerRotations(float yaw, float pitch) {
+      mc.player.rotationYaw = yaw;
+       mc.player.rotationYawHead = yaw;
+       mc.player.rotationPitch = pitch;
+    }
     public void rotateSpoof(Vec3d vec) {
         float[] rotations = getRotations(vec);
         yaw = rotations[0];
