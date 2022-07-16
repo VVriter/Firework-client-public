@@ -87,4 +87,13 @@ public class HSLColor {
         return p;
     }
 
+    @Override
+    public String toString() {
+        return hue + " "+ saturation + " " + light + " " + alpha;
+    }
+
+    public static HSLColor valueOf(String string){
+        String[] floats = string.split(" ");
+        return new HSLColor(Float.valueOf(floats[0]), Float.valueOf(floats[1]), Float.valueOf(floats[2]), Float.valueOf(floats[3]));
+    }
 }

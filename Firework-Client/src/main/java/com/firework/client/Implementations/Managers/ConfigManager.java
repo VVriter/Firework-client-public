@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.google.gson.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -50,31 +51,40 @@ public class ConfigManager extends Manager{
         //Config file obj declaration
         File configFile = new File(configDir + module.name + ".json");
         if (configFile.exists()) {
-            FileReader reader = null;
             try {
-                reader = new FileReader(configFile);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            JsonParser parser = new JsonParser();
+                FileReader reader = null;
+                try {
+                    reader = new FileReader(configFile);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                JsonParser parser = new JsonParser();
 
-            JsonObject config = new Gson().fromJson(parser.parse(reader), JsonObject.class);
+                JsonObject config = new Gson().fromJson(parser.parse(reader), JsonObject.class);
 
-            //Loads values for each setting
-            for (int i = 0; i < Firework.settingManager.modulesSettings(module).size(); i++) {;
+                //Loads values for each setting
+                for (int i = 0; i < Firework.settingManager.modulesSettings(module).size(); i++) {
+
                     Setting setting1 = Firework.settingManager.settings.get(Firework.settingManager.settings.indexOf(Firework.settingManager.modulesSettings(module).get(i)));
 
-                    if(setting1.value instanceof Integer)
+                    if (setting1.value instanceof Integer)
                         setting1.setValueNoEvent(config.get(setting1.name).getAsInt());
-                    else if(setting1.value instanceof Double)
+                    else if (setting1.value instanceof Double)
                         setting1.setValueNoEvent(config.get(setting1.name).getAsDouble());
-                    else if(setting1.value instanceof Boolean)
+                    else if (setting1.value instanceof Boolean)
                         setting1.setValueNoEvent(config.get(setting1.name).getAsBoolean());
-                    else if(setting1.value instanceof String)
+                    else if (setting1.value instanceof String)
                         setting1.setValueNoEvent(config.get(setting1.name).getAsString());
-                    else if(setting1.value instanceof Enum)
+                    else if (setting1.value instanceof Enum)
                         setting1.setEnumValueNoEvent(config.get(setting1.name).getAsString());
+                    else if (setting1.value instanceof HSLColor)
+                        setting1.setValueNoEvent(HSLColor.valueOf(config.get(setting1.name).getAsString()));
+                    else
+                        throw new Exception();
                 }
+            }catch (Exception e){
+                System.out.println("[FIREWORK] " + module.name + " config malformed | resetting");
+            }
         }
     }
 
