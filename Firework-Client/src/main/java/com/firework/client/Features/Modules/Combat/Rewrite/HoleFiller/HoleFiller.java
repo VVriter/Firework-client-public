@@ -2,15 +2,18 @@ package com.firework.client.Features.Modules.Combat.Rewrite.HoleFiller;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Features.Modules.World.Burrow.SelfBlock;
+import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Events.WorldClientInitEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Blocks.HoleUtil;
-import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.TickTimer;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -18,37 +21,56 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 @ModuleManifest(name = "HolleFillerRewrite", category = Module.Category.COMBAT)
 public class HoleFiller extends Module {
 
     private Setting<Integer> radius = new Setting<>("Radius", 0, this, 0, 10);
 
-    private Setting<Integer> placedDelayMs = new Setting<>("PlaceDelayMs", 0, this, 0, 100);
+    private Setting<timers> timerMode = new Setting<>("TimerMode", timers.Tick, this, timers.values());
+    private enum timers{
+        Tick, Ms
+    }
+    private Setting<Integer> placedDelayMs = new Setting<>("PlaceDelayMs", 0, this, 0, 100).setVisibility(v-> timerMode.getValue(timers.Ms));
+    private Setting<Integer> placedDelayTicks = new Setting<>("PlaceDelayTicks", 0, this, 0, 100).setVisibility(v-> timerMode.getValue(timers.Tick));
 
     private Setting<BlockPlacer.switchModes> switchMode = new Setting<>("Switch", BlockPlacer.switchModes.Silent, this, BlockPlacer.switchModes.values());
 
     private Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
     private Setting<Boolean> packet = new Setting<>("Packet", true, this);
 
+    private Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", true, this);
+
+    private Setting<Boolean> autoBurrow = new Setting<>("AutoBurrow", true, this);
+
     private Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);
 
-    private Timer placeTimer;
+    private Timer placeTimerMs;
+    private TickTimer placeTimerTicks;
 
     private BlockPlacer blockPlacer;
 
     private ArrayList<BlockPos> line;
 
+    private ArrayList<BlockPos> placedBlocks;
+
+
     @Override
     public void onEnable() {
         super.onEnable();
-        placeTimer = new Timer();
-        placeTimer.reset();
+        placeTimerMs = new Timer();
+        placeTimerMs.reset();
+
+        placeTimerTicks = new TickTimer();
+        placeTimerTicks.reset();
 
         blockPlacer = new BlockPlacer(this, switchMode, rotate, packet);
 
         line = new ArrayList<>();
+        placedBlocks = new ArrayList<>();
+
+        if(autoBurrow.getValue())
+            Firework.moduleManager.getModuleByClass(SelfBlock.class).toggle();
     }
 
     @Override
@@ -56,7 +78,10 @@ public class HoleFiller extends Module {
         super.onDisable();
         blockPlacer = null;
 
-        placeTimer.reset();
+        placeTimerMs.reset();
+        placeTimerTicks.reset();
+        placeTimerTicks.destory();
+        placeTimerTicks = null;
 
         line = null;
     }
@@ -65,24 +90,38 @@ public class HoleFiller extends Module {
     public void onTick() {
         super.onTick();
 
-        for(BlockPos pos : HoleUtil.calculateSingleHoles(radius.getValue())){
-            if(isAir(pos) && !line.contains(pos) && pos != EntityUtil.getFlooredPos(mc.player))
+        for(BlockPos pos : HoleUtil.calculateSingleHoles(radius.getValue(), false)){
+            if(isAir(pos) && !line.contains(pos))
                 line.add(pos);
         }
 
-        ArrayList<BlockPos> placedBlocks = new ArrayList<>();
+        placedBlocks.clear();
 
         for(BlockPos pos : line){
-            if(placeTimer.hasPassedMs(placedDelayMs.getValue())){
-                blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
-                placedBlocks.add(pos);
-                placeTimer.reset();
-            }else {
-                break;
+            if(timerMode.getValue(timers.Ms)){
+                if(placeTimerMs.hasPassedMs(placedDelayMs.getValue())){
+                    processBlock(pos);
+                }else
+                    break;
+            }else{
+                if(placeTimerTicks.hasPassedTicks(placedDelayTicks.getValue())){
+                    processBlock(pos);
+                }else
+                    break;
             }
+
         }
 
         line.removeAll(placedBlocks);
+
+        if(shouldToggle.getValue() && HoleUtil.calculateSingleHoles(radius.getValue(), false).isEmpty())
+            onDisable();
+    }
+
+    public void processBlock(BlockPos pos){
+        blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
+        placedBlocks.add(pos);
+        placeTimerMs.reset();
     }
 
     @SubscribeEvent
@@ -98,12 +137,23 @@ public class HoleFiller extends Module {
 
     @SubscribeEvent
     public void onWorldJoin(WorldClientInitEvent event) {
-        placeTimer = new Timer();
-        placeTimer.reset();
+        placeTimerMs = new Timer();
+        placeTimerMs.reset();
 
         blockPlacer = new BlockPlacer(this, switchMode, rotate, packet);
 
         line = new ArrayList<>();
+    }
+
+    @SubscribeEvent
+    public void onSettingsChangeEvent(SettingChangeValueEvent event){
+        if(event.setting == timerMode){
+            if(timerMode.getValue(timers.Ms)){
+                placeTimerMs.reset();
+            }else if(timerMode.getValue(timers.Tick)){
+                placeTimerTicks.reset();
+            }
+        }
     }
 
     private boolean isAir(BlockPos pos) {

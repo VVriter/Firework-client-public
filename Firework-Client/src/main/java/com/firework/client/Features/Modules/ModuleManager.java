@@ -47,6 +47,13 @@ public class ModuleManager extends Manager {
         return null;
     }
 
+    public Module getModuleByClass(Class<? extends Module> clazz) {
+        for (Module module : modules) {
+            if (module.getClass() == clazz) return module;
+        }
+        return null;
+    }
+
     public ArrayList<Module> enabledModules(){
         ArrayList<Module> enabledModules = new ArrayList<>();
         for(Module module : modules)
