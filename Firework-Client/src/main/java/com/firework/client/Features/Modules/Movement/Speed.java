@@ -21,6 +21,8 @@ public class Speed extends Module{
     public Setting<Boolean> step = new Setting<>("Step", true, this).setVisibility(v-> mode.getValue(modes.YPort));
     public Setting<Double> yPortSpeed = new Setting<>("Speed", (double)3, this, 1, 20).setVisibility(v-> mode.getValue(modes.YPort));
 
+    public Setting<Double> strafeMultipler = new Setting<>("strafeMultipler", (double)2, this, 0, 20).setVisibility(v-> mode.getValue(modes.Strafe));
+
     @Override
     public void onEnable(){
         super.onEnable();
@@ -35,12 +37,24 @@ public class Speed extends Module{
             mc.player.stepHeight = 0.6f;
         }
     }
-
     @Override
     public void onTick(){
         super.onTick();
         if(mode.getValue(modes.Strafe)){
             mc.player.stepHeight = 0.6f;
+            mc.player.setSprinting(true);
+            if (mc.player.onGround) {
+                if (mc.gameSettings.keyBindForward.isKeyDown() || mc.gameSettings.keyBindBack.isKeyDown() || mc.gameSettings.keyBindLeft.isKeyDown() || mc.gameSettings.keyBindRight.isKeyDown()) {
+                    mc.player.jump();
+                    double[] dir = MathUtil.directionSpeed(strafeMultipler.getValue()/20);
+                    mc.player.motionX = dir[0];
+                    mc.player.motionZ = dir[1];
+                }
+            } else {
+                double[] dir = MathUtil.directionSpeed(strafeMultipler.getValue()/20);
+                mc.player.motionX = dir[0];
+                mc.player.motionZ = dir[1];
+            }
         }else if (mode.getValue() == modes.Vanilla) {
             if (mc.player == null || mc.world == null) {
                 return;
