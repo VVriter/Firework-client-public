@@ -46,7 +46,7 @@ public class SelfBlock extends Module {
 
         if (mc.world.getBlockState(new BlockPos(mc.player.posX, mc.player.posY, mc.player.posZ)).getBlock().equals(Blocks.OBSIDIAN) ||
                 intersectsWithEntity(this.originalPos)) {
-            this.isEnabled.setValue(false);
+            onDisable();
             return;
         }
 
@@ -58,7 +58,7 @@ public class SelfBlock extends Module {
         super.onTick();
         if (ground.getValue()) {
             if (!mc.player.onGround) {
-                this.isEnabled.setValue(false);
+                onDisable();
                 return;
             }
         }
@@ -95,7 +95,7 @@ public class SelfBlock extends Module {
 
         BurrowUtil.switchToSlot(oldSlot);
 
-        this.isEnabled.setValue(false);
+        onDisable();
     }
 
 

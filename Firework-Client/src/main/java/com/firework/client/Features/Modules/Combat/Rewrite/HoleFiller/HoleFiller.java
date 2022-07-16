@@ -11,6 +11,7 @@ import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Blocks.HoleUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
+import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
@@ -110,14 +111,20 @@ public class HoleFiller extends Module {
         placedBlocks.clear();
 
         for(BlockPos pos : line){
+            if(pos.equals(EntityUtil.getFlooredPos(mc.player))){
+                placedBlocks.add(pos);
+                break;
+            }
             if(timerMode.getValue(timers.Ms)){
                 if(placeTimerMs.hasPassedMs(placedDelayMs.getValue())){
                     processBlock(pos);
+                    placeTimerMs.reset();
                 }else
                     break;
             }else{
                 if(placeTimerTicks.hasPassedTicks(placedDelayTicks.getValue())){
                     processBlock(pos);
+                    placeTimerTicks.reset();
                 }else
                     break;
             }
