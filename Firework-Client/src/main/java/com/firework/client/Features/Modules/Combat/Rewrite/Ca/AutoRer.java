@@ -43,9 +43,6 @@ import java.util.Objects;
 @ModuleManifest(name = "AutoRer",category = Module.Category.COMBAT)
 public class AutoRer extends Module {
 
-
-
-
     public Setting<Enum> settings = new Setting<>("Settings", sets.Place, this, sets.values());
     public enum sets{
         Place,
@@ -127,6 +124,7 @@ public class AutoRer extends Module {
 
     @Override
     public void onToggle() {
+        super.onToggle();
         this.placedList.clear();
         this.breakTimer.reset();
         this.placeTimer.reset();
@@ -349,6 +347,8 @@ public class AutoRer extends Module {
 
     @SubscribeEvent
     public void onrender(RenderWorldLastEvent e) {
-                RenderUtils.drawGradientFilledBox(this.renderPos,color.getValue().toRGB(),Color.BLUE);
+        if (renderPos != null) {
+            RenderUtils.drawGradientFilledBox(this.renderPos,color.getValue().toRGB(),Color.BLUE);
+        }
     }
 }
