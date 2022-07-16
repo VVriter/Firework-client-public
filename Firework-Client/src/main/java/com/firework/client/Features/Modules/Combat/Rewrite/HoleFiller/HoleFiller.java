@@ -10,17 +10,23 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Blocks.HoleUtil;
+import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.TickTimer;
 import com.firework.client.Implementations.Utill.Timer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
+
+import static com.firework.client.Implementations.Utill.InventoryUtil.getHotbarItemSlot;
 
 @ModuleManifest(name = "HolleFillerRewrite", category = Module.Category.COMBAT)
 public class HoleFiller extends Module {
@@ -40,6 +46,7 @@ public class HoleFiller extends Module {
     private Setting<Boolean> packet = new Setting<>("Packet", true, this);
 
     private Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", true, this);
+    private Setting<Boolean> shouldDisableOnJump = new Setting<>("JumpDisable", true, this);
 
     private Setting<Boolean> autoBurrow = new Setting<>("AutoBurrow", true, this);
 
@@ -90,6 +97,11 @@ public class HoleFiller extends Module {
     public void onTick() {
         super.onTick();
 
+        if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
+            MessageUtil.sendError("No obby found in the hotbar", -1117);
+            return;
+        }
+
         for(BlockPos pos : HoleUtil.calculateSingleHoles(radius.getValue(), false)){
             if(isAir(pos) && !line.contains(pos))
                 line.add(pos);
@@ -122,6 +134,14 @@ public class HoleFiller extends Module {
         blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
         placedBlocks.add(pos);
         placeTimerMs.reset();
+    }
+
+    @SubscribeEvent
+    public void onPlayerJump(LivingEvent.LivingJumpEvent e){
+        if(e.getEntity() instanceof EntityPlayer){
+            if(shouldDisableOnJump.getValue())
+                onDisable();
+        }
     }
 
     @SubscribeEvent

@@ -83,7 +83,7 @@ public class Surround extends Module {
             first = false;
         }
 
-        //Stops process if web wasn't found in a hotbar
+        //Stops process if didn't find obby in a hotbar
         if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
             MessageUtil.sendError("No obby found in the hotbar", -1117);
             return;
