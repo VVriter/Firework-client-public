@@ -41,7 +41,7 @@ public class ModuleButton extends Button {
     @Override
     public void initialize(int mouseX, int mouseY) {
         super.initialize(mouseX, mouseY);
-        module.onToggle();
+        module.toggle();
         Minecraft mc = Minecraft.getMinecraft();
         mc.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1.0f, 1.0f);
     }

@@ -26,8 +26,8 @@ public class GuiParticles extends Module {
     }
 
     @Override
-    public void onToggle() {
-        super.onToggle();
+    public void toggle() {
+        super.toggle();
         ParticleInfo.isEnabled = this.isEnabled.getValue();
     }
 }

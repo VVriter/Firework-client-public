@@ -42,6 +42,7 @@ public class Module extends Info{
 
     public void onEnable() {
         isEnabled.setValue(true);
+        onToggle();
         MinecraftForge.EVENT_BUS.register(this);
         if(Logger.enabled.getValue() && Logger.onModuleEnable.getValue()){
             Logger.log(this);
@@ -51,6 +52,7 @@ public class Module extends Info{
     }
     public void onDisable() {
         isEnabled.setValue(false);
+        onToggle();
         MinecraftForge.EVENT_BUS.unregister(this);
         if(Logger.enabled.getValue() && Logger.onModuleDisable.getValue()){
             Logger.log(this);
@@ -59,7 +61,9 @@ public class Module extends Info{
         TestNotifications.notificate(this.getName()+" is disabled","");
     }
 
-    public void onToggle() {
+    public void onToggle(){}
+
+    public void toggle() {
         if(isEnabled.getValue()){
             onDisable();
         }else{
