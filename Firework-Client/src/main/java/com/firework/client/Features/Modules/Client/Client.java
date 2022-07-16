@@ -3,10 +3,10 @@ package com.firework.client.Features.Modules.Client;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Timer;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @ModuleManifest(name = "Client",category = Module.Category.CLIENT)
@@ -45,5 +45,4 @@ public class Client extends Module {
         onEnable();
         timer.reset();
     }
-
 }

@@ -33,6 +33,8 @@
     "Chunks.MixinRenderChunk",
     "Chunks.MixinChunkRenderContainer",
     "Guis.MixinGuiScreen",
-    "IEntity"
+    "IEntity",
+    "ISPacketExplosion",
+    "ISPacketEntityVelocity"
   ]
 }

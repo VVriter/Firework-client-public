@@ -1,6 +1,5 @@
 package com.firework.client.Features.Modules.Render;
 
-import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;

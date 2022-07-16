@@ -1,20 +1,14 @@
 package com.firework.client.Features.Modules.Render;
 
-import com.firework.client.Features.Modules.Client.Test;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.entity.RenderArmorStand;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketExplosion;
-import net.minecraft.network.play.server.SPacketParticles;
 import net.minecraft.network.play.server.SPacketSpawnExperienceOrb;
 import net.minecraft.network.play.server.SPacketSpawnMob;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
