@@ -23,7 +23,7 @@ public class BreadCrumbs extends Module {
     public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(40, 50, 50), this);
 
     public Setting<Boolean> resetTimer = new Setting<>("ResetTimer", true, this);
-    public Setting<Double> timer = new Setting<>("Timer", 11.5d, this, 0, 60).setVisibility(resetTimer, true);
+    public Setting<Double> timer = new Setting<>("Timer", 11.5d, this, 0, 60).setVisibility(v-> resetTimer.getValue(true));
 
     public Setting<Boolean> clearOnDead = new Setting<>("ClearOnDead", true, this);
 

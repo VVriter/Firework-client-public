@@ -23,19 +23,19 @@ public class Step extends Module {
     public enum modes{
        MegaBypass, Vanilla
     }
-    public Setting<Boolean> stopMotion = new Setting<>("StopMotion", true, this).setVisibility(moderio,modes.MegaBypass);
-    public Setting<Boolean> shouldSneak = new Setting<>("Sneak", false, this).setVisibility(moderio,modes.MegaBypass);
-    public Setting<Boolean> forceGroundPacket = new Setting<>("ForceGround", true, this).setVisibility(moderio,modes.MegaBypass);
-    public Setting<Double> vanillaSpeed = new Setting<>("Speed", 2.1d, this, 1, 20).setVisibility(moderio,modes.MegaBypass);
+    public Setting<Boolean> stopMotion = new Setting<>("StopMotion", true, this).setVisibility(v-> moderio.getValue(modes.MegaBypass));
+    public Setting<Boolean> shouldSneak = new Setting<>("Sneak", false, this).setVisibility(v-> moderio.getValue(modes.MegaBypass));
+    public Setting<Boolean> forceGroundPacket = new Setting<>("ForceGround", true, this).setVisibility(v-> moderio.getValue(modes.MegaBypass));
+    public Setting<Double> vanillaSpeed = new Setting<>("Speed", 2.1d, this, 1, 20).setVisibility(v-> moderio.getValue(modes.MegaBypass));
 
-    public Setting<Double> boostTimer = new Setting<>("FWBoostDelayMs", 29.8d, this, 1, 200).setVisibility(moderio,modes.MegaBypass);
-    public Setting<Double> jumpTimerDelay = new Setting<>("JumpDelayMs", 185.6d, this, 1, 200).setVisibility(moderio,modes.MegaBypass);
+    public Setting<Double> boostTimer = new Setting<>("FWBoostDelayMs", 29.8d, this, 1, 200).setVisibility(v-> moderio.getValue(modes.MegaBypass));
+    public Setting<Double> jumpTimerDelay = new Setting<>("JumpDelayMs", 185.6d, this, 1, 200).setVisibility(v-> moderio.getValue(modes.MegaBypass));
 
-    public Setting<mode> moveMode = new Setting<>("Mode", mode.Motion, this, mode.values()).setVisibility(moderio,modes.MegaBypass);
+    public Setting<mode> moveMode = new Setting<>("Mode", mode.Motion, this, mode.values()).setVisibility(v-> moderio.getValue(modes.MegaBypass));
 
-    public Setting<Integer> Y = new Setting<>("Height", 1, this, 0, 10).setVisibility(moderio,modes.Vanilla);
-    public Setting<Boolean> reverse = new Setting<>("Reverse", false, this).setVisibility(moderio,modes.Vanilla);
-    public Setting<Boolean> entityStep = new Setting<>("EntityStep", false, this).setVisibility(moderio,modes.Vanilla);
+    public Setting<Integer> Y = new Setting<>("Height", 1, this, 0, 10).setVisibility(v-> moderio.getValue(modes.Vanilla));
+    public Setting<Boolean> reverse = new Setting<>("Reverse", false, this).setVisibility(v-> moderio.getValue(modes.Vanilla));
+    public Setting<Boolean> entityStep = new Setting<>("EntityStep", false, this).setVisibility(v-> moderio.getValue(modes.Vanilla));
     public enum mode{
         Motion, Tp, Combined
     }

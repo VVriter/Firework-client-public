@@ -14,7 +14,7 @@ public class F3Injection extends Module {
 
     public Setting<Boolean> Coords  = new Setting<>("Coords", true, this);
     public Setting<Boolean> FPS  = new Setting<>("FPS", true, this);
-    public Setting<String> fpsmode = new Setting<>("Mode", "Hide", this, Arrays.asList("Hide", "Fake")).setVisibility(FPS,true);
+    public Setting<String> fpsmode = new Setting<>("Mode", "Hide", this, Arrays.asList("Hide", "Fake")).setVisibility(v-> FPS.getValue(true));
     public Setting<Boolean> Direction  = new Setting<>("Direction", true, this);
     public Setting<Boolean> Biome  = new Setting<>("Biome ", true, this);
 

@@ -17,7 +17,7 @@ public class FullBright extends Module {
         Gamma, Potion, CustomTime
     }
 
-    public Setting<Double> time = new Setting<>("CustomTime", (double)3, this, 1, 23000).setVisibility(enumSetting,TestEnum.CustomTime);
+    public Setting<Double> time = new Setting<>("CustomTime", (double)3, this, 1, 23000).setVisibility(v-> enumSetting.getValue(TestEnum.CustomTime));
     @Override
     public void onEnable() {
         super.onEnable();

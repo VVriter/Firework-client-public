@@ -27,13 +27,13 @@ public class Reach extends Module {
     public Reach(){
         enabled = this.isEnabled;
         override = new Setting<>("Override", true, this);
-        reach = new Setting<>("Reach", (double)3, this, 1, 15).setVisibility(override,false);
-        add = new Setting<>("Add", (double)3, this, 1, 100).setVisibility(override,true);
+        reach = new Setting<>("Reach", (double)3, this, 1, 15).setVisibility(v-> override.getValue(false));
+        add = new Setting<>("Add", (double)3, this, 1, 100).setVisibility(v-> override.getValue(true));
 
         noMiningTraceBool = new Setting<>("NoMiningTrace", true, this);
-        pick = new Setting<>("Pickaxe", true, this).setVisibility(noMiningTraceBool,true);
-        gap = new Setting<>("GoldenApple", true, this).setVisibility(noMiningTraceBool,true);
-        obby = new Setting<>("Obsidian", true, this).setVisibility(noMiningTraceBool,true);
+        pick = new Setting<>("Pickaxe", true, this).setVisibility(v-> noMiningTraceBool.getValue(true));
+        gap = new Setting<>("GoldenApple", true, this).setVisibility(v-> noMiningTraceBool.getValue(true));
+        obby = new Setting<>("Obsidian", true, this).setVisibility(v-> noMiningTraceBool.getValue(true));
     }
 
     @Override

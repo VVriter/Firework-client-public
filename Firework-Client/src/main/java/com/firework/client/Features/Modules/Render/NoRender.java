@@ -27,7 +27,6 @@ public class NoRender extends Module {
         Misc, Particles
     }
 
-
     public static Setting<Boolean> enabled = null;
     public static Setting<Boolean> antiFog = null;
     public static Setting<Boolean> skylight = null;
@@ -54,24 +53,24 @@ public class NoRender extends Module {
         enabled = this.isEnabled;
 
 
-        antiFog = new Setting<>("AntiFog", true, this).setVisibility(page,pages.Misc);
-        skylight = new Setting<>("Skylight", true, this).setVisibility(page,pages.Misc);
-        totemPops = new Setting<>("TotemPops", true, this).setVisibility(page,pages.Misc);
-        hurtcam = new Setting<>("Hurtcam", true, this).setVisibility(page,pages.Misc);
-        weather = new Setting<>("Weather", true, this).setVisibility(page,pages.Misc);
-        hands = new Setting<>("Hands", true, this).setVisibility(page,pages.Misc);
-        fov = new Setting<>("Fov", true, this).setVisibility(page,pages.Misc);
-        blockBreak = new Setting<>("BlockBreak", true, this).setVisibility(page,pages.Misc);
-        enchatntTable = new Setting<>("EnchantTable", true, this).setVisibility(page,pages.Misc);
-        viewBobbing =  new Setting<>("ViewBobbing", true, this).setVisibility(page,pages.Misc);
-        blockoverlay =  new Setting<>("BlockOverlay", true, this).setVisibility(page,pages.Misc);
-        mob = new Setting<>("Mob", true, this).setVisibility(page,pages.Misc);
-        xp = new Setting<>("Xp", true, this).setVisibility(page,pages.Misc);
-        explosions = new Setting<>("Explosions", true, this).setVisibility(page,pages.Misc);
-        breakblock = new Setting<>("BreakBlock", false, this).setVisibility(page,pages.Misc);
+        antiFog = new Setting<>("AntiFog", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        skylight = new Setting<>("Skylight", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        totemPops = new Setting<>("TotemPops", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        hurtcam = new Setting<>("Hurtcam", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        weather = new Setting<>("Weather", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        hands = new Setting<>("Hands", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        fov = new Setting<>("Fov", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        blockBreak = new Setting<>("BlockBreak", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        enchatntTable = new Setting<>("EnchantTable", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        viewBobbing =  new Setting<>("ViewBobbing", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        blockoverlay =  new Setting<>("BlockOverlay", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        mob = new Setting<>("Mob", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        xp = new Setting<>("Xp", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        explosions = new Setting<>("Explosions", true, this).setVisibility(v-> page.getValue(pages.Misc));
+        breakblock = new Setting<>("BreakBlock", false, this).setVisibility(v-> page.getValue(pages.Misc));
 
 
-        breakingParticles = new Setting<>("BreakingParticles", true, this).setVisibility(page,pages.Particles);
+        breakingParticles = new Setting<>("BreakingParticles", true, this).setVisibility(v-> page.getValue(pages.Particles));
 
     }
 

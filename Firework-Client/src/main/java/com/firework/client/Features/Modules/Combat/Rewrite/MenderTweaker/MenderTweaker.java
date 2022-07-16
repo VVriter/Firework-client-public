@@ -22,17 +22,17 @@ public class MenderTweaker extends Module {
     public Setting<Double> mendDelay = new Setting<>("MendDelay", (double)3, this, 1, 500);
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
     public Setting<Boolean> armour = new Setting<>("Armour", true, this);
-    public Setting<Double> threshold = new Setting<>("Threshold", (double)3, this, 1, 100).setVisibility(armour,true);
-    public Setting<Boolean> autoDisable = new Setting<>("AutoDisable", true, this).setVisibility(armour,true);
-    public Setting<Boolean> autoArmour = new Setting<>("AutoArmour", true, this).setVisibility(armour,true);
-    public Setting<Double> autoArmourDelay = new Setting<>("AutoArmourDelay", (double)3, this, 1, 500).setVisibility(armour,true);
+    public Setting<Double> threshold = new Setting<>("Threshold", (double)3, this, 1, 100).setVisibility(v-> armour.getValue(true));
+    public Setting<Boolean> autoDisable = new Setting<>("AutoDisable", true, this).setVisibility(v-> armour.getValue(true));
+    public Setting<Boolean> autoArmour = new Setting<>("AutoArmour", true, this).setVisibility(v-> armour.getValue(true));
+    public Setting<Double> autoArmourDelay = new Setting<>("AutoArmourDelay", (double)3, this, 1, 500).setVisibility(v-> armour.getValue(true));
 
     public Setting<Enum> mendMode = new Setting<>("MendMode", mendModes.Auto, this, mendModes.values());
     public enum mendModes{
         Auto, Manual, CustomBind
     }
 
-    public Setting<Integer> key1 = new Setting<>("CustomKey", Keyboard.KEY_NONE, this).setVisibility(mendMode,mendModes.CustomBind);
+    public Setting<Integer> key1 = new Setting<>("CustomKey", Keyboard.KEY_NONE, this).setVisibility(v-> mendMode.getValue(mendModes.CustomBind));
 
     public Setting<Enum> switchMode = new Setting<>("SwitchMode", switchModes.Silent, this, switchModes.values());
     public enum switchModes{

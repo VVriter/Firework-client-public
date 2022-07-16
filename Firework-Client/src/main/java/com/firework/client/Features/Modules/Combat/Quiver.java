@@ -22,7 +22,7 @@ public class Quiver extends Module {
         Handly, Auto
     }
 
-    public Setting<switchmod> switchModes = new Setting<>("Switch", switchmod.Normal, this, switchmod.values()).setVisibility(mode,modes.Auto);
+    public Setting<switchmod> switchModes = new Setting<>("Switch", switchmod.Normal, this, switchmod.values()).setVisibility(v-> mode.getValue(modes.Auto));
     public enum switchmod{
         Normal, Multihand
     }

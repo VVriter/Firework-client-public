@@ -35,23 +35,21 @@ public class HoleEsp extends Module {
 
 
 
-    public Setting<HSLColor> startColorBebrok = new Setting<>("BedRockStart", new HSLColor(1, 54, 43), this).setVisibility(mode,modes.GradientBox);
-    public Setting<HSLColor> endColorBebrok = new Setting<>("BedrockEnd", new HSLColor(1, 54, 43), this).setVisibility(mode,modes.GradientBox);
+    public Setting<HSLColor> startColorBebrok = new Setting<>("BedRockStart", new HSLColor(1, 54, 43), this).setVisibility(v-> mode.getValue(modes.GradientBox));
+    public Setting<HSLColor> endColorBebrok = new Setting<>("BedrockEnd", new HSLColor(1, 54, 43), this).setVisibility(v-> mode.getValue(modes.GradientBox));
 
-    public Setting<HSLColor> startColorObby = new Setting<>("BedRockStart", new HSLColor(1, 54, 43), this).setVisibility(mode,modes.GradientBox);
-    public Setting<HSLColor> endColorObby = new Setting<>("BedrockEnd", new HSLColor(1, 54, 43), this).setVisibility(mode,modes.GradientBox);
+    public Setting<HSLColor> startColorObby = new Setting<>("BedRockStart", new HSLColor(1, 54, 43), this).setVisibility(v-> mode.getValue(modes.GradientBox));
+    public Setting<HSLColor> endColorObby = new Setting<>("BedrockEnd", new HSLColor(1, 54, 43), this).setVisibility(v-> mode.getValue(modes.GradientBox));
 
 
-    public Setting<Boolean> outline = new Setting<>("Outline", true, this).setVisibility(mode,modes.Box);
+    public Setting<Boolean> outline = new Setting<>("Outline", true, this).setVisibility(v-> mode.getValue(modes.Box));
 
     public Setting<Double> wight = new Setting<>("Wight", (double)10, this, 1, 20);
-    public Setting<Boolean> square = new Setting<>("Square", true, this).setVisibility(mode,modes.Crosses);
-    public Setting<Boolean> box1 = new Setting<>("Box", true, this).setVisibility(mode,modes.Crosses);
+    public Setting<Boolean> square = new Setting<>("Square", true, this).setVisibility(v-> mode.getValue(modes.Crosses));
+    public Setting<Boolean> box1 = new Setting<>("Box", true, this).setVisibility(v-> mode.getValue(modes.Crosses));
 
-    public Setting<Double> height = new Setting<>("Height", (double)0.5, this, -1, 20).setVisibility(mode,modes.Box);
-    public Setting<Boolean> box = new Setting<>("Box", true, this).setVisibility(mode,modes.Box);
-
-
+    public Setting<Double> height = new Setting<>("Height", (double)0.5, this, -1, 20).setVisibility(v-> mode.getValue(modes.Box));
+    public Setting<Boolean> box = new Setting<>("Box", true, this).setVisibility(v-> mode.getValue(modes.Box));
 
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent e) {

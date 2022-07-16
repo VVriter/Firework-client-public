@@ -36,7 +36,7 @@ public class BlockFlyRewrite extends Module {
     private Setting<Boolean> Tower  = new Setting<>("Tower", true, this);
 
     private Setting<Boolean> slowness  = new Setting<>("Slowness", true, this);
-    private Setting<Double> speed = new Setting<>("Speed", 0d, this, 0, 1).setVisibility(slowness, true);
+    private Setting<Double> speed = new Setting<>("Speed", 0d, this, 0, 1).setVisibility(v-> slowness.getValue(true));
 
     private Setting<Double> towerTimerDelay = new Setting<>("TowerDelayMs", 1.4d, this, 0, 4);
     private Setting<Double> rollBackDelay = new Setting<>("RollBackDelayS", 2.1d, this, 0, 3);

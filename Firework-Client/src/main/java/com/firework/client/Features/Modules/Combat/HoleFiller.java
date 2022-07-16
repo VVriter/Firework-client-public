@@ -32,9 +32,9 @@ public class HoleFiller extends Module {
     public Setting<Double> distance = new Setting<>("Distance", (double)5, this, 1, 10);
     public Setting<Double> tickDelay = new Setting<>("Delay", (double)1, this, 1, 10);
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
-    public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(rotate,true).setVisibility(rotate,true);
+    public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(v-> rotate.getValue(true));
     public Setting<Boolean> shuldDisableOnJump = new Setting<>("DisableOnJump", true, this);
-    public Setting<Boolean> shuldDisableOnOk = new Setting<>("DisableOnFill", true, this);
+    public Setting<Boolean> shuldDisableOnOk = new Setting<>("DisableOnFill", true, this).setVisibility(v-> rotate.getValue(true));
 
     public Setting<Boolean> autoBurrow = new Setting<>("AutoBurrow", true, this);
     public Setting<HSLColor> renderColor = new Setting<>("RenderColor", new HSLColor(1, 54, 43), this);

@@ -31,11 +31,11 @@ public class VoidESP extends Module {
 
     public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 54, 43), this);
     public Setting<Double> wight = new Setting<>("LineWight", (double)2, this, 1, 10);
-    public Setting<updowns> updown = new Setting<>("Mode", updowns.Down, this, updowns.values()).setVisibility(mode,modes.Crosses);
+    public Setting<updowns> updown = new Setting<>("Mode", updowns.Down, this, updowns.values()).setVisibility(v-> mode.getValue(modes.Crosses));
     public enum updowns{
         Up, Down
     }
-    public Setting<Double> hihgt = new Setting<>("Height", (double)2, this, 0, 10).setVisibility(mode,modes.Box);
+    public Setting<Double> hihgt = new Setting<>("Height", (double)2, this, 0, 10).setVisibility(v-> mode.getValue(modes.Box));
 
 
     private List<BlockPos> holes = new ArrayList<BlockPos>();

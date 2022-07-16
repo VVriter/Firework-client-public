@@ -15,8 +15,8 @@ public class EntityControl extends Module {
     public Setting<Boolean> saddle = new Setting<>("Saddle", true, this);
 
     public Setting<Boolean> EntitySpeed = new Setting<>("EntitySpeed", true, this);
-    public Setting<Double> speed = new Setting<>("Speed", (double)3, this, 0, 8).setVisibility(EntitySpeed,true);
-    public Setting<Boolean> antiStuck = new Setting<>("AntiStuck", true, this).setVisibility(EntitySpeed,true);
+    public Setting<Double> speed = new Setting<>("Speed", (double)3, this, 0, 8).setVisibility(v-> EntitySpeed.getValue(true));
+    public Setting<Boolean> antiStuck = new Setting<>("AntiStuck", true, this).setVisibility(v-> EntitySpeed.getValue(true));
     public EntityControl(){super("EntityControl",Category.WORLD);
         INSTANCE = this;
     }

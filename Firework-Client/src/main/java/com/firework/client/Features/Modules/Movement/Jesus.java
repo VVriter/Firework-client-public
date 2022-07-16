@@ -12,11 +12,11 @@ public class Jesus extends Module {
         Bypass, Strict, Bounce, Fly
     }
     public Setting<Boolean> speedBool = new Setting<>("Speed", true, this);
-    public Setting<Double> speedDouble = new Setting<>("Horizontal", (double)2.1, this, 1, 5).setVisibility(speedBool,true);
+    public Setting<Double> speedDouble = new Setting<>("Horizontal", (double)2.1, this, 1, 5).setVisibility(v-> speedBool.getValue(true));
 
-    public Setting<Double> UpSped = new Setting<>("UpSpeed", (double)0.3, this, 0.1, 1).setVisibility(mode,modes.Fly);
-    public Setting<Double> DpwnSped = new Setting<>("DownSpeed", (double)0.3, this, 0.1, 1).setVisibility(mode,modes.Fly);
-    public Setting<Boolean> antikick = new Setting<>("AntiKick", true, this).setVisibility(mode, modes.Fly);
+    public Setting<Double> UpSped = new Setting<>("UpSpeed", (double)0.3, this, 0.1, 1).setVisibility(v-> mode.getValue(modes.Fly));
+    public Setting<Double> DpwnSped = new Setting<>("DownSpeed", (double)0.3, this, 0.1, 1).setVisibility(v-> mode.getValue(modes.Fly));
+    public Setting<Boolean> antikick = new Setting<>("AntiKick", true, this).setVisibility(v-> mode.getValue(modes.Fly));
 
     public Setting<Boolean> entityJesus = new Setting<>("Entity", true, this);
     @Override

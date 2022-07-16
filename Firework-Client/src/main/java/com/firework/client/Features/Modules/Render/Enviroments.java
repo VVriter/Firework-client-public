@@ -15,14 +15,14 @@ public class Enviroments extends Module {
         Time, Sky
     }
 
-    public Setting<worlds> world = new Setting<>("World", worlds.OverWorld, this, worlds.values()).setVisibility(page,pages.Sky);
+    public Setting<worlds> world = new Setting<>("World", worlds.OverWorld, this, worlds.values()).setVisibility(v-> page.getValue(pages.Sky));
     public enum worlds{
         OverWorld, Hell
     }
-    public Setting<Double> time = new Setting<>("Time", (double) 0, this, 0, 23000).setVisibility(page,pages.Time);
+    public Setting<Double> time = new Setting<>("Time", (double) 0, this, 0, 23000).setVisibility(v-> page.getValue(pages.Time));
 
-    public Setting<HSLColor> mainWorld = new Setting<>("Color", new HSLColor(1, 54, 43), this).setVisibility(world,worlds.OverWorld);
-    public Setting<HSLColor> hellWorld = new Setting<>("Color", new HSLColor(1, 54, 43), this).setVisibility(world,worlds.Hell);
+    public Setting<HSLColor> mainWorld = new Setting<>("Color", new HSLColor(1, 54, 43), this).setVisibility(v-> world.getValue(worlds.OverWorld));
+    public Setting<HSLColor> hellWorld = new Setting<>("Color", new HSLColor(1, 54, 43), this).setVisibility(v-> world.getValue(worlds.Hell));
 
 
     public Enviroments() {

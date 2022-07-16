@@ -29,7 +29,7 @@ public class ItemViewModel extends Module {
     public static Setting<Boolean> SlowAnimations = null;
     public static Setting<Double> SlowVal = null;
 
-    public Setting<swings> swing = new Setting<>("Swing", swings.MainHand, this, swings.values()).setVisibility(page,pages.Misc);
+    public Setting<swings> swing = new Setting<>("Swing", swings.MainHand, this, swings.values()).setVisibility(v-> page.getValue(pages.Misc));
     public enum swings{
         MainHand,OffHand,None
     }
@@ -73,44 +73,44 @@ public class ItemViewModel extends Module {
 
     public ItemViewModel(){super("ItemViewModifer",Category.RENDER);
 
-        SlowAnimations = new Setting<>("SlowAnimations", false, this).setVisibility(page,pages.Misc);
-        SlowVal = new Setting<>("AnimationSpeed", (double)20, this, 1, 40).setVisibility(SlowAnimations,true);
+        SlowAnimations = new Setting<>("SlowAnimations", false, this).setVisibility(v-> page.getValue(pages.Misc));
+        SlowVal = new Setting<>("AnimationSpeed", (double)20, this, 1, 40).setVisibility(v-> SlowAnimations.getValue(true));
 
         enabled = this.isEnabled;
-        restTranslate = new Setting<>("Reset", false, this).setVisibility(page,pages.Translate);
-        noEat = new Setting<>("NoEat", true, this).setVisibility(page,pages.Translate);
-        translateX = new Setting<>("TranslateX", (double)0,this, -300, 300).setVisibility(page,pages.Translate);
-        translateY = new Setting<>("TranslateY", (double)0,this, -300, 300).setVisibility(page,pages.Translate);
-        translateZ = new Setting<>("TranslateZ", (double)0,this, -300, 300).setVisibility(page,pages.Translate);
+        restTranslate = new Setting<>("Reset", false, this).setVisibility(v-> page.getValue(pages.Translate));
+        noEat = new Setting<>("NoEat", true, this).setVisibility(v-> page.getValue(pages.Translate));
+        translateX = new Setting<>("TranslateX", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Translate));
+        translateY = new Setting<>("TranslateY", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Translate));
+        translateZ = new Setting<>("TranslateZ", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Translate));
 
-        resetRotations = new Setting<>("Reset", false, this).setVisibility(page,pages.Rotate);
-        rotateXR = new Setting<>("RotateXR", (double)0,this, -300, 300).setVisibility(page,pages.Rotate);
-        rotateYR = new Setting<>("RotateYR", (double)0,this, -300, 300).setVisibility(page,pages.Rotate);
-        rotateZR = new Setting<>("RotateZR", (double)0,this, -300, 300).setVisibility(page,pages.Rotate);
+        resetRotations = new Setting<>("Reset", false, this).setVisibility(v-> page.getValue(pages.Rotate));
+        rotateXR = new Setting<>("RotateXR", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Rotate));
+        rotateYR = new Setting<>("RotateYR", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Rotate));
+        rotateZR = new Setting<>("RotateZR", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Rotate));
 
-        rotateXL = new Setting<>("RotateXL", (double)0,this, -300, 300).setVisibility(page,pages.Rotate);
-        rotateYL = new Setting<>("RotateYL", (double)0,this, -300, 300).setVisibility(page,pages.Rotate);
-        rotateZL = new Setting<>("RotateZL", (double)0,this, -300, 300).setVisibility(page,pages.Rotate);
+        rotateXL = new Setting<>("RotateXL", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Rotate));
+        rotateYL = new Setting<>("RotateYL", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Rotate));
+        rotateZL = new Setting<>("RotateZL", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Rotate));
 
-        resetScale = new Setting<>("Reset", false, this).setVisibility(page,pages.Scale);
-        scaleX = new Setting<>("ScaleX", (double)100,this, -300, 300).setVisibility(page,pages.Scale);
-        scaleY = new Setting<>("ScaleY", (double)100,this, -300, 300).setVisibility(page,pages.Scale);
-        scaleZ = new Setting<>("ScaleZ", (double)100,this, -300, 300).setVisibility(page,pages.Scale);
+        resetScale = new Setting<>("Reset", false, this).setVisibility(v-> page.getValue(pages.Scale));
+        scaleX = new Setting<>("ScaleX", (double)100,this, -300, 300).setVisibility(v-> page.getValue(pages.Scale));
+        scaleY = new Setting<>("ScaleY", (double)100,this, -300, 300).setVisibility(v-> page.getValue(pages.Scale));
+        scaleZ = new Setting<>("ScaleZ", (double)100,this, -300, 300).setVisibility(v-> page.getValue(pages.Scale));
 
         //Animations
-        animationXR = new Setting<>("AnimationXR", false, this).setVisibility(page,pages.Animations);
-        animationXRSpeed = new Setting<>("SpeedXR", (double)1,this, 0, 500).setVisibility(page,pages.Animations);
-        animationYR = new Setting<>("AnimationYR", false, this).setVisibility(page,pages.Animations);
-        animationYRSpeed = new Setting<>("SpeedYR", (double)1,this, 0, 500).setVisibility(page,pages.Animations);
-        animationZR = new Setting<>("AnimationZR", false, this).setVisibility(page,pages.Animations);
-        animationZRSpeed = new Setting<>("SpeedZR", (double)1,this, 0, 500).setVisibility(page,pages.Animations);
+        animationXR = new Setting<>("AnimationXR", false, this).setVisibility(v-> page.getValue(pages.Animations));
+        animationXRSpeed = new Setting<>("SpeedXR", (double)1,this, 0, 500).setVisibility(v-> page.getValue(pages.Animations));
+        animationYR = new Setting<>("AnimationYR", false, this).setVisibility(v-> page.getValue(pages.Animations));
+        animationYRSpeed = new Setting<>("SpeedYR", (double)1,this, 0, 500).setVisibility(v-> page.getValue(pages.Animations));
+        animationZR = new Setting<>("AnimationZR", false, this).setVisibility(v-> page.getValue(pages.Animations));
+        animationZRSpeed = new Setting<>("SpeedZR", (double)1,this, 0, 500).setVisibility(v-> page.getValue(pages.Animations));
 
-        animationXL = new Setting<>("AnimationXL", false, this).setVisibility(page,pages.Animations);
-        animationXLSpeed = new Setting<>("ScaleX", (double)1,this, 0, 500).setVisibility(page,pages.Animations);
-        animationYL = new Setting<>("AnimationYL", false, this).setVisibility(page,pages.Animations);
-        animationYLSpeed = new Setting<>("SpeedYL", (double)1,this, 0, 500).setVisibility(page,pages.Animations);
-        animationZL = new Setting<>("AnimationZL", false, this).setVisibility(page,pages.Animations);
-        animationZLSpeed = new Setting<>("SpeedYZ", (double)1,this, 0, 500).setVisibility(page,pages.Animations);
+        animationXL = new Setting<>("AnimationXL", false, this).setVisibility(v-> page.getValue(pages.Animations));
+        animationXLSpeed = new Setting<>("ScaleX", (double)1,this, 0, 500).setVisibility(v-> page.getValue(pages.Animations));
+        animationYL = new Setting<>("AnimationYL", false, this).setVisibility(v-> page.getValue(pages.Animations));
+        animationYLSpeed = new Setting<>("SpeedYL", (double)1,this, 0, 500).setVisibility(v-> page.getValue(pages.Animations));
+        animationZL = new Setting<>("AnimationZL", false, this).setVisibility(v-> page.getValue(pages.Animations));
+        animationZLSpeed = new Setting<>("SpeedYZ", (double)1,this, 0, 500).setVisibility(v-> page.getValue(pages.Animations));
         }
 
         @Override

@@ -77,7 +77,7 @@ public class Gui extends GuiScreen {
                         if (m.isOpened.getValue()) {
                             for (Setting setting : settingManager.modulesSettings(m)) {
                                 Offset offsetObject = new Offset();
-                                if (!setting.hidden) {
+                                if (setting.isVisible()) {
                                     if (setting.mode == Setting.Mode.BOOL) {
                                         offsetObject.register(
                                                 new BoolButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10));
@@ -262,8 +262,6 @@ public class Gui extends GuiScreen {
                         button.initialize(mouseX, mouseY, state);
                         shouldInit = true;
                     }
-                    for (Setting setting : settingManager.settings)
-                        setting.updateSettingVisibility();
 
                     if (shouldInit)
                         init();

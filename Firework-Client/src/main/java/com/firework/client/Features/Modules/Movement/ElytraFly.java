@@ -13,9 +13,9 @@ public class ElytraFly extends Module {
     public enum modes{
         Control
     }
-    public Setting<Double> VerticalSpeed = new Setting<>("VerticalSpeed", (double)3, this, 1, 20).setVisibility(mode,modes.Control);
-    public Setting<Double> UpSpeed = new Setting<>("UpSpeed", (double)0.5, this, 1, 2).setVisibility(mode,modes.Control);
-    public Setting<Double> DownSpeed = new Setting<>("DownSpeed", (double)0.5, this, 1, 2).setVisibility(mode,modes.Control);
+    public Setting<Double> VerticalSpeed = new Setting<>("VerticalSpeed", (double)3, this, 1, 20).setVisibility(v-> mode.getValue(modes.Control));
+    public Setting<Double> UpSpeed = new Setting<>("UpSpeed", (double)0.5, this, 1, 2).setVisibility(v-> mode.getValue(modes.Control));
+    public Setting<Double> DownSpeed = new Setting<>("DownSpeed", (double)0.5, this, 1, 2).setVisibility(v-> mode.getValue(modes.Control));
 
     public Setting<Boolean> yawControl = new Setting<>("YawControl", true, this);
 

@@ -26,16 +26,16 @@ public class FastWebBeta extends Module {
     public enum modes {
         Timer, Motion
     }
-    public Setting<Double> reduction = new Setting<>("Reduction", (double)0.3, this, 0, 2).setVisibility(mode,modes.Motion);
-    public Setting<Double> ticks = new Setting<>("Reduction", (double)45, this, 40, 60).setVisibility(mode,modes.Timer);;
+    public Setting<Double> reduction = new Setting<>("Reduction", (double)0.3, this, 0, 2).setVisibility(v-> mode.getValue(modes.Motion));
+    public Setting<Double> ticks = new Setting<>("Reduction", (double)45, this, 40, 60).setVisibility(v-> mode.getValue(modes.Timer));;
 
     public Setting<Boolean> render = new Setting<>("Render", false, this);
-    public Setting<Double> range = new Setting<>("RenderRange", (double)10, this, 1, 20).setVisibility(render,true);
-    public Setting<PosRenderer.renderModes> renderMode = new Setting<>("SwitchMode", PosRenderer.renderModes.Beacon, this, PosRenderer.renderModes.values()).setVisibility(render,true);
-    public Setting<HSLColor> colorSetting = new Setting<>("colorN", new HSLColor(1, 54, 43), this).setVisibility(render,true);
-    public Setting<HSLColor> gradCo1 = new Setting<>("Color1", new HSLColor(1, 54, 43), this).setVisibility(render,true);
-    public Setting<HSLColor> gradCo2 = new Setting<>("Color2", new HSLColor(200, 54, 43), this).setVisibility(render,true);
-    public Setting<Double> width = new Setting<>("Width", (double)3, this, 1, 10).setVisibility(render,true);
+    public Setting<Double> range = new Setting<>("RenderRange", (double)10, this, 1, 20).setVisibility(v-> render.getValue(true));
+    public Setting<PosRenderer.renderModes> renderMode = new Setting<>("SwitchMode", PosRenderer.renderModes.Beacon, this, PosRenderer.renderModes.values()).setVisibility(v-> render.getValue(true));
+    public Setting<HSLColor> colorSetting = new Setting<>("colorN", new HSLColor(1, 54, 43), this).setVisibility(v-> render.getValue(true));
+    public Setting<HSLColor> gradCo1 = new Setting<>("Color1", new HSLColor(1, 54, 43), this).setVisibility(v-> render.getValue(true));
+    public Setting<HSLColor> gradCo2 = new Setting<>("Color2", new HSLColor(200, 54, 43), this).setVisibility(v-> render.getValue(true));
+    public Setting<Double> width = new Setting<>("Width", (double)3, this, 1, 10).setVisibility(v-> render.getValue(true));
 
     PosRenderer posRenderer;
     @Override public void onEnable() { super.onEnable();

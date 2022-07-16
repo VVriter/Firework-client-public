@@ -54,9 +54,9 @@ public class Button {
 
     public void draw(int mouseX, int mouseY){
         if(setting != null){
-            if(!setting.hidden) {
-                this.height = setting.hidden ? 0 : originHeight;
-                this.offset = setting.hidden ? 0 : originOffset;
+            if(setting.isVisible()) {
+                this.height = !setting.isVisible() ? 0 : originHeight;
+                this.offset = !setting.isVisible() ? 0 : originOffset;
             }else{
                 return;
             }

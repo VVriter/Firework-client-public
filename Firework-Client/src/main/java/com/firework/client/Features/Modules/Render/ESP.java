@@ -22,8 +22,8 @@ public class ESP extends Module {
 
 
     //Tunnels
-    public Setting<Boolean> tunnelsBool = new Setting<>("Tunnels", true, this).setVisibility(page,pages.Tunnels);
-    public Setting<Double> range = new Setting<>("Range", (double)20, this, 1, 50).setVisibility(page,pages.Tunnels);
+    public Setting<Boolean> tunnelsBool = new Setting<>("Tunnels", true, this).setVisibility(v-> page.getValue(pages.Tunnels));
+    public Setting<Double> range = new Setting<>("Range", (double)20, this, 1, 50).setVisibility(v-> page.getValue(pages.Tunnels));
 
 
 
@@ -42,15 +42,15 @@ public class ESP extends Module {
     public ESP() {
         super("ESP", Category.RENDER);
 
-        Items = new  Setting<>("Items", true, this).setVisibility(page,pages.Storages);
-        Chests = new Setting<>("Chest", true, this).setVisibility(page,pages.Storages);
-        Shulker = new Setting<>("Shulker", true, this).setVisibility(page,pages.Storages);
-        Hoper = new Setting<>("Hopper", true, this).setVisibility(page,pages.Storages);
-        Dropper = new Setting<>("Shulker", true, this).setVisibility(page,pages.Storages);
-        Dispanser = new Setting<>("Dispenser", true, this).setVisibility(page,pages.Storages);
-        Bed = new Setting<>("Bed", true, this).setVisibility(page,pages.Storages);
-        Spawner = new Setting<>("Spawner", true, this).setVisibility(page,pages.Storages);
-        Beacon = new Setting<>("Beacon", true, this).setVisibility(page,pages.Storages);
+        Items = new  Setting<>("Items", true, this).setVisibility(v-> page.getValue(pages.Storages));
+        Chests = new Setting<>("Chest", true, this).setVisibility(v-> page.getValue(pages.Storages));
+        Shulker = new Setting<>("Shulker", true, this).setVisibility(v-> page.getValue(pages.Storages));
+        Hoper = new Setting<>("Hopper", true, this).setVisibility(v-> page.getValue(pages.Storages));
+        Dropper = new Setting<>("Shulker", true, this).setVisibility(v-> page.getValue(pages.Storages));
+        Dispanser = new Setting<>("Dispenser", true, this).setVisibility(v-> page.getValue(pages.Storages));
+        Bed = new Setting<>("Bed", true, this).setVisibility(v-> page.getValue(pages.Storages));
+        Spawner = new Setting<>("Spawner", true, this).setVisibility(v-> page.getValue(pages.Storages));
+        Beacon = new Setting<>("Beacon", true, this).setVisibility(v-> page.getValue(pages.Storages));
     }
 
 

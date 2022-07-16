@@ -17,27 +17,27 @@ public class HighwayESP extends Module {
         General, Colors
     }
 
-    public Setting<zeropoints> zeropoint = new Setting<>("ZeroPoint", zeropoints.FromYou, this, zeropoints.values()).setVisibility(page,pages.General);
+    public Setting<zeropoints> zeropoint = new Setting<>("ZeroPoint", zeropoints.FromYou, this, zeropoints.values()).setVisibility(v-> page.getValue(pages.General));
     public enum zeropoints{
         FromYou, ZeroCords
     }
 
-    public Setting<ys> yzs = new Setting<>("Height", ys.FromYou, this, ys.values()).setVisibility(page,pages.General);
+    public Setting<ys> yzs = new Setting<>("Height", ys.FromYou, this, ys.values()).setVisibility(v-> page.getValue(pages.General));
     public enum ys{
         FromYou, Bedrock, Custom
     }
     public Setting<Double> lineWidth = new Setting<>("LineWidth", (double)3, this, 1, 10);
-    public Setting<Double> yVal = new Setting<>("CustomHeight", (double)100, this, 0, 255).setVisibility(page,pages.General);
+    public Setting<Double> yVal = new Setting<>("CustomHeight", (double)100, this, 0, 255).setVisibility(v-> page.getValue(pages.General));
 
-    public Setting<HSLColor> color1 = new Setting<>("++", new HSLColor(1, 54, 43), this).setVisibility(page,pages.Colors);
-    public Setting<HSLColor> color2 = new Setting<>("--", new HSLColor(1, 54, 43), this).setVisibility(page,pages.Colors);
-    public Setting<HSLColor> color3 = new Setting<>("+-", new HSLColor(1, 54, 43), this).setVisibility(page,pages.Colors);
-    public Setting<HSLColor> color4 = new Setting<>("-+", new HSLColor(1, 54, 43), this).setVisibility(page,pages.Colors);
+    public Setting<HSLColor> color1 = new Setting<>("++", new HSLColor(1, 54, 43), this).setVisibility(v-> page.getValue(pages.Colors));
+    public Setting<HSLColor> color2 = new Setting<>("--", new HSLColor(1, 54, 43), this).setVisibility(v-> page.getValue(pages.Colors));
+    public Setting<HSLColor> color3 = new Setting<>("+-", new HSLColor(1, 54, 43), this).setVisibility(v-> page.getValue(pages.Colors));
+    public Setting<HSLColor> color4 = new Setting<>("-+", new HSLColor(1, 54, 43), this).setVisibility(v-> page.getValue(pages.Colors));
 
-    public Setting<HSLColor> color5 = new Setting<>("X+", new HSLColor(1, 54, 43), this).setVisibility(page,pages.Colors);
-    public Setting<HSLColor> color6 = new Setting<>("X-", new HSLColor(1, 54, 43), this).setVisibility(page,pages.Colors);
-    public Setting<HSLColor> color7 = new Setting<>("Z-", new HSLColor(1, 54, 43), this).setVisibility(page,pages.Colors);
-    public Setting<HSLColor> color8 = new Setting<>("Z+", new HSLColor(1, 54, 43), this).setVisibility(page,pages.Colors);
+    public Setting<HSLColor> color5 = new Setting<>("X+", new HSLColor(1, 54, 43), this).setVisibility(v-> page.getValue(pages.Colors));
+    public Setting<HSLColor> color6 = new Setting<>("X-", new HSLColor(1, 54, 43), this).setVisibility(v-> page.getValue(pages.Colors));
+    public Setting<HSLColor> color7 = new Setting<>("Z-", new HSLColor(1, 54, 43), this).setVisibility(v-> page.getValue(pages.Colors));
+    public Setting<HSLColor> color8 = new Setting<>("Z+", new HSLColor(1, 54, 43), this).setVisibility(v-> page.getValue(pages.Colors));
 
 
     BlockPos pos;

@@ -21,8 +21,8 @@ public class Module extends Info{
 
     public String subCategory;
 
-    public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this).setVisibility(false);
-    public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this).setVisibility(false);
+    public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this).setVisibility(v-> false);
+    public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this).setVisibility(v-> false);
     public Setting<Integer> key = new Setting<>("Key", Keyboard.KEY_NONE, this);
     public Module(String name, Category category) {
         super(name);

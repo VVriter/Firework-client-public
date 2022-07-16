@@ -42,13 +42,13 @@ public class BlockFly extends Module {
     private Setting<Boolean> Tower  = new Setting<>("Tower", true, this);
 
     private Setting<Boolean> slowness  = new Setting<>("Slowness", true, this);
-    private Setting<Double> speed = new Setting<>("Delay", 0d, this, 0, 1).setVisibility(slowness, true);
+    private Setting<Double> speed = new Setting<>("Delay", 0d, this, 0, 1).setVisibility(v-> slowness.getValue(true));
 
     private Setting<Integer> flyTimerDelay = new Setting<>("FlyDelayMs", 116, this, 0, 400);
 
     private Setting<Boolean> onGround  = new Setting<>("OnGround", true, this);
     private Setting<Boolean> setPos  = new Setting<>("SetPos", false, this);
-    private Setting<Boolean> noLagBack  = new Setting<>("NoLagBag", false, this).setVisibility(setPos, true);
+    private Setting<Boolean> noLagBack  = new Setting<>("NoLagBag", false, this).setVisibility(v-> setPos.getValue(true));
 
     private Setting<Boolean> velocity  = new Setting<>("Velocity", true, this);
 

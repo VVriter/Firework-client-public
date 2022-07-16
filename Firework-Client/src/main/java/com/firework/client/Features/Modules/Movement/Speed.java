@@ -17,9 +17,9 @@ public class Speed extends Module{
     private final Timer timer = new Timer();
 
     public Setting<Enum> mode = new Setting<>("Mode", modes.Vanilla, this, modes.values());
-    public Setting<Double> vanillaSpeed = new Setting<>("Speed", (double)3, this, 1, 20).setVisibility(mode,modes.Vanilla);
-    public Setting<Boolean> step = new Setting<>("Step", true, this).setVisibility(mode,modes.YPort);
-    public Setting<Double> yPortSpeed = new Setting<>("Speed", (double)3, this, 1, 20).setVisibility(mode,modes.YPort);
+    public Setting<Double> vanillaSpeed = new Setting<>("Speed", (double)3, this, 1, 20).setVisibility(v-> mode.getValue(modes.Vanilla));
+    public Setting<Boolean> step = new Setting<>("Step", true, this).setVisibility(v-> mode.getValue(modes.YPort));
+    public Setting<Double> yPortSpeed = new Setting<>("Speed", (double)3, this, 1, 20).setVisibility(v-> mode.getValue(modes.YPort));
 
     @Override
     public void onEnable(){

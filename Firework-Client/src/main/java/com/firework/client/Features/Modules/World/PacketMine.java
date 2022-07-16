@@ -25,7 +25,7 @@ public class PacketMine extends Module {
     public Setting<Double> range = new Setting<>("Range", (double)5, this, 1, 10);
 
     public Setting<Boolean> queue = new Setting<>("Queue", false, this);
-    public Setting<Double> queueLimit = new Setting<>("QueueLimit", (double)7, this, 1, 20).setVisibility(queue,true);
+    public Setting<Double> queueLimit = new Setting<>("QueueLimit", (double)7, this, 1, 20).setVisibility(v-> queue.getValue(true));
 
     public Setting<HSLColor> renderColor = new Setting<>("RenderColor", new HSLColor(1, 54, 43), this);
 

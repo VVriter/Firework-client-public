@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static com.firework.client.Firework.settingManager;
 
@@ -21,6 +22,9 @@ public class Setting<T> {
     public Module module;
 
     public List<Object> list;
+
+    public Predicate<T> visibility;
+
     public int index = 0;
 
     public Mode mode;
@@ -29,11 +33,6 @@ public class Setting<T> {
     public double max;
 
     public boolean opened = false;
-
-    public boolean hidden = false;
-
-    public Setting targetSetting;
-    public Object targetValue;
 
     public Setting(String name, T value, Module module){
         this.name = name;
@@ -112,26 +111,17 @@ public class Setting<T> {
         return null;
     }
 
-    public Setting<T> setVisibility(boolean visibility){
-        this.hidden = !visibility;
+    public Setting<T> setVisibility(Predicate<T> visibility){
+        this.visibility = visibility;
         settingManager.updateSettingsByName(this);
         return this;
     }
 
-    public Setting<T> setVisibility(Setting setting, Object object){
-        this.targetSetting = setting;
-        this.targetValue = object;
-        settingManager.updateSettingsByName(this);
-        updateSettingVisibility();
-        settingManager.updateSettingsByName(this);
-        return this;
-    }
-
-    public void updateSettingVisibility(){
-        if(targetSetting != null && targetValue != null) {
-            this.hidden = targetSetting.getValue(targetValue) ? false : true;
-            settingManager.updateSettingsByName(this);
+    public boolean isVisible(){
+        if (this.visibility == null) {
+            return true;
         }
+        return this.visibility.test(this.getValue());
     }
 
     public T getValue(){

@@ -15,12 +15,12 @@ public class RotationLock extends Module {
     public enum pages{
        Yaw, Pitch
     }
-    public Setting<Boolean> yawBool = new Setting<>("Enable", true, this).setVisibility(page,pages.Yaw);
-    public Setting<String> dimension = new Setting<>("Dimension", "Normal", this, Arrays.asList("Normal", "Multi")).setVisibility(page,pages.Yaw);
-    public Setting<Double> intSpeed = new Setting<>("Speed", (double)20, this, 1, 100).setVisibility(page,pages.Yaw);
+    public Setting<Boolean> yawBool = new Setting<>("Enable", true, this).setVisibility(v-> page.getValue(pages.Yaw));
+    public Setting<String> dimension = new Setting<>("Dimension", "Normal", this, Arrays.asList("Normal", "Multi")).setVisibility(v-> page.getValue(pages.Yaw));
+    public Setting<Double> intSpeed = new Setting<>("Speed", (double)20, this, 1, 100).setVisibility(v-> page.getValue(pages.Yaw));
 
-    public Setting<Boolean> pitchBool = new Setting<>("Enable", false, this).setVisibility(page,pages.Pitch);
-    public Setting<Integer> pitch = new Setting<>("Pitch", 0, this, -90, 90).setVisibility(page,pages.Pitch);
+    public Setting<Boolean> pitchBool = new Setting<>("Enable", false, this).setVisibility(v-> page.getValue(pages.Pitch));
+    public Setting<Integer> pitch = new Setting<>("Pitch", 0, this, -90, 90).setVisibility(pv-> page.getValue(pages.Pitch));
 
 
     @Override

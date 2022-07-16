@@ -22,13 +22,13 @@ public class Crosshair extends Module {
 
     public Setting<Double> size = new Setting<>("Size", (double)30, this, -0.3, 300);
     public Setting<Double> lineWidth = new Setting<>("LineWidth", (double)5, this, 1, 10);
-    public Setting<HSLColor> startColor = new Setting<>("StartColor", new HSLColor(120, 54, 43), this).setVisibility(colorMode, colorModes.Gradient);
-    public Setting<HSLColor> endColor = new Setting<>("EndColor", new HSLColor(1, 54, 43), this).setVisibility(colorMode, colorModes.Gradient);
+    public Setting<HSLColor> startColor = new Setting<>("StartColor", new HSLColor(120, 54, 43), this).setVisibility(v-> colorMode.getValue(colorModes.Gradient));
+    public Setting<HSLColor> endColor = new Setting<>("EndColor", new HSLColor(1, 54, 43), this).setVisibility(v-> colorMode.getValue(colorModes.Gradient));
 
-    public Setting<HSLColor> staticColor = new Setting<>("Color", new HSLColor(1, 54, 43), this).setVisibility(colorMode, colorModes.Static);
+    public Setting<HSLColor> staticColor = new Setting<>("Color", new HSLColor(1, 54, 43), this).setVisibility(v-> colorMode.getValue(colorModes.Static));
 
     public Setting<Boolean> dot = new Setting<>("Dot", false, this);
-    public Setting<Double> dotSize = new Setting<>("DotSize", (double)3, this, -0.3, 100).setVisibility(dot,true);
+    public Setting<Double> dotSize = new Setting<>("DotSize", (double)3, this, -0.3, 100).setVisibility(v-> dot.getValue(true));
 
     @SubscribeEvent
     public void onRenderCrosshair(RenderGameOverlayEvent.Pre e) {

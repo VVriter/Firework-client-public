@@ -16,6 +16,6 @@ public class CameraClip extends Module {
     public CameraClip(){
         enabled = this.isEnabled;
         extend = new Setting<>("Custom", true, this);
-        valX =  new Setting<>("Distance", (double)10, this, 0, 50).setVisibility(extend,true);
+        valX =  new Setting<>("Distance", (double)10, this, 0, 50).setVisibility(v-> extend.getValue(true));
     }
 }

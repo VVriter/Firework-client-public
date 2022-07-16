@@ -17,7 +17,7 @@ public class Tracers extends Module {
         Tracers, Arrows
     }
 
-    public Setting<Double> width = new Setting<>("Width", (double)3, this, 1, 10).setVisibility(mode,modes.Tracers);
+    public Setting<Double> width = new Setting<>("Width", (double)3, this, 1, 10).setVisibility(v-> mode.getValue(modes.Tracers));
     public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 54, 43), this);
 
 
