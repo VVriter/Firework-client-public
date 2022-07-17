@@ -4,6 +4,7 @@ import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -15,13 +16,13 @@ public class HoleUtil {
 
     static final BlockPos[] surroundOffset = BlockUtil.toBlockPos(BlockUtil.holeOffsets);
 
-    public static List<BlockPos> calculateSingleHoles(int radius, boolean selfHole){
+    public static List<BlockPos> calculateSingleHoles(int radius, boolean empty){
         //Holes list
         ArrayList<BlockPos> holes = new ArrayList<>();
         //For each block in a given radius
         for(BlockPos pos : BlockUtil.getAll(radius)){
-            if(!selfHole && pos.equals(EntityUtil.getFlooredPos(mc.player))) continue;
             if(isAir(pos)){
+                if(empty && !isValid(pos)) continue;
                 boolean isSafe = true;
 
                 //Makes isSafe return false if surround offsets not contains obby or bedrock
@@ -37,6 +38,12 @@ public class HoleUtil {
             }
         }
         return holes;
+    }
+
+    public static boolean isValid(BlockPos pos){
+        if (!mc.world.checkNoEntityCollision(new AxisAlignedBB(pos)))
+            return false;
+        return true;
     }
 
     public static boolean isAir(BlockPos pos) {

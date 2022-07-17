@@ -103,7 +103,7 @@ public class HoleFiller extends Module {
             return;
         }
 
-        for(BlockPos pos : HoleUtil.calculateSingleHoles(radius.getValue(), false)){
+        for(BlockPos pos : HoleUtil.calculateSingleHoles(radius.getValue(), true)){
             if(isAir(pos) && !line.contains(pos))
                 line.add(pos);
         }
@@ -111,9 +111,9 @@ public class HoleFiller extends Module {
         placedBlocks.clear();
 
         for(BlockPos pos : line){
-            if(pos.equals(EntityUtil.getFlooredPos(mc.player))){
+            if(!HoleUtil.isValid(pos)){
                 placedBlocks.add(pos);
-                break;
+                continue;
             }
             if(timerMode.getValue(timers.Ms)){
                 if(placeTimerMs.hasPassedMs(placedDelayMs.getValue())){
@@ -133,7 +133,7 @@ public class HoleFiller extends Module {
 
         line.removeAll(placedBlocks);
 
-        if(shouldToggle.getValue() && HoleUtil.calculateSingleHoles(radius.getValue(), false).isEmpty())
+        if(shouldToggle.getValue() && HoleUtil.calculateSingleHoles(radius.getValue(), true).isEmpty())
             onDisable();
     }
 
