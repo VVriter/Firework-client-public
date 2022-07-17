@@ -1,6 +1,5 @@
 package com.firework.client.Features.Modules.Combat;
 
-import com.firework.client.Features.Modules.Example.Test;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Mixins.MixinsList.IEntity;
