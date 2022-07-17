@@ -7,8 +7,9 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketUseEntity;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
+import com.firework.client.Implementations.Utill.Items.ItemUser;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
-import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,11 +19,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.network.play.server.SPacketSpawnObject;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -32,10 +31,8 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @ModuleManifest(name = "AutoRerRewrite",category = Module.Category.COMBAT)
 public class AutoRerRewrite extends Module {
@@ -43,11 +40,13 @@ public class AutoRerRewrite extends Module {
 
     public Setting<Enum> page = new Setting<>("Page", pages.Place, this, pages.values());
     public enum pages{
-        Place, Break, Damage, ElseShit
+        Place, Break, Damage, ElseShit, Render
     }
     //Place
     public Setting<Integer> placeRange = new Setting<>("PlaceRange", 5, this, 1, 10).setVisibility(v-> page.getValue(pages.Place));
     public Setting<Integer> placeDelay = new Setting<>("PlaceDelay", 5, this, 0, 200).setVisibility(v-> page.getValue(pages.Place));
+    public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this, ItemUser.switchModes.values()).setVisibility(v-> page.getValue(pages.Place));
+    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> page.getValue(pages.Place));
 
     //Break
     public Setting<Integer> breakRange = new Setting<>("BreakRange", 5, this, 1, 10).setVisibility(v-> page.getValue(pages.Break));
@@ -67,12 +66,7 @@ public class AutoRerRewrite extends Module {
 
 
 
-
-
-
-
-
-
+    ItemUser placer;
     private final List<BlockPos> placedList;
     private final Timer breakTimer;
     private final Timer placeTimer;
@@ -84,8 +78,6 @@ public class AutoRerRewrite extends Module {
     private BlockPos placePos;
     private boolean offHand;
     public boolean rotating;
-    private float pitch;
-    private float yaw;
     private boolean offhand;
 
 
@@ -100,8 +92,6 @@ public class AutoRerRewrite extends Module {
         this.placePos = null;
         this.offHand = false;
         this.rotating = false;
-        this.pitch = 0.0f;
-        this.yaw = 0.0f;
     }
 
     @Override
@@ -199,15 +189,10 @@ public class AutoRerRewrite extends Module {
         }
         if (placePos != null) {
             if (this.placeTimer.hasPassedMs(this.placeDelay.getValue())) {
-                if (flag) {
-                    final int slot = ItemUtil.getItemFromHotbar(Items.END_CRYSTAL);
-                    if (slot == -1) {
-                        return;
-                    }
-                    this.mc.player.inventory.currentItem = slot;
-                }
                 this.placedList.add(placePos);
-                this.mc.getConnection().sendPacket((Packet)new CPacketPlayerTryUseItemOnBlock(placePos, EnumFacing.UP, this.offhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
+                if (placePos != null) {
+                 placer.useItem(Items.END_CRYSTAL,placePos, this.offhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
+                }
                 this.placeTimer.reset();
             }
             this.renderPos = placePos;
@@ -250,16 +235,6 @@ public class AutoRerRewrite extends Module {
 
     @SubscribeEvent
     public void onPacketSend(final PacketEvent.Send event) {
-     /*   if (this.rotate.getValue() != Rotate.OFF && this.rotating && event.getPacket() instanceof CPacketPlayer) {
-            final CPacketPlayer packet2 = (CPacketPlayer) event.getPacket();
-            packet2.getYaw(this.yaw);
-            packet2.getPitch(this.pitch);
-            ++this.rotationPacketsSpoofed;
-            if (this.rotationPacketsSpoofed >= this.rotations.getValue()) {
-                this.rotating = false;
-                this.rotationPacketsSpoofed = 0;
-            }
-        } */
         BlockPos pos = null;
         CPacketUseEntity packet3 = null;
         if (event.getPacket() instanceof CPacketUseEntity && (packet3 = (CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && packet3.getEntityFromWorld((World)mc.world) instanceof EntityEnderCrystal) {
@@ -268,23 +243,70 @@ public class AutoRerRewrite extends Module {
         if (event.getPacket() instanceof CPacketUseEntity && (packet3 = (CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && packet3.getEntityFromWorld((World)mc.world) instanceof EntityEnderCrystal) {
             final EntityEnderCrystal crystal = (EntityEnderCrystal)packet3.getEntityFromWorld((World)mc.world);
             if (EntityUtil.isCrystalAtFeet(crystal, this.targetRange.getValue()) && pos != null) {
-               // this.rotateToPos(pos);
-                BlockUtil.placeCrystalOnBlock(this.placePos, this.offHand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, true, false);
+                if (placePos != null) {
+                    placer.useItem(Items.END_CRYSTAL,placePos,this.offHand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
+                }
             }
         }
-      /*  if (event.getPacket() instanceof CPacketUseEntity && (packet3 = (CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && packet3.getEntityFromWorld((World)mc.world) instanceof EntityEnderCrystal && this.cancelcrystal.getValue()) {
-            final World world;
-            Objects.requireNonNull(packet3.getEntityFromWorld((World)mc.world)).setDead();
-            mc.world.removeEntityFromWorld(packet3.getEntityFromWorld((World) mc.world).getEntityId());
-        } */
+
     }
 
 
 
+
+
+
+
+
+    /*******************************************************RENDER STUFF**********************************************/
+
+
+    PosRenderer posRenderer;
+    public Setting<PosRenderer.renderModes> renderMode = new Setting<>("RenderMode", PosRenderer.renderModes.Box, this, PosRenderer.renderModes.values()).setVisibility(v-> page.getValue(pages.Render));
+    public Setting<PosRenderer.boxeMode> boxMode = new Setting<>("BoxMode", PosRenderer.boxeMode.Normal, this, PosRenderer.boxeMode.values()).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && page.getValue(pages.Render));
+    public Setting<HSLColor> fillColor = new Setting<>("FillColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) && renderMode.getValue(PosRenderer.renderModes.Box) && page.getValue(pages.Render));
+    public Setting<Double> boxHeightNormal = new Setting<>("BoxHeight", (double)1, this, -0.3, 5).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) && renderMode.getValue(PosRenderer.renderModes.Box) && page.getValue(pages.Render));
+    public Setting<HSLColor> fillColor1 = new Setting<>("StartColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) && renderMode.getValue(PosRenderer.renderModes.Box) && page.getValue(pages.Render));
+    public Setting<HSLColor> fillColor2 = new Setting<>("EndColor", new HSLColor(200, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) && renderMode.getValue(PosRenderer.renderModes.Box) && page.getValue(pages.Render));
+
+
+
+    public Setting<PosRenderer.outlineModes> outlineMode = new Setting<>("OutlineMode", PosRenderer.outlineModes.Normal, this, PosRenderer.outlineModes.values()).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && page.getValue(pages.Render));
+    public Setting<HSLColor> gradientOutlineColor1 = new Setting<>("FirstColor", new HSLColor(1, 54, 43), this).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Gradient) && page.getValue(pages.Render));
+    public Setting<HSLColor> gradientOutlineColor2 = new Setting<>("SecondColor", new HSLColor(200, 54, 43), this).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Gradient) && page.getValue(pages.Render));
+    public Setting<HSLColor> colorOutline = new Setting<>("ColorOutline", new HSLColor(200, 54, 43), this).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Normal) && page.getValue(pages.Render));
+    public Setting<Double> outlineHeightNormal = new Setting<>("OutlineHeight", (double)1, this, -0.3, 5).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Normal) && page.getValue(pages.Render));
+    public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && !outlineMode.getValue(PosRenderer.outlineModes.None) && page.getValue(pages.Render));
+
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        placer = new ItemUser(this,switchMode,rotate);
+        posRenderer = new PosRenderer(this,renderMode,boxMode,outlineMode);
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        posRenderer = null;
+    }
+
     @SubscribeEvent
     public void onrender(RenderWorldLastEvent e) {
         if (renderPos != null) {
-            RenderUtils.drawGradientFilledBox(this.renderPos,color.getValue().toRGB(),Color.BLUE);
+            posRenderer.doRender(
+                    renderPos,
+                    colorOutline.getValue().toRGB(),
+                    gradientOutlineColor1.getValue().toRGB(),
+                    gradientOutlineColor2.getValue().toRGB(),
+                    fillColor.getValue().toRGB(),
+                    fillColor1.getValue().toRGB(),
+                    fillColor2.getValue().toRGB(),
+                    outlineWidth.getValue(),
+                    boxHeightNormal.getValue().floatValue(),
+                    outlineHeightNormal.getValue().floatValue()
+            );
         }
     }
 }
