@@ -1,7 +1,6 @@
 package com.firework.client.Features.Modules.Client;
 
-import com.firework.client.Features.AltManagerRewrite.Guis.AltManagerGui;
-import com.firework.client.Features.IngameGuis.GuiDisconnected.DisconnectedGui;
+import com.firework.client.Features.AltManager.Guis.AltManagerGui;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
@@ -11,17 +10,13 @@ import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiEditSign;
-import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.fml.client.GuiModList;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
