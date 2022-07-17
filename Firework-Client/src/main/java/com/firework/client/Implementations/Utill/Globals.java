@@ -17,6 +17,7 @@ public interface Globals {
     EventBus EVENT_BUS = MinecraftForge.EVENT_BUS;
 
     String MESSAGE_PREFIX = ChatFormatting.DARK_PURPLE + "[Nebula]" + ChatFormatting.RESET;
+    Minecraft MC = Minecraft.getMinecraft();
 
     /**
      * Shows a chat message with optional deletion

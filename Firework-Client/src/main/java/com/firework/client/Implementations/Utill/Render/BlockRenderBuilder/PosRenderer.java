@@ -3,68 +3,70 @@ package com.firework.client.Implementations.Utill.Render.BlockRenderBuilder;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.util.math.BlockPos;
 
 import java.awt.*;
 
+
 public class PosRenderer {
+
     private Module module;
     private Setting<PosRenderer.renderModes> renderMode;
+    private Setting<PosRenderer.boxeMode> boxModes;
+    private Setting<PosRenderer.outlineModes> outlineMode;
 
-    public PosRenderer(Module module, Setting renderMode){
+    public PosRenderer(Module module, Setting renderMode, Setting boxModes, Setting outlineMode){
         this.module = module;
         this.renderMode = renderMode;
+        this.boxModes = boxModes;
+        this.outlineMode = outlineMode;
     }
 
-    public void doRender(BlockPos posTorender, Color color, float with, Color gradientColor1, Color gradientColor2) {
-        if (posTorender != null) {
-            if (renderMode.getValue(renderModes.OutLine)) {
-                new BlockRenderBuilder(posTorender)
-                        .addRenderModes(
-                                new RenderMode(RenderMode.renderModes.OutLine,
-                                        color,
-                                        with)
-                        ).render();
-            }  else if (renderMode.getValue(renderModes.Fill)) {
-                new BlockRenderBuilder(posTorender)
-                        .addRenderModes(
-                                new RenderMode(RenderMode.renderModes.Fill,
-                                        color)
-                        ).render();
-            }  else if (renderMode.getValue(renderModes.Beacon)) {
-                new BlockRenderBuilder(posTorender)
-                        .addRenderModes(
-                                new RenderMode(RenderMode.renderModes.Beacon,
-                                        color)
-                        ).render();
-            } else if (renderMode.getValue(renderModes.FilledGradient)) {
-                new BlockRenderBuilder(posTorender)
-                        .addRenderModes(
-                                new RenderMode(RenderMode.renderModes.FilledGradient,
-                                        gradientColor1,
-                                        gradientColor2
-                                )
-                        ).render();
-            } else if (renderMode.getValue(renderModes.OutlineGradient)) {
-                new BlockRenderBuilder(posTorender)
-                        .addRenderModes(
-                                new RenderMode(RenderMode.renderModes.OutlineGradient,
-                                        gradientColor1,
-                                        gradientColor2,
-                                        with
-                                )
-                        ).render();
+    public void doRender(BlockPos posTorender, Color outlineColor, Color outlineColor1,Color outlineColor2, Color fillColor, Color fillColorStart, Color fillColorEnd, int width, float heightBox, float heightOutline) {
+        if (renderMode.getValue(renderModes.Box)) {
+            if (boxModes.getValue(boxeMode.Normal)) {
+                RenderUtils.drawBoxESP(posTorender,fillColor,width,false,true,fillColor.getAlpha(),heightBox);
+            } else if (boxModes.getValue(boxeMode.Gradient)) {
+                RenderUtils.drawGradientFilledBox(posTorender,fillColorStart,fillColorEnd);
+            }
+
+
+            if (outlineMode.getValue(outlineModes.Normal)) {
+               RenderUtils.drawBoxESP(
+                       posTorender,
+                       outlineColor,
+                       width,
+                       true,
+                       false,
+                       0,
+                       heightOutline
+                       );
+            } else if (outlineMode.getValue(outlineModes.Gradient)) {
+               RenderUtils.drawGradientBlockOutline(
+                       posTorender,
+                       outlineColor1,
+                       outlineColor2,
+                       width
+               );
             }
         }
     }
 
-    //Update settings
     private void updateSettings(){
         this.renderMode = Firework.settingManager.getSetting(module, renderMode.name);
     }
 
-    //Switch modes
+
+    public enum boxeMode{
+        Normal, Gradient, None
+    }
+
+    public enum outlineModes{
+        Normal, Gradient, None
+    }
+
     public enum renderModes{
-        OutLine, Fill, OutlineGradient, FilledGradient, Beacon
+        Box, Beacon
     }
 }

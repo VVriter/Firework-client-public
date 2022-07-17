@@ -5,7 +5,10 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
+import com.firework.client.Implementations.Utill.Globals;
 import com.firework.client.Implementations.Utill.Timer;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -89,6 +92,16 @@ public class Speed extends Module{
                 mc.player.jump();
                 mc.player.motionY = 0.25;
             }
+        } else if (mode.getValue(modes.TunnelSpeed)) {
+            BlockPos pos = new BlockPos(Globals.mc.player.posX, Globals.mc.player.posY + 2.0, Globals.mc.player.posZ);
+            BlockPos pos2 = new BlockPos(Globals.mc.player.posX, Globals.mc.player.posY - 1.0, Globals.mc.player.posZ);
+            if (Globals.mc.world.getBlockState(pos).getBlock() != Blocks.AIR && Globals.mc.world.getBlockState(pos).getBlock() != Blocks.PORTAL && Globals.mc.world.getBlockState(pos).getBlock() != Blocks.END_PORTAL && Globals.mc.world.getBlockState(pos).getBlock() != Blocks.WATER && Globals.mc.world.getBlockState(pos).getBlock() != Blocks.FLOWING_WATER && Globals.mc.world.getBlockState(pos).getBlock() != Blocks.LAVA && Globals.mc.world.getBlockState(pos).getBlock() != Blocks.FLOWING_LAVA && Globals.mc.world.getBlockState(pos2).getBlock() != Blocks.ICE && Globals.mc.world.getBlockState(pos2).getBlock() != Blocks.FROSTED_ICE && Globals.mc.world.getBlockState(pos2).getBlock() != Blocks.PACKED_ICE && !Globals.mc.player.isInWater()) {
+                float yaw = (float)Math.toRadians(mc.player.rotationYaw);
+                if (Globals.mc.gameSettings.keyBindForward.isKeyDown() && !Globals.mc.gameSettings.keyBindSneak.isKeyDown() && Globals.mc.player.onGround) {
+                    Globals.mc.player.motionX -= (double)Math.sin(yaw) * 0.15;
+                    Globals.mc.player.motionZ += (double)Math.cos(yaw) * 0.15;
+                }
+            }
         }
     }
 
@@ -97,6 +110,6 @@ public class Speed extends Module{
 
     }
     public enum modes{
-        Vanilla, YPort, Strafe, BHop, MiniJumps
+        Vanilla, YPort, Strafe, BHop, MiniJumps, TunnelSpeed
     }
 }
