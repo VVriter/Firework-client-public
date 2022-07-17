@@ -1,4 +1,4 @@
-package com.firework.client.Features.AltManagerRewrite.Guis;
+package com.firework.client.Features.AltManager.Guis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

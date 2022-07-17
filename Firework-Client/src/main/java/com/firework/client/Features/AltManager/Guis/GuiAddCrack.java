@@ -1,4 +1,4 @@
-package com.firework.client.Features.AltManagerRewrite.Guis;
+package com.firework.client.Features.AltManager.Guis;
 
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import net.minecraft.client.Minecraft;
