@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Utill.Render;
 
 import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
+import com.firework.client.Implementations.Utill.Globals;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -640,6 +641,72 @@ public class RenderUtils {
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+    }
+
+    public static void drawFreecamESP(double x1, double y1, double z1, int red, int green, int blue) {
+        try {
+            double renderPosX = Globals.MC.getRenderManager().viewerPosX;
+            double renderPosY = Globals.MC.getRenderManager().viewerPosY;
+            double renderPosZ = Globals.MC.getRenderManager().viewerPosZ;
+            GL11.glPushMatrix();
+            GL11.glEnable((int)3042);
+            GL11.glBlendFunc((int)770, (int)771);
+            GL11.glLineWidth((float)2.0f);
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)3553);
+            GL11.glLineWidth((float)2.0f);
+            GL11.glEnable((int)2848);
+            GL11.glDisable((int)2929);
+            GL11.glDepthMask((boolean)false);
+            GL11.glColor4d((double)red, (double)green, (double)blue, (double)0.1825f);
+            double x = x1 - renderPosX;
+            double y = y1 - renderPosY;
+            double z = z1 - renderPosZ;
+            RenderUtils.drawSelectionBoundingBox(new AxisAlignedBB(x, y, z, x + 0.6, y + 1.8, z + 0.6));
+            GL11.glColor4d((double)red, (double)green, (double)blue, (double)1.0);
+            RenderUtils.drawSelectionBoundingBox(new AxisAlignedBB(x, y, z, x + 0.6, y + 1.8, z + 0.6));
+            GL11.glLineWidth((float)2.0f);
+            GL11.glDisable((int)2848);
+            GL11.glEnable((int)3553);
+            GL11.glEnable((int)2896);
+            GL11.glDisable((int)2896);
+            GL11.glEnable((int)2929);
+            GL11.glDepthMask((boolean)true);
+            GL11.glDisable((int)3042);
+            GL11.glPopMatrix();
+        }
+        catch (Exception exception) {
+            // empty catch block
+        }
+    }
+
+    public static void drawSelectionBoundingBox(AxisAlignedBB boundingBox) {
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder vertexbuffer = tessellator.getBuffer();
+        vertexbuffer.begin(3, DefaultVertexFormats.POSITION);
+        vertexbuffer.pos(boundingBox.minX, boundingBox.minY, boundingBox.minZ).endVertex();
+        vertexbuffer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.minZ).endVertex();
+        vertexbuffer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.maxZ).endVertex();
+        vertexbuffer.pos(boundingBox.minX, boundingBox.minY, boundingBox.maxZ).endVertex();
+        vertexbuffer.pos(boundingBox.minX, boundingBox.minY, boundingBox.minZ).endVertex();
+        tessellator.draw();
+        vertexbuffer.begin(3, DefaultVertexFormats.POSITION);
+        vertexbuffer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.minZ).endVertex();
+        vertexbuffer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.minZ).endVertex();
+        vertexbuffer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.maxZ).endVertex();
+        vertexbuffer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.maxZ).endVertex();
+        vertexbuffer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.minZ).endVertex();
+        tessellator.draw();
+        vertexbuffer.begin(1, DefaultVertexFormats.POSITION);
+        vertexbuffer.pos(boundingBox.minX, boundingBox.minY, boundingBox.minZ).endVertex();
+        vertexbuffer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.minZ).endVertex();
+        vertexbuffer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.minZ).endVertex();
+        vertexbuffer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.minZ).endVertex();
+        vertexbuffer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.maxZ).endVertex();
+        vertexbuffer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.maxZ).endVertex();
+        vertexbuffer.pos(boundingBox.minX, boundingBox.minY, boundingBox.maxZ).endVertex();
+        vertexbuffer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.maxZ).endVertex();
+        tessellator.draw();
     }
 
 }
