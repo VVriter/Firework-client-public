@@ -11,7 +11,7 @@ import net.minecraft.network.play.server.SPacketExplosion;
 import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@ModuleManifest(name = "VelocityRewrite",category = Module.Category.COMBAT)
+@ModuleManifest(name = "Velocity",category = Module.Category.COMBAT)
 public class Velocity extends Module {
 
     public Setting<Boolean> velocityPacket = new Setting<>("KnockBack", true, this);
