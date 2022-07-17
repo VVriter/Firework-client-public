@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat.Rewrite.HoleFiller;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Features.Modules.Movement.Step;
 import com.firework.client.Features.Modules.World.Burrow.SelfBlock;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
@@ -98,6 +99,14 @@ public class HoleFiller extends Module {
     public void onTick() {
         super.onTick();
 
+        if (shouldDisableOnJump.getValue() && mc.gameSettings.keyBindJump.isKeyDown()) {
+            onDisable();
+        }
+
+        if (mc.player.collidedHorizontally && shouldDisableOnJump.getValue() && Step.enabled.getValue()) {
+            onDisable();
+        }
+
         if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
             MessageUtil.sendError("No obby found in the hotbar", -1117);
             return;
@@ -142,15 +151,6 @@ public class HoleFiller extends Module {
         placedBlocks.add(pos);
         placeTimerMs.reset();
     }
-
-    @SubscribeEvent
-    public void onPlayerJump(LivingEvent.LivingJumpEvent e){
-        if(e.getEntity() instanceof EntityPlayer){
-            if(shouldDisableOnJump.getValue())
-                onDisable();
-        }
-    }
-
     @SubscribeEvent
     public void onRender(final RenderWorldLastEvent event){
         if(line == null) return;

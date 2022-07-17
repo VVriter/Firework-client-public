@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Features.Modules.Movement.Step;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
@@ -9,6 +10,7 @@ import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.MotionUtil;
 import com.firework.client.Implementations.Utill.Timer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -72,6 +74,15 @@ public class Surround extends Module {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onTick(final TickEvent.ClientTickEvent event) {
         super.onTick();
+
+        if (shouldDisableOnJump.getValue() && mc.gameSettings.keyBindJump.isKeyDown()) {
+            onDisable();
+        }
+
+        if (mc.player.collidedHorizontally && shouldDisableOnJump.getValue() && Step.enabled.getValue()) {
+            onDisable();
+        }
+
         if(mc.player == null || mc.world == null) return;
 
         if(first) {
@@ -120,15 +131,6 @@ public class Surround extends Module {
 
         line.removeAll(placedBlocks);
     }
-
-    @SubscribeEvent
-    public void onPlayerJump(LivingEvent.LivingJumpEvent e){
-        if(e.getEntity() instanceof EntityPlayer){
-            if(shouldDisableOnJump.getValue())
-                onDisable();
-        }
-    }
-
     //Returns blocks to place
     public BlockPos[] blockToPlace() {
         BlockPos p = EntityUtil.getFlooredPos(mc.player);

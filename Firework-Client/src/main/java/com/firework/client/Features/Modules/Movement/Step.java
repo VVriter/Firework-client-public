@@ -45,7 +45,10 @@ public class Step extends Module {
 
     private Timer fowardBoostTimer;
     private Timer jumpTimer;
-
+    public static Setting<Boolean> enabled = null;
+    public Step() {
+        enabled = this.isEnabled;
+    }
     @Override
     public void onEnable() {
         super.onEnable();
@@ -66,7 +69,11 @@ public class Step extends Module {
         super.onTick();
 
         if (moderio.getValue(modes.Vanilla)) {
-            mc.player.stepHeight = Y.getValue().floatValue();
+            if (mc.player.collidedHorizontally) {
+                mc.player.stepHeight = Y.getValue().floatValue();
+            } else {
+                mc.player.stepHeight = 0.6f;
+            }
             if(reverse.getValue()){
                 if(mc.player.onGround){
                     mc.player.motionY -= 1.0;
