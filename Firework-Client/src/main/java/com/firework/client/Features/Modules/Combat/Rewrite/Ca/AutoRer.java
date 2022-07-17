@@ -43,24 +43,45 @@ import java.util.Objects;
 @ModuleManifest(name = "AutoRer",category = Module.Category.COMBAT)
 public class AutoRer extends Module {
 
-    public Setting<Enum> settings = new Setting<>("Settings", sets.Place, this, sets.values());
-    public enum sets{
-        Place,
-        Break,
-        Render,
-        AdvancedRender,
-        Misc;
+    public Setting<Enum> page = new Setting<>("Page", pages.Place, this, pages.values());
+    public enum pages{
+        Place, Break, Damage, ElseShit
     }
+    //Place
+    public Setting<Integer> placeRange = new Setting<>("PlaceRange", 5, this, 1, 10).setVisibility(v-> page.getValue(pages.Place));
+    public Setting<Integer> placeDelay = new Setting<>("PlaceDelay", 5, this, 0, 200).setVisibility(v-> page.getValue(pages.Place));
 
-    public Setting<Enum> rotate = new Setting<>("InfoMode", Rotate.All, this, Rotate.values());
-    public enum Rotate{
-        OFF,
-        Place,
-        Break,
-        All;
-    }
+    //Break
+    public Setting<Integer> breakRange = new Setting<>("BreakRange", 5, this, 1, 10).setVisibility(v-> page.getValue(pages.Break));
+    public Setting<Integer> breakDelay = new Setting<>("BreakDelay", 5, this, 0, 200).setVisibility(v-> page.getValue(pages.Break));
+    public Setting<Integer> breakWallRange = new Setting<>("BreakWallRange", 5, this, 1, 10).setVisibility(v-> page.getValue(pages.Break));
 
-    public Setting<Enum> raytrace = new Setting<>("InfoMode", Rotate.All, this, Rotate.values());
+    //Damages
+    public Setting<Integer> minDamage = new Setting<>("MinDamage", 1, this, 0, 30).setVisibility(v-> page.getValue(pages.Damage));
+    public Setting<Integer> maxSelf = new Setting<>("MaxSelf", 20, this, 1, 20).setVisibility(v-> page.getValue(pages.Damage));
+    public Setting<Integer> lethalMult = new Setting<>("LethalMult", 0, this, 0, 6).setVisibility(v-> page.getValue(pages.Damage));
+
+
+
+    public Setting<Integer> range = new Setting<>("Range", 5, this, 1, 10).setVisibility(v-> page.getValue(pages.ElseShit));
+
+    public Setting<Integer> rotations = new Setting<>("rotationsSpoofs", 20, this, 1, 20).setVisibility(v-> page.getValue(pages.ElseShit));
+    public Setting<Double> placetrace = new Setting<>("placetrace", (double)5, this, 1, 10).setVisibility(v-> page.getValue(pages.ElseShit));
+
+    public Setting<Boolean> PredictPlayerPos = new Setting<>("PredictPlayerPos", false, this).setVisibility(v-> page.getValue(pages.ElseShit));
+    public Setting<Boolean> offhandS = new Setting<>("offhandS", true, this).setVisibility(v-> page.getValue(pages.ElseShit));
+    public Setting<Boolean> second = new Setting<>("second", false, this).setVisibility(v-> page.getValue(pages.ElseShit));
+    public Setting<Boolean> autoSwitch = new Setting<>("second", false, this).setVisibility(v-> page.getValue(pages.ElseShit));
+    public Setting<Boolean> cancelcrystal = new Setting<>("second", false, this).setVisibility(v-> page.getValue(pages.ElseShit));
+
+
+    public Setting<Integer> armorScale = new Setting<>("armorScale", 100, this, 0, 100).setVisibility(v-> page.getValue(pages.ElseShit));
+
+    public Setting<HSLColor> color = new Setting<>("color", new HSLColor(1, 54, 43), this).setVisibility(v-> page.getValue(pages.ElseShit));
+
+
+
+    public Setting<Raytrace> raytrace = new Setting<>("InfoMode", Raytrace.None, this, Rotate.values());
     public enum Raytrace{
         None,
         Place,
@@ -68,28 +89,19 @@ public class AutoRer extends Module {
         Both;
     }
 
-    public Setting<Integer> range = new Setting<>("Range", 5, this, 1, 10);
-    public Setting<Integer> minDamage = new Setting<>("minDamage", 1, this, 0, 30);
-    public Setting<Integer> lethalMult = new Setting<>("lethalMult", 0, this, 0, 6);
-    public Setting<Integer> breakRange = new Setting<>("breakRange", 5, this, 1, 10);
-    public Setting<Integer> breakWallRange = new Setting<>("breakWallRange", 5, this, 1, 10);
-    public Setting<Integer> breakDelay = new Setting<>("breakDelay", 5, this, 0, 200);
-    public Setting<Integer> placeDelay = new Setting<>("placeDelay", 5, this, 0, 200);
-    public Setting<Integer> maxSelf = new Setting<>("maxSelf", 20, this, 1, 20);
-    public Setting<Integer> placeRange = new Setting<>("placeRange", 5, this, 1, 10);
-    public Setting<Integer> rotations = new Setting<>("rotationsSpoofs", 20, this, 1, 20);
-    public Setting<Double> placetrace = new Setting<>("placetrace", (double)5, this, 1, 10);
-
-    public Setting<Boolean> PredictPlayerPos = new Setting<>("PredictPlayerPos", false, this);
-    public Setting<Boolean> offhandS = new Setting<>("offhandS", true, this);
-    public Setting<Boolean> second = new Setting<>("second", false, this);
-    public Setting<Boolean> autoSwitch = new Setting<>("second", false, this);
-    public Setting<Boolean> cancelcrystal = new Setting<>("second", false, this);
+    public Setting<Rotate> rotate = new Setting<>("InfoMode", Rotate.OFF, this, Rotate.values()).setVisibility(v-> page.getValue(pages.ElseShit));
+    public enum Rotate{
+        OFF,
+        Place,
+        Break,
+        All;
+    }
 
 
-    public Setting<Integer> armorScale = new Setting<>("armorScale", 100, this, 0, 100);
 
-    public Setting<HSLColor> color = new Setting<>("color", new HSLColor(1, 54, 43), this);
+
+
+
 
     private final List<BlockPos> placedList;
     private final Timer breakTimer;
@@ -260,7 +272,7 @@ public class AutoRer extends Module {
             this.renderPos = placePos;
         }
         for (final BlockPos pos2 : BlockUtil.possiblePlacePositions(this.placeRange.getValue())) {
-            if (!BlockUtil.rayTracePlaceCheck(pos2, (this.raytrace.getValue() == Raytrace.Place || this.raytrace.getValue() == Raytrace.Both) && mc.player.getDistanceSq(pos2) > MathUtil.square(this.placetrace.getValue()), 1.0f)) {
+            if (!BlockUtil.rayTracePlaceCheck(pos2, (this.raytrace.getValue(Raytrace.Place) || this.raytrace.getValue() == Raytrace.Both) && mc.player.getDistanceSq(pos2) > MathUtil.square(this.placetrace.getValue()), 1.0f)) {
                 continue;
             }
         }
