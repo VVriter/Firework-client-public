@@ -92,42 +92,35 @@ public class HoleFiller extends Module {
         ArrayList<BlockPos> safeSpots = new ArrayList<BlockPos>();
         List<BlockPos> positions = BlockUtil.getSphere(this.distance.getValue().floatValue(), false);
         int size = positions.size();
+
         for (int i = 0; i < size; ++i) {
             BlockPos pos = positions.get(i);
-            if (!this.mc.world.getBlockState(pos).getBlock().equals(Blocks.AIR) || !this.mc.world.getBlockState(pos.add(0, 1, 0)).getBlock().equals(Blocks.AIR) || !this.mc.world.getBlockState(pos.add(0, 2, 0)).getBlock().equals(Blocks.AIR)) continue;
+
+            if (!this.mc.world.getBlockState(pos).getBlock().equals(Blocks.AIR)
+                    || !this.mc.world.getBlockState(pos.add(0, 1, 0)).getBlock().equals(Blocks.AIR)
+                    || !this.mc.world.getBlockState(pos.add(0, 2, 0)).getBlock().equals(Blocks.AIR) && !BlockUtil.canPlaceCrystal(pos,true)) continue;
+
             boolean isSafe = true;
+
             for (BlockPos offset : this.surroundOffset) {
                 Block block = this.mc.world.getBlockState(pos.add((Vec3i)offset)).getBlock();
                 if (block == Blocks.BEDROCK || block == Blocks.OBSIDIAN) continue;
                 isSafe = false;
             }
+
             if (!isSafe) continue;
             safeSpots.add(pos);
         }
         return safeSpots;
     }
-    private boolean isSafe(BlockPos pos) {
-        boolean isSafe = true;
-        for (BlockPos offset : this.surroundOffset) {
-            if (this.mc.world.getBlockState(pos.add((Vec3i)offset)).getBlock() == Blocks.BEDROCK) continue;
-            isSafe = false;
-            break;
-        }
-        return isSafe;
-    }
+
     //HoleFill code
     public void makeHoleFill() {
         //HoleFillCode
         MessageUtil.sendClientMessage("Im Holefiling now", -1117);
-        int size = this.holes.size();
-        for (int i = 0; i < size; ++i ) {
+        for (BlockPos pos : holes) {
             if (timer.hasPassedS(tickDelay.getValue()/100)) {
-            BlockPos pos = this.holes.get(i);
-            if (pos == mc.player.getPosition()) {
-                holes.remove(pos);
-                pos = null;
-            }
-            BlockUtil.placeBlock(pos,EnumHand.MAIN_HAND,rotate.getValue(),packet.getValue(),false);
+                BlockUtil.placeBlock(pos,EnumHand.MAIN_HAND,rotate.getValue(),packet.getValue(),false);
             }
         }
     }
