@@ -99,6 +99,7 @@ public class HoleFiller extends Module {
     public void onTick() {
         super.onTick();
 
+        
         if (shouldDisableOnJump.getValue() && mc.gameSettings.keyBindJump.isKeyDown()) {
             onDisable();
         }
