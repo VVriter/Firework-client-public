@@ -33,6 +33,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @ModuleManifest(name = "AutoRerRewrite",category = Module.Category.COMBAT)
 public class AutoRerRewrite extends Module {
@@ -74,7 +75,6 @@ public class AutoRerRewrite extends Module {
     private int rotationPacketsSpoofed;
     public static EntityPlayer currentTarget;
     private BlockPos renderPos;
-    private double renderDamage;
     private BlockPos placePos;
     private boolean offHand;
     public boolean rotating;
@@ -88,7 +88,6 @@ public class AutoRerRewrite extends Module {
         this.renderTimer = new Timer();
         this.rotationPacketsSpoofed = 0;
         this.renderPos = null;
-        this.renderDamage = 0.0;
         this.placePos = null;
         this.offHand = false;
         this.rotating = false;
@@ -153,7 +152,7 @@ public class AutoRerRewrite extends Module {
         }
         if (crystal != null && this.breakTimer.hasPassedMs(this.breakDelay.getValue())) {
             this.mc.getConnection().sendPacket((Packet)new CPacketUseEntity(crystal));
-          //  this.mc.player.swingArm(((boolean)this.offhandS.getValue()) ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
+          this.mc.player.swingArm(EnumHand.MAIN_HAND);
             this.breakTimer.reset();
         }
     }
@@ -177,7 +176,7 @@ public class AutoRerRewrite extends Module {
                                 maxDamage = targetDamage;
                                 placePos = pos;
                                 this.renderPos = pos;
-                                this.renderDamage = targetDamage;
+                               // this.renderDamage = targetDamage;
                         }
                     }
                 }
@@ -214,7 +213,7 @@ public class AutoRerRewrite extends Module {
                 use.setEntityId(packet.getEntityID());
                 use.setAction(CPacketUseEntity.Action.ATTACK);
                 this.mc.getConnection().sendPacket((Packet)use);
-               // this.mc.player.swingArm(((boolean)this.offhandS.getValue()) ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
+                this.mc.player.swingArm(EnumHand.MAIN_HAND);
                 this.breakTimer.reset();
                 return;
             }
@@ -248,7 +247,6 @@ public class AutoRerRewrite extends Module {
                 }
             }
         }
-
     }
 
 
