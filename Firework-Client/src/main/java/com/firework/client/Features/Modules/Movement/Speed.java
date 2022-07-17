@@ -20,7 +20,7 @@ public class Speed extends Module{
     private final Timer timer = new Timer();
 
     public Setting<Enum> mode = new Setting<>("Mode", modes.Vanilla, this, modes.values());
-    public Setting<Double> vanillaSpeed = new Setting<>("Speed", (double)3, this, 1, 20).setVisibility(v-> mode.getValue(modes.Vanilla));
+    public Setting<Double> vanillaSpeed = new Setting<>("VanillaSpeed", (double)3, this, 1, 20).setVisibility(v-> mode.getValue(modes.Vanilla));
     public Setting<Boolean> step = new Setting<>("Step", true, this).setVisibility(v-> mode.getValue(modes.YPort));
     public Setting<Double> yPortSpeed = new Setting<>("Speed", (double)3, this, 1, 20).setVisibility(v-> mode.getValue(modes.YPort));
 
@@ -45,10 +45,10 @@ public class Speed extends Module{
         super.onTick();
         if(mode.getValue(modes.Strafe)){
             mc.player.stepHeight = 0.6f;
-            mc.player.setSprinting(true);
             if (mc.player.onGround) {
                 if (mc.gameSettings.keyBindForward.isKeyDown() || mc.gameSettings.keyBindBack.isKeyDown() || mc.gameSettings.keyBindLeft.isKeyDown() || mc.gameSettings.keyBindRight.isKeyDown()) {
                     mc.player.jump();
+                    mc.player.setSprinting(true);
                     double[] dir = MathUtil.directionSpeed(strafeMultipler.getValue()/20);
                     mc.player.motionX = dir[0];
                     mc.player.motionZ = dir[1];
