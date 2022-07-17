@@ -5,6 +5,9 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.RayTraceResult;
 
@@ -14,6 +17,10 @@ import net.minecraft.util.math.*;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+
+import static org.lwjgl.opengl.GL11.*;
 
 @ModuleManifest(
         name = "EntityViewRenderer",
@@ -57,42 +64,54 @@ public class EyeFinder extends Module {
         final RayTraceResult result = e.rayTrace(lineDistance.getValue(), mc.getRenderPartialTicks());
         if (result == null) return;
         final Vec3d eyes = e.getPositionEyes(mc.getRenderPartialTicks());
-        GL11.glPushMatrix();
-        GlStateManager.enableDepth();
+
+        drawLine(eyes, result.hitVec, eyeLineWidth.getValue().floatValue(), viewLineColor.getValue().toRGB());
+
+        if (result.typeOfHit == RayTraceResult.Type.BLOCK) {
+            posRenderer.doRender(
+                    result.getBlockPos(),
+                    colorOutline.getValue().toRGB(),
+                    gradientOutlineColor1.getValue().toRGB(),
+                    gradientOutlineColor2.getValue().toRGB(),
+                    fillColor.getValue().toRGB(),
+                    fillColor1.getValue().toRGB(),
+                    fillColor2.getValue().toRGB(),
+                    outlineWidth.getValue(),
+                    boxHeightNormal.getValue().floatValue(),
+                    outlineHeightNormal.getValue().floatValue()
+            );
+        }
+    }
+
+    public static void drawLine(Vec3d posA, Vec3d posB, float width, Color c) {
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GlStateManager.disableDepth();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
         GlStateManager.disableTexture2D();
-        GlStateManager.disableLighting();
-        final double posX = eyes.x - mc.getRenderManager().viewerPosX;
-        final double posY = eyes.y - mc.getRenderManager().viewerPosY;
-        final double posZ = eyes.z - mc.getRenderManager().viewerPosZ;
-        final double posX2 = result.hitVec.x - mc.getRenderManager().viewerPosX;
-        final double posY2 = result.hitVec.y - mc.getRenderManager().viewerPosY;
-        final double posZ2 = result.hitVec.z - mc.getRenderManager().viewerPosZ;
-        //Colour
-        GlStateManager.glLineWidth(eyeLineWidth.getValue().floatValue());
-        GL11.glBegin(1);
-        GL11.glColor4d(viewLineColor.getValue().toRGB().getRed(),viewLineColor.getValue().toRGB().getGreen(), viewLineColor.getValue().toRGB().getBlue(), viewLineColor.getValue().toRGB().getAlpha());
-        GL11.glVertex3d(posX, posY, posZ);
-        GL11.glVertex3d(posX2, posY2, posZ2);
-        GL11.glVertex3d(posX2, posY2, posZ2);
-        GL11.glVertex3d(posX2, posY2, posZ2);
-        GL11.glEnd();
-            if (result.typeOfHit == RayTraceResult.Type.BLOCK) {
-                posRenderer.doRender(
-                        result.getBlockPos(),
-                        colorOutline.getValue().toRGB(),
-                        gradientOutlineColor1.getValue().toRGB(),
-                        gradientOutlineColor2.getValue().toRGB(),
-                        fillColor.getValue().toRGB(),
-                        fillColor1.getValue().toRGB(),
-                        fillColor2.getValue().toRGB(),
-                        outlineWidth.getValue(),
-                        boxHeightNormal.getValue().floatValue(),
-                        outlineHeightNormal.getValue().floatValue()
-                );
-            }
+        GlStateManager.depthMask(false);
+        GlStateManager.translate(-mc.getRenderManager().viewerPosX, -mc.getRenderManager().viewerPosY, -mc.getRenderManager().viewerPosZ);
+        glEnable(GL_LINE_SMOOTH);
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+        glLineWidth(width);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+        bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
+
+        double dx = posB.x - posA.x;
+        double dy = posB.y - posA.y;
+        double dz = posB.z - posA.z;
+
+        bufferBuilder.pos(posA.x, posA.y, posA.z).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex();
+        bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z + dz).color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).endVertex();
+
+        tessellator.draw();
+        glDisable(GL_LINE_SMOOTH);
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
         GlStateManager.enableTexture2D();
-        GlStateManager.enableLighting();
-        GL11.glPopMatrix();
+        GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
     }
 
 
