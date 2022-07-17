@@ -22,28 +22,32 @@ import java.util.List;
         category = Module.Category.COMBAT
 )
 public class FastWeb extends Module {
-    public Setting<Enum> mode = new Setting<>("Mode", modes.Motion, this, modes.values());
+    public Setting<Enum> page = new Setting<>("Page", pages.FastWeb, this, pages.values());
+    public enum pages{
+        FastWeb, Render
+    }
+    public Setting<modes> mode = new Setting<>("Mode", modes.Motion, this, modes.values()).setVisibility(v-> page.getValue(pages.FastWeb));
     public enum modes {
         Timer, Motion
     }
-    public Setting<Double> reduction = new Setting<>("Reduction", (double)0.3, this, 0, 2).setVisibility(v-> mode.getValue(modes.Motion));
-    public Setting<Double> ticks = new Setting<>("Reduction", (double)45, this, 40, 60).setVisibility(v-> mode.getValue(modes.Timer));;
+    public Setting<Double> reduction = new Setting<>("Reduction", (double)0.3, this, 0, 2).setVisibility(v-> mode.getValue(modes.Motion) && page.getValue(pages.FastWeb));
+    public Setting<Double> ticks = new Setting<>("Reduction Ticks", (double)45, this, 40, 60).setVisibility(v-> mode.getValue(modes.Timer) && page.getValue(pages.FastWeb));
 
-    public Setting<Boolean> render = new Setting<>("Render", false, this);
-    public Setting<Double> range = new Setting<>("RenderRange", (double)10, this, 1, 20).setVisibility(v-> render.getValue(true));
-    public Setting<PosRenderer.renderModes> renderMode = new Setting<>("RenderMode", PosRenderer.renderModes.Beacon, this, PosRenderer.renderModes.values()).setVisibility(v-> render.getValue());
-    public Setting<PosRenderer.boxeMode> boxMode = new Setting<>("BoxMode", PosRenderer.boxeMode.Normal, this, PosRenderer.boxeMode.values()).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && render.getValue());
-    public Setting<HSLColor> fillColor = new Setting<>("FillColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) && renderMode.getValue(PosRenderer.renderModes.Box) && render.getValue());
-    public Setting<Double> boxHeightNormal = new Setting<>("BoxHeight", (double)1, this, -0.3, 5).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) && renderMode.getValue(PosRenderer.renderModes.Box) && render.getValue());
-    public Setting<HSLColor> fillColor1 = new Setting<>("StartColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) && renderMode.getValue(PosRenderer.renderModes.Box) && render.getValue());
-    public Setting<HSLColor> fillColor2 = new Setting<>("EndColor", new HSLColor(200, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) && renderMode.getValue(PosRenderer.renderModes.Box) && render.getValue());
+    public Setting<Boolean> render = new Setting<>("Render", false, this).setVisibility(v-> page.getValue(pages.Render));
+    public Setting<Double> range = new Setting<>("RenderRange", (double)10, this, 1, 20).setVisibility(v-> render.getValue(true) && page.getValue(pages.Render));
+    public Setting<PosRenderer.renderModes> renderMode = new Setting<>("RenderMode", PosRenderer.renderModes.Beacon, this, PosRenderer.renderModes.values()).setVisibility(v-> render.getValue() && page.getValue(pages.Render));
+    public Setting<PosRenderer.boxeMode> boxMode = new Setting<>("Box", PosRenderer.boxeMode.Normal, this, PosRenderer.boxeMode.values()).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && render.getValue() && page.getValue(pages.Render));
+    public Setting<HSLColor> fillColor = new Setting<>("FillColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) && renderMode.getValue(PosRenderer.renderModes.Box) && render.getValue() && page.getValue(pages.Render));
+    public Setting<Double> boxHeightNormal = new Setting<>("BoxHeight", (double)1, this, -0.3, 5).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) && renderMode.getValue(PosRenderer.renderModes.Box) && render.getValue() && page.getValue(pages.Render));
+    public Setting<HSLColor> fillColor1 = new Setting<>("StartColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) && renderMode.getValue(PosRenderer.renderModes.Box) && render.getValue() && page.getValue(pages.Render));
+    public Setting<HSLColor> fillColor2 = new Setting<>("EndColor", new HSLColor(200, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) && renderMode.getValue(PosRenderer.renderModes.Box) && render.getValue() && page.getValue(pages.Render));
 
-    public Setting<PosRenderer.outlineModes> outlineMode = new Setting<>("OutlineMode", PosRenderer.outlineModes.Normal, this, PosRenderer.outlineModes.values()).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && render.getValue());
-    public Setting<HSLColor> gradientOutlineColor1 = new Setting<>("FirstColor", new HSLColor(1, 54, 43), this).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Gradient) && render.getValue());
-    public Setting<HSLColor> gradientOutlineColor2 = new Setting<>("SecondColor", new HSLColor(200, 54, 43), this).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Gradient) && render.getValue());
-    public Setting<HSLColor> colorOutline = new Setting<>("ColorOutline", new HSLColor(200, 54, 43), this).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Normal) && render.getValue());
-    public Setting<Double> outlineHeightNormal = new Setting<>("OutlineHeight", (double)1, this, -0.3, 5).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Normal) && render.getValue());
-    public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && !outlineMode.getValue(PosRenderer.outlineModes.None) && render.getValue());
+    public Setting<PosRenderer.outlineModes> outlineMode = new Setting<>("Outline", PosRenderer.outlineModes.Normal, this, PosRenderer.outlineModes.values()).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && render.getValue() && page.getValue(pages.Render));
+    public Setting<HSLColor> gradientOutlineColor1 = new Setting<>("FirstColor", new HSLColor(1, 54, 43), this).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Gradient) && render.getValue() && page.getValue(pages.Render));
+    public Setting<HSLColor> gradientOutlineColor2 = new Setting<>("SecondColor", new HSLColor(200, 54, 43), this).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Gradient) && render.getValue() && page.getValue(pages.Render));
+    public Setting<HSLColor> colorOutline = new Setting<>("ColorOutline", new HSLColor(200, 54, 43), this).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Normal) && render.getValue() && page.getValue(pages.Render));
+    public Setting<Double> outlineHeightNormal = new Setting<>("OutlineHeight", (double)1, this, -0.3, 5).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Normal) && render.getValue() && page.getValue(pages.Render));
+    public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && !outlineMode.getValue(PosRenderer.outlineModes.None) && render.getValue() && page.getValue(pages.Render));
     PosRenderer posRenderer;
     @Override public void onEnable() { super.onEnable();
         oldTicks = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
