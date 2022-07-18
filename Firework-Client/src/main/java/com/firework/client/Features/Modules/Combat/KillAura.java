@@ -22,8 +22,11 @@ public class KillAura extends Module{
 
     public Setting<Integer> tmpDelay = new Setting<>("Delay", 20, this, 0, 60);
     public Setting<Boolean> autoSwitch = new Setting<>("AutoSwitch", true, this);
-    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
-    public Setting<Boolean> packetSpoof = new Setting<>("Packet", true, this).setVisibility(v-> rotate.getValue(true));
+
+    public Setting<Boolean> interaction = new Setting<>("Interaction", true, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interaction.getValue());
+    public Setting<Boolean> packetSpoof = new Setting<>("Packet", true, this).setVisibility(v-> rotate.getValue() && interaction.getValue());
+
     public Setting<Boolean> swing = new Setting<>("Swing", true, this);
     public Setting<Integer> distance = new Setting<>("Distance", 3, this, 0, 6);
     public Setting<Boolean> autoEnable = new Setting<>("AutoEnable", false, this);

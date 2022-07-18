@@ -5,6 +5,7 @@ import com.firework.client.Implementations.Events.Settings.SettingChangeValueEve
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
@@ -43,9 +44,6 @@ public class Setting<T> {
 
         if(value instanceof HSLColor)
             this.mode = Mode.COLOR;
-
-        if(getClass().isAnnotationPresent(SubCategory.class))
-            this.mode = Mode.SUB;
 
         settingManager.settings.add(this);
     }
@@ -110,6 +108,12 @@ public class Setting<T> {
             }
         }
         return null;
+    }
+
+    public Setting<T> setMode(Mode mode){
+        this.mode = mode;
+        settingManager.updateSettingsByName(this);
+        return this;
     }
 
     public Setting<T> setVisibility(Predicate<T> visibility){

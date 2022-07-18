@@ -15,8 +15,6 @@ import static com.firework.client.Firework.textManager;
 
 public class SubBoolButton extends Button {
 
-    public int activeColor;
-
     public SubBoolButton(Setting setting, int x, int y, int width, int height) {
         super(setting, x, y, width, height);
     }
@@ -25,13 +23,16 @@ public class SubBoolButton extends Button {
     public void draw(int mouseX, int mouseY) {
         super.draw(mouseX, mouseY);
 
-        GuiInfo.drawBaseButton(this, GuiInfo.fillColorB, GuiInfo.outlineColorA);
-
-        activeColor = (boolean) setting.getValue() ? RainbowUtil.astolfoColors(100, 100) : Color.white.getRGB();
-
+        GuiInfo.drawBaseButtonGradient(this, new Color(RainbowUtil.astolfoColors(100, 100)), new Color(RainbowUtil.astolfoColors(50, 100)), GuiInfo.outlineColorA, false);
+        RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), new Color(1, 1, 1, 24));
 
         textManager.drawString(setting.name, x+3, y+1,
-                activeColor,false);
+                Color.white.getRGB(),false);
+
+        String icon = (boolean)setting.getValue() ? "=" : "+";
+
+        textManager.drawString(icon, x + width - textManager.getStringWidth(icon) - 2, y+1,
+                Color.white.getRGB(),false);
     }
 
     @Override

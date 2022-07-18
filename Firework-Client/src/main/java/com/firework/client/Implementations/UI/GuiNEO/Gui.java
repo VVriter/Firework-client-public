@@ -78,6 +78,10 @@ public class Gui extends GuiScreen {
                             for (Setting setting : settingManager.modulesSettings(m)) {
                                 Offset offsetObject = new Offset();
                                 if (setting.isVisible()) {
+                                    if (setting.mode == Setting.Mode.SUB) {
+                                        offsetObject.register(
+                                                new SubBoolButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10));
+                                    }
                                     if (setting.mode == Setting.Mode.BOOL) {
                                         offsetObject.register(
                                                 new BoolButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10));
