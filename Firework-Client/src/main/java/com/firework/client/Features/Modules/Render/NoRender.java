@@ -19,58 +19,54 @@ import static org.lwjgl.opengl.GL11.glPolygonOffset;
 
 public class NoRender extends Module {
 
-
-
-
-    public Setting<Enum> page = new Setting<>("Page", pages.Misc, this, pages.values());
-    public enum pages{
-        Misc, Particles
-    }
-
     public static Setting<Boolean> enabled = null;
+
+    public static Setting<Boolean> skySubBool = null;
+    public static Setting<Boolean> cameraSubBool = null;
+    public static Setting<Boolean> blocksSubBool = null;
+    public static Setting<Boolean> entitiesSubBool = null;
     public static Setting<Boolean> antiFog = null;
     public static Setting<Boolean> skylight = null;
+
+    public static Setting<Boolean> weather = null;
     public static Setting<Boolean> totemPops = null;
     public static Setting<Boolean> hurtcam = null;
-    public static Setting<Boolean> weather = null;
     public static Setting<Boolean> hands = null;
     public static Setting<Boolean> fov = null;
-    public static Setting<Boolean> blockBreak = null;
-    public static Setting<Boolean> enchatntTable = null;
+
     public static Setting<Boolean> viewBobbing = null;
+    public static Setting<Boolean> enchatntTable = null;
     public static Setting<Boolean> blockoverlay = null;
     public static Setting<Boolean> mob = null;
     public static Setting<Boolean> xp = null;
     public static Setting<Boolean> explosions = null;
 
 
-    public static Setting<Boolean> breakingParticles = null;
-
-    public static Setting<Boolean> breakblock = null;
 
     public NoRender(){
         super("NoRender",Category.RENDER);
         enabled = this.isEnabled;
 
+        skySubBool = new Setting<>("Sky", false, this).setMode(Setting.Mode.SUB);
+        antiFog = new Setting<>("AntiFog", true, this).setVisibility(v-> skySubBool.getValue());
+        skylight = new Setting<>("Skylight", true, this).setVisibility(v-> skySubBool.getValue());
+        weather = new Setting<>("Weather", true, this).setVisibility(v-> skySubBool.getValue());
 
-        antiFog = new Setting<>("AntiFog", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        skylight = new Setting<>("Skylight", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        totemPops = new Setting<>("TotemPops", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        hurtcam = new Setting<>("Hurtcam", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        weather = new Setting<>("Weather", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        hands = new Setting<>("Hands", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        fov = new Setting<>("Fov", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        blockBreak = new Setting<>("BlockBreak", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        enchatntTable = new Setting<>("EnchantTable", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        viewBobbing =  new Setting<>("ViewBobbing", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        blockoverlay =  new Setting<>("BlockOverlay", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        mob = new Setting<>("Mob", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        xp = new Setting<>("Xp", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        explosions = new Setting<>("Explosions", true, this).setVisibility(v-> page.getValue(pages.Misc));
-        breakblock = new Setting<>("BreakBlock", false, this).setVisibility(v-> page.getValue(pages.Misc));
+        cameraSubBool = new Setting<>("Camera", false, this).setMode(Setting.Mode.SUB);
+        totemPops = new Setting<>("TotemPops", true, this).setVisibility(v-> cameraSubBool.getValue());
+        hurtcam = new Setting<>("Hurtcam", true, this).setVisibility(v-> cameraSubBool.getValue());
+        hands = new Setting<>("Hands", true, this).setVisibility(v-> cameraSubBool.getValue());
+        fov = new Setting<>("Fov", true, this).setVisibility(v-> cameraSubBool.getValue());
+        viewBobbing =  new Setting<>("ViewBobbing", true, this).setVisibility(v-> cameraSubBool.getValue());
+        explosions = new Setting<>("Explosions", true, this).setVisibility(v-> cameraSubBool.getValue());
 
+        blocksSubBool = new Setting<>("Blocks", false, this).setMode(Setting.Mode.SUB);
+        enchatntTable = new Setting<>("EnchantTable", true, this).setVisibility(v-> blocksSubBool.getValue());
+        blockoverlay =  new Setting<>("BlockOverlay", true, this).setVisibility(v-> blocksSubBool.getValue());
 
-        breakingParticles = new Setting<>("BreakingParticles", true, this).setVisibility(v-> page.getValue(pages.Particles));
+        entitiesSubBool = new Setting<>("Entities", false, this).setMode(Setting.Mode.SUB);
+        mob = new Setting<>("Mob", true, this).setVisibility(v-> entitiesSubBool.getValue());
+        xp = new Setting<>("Xp", true, this).setVisibility(v-> entitiesSubBool.getValue());
 
     }
 
@@ -91,16 +87,6 @@ public class NoRender extends Module {
     public void blockoverlay(RenderBlockOverlayEvent event){
         if(blockoverlay.getValue()){
             event.setCanceled(true);
-        }
-    }
-
-
-    @SubscribeEvent
-    public void onRender3d(RenderWorldLastEvent e) {
-        if (blockBreak.getValue()) {
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
-            glEnable(GL11.GL_POLYGON_OFFSET_FILL);
-            glPolygonOffset(1.0f, -1100000.0f);
         }
     }
     @SubscribeEvent
