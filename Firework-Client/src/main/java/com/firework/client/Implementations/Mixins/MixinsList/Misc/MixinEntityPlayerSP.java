@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Misc;
 
+import com.firework.client.Implementations.Events.PlayerUpdateEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,5 +17,11 @@ public class MixinEntityPlayerSP {
         MinecraftForge.EVENT_BUS.post(eventPlayerMotionUpdate);
         if (eventPlayerMotionUpdate.isCanceled())
             callbackInfo.cancel();
+    }
+
+    @Inject(method = "onUpdate", at = @At("HEAD"))
+    public void onPlayerUpdate(CallbackInfo info) {
+        PlayerUpdateEvent playerUpdateEvent = new PlayerUpdateEvent();
+        MinecraftForge.EVENT_BUS.post(playerUpdateEvent);
     }
 }

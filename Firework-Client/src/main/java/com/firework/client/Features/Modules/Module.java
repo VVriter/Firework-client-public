@@ -90,7 +90,7 @@ public class Module extends Info{
 
     public String getName() {return name;}
 
-  public   boolean fullNullCheck() {
+    public boolean fullNullCheck() {
         return mc.player == null || mc.world == null;
     }
     public enum Category{
