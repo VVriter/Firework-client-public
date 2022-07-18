@@ -82,6 +82,7 @@ public class CommandManager extends Manager {
 
     public void init() {
         register(
+                new PanicCommand(),
 
                 new HideCommand(),
 
