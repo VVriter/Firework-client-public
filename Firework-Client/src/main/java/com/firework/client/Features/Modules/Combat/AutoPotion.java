@@ -15,7 +15,6 @@ public class AutoPotion extends Module {
 
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
     public Setting<Double> lookPitch = new Setting<>("Pitch", (double)90, this, 1, 100);
-
     public Setting<Double> delay = new Setting<>("Delay", (double)3, this, 1, 10);
     private int delay_count;
     int prvSlot;
