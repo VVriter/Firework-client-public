@@ -49,6 +49,10 @@ public class EyeFinder extends Module {
     public Setting<Double> outlineHeightNormal = new Setting<>("OutlineHeight", (double)1, this, -0.3, 5).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Normal) && page.getValue(pages.Block));
     public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && !outlineMode.getValue(PosRenderer.outlineModes.None) && page.getValue(pages.Block));
 
+    public Setting<HSLColor> beaconFillColor = new Setting<>("BeaconFillColor", new HSLColor(200, 54, 43), this).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Beacon) && page.getValue(pages.Block));
+    public Setting<Integer> beaconOutlineWidth = new Setting<>("BeaconOutlineWidth", 3, this, 1, 10).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Beacon) && page.getValue(pages.Block));
+
+
     public Setting<Double> distance = new Setting<>("Distance", (double)15, this, 1, 50).setVisibility(v-> page.getValue(pages.Line));
     public Setting<Double> lineDistance = new Setting<>("LineDistance", (double)6, this, 1, 15).setVisibility(v-> page.getValue(pages.Line));
     public Setting<Double> eyeLineWidth = new Setting<>("LineWidth", (double)3, this, 1, 10).setVisibility(v-> page.getValue(pages.Line));
@@ -78,7 +82,9 @@ public class EyeFinder extends Module {
                     fillColor2.getValue().toRGB(),
                     outlineWidth.getValue(),
                     boxHeightNormal.getValue().floatValue(),
-                    outlineHeightNormal.getValue().floatValue()
+                    outlineHeightNormal.getValue().floatValue(),
+                    beaconFillColor.getValue().toRGB(),
+                    beaconOutlineWidth.getValue()
             );
         }
     }

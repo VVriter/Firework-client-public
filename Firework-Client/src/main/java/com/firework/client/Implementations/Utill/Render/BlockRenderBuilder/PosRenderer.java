@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
 
 import java.awt.*;
@@ -23,7 +24,23 @@ public class PosRenderer {
         this.outlineMode = outlineMode;
     }
 
-    public void doRender(BlockPos posTorender, Color outlineColor, Color outlineColor1,Color outlineColor2, Color fillColor, Color fillColorStart, Color fillColorEnd, int width, float heightBox, float heightOutline) {
+    public void doRender(
+            BlockPos posTorender,
+            Color outlineColor,
+            Color outlineColor1,
+            Color outlineColor2,
+            Color fillColor,
+            Color fillColorStart,
+            Color fillColorEnd,
+            int width,
+            float heightBox,
+            float heightOutline,
+            Color beaconFillColor,
+            int beaconOutlineWidth
+    )
+
+
+    {
         if (renderMode.getValue(renderModes.Box)) {
             if (boxModes.getValue(boxeMode.Normal)) {
                 RenderUtils.drawBoxESP(posTorender,fillColor,width,false,true,fillColor.getAlpha(),heightBox);
@@ -50,6 +67,12 @@ public class PosRenderer {
                        width
                );
             }
+        }
+
+
+        else if (renderMode.getValue(renderModes.Beacon)) {
+            RenderUtils.drawBoxESP(posTorender,beaconFillColor,beaconOutlineWidth,true,false,0,1);
+            RenderUtils.drawBoxESP(posTorender,beaconFillColor,beaconOutlineWidth,true,true,beaconFillColor.getAlpha(), Minecraft.getMinecraft().world.getHeight());
         }
     }
 

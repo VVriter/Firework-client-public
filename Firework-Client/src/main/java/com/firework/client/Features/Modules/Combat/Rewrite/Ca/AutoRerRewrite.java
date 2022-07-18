@@ -275,6 +275,8 @@ public class AutoRerRewrite extends Module {
     public Setting<HSLColor> colorOutline = new Setting<>("ColorOutline", new HSLColor(200, 54, 43), this).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Normal) && page.getValue(pages.Render));
     public Setting<Double> outlineHeightNormal = new Setting<>("OutlineHeight", (double)1, this, -0.3, 5).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && outlineMode.getValue(PosRenderer.outlineModes.Normal) && page.getValue(pages.Render));
     public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Box) && !outlineMode.getValue(PosRenderer.outlineModes.None) && page.getValue(pages.Render));
+    public Setting<HSLColor> beaconFillColor = new Setting<>("BeaconFillColor", new HSLColor(200, 54, 43), this).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Beacon));
+    public Setting<Integer> beaconOutlineWidth = new Setting<>("BeaconOutlineWidth", 3, this, 1, 10).setVisibility(v-> renderMode.getValue(PosRenderer.renderModes.Beacon));
 
 
     @Override
@@ -303,7 +305,9 @@ public class AutoRerRewrite extends Module {
                     fillColor2.getValue().toRGB(),
                     outlineWidth.getValue(),
                     boxHeightNormal.getValue().floatValue(),
-                    outlineHeightNormal.getValue().floatValue()
+                    outlineHeightNormal.getValue().floatValue(),
+                    beaconFillColor.getValue().toRGB(),
+                    beaconOutlineWidth.getValue()
             );
         }
     }
