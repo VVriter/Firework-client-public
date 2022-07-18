@@ -25,8 +25,10 @@ public class MiddleClick extends Module {
     private boolean clicked = false;
 
     public Setting<Boolean> pearl = new Setting<>("Pearl", true, this);
-    public Setting<Boolean> friend = new Setting<>("Friend", true, this);
-    public Setting<Boolean> notify = new Setting<>("NotifyFriend", true, this);
+
+    public Setting<Boolean> friendsBool = new Setting<>("Friends", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> friend = new Setting<>("Enable", true, this).setVisibility(V-> friendsBool.getValue());
+    public Setting<Boolean> notify = new Setting<>("NotifyFriend", true, this).setVisibility(V-> friendsBool.getValue());
 
     @Override
     public void onTick() {

@@ -10,6 +10,8 @@ import java.util.Arrays;
 
 @ModuleManifest(name = "Test", category =  Module.Category.EXAMPLE)
 public class Test extends Module {
+
+    public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> testSetting = new Setting<>("tS", false, this);
     public Setting<Double> td = new Setting<>("tD", (double)3, this, 1, 10);
     public Setting<HSLColor> colorSetting = new Setting<>("colorN", new HSLColor(1, 54, 43), this);
