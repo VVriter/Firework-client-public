@@ -27,7 +27,7 @@ public class FastWeb extends Module {
         Timer, Motion
     }
     public Setting<Double> reduction = new Setting<>("Reduction", (double)0.3, this, 0, 2).setVisibility(v-> mode.getValue(modes.Motion));
-    public Setting<Double> ticks = new Setting<>("Reduction Ticks", (double)45, this, 40, 60).setVisibility(v-> mode.getValue(modes.Timer));
+    public Setting<Integer> ticks = new Setting<>("Reduction Ticks", 45, this, 40, 49).setVisibility(v-> mode.getValue(modes.Timer));
 
     public Setting<Boolean> renderer = new Setting<>("Block", false, this).setMode(Setting.Mode.SUB);
     public Setting<Double> range = new Setting<>("RenderRange", (double)10, this, 1, 20).setVisibility(v-> renderer.getValue());
