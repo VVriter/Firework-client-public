@@ -193,12 +193,10 @@ public class AutoRerRewrite extends Module {
                 if (targetDamage > this.minDamage.getValue() || targetDamage * this.lethalMult.getValue() > this.currentTarget.getHealth() + this.currentTarget.getAbsorptionAmount() || ItemUtil.isArmorUnderPercent(this.currentTarget, this.armorScale.getValue())) {
                     final float selfDamage = EntityUtil.calculate(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, (EntityLivingBase) this.mc.player);
                     if (selfDamage <= this.maxSelf.getValue() && selfDamage + 2.0f <= this.mc.player.getHealth() + this.mc.player.getAbsorptionAmount() && selfDamage < targetDamage) {
-                        if(this.PredictPlayerPos.getValue()==true)
-                        {
+                        if(this.PredictPlayerPos.getValue()){
                             final float selfDamage2 = EntityUtil.calculate(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, (EntityLivingBase) pl);
 
-                            if(selfDamage2 <= this.maxSelf.getValue() && selfDamage2 + 2.0f <= this.mc.player.getHealth() + this.mc.player.getAbsorptionAmount() && 2 < targetDamage)
-                            {
+                            if(selfDamage2 <= this.maxSelf.getValue() && selfDamage2 + 2.0f <= this.mc.player.getHealth() + this.mc.player.getAbsorptionAmount() && 2 < targetDamage) {
                                 if (maxDamage <= targetDamage) {
                                     maxDamage = targetDamage;
                                     placePos = pos;
