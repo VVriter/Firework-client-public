@@ -4,6 +4,7 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.MinecraftForge;
@@ -53,7 +54,6 @@ public class RotationManager extends Manager{
 
     public void stopRotating() {
         isRotateSpoofing = false;
-        MinecraftForge.EVENT_BUS.unregister(this);
     }
 
     public float[] getRotations(Vec3d vec) {
@@ -70,14 +70,16 @@ public class RotationManager extends Manager{
 
     @SubscribeEvent
     public void onPacketReceive(PacketEvent.Receive event) {
-        if (event.getPacket() instanceof CPacketPlayer.Rotation) {
-            CPacketPlayer.Rotation packet = (CPacketPlayer.Rotation) event.getPacket();
-            ((ICPacketPlayer)packet).setYaw(yaw);
-            ((ICPacketPlayer)packet).setPitch(pitch);
-        } else if (event.getPacket() instanceof CPacketPlayer.PositionRotation) {
-            CPacketPlayer.PositionRotation packet = (CPacketPlayer.PositionRotation) event.getPacket();
-            ((ICPacketPlayer)packet).setYaw(yaw);
-            ((ICPacketPlayer)packet).setPitch(pitch);
+        if (isRotateSpoofing) {
+            if (event.getPacket() instanceof CPacketPlayer.Rotation) {
+                CPacketPlayer.Rotation packet = (CPacketPlayer.Rotation) event.getPacket();
+                ((ICPacketPlayer) packet).setYaw(yaw);
+                ((ICPacketPlayer) packet).setPitch(pitch);
+            } else if (event.getPacket() instanceof CPacketPlayer.PositionRotation) {
+                CPacketPlayer.PositionRotation packet = (CPacketPlayer.PositionRotation) event.getPacket();
+                ((ICPacketPlayer) packet).setYaw(yaw);
+                ((ICPacketPlayer) packet).setPitch(pitch);
+            }
         }
     }
 
