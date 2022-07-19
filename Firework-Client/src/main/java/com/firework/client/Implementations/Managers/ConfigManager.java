@@ -7,11 +7,19 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.google.gson.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.io.*;
+import java.util.ArrayList;
+
+import static com.firework.client.Implementations.Utill.Util.mc;
 
 public class ConfigManager extends Manager{
     public String configDir = Firework.FIREWORK_DIRECTORY + "Configs/";
+
+    public boolean canLoadConfigs = true;
+
+    public ArrayList<String> moduleNames = new ArrayList<>();
 
     public ConfigManager(){
         super(true);
@@ -86,6 +94,19 @@ public class ConfigManager extends Manager{
                 System.out.println("[FIREWORK] " + module.name + " config malformed | resetting");
             }
         }
+
+        if(Firework.moduleManager.getModuleByName(module.name).isEnabled.getValue()){
+            moduleNames.add(module.name);
+        }
+    }
+
+    @SubscribeEvent
+    public void onTick(TickEvent.ClientTickEvent event){
+        if(mc.player == null || mc.world == null || !canLoadConfigs) return;
+        for(String name : moduleNames)
+            Firework.moduleManager.getModuleByName(name).onEnable();
+
+        canLoadConfigs = false;
     }
 
     @SubscribeEvent
