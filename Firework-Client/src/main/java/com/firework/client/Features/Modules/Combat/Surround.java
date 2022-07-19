@@ -101,8 +101,8 @@ public class Surround extends Module {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public void onTick(final TickEvent.ClientTickEvent event) {
+    @Override
+    public void onTick() {
         super.onTick();
 
         if (shouldDisableOnJump.getValue() && mc.gameSettings.keyBindJump.isKeyDown()) {
@@ -139,29 +139,27 @@ public class Surround extends Module {
     }
 
     private void doSurround(BlockPos... blockToPlace){
-        try {
-            for (BlockPos pos : blockToPlace)
-                if (isAir(pos) && !line.contains(pos))
-                    line.add(pos);
+        for (BlockPos pos : blockToPlace)
+            if (isAir(pos) && !line.contains(pos))
+                line.add(pos);
 
-            ArrayList<BlockPos> placedBlocks = new ArrayList<>();
+        ArrayList<BlockPos> placedBlocks = new ArrayList<>();
 
-            for (BlockPos pos : line) {
-                if (placeTimer.hasPassedMs(placeDelay.getValue())) {
-                    if (BlockUtil.getPossibleSides(pos).isEmpty())
-                        blockPlacer.placeBlock(pos.add(0, -1, 0), Blocks.OBSIDIAN);
-                    else {
-                        blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
-                        placedBlocks.add(pos);
-                    }
-                    placeTimer.reset();
-                } else {
-                    break;
+        for (BlockPos pos : line) {
+            if (placeTimer.hasPassedMs(placeDelay.getValue())) {
+                if (BlockUtil.getPossibleSides(pos).isEmpty())
+                    blockPlacer.placeBlock(pos.add(0, -1, 0), Blocks.OBSIDIAN);
+                else {
+                    blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
+                    placedBlocks.add(pos);
                 }
+                placeTimer.reset();
+            } else {
+                break;
             }
+        }
 
-            line.removeAll(placedBlocks);
-        }catch (Exception e){}
+        line.removeAll(placedBlocks);
     }
     //Returns blocks to place
     public BlockPos[] blockToPlace() {
