@@ -56,7 +56,10 @@ public class KeyButton extends Button {
             if(Objects.equals(Gui.activeKeyPair, new Pair(setting.module.name, setting.name))) {
                 Gui.keyIsDragging = false;
                 fillColor = GuiInfo.fillColorB;
-                setting.setValue(keyCode);
+                if(keyCode == Keyboard.KEY_DELETE)
+                    setting.setValue(Keyboard.KEY_NONE);
+                else
+                    setting.setValue(keyCode);
                 Gui.activeKeyPair = new Pair(null, null);
             }
         }

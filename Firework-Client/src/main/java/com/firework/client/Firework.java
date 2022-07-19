@@ -152,7 +152,7 @@ public class Firework
                 mc.displayGuiScreen(new GuiChat(CommandManager.prefix));
 
         for(Module module : moduleManager.modules){
-            if(Keyboard.isKeyDown(module.key.getValue()))
+            if(Keyboard.isKeyDown(module.key.getValue()) && !Keyboard.isKeyDown(Keyboard.KEY_NONE))
                 module.toggle();
         }
     }
