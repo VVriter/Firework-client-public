@@ -12,6 +12,7 @@ import com.firework.client.Implementations.Utill.Items.ItemUser;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Timer;
+import jdk.nashorn.internal.ir.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderCrystal;
@@ -20,7 +21,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.network.play.server.SPacketSoundEffect;
@@ -29,7 +29,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -43,6 +42,8 @@ import java.util.Objects;
 @ModuleManifest(name = "AutoRerRewrite",category = Module.Category.COMBAT)
 public class AutoRerRewrite extends Module {
     public Setting<Integer> targetRange = new Setting<>("TargetRange", 5, this, 1, 10);
+    public Setting<Boolean> rotatePacket = new Setting<>("RotatePacket", false, this);
+
 
     public Setting<Enum> page = new Setting<>("Page", pages.Place, this, pages.values());
     public enum pages{
@@ -75,6 +76,8 @@ public class AutoRerRewrite extends Module {
     private final Timer breakTimer;
     private final Timer placeTimer;
     private final Timer renderTimer;
+
+    Timer rotateTimer;
     private int rotationPacketsSpoofed;
     public static EntityPlayer currentTarget;
     private BlockPos renderPos;
@@ -91,6 +94,7 @@ public class AutoRerRewrite extends Module {
         this.breakTimer = new Timer();
         this.placeTimer = new Timer();
         this.renderTimer = new Timer();
+        this.rotateTimer = new Timer();
         this.rotationPacketsSpoofed = 0;
         this.renderPos = null;
         this.renderDamage = 0.0;
@@ -171,6 +175,7 @@ public class AutoRerRewrite extends Module {
             }
         }
         if (crystal != null && this.breakTimer.hasPassedMs(this.breakDelay.getValue())) {
+            Firework.rotationManager.rotateSpoof(BlockUtil.posToVec3d(crystal.getPosition()));
             this.mc.getConnection().sendPacket((Packet)new CPacketUseEntity(crystal));
             this.mc.player.swingArm(((boolean)this.offhandS.getValue()) ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
             this.breakTimer.reset();
@@ -233,6 +238,7 @@ public class AutoRerRewrite extends Module {
                     this.mc.player.inventory.currentItem = slot;
                 }
                 this.placedList.add(placePos);
+                Firework.rotationManager.rotateSpoof(BlockUtil.posToVec3d(placePos));
                 this.mc.getConnection().sendPacket((Packet)new CPacketPlayerTryUseItemOnBlock(placePos, EnumFacing.UP, this.offhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
                 this.placeTimer.reset();
             }

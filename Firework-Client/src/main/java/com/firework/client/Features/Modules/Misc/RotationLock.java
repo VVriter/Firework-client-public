@@ -11,22 +11,20 @@ import java.util.Arrays;
 @ModuleManifest(name = "RotationLock",category = Module.Category.MISC)
 public class RotationLock extends Module {
 
-    public Setting<Enum> page = new Setting<>("Page", pages.Yaw, this, pages.values());
-    public enum pages{
-       Yaw, Pitch
-    }
-    public Setting<Boolean> yawBool = new Setting<>("Enable", true, this).setVisibility(v-> page.getValue(pages.Yaw));
-    public Setting<String> dimension = new Setting<>("Dimension", "Normal", this, Arrays.asList("Normal", "Multi")).setVisibility(v-> page.getValue(pages.Yaw));
-    public Setting<Double> intSpeed = new Setting<>("Speed", (double)20, this, 1, 100).setVisibility(v-> page.getValue(pages.Yaw));
+    public Setting<Boolean> yawBool = new Setting<>("Yaw", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> yawEnable = new Setting<>("EnableYaw", true, this).setVisibility(v-> yawBool.getValue());
+    public Setting<String> dimension = new Setting<>("Dimension", "Normal", this, Arrays.asList("Normal", "Multi")).setVisibility(v-> yawBool.getValue());
+    public Setting<Double> intSpeed = new Setting<>("Speed", (double)20, this, 1, 100).setVisibility(v-> yawBool.getValue());
 
-    public Setting<Boolean> pitchBool = new Setting<>("Enable", false, this).setVisibility(v-> page.getValue(pages.Pitch));
-    public Setting<Integer> pitch = new Setting<>("Pitch", 0, this, -90, 90).setVisibility(pv-> page.getValue(pages.Pitch));
+    public Setting<Boolean> pitchBool = new Setting<>("Pitch", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> pitchEnable = new Setting<>("EnablePitch", false, this).setVisibility(v-> pitchBool.getValue());
+    public Setting<Integer> pitch = new Setting<>("Value", 0, this, -90, 90).setVisibility(pv-> pitchBool.getValue());
 
 
     @Override
     public void onTick(){
         super.onTick();
-        if (yawBool.getValue()) {
+        if (yawEnable.getValue()) {
         if(dimension.getValue().equals("Multi")){
         YawUtil.MakeRoundedYaw(intSpeed.getValue().intValue(),true);
         }if(dimension.getValue().equals("Normal")){
@@ -34,7 +32,7 @@ public class RotationLock extends Module {
             }
         }
 
-        if (pitchBool.getValue()) {
+        if (pitchEnable.getValue()) {
             mc.player.rotationPitch = pitch.getValue().floatValue();
         }
     }

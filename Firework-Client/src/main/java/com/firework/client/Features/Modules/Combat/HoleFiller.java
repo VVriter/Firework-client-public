@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.Combat.Rewrite.HoleFiller;
+package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;

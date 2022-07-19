@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class ChunkAnimator extends Module {
 
     public Setting<Double> AnimationLength = new Setting<>("AnimationLength", (double)250, this, 1, 5000);
-    public Setting<Boolean> EasingEnabled = new Setting<>("EasingEnabled", false, this);
+  //  public Setting<Boolean> EasingEnabled = new Setting<>("EasingEnabled", false, this);
 
     private final WeakHashMap<RenderChunk, AtomicLong> lifespans = new WeakHashMap<>();
     private double easeOutCubic(double t)
@@ -50,9 +50,6 @@ public class ChunkAnimator extends Module {
             if (timeDifference <= AnimationLength.getValue()) {
                 double chunkY = e.RenderChunk.getPosition().getY();
                 double offsetY = chunkY / AnimationLength.getValue() * timeDifference;
-                if (EasingEnabled.getValue()) {
-                    offsetY = chunkY * easeOutCubic(timeDifference / AnimationLength.getValue().doubleValue());
-                }
                 GlStateManager.translate(0.0, -chunkY + offsetY, 0.0);
             }
         }

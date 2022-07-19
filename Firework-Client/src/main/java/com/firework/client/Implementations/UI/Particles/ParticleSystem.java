@@ -19,7 +19,7 @@ public class ParticleSystem {
     public static Timer timer;
 
     //Speed value in ms
-    public static int speed = 15;
+    public static int speed = 40;
 
     //Particles scale factor
     public static double scale = 1;
@@ -28,7 +28,7 @@ public class ParticleSystem {
     public static double lineLong = 10;
 
     //Particles amount
-    public static int amount = 20;
+    public static int amount = 50;
 
     //Particles list
     public static ArrayList<Particle> particles = new ArrayList<>();
