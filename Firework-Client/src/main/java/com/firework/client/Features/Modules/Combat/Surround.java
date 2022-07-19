@@ -3,17 +3,31 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Features.Modules.Movement.Step;
+import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Mixins.MixinsList.ICPacketUseEntity;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.MotionUtil;
+import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Timer;
+import net.minecraft.block.BlockObsidian;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.CPacketUseEntity;
+import net.minecraft.network.play.server.SPacketBlockBreakAnim;
+import net.minecraft.network.play.server.SPacketBlockChange;
+import net.minecraft.network.play.server.SPacketSoundEffect;
+import net.minecraft.network.play.server.SPacketSpawnObject;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -21,6 +35,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.getHotbarItemSlot;
 
@@ -50,7 +65,7 @@ public class Surround extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        if(!containsAir(blockToPlace()))
+        if(!containsAir(blockToPlace()) && shouldToggle.getValue())
             onDisable();
 
         placeTimer = new Timer();
@@ -72,6 +87,21 @@ public class Surround extends Module {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onPacketReceive(final PacketEvent.Receive event) {
+        if (event.getPacket() instanceof SPacketBlockChange) {
+            SPacketBlockChange packet2 = ((SPacketBlockChange) event.getPacket());
+            if(packet2.blockState.getBlock() == Blocks.AIR){
+                if(Arrays.asList(blockToPlace()).contains(packet2.getBlockPosition())){
+                    if(InventoryUtil.getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) != -1){
+                        blockPlacer.placeBlock(packet2.getBlockPosition(), Blocks.OBSIDIAN);
+                        System.out.println(1);
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public void onTick(final TickEvent.ClientTickEvent event) {
         super.onTick();
 
@@ -109,6 +139,7 @@ public class Surround extends Module {
     }
 
     private void doSurround(BlockPos... blockToPlace){
+        if(line == null) return;
         for(BlockPos pos : blockToPlace)
             if(isAir(pos) && !line.contains(pos))
                 line.add(pos);

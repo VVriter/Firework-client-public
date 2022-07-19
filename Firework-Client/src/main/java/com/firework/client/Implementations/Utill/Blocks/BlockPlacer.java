@@ -76,7 +76,7 @@ public class BlockPlacer {
         //Places block
         BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), BlockUtil.blackList.contains(BlockUtil.getBlock(blockPos.add(0, -1, 0))) ? true : false);
 
-        if(switchMode.getValue(switchModes.Silent)) {
+        if(switchMode.getValue(switchModes.Silent) && backSwitch != -1) {
             switchItems(getItemStack(backSwitch).getItem(), InventoryUtil.hands.MainHand);
         }
     }

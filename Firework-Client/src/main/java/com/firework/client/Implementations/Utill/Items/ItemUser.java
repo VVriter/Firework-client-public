@@ -69,7 +69,7 @@ public class ItemUser {
         mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(blockPos, EnumFacing.UP, hand, 0, 0,0));
 
 
-        if(switchMode.getValue(ItemUser.switchModes.Silent)) {
+        if(switchMode.getValue(ItemUser.switchModes.Silent) && backSwitch != -1) {
             switchItems(getItemStack(backSwitch).getItem(), InventoryUtil.hands.MainHand);
         }
     }
