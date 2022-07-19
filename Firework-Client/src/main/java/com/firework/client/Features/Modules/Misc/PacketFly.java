@@ -215,14 +215,14 @@ public class PacketFly extends Module {
 
         if (type.getValue(Type.FAST)) {
             mc.player.setVelocity(speedX, speedY, speedZ);
-            sendPackets(speedX, speedY, speedZ, packetMode.getValue(), true, false);
+            sendPackets(speedX, speedY, speedZ, (Mode) packetMode.getValue(), true, false);
         }
         if (type.getValue(Type.SLOW)) {
-            sendPackets(speedX, speedY, speedZ, packetMode.getValue(), true, false);
+            sendPackets(speedX, speedY, speedZ, (Mode) packetMode.getValue(), true, false);
         }
         if (type.getValue(Type.SETBACK)) {
             mc.player.setVelocity(speedX, speedY, speedZ);
-            sendPackets(speedX, speedY, speedZ, packetMode.getValue(), false, false);
+            sendPackets(speedX, speedY, speedZ, (Mode) packetMode.getValue(), false, false);
         }
         if (type.getValue(Type.FACTOR)) {
 
@@ -231,7 +231,7 @@ public class PacketFly extends Module {
             float rawFactor = factor.getValue().floatValue();
             if (Keyboard.isKeyDown(key1.getValue()) && intervalTimer.hasPassedMs(3500)) {
                 intervalTimer.reset();
-                rawFactor = motion.getValue();
+                rawFactor = motion.getValue().floatValue();
             }
             int factorInt = (int) Math.floor(rawFactor);
             factorCounter++;
@@ -241,7 +241,7 @@ public class PacketFly extends Module {
             }
             for (int i = 1; i <= factorInt; ++i) {
                 mc.player.setVelocity(speedX * i, speedY * i, speedZ * i);
-                sendPackets(speedX * i, speedY * i, speedZ * i, packetMode.getValue(), true, false);
+                sendPackets(speedX * i, speedY * i, speedZ * i, (Mode)packetMode.getValue(), true, false);
             }
             speedX = mc.player.motionX;
             speedY = mc.player.motionY;
@@ -365,6 +365,7 @@ public class PacketFly extends Module {
 
     @Override
     public void onEnable() {
+        super.onEnable();
         if (mc.player == null || mc.world == null) {
             toggle();
             return;
@@ -391,6 +392,7 @@ public class PacketFly extends Module {
 
     @Override
     public void onDisable() {
+        super.onDisable();
         if (mc.player != null) {
             mc.player.setVelocity(0, 0, 0);
         }
