@@ -35,6 +35,7 @@
     "Guis.MixinGuiScreen",
     "IEntity",
     "ISPacketExplosion",
-    "ISPacketEntityVelocity"
+    "ISPacketEntityVelocity",
+    "IEntityPlayerSP"
   ]
 }
