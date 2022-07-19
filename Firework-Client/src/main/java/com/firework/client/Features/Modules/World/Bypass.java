@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Mixins.MixinsList.IEntity;
 import com.firework.client.Implementations.Settings.Setting;
 
 import net.minecraft.item.ItemBoat;
@@ -21,11 +22,17 @@ public class Bypass extends Module {
     public Setting<Boolean> boatPlace = new Setting<>("BoatPlace", true, this);
     public Setting<Boolean> buildHeight  = new Setting<>("BuildHeight", true, this);
 
-
+    public Setting<Boolean> portalChat  = new Setting<>("BuildHeight", true, this);
     public Bypass(){super("Bypass",Category.WORLD);}
 
     @Override
     public void onTick(){
+
+        if (portalChat.getValue()) {
+            ((IEntity) mc.player).setInPortal(false);
+        }
+
+
        if(boatPlace.getValue()){
            if (mc.player.getHeldItemMainhand().getItem() instanceof ItemBoat && Mouse.isButtonDown(1)) {
                mc.getConnection().sendPacket(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
