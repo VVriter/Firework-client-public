@@ -9,6 +9,7 @@ import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Managers.*;
+import com.firework.client.Implementations.Managers.Fps.FpsManager;
 import com.firework.client.Implementations.UI.ConsoleGui.Command.ConsoleManager;
 import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.UI.Hud.HudManager;
@@ -78,7 +79,6 @@ public class Firework
     public static ShaderManager shaderManager;
 
     public static ConsoleManager consoleManager;
-
     public void loadManagers(){
         addManagers(
                 shaderManager = new ShaderManager(),
