@@ -31,6 +31,9 @@ import java.util.*;
 public class PlayerUtil implements Util {
     private static final JsonParser PARSER = new JsonParser();
 
+    public static boolean isPlayerMoving() {
+        return mc.gameSettings.keyBindForward.isKeyDown() || mc.gameSettings.keyBindBack.isKeyDown() || mc.gameSettings.keyBindRight.isKeyDown() || mc.gameSettings.keyBindLeft.isKeyDown();
+    }
     public static ArrayList<EntityPlayer> getAll() {
         try {
             ArrayList<EntityPlayer> players = new ArrayList<EntityPlayer>();
