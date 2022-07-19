@@ -21,18 +21,10 @@ import static java.lang.Math.round;
 
 @HudManifest(name = "CordsHud")
 public class CordsHud extends HudComponent {
-
-    private AnimationUtil animationUtil;
-    private boolean autoWidth = true;
-    public CordsHud(){
-        animationUtil = new AnimationUtil();
-    }
-
     @Override
     public void initialize() {
         super.initialize();
         this.height = 12;
-        this.width = 100;
         this.y = 100;
         this.x = 200;
         initialized = true;
@@ -42,17 +34,15 @@ public class CordsHud extends HudComponent {
     public void draw() {
         super.draw();
         EntityPlayer me = mc.player;
-        String cordsInline = "X: " + Math.round(me.posX) + " Y: " + Math.round(me.posY) +" Z: " + Math.round(me.posZ);
-        if(!enabled && !(mc.currentScreen instanceof HudGui)) return;
+        String cordsInline = "X: " + Math.round(me.posX) + " Y: " + Math.round(me.posY) + " Z: " + Math.round(me.posZ);
+        double textWidth = customFontManager.getWidth(cordsInline);
+        this.width = (int) textWidth+5;
+        if (!enabled && !(mc.currentScreen instanceof HudGui)) return;
 
-        if(mc.player == null && mc.world == null) return;
+        if (mc.player == null && mc.world == null) return;
 
         //Draws hud background
         RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), HudInfo.fillColorA);
-        customFontManager.drawString(cordsInline,x+3,y+2, Color.LIGHT_GRAY.getRGB());
-    }
-
-    public Color healthColor(EntityLivingBase entity){
-        return new HSLColor(90 * entity.getHealth()/entity.getMaxHealth(), 50, 50).toRGB();
+        customFontManager.drawString(cordsInline, x + 3, y + 2, Color.LIGHT_GRAY.getRGB());
     }
 }
