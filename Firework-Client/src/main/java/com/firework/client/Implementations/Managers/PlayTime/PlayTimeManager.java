@@ -21,6 +21,6 @@ public class PlayTimeManager {
         System.out.print(diffMinutes + " minutes, ");
         System.out.print(diffSeconds + " seconds.");
 
-        return diffHours+":"+diffMinutes+":"+diffSeconds;
+        return "H: "+diffHours+" M: "+diffMinutes+" S:"+diffSeconds;
     }
 }

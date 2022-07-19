@@ -28,7 +28,6 @@ public class PlayTimeHud extends HudComponent {
     public void initialize() {
         super.initialize();
         this.height = 12;
-        this.width = 100;
         this.y = 30;
         this.x = 300;
         initialized = true;
@@ -37,11 +36,14 @@ public class PlayTimeHud extends HudComponent {
     @Override
     public void draw() {
         super.draw();
+        String toRender = PlayTimeManager.getTimeNow();
         //Draws hud background
         if(!enabled && !(mc.currentScreen instanceof HudGui)) return;
-
         if(mc.player == null && mc.world == null) return;
+
+        this.width = (int) (customFontManager.getWidth(toRender)+5);
+
         RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), HudInfo.fillColorA);
-        customFontManager.drawString(PlayTimeManager.getTimeNow(),x+3,y+2, Color.LIGHT_GRAY.getRGB());
+        customFontManager.drawString(toRender,x+3,y+2, Color.LIGHT_GRAY.getRGB());
     }
 }
