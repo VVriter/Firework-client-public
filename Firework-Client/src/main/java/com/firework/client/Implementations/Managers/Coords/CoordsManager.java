@@ -11,12 +11,8 @@ public class CoordsManager {
             int posY = (int) mc.player.posY;
             int posZ = (int) mc.player.posZ*8;
 
-            return "X: "+posX+" Y: "+posY+" Z: "+posZ;
-        }else{
-            int posX = (int) mc.player.posX;
-            int posY = (int) mc.player.posY;
-            int posZ = (int) mc.player.posZ;
-            return "X: "+posX+" Y: "+posY+" Z: "+posZ;
+            return "X: " + Math.round(mc.player.posX)+" ("+posX+")" + " Y: "+posY+" Z: "+Math.round(mc.player.posZ)+" ("+posZ+")";
         }
+        return null;
     }
 }

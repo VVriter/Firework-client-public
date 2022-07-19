@@ -1,23 +1,18 @@
 package com.firework.client.Implementations.UI.Hud.Huds.Render;
 
+import com.firework.client.Implementations.Managers.Coords.CoordsManager;
 import com.firework.client.Implementations.UI.Hud.HudGui;
 import com.firework.client.Implementations.UI.Hud.HudInfo;
 import com.firework.client.Implementations.UI.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.UI.Hud.Huds.HudManifest;
-import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Render.*;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 
 import java.awt.*;
 
 import static com.firework.client.Firework.*;
 import static com.firework.client.Implementations.Utill.Util.mc;
-import static java.lang.Math.round;
 
 @HudManifest(name = "CordsHud")
 public class CordsHud extends HudComponent {
@@ -34,15 +29,25 @@ public class CordsHud extends HudComponent {
     public void draw() {
         super.draw();
         EntityPlayer me = mc.player;
+        //Overworld only
         String cordsInline = "X: " + Math.round(me.posX) + " Y: " + Math.round(me.posY) + " Z: " + Math.round(me.posZ);
-        double textWidth = customFontManager.getWidth(cordsInline);
-        this.width = (int) textWidth+5;
+        String overWorldCordsinNether = CoordsManager.getCordsForDrawString();
+
         if (!enabled && !(mc.currentScreen instanceof HudGui)) return;
 
         if (mc.player == null && mc.world == null) return;
 
         //Draws hud background
         RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), HudInfo.fillColorA);
-        customFontManager.drawString(cordsInline, x + 3, y + 2, Color.LIGHT_GRAY.getRGB());
+
+        if(!mc.world.getBiome(mc.player.getPosition()).getBiomeName().equals("Hell")){
+            double textWidth = customFontManager.getWidth(cordsInline);
+            this.width = (int) textWidth+5;
+            customFontManager.drawString(cordsInline, x + 3, y + 2, Color.LIGHT_GRAY.getRGB());
+        } else if (mc.world.getBiome(mc.player.getPosition()).getBiomeName().equals("Hell")){
+            double textWidth2 = customFontManager.getWidth(overWorldCordsinNether);
+            this.width = (int) textWidth2+5;
+            customFontManager.drawString(overWorldCordsinNether,x+3,y+2,Color.LIGHT_GRAY.getRGB());
+        }
     }
 }
