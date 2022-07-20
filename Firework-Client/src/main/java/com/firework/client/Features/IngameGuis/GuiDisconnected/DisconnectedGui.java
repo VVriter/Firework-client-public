@@ -11,8 +11,6 @@ import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
 public class DisconnectedGui extends GuiScreen {
-
-    private static final ResourceLocation texture = new ResourceLocation("firework/textures/texture1.jpg");
     public DisconnectedGui(){
         super();
     }
@@ -42,8 +40,6 @@ public class DisconnectedGui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         GlStateManager.color(1, 1, 1, 1);
         drawDefaultBackground();
-        mc.renderEngine.bindTexture(texture);
-        drawScaledCustomSizeModalRect(0, 0, 0, 0, this.width, this.height, this.width, this.height, this.width, this.height);
         for (GuiButton guiButton : this.buttonList) {
             guiButton.drawButton(this.mc, mouseX, mouseY, partialTicks);
         }
