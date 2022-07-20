@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.World.CoolStuff;
+package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;

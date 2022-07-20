@@ -1,6 +1,5 @@
 package com.firework.client.Implementations.UI.GuiNEO;
 
-import com.firework.client.Features.Modules.Client.GuiGradient;
 import com.firework.client.Features.Modules.Info;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.SubModule;
@@ -15,9 +14,6 @@ import com.firework.client.Implementations.UI.Particles.ParticleInfo;
 import com.firework.client.Implementations.UI.Particles.ParticleSystem;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.Pair;
-import com.firework.client.Implementations.Utill.Render.RainbowUtil;
-import com.firework.client.Implementations.Utill.Render.Rectangle;
-import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.Vec2f;
@@ -25,10 +21,8 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
-import static com.firework.client.Firework.moduleManager;
 import static com.firework.client.Firework.settingManager;
 import static net.minecraft.util.math.MathHelper.floor;
 
@@ -127,17 +121,6 @@ public class Gui extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) throws ConcurrentModificationException {
         super.drawScreen(mouseX, mouseY, partialTicks);
-       if (GuiGradient.enabled.getValue()) {
-            drawGradientRect(0, 0, mc.displayWidth, mc.displayHeight,
-                            new Color(GuiGradient.Color1.getValue().toRGB().getRed(),
-                                    GuiGradient.Color1.getValue().toRGB().getGreen(),
-                                    GuiGradient.Color1.getValue().toRGB().getBlue(),
-                                    100).getRGB(),
-                            new Color(GuiGradient.Color2.getValue().toRGB().getRed(),
-                                    GuiGradient.Color2.getValue().toRGB().getGreen(),
-                                    GuiGradient.Color2.getValue().toRGB().getBlue(),
-                                    100).getRGB());
-        }
 
         if(com.firework.client.Features.Modules.Client.Gui.background.getValue()){
             this.drawDefaultBackground();

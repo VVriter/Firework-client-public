@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Movement;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.PlayerCollideWithBlockEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import net.minecraft.client.settings.KeyBinding;
@@ -21,6 +22,16 @@ public class NoSlow extends Module {
     private Setting<Boolean> strict = new Setting<>("Strict", true, this);
     private Setting<Boolean> items = new Setting<>("Items", true, this);
 
+    public static Setting<Boolean> blocks = null;
+    public static Setting<Boolean> soulSand = null;
+    public Setting<Boolean> slimes = null;
+
+
+    public NoSlow() {
+        blocks = new Setting<>("Blocks", false, this).setMode(Setting.Mode.SUB);
+        soulSand = new Setting<>("SoulSand", true, this);
+        slimes = new Setting<>("Slimes", true, this);
+    }
     @Override
     public void onTick() {
         super.onTick();

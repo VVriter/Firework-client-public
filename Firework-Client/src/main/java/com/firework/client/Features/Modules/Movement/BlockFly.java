@@ -6,13 +6,11 @@ import com.firework.client.Features.Modules.World.Scaffold.ScaffoldBlock;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
-import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketPlayerPosLook;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
-import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.block.Block;
@@ -27,45 +25,36 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleManifest(name = "BlockFly", category = Module.Category.MOVEMENT)
+@ModuleManifest(name = "BlockFlyRewrite", category = Module.Category.MOVEMENT)
 public class BlockFly extends Module {
-
     private Setting<Boolean> packet  = new Setting<>("Packet", false, this);
 
     private Setting<Boolean> rotate  = new Setting<>("Rotate", true, this);
-
-    private Setting<Boolean> swing  = new Setting<>("Swing", true, this);
-    private Setting<Boolean> forceGroundPacket = new Setting<>("ForceGround", true, this);
 
     private Setting<BlockPlacer.switchModes> switchMode  = new Setting<>("Switch", BlockPlacer.switchModes.Silent, this, BlockPlacer.switchModes.values());
 
     private Setting<Boolean> Tower  = new Setting<>("Tower", true, this);
 
     private Setting<Boolean> slowness  = new Setting<>("Slowness", true, this);
-    private Setting<Double> speed = new Setting<>("Delay", 0d, this, 0, 1).setVisibility(v-> slowness.getValue(true));
+    private Setting<Double> speed = new Setting<>("Speed", 0d, this, 0, 1).setVisibility(v-> slowness.getValue(true));
 
-    private Setting<Integer> flyTimerDelay = new Setting<>("FlyDelayMs", 116, this, 0, 400);
-
-    private Setting<Boolean> onGround  = new Setting<>("OnGround", true, this);
-    private Setting<Boolean> setPos  = new Setting<>("SetPos", false, this);
-    private Setting<Boolean> noLagBack  = new Setting<>("NoLagBag", false, this).setVisibility(v-> setPos.getValue(true));
+    private Setting<Double> towerTimerDelay = new Setting<>("TowerDelayMs", 1.4d, this, 0, 4);
+    private Setting<Double> rollBackDelay = new Setting<>("RollBackDelayS", 2.1d, this, 0, 3);
 
     private Setting<Boolean> velocity  = new Setting<>("Velocity", true, this);
 
-    private Setting<Boolean> resetOnPacketLookPos  = new Setting<>("ResetOnPacketLookPos", true, this);
-    private Setting<Boolean> confirmTeleport  = new Setting<>("ConfirmTeleport", true, this);
+    private Setting<Boolean> resetOnPacketLookPos  = new Setting<>("ResetOnPacketLookPos", false, this);
+    private Setting<Boolean> confirmTeleport  = new Setting<>("ConfirmTeleport", false, this);
 
     private Setting<Boolean> noForceRotate  = new Setting<>("NoForceRotate", true, this);
-    private Setting<Boolean> jumpIfColliededHoriz  = new Setting<>("JumpOnCollide", false, this);
-    private Setting<Boolean> rotationSpoof  = new Setting<>("RotationSpoof", true, this);
-    private Setting<Boolean> noLagBackPacket  = new Setting<>("NoLagBackPacket", true, this);
+
     private List<ScaffoldBlock> blocksToRender = new ArrayList<>();
 
     private BlockPos pos;
 
     private BlockPlacer blockPlacer;
 
-    private Timer flyTimer;
+    private Timer motionTimer, towerTimer, rollBackTimer;
 
     public BlockFly(){
         blockPlacer = new BlockPlacer(this, switchMode, rotate, packet);
@@ -74,65 +63,61 @@ public class BlockFly extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        flyTimer = new Timer();
-        flyTimer.reset();
+        towerTimer = new Timer();
+        towerTimer.reset();
+        rollBackTimer = new Timer();
+        rollBackTimer.reset();
+        motionTimer = new Timer();
+        motionTimer.reset();
     }
 
     @Override
     public void onTick() {
         super.onTick();
+
         if (mc.player == null || mc.world == null) return;
 
-        if(swing.getValue()){
-            mc.player.isSwingInProgress = false;
-            mc.player.swingProgressInt = 0;
-            mc.player.swingProgress = 0.0f;
-            mc.player.prevSwingProgress = 0.0f;
-        }
-
         if(slowness.getValue()) {
-            double[] calc = MathUtil.directionSpeed(this.speed.getValue() / 10.0);
+            final double[] calc = MathUtil.directionSpeed(this.speed.getValue() / 10.0);
             mc.player.motionX = calc[0];
             mc.player.motionZ = calc[1];
         }
 
         if(Tower.getValue()){
-            if(mc.gameSettings.keyBindJump.isKeyDown() && mc.player.moveForward == 0.0F && mc.player.moveStrafing == 0.0F){
-                if(flyTimer.hasPassedMs(flyTimerDelay.getValue())) {
-                    mc.player.setVelocity(0, 0.42, 0);
-                    Firework.positionManager.setPositionPacket(mc.player.posX, mc.player.posY + 0.42, mc.player.posZ, onGround.getValue(), setPos.getValue(), noLagBack.getValue());
-                    flyTimer.reset();
+            if(mc.gameSettings.keyBindJump.isKeyDown() && mc.player.moveForward == 0.0F && mc.player.moveStrafing == 0.0F
+                    && towerTimer.hasPassedMs(towerTimerDelay.getValue()*100)){
+                if (rollBackTimer.hasPassedMs(rollBackDelay.getValue()*1000)) {
+                    rollBackTimer.reset();
+                    mc.player.motionY = -0.28f;
+                }else {
+                    final float towerMotion = 0.41999998688f;
+                    mc.player.setVelocity(0, towerMotion, 0);
+                    Firework.positionManager.setPositionPacket(mc.player.posX, mc.player.posY + towerMotion, mc.player.posZ, true, false, false);
                 }
-                pos = new BlockPos(mc.player.posX, mc.player.posY - 1.0, mc.player.posZ);
-                if (isAir(pos)) {
-                    blockPlacer.placeBlock(pos, Block.getBlockFromItem(InventoryUtil.getItemStack(InventoryUtil.findAnyBlock()).getItem()));
-                    blocksToRender.add(new ScaffoldBlock(BlockUtil.posToVec3d(pos)));
-                }
+                towerTimer.reset();
+               // mc.player.setVelocity(0, 0.42, 0);
+                //Firework.positionManager.setPositionPacket(mc.player.posX, mc.player.posY + 0.42, mc.player.posZ, onGround.getValue(), setPos.getValue(), noLagBack.getValue());
+                //flyTimer.reset();
             }
+        }
+
+        pos = new BlockPos(mc.player.posX, mc.player.posY - 1.0, mc.player.posZ);
+        if (isAir(pos)) {
+            blockPlacer.placeBlock(pos, Block.getBlockFromItem(InventoryUtil.getItemStack(InventoryUtil.findAnyBlock()).getItem()));
+            blocksToRender.add(new ScaffoldBlock(BlockUtil.posToVec3d(pos)));
         }
     }
 
     @SubscribeEvent
     public void onPush(PlayerSPPushOutOfBlocksEvent e){
         e.setCanceled(velocity.getValue());
-        if(mc.player.collidedHorizontally && jumpIfColliededHoriz.getValue())
-            mc.player.jump();
     }
 
     @SubscribeEvent
-    public void onSettingUpdate(SettingChangeValueEvent event){
-        if(event.setting == flyTimerDelay){
-            flyTimer.reset();
-        }
-    }
-
-    @SubscribeEvent
-    public void onPacketSend(PacketEvent.Send event) {
-        if (event.getPacket() instanceof CPacketPlayer && forceGroundPacket.getValue()) {
-            ((ICPacketPlayer) event.getPacket()).setOnGround(true);
-        }
-        if (event.getPacket() instanceof CPacketPlayer && rotationSpoof.getValue()) {
-            ((ICPacketPlayer)event.getPacket()).setPitch(90);
+    public void onSettingUpdate(final SettingChangeValueEvent event){
+        if(event.setting == towerTimerDelay || event.setting == rollBackDelay){
+            towerTimer.reset();
+            rollBackTimer.reset();
         }
     }
 
@@ -141,7 +126,7 @@ public class BlockFly extends Module {
         if(event.getPacket() instanceof SPacketPlayerPosLook) {
             SPacketPlayerPosLook packet = (SPacketPlayerPosLook) event.getPacket();
             if (resetOnPacketLookPos.getValue())
-                flyTimer.reset();
+                towerTimer.reset();
             if (confirmTeleport.getValue()) {
                 mc.player.setPosition(packet.getX(), packet.getY(), packet.getZ());
 
@@ -153,10 +138,6 @@ public class BlockFly extends Module {
                 ((ISPacketPlayerPosLook) packet).setPitch(mc.player.rotationPitch);
                 packet.getFlags().remove(SPacketPlayerPosLook.EnumFlags.X_ROT);
                 packet.getFlags().remove(SPacketPlayerPosLook.EnumFlags.Y_ROT);
-            }
-            Block block = BlockUtil.getBlock(EntityUtil.getFlooredPos(packet.getX(), packet.getY()+1, packet.getZ()));
-            if(noLagBackPacket.getValue() && block != Blocks.AIR){
-                event.setCanceled(true);
             }
         }
     }

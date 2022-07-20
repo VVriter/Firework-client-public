@@ -2,11 +2,8 @@ package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
-import com.firework.client.Implementations.Mixins.MixinsList.IPig;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.util.MovementInput;
 import net.minecraft.world.chunk.EmptyChunk;
 

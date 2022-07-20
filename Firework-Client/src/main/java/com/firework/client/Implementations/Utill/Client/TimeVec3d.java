@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.Misc;
+package com.firework.client.Implementations.Utill.Client;
 
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;

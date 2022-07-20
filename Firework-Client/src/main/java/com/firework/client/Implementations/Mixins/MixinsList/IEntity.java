@@ -11,4 +11,7 @@ public interface IEntity {
 
     @Accessor(value = "inPortal")
     void setInPortal(boolean inPortal);
+
+    @Accessor(value = "isImmuneToFire")
+    void setImmuneToFire(boolean isImmuneToFire);
 }

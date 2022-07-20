@@ -13,13 +13,11 @@ import java.awt.*;
 public class PosRenderer {
 
     private Module module;
-    private Setting<PosRenderer.renderModes> renderMode;
     private Setting<PosRenderer.boxeMode> boxModes;
     private Setting<PosRenderer.outlineModes> outlineMode;
 
-    public PosRenderer(Module module, Setting renderMode, Setting boxModes, Setting outlineMode){
+    public PosRenderer(Module module, Setting boxModes, Setting outlineMode){
         this.module = module;
-        this.renderMode = renderMode;
         this.boxModes = boxModes;
         this.outlineMode = outlineMode;
     }
@@ -34,14 +32,11 @@ public class PosRenderer {
             Color fillColorEnd,
             int width,
             float heightBox,
-            float heightOutline,
-            Color beaconFillColor,
-            int beaconOutlineWidth
+            float heightOutline
     )
 
 
     {
-        if (renderMode.getValue(renderModes.Box)) {
             if (boxModes.getValue(boxeMode.Normal)) {
                 RenderUtils.drawBoxESP(posTorender,fillColor,width,false,true,fillColor.getAlpha(),heightBox);
             } else if (boxModes.getValue(boxeMode.Gradient)) {
@@ -67,29 +62,12 @@ public class PosRenderer {
                        width
                );
             }
-        }
-
-
-        else if (renderMode.getValue(renderModes.Beacon)) {
-            RenderUtils.drawBoxESP(posTorender,beaconFillColor,beaconOutlineWidth,true,false,0,1);
-            RenderUtils.drawBoxESP(posTorender,beaconFillColor,beaconOutlineWidth,true,true,beaconFillColor.getAlpha(), Minecraft.getMinecraft().world.getHeight());
-        }
     }
-
-    private void updateSettings(){
-        this.renderMode = Firework.settingManager.getSetting(module, renderMode.name);
-    }
-
-
     public enum boxeMode{
         Normal, Gradient, None
     }
 
     public enum outlineModes{
         Normal, Gradient, None
-    }
-
-    public enum renderModes{
-        Box, Beacon
     }
 }

@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Mixins.MixinsList.IKeyBinding;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.YawUtil;
 import net.minecraft.util.math.BlockPos;
@@ -54,10 +55,18 @@ public class BaseFinder extends Module {
         }
     }
 
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        ((IKeyBinding)mc.gameSettings.keyBindForward).setPressed(false);
+    }
+
 
     @Override
     public void onTick(){
         super.onTick();
+
+        ((IKeyBinding)mc.gameSettings.keyBindForward).setPressed(true);
 
         if(huntingMode.getValue(huntingMode1.Normal)){
             YawUtil.MakeRoundedYaw(10,true);

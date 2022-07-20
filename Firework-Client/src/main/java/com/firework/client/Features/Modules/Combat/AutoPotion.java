@@ -3,65 +3,54 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Items.ItemUser;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.init.Items;
-import net.minecraft.network.play.client.CPacketHeldItemChange;
-import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.ItemStack;
 
-@ModuleManifest(name = "AutoPotion",category = Module.Category.COMBAT)
+@ModuleManifest(name = "AutoPotionRewrite", category = Module.Category.COMBAT)
 public class AutoPotion extends Module {
 
+    public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this, ItemUser.switchModes.values());
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
-    public Setting<Double> lookPitch = new Setting<>("Pitch", (double)90, this, 1, 100);
-    public Setting<Double> delay = new Setting<>("Delay", (double)3, this, 1, 10);
-    private int delay_count;
-    int prvSlot;
+    public Setting<Integer> lookPitch = new Setting<>("Pitch", 90, this, 1, 100);
 
-    Timer timer = new Timer();
-    @Override public void onEnable() { super.onEnable();
-        delay_count = 0;
+    public Setting<Integer> delay = new Setting<>("DelayMs", 3, this, 1, 100);
+
+    ItemUser itemUser;
+    Timer timer;
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        timer = new Timer();
         timer.reset();
+
+        itemUser = new ItemUser(this, switchMode, rotate);
     }
 
 
-    @Override public void onTick() {super.onTick();
+    @Override
+    public void onTick() {
+        super.onTick();
         if (mc.currentScreen == null) {
-            usedXp();
+            usePotion();
         }
     }
 
-    private int findExpInHotbar() {
-        int slot = 0;
-        for (int i = 0; i < 9; i++) {
-            if (mc.player.inventory.getStackInSlot(i).getItem() == Items.SPLASH_POTION) {
-                slot = i;
-                break;
-            }
-        }
-        return slot;
-    }
-
-    public void usedXp(){
-        int oldPitch = (int)mc.player.rotationPitch;
-        prvSlot = mc.player.inventory.currentItem;
-        mc.player.connection.sendPacket(new CPacketHeldItemChange(findExpInHotbar()));
-        if (rotate.getValue()) {
-            mc.player.rotationPitch = lookPitch.getValue().floatValue();
-            mc.player.connection.sendPacket(new CPacketPlayer.Rotation(mc.player.rotationYaw, lookPitch.getValue().floatValue(), true)); }
-        if (timer.hasPassedMs(delay.getValue()*100)) {
-            mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
+    public void usePotion(){
+        if(!mc.player.inventory.hasItemStack(new ItemStack(Items.SPLASH_POTION))) return;
+        if(timer.hasPassedMs(delay.getValue())) {
+            itemUser.useItem(Items.SPLASH_POTION, lookPitch.getValue());
             timer.reset();
         }
-        if (rotate.getValue()) {
-            mc.player.rotationPitch = oldPitch; }
-        mc.player.inventory.currentItem = prvSlot;
-        mc.player.connection.sendPacket(new CPacketHeldItemChange(prvSlot));
     }
 
-    @Override public void onDisable() {super.onDisable();
-        timer.reset();
-    }
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        timer = null;
 
+        itemUser = null;
+    }
 }

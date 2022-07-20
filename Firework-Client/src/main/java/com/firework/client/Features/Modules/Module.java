@@ -94,6 +94,6 @@ public class Module extends Info{
         return mc.player == null || mc.world == null;
     }
     public enum Category{
-        CHAT, COMBAT, MOVEMENT, RENDER, MISC, WORLD, CLIENT, EXAMPLE
+        CHAT, COMBAT, MOVEMENT, RENDER, MISC, WORLD, CLIENT
     }
 }

@@ -1,6 +1,5 @@
 package com.firework.client.Features.Modules.Misc;
 
-import com.firework.client.Features.Modules.Combat.Rewrite.MenderTweaker.MenderTweaker;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.MoveEvent;
@@ -8,6 +7,7 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketPlayerPosLook;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
+import com.firework.client.Implementations.Utill.Client.TimeVec3d;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.network.play.client.CPacketPlayer;

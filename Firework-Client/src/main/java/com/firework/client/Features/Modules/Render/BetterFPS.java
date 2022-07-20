@@ -12,7 +12,7 @@ public class BetterFPS extends Module {
     private boolean focused;
 
     public BetterFPS() {
-        super("UnfocusedCpu", Category.RENDER);
+        super("LagReducer", Category.RENDER);
         this.focused = true;
     }
 

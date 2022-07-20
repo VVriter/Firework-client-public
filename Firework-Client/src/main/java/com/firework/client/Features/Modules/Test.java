@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.Example;
+package com.firework.client.Features.Modules;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
@@ -8,7 +8,7 @@ import com.firework.client.Implementations.Utill.Render.HSLColor;
 import java.util.Arrays;
 
 
-@ModuleManifest(name = "Test", category =  Module.Category.EXAMPLE)
+@ModuleManifest(name = "Test", category =  Module.Category.CLIENT)
 public class Test extends Module {
 
     public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
