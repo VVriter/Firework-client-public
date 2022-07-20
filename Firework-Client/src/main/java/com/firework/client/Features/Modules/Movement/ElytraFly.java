@@ -6,6 +6,8 @@ import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
 import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
+import com.firework.client.Implementations.Utill.Items.ItemUser;
+import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemElytra;
 import net.minecraft.item.ItemStack;
@@ -26,6 +28,11 @@ public class ElytraFly extends Module {
 
     public Setting<Boolean> yawControl = new Setting<>("YawControl", true, this).setVisibility(v-> mode.getValue(modes.Control));
 
+
+
+    public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this, ItemUser.switchModes.values()).setVisibility(v-> mode.getValue(modes.Firework));
+    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> mode.getValue(modes.Firework));
+    public Setting<Double> delay = new Setting<>("UseDelay", (double)500, this, 1, 3000).setVisibility(v-> mode.getValue(modes.Firework));
     public Setting<Boolean> autostart = new Setting<>("Autostart", false, this).setMode(Setting.Mode.SUB).setVisibility(v-> mode.getValue(modes.Firework));
 
     public Setting<Boolean> enableAutostart = new Setting<>("EnableAutostart", true, this).setVisibility(v-> autostart.getValue() && mode.getValue(modes.Firework));
@@ -35,6 +42,8 @@ public class ElytraFly extends Module {
 
 
     float defaultTickLeght;
+    ItemUser user;
+    Timer timer = new Timer();
     @Override
     public void onTick() {
         super.onTick();
@@ -59,6 +68,15 @@ public class ElytraFly extends Module {
         }
 
         if (mode.getValue(modes.Firework)) {
+
+            if (mc.player.isElytraFlying()) {
+                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTickLeght);
+                if (timer.hasPassedMs(delay.getValue())) {
+                    user.useItem(Items.FIREWORKS,0);
+                    timer.reset();
+                }
+            }
+
             //Autostart
             if (enableAutostart.getValue()) {
             if (!mc.player.isElytraFlying()) {
@@ -80,12 +98,14 @@ public class ElytraFly extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
+        user = new ItemUser(this,switchMode,rotate);
         defaultTickLeght =  ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
+        user = null;
         ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTickLeght);
     }
 }
