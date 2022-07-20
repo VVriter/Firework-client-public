@@ -23,8 +23,11 @@ public class ColorSliderButton extends Button {
     public float difference;
     public float percent;
 
-    public ColorSliderButton(Setting setting, int x, int y, int width, int height, CSliderMode mode, Vector vector) {
-        super(setting, x, y, width, height);
+    public Setting<HSLColor> setting;
+
+    public ColorSliderButton(Setting<HSLColor> setting, int x, int y, int width, int height, CSliderMode mode, Vector vector) {
+        super(x, y, width, height);
+        this.setting = setting;
         this.mode = mode;
         this.vector = vector;
 
@@ -35,7 +38,7 @@ public class ColorSliderButton extends Button {
         }
 
         if(vector == Vector.Horizontal) {
-            this.offset = setting.opened ? 11 : 0;
+            this.offset = setting.opened ? 10 : 0;
             this.originOffset = this.offset;
             this.height = setting.opened ? 10 : 0;
             this.originHeight = this.height;
@@ -50,16 +53,18 @@ public class ColorSliderButton extends Button {
         if(setting.opened != true) return;
         super.draw(mouseX, mouseY);
 
-        GuiInfo.drawBaseButton(this, fillColorB, outlineColorA, true);
+        GuiInfo.drawBaseButton(this, fillColorB, outlineColorA, false);
 
         float value = 0;
         if(mode == CSliderMode.HUE){
-            value = ((HSLColor) setting.getValue()).hue;
+            value = setting.getValue().hue;
             RenderUtils2D.drawHueBar(new Rectangle(x, y+3, width, height-6));
         }else if(mode == CSliderMode.ALPHA){
-            value = ((HSLColor) setting.getValue()).alpha;
+            value = setting.getValue().alpha;
             RenderUtils2D.drawAlphaBarBase(new Rectangle(x + 1, y + 2, 6, 40-2));
-            RenderUtils2D.drawGradientRectVertical(new Rectangle(x + 1, y + 2, 6, 40-2), ((HSLColor) setting.getValue()).toRGB(), new Color(1,1,1,0));
+            RenderUtils2D.drawGradientRectVertical(new Rectangle(x + 1, y + 2, 6, 40-2), new HSLColor(setting.getValue().hue, setting.getValue().saturation, setting.getValue().light).toRGB(), new Color(1,1,1,0));
+            RenderUtils2D.drawRectangleOutline(new Rectangle(x, y + 2, width,
+                    40-2), 1, outlineColorA);
         }
         if(vector == Vector.Horizontal)
             RenderUtils2D.drawRectangle(new Rectangle((x + round(width * value) / difference) - 0.5, y+1, 1, height-2), Color.white);

@@ -20,9 +20,10 @@ import static com.firework.client.Implementations.UI.GuiNEO.GuiValueStorage.valu
 
 public class ColorPickerBase extends Button {
     private int tmpIndex;
-    public ColorPickerBase(Setting setting, int x, int y, int width, int height) {
-        super(setting, x, y, width, height);
-
+    public Setting<HSLColor> setting;
+    public ColorPickerBase(Setting<HSLColor> setting, int x, int y, int width, int height) {
+        super(x, y, width, height);
+        this.setting = setting;
         this.offset = 0; this.originOffset = this.offset;
         this.height = setting.opened ? 40 : 0; this.originHeight = this.height;
 
@@ -55,7 +56,7 @@ public class ColorPickerBase extends Button {
             }
             Point2D.Double p = (Point2D.Double) values.get(tmpIndex).get(1);
             setting.setValue(colorFromPoint(p));
-            RenderUtils2D.drawFilledCircle(p, ((HSLColor) setting.getValue()).toRGB(), 3);
+            RenderUtils2D.drawFilledCircle(p, new HSLColor(setting.getValue().hue, setting.getValue().saturation, setting.getValue().light).toRGB(), 3);
             RenderUtils2D.drawCircleOutline(p, 3, 2, Color.white);
         }
     }

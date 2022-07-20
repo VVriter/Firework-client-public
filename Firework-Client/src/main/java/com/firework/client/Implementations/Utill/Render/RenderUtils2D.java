@@ -252,7 +252,7 @@ public class RenderUtils2D {
         //Up side
         drawRectangle(new Rectangle(x, y, w, width), color);
         //Down side
-        drawRectangle(new Rectangle(x, y + h, w, width), color);
+        drawRectangle(new Rectangle(x, y + h - width, w, width), color);
     }
 
     public static void drawGradientRectangleOutline(Rectangle rectangle, float width, Color color1, Color color2) {
@@ -597,8 +597,8 @@ public class RenderUtils2D {
         double w = rectangle.width;
         double h = rectangle.height;
 
-        for(int b = 0; b < w; b += 3) {
-            for (int i = 0; i < h; i += 3) {
+        for(int b = 0; b < (w); b += 3) {
+            for (int i = 0; i < (h); i += 3) {
                 Color activeColor;
                 if ((i + b) % 2 == 0)
                     activeColor = white;
