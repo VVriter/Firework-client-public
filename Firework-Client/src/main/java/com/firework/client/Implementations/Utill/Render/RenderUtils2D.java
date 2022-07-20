@@ -605,7 +605,7 @@ public class RenderUtils2D {
                 else
                     activeColor = gray;
 
-                drawRectangle(new Rectangle(x, y + i, 5, 5), activeColor);
+                drawRectangle(new Rectangle(x + b, y + i, 5, 5), activeColor);
             }
         }
     }

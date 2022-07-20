@@ -51,7 +51,7 @@ public class ColorSliderButton extends Button {
             RenderUtils2D.drawHueBar(new Rectangle(x, y+3, width, height-6));
         }else if(mode == CSliderMode.ALPHA){
             value = ((HSLColor) setting.getValue()).alpha;
-            RenderUtils2D.drawHueBar(new Rectangle(x, y, width, height));
+            RenderUtils2D.drawAlphaBarBase(new Rectangle(x, y, width, height));
         }
         if(vector == Vector.Horizontal)
             RenderUtils2D.drawRectangle(new Rectangle((int) (x + round(width * value) / difference) - 0.5, y+1, 1, height-2), Color.white);
