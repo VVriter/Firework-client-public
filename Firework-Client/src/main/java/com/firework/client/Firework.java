@@ -63,6 +63,7 @@ public class Firework
 
     public static ArrayList<Manager> managers = new ArrayList<>();
 
+    public static RainbowManager rainbowManager;
     public static UpdaterManager updaterManager;
     public static SettingManager settingManager;
     public static ModuleManager moduleManager;
@@ -81,6 +82,7 @@ public class Firework
     public static ConsoleManager consoleManager;
     public void loadManagers(){
         addManagers(
+                rainbowManager = new RainbowManager(),
                 shaderManager = new ShaderManager(),
                 updaterManager = new UpdaterManager(),
                 settingManager = new SettingManager(),

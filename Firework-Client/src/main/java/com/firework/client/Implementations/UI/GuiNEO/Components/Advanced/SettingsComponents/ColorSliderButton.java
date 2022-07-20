@@ -18,17 +18,20 @@ import static java.lang.Math.round;
 public class ColorSliderButton extends Button {
 
     public CSliderMode mode;
+    public Vector vector;
 
     public float difference;
     public float percent;
 
-    public ColorSliderButton(Setting setting, int x, int y, int width, int height, CSliderMode mode) {
+    public ColorSliderButton(Setting setting, int x, int y, int width, int height, CSliderMode mode, Vector vector) {
         super(setting, x, y, width, height);
         this.mode = mode;
+        this.vector = vector;
+
         if(mode == CSliderMode.HUE) {
             this.difference = 360;
-        }else if (mode == CSliderMode.SATURATION || mode == CSliderMode.LIGHT){
-            this.difference = 100;
+        }else if (mode == CSliderMode.ALPHA){
+            this.difference = 1;
         }
 
         this.offset = setting.opened ? 11 : 0; this.originOffset = this.offset;
@@ -46,31 +49,32 @@ public class ColorSliderButton extends Button {
         if(mode == CSliderMode.HUE){
             value = ((HSLColor) setting.getValue()).hue;
             RenderUtils2D.drawHueBar(new Rectangle(x, y+3, width, height-6));
-        }else if(mode == CSliderMode.SATURATION){
-            value = ((HSLColor) setting.getValue()).saturation;
-            RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new HSLColor(((HSLColor) setting.getValue()).hue, 50, 50).toRGB(), Color.GRAY);
-        }else if(mode == CSliderMode.LIGHT){
-            value = ((HSLColor) setting.getValue()).light;
-            RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new HSLColor(((HSLColor) setting.getValue()).hue, 50, 50).toRGB(), Color.BLACK);
+        }else if(mode == CSliderMode.ALPHA){
+            value = ((HSLColor) setting.getValue()).alpha;
+            RenderUtils2D.drawHueBar(new Rectangle(x, y, width, height));
         }
-        RenderUtils2D.drawRectangle(new Rectangle((int) (x + round(width * value) / difference) - 1, y+1, 2, height-2), Color.white);
+        if(vector == Vector.Horizontal)
+            RenderUtils2D.drawRectangle(new Rectangle((int) (x + round(width * value) / difference) - 0.5, y+1, 1, height-2), Color.white);
+        else if(vector == Vector.Vertical)
+            RenderUtils2D.drawRectangle(new Rectangle(x - 1, (int) (y + round(height * value) / difference), width+2, 1), Color.white);
     }
 
-    public void setSettingFromX(int mouseX) {
-        percent = ((float) mouseX - this.x) / ((float) this.width);
+    public void setSettingFromX(int mouseX, int mouseY) {
+        if(vector == Vector.Horizontal) {
+            percent = ((float) mouseX - this.x) / ((float) this.width);
+        }else if(vector == Vector.Vertical){
+            percent = ((float) mouseY - this.y) / ((float) this.height);
+        }
         float result = 0 + this.difference * percent;
+
+        float saturation = ((HSLColor) this.setting.getValue()).saturation;
+        float light = ((HSLColor) this.setting.getValue()).light;
+        float hue = ((HSLColor) this.setting.getValue()).hue;
+
         if(mode == CSliderMode.HUE) {
-            float saturation = ((HSLColor) this.setting.getValue()).saturation;
-            float light = ((HSLColor) this.setting.getValue()).light;
             this.setting.setValue(new HSLColor(result, saturation, light));
-        }else if(mode == CSliderMode.SATURATION){
-            float hue = ((HSLColor) this.setting.getValue()).hue;
-            float light = ((HSLColor) this.setting.getValue()).light;
-            this.setting.setValue(new HSLColor(hue, result, light));
-        }else if(mode == CSliderMode.LIGHT){
-            float hue = ((HSLColor) this.setting.getValue()).hue;
-            float saturation = ((HSLColor) this.setting.getValue()).saturation;
-            this.setting.setValue(new HSLColor(hue, saturation, result));
+        }else if(mode == CSliderMode.ALPHA){
+            this.setting.setValue(new HSLColor(hue, saturation, light, result));
         }
     }
 
@@ -80,12 +84,16 @@ public class ColorSliderButton extends Button {
         if(state == 0) {
             if (setting.opened != true) return;
 
-            setSettingFromX(mouseX);
+            setSettingFromX(mouseX, mouseY);
             Gui.isDragging = true;
         }
     }
 
     public enum CSliderMode{
-        HUE, SATURATION, LIGHT
+        HUE, ALPHA
+    }
+
+    public enum Vector{
+        Horizontal, Vertical
     }
 }

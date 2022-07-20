@@ -17,10 +17,6 @@ import static com.firework.client.Implementations.Utill.Util.mc;
 public class ConfigManager extends Manager{
     public String configDir = Firework.FIREWORK_DIRECTORY + "Configs/";
 
-    public boolean canLoadConfigs = true;
-
-    public ArrayList<String> moduleNames = new ArrayList<>();
-
     public ConfigManager(){
         super(true);
         new File(configDir).mkdirs();
@@ -95,18 +91,8 @@ public class ConfigManager extends Manager{
             }
         }
 
-        if(Firework.moduleManager.getModuleByName(module.name).isEnabled.getValue()){
-            moduleNames.add(module.name);
-        }
-    }
-
-    @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event){
-        if(mc.player == null || mc.world == null || !canLoadConfigs) return;
-        for(String name : moduleNames)
-            Firework.moduleManager.getModuleByName(name).onEnable();
-
-        canLoadConfigs = false;
+        if(Firework.moduleManager.getModuleByName(module.name).isEnabled.getValue())
+            Firework.moduleManager.getModuleByName(module.name).onEnable();
     }
 
     @SubscribeEvent

@@ -9,8 +9,7 @@ import com.firework.client.Implementations.Utill.Render.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static com.firework.client.Firework.textManager;
-import static com.firework.client.Firework.updaterManager;
+import static com.firework.client.Firework.*;
 import static com.firework.client.Implementations.UI.GuiNEO.GuiInfo.fillColorA;
 import static com.firework.client.Implementations.UI.GuiNEO.GuiInfo.outlineColorA;
 import static com.firework.client.Implementations.UI.GuiNEO.GuiValueStorage.values;
@@ -38,8 +37,6 @@ public class ColorRainbowButton extends Button {
         if(setting.opened != true) return;
         super.draw(mouseX, mouseY);
 
-
-
         String text = "RAINBOW";
 
         int textWidth = textManager.getStringWidth(text);
@@ -61,30 +58,11 @@ public class ColorRainbowButton extends Button {
         super.initialize(mouseX, mouseY, state);
         if(state == 0){
             values.get(tmpIndex).set(0, !(boolean)values.get(tmpIndex).get(0));
-            if(updaterManager.containsIndex(tmpIndex)) {
-                updaterManager.removeUpdater(tmpIndex);
+            if(rainbowManager.isRegistered(setting)) {
+                rainbowManager.unRegister(setting);
             }else {
-                updaterManager.registerUpdater(updater);
+                rainbowManager.register(setting);
             }
         }
     }
-
-    public Updater updater = new Updater(){
-        @Override
-        public void run() {
-            this.delay = 20;
-            this.index = tmpIndex;
-            super.run();
-
-            float saturation = ((HSLColor)setting.getValue()).saturation;
-            float light = ((HSLColor)setting.getValue()).light;
-
-            float hue = ((HSLColor)setting.getValue()).hue;
-            hue++;
-            if(hue > 360)
-                hue-=360;
-
-            setting.setValue(new HSLColor(hue, saturation, light));
-        }
-    };
 }
