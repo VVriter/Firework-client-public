@@ -41,13 +41,14 @@ public class RainbowManager extends Manager{
         for(Setting<HSLColor> setting : settings) {
             float saturation = setting.getValue().saturation;
             float light = setting.getValue().light;
+            float alpha = setting.getValue().alpha;
 
             float hue = setting.getValue().hue;
             hue++;
             if (hue > 360)
                 hue -= 360;
 
-            setting.setValue(new HSLColor(hue, saturation, light));
+            setting.setValue(new HSLColor(hue, saturation, light, alpha));
         }
     }
 }

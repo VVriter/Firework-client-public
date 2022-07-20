@@ -22,18 +22,19 @@ import static com.firework.client.Implementations.UI.GuiNEO.GuiValueStorage.valu
 public class ColorButton extends Button {
     public ColorButton(Setting setting, int x, int y, int width, int height) {
         super(setting, x, y, width, height);
-        this.offset = setting.opened ? 11 + 40 : 11; this.originOffset = this.offset;
+        this.offset = setting.opened ? 10 + 40 : 10; this.originOffset = this.offset;
     }
 
     public void drawBase(){
-        int outlineWidth = 3;
 
         GuiInfo.drawBaseButton(this, fillColorB, outlineColorA);
 
-        RenderUtils2D.drawRectangle(new Rectangle(x + width-11, y+2, 7,
-                7), ((HSLColor) setting.getValue()).toRGB());
-        RenderUtils2D.drawRectangleOutlineLinesMode(new Rectangle(x + width-11, y+2, 7,
-                7), outlineWidth, outlineColorC);
+        RenderUtils2D.drawAlphaBarBase(new Rectangle(x + width-11, y+2, 6,
+                6));
+        RenderUtils2D.drawRectangle(new Rectangle(x + width-11, y+2, 6,
+                6), ((HSLColor) setting.getValue()).toRGB());
+        RenderUtils2D.drawRectangleOutline(new Rectangle(x + width-11, y+2, 6,
+                6), 1, outlineColorC);
 
         textManager.drawString(setting.name, x+3, y+1,
                 Color.WHITE.getRGB(),false);

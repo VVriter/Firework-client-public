@@ -94,11 +94,11 @@ public class Gui extends GuiScreen {
                                     }
                                     if (setting.mode == Setting.Mode.COLOR) {
                                         offsetObject.register(
-                                                new ColorButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 11),
-                                                new ColorPickerBase(setting, column.x + 1 + 8, column.y + column.yOffset + 11, buttonWidth - 1 - 8, 10),
-                                                new ColorSliderButton(setting, column.x + 1, column.y + column.yOffset + 51, buttonWidth - 1, 10, ColorSliderButton.CSliderMode.HUE, ColorSliderButton.Vector.Horizontal),
-                                                new ColorSliderButton(setting, column.x + 1, column.y + column.yOffset + 11, 8, 40, ColorSliderButton.CSliderMode.ALPHA, ColorSliderButton.Vector.Vertical),
-                                                new ColorRainbowButton(setting, column.x + 1, column.y + column.yOffset + 61, buttonWidth - 1, 10));
+                                                new ColorButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10),
+                                                new ColorPickerBase(setting, column.x + 1 + 8, column.y + column.yOffset + 10, buttonWidth - 1 - 8, 10),
+                                                new ColorSliderButton(setting, column.x + 1, column.y + column.yOffset + 50, buttonWidth - 1, 10, ColorSliderButton.CSliderMode.HUE, ColorSliderButton.Vector.Horizontal),
+                                                new ColorSliderButton(setting, column.x + 1, column.y + column.yOffset + 10, 8, 40, ColorSliderButton.CSliderMode.ALPHA, ColorSliderButton.Vector.Vertical),
+                                                new ColorRainbowButton(setting, column.x + 1, column.y + column.yOffset + 60, buttonWidth - 1, 10));
                                     }
                                     column.buttons.addAll(offsetObject.buttons);
                                     column.yOffset += offsetObject.offset;

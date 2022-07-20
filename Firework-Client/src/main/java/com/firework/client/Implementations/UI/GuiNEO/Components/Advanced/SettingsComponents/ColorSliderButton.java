@@ -50,7 +50,7 @@ public class ColorSliderButton extends Button {
         if(setting.opened != true) return;
         super.draw(mouseX, mouseY);
 
-        GuiInfo.drawBaseButton(this, fillColorB, outlineColorA, false);
+        GuiInfo.drawBaseButton(this, fillColorB, outlineColorA, true);
 
         float value = 0;
         if(mode == CSliderMode.HUE){
@@ -59,9 +59,10 @@ public class ColorSliderButton extends Button {
         }else if(mode == CSliderMode.ALPHA){
             value = ((HSLColor) setting.getValue()).alpha;
             RenderUtils2D.drawAlphaBarBase(new Rectangle(x + 1, y + 2, 6, 40-2));
+            RenderUtils2D.drawGradientRectVertical(new Rectangle(x + 1, y + 2, 6, 40-2), ((HSLColor) setting.getValue()).toRGB(), new Color(1,1,1,0));
         }
         if(vector == Vector.Horizontal)
-            RenderUtils2D.drawRectangle(new Rectangle((int) (x + round(width * value) / difference) - 0.5, y+1, 1, height-2), Color.white);
+            RenderUtils2D.drawRectangle(new Rectangle((x + round(width * value) / difference) - 0.5, y+1, 1, height-2), Color.white);
         else if(vector == Vector.Vertical)
             RenderUtils2D.drawRectangle(new Rectangle(x - 1, (y + round(height * value) / difference), width+2, 1), Color.white);
     }
