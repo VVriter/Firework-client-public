@@ -596,16 +596,15 @@ public class RenderUtils2D {
         double y = rectangle.y;
         double w = rectangle.width;
         double h = rectangle.height;
-        Color activeColor;
 
-        for(int b = 0; b < w; b+=5) {
-            for (int i = 0; i < h; i += 5) {
-                if (MathUtil.isPowerOfTwo(i+b))
+        for(int b = 0; b < w; b += 3) {
+            for (int i = 0; i < h; i += 3) {
+                Color activeColor;
+                if ((i + b) % 2 == 0)
                     activeColor = white;
                 else
                     activeColor = gray;
-
-                drawRectangle(new Rectangle(x + b, y + i, 5, 5), activeColor);
+                drawRectangle(new Rectangle(x + b, y + i, 3, 3), activeColor);
             }
         }
     }

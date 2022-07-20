@@ -17,10 +17,6 @@ public class PlayTimeManager {
         long diffMinutes = diff / (60 * 1000) % 60;
         long diffHours = diff / (60 * 60 * 1000) % 24;
 
-        System.out.print(diffHours + " hours, ");
-        System.out.print(diffMinutes + " minutes, ");
-        System.out.print(diffSeconds + " seconds.");
-
         return "H:"+diffHours+" M:"+diffMinutes+" S:"+diffSeconds;
     }
 }

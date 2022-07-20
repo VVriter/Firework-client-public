@@ -34,8 +34,15 @@ public class ColorSliderButton extends Button {
             this.difference = 1;
         }
 
-        this.offset = setting.opened ? 11 : 0; this.originOffset = this.offset;
-        this.height = setting.opened ? 10 : 0; this.originHeight = this.height;
+        if(vector == Vector.Horizontal) {
+            this.offset = setting.opened ? 11 : 0;
+            this.originOffset = this.offset;
+            this.height = setting.opened ? 10 : 0;
+            this.originHeight = this.height;
+        }else if(vector == Vector.Vertical){
+            this.offset = 0;
+            this.height = setting.opened ? 30 : 0;
+        }
     }
 
     @Override
@@ -51,12 +58,12 @@ public class ColorSliderButton extends Button {
             RenderUtils2D.drawHueBar(new Rectangle(x, y+3, width, height-6));
         }else if(mode == CSliderMode.ALPHA){
             value = ((HSLColor) setting.getValue()).alpha;
-            RenderUtils2D.drawAlphaBarBase(new Rectangle(x, y, width, height));
+            RenderUtils2D.drawAlphaBarBase(new Rectangle(x + 1, y + 2, 6, 40-2));
         }
         if(vector == Vector.Horizontal)
             RenderUtils2D.drawRectangle(new Rectangle((int) (x + round(width * value) / difference) - 0.5, y+1, 1, height-2), Color.white);
         else if(vector == Vector.Vertical)
-            RenderUtils2D.drawRectangle(new Rectangle(x - 1, (int) (y + round(height * value) / difference), width+2, 1), Color.white);
+            RenderUtils2D.drawRectangle(new Rectangle(x - 1, (y + round(height * value) / difference), width+2, 1), Color.white);
     }
 
     public void setSettingFromX(int mouseX, int mouseY) {
@@ -70,9 +77,10 @@ public class ColorSliderButton extends Button {
         float saturation = ((HSLColor) this.setting.getValue()).saturation;
         float light = ((HSLColor) this.setting.getValue()).light;
         float hue = ((HSLColor) this.setting.getValue()).hue;
+        float alpha = ((HSLColor) this.setting.getValue()).alpha;
 
         if(mode == CSliderMode.HUE) {
-            this.setting.setValue(new HSLColor(result, saturation, light));
+            this.setting.setValue(new HSLColor(result, saturation, light, alpha));
         }else if(mode == CSliderMode.ALPHA){
             this.setting.setValue(new HSLColor(hue, saturation, light, result));
         }

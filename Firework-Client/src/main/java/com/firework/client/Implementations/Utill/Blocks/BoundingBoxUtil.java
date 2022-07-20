@@ -16,7 +16,7 @@ public class BoundingBoxUtil {
                 pos.getZ() + 1 - mc.getRenderManager().viewerPosZ);
     }
 
-    public static AxisAlignedBB getBB(BlockPos pos, int height) {
+    public static AxisAlignedBB getBB(BlockPos pos, double height) {
         Minecraft mc = Minecraft.getMinecraft();
         return new AxisAlignedBB(pos.getX() - mc.getRenderManager().viewerPosX,
                 pos.getY() - mc.getRenderManager().viewerPosY,

@@ -22,13 +22,6 @@ public class MathUtil {
     private static FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
     private static FloatBuffer projection = BufferUtils.createFloatBuffer(16);
 
-    public static boolean isPowerOfTwo(int n) {
-        if(n==0)
-            return false;
-        return (int)(Math.ceil((Math.log(n) / Math.log(2)))) ==
-                (int)(Math.floor(((Math.log(n) / Math.log(2)))));
-    }
-
     public static int randomValue(int min, int max){
         Random r = new Random();
         return r.nextInt(max-min) + min;
