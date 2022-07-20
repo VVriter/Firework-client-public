@@ -3,7 +3,7 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Features.Modules.Movement.Step;
-import com.firework.client.Features.Modules.World.Burrow.BurrowRewrite;
+import com.firework.client.Features.Modules.World.Burrow;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Events.WorldClientInitEvent;
@@ -83,7 +83,7 @@ public class HoleFiller extends Module {
         placedBlocks = new ArrayList<>();
 
         if(autoBurrow.getValue())
-            Firework.moduleManager.getModuleByClass(BurrowRewrite.class).toggle();
+            Firework.moduleManager.getModuleByClass(Burrow.class).toggle();
     }
 
     @Override
