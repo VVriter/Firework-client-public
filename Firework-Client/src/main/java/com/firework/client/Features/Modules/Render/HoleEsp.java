@@ -4,8 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
-import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
-import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
+import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.block.Block;
@@ -15,103 +14,85 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleManifest(name = "HoleEsp",category = Module.Category.RENDER)
+@ModuleManifest(name = "HoleEspRewrite",category = Module.Category.RENDER)
 public class HoleEsp extends Module {
+    public Setting<Integer> range = new Setting<>("Range", 10, this, 1, 30);
+    public Setting<Double> height = new Setting<>("Height", (double)0.3, this, 0, 1);
+    public Setting<Boolean> outlineSubBool = new Setting<>("Outline", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> outlineEnable = new Setting<>("OutlineEnable", true, this).setVisibility(v-> outlineSubBool.getValue());
+    public Setting<Double> outlineThickness = new Setting<>("OutlineThickness", (double)3, this, 1, 10).setVisibility(v-> outlineSubBool.getValue());
+    public Setting<HSLColor> outlineBedrockStartColor = new Setting<>("BedrockStartColor", new HSLColor(1, 54, 43), this).setVisibility(v-> outlineSubBool.getValue());
+    public Setting<HSLColor> outlineBedrockEndColor = new Setting<>("BedrockEndColor", new HSLColor(50, 54, 43), this).setVisibility(v-> outlineSubBool.getValue());
+    public Setting<HSLColor> outlineObsidianStartColor = new Setting<>("ObsidianStartColor", new HSLColor(100, 54, 43), this).setVisibility(v-> outlineSubBool.getValue());
+    public Setting<HSLColor> outlineObsidianEndColor = new Setting<>("ObsidianEndColor", new HSLColor(150, 54, 43), this).setVisibility(v-> outlineSubBool.getValue());
 
-    public Setting<Double> range = new Setting<>("Range", (double)10, this, 1, 20);
-
-
-    public Setting<Enum> mode = new Setting<>("Mode", modes.Box, this, modes.values());
-    public enum modes{
-        Crosses, Box, GradientBox
-    }
-
-    public Setting<HSLColor> bedrockColor = new Setting<>("BedRock", new HSLColor(1, 54, 43), this);
-    public Setting<HSLColor> obsidianColor = new Setting<>("Obsidian", new HSLColor(1, 54, 43), this);
-
-
-
-
-    public Setting<HSLColor> startColorBebrok = new Setting<>("BedRockStart", new HSLColor(1, 54, 43), this).setVisibility(v-> mode.getValue(modes.GradientBox));
-    public Setting<HSLColor> endColorBebrok = new Setting<>("BedrockEnd", new HSLColor(1, 54, 43), this).setVisibility(v-> mode.getValue(modes.GradientBox));
-
-    public Setting<HSLColor> startColorObby = new Setting<>("BedRockStart", new HSLColor(1, 54, 43), this).setVisibility(v-> mode.getValue(modes.GradientBox));
-    public Setting<HSLColor> endColorObby = new Setting<>("BedrockEnd", new HSLColor(1, 54, 43), this).setVisibility(v-> mode.getValue(modes.GradientBox));
+    public Setting<Boolean> glowSubBool = new Setting<>("Glow", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> enableGlow = new Setting<>("EnableGlow", true, this).setVisibility(v-> glowSubBool.getValue());
+    public Setting<GlowMode> glowMode = new Setting<>("GlowMode", GlowMode.Down, this, GlowMode.values()).setVisibility(v-> glowSubBool.getValue());
+    public enum GlowMode{ Up, Down }
+    public Setting<HSLColor> glowBedrockColor = new Setting<>("GlowBedrockColor", new HSLColor(1, 54, 43), this).setVisibility(v-> glowSubBool.getValue());
+    public Setting<HSLColor> glowObsidianColor = new Setting<>("GlowObsidianColor", new HSLColor(50, 54, 43), this).setVisibility(v-> glowSubBool.getValue());
 
 
-    public Setting<Boolean> outline = new Setting<>("Outline", true, this).setVisibility(v-> mode.getValue(modes.Box));
-
-    public Setting<Double> wight = new Setting<>("Wight", (double)10, this, 1, 20);
-    public Setting<Boolean> square = new Setting<>("Square", true, this).setVisibility(v-> mode.getValue(modes.Crosses));
-    public Setting<Boolean> box1 = new Setting<>("Box", true, this).setVisibility(v-> mode.getValue(modes.Crosses));
-
-    public Setting<Double> height = new Setting<>("Height", (double)0.5, this, -1, 20).setVisibility(v-> mode.getValue(modes.Box));
-    public Setting<Boolean> box = new Setting<>("Box", true, this).setVisibility(v-> mode.getValue(modes.Box));
+    public Setting<Boolean> colors = new Setting<>("Colors", false, this).setMode(Setting.Mode.SUB);
+    public Setting<HSLColor> fillColorBedrock = new Setting<>("FillColorBedrock", new HSLColor(1, 54, 43), this).setVisibility(v-> colors.getValue());
+    public Setting<HSLColor> fillColorObsidian = new Setting<>("FillColorObsidian", new HSLColor(50, 54, 43), this).setVisibility(v-> colors.getValue());
 
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent e) {
-        int size = this.holes.size();
-        for (int i = 0; i < size; ++i) {
-            BlockPos pos = this.holes.get(i);
-            if(mode.getValue(modes.Box)){
-                RenderUtils.drawBoxESP(pos, this.isSafe(pos) ?
-                        this.bedrockColor.getValue().toRGB() : this.obsidianColor.getValue().toRGB(),
-
-                                wight.getValue().floatValue(),
-                                this.outline.getValue(),
-                                this.box.getValue(),
-                                this.isSafe(pos) ? 200 : 199,
-                                height.getValue().floatValue());
-            }else if(mode.getValue(modes.Crosses)){
-                RenderUtils.renderCrosses(pos, this.isSafe(pos) ?
-                                this.bedrockColor.getValue().toRGB() : this.obsidianColor.getValue().toRGB(),
-                                wight.getValue().floatValue());
-            }else if(mode.getValue(modes.GradientBox)){
-
-
+        for (BlockPos pos : calcHoles()) {
                 if (isSafe(pos)) {
-                new BlockRenderBuilder(pos)
-                        .addRenderModes(
-                                new RenderMode(RenderMode.renderModes.FilledGradient,
-                                        startColorBebrok.getValue().toRGB(), endColorBebrok.getValue().toRGB())
-                        ).render();
+                    //Glow
+                    if (enableGlow.getValue()) {
+                        if (glowMode.getValue(GlowMode.Down)) {
+                            RenderUtils.drawGradientFilledBox(pos,glowBedrockColor.getValue().toRGB(),new Color(1,1,1,0));
+                        } else if (glowMode.getValue(GlowMode.Up)) {
+                            RenderUtils.drawGradientFilledBox(pos,new Color(1,1,1,0),glowBedrockColor.getValue().toRGB());
+                        }
+                    }
 
+                    //Outline
+                    if (outlineEnable.getValue()) {
+                        RenderUtils.drawGradientBlockOutlineWithHeight(BoundingBoxUtil.getBB(pos,height.getValue()),outlineBedrockStartColor.getValue().toRGB(),outlineBedrockEndColor.getValue().toRGB(),outlineThickness.getValue().floatValue());
+                    }
+
+                    //Fill
+                    RenderUtils.drawBoxESP(pos,fillColorBedrock.getValue().toRGB(),1,false,true,fillColorBedrock.getValue().toRGB().getAlpha(),height.getValue().floatValue());
                 } else if (!isSafe(pos)) {
-                    new BlockRenderBuilder(pos)
-                            .addRenderModes(
-                                    new RenderMode(RenderMode.renderModes.FilledGradient,
-                                           startColorObby.getValue().toRGB(), endColorObby.getValue().toRGB())
-                            ).render();
+                    //Glow
+                    if (enableGlow.getValue()) {
+                        if (glowMode.getValue(GlowMode.Down)) {
+                            RenderUtils.drawGradientFilledBox(pos,glowObsidianColor.getValue().toRGB(),new Color(1,1,1,0));
+                        } else if (glowMode.getValue(GlowMode.Up)) {
+                            RenderUtils.drawGradientFilledBox(pos,new Color(1,1,1,0),glowObsidianColor.getValue().toRGB());
+                        }
+                    }
+
+                    if (outlineEnable.getValue()) {
+                        RenderUtils.drawGradientBlockOutlineWithHeight(BoundingBoxUtil.getBB(pos,height.getValue()),outlineObsidianStartColor.getValue().toRGB(),outlineObsidianEndColor.getValue().toRGB(),outlineThickness.getValue().floatValue());
+                    }
+
+                    //Fill
+                    RenderUtils.drawBoxESP(pos,fillColorObsidian.getValue().toRGB(),1,false,true,fillColorBedrock.getValue().toRGB().getAlpha(),height.getValue().floatValue());
                 }
-
-
-            }
-            if(square.getValue() && mode.getValue(modes.Crosses)){
-                RenderUtils.drawBoxESP(pos, this.isSafe(pos) ?
-                                this.bedrockColor.getValue().toRGB() : this.obsidianColor.getValue().toRGB(),
-
-                                wight.getValue().floatValue(),
-                         true,
-                                box1.getValue(),
-                                this.isSafe(pos) ? 200 : 199,
-                         0.01f);
             }
         }
+
+
+    private boolean isSafe(BlockPos pos) {
+        boolean isSafe = true;
+        for (BlockPos offset : this.surroundOffset) {
+            if (this.mc.world.getBlockState(pos.add((Vec3i)offset)).getBlock() == Blocks.BEDROCK) continue;
+            isSafe = false;
+            break;
+        }
+        return isSafe;
     }
 
-
-
-    //Holes Calculator
-    @Override
-    public void onTick(){
-        super.onTick();
-        this.holes = this.calcHoles();
-    }
-
-    private List<BlockPos> holes = new ArrayList<BlockPos>();
     private final BlockPos[] surroundOffset = BlockUtil.toBlockPos(BlockUtil.holeOffsets);
 
     public List<BlockPos> calcHoles() {
@@ -131,15 +112,5 @@ public class HoleEsp extends Module {
             safeSpots.add(pos);
         }
         return safeSpots;
-    }
-
-    private boolean isSafe(BlockPos pos) {
-        boolean isSafe = true;
-        for (BlockPos offset : this.surroundOffset) {
-            if (this.mc.world.getBlockState(pos.add((Vec3i)offset)).getBlock() == Blocks.BEDROCK) continue;
-            isSafe = false;
-            break;
-        }
-        return isSafe;
     }
 }
