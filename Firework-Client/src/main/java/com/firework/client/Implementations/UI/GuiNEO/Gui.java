@@ -96,6 +96,7 @@ public class Gui extends GuiScreen {
                                         offsetObject.register(
                                                 new ColorButton(setting, column.x + 1, column.y + column.yOffset, buttonWidth - 1, 10),
                                                 new ColorSliderButton(setting, column.x + 1, column.y + column.yOffset + 51, buttonWidth - 1, 10, ColorSliderButton.CSliderMode.HUE, ColorSliderButton.Vector.Horizontal),
+                                                new ColorSliderButton(setting, column.x + 1, column.y + column.yOffset + 51, buttonWidth - 1, 10, ColorSliderButton.CSliderMode.ALPHA, ColorSliderButton.Vector.Vertical),
                                                 new ColorRainbowButton(setting, column.x + 1, column.y + column.yOffset + 61, buttonWidth - 1, 10));
                                     }
                                     column.buttons.addAll(offsetObject.buttons);

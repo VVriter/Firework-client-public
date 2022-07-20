@@ -61,6 +61,12 @@ public class Module extends Info{
         TestNotifications.notificate(this.getName()+" is disabled","");
     }
 
+    public void onEnableNoLog() {
+        isEnabled.setValue(true);
+        onToggle();
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
     public void onToggle(){}
 
     public void toggle() {

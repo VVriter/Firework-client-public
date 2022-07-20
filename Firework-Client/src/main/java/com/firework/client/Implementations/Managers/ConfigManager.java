@@ -92,7 +92,7 @@ public class ConfigManager extends Manager{
         }
 
         if(Firework.moduleManager.getModuleByName(module.name).isEnabled.getValue())
-            Firework.moduleManager.getModuleByName(module.name).onEnable();
+            Firework.moduleManager.getModuleByName(module.name).onEnableNoLog();
     }
 
     @SubscribeEvent

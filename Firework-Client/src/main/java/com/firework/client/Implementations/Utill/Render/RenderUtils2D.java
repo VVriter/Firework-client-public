@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Utill.Render;
 
+import com.firework.client.Implementations.Utill.Client.MathUtil;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -587,6 +588,25 @@ public class RenderUtils2D {
         for(int i = 0; i < 360; i++){
             Color color = new HSLColor(i, 50, 50).toRGB();
             drawRectangle(new Rectangle(x + (i*w/360), y, w/360,h), color);
+        }
+    }
+
+    public static void drawAlphaBarBase(Rectangle rectangle){
+        double x = rectangle.x;
+        double y = rectangle.y;
+        double w = rectangle.width;
+        double h = rectangle.height;
+        Color activeColor;
+
+        for(int b = 0; b < w; b+=5) {
+            for (int i = 0; i < h; i += 5) {
+                if (MathUtil.isPowerOfTwo(i+b))
+                    activeColor = white;
+                else
+                    activeColor = gray;
+
+                drawRectangle(new Rectangle(x, y + i, 5, 5), activeColor);
+            }
         }
     }
 

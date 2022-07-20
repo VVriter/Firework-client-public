@@ -22,6 +22,12 @@ public class MathUtil {
     private static FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
     private static FloatBuffer projection = BufferUtils.createFloatBuffer(16);
 
+    public static boolean isPowerOfTwo(int n) {
+        if(n==0)
+            return false;
+        return (int)(Math.ceil((Math.log(n) / Math.log(2)))) ==
+                (int)(Math.floor(((Math.log(n) / Math.log(2)))));
+    }
 
     public static int randomValue(int min, int max){
         Random r = new Random();
@@ -32,8 +38,7 @@ public class MathUtil {
         return new Random().nextBoolean() ? first : second;
     }
 
-    public static int getRandomElement(List<Integer> list)
-    {
+    public static int getRandomElement(List<Integer> list) {
         Random rand = new Random();
         return list.get(rand.nextInt(list.size()));
     }
@@ -51,10 +56,10 @@ public class MathUtil {
         return deg * (float) (Math.PI / 180.0f);
     }
 
-    public static Vec3d direction(float yaw)
-    {
+    public static Vec3d direction(float yaw) {
         return new Vec3d(Math.cos(degToRad(yaw + 90f)), 0, Math.sin(degToRad(yaw + 90f)));
     }
+
     public static double round(double value, int places) {
         if (places < 0) {
             throw new IllegalArgumentException();
@@ -63,10 +68,10 @@ public class MathUtil {
         bd = bd.setScale(places, RoundingMode.FLOOR);
         return bd.doubleValue();
     }
+
     public static Vec3d roundVec(Vec3d vec3d, int places) {
         return new Vec3d(MathUtil.round(vec3d.x, places), MathUtil.round(vec3d.y, places), MathUtil.round(vec3d.z, places));
     }
-
 
     public static double[] directionSpeed(double speed) {
         float forward = MathUtil.mc.player.movementInput.moveForward;
