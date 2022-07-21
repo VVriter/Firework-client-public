@@ -24,11 +24,10 @@ public class Scaffold extends Module {
 
     public Setting<Boolean> swing  = new Setting<>("Swing", true, this);
 
-    public Setting<Boolean> Switch  = new Setting<>("Switch", true, this);
-
-    public Setting<Boolean> Tower  = new Setting<>("Tower", true, this);
-
     public Setting<Double> speed = new Setting<>("Delay", (double)0.7, this, 0, 1);
+    public Setting<Boolean> Tower  = new Setting<>("Tower", true, this);
+    public Setting<Double> TowerDelay = new Setting<>("TowerDelay", (double)102.3, this, 1, 1000).setVisibility(v-> Tower.getValue());
+    public Setting<Double> TowerSpeed = new Setting<>("TowerSpeed", (double)1, this, 0, 1).setVisibility(v-> Tower.getValue());
 
     private List<ScaffoldBlock> blocksToRender = new ArrayList<>();
 
@@ -69,41 +68,15 @@ public class Scaffold extends Module {
         mc.player.motionX = calc[0];
         mc.player.motionZ = calc[1];
 
-
-        if (Switch.getValue() && (mc.player.getHeldItemMainhand().getItem() == null || (!(mc.player.getHeldItemMainhand().getItem() instanceof ItemBlock) )))
-            for (int j = 0; j < 9; j++) {
-                if (mc.player.inventory.getStackInSlot(j) != null && mc.player.inventory.getStackInSlot(j).getCount() != 0 && mc.player.inventory.getStackInSlot(j).getItem() instanceof ItemBlock ) {
-                    mc.player.inventory.currentItem = j;
-                    break;
-                }
-            }
-
-        if(Tower.getValue() && mc.gameSettings.keyBindJump.isKeyDown() && !mc.player.isElytraFlying() && timer.hasPassedMs(1000)){
-         /*   if(mc.gameSettings.keyBindJump.isKeyDown() && mc.player.moveForward == 0.0F && mc.player.moveStrafing == 0.0F&& !mc.player.isPotionActive(MobEffects.JUMP_BOOST)){
-                mc.player.motionY = 0.2444441D;
-                mc.player.motionZ = 0.0D;
-                mc.player.motionX = 0.0D;
-            } */
-
-
-         /*   Scaffold.mc.player.motionX *= 0.3;
-            Scaffold.mc.player.motionZ *= 0.3;
-            //Scaffold.mc.player.jump();
-            mc.player.motionY = 0.2444441D;
-            if (this.timer.hasPassedMs(1500L)) {
-                Scaffold.mc.player.motionY = -0.28;
-                this.timer.reset();
-            } */
-
-            if (timer.hasPassedMs(3000)) {
-                timer.reset();
+        if(Tower.getValue()){
+            if (timer.hasPassedMs(TowerDelay.getValue()) && mc.gameSettings.keyBindJump.isKeyDown()) {
+                mc.player.motionX = 0;
+                mc.player.motionZ = 0;
                 mc.player.motionY = -0.28f;
-            } else {
-                final float towerMotion = 0.2199999f;
-
-                mc.player.setVelocity(0, towerMotion, 0);
+                final float towerMotion = 0.41999998688f;
+                mc.player.setVelocity(0, towerMotion * TowerSpeed.getValue(), 0);
+                this.timer.reset();
             }
-
         }
     }
 
