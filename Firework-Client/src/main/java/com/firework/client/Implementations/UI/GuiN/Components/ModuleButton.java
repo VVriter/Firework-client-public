@@ -52,7 +52,7 @@ public class ModuleButton extends Button{
         super.draw();
         int textWidth = textManager.getStringWidth(module.name);
 
-        RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), new Color(1,1, 1, 202));
+        RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), new Color(RainbowUtil.generateRainbowFadingColor(1,true)));
 
         customFontManager.drawString(module.name, x + (width-textWidth)/2, (float) (y+1),
                 module.isEnabled.getValue() ? new Color(RainbowUtil.astolfoColors(100, 100)).getRGB() : Color.white.getRGB());
