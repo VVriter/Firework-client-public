@@ -2,12 +2,12 @@ package com.firework.client.Implementations.Utill;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class RotationUtil {
     private static Minecraft mc = Minecraft.getMinecraft();
-
     public static Vec3d getEyesPos() {
         return new Vec3d(RotationUtil.mc.player.posX, RotationUtil.mc.player.posY + (double) RotationUtil.mc.player.getEyeHeight(), RotationUtil.mc.player.posZ);
     }
