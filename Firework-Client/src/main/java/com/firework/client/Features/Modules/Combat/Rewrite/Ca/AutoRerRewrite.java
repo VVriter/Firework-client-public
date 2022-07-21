@@ -1,18 +1,18 @@
 package com.firework.client.Features.Modules.Combat.Rewrite.Ca;
-
-import com.firework.client.Features.Modules.Combat.Rewrite.Ca.PASSSTE.*;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketUseEntity;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
+import com.firework.client.Implementations.Utill.Entity.EntityUtil;
+import com.firework.client.Implementations.Utill.Entity.MovementUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
-import com.firework.client.Implementations.Utill.Items.ItemUser;
+import com.firework.client.Implementations.Utill.Items.ItemUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Timer;
-import jdk.nashorn.internal.ir.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderCrystal;
@@ -42,9 +42,6 @@ import java.util.Objects;
 @ModuleManifest(name = "AutoRerRewrite",category = Module.Category.COMBAT)
 public class AutoRerRewrite extends Module {
     public Setting<Integer> targetRange = new Setting<>("TargetRange", 5, this, 1, 10);
-    public Setting<Boolean> rotatePacket = new Setting<>("RotatePacket", false, this);
-
-
     public Setting<Enum> page = new Setting<>("Page", pages.Place, this, pages.values());
     public enum pages{
         Place, Break, Damage, ElseShit, Render
@@ -81,12 +78,9 @@ public class AutoRerRewrite extends Module {
     private int rotationPacketsSpoofed;
     public static EntityPlayer currentTarget;
     private BlockPos renderPos;
-    private double renderDamage;
     private BlockPos placePos;
     private boolean offHand;
     public boolean rotating;
-    private float pitch;
-    private float yaw;
     private boolean offhand;
 
     public AutoRerRewrite() {
@@ -97,12 +91,9 @@ public class AutoRerRewrite extends Module {
         this.rotateTimer = new Timer();
         this.rotationPacketsSpoofed = 0;
         this.renderPos = null;
-        this.renderDamage = 0.0;
         this.placePos = null;
         this.offHand = false;
         this.rotating = false;
-        this.pitch = 0.0f;
-        this.yaw = 0.0f;
     }
 
     @Override
@@ -206,7 +197,6 @@ public class AutoRerRewrite extends Module {
                                     maxDamage = targetDamage;
                                     placePos = pos;
                                     this.renderPos = pos;
-                                    this.renderDamage = targetDamage;
                                 }
                             }
                         }else {
@@ -214,7 +204,6 @@ public class AutoRerRewrite extends Module {
                                 maxDamage = targetDamage;
                                 placePos = pos;
                                 this.renderPos = pos;
-                                this.renderDamage = targetDamage;
                             }
                         }
                     }

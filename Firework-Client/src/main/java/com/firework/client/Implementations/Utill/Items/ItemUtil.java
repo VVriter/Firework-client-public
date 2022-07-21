@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.Combat.Rewrite.Ca.PASSSTE;
+package com.firework.client.Implementations.Utill.Items;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
