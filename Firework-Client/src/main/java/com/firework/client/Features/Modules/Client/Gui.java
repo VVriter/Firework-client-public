@@ -20,7 +20,7 @@ public class Gui extends Module {
         this.key.setValue(Keyboard.KEY_RSHIFT) ;
 
         enabled = this.isEnabled;
-        scrollSpeed = new Setting<>("ScrollSpeed", 3d, this, 0.1, 10);
+        scrollSpeed = new Setting<>("ScrollSpeed", 50d, this, 0.1, 50);
         background = new Setting<>("Background", false, this);
         upStartBlockColor = new Setting<>("upStartBlockColor", new HSLColor(175, 50, 50), this);
         downStartBlockColor = new Setting<>("downStartBlockColor", new HSLColor(334, 74, 77), this);

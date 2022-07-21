@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.UI.GuiN;
 
+import com.firework.client.Features.Modules.Client.Gui;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.UI.GuiN.Components.ModuleButton;
@@ -26,6 +27,7 @@ public class Frame {
         this.category = category;
 
         this.opened = true;
+
         this.width = GuiInfo.barWidth;
         this.isDragging = false;
         this.xOffset = 0;
@@ -63,7 +65,7 @@ public class Frame {
     }
 
     public void setupOffsets(){
-        double offset = this.y + this.barHeight;
+        double offset = this.y + GuiN.offsetY + this.barHeight;
         if(opened) {
             for (final Component comp : this.components) {
                 comp.setOffsets(offset);

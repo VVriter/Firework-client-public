@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class AnimationUtil {
     public double width = 0;
-    private ArrayList<Pair<Double, Boolean>> tasks = new ArrayList<>();
+    public ArrayList<Pair<Double, Boolean>> tasks = new ArrayList<>();
     private float speed;
 
     public void setValues(double width, float speed){
@@ -36,8 +36,6 @@ public class AnimationUtil {
                     }
                     width -= speed;
                 }
-                task.two = true;
-                break;
             }
         }
     }
