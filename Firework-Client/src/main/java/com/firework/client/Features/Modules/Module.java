@@ -8,7 +8,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
 
-public class Module extends Info{
+public class Module{
 
     public static Minecraft mc = Minecraft.getMinecraft();
     public static EntityPlayerSP mcp = Minecraft.getMinecraft().player;
@@ -19,24 +19,21 @@ public class Module extends Info{
     public int delay = 20;
     public boolean existCheck;
 
-    public String subCategory;
+    public String name;
 
     public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this).setVisibility(v-> false);
     public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this).setVisibility(v-> false);
     public Setting<Integer> key = new Setting<>("Key", Keyboard.KEY_NONE, this);
     public Module(String name, Category category) {
-        super(name);
         this.name = name;
         this.category = category;
     }
 
     public Module(){
-        super(null);
         if (getClass().isAnnotationPresent(ModuleManifest.class)) {
             ModuleManifest args = getClass().getAnnotation(ModuleManifest.class);
             this.name = args.name();
             this.category = args.category();
-            this.subCategory = args.subCategory();
         }
     }
 

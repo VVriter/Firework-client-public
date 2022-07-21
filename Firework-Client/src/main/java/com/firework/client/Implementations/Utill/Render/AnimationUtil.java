@@ -9,7 +9,7 @@ import java.util.ArrayList;
     @author PunCakeCat
  */
 public class AnimationUtil {
-    public double width;
+    public double width = 0;
     private ArrayList<Pair<Double, Boolean>> tasks = new ArrayList<>();
     private float speed;
 

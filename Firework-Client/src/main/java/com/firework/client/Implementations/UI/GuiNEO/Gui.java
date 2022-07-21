@@ -1,8 +1,6 @@
 package com.firework.client.Implementations.UI.GuiNEO;
 
-import com.firework.client.Features.Modules.Info;
 import com.firework.client.Features.Modules.Module;
-import com.firework.client.Features.Modules.SubModule;
 import com.firework.client.Implementations.UI.GuiNEO.Components.Advanced.EndBlock;
 import com.firework.client.Implementations.UI.GuiNEO.Components.Advanced.ModuleButton;
 import com.firework.client.Implementations.UI.GuiNEO.Components.Button;
@@ -60,7 +58,7 @@ public class Gui extends GuiScreen {
             column.yOffset += startBlock.offset;
             if(column.opened) {
 
-                for (Info obj : column.components) {
+                for (Module obj : column.components) {
 
                     if (obj instanceof Module) {
                         Module m = (Module) obj;
@@ -105,11 +103,6 @@ public class Gui extends GuiScreen {
                                 }
                             }
                         }
-                    } else if (obj instanceof SubModule) {
-                        SubModule subModule = (SubModule) obj;
-                        SubModuleButton subModuleButton = new SubModuleButton(subModule.modules, subModule.name, column.x, column.y, buttonWidth, 10);
-                        column.buttons.add(subModuleButton);
-                        column.yOffset += subModuleButton.offset;
                     }
                 }
             }
