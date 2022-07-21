@@ -15,7 +15,7 @@ public class GuiN extends GuiScreen {
 
     public GuiN(){
         animationUtil = new AnimationUtil();
-        animationUtil.setValues(1, 0.01f);
+        animationUtil.setValues(1, 0.1f);
         if(GuiInfo.frames.isEmpty())
             GuiInfo.setupFrames();
 
@@ -25,8 +25,15 @@ public class GuiN extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
+        animationUtil.update();
+        animationUtil.setValues(1, 0.1f);
+        glPushMatrix();
+
+        glScaled(animationUtil.width, animationUtil.width, 1);
+        glTranslated((width / 2) * (1 - animationUtil.width), height * (1 - animationUtil.width), 0);
         GuiInfo.frames.forEach(Frame::draw);
 
+        glPopMatrix();
         if(isDragging) {
             try {
                 mouseClicked(mouseX, mouseY, 0);
@@ -39,14 +46,7 @@ public class GuiN extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int state) throws IOException {
         super.mouseClicked(mouseX, mouseY, state);
-        animationUtil.update();
-        glPushMatrix();
-
-        glScaled(animationUtil.width, animationUtil.width, 1);
-        glTranslated((width / 2f) * (1 - animationUtil.width), (height / 2f) * (1 - animationUtil.width), 0);
         GuiInfo.frames.forEach(frame -> frame.update(mouseX, mouseY, state));
-
-        glPopMatrix();
     }
 
     @Override
