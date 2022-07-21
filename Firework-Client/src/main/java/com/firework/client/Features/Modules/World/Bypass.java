@@ -5,11 +5,13 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IEntity;
 import com.firework.client.Implementations.Settings.Setting;
 
+import net.minecraft.entity.passive.AbstractChestHorse;
 import net.minecraft.item.ItemBoat;
 
 import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 
+import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 
@@ -21,8 +23,9 @@ public class Bypass extends Module {
 
     public Setting<Boolean> boatPlace = new Setting<>("BoatPlace", true, this);
     public Setting<Boolean> buildHeight  = new Setting<>("BuildHeight", true, this);
-
     public Setting<Boolean> portalChat  = new Setting<>("PortalGui", true, this);
+
+    public Setting<Boolean> mountBypass  = new Setting<>("MountBypass", true, this);
     public Bypass(){super("Bypass",Category.WORLD);}
 
     @Override
@@ -56,4 +59,21 @@ public class Bypass extends Module {
                     }
                 }
             }
+
+            @SubscribeEvent
+            public void onPacketSend(PacketEvent.Send event) {
+                if (event.getPacket() instanceof CPacketUseEntity)
+                {
+                    CPacketUseEntity packet = (CPacketUseEntity) event.getPacket();
+
+                    if (packet.getEntityFromWorld(mc.world) instanceof AbstractChestHorse)
+                    {
+                        if (packet.getAction() == CPacketUseEntity.Action.INTERACT_AT)
+                        {
+                            event.setCanceled(true);
+                        }
+                    }
+                }
+            }
         }
+
