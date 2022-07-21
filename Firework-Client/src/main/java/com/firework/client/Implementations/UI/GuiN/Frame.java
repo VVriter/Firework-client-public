@@ -55,6 +55,9 @@ public class Frame {
     }
 
     public void draw(){
+
+
+
         setupOffsets();
         components.forEach(Component::draw);
     }
