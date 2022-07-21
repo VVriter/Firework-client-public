@@ -5,6 +5,7 @@ import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.UI.GuiN.Component;
 import com.firework.client.Implementations.UI.GuiN.Frame;
+import com.firework.client.Implementations.UI.GuiN.GuiInfo;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
@@ -52,8 +53,7 @@ public class ModuleButton extends Button{
         super.draw();
         int textWidth = textManager.getStringWidth(module.name);
 
-        RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), new Color(RainbowUtil.generateRainbowFadingColor(1,true)));
-
+        GuiInfo.drawButtonBase(this);
         customFontManager.drawString(module.name, x + (width-textWidth)/2, (float) (y+1),
                 module.isEnabled.getValue() ? new Color(RainbowUtil.astolfoColors(100, 100)).getRGB() : Color.white.getRGB());
 

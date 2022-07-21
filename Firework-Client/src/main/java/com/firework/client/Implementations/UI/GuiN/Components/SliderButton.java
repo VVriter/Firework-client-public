@@ -3,6 +3,7 @@ package com.firework.client.Implementations.UI.GuiN.Components;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.UI.GuiN.Frame;
+import com.firework.client.Implementations.UI.GuiN.GuiInfo;
 import com.firework.client.Implementations.UI.GuiN.GuiN;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
@@ -23,6 +24,8 @@ public class SliderButton extends Button{
     public void draw() {
         super.draw();
         double textWidth = Firework.customFontManager.getWidth(setting.getValue().toString());
+
+        GuiInfo.drawButtonBase(this);
 
         RenderUtils2D.drawRectangle(new Rectangle(x + 2, y + height - 1, (width - 4) * (Double.valueOf(setting.getValue().toString()) - setting.min) / difference, 1), new Color(RainbowUtil.astolfoColors(100, 100)));
 

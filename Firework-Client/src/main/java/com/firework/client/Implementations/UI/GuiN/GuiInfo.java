@@ -26,7 +26,7 @@ public class GuiInfo {
     }
 
     public static void drawButtonBase(Component component){
-        RenderUtils2D.drawRectAlpha(new Rectangle(component.x, component.y, component.width, component.height), new Color(1,1, 1, 202));
+        RenderUtils2D.drawRectAlpha(new Rectangle(component.x, component.y, component.width, component.height), new Color(1,1, 1, 169));
     }
 
     public static boolean isHoveringOnTheComponent(Component component, int mouseX, int mouseY) {
