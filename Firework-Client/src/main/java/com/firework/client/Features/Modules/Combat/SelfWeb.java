@@ -2,19 +2,27 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
+import com.firework.client.Implementations.Utill.RotationUtil;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
+import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
 import static com.firework.client.Implementations.Utill.InventoryUtil.getClickSlot;
@@ -110,12 +118,36 @@ public class SelfWeb extends Module {
         EnumHand enumHand = EnumHand.MAIN_HAND;
 
         //Places block
-        BlockUtil.placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), BlockUtil.blackList.contains(BlockUtil.getBlock(blockPos.add(0, -1, 0))) ? true : false);
+        placeBlock(blockPos, enumHand, rotate.getValue(), packet.getValue(), BlockUtil.blackList.contains(BlockUtil.getBlock(blockPos.add(0, -1, 0))) ? true : false);
 
         //Do silent switch
         if(switchMode.getValue(switchModes.Silent)) {
             switchItems(getItemStack(backSwitch).getItem(), hands.MainHand);
         }
+    }
+
+    public static boolean placeBlock(BlockPos pos, EnumHand hand, boolean rotate, boolean packet, boolean isSneaking) {
+        boolean sneaking = false;
+        EnumFacing side = BlockUtil.getFirstFacing(pos);
+        if (side == null) {
+            return isSneaking;
+        }
+        BlockPos neighbour = pos.offset(side);
+        EnumFacing opposite = side.getOpposite();
+        Vec3d hitVec = new Vec3d(neighbour).add(0.5, 0.5, 0.5).add(new Vec3d(opposite.getDirectionVec()).scale(0.5));
+        Block neighbourBlock = Minecraft.getMinecraft().world.getBlockState(neighbour).getBlock();
+        if (!Minecraft.getMinecraft().player.isSneaking() && (BlockUtil.blackList.contains(neighbourBlock) || BlockUtil.shulkerList.contains(neighbourBlock))) {
+            Minecraft.getMinecraft().player.connection.sendPacket(new CPacketEntityAction(Minecraft.getMinecraft().player, CPacketEntityAction.Action.START_SNEAKING));
+            Minecraft.getMinecraft().player.setSneaking(true);
+            sneaking = true;
+        }
+        if (rotate)
+            RotationUtil.faceVector(hitVec, true);
+
+        mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(hand));
+        BlockUtil.rightClickBlock(neighbour, hitVec, hand, opposite, packet);
+        Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
+        return sneaking || isSneaking;
     }
 
     //Switches to needed item
