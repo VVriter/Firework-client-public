@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.World.Burrow;
+package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
@@ -29,7 +29,7 @@ import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @ModuleManifest(name = "SelfBlock",category = Module.Category.WORLD)
-public class BurrowRewrite extends Module {
+public class Burrow extends Module {
 
     public Setting<Boolean> main = new Setting<>("Main", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> main.getValue());
