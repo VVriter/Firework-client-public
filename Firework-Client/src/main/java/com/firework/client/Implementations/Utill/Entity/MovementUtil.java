@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.Combat.Rewrite.Ca.PASSSTE;
+package com.firework.client.Implementations.Utill.Entity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
