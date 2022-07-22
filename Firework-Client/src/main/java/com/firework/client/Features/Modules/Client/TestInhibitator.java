@@ -19,8 +19,7 @@ public class TestInhibitator extends Module {
     @Override
     public void onToggle() {
         super.onToggle();
-        Inhibitator.moveLeftTimer.reset();
-        Inhibitator.moveRightTimer.reset();
+        Inhibitator.timer.reset();
     }
 
 }

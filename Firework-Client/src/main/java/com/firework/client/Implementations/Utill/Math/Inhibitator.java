@@ -8,8 +8,7 @@ public class Inhibitator {
     public static boolean shuldMoveRight = true;
     public static boolean shuldMoveLeft = false;
 
-    public static Timer moveRightTimer = new Timer();
-    public static Timer moveLeftTimer = new Timer();
+    public static Timer timer = new Timer();
 
     public static void doInhibitation(Setting<Double> settingToInhibit, double inhibitationSpeed, double reachToFirst, double reachToSecond) {
 
@@ -22,16 +21,16 @@ public class Inhibitator {
         }
 
             if (shuldMoveRight) {
-                if (moveRightTimer.hasPassedMs(inhibitationSpeed)) {
+                if (timer.hasPassedMs(inhibitationSpeed)) {
                     settingToInhibit.setValue((double) Math.round(settingToInhibit.getValue()+1));
-                    moveRightTimer.reset();
+                    timer.reset();
                 }
             }
 
             if (shuldMoveLeft) {
-                if (moveLeftTimer.hasPassedMs(inhibitationSpeed)) {
+                if (timer.hasPassedMs(inhibitationSpeed)) {
                     settingToInhibit.setValue((double) Math.round(settingToInhibit.getValue() - 1));
-                    moveLeftTimer.reset();
+                    timer.reset();
                 }
             }
 
