@@ -1,5 +1,6 @@
 package ua.firework.beet;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -24,9 +25,11 @@ public class EventBus {
     }
 
     public void post(Event event){
-        for(int i = 0; i < listeners.size(); i++){
+        int size = listeners.size();
+        for(int i = 0; i < size; i++){
             Listener<Event> listener = listeners.get(i);
-            listener.getCallback().accept(event);
+            if(event.getClass().isAssignableFrom(listener.getTarget()))
+                listener.getCallback().accept(event);
         }
     }
 

@@ -20,8 +20,7 @@ public class MixinEntityPlayerSP {
     public void OnPreUpdateWalkingPlayer(CallbackInfo callbackInfo) {
         UpdateWalkingPlayerEvent eventPlayerMotionUpdate = new UpdateWalkingPlayerEvent(Event.Stage.PRE);
         Surround.time = System.nanoTime();
-        //Firework.eventBus.post(eventPlayerMotionUpdate);
-        MinecraftForge.EVENT_BUS.post(new TestEvent());
+        Firework.eventBus.post(eventPlayerMotionUpdate);
         if (eventPlayerMotionUpdate.isCancelled())
             callbackInfo.cancel();
     }
