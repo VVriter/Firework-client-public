@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
+import com.firework.client.Implementations.Utill.Entity.CrystalUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
@@ -27,6 +28,11 @@ import static com.firework.client.Implementations.Utill.InventoryUtil.getHotbarI
 @ModuleManifest(name = "Trap", category = Module.Category.COMBAT)
 public class Trap extends Module {
 
+    private Setting<templates> templateMode = new Setting<>("Template", templates.Full, this);
+    private enum templates{
+        Full, FacePlace
+    }
+
     private Setting<Integer> targetDistance = new Setting<>("TargetDistance", 3, this, 0, 5);
 
     private Setting<Integer> placedDelayMs = new Setting<>("PlaceDelayMs", 0, this, 0, 100);
@@ -38,7 +44,7 @@ public class Trap extends Module {
 
     private Setting<Boolean> autoDisable = new Setting<>("AutoDisable", true, this);
 
-    private Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 1,1), this);
+    private Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50,50), this);
 
     private ArrayList<BlockPos> line = new ArrayList<>();
 
@@ -100,6 +106,7 @@ public class Trap extends Module {
 
         if(shouldAdd) {
             if(!isTrapped(entityTarget)) {
+                if(trapBlocks(entityTarget) == null) return;
                 for (BlockPos pos : trapBlocks(entityTarget)) {
                     if (isAir(pos) && !line.contains(pos))
                         line.add(pos);
@@ -136,23 +143,68 @@ public class Trap extends Module {
     //Gets fist layer of blocks to place
     private BlockPos[] trapBlocks(EntityPlayer target) {
         BlockPos p = EntityUtil.getFlooredPos(target);
-        return new BlockPos[]{p.add(1, -1, 0), p.add(-1, -1, 0), p.add(0, -1, 1), p.add(0, -1, -1),
-                p.add(1, 0, 0), p.add(-1, 0, 0), p.add(0, 0, 1), p.add(0, 0, -1),
-                p.add(1, 1, 0), p.add(-1, 1, 0), p.add(0, 1, 1), p.add(0, 1, -1),
-                nearestTrapBlock(p.add(1, 2, 0), p.add(-1, 2, 0), p.add(0, 2, 1), p.add(0, 2, -1)),
-                p.add(0, 2, 0)};
+        if(templateMode.getValue(templates.Full)) {
+            return new BlockPos[]{
+                    //First surround layer -1
+                    p.add(1, -1, 0), p.add(-1, -1, 0), p.add(0, -1, 1), p.add(0, -1, -1),
+                    //Second surround layer (Feet)
+                    p.add(1, 0, 0), p.add(-1, 0, 0), p.add(0, 0, 1), p.add(0, 0, -1),
+                    //Third surround layer (Face)
+                    p.add(1, 1, 0), p.add(-1, 1, 0), p.add(0, 1, 1), p.add(0, 1, -1),
+                    //Nearest helping block to trap upside
+                    nearestTrapBlock(p.add(1, 2, 0), p.add(-1, 2, 0), p.add(0, 2, 1), p.add(0, 2, -1)),
+                    //Upside trap block
+                    p.add(0, 2, 0)
+            };
+        }else if(templateMode.getValue(templates.FacePlace)){
+            BlockPos farthestHelpBlock = farthestTrapBlock(
+                    p.add(1, 1, 0), p.add(-1, 1, 0), p.add(0, 1, 1), p.add(0, 1, -1)
+            );
+            return new BlockPos[]{
+                    //First surround layer -1
+                    p.add(1, -1, 0), p.add(-1, -1, 0), p.add(0, -1, 1), p.add(0, -1, -1),
+                    //Second surround layer (Feet)
+                    p.add(1, 0, 0), p.add(-1, 0, 0), p.add(0, 0, 1), p.add(0, 0, -1),
+                    //Farthest helping blocks
+                    farthestHelpBlock, farthestHelpBlock.add(0, 1, 0),
+                    //Upside trap block
+                    p.add(0, 2, 0)
+            };
+        }
+
+        return null;
     }
 
-    //Return nearest block from a given list
+    //Returns the nearest block from a given list
     private BlockPos nearestTrapBlock(BlockPos... blocks){
         double lastDistance = -1;
         BlockPos lastBlock = null;
         for(BlockPos blockPos : blocks){
+            if(blockPos == null) continue;
             if(lastDistance == -1){
                 lastDistance = BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player));
                 lastBlock = blockPos;
             }else{
                 if(lastDistance>BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player))) {
+                    lastBlock = blockPos;
+                    lastDistance = BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player));
+                }
+            }
+        }
+        return lastBlock;
+    }
+
+    //Returns the farthest block from a given list
+    private BlockPos farthestTrapBlock(BlockPos... blocks){
+        double lastDistance = -1;
+        BlockPos lastBlock = null;
+        for(BlockPos blockPos : blocks){
+            if(blockPos == null) continue;
+            if(lastDistance == -1){
+                lastDistance = BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player));
+                lastBlock = blockPos;
+            }else{
+                if(lastDistance<BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player))) {
                     lastBlock = blockPos;
                     lastDistance = BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player));
                 }
