@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 
-@ModuleManifest(name = "AutoFish",category = Module.Category.MISC)
+@ModuleManifest(name = "AutoFish",category = Module.Category.MISCELLANEOUS)
 public class AutoFish extends Module {
 
     DiscordWebhook simpleDiscordWebhook;

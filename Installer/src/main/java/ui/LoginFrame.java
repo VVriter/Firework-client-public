@@ -4,14 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LoginFrame extends JFrame {
-
     public static int width = 340;
     public static int height = 240;
-
     public static void  frame() {
         Dimension screenSize = Toolkit. getDefaultToolkit(). getScreenSize();
 
         JFrame loginFrame = new JFrame("Firework Installer");
+        loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         loginFrame.setBounds(
                 new Rectangle(

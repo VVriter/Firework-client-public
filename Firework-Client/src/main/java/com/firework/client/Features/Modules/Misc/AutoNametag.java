@@ -18,7 +18,7 @@ import java.util.Comparator;
 import java.util.Objects;
 
 
-@ModuleManifest(name = "AutoNametag",category = Module.Category.MISC)
+@ModuleManifest(name = "AutoNametag",category = Module.Category.MISCELLANEOUS)
 public class AutoNametag extends Module {
 
     public Setting<Double> Radius = new Setting<>("Radius", (double)4, this, 0, 10);

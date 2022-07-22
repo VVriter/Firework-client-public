@@ -6,7 +6,7 @@ import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
 import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
 import com.firework.client.Implementations.Settings.Setting;
 
-@ModuleManifest(name = "Timer",category = Module.Category.MISC)
+@ModuleManifest(name = "Timer",category = Module.Category.MISCELLANEOUS)
 public class Timer extends Module {
 
     public Setting<Double> ticksTo = new Setting<>("TicksAdd", (double)25, this, 0, 50);

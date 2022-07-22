@@ -18,7 +18,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleManifest(name = "HoleEsp",category = Module.Category.RENDER)
+@ModuleManifest(name = "HoleEsp",category = Module.Category.VISUALS)
 public class HoleEsp extends Module {
     public Setting<Integer> range = new Setting<>("Range", 10, this, 1, 30);
     public Setting<Double> height = new Setting<>("Height", (double)0.3, this, 0, 1);

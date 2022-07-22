@@ -1,6 +1,5 @@
 package com.firework.client.Features.Modules.Client;
 
-import com.firework.client.Features.AltManager.Guis.AltManagerGui;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
@@ -37,7 +36,7 @@ public class Hud extends Module{
     @Override
     public void onTick(){
         super.onTick();
-        GameSettings.Options.FOV.setValueMax(176F);
+     //   GameSettings.Options.FOV.setValueMax(176F);
         if (!blur.getValue()) {
             mc.entityRenderer.getShaderGroup().deleteShaderGroup();
         }
@@ -70,20 +69,6 @@ public class Hud extends Module{
         }
     }
 
-    @SubscribeEvent
-    public void renderTick(TickEvent.RenderTickEvent e) {
-        if (mc.currentScreen instanceof AltManagerGui) {
-            ScaledResolution sr = new ScaledResolution(this.mc);
-
-            //Center
-            Point2D.Double screenCenter = new Point2D.Double(sr.getScaledWidth()/2,sr.getScaledHeight()/2);
-
-            Point2D.Double leftLine1stpoint = new Point2D.Double(screenCenter.getX()-100,200);
-            Point2D.Double leftLine2ndpoint = new Point2D.Double(screenCenter.getX()-100, 100);
-
-            RenderUtils2D.drawGradientLine(leftLine1stpoint,leftLine2ndpoint,new Color(140, 40, 175),new Color(78, 129, 218),5);
-        }
-    }
     @Override
     public void onEnable() {
         super.onEnable();

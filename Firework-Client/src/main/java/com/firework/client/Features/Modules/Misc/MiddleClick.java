@@ -18,7 +18,7 @@ import org.lwjgl.input.Mouse;
 
 import java.io.File;
 
-@ModuleManifest(name = "MiddleClick", category = Module.Category.MISC)
+@ModuleManifest(name = "MiddleClick", category = Module.Category.MISCELLANEOUS)
 public class MiddleClick extends Module {
 
     private static Minecraft mc = Minecraft.getMinecraft();

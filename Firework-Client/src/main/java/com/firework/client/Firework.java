@@ -3,13 +3,11 @@
 package com.firework.client;
 
 import com.firework.client.Features.IngameGuis.Loader;
-import com.firework.client.Features.IngameGuis.MainMenu.Shaders;
 import com.firework.client.Features.Modules.Client.Client;
 import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Managers.*;
-import com.firework.client.Implementations.Managers.Fps.FpsManager;
 import com.firework.client.Implementations.UI.ConsoleGui.Command.ConsoleManager;
 import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.UI.Hud.HudManager;
@@ -54,7 +52,6 @@ import static com.firework.client.Implementations.Utill.Util.mc;
 @Mod(modid = Firework.MODID, name = Firework.NAME, version = Firework.VERSION)
 public class Firework
 {
-    public static Shaders shaders;
     public static final String MODID = "firework";
     public static final String NAME = "FireWork Client";
     public static final String VERSION = "0.1";
@@ -136,8 +133,6 @@ public class Firework
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-      //  MinecraftForge.EVENT_BUS.register(new Events());
-        shaders = new Shaders();
         //Link to client
         minecraft = Minecraft.getMinecraft();
         //Sets custom window title when client is loading

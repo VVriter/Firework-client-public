@@ -9,7 +9,7 @@ import net.minecraft.network.play.server.SPacketTimeUpdate;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@ModuleManifest(name = "FullBright",category = Module.Category.RENDER)
+@ModuleManifest(name = "FullBright",category = Module.Category.VISUALS)
 public class FullBright extends Module {
 
     public Setting<Enum> enumSetting = new Setting<>("Mode", TestEnum.Gamma, this, TestEnum.values());

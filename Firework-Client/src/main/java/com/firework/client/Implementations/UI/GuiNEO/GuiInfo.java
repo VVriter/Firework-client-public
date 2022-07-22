@@ -68,9 +68,9 @@ public class GuiInfo {
     public static void icons(){
         icons.add(new Pair(Module.Category.CLIENT, resourceLocation("firework/textures/client.png")));
         icons.add(new Pair(Module.Category.COMBAT, resourceLocation("firework/textures/combat.png")));
-        icons.add(new Pair(Module.Category.MISC, resourceLocation("firework/textures/misc.png")));
+        icons.add(new Pair(Module.Category.MISCELLANEOUS, resourceLocation("firework/textures/misc.png")));
         icons.add(new Pair(Module.Category.CHAT, resourceLocation("firework/textures/chat.png")));
-        icons.add(new Pair(Module.Category.RENDER, resourceLocation("firework/textures/render.png")));
+        icons.add(new Pair(Module.Category.VISUALS, resourceLocation("firework/textures/render.png")));
         icons.add(new Pair(Module.Category.MOVEMENT, resourceLocation("firework/textures/movement.png")));
         icons.add(new Pair(Module.Category.WORLD, resourceLocation("firework/textures/world.png")));
     }

@@ -16,7 +16,7 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 
-@ModuleManifest(name = "DeathFilter", category = Module.Category.MISC)
+@ModuleManifest(name = "DeathFilter", category = Module.Category.MISCELLANEOUS)
 public class AutoRespawn extends Module {
 
 

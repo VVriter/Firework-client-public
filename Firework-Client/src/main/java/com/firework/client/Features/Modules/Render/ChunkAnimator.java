@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-@ModuleManifest(name = "ChunkAnimator",category = Module.Category.RENDER)
+@ModuleManifest(name = "ChunkAnimator",category = Module.Category.VISUALS)
 public class ChunkAnimator extends Module {
 
     public Setting<Double> AnimationLength = new Setting<>("AnimationLength", (double)250, this, 1, 5000);

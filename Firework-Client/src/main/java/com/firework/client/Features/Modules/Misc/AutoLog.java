@@ -7,7 +7,7 @@ import net.minecraft.network.play.server.SPacketDisconnect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextComponentString;
 
-@ModuleManifest(name = "AutoLog",category = Module.Category.MISC)
+@ModuleManifest(name = "AutoLog",category = Module.Category.MISCELLANEOUS)
 public class AutoLog extends Module {
 
     static String gegra = "";

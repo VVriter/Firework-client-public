@@ -9,7 +9,7 @@ import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-@ModuleManifest(name = "HighwayESP",category = Module.Category.RENDER)
+@ModuleManifest(name = "HighwayESP",category = Module.Category.VISUALS)
 public class HighwayESP extends Module {
 
     public Setting<Enum> page = new Setting<>("Page", pages.General, this, pages.values());

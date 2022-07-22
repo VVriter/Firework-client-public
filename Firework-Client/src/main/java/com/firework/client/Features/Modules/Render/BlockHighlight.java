@@ -10,9 +10,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.awt.*;
-
-@ModuleManifest(name = "BlockHighlight",category = Module.Category.RENDER)
+@ModuleManifest(name = "BlockHighlight",category = Module.Category.VISUALS)
 public class BlockHighlight extends Module {
 
     PosRenderer posRenderer;
