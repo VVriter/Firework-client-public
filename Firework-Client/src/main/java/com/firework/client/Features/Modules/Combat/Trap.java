@@ -3,6 +3,8 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
@@ -20,6 +22,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
 
 import java.util.ArrayList;
 
@@ -57,10 +60,13 @@ public class Trap extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
+        if(fullNullCheck()) return;
         placeTimer = new Timer();
         placeTimer.reset();
 
         blockPlacer = new BlockPlacer(this, switchMode, rotate, packet);
+
+        Firework.eventBus.register(listener1);
     }
 
     @Override
@@ -70,11 +76,12 @@ public class Trap extends Module {
         line.clear();
 
         blockPlacer = null;
+        Firework.eventBus.unregister(listener1);
     }
 
-    @Override
-    public void onTick() {
-        super.onTick();
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
+        if(fullNullCheck()) return;
+
         EntityPlayer entityTarget = PlayerUtil.getClosestTarget(targetDistance.getValue());
         if(entityTarget==null) {
             if(!line.isEmpty())
@@ -129,7 +136,7 @@ public class Trap extends Module {
         }
 
         line.removeAll(blocksToClear);
-    }
+    });
 
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent event){
