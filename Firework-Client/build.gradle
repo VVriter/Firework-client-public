@@ -92,12 +92,9 @@ dependencies {
     jarLibs "org.spongepowered:mixin:0.8.3-SNAPSHOT"
     annotationProcessor 'org.spongepowered:mixin:0.8.3-SNAPSHOT:processor'
 
-    jarLibs group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
     jarLibs 'com.google.code.gson:gson:2.8.9'
     jarLibs group: 'org.slick2d', name: 'slick2d-core', version: '1.0.1'
     jarLibs 'com.discord4j:discord4j-core:3.2.2'
-
-
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
@@ -106,8 +103,6 @@ dependencies {
     jarLibs('org.reflections:reflections:0.9.12') {
         exclude module: 'guava'
     }
-
-    jarLibs 'org.jetbrains:annotations:21.0.1'
 
     jarLibs 'club.minnced:java-discord-rpc:2.0.2'
     jarLibs 'net.lingala.zip4j:zip4j:2.10.0'

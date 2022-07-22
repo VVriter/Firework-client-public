@@ -15,10 +15,6 @@ import java.awt.*;
 
 @ModuleManifest(name = "TestNot",category = Module.Category.CLIENT)
 public class TestNotifications extends Module {
-
-    public TestNotifications() {
-        onEnable();
-    }
     static Timer startMoveTimer = new Timer();
     static Timer endMoveTimer = new Timer();
     static Timer waitTimer = new Timer();

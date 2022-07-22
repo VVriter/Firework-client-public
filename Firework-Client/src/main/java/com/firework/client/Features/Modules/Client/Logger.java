@@ -17,7 +17,7 @@ public class Logger extends Module {
         onModuleEnable = new Setting<>("OnEnableLog", true, this);
         onModuleDisable = new Setting<>("OnDisableLog", true, this);
         enabled = this.isEnabled;
-        this.onEnable();
+        this.isEnabled.setValue(true);
     }
 
     public static void log(Module module){
