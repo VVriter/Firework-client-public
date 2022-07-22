@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @ModuleManifest(name = "FullBright",category = Module.Category.RENDER)
 public class FullBright extends Module {
 
-    public Setting<Enum> enumSetting = new Setting<>("Mode", TestEnum.Gamma, this, TestEnum.values());
+    public Setting<Enum> enumSetting = new Setting<>("Mode", TestEnum.Gamma, this);
     public enum TestEnum{
         Gamma, Potion, CustomTime
     }

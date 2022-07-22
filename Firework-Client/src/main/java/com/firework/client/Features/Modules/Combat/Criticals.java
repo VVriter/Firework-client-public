@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @ModuleManifest(name = "Crits", category = Module.Category.COMBAT)
 public class Criticals extends Module {
 
-    public Setting<Enum> mode = new Setting<>("Mode", modes.Packet, this, modes.values());
+    public Setting<Enum> mode = new Setting<>("Mode", modes.Packet, this);
     public enum modes{
         Packet, MiniJump, Jump
     }

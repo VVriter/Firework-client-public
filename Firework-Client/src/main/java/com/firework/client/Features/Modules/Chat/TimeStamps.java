@@ -24,8 +24,8 @@ public class TimeStamps extends Module {
     public Setting<String> BracketMode = new Setting<>("Brackets", "Bracket", this, Arrays.asList("Bracket","Curly", "Parent"));
     public Setting<String> Format = new Setting<>("Format", "European", this, Arrays.asList("European","AM/PM"));
 
-    public Setting<ChatFormatting> bracketColor = new Setting<>("BracketColor",  ChatFormatting.WHITE, this, ChatFormatting.values());
-    public Setting<ChatFormatting> timeColor = new Setting<>("TimeColor", ChatFormatting.WHITE, this, ChatFormatting.values());
+    public Setting<ChatFormatting> bracketColor = new Setting<>("BracketColor",  ChatFormatting.WHITE, this);
+    public Setting<ChatFormatting> timeColor = new Setting<>("TimeColor", ChatFormatting.WHITE, this);
 
     String firstBracket; //= new TextComponentString("<");
     String lastBracket; // = new TextComponentString(">");

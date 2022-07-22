@@ -27,14 +27,14 @@ public class MenderTweaker extends Module {
     public Setting<Boolean> autoArmour = new Setting<>("AutoArmour", true, this).setVisibility(v-> armour.getValue(true));
     public Setting<Double> autoArmourDelay = new Setting<>("AutoArmourDelay", (double)3, this, 1, 500).setVisibility(v-> armour.getValue(true));
 
-    public Setting<Enum> mendMode = new Setting<>("MendMode", mendModes.Auto, this, mendModes.values());
+    public Setting<Enum> mendMode = new Setting<>("MendMode", mendModes.Auto, this);
     public enum mendModes{
         Auto, Manual, CustomBind
     }
 
     public Setting<Integer> key1 = new Setting<>("CustomKey", Keyboard.KEY_NONE, this).setVisibility(v-> mendMode.getValue(mendModes.CustomBind));
 
-    public Setting<Enum> switchMode = new Setting<>("SwitchMode", switchModes.Silent, this, switchModes.values());
+    public Setting<Enum> switchMode = new Setting<>("SwitchMode", switchModes.Silent, this);
     public enum switchModes{
        Normal, Multihand, Silent, None
     }

@@ -118,7 +118,7 @@ import net.minecraft.network.play.server.SPacketWorldBorder;
 public class PacketCanceler extends Module {
 
 
-    public Setting<Enum> page = new Setting<>("Page", pages.CPackets, this, pages.values());
+    public Setting<Enum> page = new Setting<>("Page", pages.CPackets, this);
     public enum pages{CPackets, SPackets}
 
 

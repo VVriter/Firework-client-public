@@ -17,12 +17,12 @@ import net.minecraft.util.math.BlockPos;
 @ModuleManifest(name = "Quiver",category = Module.Category.COMBAT)
 public class Quiver extends Module {
 
-    public Setting<Enum> mode = new Setting<>("Mode", modes.Handly, this, modes.values());
+    public Setting<Enum> mode = new Setting<>("Mode", modes.Handly, this);
     public enum modes{
         Handly, Auto
     }
 
-    public Setting<switchmod> switchModes = new Setting<>("Switch", switchmod.Normal, this, switchmod.values()).setVisibility(v-> mode.getValue(modes.Auto));
+    public Setting<switchmod> switchModes = new Setting<>("Switch", switchmod.Normal, this).setVisibility(v-> mode.getValue(modes.Auto));
     public enum switchmod{
         Normal, Multihand
     }

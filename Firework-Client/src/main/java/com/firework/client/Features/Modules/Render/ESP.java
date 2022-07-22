@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ESP extends Module {
-    public Setting<Enum> page = new Setting<>("Page", pages.Storages, this, pages.values());
+    public Setting<Enum> page = new Setting<>("Page", pages.Storages, this);
     public enum pages{
         Storages, Tunnels
     }

@@ -3,8 +3,6 @@ package com.firework.client.Features.Modules.Render;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Timer;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 
 
@@ -21,7 +19,7 @@ public class ItemViewModel extends Module {
     public static Setting<Boolean> enabled = null;
 
 
-    public Setting<Enum> page = new Setting<>("Page", pages.Translate, this, pages.values());
+    public Setting<Enum> page = new Setting<>("Page", pages.Translate, this);
     public enum pages{
         Translate, Rotate, Scale, Animations, Charms, Misc
     }
@@ -29,7 +27,7 @@ public class ItemViewModel extends Module {
     public static Setting<Boolean> SlowAnimations = null;
     public static Setting<Double> SlowVal = null;
 
-    public Setting<swings> swing = new Setting<>("Swing", swings.MainHand, this, swings.values()).setVisibility(v-> page.getValue(pages.Misc));
+    public Setting<swings> swing = new Setting<>("Swing", swings.MainHand, this).setVisibility(v-> page.getValue(pages.Misc));
     public enum swings{
         MainHand,OffHand,None
     }

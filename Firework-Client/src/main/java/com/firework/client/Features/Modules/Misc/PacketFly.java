@@ -35,12 +35,12 @@ public class PacketFly extends Module {
 
     /*******************************Settings************************************************/
 
-    public Setting<Enum> type = new Setting<>("type", Type.FAST, this, Type.values());
+    public Setting<Enum> type = new Setting<>("type", Type.FAST, this);
     public enum Type{
         FACTOR, SETBACK, FAST, SLOW, DESYNC
     }
 
-    public Setting<Enum> packetMode = new Setting<>("packetMode", Mode.UP, this, Mode.values());
+    public Setting<Enum> packetMode = new Setting<>("packetMode", Mode.UP, this);
     public enum Mode{
         UP, PRESERVE, DOWN, LIMITJITTER, BYPASS, OBSCURE
     }
@@ -48,7 +48,7 @@ public class PacketFly extends Module {
     public Setting<Boolean> strict = new Setting<>("strict", true, this);
     public Setting<Boolean> bounds = new Setting<>("bounds", true, this);
 
-    public Setting<Enum> phase = new Setting<>("phase", Phase.NCP, this, Phase.values());
+    public Setting<Enum> phase = new Setting<>("phase", Phase.NCP, this);
     public enum Phase{
         NONE, VANILLA, NCP
     }
@@ -60,12 +60,12 @@ public class PacketFly extends Module {
 
     public Setting<Double> factor = new Setting<>("factor", (double)1, this, 0, 10).setVisibility(v-> type.getValue(Type.FACTOR));
 
-    public Setting<Enum> antiKickMode = new Setting<>("antiKickMode", AntiKick.NORMAL, this, AntiKick.values());
+    public Setting<Enum> antiKickMode = new Setting<>("antiKickMode", AntiKick.NORMAL, this);
     public enum AntiKick{
         NONE, NORMAL, LIMITED, STRICT
     }
 
-    public Setting<Enum> limit = new Setting<>("limit", Limit.NONE, this, Limit.values());
+    public Setting<Enum> limit = new Setting<>("limit", Limit.NONE, this);
     public enum Limit{
         NONE, STRONG, STRICT
     }

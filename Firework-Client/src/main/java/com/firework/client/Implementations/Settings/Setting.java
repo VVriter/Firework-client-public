@@ -5,8 +5,8 @@ import com.firework.client.Implementations.Events.Settings.SettingChangeValueEve
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraftforge.common.MinecraftForge;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -45,6 +45,11 @@ public class Setting<T> {
         if(value instanceof HSLColor)
             this.mode = Mode.COLOR;
 
+        if(value instanceof Enum){
+            this.list = Arrays.asList(Arrays.stream(((Enum) this.value).getClass().getEnumConstants()).toArray());
+            this.mode = Mode.MODE;
+        }
+
         settingManager.settings.add(this);
     }
 
@@ -66,18 +71,6 @@ public class Setting<T> {
         this.module = module;
 
         this.list = Arrays.asList(list.toArray());
-
-        this.mode = Mode.MODE;
-
-        settingManager.settings.add(this);
-    }
-
-    public Setting(String name, T value, Module module, Enum[] list){
-        this.name = name;
-        this.value = value;
-        this.module = module;
-
-        this.list = Arrays.asList(Arrays.stream(list).toArray());
 
         this.mode = Mode.MODE;
 

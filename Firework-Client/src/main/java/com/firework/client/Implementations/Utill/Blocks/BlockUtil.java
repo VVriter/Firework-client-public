@@ -283,6 +283,12 @@ public class BlockUtil {
         return false;
     }
 
+    public static boolean isValid(BlockPos pos){
+        if (!mc.world.checkNoEntityCollision(new AxisAlignedBB(pos)))
+            return false;
+        return true;
+    }
+
     public static List<BlockPos> getSphereRealth(final float radius, final boolean ignoreAir) {
         final List<BlockPos> sphere = new ArrayList<BlockPos>();
         final BlockPos pos = new BlockPos(mc.player.getPositionVector());

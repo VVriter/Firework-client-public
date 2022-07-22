@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 @ModuleManifest(name = "AutoPotionRewrite", category = Module.Category.COMBAT)
 public class AutoPotion extends Module {
 
-    public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this, ItemUser.switchModes.values());
+    public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this);
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
     public Setting<Integer> lookPitch = new Setting<>("Pitch", 90, this, 1, 100);
 

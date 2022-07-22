@@ -20,9 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.getHotbarItemSlot;
 
@@ -33,7 +31,7 @@ public class Trap extends Module {
 
     private Setting<Integer> placedDelayMs = new Setting<>("PlaceDelayMs", 0, this, 0, 100);
 
-    private Setting<BlockPlacer.switchModes> switchMode = new Setting<>("Switch", BlockPlacer.switchModes.Fast, this, BlockPlacer.switchModes.values());
+    private Setting<BlockPlacer.switchModes> switchMode = new Setting<>("Switch", BlockPlacer.switchModes.Fast, this);
 
     private Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
     private Setting<Boolean> packet = new Setting<>("Packet", false, this);

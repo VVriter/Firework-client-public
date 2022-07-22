@@ -33,7 +33,7 @@ public class HoleFiller extends Module {
     //Timing
     private Setting<Boolean> timingPage = new Setting<>("Timing", true, this).setMode(Setting.Mode.SUB);
 
-    private Setting<timers> timerMode = new Setting<>("TimerMode", timers.Tick, this, timers.values()).setVisibility(v-> timingPage.getValue());
+    private Setting<timers> timerMode = new Setting<>("TimerMode", timers.Tick, this).setVisibility(v-> timingPage.getValue());
     private enum timers{
         Tick, Ms
     }
@@ -43,7 +43,7 @@ public class HoleFiller extends Module {
     //Interaction
     private Setting<Boolean> interactionPage = new Setting<>("Interaction", true, this).setMode(Setting.Mode.SUB);
 
-    private Setting<BlockPlacer.switchModes> switchMode = new Setting<>("Switch", BlockPlacer.switchModes.Silent, this, BlockPlacer.switchModes.values()).setVisibility(v-> interactionPage.getValue());
+    private Setting<BlockPlacer.switchModes> switchMode = new Setting<>("Switch", BlockPlacer.switchModes.Silent, this).setVisibility(v-> interactionPage.getValue());
     private Setting<Boolean> rotate = new Setting<>("Rotate", false, this).setVisibility(v-> interactionPage.getValue());
     private Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(v-> interactionPage.getValue());
 
