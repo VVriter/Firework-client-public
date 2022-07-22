@@ -149,30 +149,29 @@ public class Surround extends Module {
     });
 
     private void doSurround(BlockPos... blockToPlace){
-        try {
-            for (BlockPos pos : blockToPlace)
-                if (isAir(pos) && !line.contains(pos))
-                    line.add(pos);
+        if(line == null) return;
+        for (BlockPos pos : blockToPlace)
+            if (isAir(pos) && !line.contains(pos))
+                line.add(pos);
 
-            ArrayList<BlockPos> placedBlocks = new ArrayList<>();
+        ArrayList<BlockPos> placedBlocks = new ArrayList<>();
 
-            for (BlockPos pos : line) {
-                if (placeTimer.hasPassedMs(placeDelay.getValue())) {
-                    if (BlockUtil.getPossibleSides(pos).isEmpty() && isValid(pos.add(0, -1, 0)))
-                        blockPlacer.placeBlock(pos.add(0, -1, 0), Blocks.OBSIDIAN);
-                    else {
-                        if(!isValid(pos)) return;
-                        blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
-                        placedBlocks.add(pos);
-                    }
-                    placeTimer.reset();
-                } else {
-                    break;
+        for (BlockPos pos : line) {
+            if (placeTimer.hasPassedMs(placeDelay.getValue())) {
+                if (BlockUtil.getPossibleSides(pos).isEmpty() && isValid(pos.add(0, -1, 0)))
+                    blockPlacer.placeBlock(pos.add(0, -1, 0), Blocks.OBSIDIAN);
+                else {
+                    if(!isValid(pos)) return;
+                    blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
+                    placedBlocks.add(pos);
                 }
+                placeTimer.reset();
+            } else {
+                break;
             }
+        }
 
-            line.removeAll(placedBlocks);
-        }catch (Exception e){}
+        line.removeAll(placedBlocks);
     }
     //Returns blocks to place
     public BlockPos[] blockToPlace() {
