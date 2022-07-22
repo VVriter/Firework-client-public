@@ -10,6 +10,7 @@ import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
+import com.firework.client.Implementations.Utill.Blocks.HoleUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.MotionUtil;
@@ -30,6 +31,7 @@ import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.network.play.server.SPacketSpawnObject;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -70,6 +72,8 @@ public class Surround extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
+        if(fullNullCheck()) return;
+
         if(!containsAir(blockToPlace()) && shouldToggle.getValue())
             onDisable();
 
@@ -144,33 +148,31 @@ public class Surround extends Module {
             doSurround(blockToPlace);
     });
 
-    @SubscribeEvent
-    public void onTest(TestEvent event){
-        System.out.println(System.nanoTime() - time);
-    }
-
     private void doSurround(BlockPos... blockToPlace){
-        for (BlockPos pos : blockToPlace)
-            if (isAir(pos) && !line.contains(pos))
-                line.add(pos);
+        try {
+            for (BlockPos pos : blockToPlace)
+                if (isAir(pos) && !line.contains(pos))
+                    line.add(pos);
 
-        ArrayList<BlockPos> placedBlocks = new ArrayList<>();
+            ArrayList<BlockPos> placedBlocks = new ArrayList<>();
 
-        for (BlockPos pos : line) {
-            if (placeTimer.hasPassedMs(placeDelay.getValue())) {
-                if (BlockUtil.getPossibleSides(pos).isEmpty())
-                    blockPlacer.placeBlock(pos.add(0, -1, 0), Blocks.OBSIDIAN);
-                else {
-                    blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
-                    placedBlocks.add(pos);
+            for (BlockPos pos : line) {
+                if (placeTimer.hasPassedMs(placeDelay.getValue())) {
+                    if (BlockUtil.getPossibleSides(pos).isEmpty() && isValid(pos.add(0, -1, 0)))
+                        blockPlacer.placeBlock(pos.add(0, -1, 0), Blocks.OBSIDIAN);
+                    else {
+                        if(!isValid(pos)) return;
+                        blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
+                        placedBlocks.add(pos);
+                    }
+                    placeTimer.reset();
+                } else {
+                    break;
                 }
-                placeTimer.reset();
-            } else {
-                break;
             }
-        }
 
-        line.removeAll(placedBlocks);
+            line.removeAll(placedBlocks);
+        }catch (Exception e){}
     }
     //Returns blocks to place
     public BlockPos[] blockToPlace() {
@@ -191,5 +193,12 @@ public class Surround extends Module {
     //Returns true if there is no block at a give pos
     private boolean isAir(BlockPos pos) {
         return BlockUtil.getBlock(pos) == Blocks.AIR;
+    }
+
+    //Checks if block is valid
+    public static boolean isValid(BlockPos pos){
+        if (!mc.world.checkNoEntityCollision(new AxisAlignedBB(pos)))
+            return false;
+        return true;
     }
 }

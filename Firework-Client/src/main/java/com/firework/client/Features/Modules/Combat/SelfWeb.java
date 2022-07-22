@@ -64,6 +64,8 @@ public class SelfWeb extends Module {
     @Override
     public void onTick() {
         super.onTick();
+        if(fullNullCheck()) return;
+        if(!isAir(EntityUtil.getFlooredPos(mc.player))) return;
 
         //Stops process if web wasn't found in a hotbar
         if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.WEB)) == -1) {
@@ -103,6 +105,11 @@ public class SelfWeb extends Module {
         if(!predictTargetMove.getValue())
             if(shouldToggle.getValue())
                 onDisable();
+    }
+
+    //Air check
+    public static boolean isAir(BlockPos pos) {
+        return BlockUtil.getBlock(pos) == Blocks.AIR;
     }
 
     //BlockPos to place
