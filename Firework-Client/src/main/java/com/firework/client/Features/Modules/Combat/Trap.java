@@ -182,7 +182,8 @@ public class Trap extends Module {
                     p.add(1, 0, 0), p.add(-1, 0, 0), p.add(0, 0, 1), p.add(0, 0, -1)
             );
             BlockPos nearestCrystalPlacePos = nearestCrystalPlaceValidBlock(
-                    p.add(2, -1, 0), p.add(-2, -1, 0), p.add(0, -1, 2), p.add(0, -1, -2)
+                    p.add(2, -1, 0), p.add(-2, -1, 0), p.add(0, -1, 2), p.add(0, -1, -2),
+                    p.add(1, -1, 1), p.add(-1, -1, 1), p.add(-1, 0, 1), p.add(1, -1, -1)
             );
             return new BlockPos[]{
                     //First surround layer -1
