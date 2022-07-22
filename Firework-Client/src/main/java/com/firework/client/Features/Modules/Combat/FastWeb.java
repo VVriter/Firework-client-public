@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
 import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
+import com.firework.client.Implementations.Utill.Math.Inhibitator;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraft.init.Blocks;
@@ -27,11 +28,28 @@ public class FastWeb extends Module {
         Timer, Motion
     }
     public Setting<Double> reduction = new Setting<>("Reduction", (double)0.3, this, 0, 2).setVisibility(v-> mode.getValue(modes.Motion));
-    public Setting<Integer> ticks = new Setting<>("Reduction Ticks", 45, this, 40, 49).setVisibility(v-> mode.getValue(modes.Timer));
+    public Setting<Double> ticks = new Setting<>("Reduction Ticks", (double)45, this, 40, 49).setVisibility(v-> mode.getValue(modes.Timer));
 
+    public Setting<Boolean> inhibit = new Setting<>("Inhibit", false, this).setMode(Setting.Mode.SUB).setVisibility(v-> mode.getValue(modes.Timer));
+    public Setting<Boolean> inhibitBool = new Setting<>("InhibitEnable", true, this).setVisibility(v-> inhibit.getValue() && mode.getValue(modes.Timer));
+    public Setting<Double> inhibitationSpeed = new Setting<>("InhibitDelay", (double)50, this, 1, 200).setVisibility(v-> inhibit.getValue() && mode.getValue(modes.Timer));
+    Inhibitator inhibitator = new Inhibitator();
+
+    @Override
+    public void onToggle() {
+        super.onToggle();
+        inhibitator.timer.reset();
+    }
     @Override
     public void onTick() {
         super.onTick();
+
+
+        if (inhibitBool.getValue() && mode.getValue(modes.Timer)) {
+            inhibitator.doInhibitation(ticks,inhibitationSpeed.getValue(),49,40);
+        }
+
+
         if (mode.getValue(modes.Motion)) {
         if (((IEntity)mc.player).isInWeb()) {
             if (mc.gameSettings.keyBindSneak.isKeyDown()) {
