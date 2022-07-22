@@ -40,7 +40,7 @@ public class ESP extends Module {
     public static Setting<Boolean> Beacon = null;
 
     public ESP() {
-        super("ESP", Category.RENDER);
+        super("ESP", Category.VISUALS);
 
         Items = new  Setting<>("Items", true, this).setVisibility(v-> page.getValue(pages.Storages));
         Chests = new Setting<>("Chest", true, this).setVisibility(v-> page.getValue(pages.Storages));

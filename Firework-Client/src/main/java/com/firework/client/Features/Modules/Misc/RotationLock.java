@@ -8,7 +8,7 @@ import com.firework.client.Implementations.Utill.YawUtil;
 import java.util.Arrays;
 
 
-@ModuleManifest(name = "RotationLock",category = Module.Category.MISC)
+@ModuleManifest(name = "RotationLock",category = Module.Category.MISCELLANEOUS)
 public class RotationLock extends Module {
 
     public Setting<Boolean> yawBool = new Setting<>("Yaw", false, this).setMode(Setting.Mode.SUB);

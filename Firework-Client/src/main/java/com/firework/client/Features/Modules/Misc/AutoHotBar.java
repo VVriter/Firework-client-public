@@ -6,7 +6,7 @@ import com.firework.client.Implementations.Utill.InventoryUtil;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 
-@ModuleManifest(name = "AutoHotbar", category = Module.Category.MISC)
+@ModuleManifest(name = "AutoHotbar", category = Module.Category.MISCELLANEOUS)
 public class AutoHotBar extends Module {
 
     private int lastSlot = -1;

@@ -10,7 +10,7 @@ import java.awt.Color;
 public class CustomEnchants extends Module {
         public static Setting<HSLColor> color = null;
         public static Setting<Boolean> enabled = null;
-    public CustomEnchants(){super("CustomEnchants",Category.RENDER);
+    public CustomEnchants(){super("CustomEnchants",Category.VISUALS);
         color = new Setting<>("Color", new HSLColor(1, 54, 43), this);
         enabled = this.isEnabled;
     }

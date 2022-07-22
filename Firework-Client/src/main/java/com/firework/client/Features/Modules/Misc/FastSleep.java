@@ -6,7 +6,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.network.play.client.CPacketEntityAction;
 
 
-@ModuleManifest(name = "FastSleep",category = Module.Category.MISC)
+@ModuleManifest(name = "FastSleep",category = Module.Category.MISCELLANEOUS)
 public class FastSleep extends Module {
 
 

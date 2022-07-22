@@ -97,6 +97,12 @@ public class Module{
         return mc.player == null || mc.world == null;
     }
     public enum Category{
-        CHAT, COMBAT, MOVEMENT, RENDER, MISC, WORLD, CLIENT
+        CHAT,
+        COMBAT,
+        MOVEMENT,
+        VISUALS,
+        MISCELLANEOUS,
+        WORLD,
+        CLIENT
     }
 }

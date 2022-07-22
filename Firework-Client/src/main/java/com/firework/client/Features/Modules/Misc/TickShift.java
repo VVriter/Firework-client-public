@@ -7,7 +7,7 @@ import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Timer;
 
-@ModuleManifest(name = "TickShift",category = Module.Category.MISC)
+@ModuleManifest(name = "TickShift",category = Module.Category.MISCELLANEOUS)
 public class TickShift extends Module {
 
     Timer timer = new Timer();

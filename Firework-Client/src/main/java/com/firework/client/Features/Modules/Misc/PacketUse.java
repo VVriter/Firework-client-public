@@ -4,7 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 
-@ModuleManifest(name = "PacketUse",category = Module.Category.MISC)
+@ModuleManifest(name = "PacketUse",category = Module.Category.MISCELLANEOUS)
 public class PacketUse extends Module {
     public static Setting<Boolean> enabled = null;
     public static Setting<Boolean> food = null;

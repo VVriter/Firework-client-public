@@ -24,7 +24,7 @@ public class ParticlesESP extends Module {
     public Setting<Boolean> snowBall = new Setting<>("SnowBall", false, this);
 
 
-    public ParticlesESP(){super("ParticlesESP",Category.RENDER);}
+    public ParticlesESP(){super("ParticlesESP",Category.VISUALS);}
 
 
     @Override

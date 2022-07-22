@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.awt.geom.Point2D;
 
-@ModuleManifest(name = "Crosshair",category = Module.Category.RENDER)
+@ModuleManifest(name = "Crosshair",category = Module.Category.VISUALS)
 public class Crosshair extends Module {
 
 

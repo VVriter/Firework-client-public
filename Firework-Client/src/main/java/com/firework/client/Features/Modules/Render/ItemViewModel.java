@@ -69,7 +69,7 @@ public class ItemViewModel extends Module {
     public static Setting<Boolean> animationZL = null;
     public static Setting<Double> animationZLSpeed  = null;
 
-    public ItemViewModel(){super("ItemViewModifer",Category.RENDER);
+    public ItemViewModel(){super("ItemViewModifer",Category.VISUALS);
 
         SlowAnimations = new Setting<>("SlowAnimations", false, this).setVisibility(v-> page.getValue(pages.Misc));
         SlowVal = new Setting<>("AnimationSpeed", (double)20, this, 1, 40).setVisibility(v-> SlowAnimations.getValue(true));

@@ -3,19 +3,13 @@ package com.firework.client.Features.Modules.Render;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketExplosion;
 import net.minecraft.network.play.server.SPacketSpawnExperienceOrb;
 import net.minecraft.network.play.server.SPacketSpawnMob;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.opengl.GL11;
-
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glPolygonOffset;
 
 public class NoRender extends Module {
 
@@ -44,7 +38,7 @@ public class NoRender extends Module {
 
 
     public NoRender(){
-        super("NoRender",Category.RENDER);
+        super("NoRender",Category.VISUALS);
         enabled = this.isEnabled;
 
         skySubBool = new Setting<>("Sky", false, this).setMode(Setting.Mode.SUB);

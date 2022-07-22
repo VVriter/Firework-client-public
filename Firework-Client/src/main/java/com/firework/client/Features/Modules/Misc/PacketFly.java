@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-@ModuleManifest(name = "PacketFly",category = Module.Category.MISC)
+@ModuleManifest(name = "PacketFly",category = Module.Category.MISCELLANEOUS)
 public class PacketFly extends Module {
 
     /*******************************Settings************************************************/

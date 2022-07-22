@@ -23,7 +23,6 @@ public class DisconnectedGui extends GuiScreen {
                 20, "MainMenu"));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, i + 72 - 12, 200,
                 20, "Reconnect"));
-        Firework.shaders.init( );
     }
 
     @Override

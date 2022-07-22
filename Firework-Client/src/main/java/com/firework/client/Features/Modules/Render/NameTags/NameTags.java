@@ -20,11 +20,10 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-@ModuleManifest(name = "NameTags",category = Module.Category.RENDER)
+@ModuleManifest(name = "NameTags",category = Module.Category.VISUALS)
 public class NameTags extends Module {
 
     public Setting<Boolean> armor = new Setting<>("armor", false, this);
