@@ -1,44 +1,41 @@
 package com.firework.client.Implementations.Utill;
 
-import com.firework.client.Implementations.Utill.Client.Triple;
+import com.firework.client.Implementations.Utill.Client.Pair;
 
 import java.util.ArrayList;
 
+/*
+    @author PunCakeCat
+ */
 public class Inhibitor {
-    private double value = 0;
-    public ArrayList<Triple<Double, Double, Boolean>> tasks = new ArrayList<>();
+    public double value = 0;
+    public ArrayList<Pair<Double, Boolean>> tasks = new ArrayList<>();
+    private double speed;
 
-    public void setValues(double width, double speed){
-        this.tasks.add(new Triple<>(width, speed, false));
+    public void setValues(double value, double speed){
+        this.tasks.add(new Pair<>(value, false));
+        this.speed = speed;
     }
 
     public void update(){
-        for (Triple<Double, Double, Boolean> task : tasks) {
-            if (!task.three) {
+        for (Pair<Double, Boolean> task : tasks) {
+            if (!task.two) {
                 if(value < task.one) {
-                    if(value + task.two >= task.one){
+                    if(value + speed >= task.one){
                         value = task.one;
-                        task.three = true;
+                        task.two = true;
                         break;
                     }
-                    value += task.two;
+                    value += speed;
                 }else if(value > task.one) {
-                    if(value - task.two <= task.one){
+                    if(value - speed <= task.one){
                         value = task.one;
-                        task.three = true;
+                        task.two = true;
                         break;
                     }
-                    value -= task.two;
+                    value -= speed;
                 }
             }
         }
-    }
-
-    public double getValue(){
-        return value;
-    }
-
-    public void setValue(double value){
-        this.value = value;
     }
 }
