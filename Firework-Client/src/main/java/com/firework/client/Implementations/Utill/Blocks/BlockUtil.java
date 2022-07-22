@@ -289,6 +289,14 @@ public class BlockUtil {
         return true;
     }
 
+    public static boolean isAir(BlockPos pos) {
+        return BlockUtil.getBlock(pos) == Blocks.AIR;
+    }
+
+    public static Vec3d[] getHelpingBlocks(Vec3d vec3d) {
+        return new Vec3d[]{new Vec3d(vec3d.x, vec3d.y - 1.0, vec3d.z), new Vec3d(vec3d.x != 0.0 ? vec3d.x * 2.0 : vec3d.x, vec3d.y, vec3d.x != 0.0 ? vec3d.z : vec3d.z * 2.0), new Vec3d(vec3d.x == 0.0 ? vec3d.x + 1.0 : vec3d.x, vec3d.y, vec3d.x == 0.0 ? vec3d.z : vec3d.z + 1.0), new Vec3d(vec3d.x == 0.0 ? vec3d.x - 1.0 : vec3d.x, vec3d.y, vec3d.x == 0.0 ? vec3d.z : vec3d.z - 1.0), new Vec3d(vec3d.x, vec3d.y + 1.0, vec3d.z)};
+    }
+
     public static List<BlockPos> getSphereRealth(final float radius, final boolean ignoreAir) {
         final List<BlockPos> sphere = new ArrayList<BlockPos>();
         final BlockPos pos = new BlockPos(mc.player.getPositionVector());

@@ -30,9 +30,9 @@ public class BlockBreaker {
 
     private boolean firstHit = true;
 
-    public BlockBreaker(Module module, Setting switchMode, Setting rotate, Setting rayTrace, Setting packet){
+    public BlockBreaker(Module module, Setting mineMode, Setting rotate, Setting rayTrace, Setting packet){
         this.module = module;
-        this.mineMode = switchMode;
+        this.mineMode = mineMode;
         this.rotate = rotate;
         this.rayTrace = rayTrace;
         this.packet = packet;
@@ -56,7 +56,7 @@ public class BlockBreaker {
         //Rotates
         if(rotate.getValue()) {
             Vec3d hitVec = new Vec3d(blockPos).add(0.5, 0.5, 0.5);
-            RotationUtil.rotate(hitVec, packet.getValue());
+            Firework.rotationManager.rotateSpoof(hitVec);
         }
 
         //Gets facing
