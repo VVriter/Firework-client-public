@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 public class Crosshair extends Module {
 
 
-    public Setting<Enum> colorMode = new Setting<>("Color", colorModes.Gradient, this, colorModes.values());
+    public Setting<Enum> colorMode = new Setting<>("Color", colorModes.Gradient, this);
     public enum colorModes {
         Gradient, Static
     }

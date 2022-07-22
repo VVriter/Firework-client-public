@@ -10,7 +10,7 @@ import net.minecraft.entity.Entity;
         category = Module.Category.MOVEMENT
 )
 public class BoatFly extends Module {
-    public Setting<YFix> yFix = new Setting<>("Y", YFix.NoGravity, this, YFix.values());
+    public Setting<YFix> yFix = new Setting<>("Y", YFix.NoGravity, this);
     public enum YFix{
         NoGravity, Strict, None
     }

@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import static java.lang.Math.floor;
 
 public class AutoWalk extends Module {
-    public Setting<Enum> mode = new Setting<>("MODE", modes.BARITONE, this, modes.values());
+    public Setting<Enum> mode = new Setting<>("MODE", modes.BARITONE, this);
 
     private final int border = 30000000;
     public AutoWalk(){super("AutoWalk",Category.MOVEMENT);}

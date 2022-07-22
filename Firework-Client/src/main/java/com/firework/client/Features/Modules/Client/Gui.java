@@ -24,7 +24,7 @@ public class Gui extends Module {
         background = new Setting<>("Background", false, this);
         upStartBlockColor = new Setting<>("upStartBlockColor", new HSLColor(175, 50, 50), this);
         downStartBlockColor = new Setting<>("downStartBlockColor", new HSLColor(334, 74, 77), this);
-        endBlock = new Setting<>("EndBlockMode", endBlockMode.Dynamic, this, endBlockMode.values());
+        endBlock = new Setting<>("EndBlockMode", endBlockMode.Dynamic, this);
     }
 
 

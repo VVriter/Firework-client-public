@@ -1,6 +1,5 @@
 package ua.firework.beet;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Comparator;
 

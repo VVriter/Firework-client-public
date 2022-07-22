@@ -22,7 +22,7 @@ import java.util.List;
         category = Module.Category.COMBAT
 )
 public class FastWeb extends Module {
-    public Setting<modes> mode = new Setting<>("Mode", modes.Motion, this, modes.values());
+    public Setting<modes> mode = new Setting<>("Mode", modes.Motion, this);
     public enum modes {
         Timer, Motion
     }
@@ -31,13 +31,13 @@ public class FastWeb extends Module {
 
     public Setting<Boolean> renderer = new Setting<>("Block", false, this).setMode(Setting.Mode.SUB);
     public Setting<Double> range = new Setting<>("RenderRange", (double)10, this, 1, 20).setVisibility(v-> renderer.getValue());
-    public Setting<PosRenderer.boxeMode> boxMode = new Setting<>("Box", PosRenderer.boxeMode.Normal, this, PosRenderer.boxeMode.values()).setVisibility(v->  renderer.getValue());
+    public Setting<PosRenderer.boxeMode> boxMode = new Setting<>("Box", PosRenderer.boxeMode.Normal, this).setVisibility(v->  renderer.getValue());
     public Setting<HSLColor> fillColor = new Setting<>("FillColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) && renderer.getValue());
     public Setting<Double> boxHeightNormal = new Setting<>("BoxHeight", (double)1, this, -0.3, 5).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) && renderer.getValue());
     public Setting<HSLColor> fillColor1 = new Setting<>("StartColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  renderer.getValue());
     public Setting<HSLColor> fillColor2 = new Setting<>("EndColor", new HSLColor(200, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  renderer.getValue());
 
-    public Setting<PosRenderer.outlineModes> outlineMode = new Setting<>("Outline", PosRenderer.outlineModes.Normal, this, PosRenderer.outlineModes.values()).setVisibility(v-> renderer.getValue());
+    public Setting<PosRenderer.outlineModes> outlineMode = new Setting<>("Outline", PosRenderer.outlineModes.Normal, this).setVisibility(v-> renderer.getValue());
     public Setting<HSLColor> gradientOutlineColor1 = new Setting<>("FirstColor", new HSLColor(1, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && renderer.getValue());
     public Setting<HSLColor> gradientOutlineColor2 = new Setting<>("SecondColor", new HSLColor(200, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && renderer.getValue());
     public Setting<HSLColor> colorOutline = new Setting<>("ColorOutline", new HSLColor(200, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && renderer.getValue());

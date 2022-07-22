@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 @ModuleManifest(name = "Chams", category = Module.Category.VISUALS)
 public class Chams extends Module{
-    private Setting<modes> mode = new Setting<>("Mode", modes.Shader, this, modes.values());
+    private Setting<modes> mode = new Setting<>("Mode", modes.Shader, this);
     private enum modes{
         Shader, Outline
     }

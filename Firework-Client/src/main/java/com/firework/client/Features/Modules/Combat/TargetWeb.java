@@ -10,8 +10,6 @@ import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
-import com.firework.client.Implementations.Utill.Render.RenderUtils;
-import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ClickType;
@@ -39,7 +37,7 @@ public class TargetWeb extends Module{
     //Web place range
     private Setting<Integer> placeRange = new Setting<>("PlaceRange", 3, this, 0, 6);
     //Hand the module will use to place web
-    private Setting<hands> hand = new Setting<>("hand", hands.MainHand, this, hands.values());
+    private Setting<hands> hand = new Setting<>("hand", hands.MainHand, this);
     //Should rotate to place
     private Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
     //Should use packet rotate spoof

@@ -2,7 +2,6 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -43,7 +42,7 @@ public class SelfWeb extends Module {
     //Should send packet confirmation on block place
     private Setting<Boolean> packet = new Setting<>("Packet", true, this);
     //Switch mode
-    private Setting<switchModes> switchMode = new Setting<>("Switch", switchModes.Fast, this, switchModes.values());
+    private Setting<switchModes> switchMode = new Setting<>("Switch", switchModes.Fast, this);
     private enum switchModes{
         Fast, Silent
     }

@@ -12,17 +12,17 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @ModuleManifest(name = "HighwayESP",category = Module.Category.VISUALS)
 public class HighwayESP extends Module {
 
-    public Setting<Enum> page = new Setting<>("Page", pages.General, this, pages.values());
+    public Setting<Enum> page = new Setting<>("Page", pages.General, this);
     public enum pages{
         General, Colors
     }
 
-    public Setting<zeropoints> zeropoint = new Setting<>("ZeroPoint", zeropoints.FromYou, this, zeropoints.values()).setVisibility(v-> page.getValue(pages.General));
+    public Setting<zeropoints> zeropoint = new Setting<>("ZeroPoint", zeropoints.FromYou, this).setVisibility(v-> page.getValue(pages.General));
     public enum zeropoints{
         FromYou, ZeroCords
     }
 
-    public Setting<ys> yzs = new Setting<>("Height", ys.FromYou, this, ys.values()).setVisibility(v-> page.getValue(pages.General));
+    public Setting<ys> yzs = new Setting<>("Height", ys.FromYou, this).setVisibility(v-> page.getValue(pages.General));
     public enum ys{
         FromYou, Bedrock, Custom
     }

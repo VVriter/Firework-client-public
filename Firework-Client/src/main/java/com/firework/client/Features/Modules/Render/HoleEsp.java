@@ -32,7 +32,7 @@ public class HoleEsp extends Module {
 
     public Setting<Boolean> glowSubBool = new Setting<>("Glow", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> enableGlow = new Setting<>("EnableGlow", true, this).setVisibility(v-> glowSubBool.getValue());
-    public Setting<GlowMode> glowMode = new Setting<>("GlowMode", GlowMode.Down, this, GlowMode.values()).setVisibility(v-> glowSubBool.getValue());
+    public Setting<GlowMode> glowMode = new Setting<>("GlowMode", GlowMode.Down, this).setVisibility(v-> glowSubBool.getValue());
     public enum GlowMode{ Up, Down }
     public Setting<HSLColor> glowBedrockColor = new Setting<>("GlowBedrockColor", new HSLColor(1, 54, 43), this).setVisibility(v-> glowSubBool.getValue());
     public Setting<HSLColor> glowObsidianColor = new Setting<>("GlowObsidianColor", new HSLColor(50, 54, 43), this).setVisibility(v-> glowSubBool.getValue());

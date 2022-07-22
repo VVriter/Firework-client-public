@@ -14,7 +14,7 @@ public class GuiParticles extends Module {
     public GuiParticles(){
         scaleFactor = new Setting<>("scaleFactor", (double)0.4, this, 0.1, 10);
         lineLong = new Setting<>("maxLineLong", (double)90, this, 0, 200);
-        colorMode = new Setting<>("ColorMode", ParticleInfo.colorMode.Default, this, ParticleInfo.colorMode.values());
+        colorMode = new Setting<>("ColorMode", ParticleInfo.colorMode.Default, this);
         this.isEnabled.setValue(true);
         ParticleInfo.isEnabled = this.isEnabled.getValue();
     }

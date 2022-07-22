@@ -7,7 +7,7 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 @ModuleManifest(name = "Jesus",category = Module.Category.MOVEMENT)
 public class Jesus extends Module {
-    public Setting<Enum> mode = new Setting<>("Mode", modes.Bypass, this, modes.values());
+    public Setting<Enum> mode = new Setting<>("Mode", modes.Bypass, this);
     public enum modes{
         Bypass, Strict, Bounce, Fly
     }

@@ -63,9 +63,10 @@ public class BlockPlacer {
     public void placeBlock(final BlockPos blockPos, final Block block1){
         //Updates local settings
         updateSettings();
-        //Return if block pos is null
-        if(blockPos == null)
-            return;
+        //Returns if block pos is null
+        if(blockPos == null) return;
+        //Returns if block at the pos isn't valid
+        if(!BlockUtil.isValid(blockPos)) return;
 
         //Switchs
         int backSwitch = switchItems(Item.getItemFromBlock(block1), InventoryUtil.hands.MainHand);

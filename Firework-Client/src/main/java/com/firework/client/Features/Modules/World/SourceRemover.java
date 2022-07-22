@@ -28,7 +28,7 @@ public class SourceRemover extends Module {
     public Setting<Boolean> packet = new Setting<>("Packet", false, this).setVisibility(v-> rotate.getValue(true));
     public Setting<Boolean> sneak = new Setting<>("Sneak", false, this).setVisibility(v-> rotate.getValue(true));
 
-    public Setting<Enum> switchMode = new Setting<>("Switch", switchModes.Silent, this, switchModes.values());
+    public Setting<Enum> switchMode = new Setting<>("Switch", switchModes.Silent, this);
     public enum switchModes{
         Normal, Multihand, Silent, None
     }

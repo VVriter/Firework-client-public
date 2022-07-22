@@ -31,7 +31,7 @@ public class BlockFly extends Module {
 
     private Setting<Boolean> rotate  = new Setting<>("Rotate", true, this);
 
-    private Setting<BlockPlacer.switchModes> switchMode  = new Setting<>("Switch", BlockPlacer.switchModes.Silent, this, BlockPlacer.switchModes.values());
+    private Setting<BlockPlacer.switchModes> switchMode  = new Setting<>("Switch", BlockPlacer.switchModes.Silent, this);
 
     private Setting<Boolean> Tower  = new Setting<>("Tower", true, this);
 
