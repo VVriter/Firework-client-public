@@ -33,7 +33,7 @@ public class Trap extends Module {
 
     private Setting<templates> templateMode = new Setting<>("Template", templates.Full, this);
     private enum templates{
-        Full, FacePlace
+        Full, FacePlace, FeetCrystal
     }
 
     private Setting<Integer> targetDistance = new Setting<>("TargetDistance", 3, this, 0, 5);
@@ -177,6 +177,28 @@ public class Trap extends Module {
                     //Upside trap block
                     p.add(0, 2, 0)
             };
+        }else if(templateMode.getValue(templates.FeetCrystal)){
+            BlockPos farthestHelpBlock = farthestTrapBlock(
+                    p.add(1, 0, 0), p.add(-1, 0, 0), p.add(0, 0, 1), p.add(0, 0, -1)
+            );
+            BlockPos nearestCrystalPlacePos = nearestCrystalPlaceValidBlock(
+                    p.add(2, -1, 0), p.add(-2, -1, 0), p.add(0, -1, 2), p.add(0, -1, -2)
+            );
+            return new BlockPos[]{
+                    //First surround layer -1
+                    p.add(1, -1, 0), p.add(-1, -1, 0), p.add(0, -1, 1), p.add(0, -1, -1),
+                    //Farthest helping blocks
+                    farthestHelpBlock, farthestHelpBlock.add(0, 1, 0), farthestHelpBlock.add(0, 2, 0),
+                    //Upside trap block
+                    p.add(0, 2, 0),
+                    //Upside offsets
+                    p.add(1, 2, 0), p.add(-1, 2, 0), p.add(0, 2, 1), p.add(0, 2, -1),
+                    //Second surround layer (Face)
+                    p.add(1, 1, 0), p.add(-1, 1, 0), p.add(0, 1, 1), p.add(0, 1, -1),
+
+                    //Nearest crystal place block
+                    nearestCrystalPlacePos
+            };
         }
 
         return null;
@@ -212,6 +234,30 @@ public class Trap extends Module {
                 lastBlock = blockPos;
             }else{
                 if(lastDistance<BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player))) {
+                    lastBlock = blockPos;
+                    lastDistance = BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player));
+                }
+            }
+        }
+        return lastBlock;
+    }
+
+    //Returns the nearest block from a given list where u can place a crystal
+    private BlockPos nearestCrystalPlaceValidBlock(BlockPos... blocks){
+        double lastDistance = -1;
+        BlockPos lastBlock = null;
+        for(BlockPos blockPos : blocks){
+            if(blockPos == null) continue;
+            if(lastDistance == -1){
+                if(BlockUtil.isValid(blockPos.add(0, 1, 0))
+                        && BlockUtil.isValid(blockPos.add(0, 2, 0))) {
+                    lastDistance = BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player));
+                    lastBlock = blockPos;
+                }
+            }else{
+                if(lastDistance>BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player))
+                        && BlockUtil.isValid(blockPos.add(0, 1, 0))
+                        && BlockUtil.isValid(blockPos.add(0, 2, 0))) {
                     lastBlock = blockPos;
                     lastDistance = BlockUtil.getDistance(blockPos, EntityUtil.getFlooredPos(mc.player));
                 }
