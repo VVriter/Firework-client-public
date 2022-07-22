@@ -3,8 +3,10 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Features.Modules.Movement.Step;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
-import com.firework.client.Implementations.Mixins.MixinsList.ICPacketUseEntity;
+import com.firework.client.Implementations.Events.TestEvent;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
@@ -33,6 +35,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import ua.firework.beet.Listener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,6 +65,8 @@ public class Surround extends Module {
 
     private boolean first;
 
+    public static long time = 0;
+
     @Override
     public void onEnable() {
         super.onEnable();
@@ -76,6 +81,8 @@ public class Surround extends Module {
         line = new ArrayList<>();
 
         first = true;
+
+        Firework.eventBus.register(listener1);
     }
 
     @Override
@@ -84,6 +91,7 @@ public class Surround extends Module {
         line = null;
         blockPlacer = null;
         placeTimer = null;
+        Firework.eventBus.unregister(listener1);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -101,10 +109,8 @@ public class Surround extends Module {
         }
     }
 
-    @Override
-    public void onTick() {
-        super.onTick();
-
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
+        System.out.println(System.nanoTime() - time);
         if (shouldDisableOnJump.getValue() && mc.gameSettings.keyBindJump.isKeyDown()) {
             onDisable();
         }
@@ -113,9 +119,9 @@ public class Surround extends Module {
             onDisable();
         }
 
-        if(mc.player == null || mc.world == null) return;
+        if (mc.player == null || mc.world == null) return;
 
-        if(first) {
+        if (first) {
             if (shouldCenter.getValue())
                 MotionUtil.autoCenter(centerMode);
 
@@ -127,15 +133,20 @@ public class Surround extends Module {
         }
 
         //Stops process if didn't find obby in a hotbar
-        if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
+        if (getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
             MessageUtil.sendError("No obby found in the hotbar", -1117);
             return;
         }
 
         final BlockPos[] blockToPlace = blockToPlace();
 
-        if(containsAir(blockToPlace))
+        if (containsAir(blockToPlace))
             doSurround(blockToPlace);
+    });
+
+    @SubscribeEvent
+    public void onTest(TestEvent event){
+        System.out.println(System.nanoTime() - time);
     }
 
     private void doSurround(BlockPos... blockToPlace){

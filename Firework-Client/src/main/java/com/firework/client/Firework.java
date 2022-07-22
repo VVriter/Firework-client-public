@@ -36,6 +36,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import ua.firework.beet.EventBus;
 import xyz.firework.autentification.Initators.InitAuth;
 import xyz.firework.autentification.Initators.InitConfigs;
 
@@ -60,6 +61,8 @@ public class Firework
 
     public static Minecraft minecraft;
     public static String FIREWORK_DIRECTORY;
+
+    public static EventBus eventBus = new EventBus();
 
     public static ArrayList<Manager> managers = new ArrayList<>();
 

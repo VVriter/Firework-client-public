@@ -1,11 +1,10 @@
 package com.firework.client.Implementations.Events;
 
-import net.minecraftforge.fml.common.eventhandler.Cancelable;
+import ua.firework.beet.Event;
 
-@Cancelable
-public class UpdateWalkingPlayerEvent extends EventStage
+public class UpdateWalkingPlayerEvent extends Event
 {
-    public UpdateWalkingPlayerEvent(final int stage) {
+    public UpdateWalkingPlayerEvent(Stage stage) {
         super(stage);
     }
 }
