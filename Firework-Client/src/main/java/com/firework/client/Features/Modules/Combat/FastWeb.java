@@ -29,32 +29,6 @@ public class FastWeb extends Module {
     public Setting<Double> reduction = new Setting<>("Reduction", (double)0.3, this, 0, 2).setVisibility(v-> mode.getValue(modes.Motion));
     public Setting<Integer> ticks = new Setting<>("Reduction Ticks", 45, this, 40, 49).setVisibility(v-> mode.getValue(modes.Timer));
 
-    public Setting<Boolean> renderer = new Setting<>("Block", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Double> range = new Setting<>("RenderRange", (double)10, this, 1, 20).setVisibility(v-> renderer.getValue());
-    public Setting<PosRenderer.boxeMode> boxMode = new Setting<>("Box", PosRenderer.boxeMode.Normal, this).setVisibility(v->  renderer.getValue());
-    public Setting<HSLColor> fillColor = new Setting<>("FillColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) && renderer.getValue());
-    public Setting<Double> boxHeightNormal = new Setting<>("BoxHeight", (double)1, this, -0.3, 5).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) && renderer.getValue());
-    public Setting<HSLColor> fillColor1 = new Setting<>("StartColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  renderer.getValue());
-    public Setting<HSLColor> fillColor2 = new Setting<>("EndColor", new HSLColor(200, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  renderer.getValue());
-
-    public Setting<PosRenderer.outlineModes> outlineMode = new Setting<>("Outline", PosRenderer.outlineModes.Normal, this).setVisibility(v-> renderer.getValue());
-    public Setting<HSLColor> gradientOutlineColor1 = new Setting<>("FirstColor", new HSLColor(1, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && renderer.getValue());
-    public Setting<HSLColor> gradientOutlineColor2 = new Setting<>("SecondColor", new HSLColor(200, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && renderer.getValue());
-    public Setting<HSLColor> colorOutline = new Setting<>("ColorOutline", new HSLColor(200, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && renderer.getValue());
-    public Setting<Double> outlineHeightNormal = new Setting<>("OutlineHeight", (double)1, this, -0.3, 5).setVisibility(v-> outlineMode.getValue(PosRenderer.outlineModes.Normal) && renderer.getValue());
-    public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(v-> !outlineMode.getValue(PosRenderer.outlineModes.None) && renderer.getValue());
-
-    PosRenderer posRenderer;
-    @Override public void onEnable() { super.onEnable();
-        oldTicks = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
-        posRenderer = new PosRenderer(this,boxMode,outlineMode);
-    }
-
-    @Override public void onDisable() { super.onDisable();
-        ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(oldTicks);
-        posRenderer = null;
-    }
-
     @Override
     public void onTick() {
         super.onTick();
@@ -68,17 +42,12 @@ public class FastWeb extends Module {
         if (!((IEntity)mc.player).isInWeb() && ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength() != oldTicks ) {
             ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(oldTicks);
         }
-    }
-
-    @Override
-    public void onUpdate() {
-        super.onUpdate();
         if (mode.getValue(modes.Timer)) {
-        if (((IEntity)mc.player).isInWeb() && mode.getValue(modes.Timer)) {
-            if (mc.gameSettings.keyBindSneak.isKeyDown() && !mc.player.onGround) {
-                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(oldTicks-ticks.getValue().floatValue());
-            } else {
-                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(oldTicks);
+            if (((IEntity)mc.player).isInWeb() && mode.getValue(modes.Timer)) {
+                if (mc.gameSettings.keyBindSneak.isKeyDown() && !mc.player.onGround) {
+                    ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(oldTicks-ticks.getValue().floatValue());
+                } else {
+                    ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(oldTicks);
                 }
             }
         }
@@ -101,7 +70,29 @@ public class FastWeb extends Module {
         return safeSpots;
     }
 
+
+
+
+
+
     //Render
+
+    public Setting<Boolean> renderer = new Setting<>("Block", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Double> range = new Setting<>("RenderRange", (double)10, this, 1, 20).setVisibility(v-> renderer.getValue());
+    public Setting<PosRenderer.boxeMode> boxMode = new Setting<>("Box", PosRenderer.boxeMode.Normal, this).setVisibility(v->  renderer.getValue());
+    public Setting<HSLColor> fillColor = new Setting<>("FillColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) && renderer.getValue());
+    public Setting<Double> boxHeightNormal = new Setting<>("BoxHeight", (double)1, this, -0.3, 5).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) && renderer.getValue());
+    public Setting<HSLColor> fillColor1 = new Setting<>("StartColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  renderer.getValue());
+    public Setting<HSLColor> fillColor2 = new Setting<>("EndColor", new HSLColor(200, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  renderer.getValue());
+
+    public Setting<PosRenderer.outlineModes> outlineMode = new Setting<>("Outline", PosRenderer.outlineModes.Normal, this).setVisibility(v-> renderer.getValue());
+    public Setting<HSLColor> gradientOutlineColor1 = new Setting<>("FirstColor", new HSLColor(1, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && renderer.getValue());
+    public Setting<HSLColor> gradientOutlineColor2 = new Setting<>("SecondColor", new HSLColor(200, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && renderer.getValue());
+    public Setting<HSLColor> colorOutline = new Setting<>("ColorOutline", new HSLColor(200, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && renderer.getValue());
+    public Setting<Double> outlineHeightNormal = new Setting<>("OutlineHeight", (double)1, this, -0.3, 5).setVisibility(v-> outlineMode.getValue(PosRenderer.outlineModes.Normal) && renderer.getValue());
+    public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(v-> !outlineMode.getValue(PosRenderer.outlineModes.None) && renderer.getValue());
+
+    PosRenderer posRenderer;
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent e) {
         for (BlockPos poses : calcPoses()) {
@@ -120,5 +111,15 @@ public class FastWeb extends Module {
                         );
             }
         }
+    }
+
+    @Override public void onEnable() { super.onEnable();
+        oldTicks = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
+        posRenderer = new PosRenderer(this,boxMode,outlineMode);
+    }
+
+    @Override public void onDisable() { super.onDisable();
+        ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(oldTicks);
+        posRenderer = null;
     }
 }
