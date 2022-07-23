@@ -93,7 +93,7 @@ public class CevBreaker extends Module {
        if(upside == null) return;
        new BlockRenderBuilder(upside)
                .addRenderModes(
-                       new RenderMode(RenderMode.renderModes.OutLine, color.getValue().toRGB(), 3f)
+                       new RenderMode(RenderMode.renderModes.Fill, color.getValue().toRGB())
                ).render();
     });
 
