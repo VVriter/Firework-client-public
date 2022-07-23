@@ -126,7 +126,7 @@ public class Trap extends Module {
         for(BlockPos pos : line){
             if(placeTimer.hasPassedMs(placedDelayMs.getValue())){
                 if(BlockUtil.canPlaceBlock(pos)) {
-                    blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
+                    blockPlacer.placeTrapBlock(pos, Blocks.OBSIDIAN);
                     blocksToClear.add(pos);
                     placeTimer.reset();
                 }
@@ -159,7 +159,7 @@ public class Trap extends Module {
                     //Third surround layer (Face)
                     p.add(1, 1, 0), p.add(-1, 1, 0), p.add(0, 1, 1), p.add(0, 1, -1),
                     //Nearest helping block to trap upside
-                    nearestTrapBlock(p.add(1, 2, 0), p.add(-1, 2, 0), p.add(0, 2, 1), p.add(0, 2, -1)),
+                    farthestTrapBlock(p.add(1, 2, 0), p.add(-1, 2, 0), p.add(0, 2, 1), p.add(0, 2, -1)),
                     //Upside trap block
                     p.add(0, 2, 0)
             };

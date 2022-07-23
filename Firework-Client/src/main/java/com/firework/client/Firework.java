@@ -92,7 +92,6 @@ public class Firework
                 commandManager = new CommandManager(),
                 positionManager = new PositionManager(),
                 rotationManager = new RotationManager(),
-                configManager = new ConfigManager(),
                 consoleManager = new ConsoleManager()
             );
 
@@ -133,6 +132,10 @@ public class Firework
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        //Loading configs
+        addManagers(
+                configManager = new ConfigManager()
+        );
         //Link to client
         minecraft = Minecraft.getMinecraft();
         //Sets custom window title when client is loading

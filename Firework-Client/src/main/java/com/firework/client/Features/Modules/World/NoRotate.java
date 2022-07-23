@@ -11,6 +11,7 @@ public class NoRotate extends Module {
     public NoRotate(){super("NoForceRotate",Category.WORLD);}
     @SubscribeEvent
     public void onReceive(PacketEvent.Receive event) {
+        if(fullNullCheck()) return;
         if (event.getPacket() instanceof SPacketPlayerPosLook) {
             if (!(mc.currentScreen instanceof GuiDownloadTerrain)) {
                 SPacketPlayerPosLook packet = (SPacketPlayerPosLook) event.getPacket();
