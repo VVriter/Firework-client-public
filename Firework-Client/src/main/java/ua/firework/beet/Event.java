@@ -15,6 +15,12 @@ public class Event {
         this.isCancelable = true;
     }
 
+    public Event(){
+        this.stage = Stage.INIT;
+        this.canceled = false;
+        this.isCancelable = true;
+    }
+
     public Stage getStage(){
         return this.stage;
     }

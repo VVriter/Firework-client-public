@@ -322,7 +322,21 @@ public class RenderUtils {
         final double d3 = player.lastTickPosX + (player.posX - player.lastTickPosX) * RenderUtils.mc.getRenderPartialTicks();
         final double d4 = player.lastTickPosY + (player.posY - player.lastTickPosY) * RenderUtils.mc.getRenderPartialTicks();
         final double d5 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * RenderUtils.mc.getRenderPartialTicks();
-        RenderGlobal.renderFilledBox(iblockstate.getSelectedBoundingBox((World)RenderUtils.mc.world, pos).grow(0.002).offset(-d3, -d4, -d5), color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, alpha / 255.0f);
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GlStateManager.disableDepth();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
+        GlStateManager.disableTexture2D();
+        GlStateManager.depthMask(false);
+        GL11.glEnable(2848);
+        GL11.glHint(3154, 4354);
+        RenderGlobal.renderFilledBox(iblockstate.getSelectedBoundingBox((World)RenderUtils.mc.world, pos).grow(0.002).offset(-d3, -d4, -d5), color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, color.getAlpha() / 255.0f);
+        GL11.glDisable(2848);
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
     }
 
 

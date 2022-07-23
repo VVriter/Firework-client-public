@@ -90,7 +90,8 @@ public class Firework
                 commandManager = new CommandManager(),
                 positionManager = new PositionManager(),
                 rotationManager = new RotationManager(),
-                consoleManager = new ConsoleManager()
+                consoleManager = new ConsoleManager(),
+                new EventManager()
             );
 
         customFontManager = new CFontRenderer("Tcm", 23, true, true);

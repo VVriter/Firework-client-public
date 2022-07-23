@@ -13,6 +13,7 @@ import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
@@ -66,7 +67,14 @@ public class ItemUser {
         if (rotate.getValue()) {
             Firework.rotationManager.rotateSpoof(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5));
         }
-        mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(blockPos, EnumFacing.UP, hand, 0, 0,0));
+        EnumFacing facing = EnumFacing.UP;
+        RayTraceResult result = mc.world.rayTraceBlocks(
+                new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ),
+                new Vec3d(blockPos.getX() + 0.5, blockPos.getY() - 0.5,blockPos.getZ() + 0.5));
+
+        if (result != null && result.sideHit != null)
+            facing = result.sideHit;
+        mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(blockPos, facing, hand, 0, 0,0));
 
 
         if(switchMode.getValue(ItemUser.switchModes.Silent) && backSwitch != -1) {

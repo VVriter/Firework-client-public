@@ -43,6 +43,15 @@ public class RotationManager extends Manager{
         isRotateSpoofing = true;
     }
 
+    public void rotateSpoofNoEvent(Vec3d vec) {
+        float[] rotations = getRotations(vec);
+        yaw = rotations[0];
+        pitch = rotations[1];
+
+        mc.player.connection.sendPacket(new CPacketPlayer.Rotation(yaw, pitch, mc.player.onGround));
+        isRotateSpoofing = true;
+    }
+
     public void rotateSpoofNoPacket(Vec3d vec) {
         float[] rotations = getRotations(vec);
         yaw = rotations[0];

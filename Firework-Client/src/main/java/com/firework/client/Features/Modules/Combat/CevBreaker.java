@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockBreaker;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
@@ -13,6 +14,9 @@ import com.firework.client.Implementations.Utill.CrystalUtils;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Items.ItemUser;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
+import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,7 +50,10 @@ public class CevBreaker extends Module {
     public Setting<Integer> breakBlockDelay = new Setting<>("BreakBlockDelayMs", 3, this, 1, 200).setVisibility(v-> delays.getValue());
     public Setting<Integer> breakCrystalDelay = new Setting<>("BreakCrystalDelayMs", 3, this, 1, 200).setVisibility(v-> delays.getValue());
 
+    public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);
+
     EntityPlayer target;
+    BlockPos upside;
 
     ItemUser itemUser;
     BlockPlacer blockPlacer;
@@ -66,12 +73,14 @@ public class CevBreaker extends Module {
         stage = 1;
 
         Firework.eventBus.register(listener1);
+        Firework.eventBus.register(onRender);
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
 
+        Firework.eventBus.unregister(onRender);
         Firework.eventBus.unregister(listener1);
         itemUser = null;
         blockPlacer = null;
@@ -79,6 +88,14 @@ public class CevBreaker extends Module {
         timer = null;
 
     }
+
+    public Listener<WorldRender3DEvent> onRender = new Listener<>(worldRender3DEvent -> {
+       if(upside == null) return;
+       new BlockRenderBuilder(upside)
+               .addRenderModes(
+                       new RenderMode(RenderMode.renderModes.OutLine, color.getValue().toRGB(), 3f)
+               ).render();
+    });
 
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
@@ -90,7 +107,7 @@ public class CevBreaker extends Module {
             return;
         }
 
-        BlockPos upside = getUpsideBlock(target);
+        upside = getUpsideBlock(target);
         switch (stage){
             case 1:
                 //Block place stage
