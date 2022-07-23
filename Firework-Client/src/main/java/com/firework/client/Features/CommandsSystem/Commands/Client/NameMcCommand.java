@@ -2,8 +2,6 @@ package com.firework.client.Features.CommandsSystem.Commands.Client;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
-import com.firework.client.Features.Modules.Client.Notifications;
-
 
 import java.awt.*;
 import java.io.IOException;
@@ -15,8 +13,6 @@ import java.net.URLEncoder;
 public class NameMcCommand extends Command {
     @Override
     public void execute(String[] args) {
-        //Plays Notification sound
-        Notifications.notificate();
 
         try {
             Desktop desktop = Desktop.getDesktop();

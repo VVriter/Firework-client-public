@@ -2,7 +2,6 @@ package com.firework.client.Features.CommandsSystem.Commands.Dirs;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
-import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 
@@ -14,8 +13,6 @@ import java.io.IOException;
 public class OpenDirCommand extends Command {
     @Override
     public void execute(String[] args) {
-        //Plays Notification sound
-        Notifications.notificate();
         try {
             Desktop.getDesktop().open(new File(Firework.FIREWORK_DIRECTORY));
             MessageUtil.sendClientMessage("Opening firework dir",true);

@@ -6,7 +6,6 @@ import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Items;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;

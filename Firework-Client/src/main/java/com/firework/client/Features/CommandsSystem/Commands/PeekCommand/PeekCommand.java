@@ -2,7 +2,6 @@ package com.firework.client.Features.CommandsSystem.Commands.PeekCommand;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
-import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemShulkerBox;
@@ -14,8 +13,6 @@ public class PeekCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        //Plays Notification sound
-        Notifications.notificate();
         if (args.length == 1) {
             ItemStack stack = PeekCommand.mc.player.getHeldItemMainhand();
             if (stack != null && stack.getItem() instanceof ItemShulkerBox) {

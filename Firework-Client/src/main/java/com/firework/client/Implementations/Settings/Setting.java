@@ -6,7 +6,6 @@ import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 

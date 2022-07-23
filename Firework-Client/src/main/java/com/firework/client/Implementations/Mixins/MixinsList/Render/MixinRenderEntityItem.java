@@ -1,7 +1,5 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Render;
 
-import java.util.Random;
-
 import com.firework.client.Features.Modules.Render.ItemPhysics;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -25,6 +23,8 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+
+import java.util.Random;
 
 @Mixin(RenderEntityItem.class)
 public abstract class MixinRenderEntityItem

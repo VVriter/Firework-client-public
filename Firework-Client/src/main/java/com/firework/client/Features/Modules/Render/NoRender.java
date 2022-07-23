@@ -19,6 +19,8 @@ public class NoRender extends Module {
     public static Setting<Boolean> cameraSubBool = null;
     public static Setting<Boolean> blocksSubBool = null;
     public static Setting<Boolean> entitiesSubBool = null;
+
+    public static Setting<Boolean> guiSubBool = null;
     public static Setting<Boolean> antiFog = null;
     public static Setting<Boolean> skylight = null;
 
@@ -34,6 +36,8 @@ public class NoRender extends Module {
     public static Setting<Boolean> mob = null;
     public static Setting<Boolean> xp = null;
     public static Setting<Boolean> explosions = null;
+
+    public static Setting<Boolean> defaultBackground = null;
 
 
 
@@ -62,6 +66,8 @@ public class NoRender extends Module {
         mob = new Setting<>("Mob", true, this).setVisibility(v-> entitiesSubBool.getValue());
         xp = new Setting<>("Xp", true, this).setVisibility(v-> entitiesSubBool.getValue());
 
+        guiSubBool = new Setting<>("Gui", false, this).setMode(Setting.Mode.SUB);
+        defaultBackground = new Setting<>("DefaultBackground", true, this).setVisibility(v-> guiSubBool.getValue());
     }
 
     public void onEnable(){

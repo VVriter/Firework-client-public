@@ -32,6 +32,8 @@
     "IEntity",
     "ISPacketExplosion",
     "ISPacketEntityVelocity",
-    "IEntityPlayerSP"
+    "IEntityPlayerSP",
+    "Gui.GuiScreenMixin",
+    "Gui.MixinTabOverlay"
   ]
 }

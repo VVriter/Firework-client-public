@@ -1,7 +1,6 @@
 package com.firework.client.Implementations.Managers;
 
 import com.firework.client.Firework;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import org.apache.commons.io.FilenameUtils;

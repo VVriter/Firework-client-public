@@ -1,10 +1,12 @@
 package com.firework.client.Features.Modules;
 
 import com.firework.client.Features.Modules.Client.Logger;
-import com.firework.client.Features.Modules.Client.TestNotifications;
+import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
 
@@ -38,14 +40,18 @@ public class Module{
     }
 
     public void onEnable() {
+        if (!Notifications.enabled.getValue()) {
+            SoundUtill.playSound(new ResourceLocation("firework/audio/pop.wav"));
+        }
         isEnabled.setValue(true);
         onToggle();
         MinecraftForge.EVENT_BUS.register(this);
         if(Logger.enabled.getValue() && Logger.onModuleEnable.getValue()){
             Logger.log(this);
         }
-
-        TestNotifications.notificate(this.getName()+" is enabled!","1");
+        if (Notifications.enabled.getValue()) {
+            Notifications.notificate(this.getName()+" is enabled!","1");
+        }
     }
     public void onDisable() {
         isEnabled.setValue(false);
@@ -54,8 +60,9 @@ public class Module{
         if(Logger.enabled.getValue() && Logger.onModuleDisable.getValue()){
             Logger.log(this);
         }
-
-        TestNotifications.notificate(this.getName()+" is disabled","");
+        if (Notifications.enabled.getValue()) {
+            Notifications.notificate(this.getName()+" is disabled","");
+        }
     }
 
     public void onEnableNoLog() {

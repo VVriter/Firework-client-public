@@ -31,7 +31,6 @@ public class Gui extends Module {
     @Override
     public void onEnable(){
         super.onEnable();
-        Notifications.notificate();
         Minecraft.getMinecraft().displayGuiScreen(new com.firework.client.Implementations.UI.GuiNEO.Gui());
         this.isEnabled.setValue(false);
     }

@@ -24,7 +24,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
-import static com.firework.client.Implementations.Utill.InventoryUtil.getClickSlot;
 
 @ModuleManifest(name = "SelfWeb", category = Module.Category.COMBAT)
 public class SelfWeb extends Module {

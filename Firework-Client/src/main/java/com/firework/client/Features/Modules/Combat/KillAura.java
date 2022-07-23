@@ -9,33 +9,48 @@ import com.firework.client.Implementations.Utill.Client.WeaponUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
+import com.firework.client.Implementations.Utill.Math.Inhibitator;
 import com.firework.client.Implementations.Utill.RotationUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import static com.firework.client.Firework.*;
+import static com.firework.client.Firework.updaterManager;
 import static com.firework.client.Implementations.Utill.InventoryUtil.getItemStack;
 
 @ModuleManifest(name = "KillAura", category = Module.Category.COMBAT)
 public class KillAura extends Module{
 
-    public Setting<Integer> tmpDelay = new Setting<>("Delay", 20, this, 0, 60);
-    public Setting<Boolean> autoSwitch = new Setting<>("AutoSwitch", true, this);
+    public Setting<Double> tmpDelay = new Setting<>("Delay", (double)20, this, 0, 60);
 
-    public Setting<Boolean> interaction = new Setting<>("Interaction", true, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> inhibitSubBool = new Setting<>("Inhibit", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> enableInhibit = new Setting<>("EnableInhibit", true, this).setVisibility(v-> inhibitSubBool.getValue());
+    public Setting<Integer> startVal = new Setting<>("StartVal", 60, this, 31, 60).setVisibility(v-> inhibitSubBool.getValue());
+    public Setting<Integer> endVal = new Setting<>("EndVal", 20, this, 1, 30).setVisibility(v-> inhibitSubBool.getValue());
+    public Setting<Double> inhibitSpeed = new Setting<>("InhibitDelay", (double)20, this, 1, 200).setVisibility(v-> inhibitSubBool.getValue());
+    public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> packetSpoof = new Setting<>("Packet", true, this).setVisibility(v-> rotate.getValue() && interaction.getValue());
 
+    public Setting<Boolean> autoSwitch = new Setting<>("AutoSwitch", true, this);
     public Setting<Boolean> swing = new Setting<>("Swing", true, this);
     public Setting<Integer> distance = new Setting<>("Distance", 3, this, 0, 6);
     public Setting<Boolean> autoEnable = new Setting<>("AutoEnable", false, this);
     public Setting<Integer> targetRange = new Setting<>("TargetRange", 1, this, 0, 6).setVisibility(v-> autoEnable.getValue(true));
 
     public EntityPlayer target;
-
+    public Inhibitator inhibitator;
     public Setting<Boolean> enabled = this.isEnabled;
     public boolean lastValue;
+
+
+    @Override
+    public void onTick() {
+        super.onTick();
+        if (enableInhibit.getValue()) {
+            inhibitator.doInhibitation(tmpDelay,inhibitSpeed.getValue(),startVal.getValue(),endVal.getValue());
+        }
+    }
 
     public KillAura(){
         updaterManager.registerUpdater(listener1);
@@ -43,15 +58,21 @@ public class KillAura extends Module{
     }
 
     @Override
+    public void onEnable() {
+        super.onEnable();
+        inhibitator = new Inhibitator();
+    }
+    @Override
     public void onDisable() {
         super.onDisable();
         lastValue = false;
+        inhibitator = null;
     }
 
     @Override
     public void onUpdate() {
         super.onUpdate();
-        this.delay = tmpDelay.getValue();
+        this.delay = tmpDelay.getValue().intValue();
         target = PlayerUtil.getClosestTarget(distance.getValue());
 
         if(target != null)
