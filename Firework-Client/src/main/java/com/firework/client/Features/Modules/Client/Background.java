@@ -16,11 +16,13 @@ import java.awt.*;
 @ModuleManifest(name = "Background",category = Module.Category.CLIENT)
 public class Background extends Module {
 
-    public Setting<HSLColor> color1 = new Setting<>("DownColor", new HSLColor(1, 54, 43), this);
+    public Setting<Boolean> gradientSubBool = new Setting<>("Gradient", false, this).setMode(Setting.Mode.SUB);
+    public Setting<HSLColor> color1 = new Setting<>("DownColor", new HSLColor(1, 54, 43), this).setVisibility(v-> gradientSubBool.getValue());
 
    @SubscribeEvent
     public void onRender(TickEvent.RenderTickEvent e) {
         ScaledResolution sr = new ScaledResolution(mc);
+
         if (mc.currentScreen instanceof GuiScreen) {
             RenderUtils2D.drawGradientRectVertical(
                     new Rectangle(0, 0, sr.getScaledWidth(),

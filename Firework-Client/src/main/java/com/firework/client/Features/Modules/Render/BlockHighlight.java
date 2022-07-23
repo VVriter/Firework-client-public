@@ -39,6 +39,7 @@ public class BlockHighlight extends Module {
         RayTraceResult result = mc.objectMouseOver;
         if (result != null && result.typeOfHit.equals(RayTraceResult.Type.BLOCK)) {
            BlockPos  pos = result.getBlockPos();
+           if (pos != null) {
             posRenderer.doRender(
                     pos,
                     colorOutline.getValue().toRGB(),
@@ -50,7 +51,8 @@ public class BlockHighlight extends Module {
                     outlineWidth.getValue(),
                     boxHeightNormal.getValue().floatValue(),
                     outlineHeightNormal.getValue().floatValue()
-            );
+                );
+            }
         }
     }
 
