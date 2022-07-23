@@ -2,6 +2,8 @@ package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
+import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
@@ -19,17 +21,21 @@ public class Speed extends Module{
     private double playerSpeed;
     private final Timer timer = new Timer();
 
-    public Setting<Enum> mode = new Setting<>("Mode", modes.Vanilla, this);
+    public Setting<Enum> mode = new Setting<>("Mode", modes.BHop, this);
     public Setting<Double> vanillaSpeed = new Setting<>("VanillaSpeed", (double)3, this, 1, 20).setVisibility(v-> mode.getValue(modes.Vanilla));
     public Setting<Boolean> step = new Setting<>("Step", true, this).setVisibility(v-> mode.getValue(modes.YPort));
     public Setting<Double> yPortSpeed = new Setting<>("Speed", (double)3, this, 1, 20).setVisibility(v-> mode.getValue(modes.YPort));
 
-    public Setting<Double> strafeMultipler = new Setting<>("strafeMultipler", (double)2, this, 0, 20).setVisibility(v-> mode.getValue(modes.Strafe));
+    public Setting<Double> strafeMultipler = new Setting<>("StrafeMultipler", 5.2d, this, 0, 20).setVisibility(v-> mode.getValue(modes.Strafe));
+    public Setting<Boolean> boost = new Setting<>("Boost", true, this).setVisibility(v-> mode.getValue(modes.Strafe));
+    public Setting<Double> ticks = new Setting<>("Ticks", 4.3d, this, 0, 50).setVisibility(v-> boost.getValue() && mode.getValue(modes.Strafe));
 
+    float defaultTimerTicks;
     @Override
     public void onEnable(){
         super.onEnable();
         playerSpeed = PlayerUtil.getBaseMoveSpeed();
+        defaultTimerTicks = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
     }
 
     @Override
@@ -44,6 +50,9 @@ public class Speed extends Module{
     public void onTick(){
         super.onTick();
         if(mode.getValue(modes.Strafe)){
+            if(boost.getValue())
+                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTimerTicks - ticks.getValue().floatValue());
+
             mc.player.stepHeight = 0.6f;
             if (mc.player.onGround) {
                 if (mc.gameSettings.keyBindForward.isKeyDown() || mc.gameSettings.keyBindBack.isKeyDown() || mc.gameSettings.keyBindLeft.isKeyDown() || mc.gameSettings.keyBindRight.isKeyDown()) {
