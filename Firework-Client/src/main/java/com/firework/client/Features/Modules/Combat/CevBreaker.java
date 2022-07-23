@@ -117,12 +117,13 @@ public class CevBreaker extends Module {
                             for(BlockPos pos : BlockUtil.toBlockPos(BlockUtil.getHelpingBlocks(BlockUtil.posToVec3d(upside)))){
                                 if(BlockUtil.getPossibleSides(pos).isEmpty()) continue;
                                 blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
+                                break;
                             }
                         }else{
                             blockPlacer.placeBlock(upside, Blocks.OBSIDIAN);
                             stage = 2;
+                            timer.reset();
                         }
-                        timer.reset();
                     }
                 }else
                     stage = 2;
