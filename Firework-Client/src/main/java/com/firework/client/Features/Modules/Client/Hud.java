@@ -5,7 +5,6 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.UI.GuiNEO.Gui;
 import com.firework.client.Implementations.UI.Hud.HudGui;
-import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiEditSign;
@@ -14,12 +13,7 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.GuiModList;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 @ModuleManifest(name = "Hud", category = Module.Category.CLIENT)
 public class Hud extends Module{

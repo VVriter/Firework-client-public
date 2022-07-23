@@ -15,7 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import static com.firework.client.Firework.*;
+import static com.firework.client.Firework.updaterManager;
 import static com.firework.client.Implementations.Utill.InventoryUtil.getItemStack;
 
 @ModuleManifest(name = "KillAura", category = Module.Category.COMBAT)

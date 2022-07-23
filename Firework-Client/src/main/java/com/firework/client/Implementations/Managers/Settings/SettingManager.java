@@ -4,7 +4,6 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Managers.Manager;
 import com.firework.client.Implementations.Settings.Setting;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 
 public class SettingManager extends Manager {

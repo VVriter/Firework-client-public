@@ -1,18 +1,15 @@
 package com.firework.client.Features.CommandsSystem.Commands.Fun;
 
 
-
-
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 
 import java.util.Random;
-
-import net.minecraft.entity.item.EntityItem;
 
 
 @CommandManifest(label = "dupe",aliases = "dp")

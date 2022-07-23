@@ -8,10 +8,11 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import static java.lang.Math.sin;
-import static java.lang.Math.cos;
 
 import java.util.Arrays;
+
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 @ModuleManifest(name = "Fly",category = Module.Category.MOVEMENT)
 public class Fly extends Module {

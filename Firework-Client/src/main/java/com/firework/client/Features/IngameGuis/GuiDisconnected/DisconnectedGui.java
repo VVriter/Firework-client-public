@@ -1,13 +1,11 @@
 package com.firework.client.Features.IngameGuis.GuiDisconnected;
 
 import com.firework.client.Features.Modules.Client.Client;
-import com.firework.client.Firework;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
 public class DisconnectedGui extends GuiScreen {

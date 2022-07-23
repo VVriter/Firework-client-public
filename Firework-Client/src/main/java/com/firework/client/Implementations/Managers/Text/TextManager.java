@@ -4,7 +4,7 @@ import com.firework.client.Firework;
 import com.firework.client.Implementations.Managers.Manager;
 import net.minecraft.client.Minecraft;
 
-import static java.lang.Math.*;
+import static java.lang.Math.round;
 
 public class TextManager extends Manager {
 

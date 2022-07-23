@@ -5,7 +5,8 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.init.Items;
 
-import static com.firework.client.Implementations.Utill.InventoryUtil.*;
+import static com.firework.client.Implementations.Utill.InventoryUtil.doMultiHand;
+import static com.firework.client.Implementations.Utill.InventoryUtil.hands;
 
 
 @ModuleManifest(name = "MultiHand",category = Module.Category.COMBAT)

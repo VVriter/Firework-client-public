@@ -2,11 +2,8 @@ package com.firework.client.Features.Modules;
 
 import com.firework.client.Implementations.Managers.Manager;
 import com.firework.client.Implementations.Utill.Client.ClassFinder;
-import com.firework.client.Implementations.Utill.Client.Pair;
 
 import java.util.ArrayList;
-
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;

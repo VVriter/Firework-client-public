@@ -4,7 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 
-import java.awt.Color;
+import java.awt.*;
 
 
 public class CustomEnchants extends Module {

@@ -26,7 +26,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
-import static com.firework.client.Implementations.Utill.InventoryUtil.getClickSlot;
 import static java.lang.Math.*;
 
 @ModuleManifest(name = "TargetWeb", category = Module.Category.COMBAT)

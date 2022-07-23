@@ -3,7 +3,6 @@ package com.firework.client.Implementations.Mixins.MixinsList.Misc;
 import com.firework.client.Features.Modules.Combat.Surround;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PlayerUpdateEvent;
-import com.firework.client.Implementations.Events.TestEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.common.MinecraftForge;

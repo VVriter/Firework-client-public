@@ -3,7 +3,6 @@ package com.firework.client.Features.CommandsSystem.Commands.Client;
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
 
-
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;

@@ -1,9 +1,9 @@
 package com.firework.client.Features.CommandsSystem.Commands.Chat;
 
 import com.firework.client.Features.CommandsSystem.Command;
+import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Firework;
-import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;

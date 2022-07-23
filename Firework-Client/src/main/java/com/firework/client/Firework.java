@@ -2,22 +2,22 @@
 
 package com.firework.client;
 
+import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.IngameGuis.Loader;
 import com.firework.client.Features.Modules.Client.Client;
 import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Managers.*;
-import com.firework.client.Implementations.UI.ConsoleGui.Command.ConsoleManager;
-import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
-import com.firework.client.Implementations.UI.Hud.HudManager;
 import com.firework.client.Implementations.Managers.Settings.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CFontRenderer;
 import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
+import com.firework.client.Implementations.UI.ConsoleGui.Command.ConsoleManager;
+import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
+import com.firework.client.Implementations.UI.Hud.HudManager;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
-import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Implementations.Utill.Render.Shaders.ShaderManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
@@ -31,13 +31,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import ua.firework.beet.EventBus;
 import xyz.firework.autentification.Initators.InitAuth;
 import xyz.firework.autentification.Initators.InitConfigs;
-
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,7 +1,6 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Misc;
 
 import com.firework.client.Features.Modules.Misc.PacketUse;
-
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
