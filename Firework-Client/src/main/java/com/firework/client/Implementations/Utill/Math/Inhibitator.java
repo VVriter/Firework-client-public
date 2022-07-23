@@ -5,12 +5,12 @@ import com.firework.client.Implementations.Utill.Timer;
 
 public class Inhibitator {
 
-    public static boolean shuldMoveRight = true;
-    public static boolean shuldMoveLeft = false;
+    public  boolean shuldMoveRight = true;
+    public  boolean shuldMoveLeft = false;
 
-    public static Timer timer = new Timer();
+    public Timer timer = new Timer();
 
-    public static void doInhibitation(Setting<Double> settingToInhibit, double inhibitationSpeed, double reachToFirst, double reachToSecond) {
+    public void doInhibitation(Setting<Double> settingToInhibit, double inhibitationSpeed, double reachToFirst, double reachToSecond) {
 
         if (settingToInhibit.getValue() >= reachToFirst) {
             returner();
@@ -36,12 +36,12 @@ public class Inhibitator {
 
     }
 
-    public static void returner() {
+    public void returner() {
             shuldMoveRight = false;
             shuldMoveLeft = true;
     }
 
-    public static void returner2() {
+    public void returner2() {
             shuldMoveRight = true;
             shuldMoveLeft = false;
     }
