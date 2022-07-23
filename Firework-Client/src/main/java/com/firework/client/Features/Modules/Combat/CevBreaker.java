@@ -114,9 +114,11 @@ public class CevBreaker extends Module {
                 if(BlockUtil.isAir(upside) && BlockUtil.isValid(upside)) {
                     if (timer.hasPassedMs(placeBlockDelay.getValue())) {
                         if(BlockUtil.getPossibleSides(upside).isEmpty()){
-                            for(BlockPos pos : BlockUtil.toBlockPos(BlockUtil.getHelpingBlocks(BlockUtil.posToVec3d(upside)))){
+                            for(BlockPos pos : BlockUtil.getNeighbors(upside)){
                                 if(BlockUtil.getPossibleSides(pos).isEmpty()) continue;
                                 blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
+                                stage = 2;
+                                timer.reset();
                                 break;
                             }
                         }else{

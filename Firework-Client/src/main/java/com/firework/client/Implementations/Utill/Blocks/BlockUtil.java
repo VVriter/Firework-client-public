@@ -61,7 +61,7 @@ public class BlockUtil {
 
 
     public static List<EnumFacing> getPossibleSides(BlockPos pos) {
-        ArrayList<EnumFacing> facings = new ArrayList<EnumFacing>();
+        ArrayList<EnumFacing> facings = new ArrayList<>();
         for (EnumFacing side : EnumFacing.values()) {
             IBlockState blockState;
             BlockPos neighbour = pos.offset(side);
