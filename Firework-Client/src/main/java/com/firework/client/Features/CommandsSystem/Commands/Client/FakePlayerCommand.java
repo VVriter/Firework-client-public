@@ -2,7 +2,6 @@ package com.firework.client.Features.CommandsSystem.Commands.Client;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
-import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Entity.FakePlayer;
 import net.minecraft.client.Minecraft;
@@ -14,8 +13,6 @@ import java.util.UUID;
 public class FakePlayerCommand extends Command {
     @Override
     public void execute(String[] args) {
-        //Plays Notification sound
-        Notifications.notificate();
         String fakePlayerNickname = "IAmFakePlayer";
         if(args.length > 1) {
             fakePlayerNickname = args[1];

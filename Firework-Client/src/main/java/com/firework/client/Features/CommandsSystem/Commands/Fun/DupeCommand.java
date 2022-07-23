@@ -5,7 +5,6 @@ package com.firework.client.Features.CommandsSystem.Commands.Fun;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
-import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -26,8 +25,6 @@ public class DupeCommand extends Command {
     @Override
     public void execute(String[] args) {
         WorldClient world = Firework.minecraft.world;
-        //Plays Notification sound
-        Notifications.notificate();
 
         if (Firework.minecraft.player == null || world == null) return;
 

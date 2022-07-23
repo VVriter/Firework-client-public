@@ -2,7 +2,6 @@ package com.firework.client.Features.CommandsSystem.Commands.Client;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
-import com.firework.client.Features.Modules.Client.Notifications;
 
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.client.Minecraft;
@@ -26,8 +25,6 @@ public class BookCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        //Plays Notification sound
-        Notifications.notificate();
         ItemStack heldItem = BookCommand.mc.player.getHeldItemMainhand();
         if (heldItem.getItem() == Items.WRITABLE_BOOK) {
             int limit = 50;

@@ -2,7 +2,6 @@ package com.firework.client.Features.CommandsSystem.Commands.Chat;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
-import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Firework;
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.google.gson.Gson;
@@ -17,8 +16,6 @@ import java.io.IOException;
 public class PrefixCommand extends Command {
     @Override
     public void execute(String[] args) {
-        //Plays Notification sound
-        Notifications.notificate();
         //Creates new JSon object
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonObject obj = new JsonObject();

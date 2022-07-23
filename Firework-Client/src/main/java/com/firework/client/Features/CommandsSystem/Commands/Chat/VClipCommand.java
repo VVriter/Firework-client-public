@@ -2,17 +2,13 @@ package com.firework.client.Features.CommandsSystem.Commands.Chat;
 
 import com.firework.client.Features.CommandsSystem.Command;
 import com.firework.client.Features.CommandsSystem.CommandManifest;
-import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
-import net.minecraft.client.Minecraft;
 
 @CommandManifest(label = "vclip",aliases = "clip")
 public class VClipCommand extends Command {
     @Override
     public void execute(String[] args) {
-        //Plays Notification sound
-        Notifications.notificate();
         if (args.length == 2) {
             try {
                 if (Firework.minecraft.player.getRidingEntity() != null) {

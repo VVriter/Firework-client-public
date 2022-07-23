@@ -1,5 +1,8 @@
 package com.firework.client.Features.CommandsSystem;
 
+import com.firework.client.Implementations.Utill.Client.SoundUtill;
+import net.minecraft.util.ResourceLocation;
+
 public class Command  {
 
     String label;
@@ -14,7 +17,9 @@ public class Command  {
         }
     }
 
-    public void execute(String[] args) {}
+    public void execute(String[] args) {
+        SoundUtill.playSound(new ResourceLocation("firework/audio/pop.wav"));
+    }
 
     public String getLabel() {
         return label;
