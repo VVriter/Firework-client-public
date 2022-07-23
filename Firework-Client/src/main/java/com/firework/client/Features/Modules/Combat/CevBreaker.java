@@ -70,7 +70,9 @@ public class CevBreaker extends Module {
         blockPlacer = new BlockPlacer(this, blockSwitch, blockRotate, blockPacket);
         blockBreaker = new BlockBreaker(this, breakMode, blockRotate, blockRayTrace, blockPacket);
         timer = new Timer();
-        stage = 1;
+
+        target = PlayerUtil.getClosestTarget(targetRange.getValue());
+        stage = getStage();
 
         Firework.eventBus.register(listener1);
         Firework.eventBus.register(onRender);
@@ -168,6 +170,22 @@ public class CevBreaker extends Module {
                 break;
         }
     });
+
+    public int getStage(){
+        int stage = 1;
+        if(target == null) return stage;
+        BlockPos upside = getUpsideBlock(target);
+        EntityEnderCrystal crystal = CrystalUtils.getCrystalAtPos(upside);
+        if(BlockUtil.isAir(upside) && crystal == null)
+            stage = 1;
+        else if(!BlockUtil.isAir(upside) && crystal == null)
+            stage = 2;
+        else if(!BlockUtil.isAir(upside) && crystal != null)
+            stage = 3;
+        else if(BlockUtil.isAir(upside) && crystal != null)
+            stage = 4;
+        return stage;
+    }
 
     public BlockPos getUpsideBlock(EntityPlayer target){
         return EntityUtil.getFlooredPos(target).add(0, 2, 0);
