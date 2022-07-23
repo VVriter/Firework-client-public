@@ -36,6 +36,7 @@ public class Speed extends Module{
         super.onEnable();
         playerSpeed = PlayerUtil.getBaseMoveSpeed();
         defaultTimerTicks = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
+        if(fullNullCheck()) onDisable();
     }
 
     @Override
@@ -45,10 +46,13 @@ public class Speed extends Module{
         if (step.getValue()) {
             mc.player.stepHeight = 0.6f;
         }
+        ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTimerTicks);
     }
     @Override
     public void onTick(){
         super.onTick();
+        if(fullNullCheck()) return;
+
         if(mode.getValue(modes.Strafe)){
             if(boost.getValue())
                 ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTimerTicks - ticks.getValue().floatValue());

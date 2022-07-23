@@ -12,22 +12,16 @@ import java.util.ArrayList;
 public class ShaderManager extends Manager {
 
     public static ArrayList<CShader> shaders;
-    public static String shaderDir = Firework.FIREWORK_DIRECTORY + "/Shaders/";
+    public static String shaderDir = Firework.FIREWORK_DIRECTORY + "Shaders/";
     public static File shadersFolder = new File(shaderDir);
     public ShaderManager(){
         super(false);
         shaders = new ArrayList<>();
 
-        setupDirectory();
+        new File(shaderDir).mkdirs();
         for(File file : shadersFolder.listFiles()){
             if(file.getName().endsWith(".frag"));
                 shaders.add(new CShader(file.getName()));
-        }
-    }
-
-    public void setupDirectory(){
-        if(!shadersFolder.exists()) {
-            shadersFolder.mkdirs();
         }
     }
 
