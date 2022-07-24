@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.CrystalUtils;
@@ -15,11 +16,16 @@ import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.network.play.client.CPacketAnimation;
+import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 @ModuleManifest(name = "AutoCrystal", category = Module.Category.COMBAT)
 public class AutoCrystal extends Module {
@@ -27,6 +33,15 @@ public class AutoCrystal extends Module {
     public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
     public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interaction.getValue());
+    public Setting<swing> swingMode = new Setting<>("Swing", swing.Both, this).setVisibility(v-> interaction.getValue());
+    public enum swing{
+        Main, Off, Both, Packet
+    }
+    public Setting<blow> blowMode = new Setting<>("Blow", blow.Controller, this).setVisibility(v-> interaction.getValue());
+    public enum blow{
+        Packet, Controller
+    }
+    public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", true, this).setVisibility(v-> interaction.getValue());
 
     public Setting<Boolean> ranges = new Setting<>("Ranges", false, this).setMode(Setting.Mode.SUB);
     public Setting<Integer> targetRange = new Setting<>("TargetRange", 0, this, 0, 10).setVisibility(v-> ranges.getValue());
@@ -52,6 +67,15 @@ public class AutoCrystal extends Module {
     ItemUser user;
 
     int stage;
+
+    @SubscribeEvent
+    public void onPacketSend(final PacketEvent.Send event){
+        if (event.getPacket() instanceof CPacketUseEntity && (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && ((CPacketUseEntity) event.getPacket()).getEntityFromWorld(AutoCrystal.mc.world) instanceof EntityEnderCrystal && cancelCrystal.getValue())) {
+            final World world;
+            Objects.requireNonNull(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(AutoCrystal.mc.world)).setDead();
+            AutoCrystal.mc.world.removeEntityFromWorld(((CPacketUseEntity )event.getPacket()).getEntityFromWorld((World) mc.world).getEntityId());
+        }
+    }
 
     @Override
     public void onEnable() {
@@ -85,11 +109,19 @@ public class AutoCrystal extends Module {
         if(target == null) return;
         switch (stage){
             case 1:
+                //Breakes a crystal
                 EntityEnderCrystal breakCrystal = CrystalUtils.getBestCrystal(target, breakRange.getValue());
                 if(breakCrystal != null){
                     if(timer.hasPassedMs(breakDelay.getValue())){
                         Firework.rotationManager.rotateSpoof(breakCrystal.getPositionVector().add(0.5, 0.5, 0.5));
-                        mc.playerController.attackEntity(mc.player, breakCrystal);
+                        //Blows
+                        if(blowMode.getValue(blow.Controller))
+                            mc.playerController.attackEntity(mc.player, breakCrystal);
+                        else if(blowMode.getValue(blow.Packet))
+                            mc.getConnection().sendPacket(new CPacketUseEntity(breakCrystal));
+
+                        //Hand swing
+                        swing(swingMode.getValue());
                         stage = 2;
                         timer.reset();
                     }
@@ -97,6 +129,7 @@ public class AutoCrystal extends Module {
                     stage = 2;
                 break;
             case 2:
+                //Places a crystal
                 BlockPos toPlace = CrystalUtils.bestCrystalPos(target, placeRange.getValue(), true, maxSelfDmg.getValue(), minTargetDmg.getValue());
                 if(toPlace != null){
                     if(timer.hasPassedMs(placeDelay.getValue())){
@@ -109,4 +142,26 @@ public class AutoCrystal extends Module {
                 break;
         }
     });
+
+    public void swing(swing swing) {
+        switch (swing) {
+            case Main:
+                //Swings main hand
+                mc.player.swingArm(EnumHand.MAIN_HAND);
+                break;
+            case Off:
+                //Swings offhand
+                mc.player.swingArm(EnumHand.OFF_HAND);
+                break;
+            case Both:
+                //Swings both hands
+                mc.player.swingArm(EnumHand.MAIN_HAND);
+                mc.player.swingArm(EnumHand.OFF_HAND);
+                break;
+            case Packet:
+                //Sends a swing packet
+                mc.player.connection.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
+                break;
+        }
+    }
 }
