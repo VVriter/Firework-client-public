@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Utill.Client;
 
+import com.google.common.util.concurrent.AtomicDouble;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -21,6 +22,12 @@ public class MathUtil {
     private static IntBuffer viewport = BufferUtils.createIntBuffer(16);
     private static FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
     private static FloatBuffer projection = BufferUtils.createFloatBuffer(16);
+
+    public static void swap(AtomicDouble one, AtomicDouble two){
+        one.set(one.get() + two.get());
+        two.set(one.get() - two.get());
+        one.set(one.get() - two.get());
+    }
 
     public static int randomValue(int min, int max){
         Random r = new Random();

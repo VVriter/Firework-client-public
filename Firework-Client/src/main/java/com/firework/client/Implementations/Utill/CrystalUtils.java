@@ -57,10 +57,10 @@ public class CrystalUtils {
 
     public static BlockPos bestCrystalPos(EntityPlayer target, final int range, final boolean legal, final float maxSelfDamage, final float minTargetDamage){
         //BlockPos | SelfDamage | TargetDamage
-        Triple<BlockPos, Float, Float> bestPosition = null;
+        Triple<BlockPos, Float, Float> bestPosition = new Triple<>(null, 0f, 0f);
         for(BlockPos pos : BlockUtil.getSphere(range, true)){
             if(CrystalUtil.canPlaceCrystal(pos, legal)) {
-                if (bestPosition == null) {
+                if (bestPosition == new Triple<BlockPos, Float, Float>(null, 0f, 0f)) {
                     float selfDamage = CrystalUtil.calculateDamage(pos, mc.player);
                     float targetDamage = CrystalUtil.calculateDamage(pos, target);
                     if(selfDamage > maxSelfDamage || targetDamage < minTargetDamage) continue;

@@ -20,7 +20,7 @@ public class InhibitorExample extends Module {
         super.onEnable();
         inhibitor = new Inhibitor();
         inhibitor.value = currentValue.getValue();
-        inhibitor.setValues(TargetValue.getValue(), speed.getValue());
+        inhibitor.setValues(0, TargetValue.getValue(), speed.getValue());
         Firework.eventBus.register(listener1);
     }
 
@@ -34,5 +34,7 @@ public class InhibitorExample extends Module {
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         inhibitor.update();
         currentValue.setValue(inhibitor.value);
+        if(inhibitor.value == TargetValue.getValue())
+            System.out.println("Got IT");
     });
 }
