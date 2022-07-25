@@ -6,6 +6,7 @@ import com.firework.client.Features.Modules.World.Scaffold.ScaffoldBlock;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketPlayerPosLook;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
@@ -21,6 +22,8 @@ import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,11 +74,9 @@ public class BlockFly extends Module {
         motionTimer.reset();
     }
 
-    @Override
-    public void onTick() {
-        super.onTick();
-
-        if (mc.player == null || mc.world == null) return;
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
+        if (fullNullCheck()) return;
 
         if(slowness.getValue()) {
             final double[] calc = MathUtil.directionSpeed(this.speed.getValue() / 10.0);
@@ -106,7 +107,7 @@ public class BlockFly extends Module {
             blockPlacer.placeBlock(pos, Block.getBlockFromItem(InventoryUtil.getItemStack(InventoryUtil.findAnyBlock()).getItem()));
             blocksToRender.add(new ScaffoldBlock(BlockUtil.posToVec3d(pos)));
         }
-    }
+    });
 
     @SubscribeEvent
     public void onPush(PlayerSPPushOutOfBlocksEvent e){

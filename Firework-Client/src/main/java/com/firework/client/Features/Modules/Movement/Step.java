@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Movement;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Mixins.MixinsList.IKeyBinding;
 import com.firework.client.Implementations.Settings.Setting;
@@ -16,6 +17,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 @ModuleManifest(name = "Step", category = Module.Category.MOVEMENT)
 public class Step extends Module {
@@ -64,10 +67,8 @@ public class Step extends Module {
             canBoost = false;
     }
 
-    @Override
-    public void onTick() {
-        super.onTick();
-
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (moderio.getValue(modes.Vanilla)) {
             if (mc.player.collidedHorizontally) {
                 mc.player.stepHeight = Y.getValue().floatValue();
@@ -141,7 +142,7 @@ public class Step extends Module {
                 }
             }
         }
-    }
+    });
 
     public Vec3d offset(Vec3d vec3d, EnumFacing facing){
         return new Vec3d(vec3d.x + facing.getXOffset(), vec3d.y + facing.getYOffset(), vec3d.z + facing.getZOffset());

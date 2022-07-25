@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
 import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
 import com.firework.client.Implementations.Settings.Setting;
@@ -10,6 +11,8 @@ import com.firework.client.Implementations.Utill.Items.ItemUser;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.init.Items;
 import net.minecraft.network.play.client.CPacketPlayer;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 @ModuleManifest(name = "ElytraFly",category = Module.Category.MOVEMENT)
 public class ElytraFly extends Module {
@@ -26,8 +29,6 @@ public class ElytraFly extends Module {
 
     public Setting<Boolean> yawControl = new Setting<>("YawControl", true, this).setVisibility(v-> mode.getValue(modes.Control));
 
-
-
     public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this).setVisibility(v-> mode.getValue(modes.Firework));
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> mode.getValue(modes.Firework));
     public Setting<Double> delay = new Setting<>("UseDelay", (double)500, this, 1, 3000).setVisibility(v-> mode.getValue(modes.Firework));
@@ -37,14 +38,12 @@ public class ElytraFly extends Module {
     public Setting<Boolean> jump = new Setting<>("Jump", true, this).setVisibility(v-> autostart.getValue() && mode.getValue(modes.Firework));
     public Setting<Boolean> useTimer = new Setting<>("UseTimer", true, this).setVisibility(v-> autostart.getValue() && mode.getValue(modes.Firework));
 
-
-
     float defaultTickLeght;
     ItemUser user;
     Timer timer = new Timer();
-    @Override
-    public void onTick() {
-        super.onTick();
+
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (mc.player.isElytraFlying()) {
             //Control
             if (mode.getValue(modes.Control)) {
@@ -90,8 +89,7 @@ public class ElytraFly extends Module {
                 }
             }
         }
-    }
-
+    });
 
     @Override
     public void onEnable() {

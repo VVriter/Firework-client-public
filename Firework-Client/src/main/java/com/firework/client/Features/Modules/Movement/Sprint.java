@@ -2,16 +2,18 @@ package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.Arrays;
 
 @ModuleManifest(name = "Sprint",category = Module.Category.MOVEMENT)
 public class Sprint extends Module {
     public Setting<String> mode = new Setting<>("Mode", "Legit", this, Arrays.asList("Legit", "Multi"));
-    @Override
-    public void onTick(){
-        super.onTick();
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (mode.getValue().equals("Legit")) {
             if (mc.player.moveForward > 0 && !mc.player.collidedHorizontally) {
                 mc.player.setSprinting(true);
@@ -27,5 +29,5 @@ public class Sprint extends Module {
                 Sprint.mc.player.setSprinting(Sprint.mc.player.moveForward > 0.0f || Sprint.mc.player.moveStrafing > 0.0f);
             }
         }
-    }
+    });
 }

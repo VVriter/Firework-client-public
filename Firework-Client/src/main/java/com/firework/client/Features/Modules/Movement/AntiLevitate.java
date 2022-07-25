@@ -2,8 +2,11 @@ package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.potion.Potion;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -11,9 +14,9 @@ import java.util.Objects;
 @ModuleManifest(name = "AntiLevitate",category = Module.Category.MOVEMENT)
 public class AntiLevitate extends Module {
     public Setting<String> setting = new Setting<>("Mode", "EffectRemove", this, Arrays.asList("EffectRemove", "Fly"));
-    @Override
-    public void onTick(){
-        super.onTick();
+
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(setting.getValue().equals("EffectRemove")){
             if (mc.player.isPotionActive((Potion) Objects.requireNonNull(Potion.getPotionFromResourceLocation("levitation")))) {
                 mc.player.removeActivePotionEffect(Potion.getPotionFromResourceLocation("levitation"));
@@ -23,7 +26,7 @@ public class AntiLevitate extends Module {
                 }
             }
         }
-    }
+    });
 
     @Override
     public void onDisable() {

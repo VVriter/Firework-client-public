@@ -1,12 +1,15 @@
 package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.BaritoneUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import static java.lang.Math.floor;
 
@@ -16,9 +19,8 @@ public class AutoWalk extends Module {
     private final int border = 30000000;
     public AutoWalk(){super("AutoWalk",Category.MOVEMENT);}
 
-    @Override
-    public void onTick() {
-        super.onTick();
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(mode.getValue(modes.BARITONE)) {
             Vec3d dir = mc.player.getLookVec();
             int x = (int) (floor(mc.player.posX) + floor(dir.x) * border);
@@ -29,7 +31,7 @@ public class AutoWalk extends Module {
             if (BaritoneUtil.canPath(goal))
                 BaritoneUtil.walkTo(goal);
         }
-    }
+    });
 
     @SubscribeEvent
     public void onUpdateInput(InputUpdateEvent event) {

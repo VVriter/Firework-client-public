@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
@@ -10,6 +11,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,14 +82,15 @@ public class AntiVoid extends Module {
     public Setting<HSLColor> colorOutline = new Setting<>("ColorOutline", new HSLColor(200, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && render.getValue());
     public Setting<Double> outlineHeightNormal = new Setting<>("OutlineHeight", (double)1, this, -0.3, 5).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && render.getValue());
     public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(v->  !outlineMode.getValue(PosRenderer.outlineModes.None) && render.getValue());
-   @Override
+
+    @Override
     public void onEnable(){
         super.onEnable();
         posRenderer = new PosRenderer(this, boxMode,outlineMode);
     }
 
-    @SubscribeEvent
-    public void onRender(RenderWorldLastEvent e) {
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
         int size = this.holes.size();
         for (int i = 0; i < size; ++i) {
             BlockPos pos = this.holes.get(i);
@@ -105,6 +109,6 @@ public class AntiVoid extends Module {
                 );
             }
         }
-    }
+    });
 
 }

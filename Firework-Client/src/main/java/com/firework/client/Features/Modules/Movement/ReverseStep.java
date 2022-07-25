@@ -2,7 +2,10 @@ package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import net.minecraft.init.Blocks;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 @ModuleManifest(name = "ReverseStep", category = Module.Category.MOVEMENT)
 public class ReverseStep extends Module {
@@ -10,9 +13,8 @@ public class ReverseStep extends Module {
     boolean wasOnGround;
     boolean isStepInProgress;
 
-    @Override
-    public void onTick() {
-        super.onTick();
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
 
         if (this.wasOnGround && !mc.player.onGround && mc.player.motionY < 0.0D) {
@@ -34,5 +36,5 @@ public class ReverseStep extends Module {
         } else {
             this.wasOnGround = false;
         }
-    }
+    });
 }

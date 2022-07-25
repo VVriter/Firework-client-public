@@ -2,9 +2,13 @@ package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IKeyBinding;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
+
 @ModuleManifest(name = "Jesus",category = Module.Category.MOVEMENT)
 public class Jesus extends Module {
     public Setting<Enum> mode = new Setting<>("Mode", modes.Bypass, this);
@@ -19,8 +23,9 @@ public class Jesus extends Module {
     public Setting<Boolean> antikick = new Setting<>("AntiKick", true, this).setVisibility(v-> mode.getValue(modes.Fly));
 
     public Setting<Boolean> entityJesus = new Setting<>("Entity", true, this);
-    @Override
-    public void onTick () { super.onTick();
+
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (mc.player.isInWater() || mc.player.isInLava()) {
             if(mode.getValue(modes.Bypass)) {
                 mc.player.motionY = 0;
@@ -73,5 +78,5 @@ public class Jesus extends Module {
         if (!mode.getValue(modes.Fly) && mc.gameSettings.keyBindSneak.isKeyDown() &&  mc.player.isInWater() || mc.player.isInLava()) {
             mc.player.motionY = -0.1;
         }
-    }
+    });
 }

@@ -27,6 +27,7 @@ public class EventBus {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
+                listener.setPriority(field.getAnnotation(Subscribe.class).priority());
                 listeners.add(listener);
             }
         }
@@ -44,7 +45,6 @@ public class EventBus {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-                listener.setPriority(field.getAnnotation(Subscribe.class).priority());
                 listeners.remove(listener);
             }
         }

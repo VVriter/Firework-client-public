@@ -2,12 +2,15 @@ package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Wrapper;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.Arrays;
 
@@ -25,8 +28,9 @@ public class Fly extends Module {
     public Fly(){
         enabled = this.isEnabled;
     }
-    @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
+
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (mode.getValue().equals("Clicktp")) {
             if (mc.gameSettings.keyBindAttack.isPressed()) {
                 mc.player.capabilities.isFlying = true;
@@ -35,9 +39,6 @@ public class Fly extends Module {
                 mc.player.setPosition(mc.player.posX + Math.sin(Math.toRadians(-yaw)) * increment, mc.player.posY, mc.player.posZ + Math.cos(Math.toRadians(-yaw)) * increment);
             }
         }
-
-
-
 
         if (mode.getValue().equals("Tp")) {
 
@@ -106,9 +107,7 @@ public class Fly extends Module {
             y1 = mc.player.posY + 1.0E-10D;
             mc.player.setPosition(mc.player.posX, y1, mc.player.posZ);
         }
-
-
-    }
+    });
 
     public void utils(float speed) {
         mc.player.motionX = (-(Math.sin(aan()) * speed));
