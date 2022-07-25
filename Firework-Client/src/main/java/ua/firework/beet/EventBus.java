@@ -8,7 +8,7 @@ import java.util.Comparator;
 */
 public class EventBus {
     private ArrayList<Listener> listeners;
-
+    private int size = 0;
     public EventBus(){
         this.listeners = new ArrayList<>();
     }
@@ -21,10 +21,11 @@ public class EventBus {
     public void unregister(Listener<?> listener){
         listeners.remove(listener);
         listeners.sort(new ListenerPriorityComparator());
+        size -= 1;
     }
 
     public void post(Event event){
-        int size = listeners.size();
+        size = listeners.size();
         for(int i = 0; i < size; i++){
             Listener<Event> listener = listeners.get(i);
             if(event.getClass().isAssignableFrom(listener.getTarget()))
