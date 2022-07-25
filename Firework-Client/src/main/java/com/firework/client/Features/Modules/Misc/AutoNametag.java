@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.entity.Entity;
@@ -14,6 +15,8 @@ import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -28,8 +31,8 @@ public class AutoNametag extends Module {
     public Setting<Boolean> WithersOnly  = new Setting<>("WithersOnly", false, this);
 
 
-    @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (mc.currentScreen != null)
             return;
 
@@ -85,7 +88,7 @@ public class AutoNametag extends Module {
             Objects.requireNonNull(mc.getConnection()).sendPacket(new CPacketUseEntity(l_Entity, EnumHand.MAIN_HAND));
 
         }
-    }
+    });
 
     public static double[] calculateLookAt(double px, double py, double pz, EntityPlayer me) {
         double dirx = me.posX - px;

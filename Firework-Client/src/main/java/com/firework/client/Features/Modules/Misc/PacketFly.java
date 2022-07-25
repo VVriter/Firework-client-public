@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.MoveEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketPlayerPosLook;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
@@ -22,6 +23,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -116,9 +119,8 @@ public class PacketFly extends Module {
     private static final Random random = new Random();
 
 
-    @Override
-    public void onTick() {
-        super.onTick();
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         // Prevents getting kicked from messing up your game
         if (mc.currentScreen instanceof GuiDisconnected || mc.currentScreen instanceof GuiMainMenu || mc.currentScreen instanceof GuiMultiplayer ||
                 mc.currentScreen instanceof GuiDownloadTerrain) {
@@ -266,7 +268,7 @@ public class PacketFly extends Module {
         if (jitterTicks > 7) {
             jitterTicks = 0;
         }
-    }
+    });
 
     private void sendPackets(double x, double y, double z, Mode mode, boolean sendConfirmTeleport, boolean sendExtraCT) {
         Vec3d nextPos = new Vec3d(mc.player.posX + x, mc.player.posY + y, mc.player.posZ + z);

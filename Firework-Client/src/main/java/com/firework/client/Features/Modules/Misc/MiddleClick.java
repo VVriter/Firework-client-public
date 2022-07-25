@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Misc;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Managers.FriendManager;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -15,6 +16,8 @@ import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
 import org.lwjgl.input.Mouse;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.io.File;
 
@@ -30,9 +33,8 @@ public class MiddleClick extends Module {
     public Setting<Boolean> friend = new Setting<>("Enable", true, this).setVisibility(V-> friendsBool.getValue());
     public Setting<Boolean> notify = new Setting<>("NotifyFriend", true, this).setVisibility(V-> friendsBool.getValue());
 
-    @Override
-    public void onTick() {
-        super.onTick();
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (Mouse.isButtonDown(2)) {
             if (!this.clicked && friend.getValue()) {
                 this.onClick();
@@ -45,11 +47,7 @@ public class MiddleClick extends Module {
         } else {
             this.clicked = false;
         }
-
-
-
-
-    }
+    });
 
     private void throwPearl() {
         int pearlSlot = InventoryUtil.findHotbarBlock(ItemEnderPearl.class);

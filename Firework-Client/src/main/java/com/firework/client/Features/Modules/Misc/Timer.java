@@ -2,9 +2,12 @@ package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
 import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
 import com.firework.client.Implementations.Settings.Setting;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 @ModuleManifest(name = "Timer",category = Module.Category.MISCELLANEOUS)
 public class Timer extends Module {
@@ -22,10 +25,9 @@ public class Timer extends Module {
     }
 
 
-    @Override
-    public void onTick() {
-        super.onTick();
-        System.out.println();
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
+        if(fullNullCheck()) return;
         if (!onMove.getValue()) {
             ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTimerTicks - ticksTo.getValue().floatValue());
         } else {
@@ -35,8 +37,7 @@ public class Timer extends Module {
                 ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTimerTicks);
             }
         }
-    }
-
+    });
 
     @Override
     public void onDisable() {

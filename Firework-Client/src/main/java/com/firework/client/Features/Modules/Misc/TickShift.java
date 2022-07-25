@@ -2,10 +2,13 @@ package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
 import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Timer;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 @ModuleManifest(name = "TickShift",category = Module.Category.MISCELLANEOUS)
 public class TickShift extends Module {
@@ -34,10 +37,8 @@ public class TickShift extends Module {
         defoultTickLeght = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
     }
 
-    @Override
-    public void onTick() {
-        super.onTick();
-
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         speedTo = ticks.getValue().floatValue();
         currentTickLeght = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
 
@@ -54,7 +55,8 @@ public class TickShift extends Module {
                 ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defoultTickLeght);
             }
         }
-    }
+    });
+
     @Override
     public void onDisable() {
         super.onDisable();

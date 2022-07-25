@@ -2,8 +2,11 @@ package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.YawUtil;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.Arrays;
 
@@ -21,9 +24,8 @@ public class RotationLock extends Module {
     public Setting<Integer> pitch = new Setting<>("Value", 0, this, -90, 90).setVisibility(pv-> pitchBool.getValue());
 
 
-    @Override
-    public void onTick(){
-        super.onTick();
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (yawEnable.getValue()) {
         if(dimension.getValue().equals("Multi")){
         YawUtil.MakeRoundedYaw(intSpeed.getValue().intValue(),true);
@@ -35,5 +37,5 @@ public class RotationLock extends Module {
         if (pitchEnable.getValue()) {
             mc.player.rotationPitch = pitch.getValue().floatValue();
         }
-    }
+    });
 }

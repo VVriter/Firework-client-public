@@ -2,24 +2,23 @@ package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.GuiOpenEvent;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.network.play.client.CPacketEntityAction;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 
 @ModuleManifest(name = "FastSleep",category = Module.Category.MISCELLANEOUS)
 public class FastSleep extends Module {
 
-
-    @Override
-    public void onTick(){
-        super.onTick();
+    @Subscribe
+    public Listener<GuiOpenEvent> guiOpenEventListener = new Listener<>(event -> {
         EntityPlayerSP player = mc.player;
         if (player.isPlayerSleeping()) {
             if (player.getSleepTimer() > 10) {
                 player.connection.sendPacket(new CPacketEntityAction(player, CPacketEntityAction.Action.STOP_SLEEPING));
             }
         }
-
-    }
-
+    });
 }
