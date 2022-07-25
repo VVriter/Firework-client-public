@@ -4,23 +4,25 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.CrystalUtils;
-import com.firework.client.Implementations.Utill.Entity.CrystalUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Inhibitor;
 import com.firework.client.Implementations.Utill.Items.ItemUser;
-import com.firework.client.Implementations.Utill.RotationUtil;
 import com.firework.client.Implementations.Utill.Timer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketUseEntity;
+import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 
@@ -42,6 +44,7 @@ public class AutoCrystal extends Module {
         Packet, Controller
     }
     public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", true, this).setVisibility(v-> interaction.getValue());
+    public Setting<Boolean> sync = new Setting<>("Sync", true, this).setVisibility(v-> interaction.getValue());
 
     public Setting<Boolean> ranges = new Setting<>("Ranges", false, this).setMode(Setting.Mode.SUB);
     public Setting<Integer> targetRange = new Setting<>("TargetRange", 0, this, 0, 10).setVisibility(v-> ranges.getValue());
@@ -54,9 +57,13 @@ public class AutoCrystal extends Module {
 
     public Setting<Integer> placeDelay = new Setting<>("PlaceDelayMs", 0, this, 0, 200);
     public Setting<Integer> breakDelay = new Setting<>("BreakDelayMs", 0, this, 0, 200);
-    public Setting<Boolean> shouldInhibit = new Setting<>("Inhibitor", true, this);
-    public Setting<Integer> minDelay = new Setting<>("MinDelay", 0, this, 0, 200).setVisibility(v-> shouldInhibit.getValue());
-    public Setting<Integer> maxDelay = new Setting<>("MaxDelay", 0, this, 0, 200).setVisibility(v-> shouldInhibit.getValue());
+
+    public Setting<Boolean> inhibit = new Setting<>("Inhibit", true, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> shouldInhibit = new Setting<>("ShouldInhibit", true, this).setVisibility(v-> inhibit.getValue());
+    public Setting<Integer> minPercent = new Setting<>("MinPercent", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
+    public Setting<Integer> maxPercent = new Setting<>("MaxPercent", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
+    public Setting<Integer> speed = new Setting<>("Speed", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
+    public Setting<Integer> inhibitPercent = new Setting<>("InhibitPercent", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
 
     ArrayList<BlockPos> placed;
 
@@ -69,11 +76,26 @@ public class AutoCrystal extends Module {
     int stage;
 
     @SubscribeEvent
+    public void onPacketReceive(PacketEvent.Receive event){
+        if (event.getPacket() instanceof SPacketSoundEffect && sync.getValue()) {
+            SPacketSoundEffect packet = (SPacketSoundEffect) event.getPacket();
+
+            if (packet.getSound().equals(SoundEvents.ENTITY_GENERIC_EXPLODE) && packet.getCategory().equals(SoundCategory.BLOCKS)) {
+                for (Entity entity : mc.world.loadedEntityList) {
+                    if (!(entity instanceof EntityEnderCrystal) || entity.isDead)
+                        continue;
+                    if (entity.getDistance(packet.getX(), packet.getY(), packet.getZ()) <= 6)
+                        entity.setDead();
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
     public void onPacketSend(final PacketEvent.Send event){
         if (event.getPacket() instanceof CPacketUseEntity && (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && ((CPacketUseEntity) event.getPacket()).getEntityFromWorld(AutoCrystal.mc.world) instanceof EntityEnderCrystal && cancelCrystal.getValue())) {
-            final World world;
-            Objects.requireNonNull(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(AutoCrystal.mc.world)).setDead();
-            AutoCrystal.mc.world.removeEntityFromWorld(((CPacketUseEntity )event.getPacket()).getEntityFromWorld((World) mc.world).getEntityId());
+            Objects.requireNonNull(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world)).setDead();
+            mc.world.removeEntityFromWorld(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world).getEntityId());
         }
     }
 
@@ -89,6 +111,9 @@ public class AutoCrystal extends Module {
         user = new ItemUser(this, switchMode, rotate);
 
         stage = 1;
+        inhibitor.value = minPercent.getValue();
+        inhibitor.setValues(minPercent.getValue(), maxPercent.getValue(), speed.getValue());
+
         Firework.eventBus.register(listener1);
     }
 
@@ -107,12 +132,19 @@ public class AutoCrystal extends Module {
         if(fullNullCheck()) return;
 
         if(target == null) return;
+
+        inhibitor.setValues(minPercent.getValue(), maxPercent.getValue(), speed.getValue());
+        inhibitor.update();
+        inhibitPercent.setValue((int) Math.round(inhibitor.value));
+
         switch (stage){
             case 1:
                 //Breakes a crystal
                 EntityEnderCrystal breakCrystal = CrystalUtils.getBestCrystal(target, breakRange.getValue());
                 if(breakCrystal != null){
-                    if(timer.hasPassedMs(breakDelay.getValue())){
+                    //Returns break delay, if inhibitor is turned returns simple break delay, else break delay * current inhibit percent
+                    int tempBreakDelay = (shouldInhibit.getValue() && !maxPercent.getValue(0) && !inhibitPercent.getValue(0)) ? Math.round(breakDelay.getValue() * maxPercent.getValue() / inhibitPercent.getValue()) : breakDelay.getValue();
+                    if(timer.hasPassedMs(tempBreakDelay)){
                         Firework.rotationManager.rotateSpoof(breakCrystal.getPositionVector().add(0.5, 0.5, 0.5));
                         //Blows
                         if(blowMode.getValue(blow.Controller))
@@ -132,7 +164,9 @@ public class AutoCrystal extends Module {
                 //Places a crystal
                 BlockPos toPlace = CrystalUtils.bestCrystalPos(target, placeRange.getValue(), true, maxSelfDmg.getValue(), minTargetDmg.getValue());
                 if(toPlace != null){
-                    if(timer.hasPassedMs(placeDelay.getValue())){
+                    //Returns place delay, if inhibitor is turned returns simple place delay, else place delay * current inhibit percent
+                    int tempPlaceDelay = (shouldInhibit.getValue() && !maxPercent.getValue(0) && !inhibitPercent.getValue(0)) ? Math.round(placeDelay.getValue() * maxPercent.getValue() / inhibitPercent.getValue()) : placeDelay.getValue();
+                    if(timer.hasPassedMs(tempPlaceDelay)){
                         user.useItem(Items.END_CRYSTAL, toPlace, EnumHand.MAIN_HAND);
                         stage = 1;
                         timer.reset();
