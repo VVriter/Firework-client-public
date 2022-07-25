@@ -105,6 +105,7 @@ public class HoleFiller extends Module {
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
+        if(fullNullCheck()) return;
         if (shouldDisableOnJump.getValue() && mc.gameSettings.keyBindJump.isKeyDown()) {
             onDisable();
         }
