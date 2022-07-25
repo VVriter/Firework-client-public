@@ -74,16 +74,16 @@ public class CevBreaker extends Module {
         target = PlayerUtil.getClosestTarget(targetRange.getValue());
         stage = getStage();
 
-        Firework.eventBus.register(listener1);
-        Firework.eventBus.register(onRender);
+        Firework.eventBus.subscribe(listener1);
+        Firework.eventBus.subscribe(onRender);
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
 
-        Firework.eventBus.unregister(onRender);
-        Firework.eventBus.unregister(listener1);
+        Firework.eventBus.unsubscribe(onRender);
+        Firework.eventBus.unsubscribe(listener1);
         itemUser = null;
         blockPlacer = null;
         blockBreaker = null;

@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules;
 
 import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Features.Modules.Client.Notifications;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import net.minecraft.client.Minecraft;
@@ -46,6 +47,7 @@ public class Module{
         isEnabled.setValue(true);
         onToggle();
         MinecraftForge.EVENT_BUS.register(this);
+        Firework.eventBus.register(this);
         if(Logger.enabled.getValue() && Logger.onModuleEnable.getValue()){
             Logger.log(this);
         }
@@ -57,6 +59,7 @@ public class Module{
         isEnabled.setValue(false);
         onToggle();
         MinecraftForge.EVENT_BUS.unregister(this);
+        Firework.eventBus.unregister(this);
         if(Logger.enabled.getValue() && Logger.onModuleDisable.getValue()){
             Logger.log(this);
         }
@@ -69,6 +72,7 @@ public class Module{
         isEnabled.setValue(true);
         onToggle();
         MinecraftForge.EVENT_BUS.register(this);
+        Firework.eventBus.register(this);
     }
 
     public void onToggle(){}
@@ -79,10 +83,6 @@ public class Module{
         }else{
             onEnable();
         }
-    }
-
-    public void disable(){
-        MinecraftForge.EVENT_BUS.unregister(this);
     }
     public void onTick() {
         if(existCheck)

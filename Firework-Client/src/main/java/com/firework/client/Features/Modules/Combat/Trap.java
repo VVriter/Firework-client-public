@@ -65,7 +65,7 @@ public class Trap extends Module {
 
         blockPlacer = new BlockPlacer(this, switchMode, rotate, packet);
 
-        Firework.eventBus.register(listener1);
+        Firework.eventBus.subscribe(listener1);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class Trap extends Module {
         line.clear();
 
         blockPlacer = null;
-        Firework.eventBus.unregister(listener1);
+        Firework.eventBus.unsubscribe(listener1);
     }
 
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {

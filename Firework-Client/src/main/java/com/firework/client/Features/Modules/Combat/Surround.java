@@ -22,6 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,8 +79,6 @@ public class Surround extends Module {
         line = new ArrayList<>();
 
         first = true;
-
-        Firework.eventBus.register(listener1);
     }
 
     @Override
@@ -88,7 +87,6 @@ public class Surround extends Module {
         line = null;
         blockPlacer = null;
         placeTimer = null;
-        Firework.eventBus.unregister(listener1);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -106,6 +104,7 @@ public class Surround extends Module {
         }
     }
 
+    @Subscribe(priority = Listener.Priority.HIGHEST)
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         System.out.println(System.nanoTime() - time);
         if (mc.player == null || mc.world == null) return;

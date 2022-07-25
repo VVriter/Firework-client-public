@@ -4,7 +4,6 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
-import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
@@ -129,15 +128,15 @@ public class AutoCrystal extends Module {
         inhibitor.value = minPercent.getValue();
         inhibitor.setValues(minPercent.getValue(), maxPercent.getValue(), speed.getValue());
 
-        Firework.eventBus.register(listener1);
-        Firework.eventBus.register(onRender);
+        Firework.eventBus.subscribe(listener1);
+        Firework.eventBus.subscribe(onRender);
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
-        Firework.eventBus.unregister(onRender);
-        Firework.eventBus.unregister(listener1);
+        Firework.eventBus.unsubscribe(onRender);
+        Firework.eventBus.unsubscribe(listener1);
         user = null;
         timer = null;
         inhibitor = null;

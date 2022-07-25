@@ -21,13 +21,13 @@ public class InhibitorExample extends Module {
         inhibitor = new Inhibitor();
         inhibitor.value = currentValue.getValue();
         inhibitor.setValues(0, TargetValue.getValue(), speed.getValue());
-        Firework.eventBus.register(listener1);
+        Firework.eventBus.subscribe(listener1);
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
-        Firework.eventBus.unregister(listener1);
+        Firework.eventBus.unsubscribe(listener1);
         inhibitor = null;
     }
 
