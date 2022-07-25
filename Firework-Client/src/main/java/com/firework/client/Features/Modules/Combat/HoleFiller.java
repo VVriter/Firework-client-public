@@ -6,7 +6,9 @@ import com.firework.client.Features.Modules.Movement.Step;
 import com.firework.client.Features.Modules.World.Burrow;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Events.WorldClientInitEvent;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
@@ -22,6 +24,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 
@@ -99,11 +103,8 @@ public class HoleFiller extends Module {
         line = null;
     }
 
-    @Override
-    public void onTick() {
-        super.onTick();
-
-
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (shouldDisableOnJump.getValue() && mc.gameSettings.keyBindJump.isKeyDown()) {
             onDisable();
         }
@@ -149,15 +150,16 @@ public class HoleFiller extends Module {
 
         if(shouldToggle.getValue() && HoleUtil.calculateSingleHoles(radius.getValue(), true).isEmpty())
             onDisable();
-    }
+    });
 
     public void processBlock(BlockPos pos){
         blockPlacer.placeBlock(pos, Blocks.OBSIDIAN);
         placedBlocks.add(pos);
         placeTimerMs.reset();
     }
-    @SubscribeEvent
-    public void onRender(final RenderWorldLastEvent event){
+
+    @Subscribe
+    public Listener<WorldRender3DEvent> onRender = new Listener<>(event -> {
         if(line == null) return;
         for(BlockPos pos : line){
             new BlockRenderBuilder(pos)
@@ -165,7 +167,7 @@ public class HoleFiller extends Module {
                             new RenderMode(RenderMode.renderModes.Fill, color.getValue().toRGB())
                     ).render();
         }
-    }
+    });
 
     @SubscribeEvent
     public void onWorldJoin(WorldClientInitEvent event) {

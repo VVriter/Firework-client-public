@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -22,6 +23,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
 
@@ -59,9 +62,8 @@ public class SelfWeb extends Module {
         lastBlockPos = null;
     }
 
-    @Override
-    public void onTick() {
-        super.onTick();
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
         if(!isAir(EntityUtil.getFlooredPos(mc.player))) return;
 
@@ -103,7 +105,7 @@ public class SelfWeb extends Module {
         if(!predictTargetMove.getValue())
             if(shouldToggle.getValue())
                 onDisable();
-    }
+    });
 
     //Air check
     public static boolean isAir(BlockPos pos) {

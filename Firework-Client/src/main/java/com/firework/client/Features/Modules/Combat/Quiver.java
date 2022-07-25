@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IKeyBinding;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -13,6 +14,8 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.util.math.BlockPos;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 @ModuleManifest(name = "Quiver",category = Module.Category.COMBAT)
 public class Quiver extends Module {
@@ -40,10 +43,9 @@ public class Quiver extends Module {
         }
     }
 
-    @Override public void onTick() { super.onTick();
 
-
-
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (mc.player.getHeldItemMainhand().getItem() instanceof ItemBow) {
         mc.player.connection.sendPacket(new CPacketPlayer.Rotation(mc.player.rotationYaw, -90, true));
         }
@@ -57,7 +59,7 @@ public class Quiver extends Module {
                 onDisable();
             }
         }
-    }
+    });
 
     @Override public void onDisable() { super.onDisable();
 

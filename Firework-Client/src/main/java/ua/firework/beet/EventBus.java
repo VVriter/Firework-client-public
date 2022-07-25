@@ -19,7 +19,6 @@ public class EventBus {
         int size = fields.length;
         for (int i = 0; i < size; i++) {
             Field field = fields[i];
-            System.out.println(field.getName());
             if(field.isAnnotationPresent(Subscribe.class)) {
                 Listener listener = null;
                 try {
