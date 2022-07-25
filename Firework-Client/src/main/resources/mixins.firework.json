@@ -34,6 +34,7 @@
     "ISPacketEntityVelocity",
     "IEntityPlayerSP",
     "Gui.GuiScreenMixin",
-    "Gui.MixinTabOverlay"
+    "Gui.MixinTabOverlay",
+    "Misc.MixinPig"
   ]
 }

@@ -66,6 +66,7 @@ public class EyeFinder extends Module {
         drawLine(eyes, result.hitVec, eyeLineWidth.getValue().floatValue(), viewLineColor.getValue().toRGB());
 
         if (result.typeOfHit == RayTraceResult.Type.BLOCK) {
+            if (e != null && result != null) {
             posRenderer.doRender(
                     result.getBlockPos(),
                     colorOutline.getValue().toRGB(),
@@ -77,7 +78,8 @@ public class EyeFinder extends Module {
                     outlineWidth.getValue(),
                     boxHeightNormal.getValue().floatValue(),
                     outlineHeightNormal.getValue().floatValue()
-            );
+                );
+            }
         }
     }
 
