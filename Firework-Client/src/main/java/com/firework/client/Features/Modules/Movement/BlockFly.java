@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Features.Modules.World.Scaffold.ScaffoldBlock;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.PlayerPushOutOfBlocksEvent;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketPlayerPosLook;
@@ -109,10 +110,10 @@ public class BlockFly extends Module {
         }
     });
 
-    @SubscribeEvent
-    public void onPush(PlayerSPPushOutOfBlocksEvent e){
-        e.setCanceled(velocity.getValue());
-    }
+    @Subscribe
+    public Listener<PlayerPushOutOfBlocksEvent> onPush = new Listener<>(e -> {
+        e.setCancelled(velocity.getValue());
+    });
 
     @SubscribeEvent
     public void onSettingUpdate(final SettingChangeValueEvent event){
