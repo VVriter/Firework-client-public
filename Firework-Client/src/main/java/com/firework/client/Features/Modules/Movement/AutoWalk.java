@@ -1,12 +1,12 @@
 package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Implementations.Events.InputUpdateEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.BaritoneUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
@@ -33,11 +33,11 @@ public class AutoWalk extends Module {
         }
     });
 
-    @SubscribeEvent
-    public void onUpdateInput(InputUpdateEvent event) {
+    @Subscribe
+    public Listener<InputUpdateEvent> onInput = new Listener<>(event -> {
         if(mode.getValue(modes.CLASSIC))
             event.getMovementInput().moveForward = 1.0f;
-    }
+    });
 
     public enum modes{
         CLASSIC, BARITONE

@@ -110,5 +110,4 @@ public class AntiVoid extends Module {
             }
         }
     });
-
 }

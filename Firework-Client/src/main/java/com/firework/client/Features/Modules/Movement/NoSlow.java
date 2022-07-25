@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.InputUpdateEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
@@ -11,7 +12,6 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
@@ -42,13 +42,13 @@ public class NoSlow extends Module {
         }
     });
 
-    @SubscribeEvent
-    public void onInput(InputUpdateEvent event) {
+    @Subscribe
+    public Listener<InputUpdateEvent> onInput = new Listener<>(event -> {
         if (items.getValue() && mc.player.isHandActive() && !mc.player.isRiding()) {
             event.getMovementInput().moveStrafe /= 0.2f;
             event.getMovementInput().moveForward /= 0.2f;
         }
-    }
+    });
 
     @SubscribeEvent
     public void onPacketSend(PacketEvent.Send event){
