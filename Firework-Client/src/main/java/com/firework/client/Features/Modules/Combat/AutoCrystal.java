@@ -6,11 +6,15 @@ import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.CrystalUtils;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Inhibitor;
 import com.firework.client.Implementations.Utill.Items.ItemUser;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
+import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
@@ -32,6 +36,7 @@ import java.util.Objects;
 @ModuleManifest(name = "AutoCrystal", category = Module.Category.COMBAT)
 public class AutoCrystal extends Module {
 
+    //Interaction && Sync
     public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
     public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interaction.getValue());
@@ -46,18 +51,22 @@ public class AutoCrystal extends Module {
     public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", true, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> sync = new Setting<>("Sync", true, this).setVisibility(v-> interaction.getValue());
 
+    //Ranges
     public Setting<Boolean> ranges = new Setting<>("Ranges", false, this).setMode(Setting.Mode.SUB);
     public Setting<Integer> targetRange = new Setting<>("TargetRange", 0, this, 0, 10).setVisibility(v-> ranges.getValue());
     public Setting<Integer> placeRange = new Setting<>("PlaceRange", 0, this, 0, 6).setVisibility(v-> ranges.getValue());
     public Setting<Integer> breakRange = new Setting<>("BreakRange", 0, this, 0, 6).setVisibility(v-> ranges.getValue());
 
+    //Damages
     public Setting<Boolean> damages = new Setting<>("Damages", false, this).setMode(Setting.Mode.SUB);
     public Setting<Integer> maxSelfDmg = new Setting<>("MaxSelfDmg", 0, this, 0, 36).setVisibility(v-> damages.getValue());
     public Setting<Integer> minTargetDmg = new Setting<>("MinTargetDmg", 0, this, 0, 36).setVisibility(v-> damages.getValue());
 
+    //Delays
     public Setting<Integer> placeDelay = new Setting<>("PlaceDelayMs", 0, this, 0, 200);
     public Setting<Integer> breakDelay = new Setting<>("BreakDelayMs", 0, this, 0, 200);
 
+    //Inhibition
     public Setting<Boolean> inhibit = new Setting<>("Inhibit", true, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> shouldInhibit = new Setting<>("ShouldInhibit", true, this).setVisibility(v-> inhibit.getValue());
     public Setting<Integer> minPercent = new Setting<>("MinPercent", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
@@ -65,9 +74,15 @@ public class AutoCrystal extends Module {
     public Setting<Integer> speed = new Setting<>("Speed", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
     public Setting<Integer> inhibitPercent = new Setting<>("InhibitPercent", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
 
+    //Render
+    public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);
+
+
     ArrayList<BlockPos> placed;
 
     EntityPlayer target;
+
+    BlockPos placePos;
 
     Inhibitor inhibitor;
     Timer timer;
@@ -115,11 +130,13 @@ public class AutoCrystal extends Module {
         inhibitor.setValues(minPercent.getValue(), maxPercent.getValue(), speed.getValue());
 
         Firework.eventBus.register(listener1);
+        Firework.eventBus.register(onRender);
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
+        Firework.eventBus.unregister(onRender);
         Firework.eventBus.unregister(listener1);
         user = null;
         timer = null;
@@ -128,14 +145,23 @@ public class AutoCrystal extends Module {
         placed = null;
     }
 
+    public Listener<WorldRender3DEvent> onRender = new Listener<>(worldRender3DEvent -> {
+        if(placePos == null) return;
+        new BlockRenderBuilder(placePos)
+                .addRenderModes(
+                        new RenderMode(RenderMode.renderModes.Fill, color.getValue().toRGB())
+                ).render();
+    });
+
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
 
-        if(target == null) return;
-
+        //Updates inhibitor
         inhibitor.setValues(minPercent.getValue(), maxPercent.getValue(), speed.getValue());
         inhibitor.update();
         inhibitPercent.setValue((int) Math.round(inhibitor.value));
+
+        if(target == null) return;
 
         switch (stage){
             case 1:
@@ -163,6 +189,7 @@ public class AutoCrystal extends Module {
             case 2:
                 //Places a crystal
                 BlockPos toPlace = CrystalUtils.bestCrystalPos(target, placeRange.getValue(), true, maxSelfDmg.getValue(), minTargetDmg.getValue());
+                placePos = toPlace;
                 if(toPlace != null){
                     //Returns place delay, if inhibitor is turned returns simple place delay, else place delay * current inhibit percent
                     int tempPlaceDelay = (shouldInhibit.getValue() && !maxPercent.getValue(0) && !inhibitPercent.getValue(0)) ? Math.round(placeDelay.getValue() * maxPercent.getValue() / inhibitPercent.getValue()) : placeDelay.getValue();
