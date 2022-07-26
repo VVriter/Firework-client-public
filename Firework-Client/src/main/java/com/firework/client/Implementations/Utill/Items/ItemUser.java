@@ -50,7 +50,7 @@ public class ItemUser {
             mc.player.rotationPitch = oldPitch;
         }
 
-        if(switchMode.getValue(ItemUser.switchModes.Silent)) {
+        if(switchMode.getValue(ItemUser.switchModes.Silent) && backSwitch != -1) {
             switchItems(getItemStack(backSwitch).getItem(), InventoryUtil.hands.MainHand);
         }
     }
@@ -63,6 +63,10 @@ public class ItemUser {
         //Switchs
         int backSwitch = switchItems(item, InventoryUtil.hands.MainHand);
 
+        if (rotate.getValue()) {
+            Firework.rotationManager.rotateSpoof(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5));
+        }
+
         //Uses item
         EnumFacing facing = EnumFacing.UP;
         RayTraceResult result = mc.world.rayTraceBlocks(
@@ -71,10 +75,6 @@ public class ItemUser {
 
         if (result != null && result.sideHit != null)
             facing = result.sideHit;
-
-        if (rotate.getValue()) {
-            Firework.rotationManager.rotateSpoof(result.hitVec);
-        }
 
         mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(blockPos, facing, hand, 0, 0,0));
 

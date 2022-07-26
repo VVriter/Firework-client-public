@@ -375,13 +375,13 @@ public class InventoryUtil
     }
 
     public static EntityEquipmentSlot getEquipmentFromSlot(int slot) {
-        if (slot == 5) {
+        if (slot == 39) {
             return EntityEquipmentSlot.HEAD;
         }
-        if (slot == 6) {
+        if (slot == 38) {
             return EntityEquipmentSlot.CHEST;
         }
-        if (slot == 7) {
+        if (slot == 37) {
             return EntityEquipmentSlot.LEGS;
         }
         return EntityEquipmentSlot.FEET;

@@ -48,6 +48,18 @@ public class Module{
         onToggle();
         MinecraftForge.EVENT_BUS.register(this);
         Firework.eventBus.register(this);
+    }
+
+
+    public void onDisable() {
+        isEnabled.setValue(false);
+        onToggle();
+        MinecraftForge.EVENT_BUS.unregister(this);
+        Firework.eventBus.unregister(this);
+    }
+
+    public void onEnableLog() {
+        onEnable();
         if(Logger.enabled.getValue() && Logger.onModuleEnable.getValue()){
             Logger.log(this);
         }
@@ -55,24 +67,15 @@ public class Module{
             Notifications.notificate(this.getName()+" is enabled!","1");
         }
     }
-    public void onDisable() {
-        isEnabled.setValue(false);
-        onToggle();
-        MinecraftForge.EVENT_BUS.unregister(this);
-        Firework.eventBus.unregister(this);
+
+    public void onDisableLog() {
+        onDisable();
         if(Logger.enabled.getValue() && Logger.onModuleDisable.getValue()){
             Logger.log(this);
         }
         if (Notifications.enabled.getValue()) {
             Notifications.notificate(this.getName()+" is disabled","");
         }
-    }
-
-    public void onEnableNoLog() {
-        isEnabled.setValue(true);
-        onToggle();
-        MinecraftForge.EVENT_BUS.register(this);
-        Firework.eventBus.register(this);
     }
 
     public void onToggle(){}
@@ -82,6 +85,14 @@ public class Module{
             onDisable();
         }else{
             onEnable();
+        }
+    }
+
+    public void toggleLog() {
+        if(isEnabled.getValue()){
+            onDisableLog();
+        }else{
+            onEnableLog();
         }
     }
     public void onTick() {
