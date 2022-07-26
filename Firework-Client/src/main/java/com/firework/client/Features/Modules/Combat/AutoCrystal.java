@@ -117,7 +117,6 @@ public class AutoCrystal extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        if(fullNullCheck()) onDisable();
 
         placed = new ArrayList<>();
         target = PlayerUtil.getClosestTarget(targetRange.getValue());
@@ -154,9 +153,11 @@ public class AutoCrystal extends Module {
         if(fullNullCheck()) return;
 
         //Updates inhibitor
-        inhibitor.setValues(minPercent.getValue(), maxPercent.getValue(), speed.getValue());
-        inhibitor.update();
-        inhibitPercent.setValue((int) Math.round(inhibitor.value));
+        if (inhibitor != null) {
+            inhibitor.setValues(minPercent.getValue(), maxPercent.getValue(), speed.getValue());
+            inhibitor.update();
+            inhibitPercent.setValue((int) Math.round(inhibitor.value));
+        }
 
         if(target == null) return;
 
