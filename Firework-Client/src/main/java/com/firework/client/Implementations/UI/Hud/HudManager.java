@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.UI.Hud;
 
+import com.firework.client.Implementations.Events.RenderGameOverlay;
 import com.firework.client.Implementations.Managers.Manager;
 import com.firework.client.Implementations.UI.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.Utill.Client.ClassFinder;
@@ -8,6 +9,8 @@ import net.minecraft.client.gui.GuiGameOver;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -46,11 +49,11 @@ public class HudManager extends Manager {
         return null;
     }
 
-    @SubscribeEvent
-    public void onRender(RenderGameOverlayEvent event) {
+    @Subscribe
+    public Listener<RenderGameOverlay> onRender = new Listener<>(event -> {
         if(event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR)
             for (HudComponent component : hudComponents)
                 if(mc.player!=null)
                     component.draw();
-    }
+    });
 }

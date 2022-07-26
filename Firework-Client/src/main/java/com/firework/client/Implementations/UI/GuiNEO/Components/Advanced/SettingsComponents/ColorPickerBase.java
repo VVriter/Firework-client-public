@@ -66,7 +66,6 @@ public class ColorPickerBase extends Button {
         super.initialize(mouseX, mouseY, state);
         if(state==1){
             setting.opened = !setting.opened;
-            settingManager.updateSettingsByName(setting);
             this.originHeight = setting.opened ? 40 : 0;
         }
         if(state==0){

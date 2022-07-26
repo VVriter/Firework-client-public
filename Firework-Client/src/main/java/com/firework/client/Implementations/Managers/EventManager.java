@@ -3,14 +3,23 @@ package com.firework.client.Implementations.Managers;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.OnFishingEvent;
 import com.firework.client.Implementations.Events.PlayerPushOutOfBlocksEvent;
+import com.firework.client.Implementations.Events.RenderGameOverlay;
 import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EventManager extends Manager{
     public EventManager() {
         super(true);
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    @Override
+    public void destory() {
+        super.destory();
+        MinecraftForge.EVENT_BUS.unregister(this);
     }
 
     @SubscribeEvent
@@ -43,6 +52,12 @@ public class EventManager extends Manager{
     public void onFish(ItemFishedEvent e) {
         OnFishingEvent event = new OnFishingEvent(e.getDrops(), e.getRodDamage(), e.getHookEntity());
         Firework.eventBus.post(event);
+    }
+
+    @SubscribeEvent
+    public void renderGameOverlay(RenderGameOverlayEvent event){
+        RenderGameOverlay gameOverlayEvent = new RenderGameOverlay(event, event.getType());
+        Firework.eventBus.post(gameOverlayEvent);
     }
 
 }

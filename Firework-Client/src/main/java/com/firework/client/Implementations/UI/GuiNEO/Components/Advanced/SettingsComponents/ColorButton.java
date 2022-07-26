@@ -51,7 +51,6 @@ public class ColorButton extends Button {
         super.initialize(mouseX, mouseY, state);
         if(state==1){
             setting.opened = !setting.opened;
-            settingManager.updateSettingsByName(setting);
         }
     }
 }
