@@ -31,12 +31,15 @@ import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.SeenCom
 import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.StatsCommand;
 import com.firework.client.Features.CommandsSystem.Commands.WebhookCommand;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Managers.Manager;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.network.play.client.CPacketChatMessage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,8 +56,8 @@ public class CommandManager extends Manager {
 
     public static String prefix = ".";
 
-    @SubscribeEvent
-    public void onSendPacket(PacketEvent.Send event) {
+    @Subscribe
+    public Listener<PacketEvent.Send> onRender = new Listener<>(event -> {
         if (event.getPacket() instanceof CPacketChatMessage) {
             String message = ((CPacketChatMessage) event.getPacket()).getMessage();
             if (message.startsWith(prefix)){
@@ -62,18 +65,18 @@ public class CommandManager extends Manager {
                 String input = message.split(" ")[0].substring(1);
                 for (Command command : commands) {
                     if (input.equalsIgnoreCase(command.getLabel()) || checkAliases(input, command)) {
-                        event.setCanceled(true);
+                        event.setCancelled(true);
                         command.execute(args);
                     }
                 }
-                if (!event.isCanceled()) {
+                if (!event.isCancelled()) {
                     MessageUtil.sendClientMessage(ChatFormatting.RED + message + " was not found!", true);
-                    event.setCanceled(true);
+                    event.setCancelled(true);
                 }
-                event.setCanceled(true);
+                event.setCancelled(true);
             }
         }
-    }
+    });
 
     private boolean checkAliases(String input, Command command) {
         for (String str : command.getAliases()) {

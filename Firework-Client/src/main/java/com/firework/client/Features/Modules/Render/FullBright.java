@@ -3,11 +3,15 @@ package com.firework.client.Features.Modules.Render;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
+import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 import net.minecraft.init.MobEffects;
 import net.minecraft.network.play.server.SPacketTimeUpdate;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 @ModuleManifest(name = "FullBright",category = Module.Category.VISUALS)
 public class FullBright extends Module {
@@ -44,14 +48,14 @@ public class FullBright extends Module {
 
     }
 
-    @SubscribeEvent
-    public void onPacketReceive(PacketEvent.Receive event) {
+    @Subscribe
+    public Listener<PacketEvent.Receive> onRender = new Listener<>(event -> {
         if (event.getPacket() instanceof SPacketTimeUpdate) {
             if(enumSetting.getValue(TestEnum.CustomTime)){
-            event.setCanceled(true);
+            event.setCancelled(true);
             }
         }
-    }
+    });
 
     @Override
     public void onDisable(){
