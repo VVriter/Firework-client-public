@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
@@ -16,6 +17,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.awt.*;
 
@@ -51,10 +54,10 @@ public class EyeFinder extends Module {
     public Setting<Double> lineDistance = new Setting<>("LineDistance", (double)6, this, 1, 15).setVisibility(v-> page.getValue(pages.Line));
     public Setting<Double> eyeLineWidth = new Setting<>("LineWidth", (double)3, this, 1, 10).setVisibility(v-> page.getValue(pages.Line));
     public Setting<HSLColor> viewLineColor = new Setting<>("ViewLineColor", new HSLColor(1, 54, 43), this).setVisibility(v-> page.getValue(pages.Line));
-    @SubscribeEvent
-    public void onRenderWorld(RenderWorldLastEvent event) {
+    @Subscribe
+    public Listener<WorldRender3DEvent> listener2 = new Listener<>(event -> {
         mc.world.loadedEntityList.stream().filter(entity -> mc.player != entity && !entity.isDead && entity instanceof EntityPlayer && mc.player.getDistance(entity) <= distance.getValue()).forEach(this::drawLine);
-    }
+    });
 
 
 

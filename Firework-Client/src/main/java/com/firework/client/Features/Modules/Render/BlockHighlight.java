@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
@@ -9,6 +10,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 @ModuleManifest(name = "BlockHighlight",category = Module.Category.VISUALS)
 public class BlockHighlight extends Module {
@@ -34,8 +37,8 @@ public class BlockHighlight extends Module {
     public Setting<Boolean> entity = new Setting<>("Entity", false, this).setMode(Setting.Mode.SUB);
 
 
-    @SubscribeEvent
-    public void onRender(RenderWorldLastEvent e) {
+    @Subscribe
+    public Listener<WorldRender3DEvent> listener2 = new Listener<>(event -> {
         RayTraceResult result = mc.objectMouseOver;
         if (result != null && result.typeOfHit.equals(RayTraceResult.Type.BLOCK)) {
            BlockPos  pos = result.getBlockPos();
@@ -54,7 +57,7 @@ public class BlockHighlight extends Module {
                 );
             }
         }
-    }
+    });
 
 
     @Override

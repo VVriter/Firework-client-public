@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
@@ -13,6 +14,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -42,8 +45,8 @@ public class HoleEsp extends Module {
     public Setting<HSLColor> fillColorBedrock = new Setting<>("FillColorBedrock", new HSLColor(1, 54, 43), this).setVisibility(v-> colors.getValue());
     public Setting<HSLColor> fillColorObsidian = new Setting<>("FillColorObsidian", new HSLColor(50, 54, 43), this).setVisibility(v-> colors.getValue());
 
-    @SubscribeEvent
-    public void onRender(RenderWorldLastEvent e) {
+    @Subscribe
+    public Listener<WorldRender3DEvent> listener2 = new Listener<>(event -> {
         for (BlockPos pos : calcHoles()) {
                 if (isSafe(pos)) {
                     //Glow
@@ -81,6 +84,7 @@ public class HoleEsp extends Module {
                 }
             }
         }
+         );
 
 
     private boolean isSafe(BlockPos pos) {

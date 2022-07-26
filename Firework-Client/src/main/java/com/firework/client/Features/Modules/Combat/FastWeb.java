@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IEntity;
 import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
 import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
@@ -14,6 +15,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,8 +114,8 @@ public class FastWeb extends Module {
     public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(v-> !outlineMode.getValue(PosRenderer.outlineModes.None) && renderer.getValue());
 
     PosRenderer posRenderer;
-    @SubscribeEvent
-    public void onRender(RenderWorldLastEvent e) {
+    @Subscribe
+    public Listener<WorldRender3DEvent> listener2 = new Listener<>(event -> {
         for (BlockPos poses : calcPoses()) {
             if (posRenderer != null && poses != null) {
                 posRenderer.doRender(
@@ -129,7 +132,7 @@ public class FastWeb extends Module {
                         );
             }
         }
-    }
+    });
 
     @Override public void onEnable() { super.onEnable();
         oldTicks = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
