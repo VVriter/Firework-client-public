@@ -26,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 @ModuleManifest(name = "CevBreaker", category = Module.Category.COMBAT)
 public class CevBreaker extends Module {
@@ -73,24 +74,18 @@ public class CevBreaker extends Module {
 
         target = PlayerUtil.getClosestTarget(targetRange.getValue());
         stage = getStage();
-
-        Firework.eventBus.subscribe(listener1);
-        Firework.eventBus.subscribe(onRender);
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
-
-        Firework.eventBus.unsubscribe(onRender);
-        Firework.eventBus.unsubscribe(listener1);
         itemUser = null;
         blockPlacer = null;
         blockBreaker = null;
         timer = null;
-
     }
 
+    @Subscribe
     public Listener<WorldRender3DEvent> onRender = new Listener<>(worldRender3DEvent -> {
        if(upside == null) return;
        new BlockRenderBuilder(upside)
@@ -99,6 +94,7 @@ public class CevBreaker extends Module {
                ).render();
     });
 
+    @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
         target = PlayerUtil.getClosestTarget(targetRange.getValue());

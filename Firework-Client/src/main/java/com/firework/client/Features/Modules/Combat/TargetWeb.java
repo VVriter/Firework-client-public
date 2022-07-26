@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -21,6 +22,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -52,14 +55,8 @@ public class TargetWeb extends Module{
         line = new ArrayList<>();
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-    }
-
-    @Override
-    public void onTick() {
-        super.onTick();
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         //Sets target
         EntityPlayer target = PlayerUtil.getClosestTarget(targetRange.getValue());
         if(target == null) return;
@@ -106,7 +103,7 @@ public class TargetWeb extends Module{
                 line.remove(i);
         }
 
-    }
+    });
 
     //Returns predicted web pos
     public BlockPos getPredictedWebPos(EntityPlayer entity, double scaleFactor){

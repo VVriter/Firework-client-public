@@ -34,7 +34,9 @@ public class Quiver extends Module {
 
 
 
-    @Override public void onEnable() { super.onEnable();
+    @Override
+    public void onEnable() {
+        super.onEnable();
         if(mode.getValue(modes.Auto)) {
             doSwitch();
             ((IKeyBinding)mc.gameSettings.keyBindUseItem).setPressed(true);
@@ -61,21 +63,6 @@ public class Quiver extends Module {
         }
     });
 
-    @Override public void onDisable() { super.onDisable();
-
-    }
-
-
-    private int findBowInHotbar() {
-        int slot = 0;
-        for (int i = 0; i < 9; i++) {
-            if (mc.player.inventory.getStackInSlot(i).getItem() == Items.BOW) {
-                slot = i;
-                break;
-            }
-        }
-        return slot;
-    }
     public void doSwitch() {
         if(switchModes.getValue(switchmod.Normal)){
             if(mc.player.inventory.hasItemStack(new ItemStack(Items.BOW))) {

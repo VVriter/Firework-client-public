@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IEntity;
 import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
@@ -43,11 +44,11 @@ public class FastWeb extends Module {
         super.onToggle();
         inhibitator.timer.reset();
     }
-    @Override
-    public void onTick() {
-        super.onTick();
 
+    float oldTicks;
 
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (inhibitBool.getValue() && mode.getValue(modes.Timer)) {
             inhibitator.doInhibitation(ticks,inhibitationSpeed.getValue(),49,40);
         }
@@ -72,8 +73,7 @@ public class FastWeb extends Module {
                 }
             }
         }
-    }
-    float oldTicks;
+    });
     void pushDown() {
         mc.player.motionY = -reduction.getValue();
     }

@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
@@ -22,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 
@@ -64,8 +66,6 @@ public class Trap extends Module {
         placeTimer.reset();
 
         blockPlacer = new BlockPlacer(this, switchMode, rotate, packet);
-
-        Firework.eventBus.subscribe(listener1);
     }
 
     @Override
@@ -75,9 +75,9 @@ public class Trap extends Module {
         line.clear();
 
         blockPlacer = null;
-        Firework.eventBus.unsubscribe(listener1);
     }
 
+    @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
 
@@ -137,15 +137,15 @@ public class Trap extends Module {
         line.removeAll(blocksToClear);
     });
 
-    @SubscribeEvent
-    public void onRender(RenderWorldLastEvent event){
+    @Subscribe
+    public Listener<WorldRender3DEvent> onRender = new Listener<>(worldRender3DEvent -> {
         for(BlockPos pos : line){
             new BlockRenderBuilder(pos)
                     .addRenderModes(
                             new RenderMode(RenderMode.renderModes.OutLine, color.getValue().toRGB(), 3f)
                     ).render();
         }
-    }
+    });
     //Gets fist layer of blocks to place
     private BlockPos[] trapBlocks(EntityPlayer target) {
         BlockPos p = EntityUtil.getFlooredPos(target);
