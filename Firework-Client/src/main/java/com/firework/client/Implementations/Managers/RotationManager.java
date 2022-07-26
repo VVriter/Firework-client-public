@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Managers;
 
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayer;
@@ -8,6 +9,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 public class RotationManager extends Manager{
 
@@ -75,8 +78,8 @@ public class RotationManager extends Manager{
         return new float[]{mc.player.rotationYaw + MathHelper.wrapDegrees(yaw - mc.player.rotationYaw), mc.player.rotationPitch + MathHelper.wrapDegrees(pitch - mc.player.rotationPitch)};
     }
 
-    @SubscribeEvent
-    public void onPacketReceive(PacketEvent.Receive event) {
+    @Subscribe
+    public Listener<PacketEvent.Receive> onRender = new Listener<>(event -> {
         if (isRotateSpoofing) {
             if (event.getPacket() instanceof CPacketPlayer.Rotation) {
                 CPacketPlayer.Rotation packet = (CPacketPlayer.Rotation) event.getPacket();
@@ -88,7 +91,7 @@ public class RotationManager extends Manager{
                 ((ICPacketPlayer) packet).setPitch(pitch);
             }
         }
-    }
+    });
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent e) {

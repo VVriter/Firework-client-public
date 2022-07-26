@@ -1,6 +1,6 @@
 package ua.firework.beet;
 
-/*
+/**
     @author PunCakeCat
 */
 public class Event {

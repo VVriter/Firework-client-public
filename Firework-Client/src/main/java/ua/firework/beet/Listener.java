@@ -4,7 +4,7 @@ import net.jodah.typetools.TypeResolver;
 
 import java.util.function.Consumer;
 
-/*
+/**
     @author PunCakeCat
 */
 public class Listener<T> {

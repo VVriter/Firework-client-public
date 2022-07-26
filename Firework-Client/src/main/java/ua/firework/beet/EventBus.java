@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-/*
+/**
     @author PunCakeCat
 */
 public class EventBus {
