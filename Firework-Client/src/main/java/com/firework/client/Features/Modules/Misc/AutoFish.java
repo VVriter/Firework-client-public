@@ -4,12 +4,16 @@ import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.OnFishingEvent;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.DiscordWebhook;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.awt.*;
 import java.util.Date;
@@ -82,8 +86,8 @@ public class AutoFish extends Module {
         }
     }
 
-    @SubscribeEvent
-    public void onItemFishedEvent(ItemFishedEvent e) {
+    @Subscribe
+    public Listener<OnFishingEvent> onFish = new Listener<>(e -> {
 
         ItemStack item = e.getDrops().get(0);
 
@@ -108,8 +112,9 @@ public class AutoFish extends Module {
                             }
                         }
                     }).start();
+            }
         }
-    }
+    );
 
 
     public String getTimeNow(){

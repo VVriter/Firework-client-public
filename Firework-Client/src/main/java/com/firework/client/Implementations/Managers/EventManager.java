@@ -1,9 +1,11 @@
 package com.firework.client.Implementations.Managers;
 
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.OnFishingEvent;
 import com.firework.client.Implementations.Events.PlayerPushOutOfBlocksEvent;
 import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Event;
 
@@ -37,4 +39,13 @@ public class EventManager extends Manager{
         if(event1.isCancelled())
             event.setCanceled(true);
     }
+
+    @SubscribeEvent
+    public void onFish(ItemFishedEvent e) {
+        OnFishingEvent event = new OnFishingEvent();
+        event.getDrops() = e.getDrops();
+
+        Firework.eventBus.post(event);
+    }
+
 }
