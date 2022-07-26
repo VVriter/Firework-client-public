@@ -159,6 +159,7 @@ public class AutoCrystal extends Module {
             inhibitPercent.setValue((int) Math.round(inhibitor.value));
         }
 
+        target = PlayerUtil.getClosestTarget(targetRange.getValue());
         if(target == null) return;
 
         switch (stage){
