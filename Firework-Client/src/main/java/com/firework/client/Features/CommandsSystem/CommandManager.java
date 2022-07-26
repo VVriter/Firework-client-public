@@ -57,7 +57,7 @@ public class CommandManager extends Manager {
     public static String prefix = ".";
 
     @Subscribe
-    public Listener<PacketEvent.Send> onRender = new Listener<>(event -> {
+    public Listener<PacketEvent.Send> onPacketSend = new Listener<>(event -> {
         if (event.getPacket() instanceof CPacketChatMessage) {
             String message = ((CPacketChatMessage) event.getPacket()).getMessage();
             if (message.startsWith(prefix)){

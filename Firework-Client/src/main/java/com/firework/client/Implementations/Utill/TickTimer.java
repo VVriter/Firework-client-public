@@ -10,6 +10,7 @@ public class TickTimer {
 
     public TickTimer(){
         MinecraftForge.EVENT_BUS.register(this);
+        ticks = 0;
     }
 
     public boolean hasPassedTicks(int ticks) {

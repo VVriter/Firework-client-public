@@ -79,7 +79,7 @@ public class PlayerUtil implements Util {
         return closest;
     }
 
-    public static EntityPlayer getClosestTarget(int maxRange) {
+    public static EntityPlayer getClosestTarget(double maxRange) {
         double lowestDistance = Integer.MAX_VALUE;
         EntityPlayer closest = null;
 

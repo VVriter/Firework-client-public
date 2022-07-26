@@ -9,16 +9,15 @@ public class Manager {
 
     public Manager(boolean register){
         this.registered = register;
-        if(this.registered) {
-            MinecraftForge.EVENT_BUS.register(this);
-            Firework.eventBus.register(this);
-        }
     }
 
     public void destory(){
-        if(this.registered) {
-            MinecraftForge.EVENT_BUS.unregister(this);
-            Firework.eventBus.unregister(this);
-        }
+        if(this.registered)
+            Firework.eventBus.register(this);
+    }
+
+    public void load(){
+        if(this.registered)
+            Firework.eventBus.register(this);
     }
 }

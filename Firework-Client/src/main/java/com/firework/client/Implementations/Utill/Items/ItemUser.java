@@ -3,7 +3,9 @@ package com.firework.client.Implementations.Utill.Items;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.Item;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
@@ -24,11 +26,21 @@ public class ItemUser {
     private Module module;
     private Setting<ItemUser.switchModes> switchMode;
     private Setting<Boolean> rotate;
+    private Setting<Boolean> packet;
+    private Setting<Boolean> swing;
 
     public ItemUser(Module module, Setting switchMode, Setting rotate){
         this.module = module;
         this.switchMode = switchMode;
         this.rotate = rotate;
+    }
+
+    public ItemUser(Module module, Setting switchMode, Setting rotate, Setting packet, Setting swing){
+        this.module = module;
+        this.switchMode = switchMode;
+        this.rotate = rotate;
+        this.packet = packet;
+        this.swing = swing;
     }
 
     //Uses item
@@ -84,6 +96,25 @@ public class ItemUser {
         }
     }
 
+    //Hits an entity
+    public void hitEntity(final Item item, EntityLivingBase entityLivingBase){
+        //Updates local settings
+        updateSettings();
+
+        //Switchs
+        int backSwitch = switchItems(item, InventoryUtil.hands.MainHand);
+
+        if (rotate.getValue()) {
+            Firework.rotationManager.rotateSpoof(entityLivingBase.getPositionVector().add(0, entityLivingBase.getEyeHeight(), 0));
+        }
+
+        EntityUtil.attackEntity(entityLivingBase, packet.getValue(), swing.getValue());
+
+        if(switchMode.getValue(ItemUser.switchModes.Silent) && backSwitch != -1) {
+            switchItems(getItemStack(backSwitch).getItem(), InventoryUtil.hands.MainHand);
+        }
+    }
+
     //Switches to needed item
     private int switchItems(Item item, InventoryUtil.hands hand){
         if(hand == InventoryUtil.hands.MainHand){
@@ -117,8 +148,14 @@ public class ItemUser {
 
     //Update settings
     private void updateSettings(){
-        this.switchMode = Firework.settingManager.getSetting(module, switchMode.name);
-        this.rotate = Firework.settingManager.getSetting(module, rotate.name);
+        if(this.switchMode != null)
+            this.switchMode = Firework.settingManager.getSetting(module, switchMode.name);
+        if(this.rotate != null)
+            this.rotate = Firework.settingManager.getSetting(module, rotate.name);
+        if(this.packet != null)
+            this.packet = Firework.settingManager.getSetting(module, packet.name);
+        if(this.swing != null)
+            this.swing = Firework.settingManager.getSetting(module, swing.name);
     }
 
     //Switch modes

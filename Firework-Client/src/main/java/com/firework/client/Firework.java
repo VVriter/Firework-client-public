@@ -95,6 +95,8 @@ public class Firework
                 new EventManager()
             );
 
+        managers.forEach(Manager::load);
+
         customFontManager = new CFontRenderer("Tcm", 23, true, true);
         customFontForAlts = new CFontRenderer("Tcm",40,true,true);
         GuiInfo.setupModulesColumns();

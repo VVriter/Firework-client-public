@@ -1,9 +1,12 @@
 package com.firework.client.Implementations.Managers;
 
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 
@@ -36,8 +39,8 @@ public class RainbowManager extends Manager{
         settings.remove(toRemove);
     }
 
-    @SubscribeEvent
-    public void onTick(final TickEvent.RenderTickEvent event){
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         for(Setting<HSLColor> setting : settings) {
             float saturation = setting.getValue().saturation;
             float light = setting.getValue().light;
@@ -50,5 +53,5 @@ public class RainbowManager extends Manager{
 
             setting.setValue(new HSLColor(hue, saturation, light, alpha));
         }
-    }
+    });
 }
