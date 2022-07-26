@@ -29,7 +29,7 @@ public class ConfigManager extends Manager{
 
     public static void setWebhookString() {
         File theDir = new File(Firework.FIREWORK_DIRECTORY+"Webhook");
-        if (!theDir.exists()){
+        if (theDir.exists()){
             try {
                 Reader reader = new FileReader(theDir+"/Webhook.json");
                 JsonParser parser = new JsonParser();
