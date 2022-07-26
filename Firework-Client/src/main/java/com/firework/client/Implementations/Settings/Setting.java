@@ -78,13 +78,11 @@ public class Setting<T> {
 
     public void setValue(T newValue){
         this.value = newValue;
-        settingManager.updateSettingsByName(this);
         MinecraftForge.EVENT_BUS.post(new SettingChangeValueEvent(this));
     }
 
     public void setValueNoEvent(T newValue){
         this.value = newValue;
-        settingManager.updateSettingsByName(this);
     }
 
     public void setEnumValueNoEvent(String value) {
@@ -104,13 +102,11 @@ public class Setting<T> {
 
     public Setting<T> setMode(Mode mode){
         this.mode = mode;
-        settingManager.updateSettingsByName(this);
         return this;
     }
 
     public Setting<T> setVisibility(Predicate<T> visibility){
         this.visibility = visibility;
-        settingManager.updateSettingsByName(this);
         return this;
     }
 

@@ -15,13 +15,6 @@ public class SettingManager extends Manager {
         settings = new ArrayList<>();
     }
 
-    public void updateSettingsByName(Setting setting){
-        for(Setting _setting : settings){
-            if(_setting.name == setting.name)
-                _setting = setting;
-        }
-    }
-
     public Setting getSetting(Module module, String name){
         for(Setting setting : modulesSettings(module))
             if(setting.name == name)
