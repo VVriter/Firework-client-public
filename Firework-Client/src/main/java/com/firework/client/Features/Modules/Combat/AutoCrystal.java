@@ -91,8 +91,8 @@ public class AutoCrystal extends Module {
 
     int stage;
 
-    @SubscribeEvent
-    public void onPacketReceive(PacketEvent.Receive event){
+    @Subscribe
+    public Listener<PacketEvent.Receive> onPacketReceive = new Listener<>(event -> {
         if (event.getPacket() instanceof SPacketSoundEffect && sync.getValue()) {
             SPacketSoundEffect packet = (SPacketSoundEffect) event.getPacket();
 
@@ -105,15 +105,15 @@ public class AutoCrystal extends Module {
                 }
             }
         }
-    }
+    });
 
-    @SubscribeEvent
-    public void onPacketSend(final PacketEvent.Send event){
+    @Subscribe
+    public Listener<PacketEvent.Send> onPacketSend = new Listener<>(event -> {
         if (event.getPacket() instanceof CPacketUseEntity && (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && ((CPacketUseEntity) event.getPacket()).getEntityFromWorld(AutoCrystal.mc.world) instanceof EntityEnderCrystal && cancelCrystal.getValue())) {
             Objects.requireNonNull(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world)).setDead();
             mc.world.removeEntityFromWorld(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world).getEntityId());
         }
-    }
+    });
 
     @Override
     public void onEnable() {

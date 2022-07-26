@@ -1,7 +1,7 @@
 package com.firework.client.Implementations.Events;
 
 import net.minecraft.network.Packet;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import ua.firework.beet.Event;
 
 public class PacketEvent extends Event {
 
@@ -9,11 +9,6 @@ public class PacketEvent extends Event {
 
     public PacketEvent(final Packet packet) {
         this.packet = packet;
-    }
-
-    @Override
-    public boolean isCancelable() {
-        return true;
     }
 
     public final Packet getPacket() {

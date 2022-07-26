@@ -8,6 +8,7 @@ import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Subscribe;
 
 @ModuleManifest(name = "Crits", category = Module.Category.COMBAT)
 public class Criticals extends Module {
@@ -19,7 +20,7 @@ public class Criticals extends Module {
 
     public Setting<Boolean> inWebToo = new Setting<>("InWebToo", true, this);
 
-    @SubscribeEvent
+    @Subscribe
     public void onPacketSend(final PacketEvent.Send event) {
         if (!(event.getPacket() instanceof CPacketUseEntity)) return;
         if (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK
