@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.PlayerPushOutOfBlocksEvent;
+import com.firework.client.Implementations.Events.PlayerPushedByWaterEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketEntityVelocity;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketExplosion;
 import com.firework.client.Implementations.Settings.Setting;
@@ -60,7 +61,13 @@ public class Velocity extends Module {
     @Subscribe
     public Listener<PlayerPushOutOfBlocksEvent> onPush = new Listener<>(e -> {
         e.setCancelled(noPush.getValue());
-    });
+        }
+    );
 
+    @Subscribe
+    public Listener<PlayerPushedByWaterEvent> onPushByWater = new Listener<>(e -> {
+        e.setCancelled(noPush.getValue());
+        }
+    );
 }
 

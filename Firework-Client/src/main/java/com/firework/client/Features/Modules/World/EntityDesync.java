@@ -11,7 +11,6 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketVehicleMove;
 import net.minecraft.network.play.server.SPacketDestroyEntities;
 import net.minecraft.network.play.server.SPacketSetPassengers;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
