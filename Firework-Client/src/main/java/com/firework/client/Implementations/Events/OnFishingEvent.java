@@ -10,8 +10,8 @@ import javax.annotation.Nonnegative;
 import java.util.List;
 
 public class OnFishingEvent extends Event {
-    private  NonNullList<ItemStack> stacks = NonNullList.create();
-    private  EntityFishHook hook;
+    private final NonNullList<ItemStack> stacks = NonNullList.create();
+    private final EntityFishHook hook;
     private int rodDamage;
 
     public OnFishingEvent(List<ItemStack> stacks, int rodDamage, EntityFishHook hook)

@@ -42,9 +42,7 @@ public class EventManager extends Manager{
 
     @SubscribeEvent
     public void onFish(ItemFishedEvent e) {
-        OnFishingEvent event = new OnFishingEvent();
-        event.getDrops() = e.getDrops();
-
+        OnFishingEvent event = new OnFishingEvent(e.getDrops(), e.getRodDamage(), e.getHookEntity());
         Firework.eventBus.post(event);
     }
 
