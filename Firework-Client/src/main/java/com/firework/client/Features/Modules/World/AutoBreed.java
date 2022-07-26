@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Timer;
@@ -9,6 +10,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumHand;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 @ModuleManifest(name = "AutoBread",category = Module.Category.WORLD)
 public class AutoBreed extends Module {
@@ -33,8 +36,8 @@ public class AutoBreed extends Module {
 
     EntityAnimal toFeed;
 
-    @Override
-    public void onTick() {
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
         super.onTick();
         for (Entity e : mc.world.loadedEntityList) {
             if (e instanceof EntityAnimal) {
@@ -47,7 +50,7 @@ public class AutoBreed extends Module {
                 }
             }
         }
-    }
+    });
 
     void doFeedStuff(Boolean rotate) {
         if (rotate) {

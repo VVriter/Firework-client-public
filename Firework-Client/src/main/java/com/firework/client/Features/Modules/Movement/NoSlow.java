@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.InputUpdateEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import net.minecraft.item.ItemShield;
@@ -53,11 +54,11 @@ public class NoSlow extends Module {
         }
     });
 
-    @SubscribeEvent
-    public void onPacketSend(PacketEvent.Send event){
+    @Subscribe
+    public Listener<PacketEvent.Send> onRender = new Listener<>(event -> {
         if (event.getPacket() instanceof CPacketPlayer && strict.getValue() && items.getValue()
                 && mc.player.isHandActive() && !mc.player.isRiding()) {
             mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, EntityUtil.getFlooredPos(mc.player), EnumFacing.DOWN));
         }
-    }
+    });
 }

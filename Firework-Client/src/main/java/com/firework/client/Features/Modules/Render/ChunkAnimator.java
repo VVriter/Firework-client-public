@@ -4,11 +4,14 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.EventRenderChunk;
 import com.firework.client.Implementations.Events.EventRenderChunkContainer;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.chunk.RenderChunk;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -26,18 +29,18 @@ public class ChunkAnimator extends Module {
     }
 
 
-    @SubscribeEvent
-    public void onRenderChunk(EventRenderChunk e) {
+    @Subscribe
+    public Listener<EventRenderChunk> onRender1 = new Listener<>(e -> {
         if (Minecraft.getMinecraft().player != null) {
             if (!lifespans.containsKey(e.RenderChunk)) {
                 lifespans.put(e.RenderChunk, new AtomicLong(-1L));
             }
         }
-    }
+    });
 
 
-    @SubscribeEvent
-    public void chunkContainer(EventRenderChunkContainer e) {
+    @Subscribe
+    public Listener<EventRenderChunkContainer> onRender2 = new Listener<>(e -> {
         if (lifespans.containsKey(e.RenderChunk)) {
             AtomicLong timeAlive = lifespans.get(e.RenderChunk);
             long timeClone = timeAlive.get();
@@ -53,6 +56,6 @@ public class ChunkAnimator extends Module {
                 GlStateManager.translate(0.0, -chunkY + offsetY, 0.0);
             }
         }
-    }
+    });
 
 }

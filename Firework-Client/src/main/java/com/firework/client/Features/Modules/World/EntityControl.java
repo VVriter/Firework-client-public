@@ -2,10 +2,13 @@ package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MovementInput;
 import net.minecraft.world.chunk.EmptyChunk;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 public class EntityControl extends Module {
     public static EntityControl INSTANCE;
@@ -20,8 +23,8 @@ public class EntityControl extends Module {
         INSTANCE = this;
     }
 
-    @Override
-    public void onTick() {
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
         super.onTick();
         if (EntitySpeed.getValue()) {
         if (Firework.minecraft.player.getRidingEntity() != null) {
@@ -59,7 +62,7 @@ public class EntityControl extends Module {
                 }
             }
         }
-    }
+    });
 
     private boolean isBorderingChunk(Entity entity, double motX, double motZ) {
         return antiStuck.getValue() && Firework.minecraft.world.getChunk((int) (entity.posX + motX) >> 4, (int) (entity.posZ + motZ) >> 4) instanceof EmptyChunk;

@@ -1,7 +1,7 @@
 package com.firework.client.Implementations.Events;
 
 import net.minecraft.client.renderer.chunk.RenderChunk;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import ua.firework.beet.Event;
 
 public class EventRenderChunkContainer extends Event {
     public net.minecraft.client.renderer.chunk.RenderChunk RenderChunk;

@@ -1,9 +1,13 @@
 package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.Display;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 public class BetterFPS extends Module {
 
@@ -16,8 +20,8 @@ public class BetterFPS extends Module {
         this.focused = true;
     }
 
-    @Override
-    public void onTick() {
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
         super.onTick();
         if(Minecraft.getMinecraft().world == null){
             return;
@@ -43,7 +47,7 @@ public class BetterFPS extends Module {
             Minecraft.getMinecraft().gameSettings.limitFramerate = 260;
             Display.setTitle(Display.getTitle().replace("[Unfocused] ", ""));
         }
-    }
+    });
     public void onDisable(){
         super.onDisable();
         Minecraft.getMinecraft().gameSettings.limitFramerate = 260;

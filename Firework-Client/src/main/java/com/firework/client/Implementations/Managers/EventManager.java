@@ -7,7 +7,6 @@ import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import ua.firework.beet.Event;
 
 public class EventManager extends Manager{
     public EventManager() {

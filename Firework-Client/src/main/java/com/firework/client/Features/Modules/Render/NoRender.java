@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketExplosion;
@@ -10,6 +11,8 @@ import net.minecraft.network.play.server.SPacketSpawnMob;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 public class NoRender extends Module {
 
@@ -89,14 +92,14 @@ public class NoRender extends Module {
             event.setCanceled(true);
         }
     }
-    @SubscribeEvent
-    public void onPacketReceive(PacketEvent.Receive event){
+    @Subscribe
+    public Listener<PacketEvent.Receive> onRender = new Listener<>(event -> {
         Packet packet = event.getPacket();
         if ((packet instanceof SPacketSpawnMob && mob.getValue()) ||
                 (packet instanceof SPacketSpawnExperienceOrb && xp.getValue()) ||
                 (packet instanceof SPacketExplosion && explosions.getValue()))
-        {event.setCanceled(true);}
-    }
+        {event.setCancelled(true);}
+    });
 
     public void onDisable(){
         super.onDisable();

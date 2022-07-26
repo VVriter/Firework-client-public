@@ -2,11 +2,14 @@ package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +40,8 @@ public class AutoHighway extends Module {
         placeTimer.reset();
     }
 
-    @Override public void onTick() {super.onTick();
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
         if (needToBreakBlocksToPlace) {
             for (BlockPos posToBreak : calcPosesToBreak()) {
                 if (breakTimer.hasPassedMs(breakDelay.getValue()*100)) {
@@ -55,7 +59,7 @@ public class AutoHighway extends Module {
                 }
             }
         }
-    }
+    });
 
     public List<BlockPos> calcPosesToBreak() {
         List<BlockPos> positions = BlockUtil.getSphere(this.range.getValue().floatValue(), true);

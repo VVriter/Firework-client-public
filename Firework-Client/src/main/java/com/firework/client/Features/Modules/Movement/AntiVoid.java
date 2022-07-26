@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Movement;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
@@ -28,8 +29,8 @@ public class AntiVoid extends Module {
     public Setting<Double> renderRange = new Setting<>("RenderRange", (double)10, this, 1, 50).setVisibility(v-> render.getValue());
 
     private List<BlockPos> holes = new ArrayList<BlockPos>();
-    @Override
-    public void onTick() {
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listner = new Listener<>(event -> {
         super.onTick();
         this.holes = this.calcHoles();
         if(mode.getValue().equals("Jump")){
@@ -41,7 +42,7 @@ public class AntiVoid extends Module {
            mc.player.moveVertical = 0.0f;
             }
         }
-    }
+    });
 
     public void onDisable() {
         super.onDisable();
@@ -90,7 +91,7 @@ public class AntiVoid extends Module {
     }
 
     @Subscribe
-    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
+    public Listener<WorldRender3DEvent> onRender = new Listener<>(event -> {
         int size = this.holes.size();
         for (int i = 0; i < size; ++i) {
             BlockPos pos = this.holes.get(i);

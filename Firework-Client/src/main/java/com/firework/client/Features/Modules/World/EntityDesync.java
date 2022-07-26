@@ -12,6 +12,8 @@ import net.minecraft.network.play.client.CPacketVehicleMove;
 import net.minecraft.network.play.server.SPacketDestroyEntities;
 import net.minecraft.network.play.server.SPacketSetPassengers;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 
 @ModuleManifest(name = "EntityDesync",category = Module.Category.WORLD)
@@ -51,8 +53,8 @@ public class EntityDesync extends Module {
         }
     }
 
-    @SubscribeEvent
-    public void onUpdateWalkingPlayer(final UpdateWalkingPlayerEvent event) {
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
         if (this.Riding == null) {
             return;
         }
@@ -62,10 +64,10 @@ public class EntityDesync extends Module {
         EntityDesync.mc.player.onGround = true;
         this.Riding.setPosition(EntityDesync.mc.player.posX, EntityDesync.mc.player.posY, EntityDesync.mc.player.posZ);
         EntityDesync.mc.player.connection.sendPacket((Packet)new CPacketVehicleMove(this.Riding));
-    }
+    });
 
-    @SubscribeEvent
-    public void onPacketReceive(final PacketEvent.Receive event) {
+    @Subscribe
+    public Listener<PacketEvent.Receive> onRender1 = new Listener<>(event -> {
         if (event.getPacket() instanceof SPacketSetPassengers) {
             if (this.Riding == null) {
                 return;
@@ -92,5 +94,5 @@ public class EntityDesync extends Module {
                 }
             }
         }
-    }
+    });
 }

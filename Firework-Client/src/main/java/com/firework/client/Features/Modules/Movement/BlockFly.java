@@ -8,6 +8,7 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.PlayerPushOutOfBlocksEvent;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketPlayerPosLook;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
@@ -123,8 +124,8 @@ public class BlockFly extends Module {
         }
     }
 
-    @SubscribeEvent
-    public void onPacketReceive(PacketEvent.Receive event){
+    @Subscribe
+    public Listener<PacketEvent.Receive> onRender = new Listener<>(event -> {
         if(event.getPacket() instanceof SPacketPlayerPosLook) {
             SPacketPlayerPosLook packet = (SPacketPlayerPosLook) event.getPacket();
             if (resetOnPacketLookPos.getValue())
@@ -142,7 +143,7 @@ public class BlockFly extends Module {
                 packet.getFlags().remove(SPacketPlayerPosLook.EnumFlags.Y_ROT);
             }
         }
-    }
+    });
 
     @Override
     public void onDisable() {

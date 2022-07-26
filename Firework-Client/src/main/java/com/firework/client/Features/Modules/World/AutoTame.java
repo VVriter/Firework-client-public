@@ -3,14 +3,18 @@ package com.firework.client.Features.Modules.World;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AbstractHorse;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 
 @ModuleManifest(name = "AutoTame",category = Module.Category.WORLD)
@@ -30,8 +34,8 @@ public class AutoTame extends Module {
     }
 
 
-    @SubscribeEvent
-    public void onPacket(PacketEvent.Receive e) {
+    @Subscribe
+    public Listener<PacketEvent.Receive> onRender = new Listener<>(e -> {
         if (e.getPacket() instanceof CPacketUseEntity) {
             if (EntityToTame != null)
                 return;
@@ -47,7 +51,7 @@ public class AutoTame extends Module {
                 }
             }
         }
-    }
+    });
 
     @Override
     public void onUpdate() {

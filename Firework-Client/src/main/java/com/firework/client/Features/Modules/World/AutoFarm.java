@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockBreaker;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
@@ -12,6 +13,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -59,8 +62,8 @@ public class AutoFarm extends Module {
         breaker = null;
     }
 
-    @Override
-    public void onTick() {
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
         super.onTick();
         for (BlockPos pos : calcPoses()) {
             if (timer.hasPassedMs(delay.getValue())) {
@@ -68,7 +71,7 @@ public class AutoFarm extends Module {
                 timer.reset();
             }
         }
-    }
+    });
 
     public List<BlockPos> calcPoses() {
         List<BlockPos> positions = BlockUtil.getSphere(this.range.getValue().floatValue(), true);

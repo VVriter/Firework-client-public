@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.World.Scaffold;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
@@ -9,6 +10,8 @@ import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +45,8 @@ public class Scaffold extends Module {
     }
 
 
-    @Override
-    public void onTick() {
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
         super.onTick();
         pos = new BlockPos(mc.player.posX, mc.player.posY - 1.0, mc.player.posZ);
         if (isAir(pos)) {
@@ -76,7 +79,7 @@ public class Scaffold extends Module {
                 this.timer.reset();
             }
         }
-    }
+    });
 
     private boolean isAir(BlockPos pos) {
         return mc.world.getBlockState(pos).getBlock() == Blocks.AIR;

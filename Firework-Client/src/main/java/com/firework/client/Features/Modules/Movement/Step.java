@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Mixins.MixinsList.IKeyBinding;
 import com.firework.client.Implementations.Settings.Setting;
@@ -159,14 +160,14 @@ public class Step extends Module {
         return false;
     }
 
-    @SubscribeEvent
-    public void onPacketSend(PacketEvent.Send event) {
+    @Subscribe
+    public Listener<PacketEvent.Send> onRender = new Listener<>(event -> {
         if (moderio.getValue(modes.MegaBypass)) {
         if (event.getPacket() instanceof CPacketPlayer && forceGroundPacket.getValue()) {
             ((ICPacketPlayer) event.getPacket()).setOnGround(true);
             }
         }
-    }
+    });
 
     @Override
     public void onDisable() {

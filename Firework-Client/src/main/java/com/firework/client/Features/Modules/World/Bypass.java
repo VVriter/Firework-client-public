@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IEntity;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.entity.passive.AbstractChestHorse;
@@ -13,6 +14,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Mouse;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 public class Bypass extends Module {
 
@@ -39,8 +42,8 @@ public class Bypass extends Module {
        }
     }
 
-    @SubscribeEvent
-    public void onPacket(PacketEvent event) {
+    @Subscribe
+    public Listener<PacketEvent> onRender = new Listener<>(event -> {
         if(buildHeight.getValue()){
         if (mc.player == null) return;
             if (event.getPacket() instanceof CPacketPlayerTryUseItemOnBlock) {
@@ -48,15 +51,15 @@ public class Bypass extends Module {
                 if (oldPacket.getPos().getY() >= 255) {
                     if (oldPacket.getDirection() == EnumFacing.UP) {
                         mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(oldPacket.getPos(), EnumFacing.DOWN, oldPacket.getHand(), oldPacket.getFacingX(), oldPacket.getFacingY(), oldPacket.getFacingZ()));
-                        event.setCanceled(true);
+                        event.setCancelled(true);
                         }
                     }
                     }
                 }
-            }
+            });
 
-            @SubscribeEvent
-            public void onPacketSend(PacketEvent.Send event) {
+            @Subscribe
+            public Listener<PacketEvent.Send> onRender1 = new Listener<>(event -> {
                 if (event.getPacket() instanceof CPacketUseEntity)
                 {
                     CPacketUseEntity packet = (CPacketUseEntity) event.getPacket();
@@ -65,10 +68,12 @@ public class Bypass extends Module {
                     {
                         if (packet.getAction() == CPacketUseEntity.Action.INTERACT_AT)
                         {
-                            event.setCanceled(true);
+                            event.setCancelled(true);
                         }
                     }
                 }
-            }
+            });
+
+
         }
 
