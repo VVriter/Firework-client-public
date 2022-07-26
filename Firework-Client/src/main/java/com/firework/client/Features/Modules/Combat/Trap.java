@@ -39,9 +39,9 @@ public class Trap extends Module {
 
     private Setting<Integer> targetDistance = new Setting<>("TargetDistance", 3, this, 0, 5);
 
-    private Setting<Integer> placedDelayMs = new Setting<>("PlaceDelayMs", 0, this, 0, 100);
+    private Setting<Integer> placedDelayMs = new Setting<>("PlaceDelayMs", 40, this, 0, 100);
 
-    private Setting<BlockPlacer.switchModes> switchMode = new Setting<>("Switch", BlockPlacer.switchModes.Fast, this);
+    private Setting<BlockPlacer.switchModes> switchMode = new Setting<>("Switch", BlockPlacer.switchModes.Silent, this);
 
     private Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
     private Setting<Boolean> packet = new Setting<>("Packet", false, this);

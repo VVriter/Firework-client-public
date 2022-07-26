@@ -24,7 +24,7 @@ import java.util.List;
 @ModuleManifest(name = "HoleEsp",category = Module.Category.VISUALS)
 public class HoleEsp extends Module {
     public Setting<Integer> range = new Setting<>("Range", 10, this, 1, 30);
-    public Setting<Double> height = new Setting<>("Height", (double)0.3, this, 0, 1);
+    public Setting<Double> height = new Setting<>("Height", (double)0.1, this, 0, 1);
     public Setting<Boolean> outlineSubBool = new Setting<>("Outline", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> outlineEnable = new Setting<>("OutlineEnable", true, this).setVisibility(v-> outlineSubBool.getValue());
     public Setting<Double> outlineThickness = new Setting<>("OutlineThickness", (double)3, this, 1, 10).setVisibility(v-> outlineSubBool.getValue());

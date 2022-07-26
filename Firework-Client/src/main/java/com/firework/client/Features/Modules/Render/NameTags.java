@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.Render.NameTags;
+package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;

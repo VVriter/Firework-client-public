@@ -38,7 +38,7 @@ public class AutoCrystal extends Module {
 
     //Interaction && Sync
     public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
-    public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this).setVisibility(v-> interaction.getValue());
+    public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Fast, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interaction.getValue());
     public Setting<swing> swingMode = new Setting<>("Swing", swing.Both, this).setVisibility(v-> interaction.getValue());
     public enum swing{
@@ -49,23 +49,23 @@ public class AutoCrystal extends Module {
         Packet, Controller
     }
     public Setting<Boolean> rayTrace = new Setting<>("RaytraceCheck", true, this).setVisibility(v-> interaction.getValue());
-    public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", true, this).setVisibility(v-> interaction.getValue());
+    public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", false, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> sync = new Setting<>("Sync", true, this).setVisibility(v-> interaction.getValue());
 
     //Ranges
     public Setting<Boolean> ranges = new Setting<>("Ranges", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Integer> targetRange = new Setting<>("TargetRange", 0, this, 0, 10).setVisibility(v-> ranges.getValue());
-    public Setting<Integer> placeRange = new Setting<>("PlaceRange", 0, this, 0, 6).setVisibility(v-> ranges.getValue());
-    public Setting<Integer> breakRange = new Setting<>("BreakRange", 0, this, 0, 6).setVisibility(v-> ranges.getValue());
+    public Setting<Integer> targetRange = new Setting<>("TargetRange", 5, this, 0, 10).setVisibility(v-> ranges.getValue());
+    public Setting<Integer> placeRange = new Setting<>("PlaceRange", 5, this, 0, 6).setVisibility(v-> ranges.getValue());
+    public Setting<Integer> breakRange = new Setting<>("BreakRange", 5, this, 0, 6).setVisibility(v-> ranges.getValue());
 
     //Damages
     public Setting<Boolean> damages = new Setting<>("Damages", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Integer> maxSelfDmg = new Setting<>("MaxSelfDmg", 0, this, 0, 36).setVisibility(v-> damages.getValue());
-    public Setting<Integer> minTargetDmg = new Setting<>("MinTargetDmg", 0, this, 0, 36).setVisibility(v-> damages.getValue());
+    public Setting<Integer> maxSelfDmg = new Setting<>("MaxSelfDmg", 15, this, 0, 36).setVisibility(v-> damages.getValue());
+    public Setting<Integer> minTargetDmg = new Setting<>("MinTargetDmg", 1, this, 0, 36).setVisibility(v-> damages.getValue());
 
     //Delays
-    public Setting<Integer> placeDelay = new Setting<>("PlaceDelayMs", 0, this, 0, 200);
-    public Setting<Integer> breakDelay = new Setting<>("BreakDelayMs", 0, this, 0, 200);
+    public Setting<Integer> placeDelay = new Setting<>("PlaceDelayMs", 80, this, 0, 200);
+    public Setting<Integer> breakDelay = new Setting<>("BreakDelayMs", 70, this, 0, 200);
 
     //Inhibition
     public Setting<Boolean> inhibit = new Setting<>("Inhibit", true, this).setMode(Setting.Mode.SUB);

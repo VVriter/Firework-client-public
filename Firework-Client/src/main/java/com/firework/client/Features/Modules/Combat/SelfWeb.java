@@ -37,14 +37,14 @@ public class SelfWeb extends Module {
     private Setting<Boolean> toggleOnMove = new Setting<>("ToggleOnMove", true, this);
 
     //Should place web only if predicted that Target wants to get into the hole
-    private Setting<Boolean> predictTargetMove = new Setting<>("PredictPlace", true, this);
+    private Setting<Boolean> predictTargetMove = new Setting<>("PredictPlace", false, this);
 
     //Should rotate on block place
-    private Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
+    private Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
     //Should send packet confirmation on block place
-    private Setting<Boolean> packet = new Setting<>("Packet", true, this);
+    private Setting<Boolean> packet = new Setting<>("Packet", false, this);
     //Switch mode
-    private Setting<switchModes> switchMode = new Setting<>("Switch", switchModes.Fast, this);
+    private Setting<switchModes> switchMode = new Setting<>("Switch", switchModes.Silent, this);
     private enum switchModes{
         Fast, Silent
     }

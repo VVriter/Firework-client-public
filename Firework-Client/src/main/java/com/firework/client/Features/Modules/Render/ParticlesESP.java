@@ -11,7 +11,7 @@ public class ParticlesESP extends Module {
 
     public Setting<Boolean> heart = new Setting<>("Heart", false, this);
     public Setting<Boolean> cloud = new Setting<>("Cloud", false, this);
-    public Setting<Boolean> flame = new Setting<>("Flame", false, this);
+    public Setting<Boolean> flame = new Setting<>("Flame", true, this);
     public Setting<Boolean> smoke = new Setting<>("Smoke", false, this);
     public Setting<Boolean> redStone = new Setting<>("RedStone", false, this);
     public Setting<Boolean> firework = new Setting<>("Firework", false, this);

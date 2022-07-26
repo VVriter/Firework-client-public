@@ -35,7 +35,7 @@ public class CevBreaker extends Module {
     public Setting<Integer> targetRange = new Setting<>("TargetRange", 3, this, 1, 6);
 
     public Setting<Boolean> items = new Setting<>("Items", false, this).setMode(Setting.Mode.SUB);
-    public Setting<ItemUser.switchModes> itemSwitch = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this).setVisibility(v-> items.getValue());
+    public Setting<ItemUser.switchModes> itemSwitch = new Setting<>("SwitchMode", ItemUser.switchModes.Fast, this).setVisibility(v-> items.getValue());
     public Setting<Boolean> itemRotate = new Setting<>("Rotate", true, this).setVisibility(v-> items.getValue());
 
     public Setting<Boolean> blocks = new Setting<>("Blocks", false, this).setMode(Setting.Mode.SUB);
@@ -43,13 +43,13 @@ public class CevBreaker extends Module {
     public Setting<BlockBreaker.mineModes> breakMode = new Setting<>("BreakMode", BlockBreaker.mineModes.Classic, this).setVisibility(v-> blocks.getValue());
     public Setting<Boolean> blockRayTrace = new Setting<>("RayTrace", true, this).setVisibility(v-> blocks.getValue());
     public Setting<Boolean> blockRotate = new Setting<>("Rotate", true, this).setVisibility(v-> blocks.getValue());
-    public Setting<Boolean> blockPacket = new Setting<>("Packet", false, this).setVisibility(v-> blocks.getValue());
+    public Setting<Boolean> blockPacket = new Setting<>("Packet", true, this).setVisibility(v-> blocks.getValue());
 
     public Setting<Boolean> delays = new Setting<>("Delays", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Integer> placeBlockDelay = new Setting<>("PlaceBlockDelayMs", 3, this, 1, 200).setVisibility(v-> delays.getValue());
-    public Setting<Integer> placeCrystalDelay = new Setting<>("PlaceCrystalDelayMs", 3, this, 1, 200).setVisibility(v-> delays.getValue());
-    public Setting<Integer> breakBlockDelay = new Setting<>("BreakBlockDelayMs", 3, this, 1, 200).setVisibility(v-> delays.getValue());
-    public Setting<Integer> breakCrystalDelay = new Setting<>("BreakCrystalDelayMs", 3, this, 1, 200).setVisibility(v-> delays.getValue());
+    public Setting<Integer> placeBlockDelay = new Setting<>("PlaceBlockDelayMs", 80, this, 1, 200).setVisibility(v-> delays.getValue());
+    public Setting<Integer> placeCrystalDelay = new Setting<>("PlaceCrystalDelayMs", 80, this, 1, 200).setVisibility(v-> delays.getValue());
+    public Setting<Integer> breakBlockDelay = new Setting<>("BreakBlockDelayMs", 80, this, 1, 200).setVisibility(v-> delays.getValue());
+    public Setting<Integer> breakCrystalDelay = new Setting<>("BreakCrystalDelayMs", 80, this, 1, 200).setVisibility(v-> delays.getValue());
 
     public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);
 

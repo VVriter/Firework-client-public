@@ -27,7 +27,7 @@ import java.util.List;
         category = Module.Category.COMBAT
 )
 public class FastWeb extends Module {
-    public Setting<modes> mode = new Setting<>("Mode", modes.Motion, this);
+    public Setting<modes> mode = new Setting<>("Mode", modes.Timer, this);
     public enum modes {
         Timer, Motion
     }

@@ -37,29 +37,29 @@ public class HoleFiller extends Module {
     //Timing
     private Setting<Boolean> timingPage = new Setting<>("Timing", true, this).setMode(Setting.Mode.SUB);
 
-    private Setting<timers> timerMode = new Setting<>("TimerMode", timers.Tick, this).setVisibility(v-> timingPage.getValue());
+    private Setting<timers> timerMode = new Setting<>("TimerMode", timers.Ms, this).setVisibility(v-> timingPage.getValue());
     private enum timers{
         Tick, Ms
     }
-    private Setting<Integer> placedDelayMs = new Setting<>("PlaceDelayMs", 0, this, 0, 100).setVisibility(v-> timerMode.getValue(timers.Ms) && timingPage.getValue());
-    private Setting<Integer> placedDelayTicks = new Setting<>("PlaceDelayTicks", 0, this, 0, 100).setVisibility(v-> timerMode.getValue(timers.Tick) && timingPage.getValue());
+    private Setting<Integer> placedDelayMs = new Setting<>("PlaceDelayMs", 40, this, 0, 100).setVisibility(v-> timerMode.getValue(timers.Ms) && timingPage.getValue());
+    private Setting<Integer> placedDelayTicks = new Setting<>("PlaceDelayTicks", 2, this, 0, 100).setVisibility(v-> timerMode.getValue(timers.Tick) && timingPage.getValue());
 
     //Interaction
-    private Setting<Boolean> interactionPage = new Setting<>("Interaction", true, this).setMode(Setting.Mode.SUB);
+    private Setting<Boolean> interactionPage = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
 
     private Setting<BlockPlacer.switchModes> switchMode = new Setting<>("Switch", BlockPlacer.switchModes.Silent, this).setVisibility(v-> interactionPage.getValue());
-    private Setting<Boolean> rotate = new Setting<>("Rotate", false, this).setVisibility(v-> interactionPage.getValue());
-    private Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(v-> interactionPage.getValue());
+    private Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interactionPage.getValue());
+    private Setting<Boolean> packet = new Setting<>("Packet", false, this).setVisibility(v-> interactionPage.getValue());
 
     //Customization
-    private Setting<Boolean> customizationPage = new Setting<>("Customization", true, this).setMode(Setting.Mode.SUB);
+    private Setting<Boolean> customizationPage = new Setting<>("Customization", false, this).setMode(Setting.Mode.SUB);
 
     private Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", true, this).setVisibility(v-> customizationPage.getValue());
     private Setting<Boolean> shouldDisableOnJump = new Setting<>("JumpDisable", true, this).setVisibility(v-> customizationPage.getValue());
-    private Setting<Boolean> autoBurrow = new Setting<>("AutoBurrow", true, this).setVisibility(v-> customizationPage.getValue());
+    private Setting<Boolean> autoBurrow = new Setting<>("AutoBurrow", false, this).setVisibility(v-> customizationPage.getValue());
 
 
-    private Setting<Integer> radius = new Setting<>("Radius", 0, this, 0, 10);
+    private Setting<Integer> radius = new Setting<>("Radius", 5, this, 0, 10);
     private Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);
 
     private Timer placeTimerMs;

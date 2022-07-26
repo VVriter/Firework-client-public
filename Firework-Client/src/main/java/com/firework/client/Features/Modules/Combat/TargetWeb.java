@@ -35,15 +35,15 @@ import static java.lang.Math.*;
 public class TargetWeb extends Module{
 
     //Target search range
-    private Setting<Integer> targetRange = new Setting<>("TargetRange", 6, this, 0, 12);
+    private Setting<Integer> targetRange = new Setting<>("TargetRange", 5, this, 0, 12);
     //Web place range
     private Setting<Integer> placeRange = new Setting<>("PlaceRange", 3, this, 0, 6);
     //Hand the module will use to place web
     private Setting<hands> hand = new Setting<>("hand", hands.MainHand, this);
     //Should rotate to place
-    private Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
+    private Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
     //Should use packet rotate spoof
-    private Setting<Boolean> packet = new Setting<>("Packet", true, this);
+    private Setting<Boolean> packet = new Setting<>("Packet", false, this);
     //Blocks to place queue
     private ArrayList<BlockPos> line;
 
