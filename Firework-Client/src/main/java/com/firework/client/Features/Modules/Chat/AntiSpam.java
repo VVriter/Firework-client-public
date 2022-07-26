@@ -21,8 +21,8 @@ public class AntiSpam extends Module {
     public Setting<Boolean> YouTube = new Setting<>("YouTube", true, this);
 
 
-    @Subscribe
-    public Listener<ClientChatReceivedEvent> listener1 = new Listener<>(e -> {
+   @SubscribeEvent
+    public void onChat(ClientChatReceivedEvent e) {
 
         if (Links.getValue() && e.getMessage().getUnformattedText().contains("http")) {
             e.setCanceled(true);
@@ -153,5 +153,5 @@ public class AntiSpam extends Module {
                 || e.getMessage().getUnformattedText().contains("chan")) {
             e.setCanceled(true);
         }
-    });
+    }
 }
