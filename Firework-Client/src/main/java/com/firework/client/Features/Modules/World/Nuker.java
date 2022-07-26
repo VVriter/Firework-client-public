@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.World;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockBreaker;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
@@ -62,15 +63,14 @@ public class Nuker extends Module {
     });
 
 
-    @SubscribeEvent
-    public void render(RenderWorldLastEvent e) {
+    @Subscribe
+    public Listener<WorldRender3DEvent> render = new Listener<>(event -> {
         for (BlockPos pos : calcPoses()) {
             if (pos != null) {
                 RenderUtils.drawBoxESP(pos, Color.RED,1,true,false,1,1);
             }
         }
-    }
-
+    });
 
     public List<BlockPos> calcPoses() {
         List<BlockPos> positions = BlockUtil.getSphere(this.range.getValue().floatValue(), true);

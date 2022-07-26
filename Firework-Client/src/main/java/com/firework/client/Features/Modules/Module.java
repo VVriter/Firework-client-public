@@ -41,12 +41,8 @@ public class Module{
     }
 
     public void onEnable() {
-        if (!Notifications.enabled.getValue()) {
-            SoundUtill.playSound(new ResourceLocation("firework/audio/pop.wav"));
-        }
         isEnabled.setValue(true);
         onToggle();
-        MinecraftForge.EVENT_BUS.register(this);
         Firework.eventBus.register(this);
     }
 
@@ -54,11 +50,13 @@ public class Module{
     public void onDisable() {
         isEnabled.setValue(false);
         onToggle();
-        MinecraftForge.EVENT_BUS.unregister(this);
         Firework.eventBus.unregister(this);
     }
 
     public void onEnableLog() {
+        if (!Notifications.enabled.getValue()) {
+            SoundUtill.playSound(new ResourceLocation("firework/audio/pop.wav"));
+        }
         onEnable();
         if(Logger.enabled.getValue() && Logger.onModuleEnable.getValue()){
             Logger.log(this);
