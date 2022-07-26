@@ -89,8 +89,8 @@ public class Surround extends Module {
         placeTimer = null;
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onPacketReceive(final PacketEvent.Receive event) {
+    @Subscribe(priority = Listener.Priority.HIGHEST)
+    public Listener<PacketEvent.Receive> onPacketReceive = new Listener<>(event -> {
         if (event.getPacket() instanceof SPacketBlockChange) {
             SPacketBlockChange packet2 = ((SPacketBlockChange) event.getPacket());
             if(packet2.blockState.getBlock() == Blocks.AIR){
@@ -102,7 +102,7 @@ public class Surround extends Module {
                 }
             }
         }
-    }
+    });
 
     @Subscribe(priority = Listener.Priority.HIGHEST)
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {

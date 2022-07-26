@@ -400,8 +400,8 @@ public class PacketFly extends Module {
        // KonasGlobals.INSTANCE.timerManager.resetTimer(this);
     }
 
-    @SubscribeEvent
-    public void onReceive(PacketEvent.Receive event) {
+    @Subscribe
+    public Listener<PacketEvent.Receive> onPacketReceive = new Listener<>(event -> {
         if (event.getPacket() instanceof SPacketPlayerPosLook) {
             if (!(mc.currentScreen instanceof GuiDownloadTerrain)) {
                 SPacketPlayerPosLook packet = (SPacketPlayerPosLook) event.getPacket();
@@ -413,7 +413,7 @@ public class PacketFly extends Module {
                                 type.getValue() != Type.SETBACK) {
                             if (type.getValue() == Type.DESYNC) {
                                 posLooks.remove(packet.getTeleportId());
-                                event.setCanceled(true);
+                                event.setCancelled(true);
                                 if (type.getValue() == Type.SLOW) {
                                     mc.player.setPosition(packet.getX(), packet.getY(), packet.getZ());
                                 }
@@ -422,7 +422,7 @@ public class PacketFly extends Module {
                                 TimeVec3d vec = posLooks.get(packet.getTeleportId());
                                 if (vec.x == packet.getX() && vec.y == packet.getY() && vec.z == packet.getZ()) {
                                     posLooks.remove(packet.getTeleportId());
-                                    event.setCanceled(true);
+                                    event.setCancelled(true);
                                     if (type.getValue() == Type.SLOW) {
                                         mc.player.setPosition(packet.getX(), packet.getY(), packet.getZ());
                                     }
@@ -441,8 +441,7 @@ public class PacketFly extends Module {
                 teleportId = 0;
             }
         }
-
-    }
+    });
 
     @SubscribeEvent
     public void onPlayerMove(MoveEvent event) {
@@ -468,10 +467,10 @@ public class PacketFly extends Module {
         return !mc.world.getCollisionBoxes(mc.player, mc.player.getEntityBoundingBox().offset(0.0, 2.0, 0.0).contract(0.0, 1.99, 0.0)).isEmpty();
     }
 
-    @SubscribeEvent
-    public void onSend(PacketEvent.Send event) {
+    @Subscribe
+    public Listener<PacketEvent.Send> onSend = new Listener<>(event -> {
         if (event.getPacket() instanceof CPacketPlayer && !(event.getPacket() instanceof CPacketPlayer.Position)) {
-            event.setCanceled(true);
+            event.setCancelled(true);
         }
         if (event.getPacket() instanceof CPacketPlayer) {
             CPacketPlayer packet = (CPacketPlayer) event.getPacket();
@@ -479,9 +478,9 @@ public class PacketFly extends Module {
                 this.packets.remove(packet);
                 return;
             }
-            event.setCanceled(true);
+            event.setCancelled(true);
         }
-    }
+    });
 
     @SubscribeEvent
     public void onBlockPushOut(PlayerSPPushOutOfBlocksEvent event) {
