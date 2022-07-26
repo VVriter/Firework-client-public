@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Managers;
 
+import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
@@ -9,12 +10,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 
 public class ConfigManager extends Manager{
     public String configDir = Firework.FIREWORK_DIRECTORY + "Configs/";
@@ -28,6 +27,19 @@ public class ConfigManager extends Manager{
         }
     }
 
+    public static void setWebhookString() {
+        File theDir = new File(Firework.FIREWORK_DIRECTORY+"Webhook");
+        if (!theDir.exists()){
+            try {
+                Reader reader = new FileReader(theDir+"/Webhook.json");
+                JsonParser parser = new JsonParser();
+                JsonObject config = new Gson().fromJson(parser.parse(reader), JsonObject.class);
+                DiscordNotificator.webhook = config.get("webhook").getAsString();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
     public void saveModuleSettings(Module module){
         //Stores settings to a JSONObject
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

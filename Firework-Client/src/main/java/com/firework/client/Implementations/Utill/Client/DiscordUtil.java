@@ -1,6 +1,8 @@
 package com.firework.client.Implementations.Utill.Client;
 
 
+import com.firework.client.Features.CommandsSystem.CommandManager;
+import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;
@@ -21,43 +23,55 @@ public class DiscordUtil {
         sendMsg("```"+date+" Firework client is running by "+ Minecraft.getMinecraft().getSession().getUsername()+"```"+"```Hwid is: "+HwidUtil.getHwid()+"```","https://discord.com/api/webhooks/974610221953581096/JyZzDORGjrDNF8xtg_JT5zbqwJeXDldjqHnMiOK17JPd5XoyzPqVzrGnm2Hta8LFOLec");
     }
 
-    public static void sendMsg (String message, String webhook) {
-        PrintWriter out = null;
-        BufferedReader in = null;
-        StringBuilder result = new StringBuilder();
-        try {
-            URL realUrl = new URL(webhook);
-            URLConnection conn = realUrl.openConnection();
-            conn.setRequestProperty("accept", "*/*");
-            conn.setRequestProperty("connection", "Keep-Alive");
-            conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            out = new PrintWriter(conn.getOutputStream());
-            String postData = URLEncoder.encode("content", "UTF-8") + "=" + URLEncoder.encode(message, "UTF-8");
-            out.print(postData);
-            out.flush();
-            in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line;
-            while ((line = in.readLine()) != null) {
-                result.append("/n").append(line);
-            }
+    public static void sendMsg(String message, String webhook) {
+        new Thread(
+                new Runnable() {
+                    public void run() {
+                        try {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-        System.out.println(result.toString());
+                            PrintWriter out = null;
+                            BufferedReader in = null;
+                            StringBuilder result = new StringBuilder();
+                            try {
+                                URL realUrl = new URL(webhook);
+                                URLConnection conn = realUrl.openConnection();
+                                conn.setRequestProperty("accept", "*/*");
+                                conn.setRequestProperty("connection", "Keep-Alive");
+                                conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
+                                conn.setDoOutput(true);
+                                conn.setDoInput(true);
+                                out = new PrintWriter(conn.getOutputStream());
+                                String postData = URLEncoder.encode("content", "UTF-8") + "=" + URLEncoder.encode(message, "UTF-8");
+                                out.print(postData);
+                                out.flush();
+                                in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                                String line;
+                                while ((line = in.readLine()) != null) {
+                                    result.append("/n").append(line);
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            } finally {
+                                try {
+                                    if (out != null) {
+                                        out.close();
+                                    }
+                                    if (in != null) {
+                                        in.close();
+                                    }
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                            System.out.println(result.toString());
+
+
+                        }catch (Exception e){
+                            MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
+                        }
+                    }
+                }).start();
     }
     public static void sendFile(File file) throws Exception {
         String boundary = Long.toHexString(System.currentTimeMillis());

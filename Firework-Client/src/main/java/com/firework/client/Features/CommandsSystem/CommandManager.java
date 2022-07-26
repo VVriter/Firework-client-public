@@ -29,6 +29,7 @@ import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.HelpCom
 import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.QueueCommand;
 import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.SeenCommand;
 import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.StatsCommand;
+import com.firework.client.Features.CommandsSystem.Commands.WebhookCommand;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Managers.Manager;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -85,6 +86,8 @@ public class CommandManager extends Manager {
 
     public void init() {
         register(
+                new WebhookCommand(),
+
                 new PanicCommand(),
 
                 new HideCommand(),

@@ -1,9 +1,7 @@
 package com.firework.client.Features.Modules.Client;
 
-import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -26,108 +24,47 @@ public class DiscordNotificator extends Module {
         notify2b2t = new Setting<>("Queue notify", true, this);
         death = new Setting<>("DeathNotificator", true, this);
         serverConnection = new Setting<>("ServerConnection", true, this);
-        chatListner = new Setting<>("ChatListner", true, this);}
-
-
-
+        chatListner = new Setting<>("ChatListner", true, this);
+    }
     public void onEnable(){
         super.onEnable();
-        new Thread(
-                new Runnable() {
-                    public void run() {
-                        try {
-                            DiscordUtil.sendMsg("```Discord Notificator module already works```",webhook);
-                        }catch (Exception e){
-                            MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
-                        }
-              }
-                }).start();
+        DiscordUtil.sendMsg("```Discord Notificator module already works```",webhook);
     }
 
 
     @SubscribeEvent
-    public void queueNotify(ClientChatReceivedEvent e){
-     if(notify2b2t.getValue()){
-        if(e.getMessage().getUnformattedText().contains("position")){
-            new Thread(
-                    new Runnable() {
-                        public void run() {
-                            try {
-                                DiscordUtil.sendMsg("@here```"+e.getMessage()+"```",webhook);
-                            }catch (Exception e){
-                                MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
-                            }
-                        }
-                    }).start();}
-             }
-         }
-
-
-
-    //ChatListner
+    public void queueNotify(ClientChatReceivedEvent e) {
+        if (notify2b2t.getValue()) {
+            if (e.getMessage().getUnformattedText().contains("position")) {
+                DiscordUtil.sendMsg("@here```" + e.getMessage() + "```", webhook);
+            }
+        }
+    }
     @SubscribeEvent
     public void onUrina(ClientChatReceivedEvent e){
         String msg = e.getMessage().getUnformattedText();
         if(chatListner.getValue()){
-        new Thread(
-                new Runnable() {
-                    public void run() {
-                        try {
-                            DiscordUtil.sendMsg("```"+msg+"```",webhook);
-                        }catch (Exception e){
-                            MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
-                        }
-                    }
-                }).start();}
+            DiscordUtil.sendMsg("```"+msg+"```",webhook);
+        }
     }
-    //ChatListner
-
-
-    //Server Connection
     @SubscribeEvent
     public void onBebra(FMLNetworkEvent.ClientDisconnectionFromServerEvent e){
         if(serverConnection.getValue()){
-        new Thread(
-                new Runnable() {
-                    public void run() {
-                        try {
-                            DiscordUtil.sendMsg("```U are disconnected from server "+ Minecraft.getMinecraft().getCurrentServerData().serverIP+"```",webhook);
-                        }catch (Exception e){
-                            MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
-                        }
-                    }
-                }).start();}
+            DiscordUtil.sendMsg("```U are disconnected from server "+ Minecraft.getMinecraft().getCurrentServerData().serverIP+"```",webhook);
+        }
     }
 
     @SubscribeEvent
     public void onBebra1(FMLNetworkEvent.ClientConnectedToServerEvent e){
         if(serverConnection.getValue()){
-        new Thread(
-                new Runnable() {
-                    public void run() {
-                        try {
-                            DiscordUtil.sendMsg("```U are connected to server "+ Minecraft.getMinecraft().getCurrentServerData().serverIP+"```",webhook);
-                        }catch (Exception e){
-                            MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
-                        }
-                    }
-                }).start();}
+            DiscordUtil.sendMsg("```U are connected to server "+ Minecraft.getMinecraft().getCurrentServerData().serverIP+"```",webhook);
+        }
     }
-    //ServerConnection
 
 
 
     public void onDisable(){
         super.onDisable();
-        new Thread(
-                new Runnable() {
-                    public void run() {
-                        try {
-                            DiscordUtil.sendMsg("```Discord Notificator is toggeled off```",webhook);
-                        }catch (Exception e){
-                            MessageUtil.sendError("Webhook is invalid, use "+ CommandManager.prefix+"webhook webhook link to link ur webhook",-1117);
-                        }
-                    }
-                }).start();
+        DiscordUtil.sendMsg("```Discord Notificator is toggeled off```",webhook);
+      }
     }
-}
