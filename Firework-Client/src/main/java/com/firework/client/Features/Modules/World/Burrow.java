@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.World;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.PlayerPushOutOfBlocksEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IEntityPlayerSP;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketPlayerPosLook;
 import com.firework.client.Implementations.Settings.Setting;
@@ -24,6 +25,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 @ModuleManifest(name = "SelfBlock",category = Module.Category.WORLD)
 public class Burrow extends Module {
@@ -219,8 +222,8 @@ public class Burrow extends Module {
     }
 
 
-    @SubscribeEvent
-    public void onSPacketPlayerPosLook(PacketEvent.Receive event) {
+    @Subscribe
+    public Listener<PacketEvent.Receive> onSPacketPlayerPosLook = new Listener<>(event -> {
         if (mc.currentScreen instanceof GuiDownloadTerrain) {
             toggle();
             return;
@@ -229,12 +232,12 @@ public class Burrow extends Module {
             ((ISPacketPlayerPosLook) event.getPacket()).setYaw(mc.player.rotationYaw);
             ((ISPacketPlayerPosLook) event.getPacket()).setPitch(mc.player.rotationPitch);
         }
-    }
+    });
 
-    @SubscribeEvent
-    public void onPush(PlayerSPPushOutOfBlocksEvent e) {
-        e.setCanceled(true);
-    }
+    @Subscribe
+    public Listener<PlayerPushOutOfBlocksEvent> onPush = new Listener<>(e -> {
+        e.setCancelled(true);
+    });
 
     private int getHeadSlot(){
         int slot = -1;

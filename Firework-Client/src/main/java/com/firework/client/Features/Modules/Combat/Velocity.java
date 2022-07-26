@@ -25,14 +25,14 @@ public class Velocity extends Module {
     public Setting<Double> vertical = new Setting<>("Vertical", (double)0, this, -0.3, 100);
 
 
-    @SubscribeEvent
-    public void onPacket(PacketEvent.Receive event) {
+    @Subscribe
+    public Listener<PacketEvent.Receive> onPacket = new Listener<>(event -> {
         if (event.getPacket() instanceof SPacketEntityVelocity && velocityPacket.getValue()) {
             // Check it is for us
             if (((SPacketEntityVelocity) event.getPacket()).getEntityID() == mc.player.getEntityId()) {
                 // We can just cancel the packet if both horizontal and vertical are 0
                 if (horizontal.getValue() == 0 && vertical.getValue() == 0) {
-                    event.setCanceled(true);
+                    event.setCancelled(true);
                 }
                 // Otherwise, we want to modify the values
                 else {
@@ -46,7 +46,7 @@ public class Velocity extends Module {
         if (event.getPacket() instanceof SPacketExplosion && explosions.getValue()) {
             // We can just cancel the packet if both horizontal and vertical are 0
             if (horizontal.getValue() == 0 && vertical.getValue() == 0) {
-                event.setCanceled(true);
+                event.setCancelled(true);
             }
             // Otherwise, we want to modify the values
             else {
@@ -55,7 +55,7 @@ public class Velocity extends Module {
                 ((ISPacketExplosion) event.getPacket()).setMotionZ((horizontal.getValue().floatValue() / 100) * (((SPacketExplosion) event.getPacket()).getMotionZ()));
             }
         }
-    }
+    });
 
     @Subscribe
     public Listener<PlayerPushOutOfBlocksEvent> onPush = new Listener<>(e -> {
