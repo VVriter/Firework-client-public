@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Settings;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraftforge.common.MinecraftForge;
@@ -78,7 +79,7 @@ public class Setting<T> {
 
     public void setValue(T newValue){
         this.value = newValue;
-        MinecraftForge.EVENT_BUS.post(new SettingChangeValueEvent(this));
+        Firework.eventBus.post(new SettingChangeValueEvent(this));
     }
 
     public void setValueNoEvent(T newValue){

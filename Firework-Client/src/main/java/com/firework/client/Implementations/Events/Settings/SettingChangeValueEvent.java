@@ -1,7 +1,7 @@
 package com.firework.client.Implementations.Events.Settings;
 
 import com.firework.client.Implementations.Settings.Setting;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import ua.firework.beet.Event;
 
 public class SettingChangeValueEvent extends Event {
 

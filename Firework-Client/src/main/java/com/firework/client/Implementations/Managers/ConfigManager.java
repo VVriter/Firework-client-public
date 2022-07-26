@@ -12,6 +12,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.io.*;
 
@@ -111,8 +113,8 @@ public class ConfigManager extends Manager{
         }catch (Exception e){e.printStackTrace();}
     }
 
-    @SubscribeEvent
-    public void settingEditEvent(SettingChangeValueEvent event){
+    @Subscribe
+    public Listener<SettingChangeValueEvent> settingEditEvent = new Listener<>(event -> {
         saveModuleSettings(event.setting.module);
-    }
+    });
 }
