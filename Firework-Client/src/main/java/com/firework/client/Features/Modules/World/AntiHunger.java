@@ -12,7 +12,7 @@ import ua.firework.beet.Subscribe;
 @ModuleManifest(name = "AntiHunger",category = Module.Category.WORLD)
 public class AntiHunger extends Module {
     @Subscribe
-    public Listener<PacketEvent> onPacketReceive = new Listener<>(e -> {
+    public Listener<PacketEvent.Send> onPacketReceive = new Listener<>(e -> {
         if(e.getPacket() instanceof CPacketPlayer){
             final CPacketPlayer player = (CPacketPlayer)e.getPacket();
             final double differenceY = mc.player.posY - mc.player.lastTickPosY;

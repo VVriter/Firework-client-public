@@ -5,13 +5,17 @@ import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.OnFishingEvent;
-import com.firework.client.Implementations.Events.WorldRender3DEvent;
+import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.DiscordWebhook;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.entity.player.ItemFishedEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
+import net.minecraft.network.play.server.SPacketSoundEffect;
+import net.minecraft.util.EnumHand;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
@@ -23,6 +27,28 @@ import java.util.Date;
         category = Module.Category.MISCELLANEOUS
 )
 public class AutoFish extends Module {
+
+    @Subscribe
+    public Listener<PacketEvent.Receive> listener1 = new Listener<>(e -> {
+            if(e.getPacket() instanceof SPacketSoundEffect) {
+                final SPacketSoundEffect packet = (SPacketSoundEffect)e.getPacket();
+                if (packet.getSound().equals(SoundEvents.ENTITY_BOBBER_SPLASH)) {
+                    if (mc.player.getHeldItemMainhand().getItem() instanceof ItemFishingRod) {
+                        mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
+                        mc.player.swingArm(EnumHand.MAIN_HAND);
+                        mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
+                        mc.player.swingArm(EnumHand.MAIN_HAND);
+                    }
+                    if (mc.player.getHeldItemOffhand().getItem() instanceof ItemFishingRod) {
+                        mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.OFF_HAND));
+                        mc.player.swingArm(EnumHand.OFF_HAND);
+                        mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItem(EnumHand.OFF_HAND));
+                        mc.player.swingArm(EnumHand.OFF_HAND);
+                    }
+                }
+            }
+        }
+    );
 
     public Setting<Boolean> discord = new Setting<>("Discord", true, this);
 
