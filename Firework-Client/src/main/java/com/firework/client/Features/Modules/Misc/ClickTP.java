@@ -2,7 +2,9 @@ package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.Render3DEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
@@ -66,8 +68,8 @@ public class ClickTP extends Module {
     public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(v-> !outlineMode.getValue(PosRenderer.outlineModes.None) && renderer.getValue());
 
 
-    @SubscribeEvent
-    public void render(RenderWorldLastEvent e) {
+    @Subscribe
+    public Listener<WorldRender3DEvent> listener2 = new Listener<>(event -> {
         if (posRenderer != null && posToTp != null) {
             posRenderer.doRender(
                     posToTp,
@@ -82,5 +84,5 @@ public class ClickTP extends Module {
                     outlineHeightNormal.getValue().floatValue()
             );
         }
-    }
+    });
 }

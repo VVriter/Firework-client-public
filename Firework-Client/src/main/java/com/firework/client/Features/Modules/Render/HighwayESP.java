@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.WorldRender3DEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
@@ -9,6 +10,9 @@ import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
+
 @ModuleManifest(name = "HighwayESP",category = Module.Category.VISUALS)
 public class HighwayESP extends Module {
 
@@ -62,8 +66,8 @@ public class HighwayESP extends Module {
         }
 
     }
-    @SubscribeEvent
-    public void render(RenderWorldLastEvent e) {
+    @Subscribe
+    public Listener<WorldRender3DEvent> listener2 = new Listener<>(event -> {
         BlockPos pos1 = new BlockPos(30000000,y,30000000);
         BlockPos pos2 = new BlockPos(-30000000,y,-30000000);
         BlockPos pos3 = new BlockPos(30000000,y,-30000000);
@@ -83,5 +87,5 @@ public class HighwayESP extends Module {
         RenderUtils.drawLine(BlockUtil.posToVec3d(pos),BlockUtil.posToVec3d(pos6),lineWidth.getValue().intValue(),color6.getValue().toRGB());
         RenderUtils.drawLine(BlockUtil.posToVec3d(pos),BlockUtil.posToVec3d(pos7),lineWidth.getValue().intValue(),color7.getValue().toRGB());
         RenderUtils.drawLine(BlockUtil.posToVec3d(pos),BlockUtil.posToVec3d(pos8),lineWidth.getValue().intValue(),color8.getValue().toRGB());
-    }
+    });
 }
