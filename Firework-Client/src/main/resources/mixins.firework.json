@@ -35,6 +35,8 @@
     "IEntityPlayerSP",
     "Gui.GuiScreenMixin",
     "Gui.MixinTabOverlay",
-    "Misc.MixinPig"
+    "Misc.MixinPig",
+    "Blocks.MixinBlockSoulSand",
+    "Blocks.MixinBlockSlime"
   ]
 }

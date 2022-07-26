@@ -24,13 +24,16 @@ public class NoSlow extends Module {
 
     public static Setting<Boolean> blocks = null;
     public static Setting<Boolean> soulSand = null;
-    public Setting<Boolean> slimes = null;
+    public static Setting<Boolean> slimes = null;
+
+    public static Setting<Boolean> enabled = null;
 
 
     public NoSlow() {
+        enabled = this.isEnabled;
         blocks = new Setting<>("Blocks", false, this).setMode(Setting.Mode.SUB);
-        soulSand = new Setting<>("SoulSand", true, this);
-        slimes = new Setting<>("Slimes", true, this);
+        soulSand = new Setting<>("SoulSand", true, this).setVisibility(v-> blocks.getValue());
+        slimes = new Setting<>("Slimes", true, this).setVisibility(v-> blocks.getValue());
     }
 
     @Subscribe
