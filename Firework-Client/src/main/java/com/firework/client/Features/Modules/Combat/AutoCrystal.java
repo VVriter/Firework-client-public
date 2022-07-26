@@ -28,6 +28,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -127,16 +128,11 @@ public class AutoCrystal extends Module {
         stage = 1;
         inhibitor.value = minPercent.getValue();
         inhibitor.setValues(minPercent.getValue(), maxPercent.getValue(), speed.getValue());
-
-        Firework.eventBus.subscribe(listener1);
-        Firework.eventBus.subscribe(onRender);
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
-        Firework.eventBus.unsubscribe(onRender);
-        Firework.eventBus.unsubscribe(listener1);
         user = null;
         timer = null;
         inhibitor = null;
@@ -144,6 +140,7 @@ public class AutoCrystal extends Module {
         placed = null;
     }
 
+    @Subscribe
     public Listener<WorldRender3DEvent> onRender = new Listener<>(worldRender3DEvent -> {
         if(placePos == null) return;
         new BlockRenderBuilder(placePos)
@@ -152,6 +149,7 @@ public class AutoCrystal extends Module {
                 ).render();
     });
 
+    @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
 
