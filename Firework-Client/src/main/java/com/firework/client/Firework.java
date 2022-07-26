@@ -13,7 +13,6 @@ import com.firework.client.Implementations.Managers.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CFontRenderer;
 import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
-import com.firework.client.Implementations.UI.ConsoleGui.Command.ConsoleManager;
 import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
 import com.firework.client.Implementations.UI.Hud.HudManager;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
@@ -76,8 +75,6 @@ public class Firework
     public static RotationManager rotationManager;
     public static ConfigManager configManager;
     public static ShaderManager shaderManager;
-
-    public static ConsoleManager consoleManager;
     public void loadManagers(){
         addManagers(
                 rainbowManager = new RainbowManager(),
@@ -90,7 +87,6 @@ public class Firework
                 commandManager = new CommandManager(),
                 positionManager = new PositionManager(),
                 rotationManager = new RotationManager(),
-                consoleManager = new ConsoleManager(),
                 configManager = new ConfigManager(),
                 new EventManager()
             );

@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "AutoPotionRewrite", category = Module.Category.COMBAT)
+@ModuleManifest(name = "AutoPotion", category = Module.Category.COMBAT)
 public class AutoPotion extends Module {
 
     public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this);
