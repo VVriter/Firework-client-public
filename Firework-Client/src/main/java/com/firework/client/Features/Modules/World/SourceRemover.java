@@ -54,6 +54,7 @@ public class SourceRemover extends Module {
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         super.onTick();
         for (BlockPos posers : calcPoses()) {
+            if (!BlockUtil.canPlaceBlock(posers)) return;
             if (posers != null) {
             if (timer.hasPassedMs(delay.getValue()*100)) {
                 doSwitch();
