@@ -41,7 +41,7 @@ public class AutoHighway extends Module {
     }
 
     @Subscribe
-    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (needToBreakBlocksToPlace) {
             for (BlockPos posToBreak : calcPosesToBreak()) {
                 if (breakTimer.hasPassedMs(breakDelay.getValue()*100)) {

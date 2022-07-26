@@ -37,7 +37,7 @@ public class AutoBreed extends Module {
     EntityAnimal toFeed;
 
     @Subscribe
-    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         super.onTick();
         for (Entity e : mc.world.loadedEntityList) {
             if (e instanceof EntityAnimal) {

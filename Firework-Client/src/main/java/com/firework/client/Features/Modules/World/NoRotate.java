@@ -13,7 +13,7 @@ import ua.firework.beet.Subscribe;
 public class NoRotate extends Module {
     public NoRotate(){super("NoForceRotate",Category.WORLD);}
     @Subscribe
-    public Listener<PacketEvent.Receive> onRender = new Listener<>(event -> {
+    public Listener<PacketEvent.Receive> onPacketReceive = new Listener<>(event -> {
         if(fullNullCheck()) return;
         if (event.getPacket() instanceof SPacketPlayerPosLook) {
             if (!(mc.currentScreen instanceof GuiDownloadTerrain)) {

@@ -35,7 +35,7 @@ public class AutoTame extends Module {
 
 
     @Subscribe
-    public Listener<PacketEvent.Receive> onRender = new Listener<>(e -> {
+    public Listener<PacketEvent.Receive> onPacketReceive = new Listener<>(e -> {
         if (e.getPacket() instanceof CPacketUseEntity) {
             if (EntityToTame != null)
                 return;

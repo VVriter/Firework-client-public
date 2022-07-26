@@ -54,7 +54,7 @@ public class EntityDesync extends Module {
     }
 
     @Subscribe
-    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (this.Riding == null) {
             return;
         }

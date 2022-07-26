@@ -49,7 +49,7 @@ public class Nuker extends Module {
 
 
     @Subscribe
-    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         super.onTick();
         for (BlockPos pos : calcPoses()) {
             if (pos == null) return;

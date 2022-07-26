@@ -63,7 +63,7 @@ public class AutoFarm extends Module {
     }
 
     @Subscribe
-    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         super.onTick();
         for (BlockPos pos : calcPoses()) {
             if (timer.hasPassedMs(delay.getValue())) {

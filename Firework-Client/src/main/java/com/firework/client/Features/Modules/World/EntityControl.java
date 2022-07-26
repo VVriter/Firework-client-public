@@ -24,7 +24,7 @@ public class EntityControl extends Module {
     }
 
     @Subscribe
-    public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         super.onTick();
         if (EntitySpeed.getValue()) {
         if (Firework.minecraft.player.getRidingEntity() != null) {

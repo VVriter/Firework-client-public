@@ -5,7 +5,6 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 import net.minecraft.init.MobEffects;
 import net.minecraft.network.play.server.SPacketTimeUpdate;
 import net.minecraft.potion.PotionEffect;
