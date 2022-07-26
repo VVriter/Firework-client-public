@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Arrays;
 
-@ModuleManifest(name = "Custom F3",category = Module.Category.CLIENT)
+@ModuleManifest(name = "Fake F3",category = Module.Category.CLIENT)
 public class F3Injection extends Module {
 
     public Setting<Boolean> Coords  = new Setting<>("Coords", true, this);
