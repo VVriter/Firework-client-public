@@ -64,9 +64,6 @@ public class ItemUser {
         int backSwitch = switchItems(item, InventoryUtil.hands.MainHand);
 
         //Uses item
-        if (rotate.getValue()) {
-            Firework.rotationManager.rotateSpoof(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5));
-        }
         EnumFacing facing = EnumFacing.UP;
         RayTraceResult result = mc.world.rayTraceBlocks(
                 new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ),
@@ -74,6 +71,11 @@ public class ItemUser {
 
         if (result != null && result.sideHit != null)
             facing = result.sideHit;
+
+        if (rotate.getValue()) {
+            Firework.rotationManager.rotateSpoof(result.hitVec);
+        }
+
         mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(blockPos, facing, hand, 0, 0,0));
 
 

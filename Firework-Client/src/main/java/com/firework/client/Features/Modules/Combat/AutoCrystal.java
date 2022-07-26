@@ -48,6 +48,7 @@ public class AutoCrystal extends Module {
     public enum blow{
         Packet, Controller
     }
+    public Setting<Boolean> rayTrace = new Setting<>("RaytraceCheck", true, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", true, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> sync = new Setting<>("Sync", true, this).setVisibility(v-> interaction.getValue());
 
@@ -117,7 +118,6 @@ public class AutoCrystal extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-
         placed = new ArrayList<>();
         target = PlayerUtil.getClosestTarget(targetRange.getValue());
         inhibitor = new Inhibitor();
@@ -165,7 +165,7 @@ public class AutoCrystal extends Module {
         switch (stage){
             case 1:
                 //Breakes a crystal
-                EntityEnderCrystal breakCrystal = CrystalUtils.getBestCrystal(target, breakRange.getValue());
+                EntityEnderCrystal breakCrystal = CrystalUtils.getBestCrystal(target, breakRange.getValue(), rayTrace.getValue());
                 if(breakCrystal != null){
                     //Returns break delay, if inhibitor is turned returns simple break delay, else break delay * current inhibit percent
                     int tempBreakDelay = (shouldInhibit.getValue() && !maxPercent.getValue(0) && !inhibitPercent.getValue(0)) ? Math.round(breakDelay.getValue() * maxPercent.getValue() / inhibitPercent.getValue()) : breakDelay.getValue();
@@ -187,7 +187,7 @@ public class AutoCrystal extends Module {
                 break;
             case 2:
                 //Places a crystal
-                BlockPos toPlace = CrystalUtils.bestCrystalPos(target, placeRange.getValue(), true, maxSelfDmg.getValue(), minTargetDmg.getValue());
+                BlockPos toPlace = CrystalUtils.bestCrystalPos(target, placeRange.getValue(), true, maxSelfDmg.getValue(), minTargetDmg.getValue(), rayTrace.getValue());
                 placePos = toPlace;
                 if(toPlace != null){
                     //Returns place delay, if inhibitor is turned returns simple place delay, else place delay * current inhibit percent
