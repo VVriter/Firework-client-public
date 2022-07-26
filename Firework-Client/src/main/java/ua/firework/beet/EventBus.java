@@ -27,7 +27,7 @@ public class EventBus {
                     e.printStackTrace();
                 }
                 listener.setPriority(field.getAnnotation(Subscribe.class).priority());
-                listeners.add(listener);
+                subscribe(listener);
             }
         }
     }
@@ -44,7 +44,7 @@ public class EventBus {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-                listeners.remove(listener);
+                unsubscribe(listener);
             }
         }
     }
