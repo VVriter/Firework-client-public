@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Managers.Memory;
+package com.firework.client.Implementations.Managers;
 
 public class MemoryManager {
      static long memory = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576L;

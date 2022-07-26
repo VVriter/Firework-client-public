@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Managers.Settings;
+package com.firework.client.Implementations.Managers;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Managers.Manager;

@@ -3,7 +3,7 @@ package com.firework.client.Implementations.UI.Hud.Huds.Render;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.util.ResourceLocation;
 
-import com.firework.client.Implementations.Managers.PlayTime.PlayTimeManager;
+import com.firework.client.Implementations.Managers.PlayTimeManager;
 import com.firework.client.Implementations.UI.Hud.HudGui;
 import com.firework.client.Implementations.UI.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.UI.Hud.Huds.HudManifest;

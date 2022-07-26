@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Managers.PlayTime;
+package com.firework.client.Implementations.Managers;
 
 import java.util.Date;
 public class PlayTimeManager {

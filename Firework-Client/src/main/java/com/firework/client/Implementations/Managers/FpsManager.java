@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Managers.Fps;
+package com.firework.client.Implementations.Managers;
 
 import net.minecraft.client.Minecraft;
 public class FpsManager {

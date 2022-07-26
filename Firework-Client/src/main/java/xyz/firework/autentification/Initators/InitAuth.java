@@ -1,6 +1,6 @@
 package xyz.firework.autentification.Initators;
 
-import com.firework.client.Implementations.Managers.PlayTime.PlayTimeManager;
+import com.firework.client.Implementations.Managers.PlayTimeManager;
 import com.firework.client.Implementations.Utill.Client.ConnectionUtil;
 import com.firework.client.SystemTray;
 

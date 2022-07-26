@@ -9,7 +9,7 @@ import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Managers.*;
-import com.firework.client.Implementations.Managers.Settings.SettingManager;
+import com.firework.client.Implementations.Managers.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CFontRenderer;
 import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Managers.Updater.UpdaterManager;

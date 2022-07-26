@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Managers.Coords;
+package com.firework.client.Implementations.Managers;
 
 import net.minecraft.client.Minecraft;
 

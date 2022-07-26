@@ -1,6 +1,6 @@
 package com.firework.client.Implementations.UI.Hud.Huds.Render;
 
-import com.firework.client.Implementations.Managers.Coords.CoordsManager;
+import com.firework.client.Implementations.Managers.CoordsManager;
 import com.firework.client.Implementations.UI.Hud.HudGui;
 import com.firework.client.Implementations.UI.Hud.HudInfo;
 import com.firework.client.Implementations.UI.Hud.Huds.HudComponent;
