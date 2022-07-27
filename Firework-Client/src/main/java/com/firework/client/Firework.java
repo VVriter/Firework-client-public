@@ -5,6 +5,8 @@ package com.firework.client;
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.IngameGuis.Loader;
 import com.firework.client.Features.Modules.Client.Client;
+import com.firework.client.Features.Modules.Client.DiscordNotificator;
+import com.firework.client.Features.Modules.Client.F3Injection;
 import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;

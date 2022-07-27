@@ -1,12 +1,15 @@
 package com.firework.client.Features.Modules.Client;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 public class DiscordNotificator extends Module {
 
@@ -32,21 +35,23 @@ public class DiscordNotificator extends Module {
     }
 
 
-    @SubscribeEvent
-    public void queueNotify(ClientChatReceivedEvent e) {
+    @Subscribe
+    public Listener<ChatReceiveE> listener = new Listener<>(e -> {
         if (notify2b2t.getValue()) {
             if (e.getMessage().getUnformattedText().contains("position")) {
                 DiscordUtil.sendMsg("@here```" + e.getMessage() + "```", webhook);
             }
         }
-    }
-    @SubscribeEvent
-    public void onUrina(ClientChatReceivedEvent e){
+    });
+
+    @Subscribe
+    public Listener<ChatReceiveE> listener1 = new Listener<>(e -> {
         String msg = e.getMessage().getUnformattedText();
         if(chatListner.getValue()){
             DiscordUtil.sendMsg("```"+msg+"```",webhook);
         }
-    }
+    });
+
     @SubscribeEvent
     public void onBebra(FMLNetworkEvent.ClientDisconnectionFromServerEvent e){
         if(serverConnection.getValue()){

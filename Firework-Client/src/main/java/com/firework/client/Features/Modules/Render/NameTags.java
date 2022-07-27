@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
@@ -19,6 +20,8 @@ import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,8 +50,8 @@ public class NameTags extends Module {
     }
 
 
-    @SubscribeEvent
-    public void onRender(RenderWorldLastEvent e) {
+    @Subscribe
+    public Listener<Render3dE> listener = new Listener<>(e-> {
         this.ri = 0;
        // this.rutil.onRender();
         if (this.ri >= 355) {
@@ -62,16 +65,16 @@ public class NameTags extends Module {
             Entity entity = (Entity) o;
 
             if (entity instanceof EntityPlayer && entity.isEntityAlive()) {
-                double x = this.interpolate(entity.lastTickPosX, entity.posX, e.getPartialTicks()) - mc.getRenderManager().viewerPosX;
-                double y = this.interpolate(entity.lastTickPosY, entity.posY, e.getPartialTicks()) - mc.getRenderManager().viewerPosY;
-                double z = this.interpolate(entity.lastTickPosZ, entity.posZ, e.getPartialTicks()) - mc.getRenderManager().viewerPosZ;
+                double x = this.interpolate(entity.lastTickPosX, entity.posX,1) - mc.getRenderManager().viewerPosX;
+                double y = this.interpolate(entity.lastTickPosY, entity.posY,1) - mc.getRenderManager().viewerPosY;
+                double z = this.interpolate(entity.lastTickPosZ, entity.posZ, 1) - mc.getRenderManager().viewerPosZ;
 
                 if (!entity.getName().equalsIgnoreCase(mc.player.getName())) {
-                    this.renderNameTag((EntityPlayer) entity, x, y, z, e.getPartialTicks());
+                    this.renderNameTag((EntityPlayer) entity, x, y, z, 1);
                 }
             }
         }
-    }
+    });
 
 
     private void renderNameTag(EntityPlayer player, double x, double y, double z, float delta) {
