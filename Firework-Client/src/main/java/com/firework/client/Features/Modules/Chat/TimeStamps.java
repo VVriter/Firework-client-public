@@ -3,7 +3,8 @@ package com.firework.client.Features.Modules.Chat;
 /** @Author dazed68
  * Advenced timestaps owncoded!
  * Like in RUSHERHACK CLIENT
- * im sooo good!*/
+ * im sooo good!
+ * */
 
 
 import com.firework.client.Features.Modules.Module;
@@ -11,6 +12,7 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
 import com.firework.client.Implementations.Events.Chat.ChatSendE;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -74,6 +76,7 @@ public class TimeStamps extends Module {
     public Listener<ChatReceiveE> listener = new Listener<>(event-> {
         String strDate = dateFormatter.format(date);
         TextComponentString time = new TextComponentString(bracketFormatting + firstBracket + ChatFormatting.RESET + timeFormatting + strDate + ChatFormatting.RESET +bracketFormatting+lastBracket + " ");
-        event.setMessage(time.appendSibling(event.getMessage()));
+        event.setCancelled(true);
+        mc.ingameGUI.getChatGUI().printChatMessage(time.appendSibling(event.getMessage()));
     });
 }
