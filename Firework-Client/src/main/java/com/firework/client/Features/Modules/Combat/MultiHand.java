@@ -23,6 +23,7 @@ public class MultiHand extends Module {
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
+        if(fullNullCheck()) return;
         if(!parallel.getValue()) {
             if (multiHandMode.getValue(modes.Totem))
                 doMultiHand(Items.TOTEM_OF_UNDYING, totemHandMode.getValue());

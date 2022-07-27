@@ -109,7 +109,7 @@ public class Surround extends Module {
         System.out.println(System.nanoTime() - time);
         if (mc.player == null || mc.world == null) return;
 
-        if(jump.getValue(jumpMode.Disable) && (mc.gameSettings.keyBindJump.isKeyDown() || (Step.enabled.getValue() && mc.player.collidedHorizontally))) {
+        if(jump.getValue(jumpMode.Disable) && (mc.gameSettings.keyBindJump.isKeyDown())) {
             onDisable();
         }else if(jump.getValue(jumpMode.Continue) && mc.gameSettings.keyBindJump.isKeyDown() && isAir(EntityUtil.getFlooredPos(mc.player).add(0, -1, 0)) && BlockUtil.isValid(EntityUtil.getFlooredPos(mc.player).add(0, -1, 0))){
             blockPlacer.placeBlock(EntityUtil.getFlooredPos(mc.player).add(0, -1, 0), Blocks.OBSIDIAN);

@@ -110,7 +110,7 @@ public class HoleFiller extends Module {
             onDisable();
         }
 
-        if (mc.player.collidedHorizontally && shouldDisableOnJump.getValue() && Step.enabled.getValue()) {
+        if (mc.player.collidedHorizontally && shouldDisableOnJump.getValue()) {
             onDisable();
         }
 
@@ -180,8 +180,8 @@ public class HoleFiller extends Module {
         line = new ArrayList<>();
     }
 
-    @SubscribeEvent
-    public void onSettingsChangeEvent(SettingChangeValueEvent event){
+    @Subscribe
+    public Listener<SettingChangeValueEvent> onSettingsChangeEvent = new Listener<>(event -> {
         if(event.setting == timerMode){
             if(timerMode.getValue(timers.Ms)){
                 placeTimerMs.reset();
@@ -189,7 +189,7 @@ public class HoleFiller extends Module {
                 placeTimerTicks.reset();
             }
         }
-    }
+    });
 
     private boolean isAir(BlockPos pos) {
         return BlockUtil.getBlock(pos) == Blocks.AIR;

@@ -10,7 +10,10 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.*;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.CPacketCloseWindow;
+import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
+import net.minecraft.network.play.client.CPacketPlayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,6 +68,27 @@ public class InventoryUtil
             mc.playerController.windowClick(0, 36 + mc.player.inventory.currentItem, 0, ClickType.PICKUP, mc.player);
             mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
         }
+        mc.playerController.updateController();
+    }
+
+    public static void swapItems(int slot, int step, boolean packetSpoof) {
+        if(slot == -1) return;
+        if(packetSpoof)
+            mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.OPEN_INVENTORY));
+
+        if (step == 0) {
+            mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
+            mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
+            mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
+        }
+        if (step == 1) {
+            mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
+            mc.playerController.windowClick(0, 36 + mc.player.inventory.currentItem, 0, ClickType.PICKUP, mc.player);
+            mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
+        }
+
+        if(packetSpoof)
+            mc.player.connection.sendPacket(new CPacketCloseWindow());
         mc.playerController.updateController();
     }
 
@@ -481,6 +505,17 @@ public class InventoryUtil
         } else if (hand == hands.OffHand) {
             if (mc.player.getHeldItemOffhand().getItem() != item)
                 swapItems(getItemSlot(item), 0);
+        }
+    }
+
+    public static void doMultiHand(Item item, hands hand, boolean packetSpoof){
+        if(item == null) return;
+        if (hand == hands.MainHand) {
+            if (mc.player.getHeldItemMainhand().getItem() != item)
+                swapItems(getItemSlot(item), 1, packetSpoof);
+        } else if (hand == hands.OffHand) {
+            if (mc.player.getHeldItemOffhand().getItem() != item)
+                swapItems(getItemSlot(item), 0, packetSpoof);
         }
     }
 

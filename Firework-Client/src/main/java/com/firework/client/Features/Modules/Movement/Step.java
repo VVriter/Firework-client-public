@@ -1,0 +1,74 @@
+package com.firework.client.Features.Modules.Movement;
+
+import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
+import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
+import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Timer;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
+
+@ModuleManifest(name = "Step", category = Module.Category.MOVEMENT)
+public class Step extends Module {
+
+    public Setting<modes> mode = new Setting<>("Mode", modes.Timer, this);
+    public enum modes{
+        Timer
+    }
+
+    public Setting<Integer> ticks = new Setting<>("Ticks", 0, this, 0, 50);
+
+    public Setting<Double> delay = new Setting<>("DelayS", 0d, this, 0, 1);
+
+    float defaultTickLeght;
+    boolean autoJump;
+    boolean reset;
+
+    Timer timer;
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        if(fullNullCheck()) super.onDisable();
+        timer = new Timer();
+        defaultTickLeght = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
+        reset = false;
+        autoJump = mc.gameSettings.autoJump;
+        mc.gameSettings.autoJump = false;
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        mc.gameSettings.autoJump = autoJump;
+        ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTickLeght);
+        timer = null;
+    }
+
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
+        if(fullNullCheck()) return;
+
+        if (mode.getValue(modes.Timer) && reset && mc.player.onGround) {
+            reset = false;
+            ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTickLeght);
+        }
+
+        if(mode.getValue(modes.Timer) && mc.player.collidedHorizontally && mc.player.onGround &&
+                (mc.player.movementInput.forwardKeyDown
+                || mc.player.movementInput.leftKeyDown
+                || mc.player.movementInput.rightKeyDown
+                || mc.player.movementInput.backKeyDown)){
+
+            mc.player.jump();
+            ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTickLeght - ticks.getValue().floatValue());
+        }
+
+        if(timer.hasPassedMs(delay.getValue()*1000)) {
+            reset = true;
+            timer.reset();
+        }
+    });
+}
