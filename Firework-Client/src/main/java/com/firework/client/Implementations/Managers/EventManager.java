@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Managers;
 
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
 import com.firework.client.Implementations.Events.OnFishingEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
 import com.firework.client.Implementations.Events.Render.RenderGameOverlay;
@@ -58,6 +59,12 @@ public class EventManager extends Manager{
     public void renderGameOverlay(RenderGameOverlayEvent event){
         RenderGameOverlay gameOverlayEvent = new RenderGameOverlay(event, event.getType());
         Firework.eventBus.post(gameOverlayEvent);
+    }
+
+    @SubscribeEvent
+    public void onChatREceive (ClientChatReceivedEvent e) {
+        ChatReceiveE event = new ChatReceiveE(e.getType(),e.getMessage());
+        Firework.eventBus.post(event);
     }
 
 }

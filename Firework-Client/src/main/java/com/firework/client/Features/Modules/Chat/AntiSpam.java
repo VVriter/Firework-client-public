@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Chat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -21,11 +22,10 @@ public class AntiSpam extends Module {
     public Setting<Boolean> YouTube = new Setting<>("YouTube", true, this);
 
 
-   @SubscribeEvent
-    public void onChat(ClientChatReceivedEvent e) {
-
+    @Subscribe
+    public Listener<ChatReceiveE> listener = new Listener<>(e -> {
         if (Links.getValue() && e.getMessage().getUnformattedText().contains("http")) {
-            e.setCanceled(true);
+            e.setCancelled(true);
         }
 
 
@@ -38,7 +38,7 @@ public class AntiSpam extends Module {
                 || e.getMessage().getUnformattedText().contains("маг")
                 || e.getMessage().getUnformattedText().contains("фед")
                 || e.getMessage().getUnformattedText().contains("бес")) {
-            e.setCanceled(true);
+            e.setCancelled(true);
         }
 
 
@@ -48,7 +48,7 @@ public class AntiSpam extends Module {
                 || e.getMessage().getUnformattedText().contains("Кит")
                 || e.getMessage().getUnformattedText().contains("К1т")
                 || e.getMessage().getUnformattedText().contains("к1т")) {
-            e.setCanceled(true);
+            e.setCancelled(true);
         }
 
 
@@ -59,7 +59,7 @@ public class AntiSpam extends Module {
                 || e.getMessage().getUnformattedText().contains("N1g")
                 || e.getMessage().getUnformattedText().contains("Нег")
                 || e.getMessage().getUnformattedText().contains("нег")) {
-            e.setCanceled(true);
+            e.setCancelled(true);
         }
 
 
@@ -68,7 +68,7 @@ public class AntiSpam extends Module {
                 || e.getMessage().getUnformattedText().contains("#")
                 || e.getMessage().getUnformattedText().contains("дис")
                 || e.getMessage().getUnformattedText().contains("Дис")) {
-            e.setCanceled(true);
+            e.setCancelled(true);
         }
 
         if (Badwords.getValue() && e.getMessage().getUnformattedText().contains("fag")
@@ -137,7 +137,7 @@ public class AntiSpam extends Module {
                 || e.getMessage().getUnformattedText().contains("Су")
                 || e.getMessage().getUnformattedText().contains("су")
                 || e.getMessage().getUnformattedText().contains("ху")) {
-            e.setCanceled(true);
+            e.setCancelled(true);
         }
 
 
@@ -151,7 +151,8 @@ public class AntiSpam extends Module {
                 || e.getMessage().getUnformattedText().contains("ют")
                 || e.getMessage().getUnformattedText().contains("канал")
                 || e.getMessage().getUnformattedText().contains("chan")) {
-            e.setCanceled(true);
+            e.setCancelled(true);
         }
-    }
+        }
+    );
 }
