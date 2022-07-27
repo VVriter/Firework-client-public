@@ -1,6 +1,6 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Misc;
 
-import com.firework.client.Implementations.Events.ItemUsedEvent;
+import com.firework.client.Implementations.Events.Items.ItemUsedEvent;
 import com.firework.client.Implementations.Utill.Globals;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemFood;
