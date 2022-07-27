@@ -87,13 +87,13 @@ public class MenderHelper extends Module {
         }
 
         //Auto armor fun
-        if(autoArmor.getValue()){
-            if(packetSpoof.getValue())
+        if(autoArmor.getValue() && hasArmor()) {
+            if (packetSpoof.getValue())
                 mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.OPEN_INVENTORY));
 
-            for(Integer slot : targetArmorSlots){
+            for (Integer slot : targetArmorSlots) {
                 int armorSlot = InventoryUtil.findArmorSlot(InventoryUtil.getEquipmentFromSlot(slot), binding.getValue(), xCarry.getValue());
-                if(armorSlot != -1) {
+                if (armorSlot != -1) {
                     InventoryUtil.clickSlot(armorSlot);
                     InventoryUtil.clickSlot(slot);
                     InventoryUtil.clickSlot(armorSlot);
@@ -101,7 +101,7 @@ public class MenderHelper extends Module {
             }
             targetArmorSlots.clear();
 
-            if(packetSpoof.getValue())
+            if (packetSpoof.getValue())
                 mc.player.connection.sendPacket(new CPacketCloseWindow());
         }
 
@@ -123,4 +123,13 @@ public class MenderHelper extends Module {
             }
         }
     });
+
+    public boolean hasArmor(){
+        for(Integer slot : targetArmorSlots){
+            int armorSlot = InventoryUtil.findArmorSlot(InventoryUtil.getEquipmentFromSlot(slot), binding.getValue(), xCarry.getValue());
+            if(armorSlot != -1)
+                return true;
+        }
+        return false;
+    }
 }
