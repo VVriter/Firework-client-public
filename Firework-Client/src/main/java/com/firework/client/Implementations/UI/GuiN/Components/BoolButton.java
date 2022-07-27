@@ -35,8 +35,7 @@ public class BoolButton extends Button{
 
         int activeColor = (boolean) setting.getValue() ? RainbowUtil.astolfoColors(100, 100) : Color.white.getRGB();
 
-        int checkMarkWidth = 10;
-        RenderUtils2D.drawCheckMarkV3(new Rectangle(x + width - checkMarkWidth - 2, y + 2, checkMarkWidth, 6), (Boolean) setting.getValue(), animation.width);
+        RenderUtils2D.drawCheckMarkV3(new Rectangle(x + width - 10 - 2, y + 2, 10, 6), (Boolean) setting.getValue(), animation.width);
         textManager.drawString(setting.name, (float) (x+3), (float) (y+1),
                 activeColor,false);
     }

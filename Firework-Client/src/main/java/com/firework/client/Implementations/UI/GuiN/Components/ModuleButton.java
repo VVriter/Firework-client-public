@@ -34,6 +34,8 @@ public class ModuleButton extends Button{
                 components.add(new BoolButton(setting, frame));
             if(setting.mode == Setting.Mode.MODE)
                 components.add(new ModeButton(setting, frame));
+            if(setting.mode == Setting.Mode.SUB)
+                components.add(new SubButton(setting, frame));
         }
     }
 
