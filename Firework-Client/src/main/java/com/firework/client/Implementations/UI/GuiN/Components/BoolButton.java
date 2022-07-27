@@ -44,6 +44,7 @@ public class BoolButton extends Button{
     @Override
     public void init(int mouseX, int mouseY, int state) {
         super.init(mouseX, mouseY, state);
+        if(state != 0) return;
         if(GuiN.isDragging) return;
         setting.setValue(!(boolean)setting.getValue());
         if((boolean)setting.getValue())
