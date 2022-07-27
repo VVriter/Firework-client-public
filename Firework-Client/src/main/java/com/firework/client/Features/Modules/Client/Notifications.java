@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Client;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.Render.Render2dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
@@ -12,6 +13,8 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.awt.*;
 
@@ -47,12 +50,12 @@ public class Notifications extends Module {
         waitTimer.reset();
     }
 
-    @SubscribeEvent
-    public void event(TickEvent.RenderTickEvent e) {
+    @Subscribe
+    public Listener<Render2dE> listener = new Listener<>(e -> {
         if (needToRender) {
             doBox();
         }
-    }
+    });
 
      void doBox() {
          ScaledResolution sr = new ScaledResolution(mc);

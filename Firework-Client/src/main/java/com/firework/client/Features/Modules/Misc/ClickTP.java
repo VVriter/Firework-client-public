@@ -3,7 +3,7 @@ package com.firework.client.Features.Modules.Misc;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
-import com.firework.client.Implementations.Events.Render.WorldRender3DEvent;
+import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
@@ -66,7 +66,7 @@ public class ClickTP extends Module {
 
 
     @Subscribe
-    public Listener<WorldRender3DEvent> listener2 = new Listener<>(event -> {
+    public Listener<Render3dE> listener2 = new Listener<>(event -> {
         if (posRenderer != null && posToTp != null) {
             posRenderer.doRender(
                     posToTp,

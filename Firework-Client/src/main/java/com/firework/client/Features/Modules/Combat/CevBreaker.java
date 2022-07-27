@@ -4,7 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
-import com.firework.client.Implementations.Events.Render.WorldRender3DEvent;
+import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockBreaker;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
@@ -86,7 +86,7 @@ public class CevBreaker extends Module {
     }
 
     @Subscribe
-    public Listener<WorldRender3DEvent> onRender = new Listener<>(worldRender3DEvent -> {
+    public Listener<Render3dE> onRender = new Listener<>(worldRender3DEvent -> {
        if(upside == null) return;
        new BlockRenderBuilder(upside)
                .addRenderModes(

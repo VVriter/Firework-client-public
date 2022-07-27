@@ -2,7 +2,7 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Implementations.Events.Render.WorldRender3DEvent;
+import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
@@ -44,7 +44,7 @@ public class HoleEsp extends Module {
     public Setting<HSLColor> fillColorObsidian = new Setting<>("FillColorObsidian", new HSLColor(50, 54, 43), this).setVisibility(v-> colors.getValue());
 
     @Subscribe
-    public Listener<WorldRender3DEvent> listener2 = new Listener<>(event -> {
+    public Listener<Render3dE> listener2 = new Listener<>(event -> {
         for (BlockPos pos : calcHoles()) {
                 if (isSafe(pos)) {
                     //Glow

@@ -4,12 +4,14 @@ import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
 import com.firework.client.Implementations.Events.OnFishingEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
+import com.firework.client.Implementations.Events.Render.Render2dE;
 import com.firework.client.Implementations.Events.Render.RenderGameOverlay;
-import com.firework.client.Implementations.Events.Render.WorldRender3DEvent;
+import com.firework.client.Implementations.Events.Render.Render3dE;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class EventManager extends Manager{
     public EventManager() {
@@ -25,7 +27,7 @@ public class EventManager extends Manager{
 
     @SubscribeEvent
     public void onRender(RenderWorldLastEvent event){
-        Firework.eventBus.post(new WorldRender3DEvent());
+        Firework.eventBus.post(new Render3dE());
     }
 
     @SubscribeEvent
@@ -64,6 +66,15 @@ public class EventManager extends Manager{
     @SubscribeEvent
     public void onChatREceive (ClientChatReceivedEvent e) {
         ChatReceiveE event = new ChatReceiveE(e.getType(),e.getMessage());
+        Firework.eventBus.post(event);
+        if (event.isCancelled()) {
+            e.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void render2d(TickEvent.RenderTickEvent e) {
+        Render2dE event = new Render2dE();
         Firework.eventBus.post(event);
     }
 

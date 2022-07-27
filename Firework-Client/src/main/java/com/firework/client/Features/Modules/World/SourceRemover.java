@@ -3,7 +3,7 @@ package com.firework.client.Features.Modules.World;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
-import com.firework.client.Implementations.Events.Render.WorldRender3DEvent;
+import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
@@ -64,7 +64,7 @@ public class SourceRemover extends Module {
     });
 
     @Subscribe
-    public Listener<WorldRender3DEvent> onRender = new Listener<>(event -> {
+    public Listener<Render3dE> onRender = new Listener<>(event -> {
         for (BlockPos posers : calcPoses()) {
             RenderUtils.drawBoxESP(posers,color.getValue().toRGB(),5,true,false,200,1);
         }

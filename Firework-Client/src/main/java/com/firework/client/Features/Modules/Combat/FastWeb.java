@@ -3,7 +3,7 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
-import com.firework.client.Implementations.Events.Render.WorldRender3DEvent;
+import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Mixins.MixinsList.IEntity;
 import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
 import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
@@ -113,7 +113,7 @@ public class FastWeb extends Module {
 
     PosRenderer posRenderer;
     @Subscribe
-    public Listener<WorldRender3DEvent> listener2 = new Listener<>(event -> {
+    public Listener<Render3dE> listener2 = new Listener<>(event -> {
         for (BlockPos poses : calcPoses()) {
             if (posRenderer != null && poses != null) {
                 posRenderer.doRender(

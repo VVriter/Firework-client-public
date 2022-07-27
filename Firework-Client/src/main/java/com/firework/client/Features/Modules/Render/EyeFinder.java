@@ -2,7 +2,7 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Implementations.Events.Render.WorldRender3DEvent;
+import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
@@ -53,7 +53,7 @@ public class EyeFinder extends Module {
     public Setting<Double> eyeLineWidth = new Setting<>("LineWidth", (double)3, this, 1, 10).setVisibility(v-> page.getValue(pages.Line));
     public Setting<HSLColor> viewLineColor = new Setting<>("ViewLineColor", new HSLColor(1, 54, 43), this).setVisibility(v-> page.getValue(pages.Line));
     @Subscribe
-    public Listener<WorldRender3DEvent> listener2 = new Listener<>(event -> {
+    public Listener<Render3dE> listener2 = new Listener<>(event -> {
         mc.world.loadedEntityList.stream().filter(entity -> mc.player != entity && !entity.isDead && entity instanceof EntityPlayer && mc.player.getDistance(entity) <= distance.getValue()).forEach(this::drawLine);
     });
 

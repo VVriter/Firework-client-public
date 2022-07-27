@@ -4,7 +4,7 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
-import com.firework.client.Implementations.Events.Render.WorldRender3DEvent;
+import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
@@ -136,7 +136,7 @@ public class Trap extends Module {
     });
 
     @Subscribe
-    public Listener<WorldRender3DEvent> onRender = new Listener<>(worldRender3DEvent -> {
+    public Listener<Render3dE> onRender = new Listener<>(worldRender3DEvent -> {
         for(BlockPos pos : line){
             new BlockRenderBuilder(pos)
                     .addRenderModes(

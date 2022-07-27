@@ -2,7 +2,7 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Implementations.Events.Render.WorldRender3DEvent;
+import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
@@ -65,7 +65,7 @@ public class HighwayESP extends Module {
 
     }
     @Subscribe
-    public Listener<WorldRender3DEvent> listener2 = new Listener<>(event -> {
+    public Listener<Render3dE> listener2 = new Listener<>(event -> {
         BlockPos pos1 = new BlockPos(30000000,y,30000000);
         BlockPos pos2 = new BlockPos(-30000000,y,-30000000);
         BlockPos pos3 = new BlockPos(30000000,y,-30000000);
