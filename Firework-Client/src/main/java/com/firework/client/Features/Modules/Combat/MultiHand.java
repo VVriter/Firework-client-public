@@ -20,18 +20,19 @@ public class MultiHand extends Module {
     public Setting<hands> crystalHandMode = new Setting<>("Crystal", hands.MainHand, this).setVisibility(v-> multiHandMode.getValue(modes.Crystal));
 
     public Setting<Boolean> parallel = new Setting<>("Parallel", false, this);
+    public Setting<Boolean> packetSpoof = new Setting<>("PacketSpoof", true, this);
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
         if(!parallel.getValue()) {
             if (multiHandMode.getValue(modes.Totem))
-                doMultiHand(Items.TOTEM_OF_UNDYING, totemHandMode.getValue());
+                doMultiHand(Items.TOTEM_OF_UNDYING, totemHandMode.getValue(), packetSpoof.getValue());
             else if (multiHandMode.getValue(modes.Crystal))
-                doMultiHand(Items.END_CRYSTAL, crystalHandMode.getValue());
+                doMultiHand(Items.END_CRYSTAL, crystalHandMode.getValue(), packetSpoof.getValue());
         }else {
-            doMultiHand(Items.TOTEM_OF_UNDYING, totemHandMode.getValue());
-            doMultiHand(Items.END_CRYSTAL, crystalHandMode.getValue());
+            doMultiHand(Items.TOTEM_OF_UNDYING, totemHandMode.getValue(), packetSpoof.getValue());
+            doMultiHand(Items.END_CRYSTAL, crystalHandMode.getValue(), packetSpoof.getValue());
         }
     });
 

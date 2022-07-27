@@ -93,9 +93,11 @@ public class MenderHelper extends Module {
 
             for(Integer slot : targetArmorSlots){
                 int armorSlot = InventoryUtil.findArmorSlot(InventoryUtil.getEquipmentFromSlot(slot), binding.getValue(), xCarry.getValue());
-                InventoryUtil.clickSlot(armorSlot);
-                InventoryUtil.clickSlot(slot);
-                InventoryUtil.clickSlot(armorSlot);
+                if(armorSlot != -1) {
+                    InventoryUtil.clickSlot(armorSlot);
+                    InventoryUtil.clickSlot(slot);
+                    InventoryUtil.clickSlot(armorSlot);
+                }
             }
             targetArmorSlots.clear();
 
