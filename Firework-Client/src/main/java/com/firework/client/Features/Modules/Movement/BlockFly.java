@@ -114,13 +114,13 @@ public class BlockFly extends Module {
         e.setCancelled(velocity.getValue());
     });
 
-    @SubscribeEvent
-    public void onSettingUpdate(final SettingChangeValueEvent event){
+    @Subscribe
+    public Listener<SettingChangeValueEvent> listener3 = new Listener<>(event-> {
         if(event.setting == towerTimerDelay || event.setting == rollBackDelay){
             towerTimer.reset();
             rollBackTimer.reset();
         }
-    }
+    });
 
     @Subscribe
     public Listener<PacketEvent.Receive> onRender = new Listener<>(event -> {

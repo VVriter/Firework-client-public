@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
 import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Timer;
+import net.minecraft.network.play.client.CPacketPlayer;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
@@ -15,12 +16,12 @@ public class Step extends Module {
 
     public Setting<modes> mode = new Setting<>("Mode", modes.Timer, this);
     public enum modes{
-        Timer
+        Timer, Writer
     }
 
-    public Setting<Integer> ticks = new Setting<>("Ticks", 0, this, 0, 50);
+    public Setting<Integer> ticks = new Setting<>("Ticks", 0, this, 0, 50).setVisibility(v-> mode.getValue(modes.Timer));
 
-    public Setting<Double> delay = new Setting<>("DelayS", 0d, this, 0, 1);
+    public Setting<Double> delay = new Setting<>("DelayS", 0d, this, 0, 1).setVisibility(v-> mode.getValue(modes.Timer));
 
     float defaultTickLeght;
     boolean autoJump;
@@ -70,5 +71,19 @@ public class Step extends Module {
             reset = true;
             timer.reset();
         }
+
+
+        if (mode.getValue(modes.Writer)) {
+            if (mc.player.collidedHorizontally) {
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.42D, mc.player.posZ, mc.player.onGround));
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.75D, mc.player.posZ, mc.player.onGround));
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.0D, mc.player.posZ, mc.player.onGround));
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.16D, mc.player.posZ, mc.player.onGround));
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.23D, mc.player.posZ, mc.player.onGround));
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.2D, mc.player.posZ, mc.player.onGround));
+                mc.player.setPosition(mc.player.posX, mc.player.posY + 1, mc.player.posZ);
+            }
+        }
+
     });
 }
