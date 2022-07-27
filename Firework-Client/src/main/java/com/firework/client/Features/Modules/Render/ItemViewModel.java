@@ -75,13 +75,13 @@ public class ItemViewModel extends Module {
         SlowVal = new Setting<>("AnimationSpeed", (double)20, this, 1, 40).setVisibility(v-> SlowAnimations.getValue(true));
 
         enabled = this.isEnabled;
-        restTranslate = new Setting<>("Reset", false, this).setVisibility(v-> page.getValue(pages.Translate));
+        restTranslate = new Setting<>("Reset Translate", false, this).setVisibility(v-> page.getValue(pages.Translate));
         noEat = new Setting<>("NoEat", true, this).setVisibility(v-> page.getValue(pages.Translate));
         translateX = new Setting<>("TranslateX", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Translate));
         translateY = new Setting<>("TranslateY", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Translate));
         translateZ = new Setting<>("TranslateZ", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Translate));
 
-        resetRotations = new Setting<>("Reset", false, this).setVisibility(v-> page.getValue(pages.Rotate));
+        resetRotations = new Setting<>("Reset Rotate", false, this).setVisibility(v-> page.getValue(pages.Rotate));
         rotateXR = new Setting<>("RotateXR", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Rotate));
         rotateYR = new Setting<>("RotateYR", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Rotate));
         rotateZR = new Setting<>("RotateZR", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Rotate));
@@ -90,7 +90,7 @@ public class ItemViewModel extends Module {
         rotateYL = new Setting<>("RotateYL", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Rotate));
         rotateZL = new Setting<>("RotateZL", (double)0,this, -300, 300).setVisibility(v-> page.getValue(pages.Rotate));
 
-        resetScale = new Setting<>("Reset", false, this).setVisibility(v-> page.getValue(pages.Scale));
+        resetScale = new Setting<>("Reset Scale", false, this).setVisibility(v-> page.getValue(pages.Scale));
         scaleX = new Setting<>("ScaleX", (double)100,this, -300, 300).setVisibility(v-> page.getValue(pages.Scale));
         scaleY = new Setting<>("ScaleY", (double)100,this, -300, 300).setVisibility(v-> page.getValue(pages.Scale));
         scaleZ = new Setting<>("ScaleZ", (double)100,this, -300, 300).setVisibility(v-> page.getValue(pages.Scale));
