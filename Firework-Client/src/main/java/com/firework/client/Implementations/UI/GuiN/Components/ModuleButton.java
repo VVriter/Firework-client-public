@@ -30,6 +30,8 @@ public class ModuleButton extends Button{
         for(Setting setting : Firework.settingManager.modulesSettings(module)){
             if(setting.mode == Setting.Mode.NUMBER)
                 components.add(new SliderButton(setting, frame));
+            if(setting.mode == Setting.Mode.BOOL)
+                components.add(new BoolButton(setting, frame));
         }
     }
 

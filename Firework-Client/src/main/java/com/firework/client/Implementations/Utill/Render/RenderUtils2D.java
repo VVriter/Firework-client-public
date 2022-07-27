@@ -552,14 +552,11 @@ public class RenderUtils2D {
         drawRectangle(right, color);
     }
 
-    public static void drawCheckMarkV3(Rectangle rectangle, boolean enabled){
+    public static void drawCheckMarkV3(Rectangle rectangle, boolean enabled, double width){
         int radius = (int) round(rectangle.height/2);
         drawRoundedRectangle(rectangle, radius, enabled ? new Color(RainbowUtil.astolfoColors(100, 100)) : gray);
         Point2D.Double circleMarkPoint = null;
-        if(enabled)
-            circleMarkPoint = new Point2D.Double((int) round(rectangle.x + rectangle.width - radius),rectangle.y + radius);
-        else
-            circleMarkPoint = new Point2D.Double(rectangle.x + radius,rectangle.y + radius);
+        circleMarkPoint = new Point2D.Double(rectangle.x + width,rectangle.y + radius);
         drawFilledCircle(circleMarkPoint, white, radius);
     }
 
