@@ -53,6 +53,8 @@ public class Surround extends Module {
     private Setting<Boolean> rotate = new Setting<>("Rotate", false, this);
     private Setting<Boolean> packet = new Setting<>("Packet", true, this);
 
+    private Setting<Boolean> deathDisable = new Setting<>("DeathDisable", false, this);
+
     private ArrayList<BlockPos> line;
 
     private BlockPlacer blockPlacer;
@@ -66,7 +68,7 @@ public class Surround extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        if(fullNullCheck()) return;
+        if(fullNullCheck()) super.onDisableLog();
 
         if(!containsAir(blocksToPlace()) && shouldToggle.getValue())
             onDisable();
@@ -110,7 +112,7 @@ public class Surround extends Module {
         if (mc.player == null || mc.world == null) return;
 
         if(jump.getValue(jumpMode.Disable) && (mc.gameSettings.keyBindJump.isKeyDown())) {
-            onDisable();
+            onDisableLog();
         }else if(jump.getValue(jumpMode.Continue) && mc.gameSettings.keyBindJump.isKeyDown() && isAir(EntityUtil.getFlooredPos(mc.player).add(0, -1, 0)) && BlockUtil.isValid(EntityUtil.getFlooredPos(mc.player).add(0, -1, 0))){
             blockPlacer.placeBlock(EntityUtil.getFlooredPos(mc.player).add(0, -1, 0), Blocks.OBSIDIAN);
         }
@@ -121,7 +123,7 @@ public class Surround extends Module {
 
             if (shouldToggle.getValue()) {
                 doSurround();
-                onDisable();
+                onDisableLog();
             }
             first = false;
         }
@@ -129,6 +131,7 @@ public class Surround extends Module {
         //Stops process if didn't find obby in a hotbar
         if (getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
             MessageUtil.sendError("No obby found in the hotbar", -1117);
+            onDisable();
             return;
         }
 

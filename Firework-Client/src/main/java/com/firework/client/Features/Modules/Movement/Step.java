@@ -31,7 +31,7 @@ public class Step extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        if(fullNullCheck()) super.onDisable();
+        if(fullNullCheck()) super.onDisableLog();
         timer = new Timer();
         defaultTickLeght = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
         reset = false;

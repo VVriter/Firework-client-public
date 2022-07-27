@@ -98,6 +98,7 @@ public class Trap extends Module {
         //Stops process if web wasn't found in a hotbar
         if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
             MessageUtil.sendError("No obby found in the hotbar", -1117);
+            onDisable();
             return;
         }
 

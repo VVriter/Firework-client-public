@@ -116,6 +116,7 @@ public class HoleFiller extends Module {
 
         if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
             MessageUtil.sendError("No obby found in the hotbar", -1117);
+            onDisable();
             return;
         }
 

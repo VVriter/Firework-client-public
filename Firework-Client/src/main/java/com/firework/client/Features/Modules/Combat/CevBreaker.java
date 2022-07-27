@@ -102,6 +102,7 @@ public class CevBreaker extends Module {
 
         if(!mc.player.inventory.hasItemStack(new ItemStack(Items.END_CRYSTAL)) || !mc.player.inventory.hasItemStack(new ItemStack(Blocks.OBSIDIAN))){
             MessageUtil.sendError("No obby/crystals found in the hotbar", -1117);
+            onDisable();
             return;
         }
 

@@ -35,6 +35,7 @@ public class AutoPotion extends Module {
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
+        if(fullNullCheck()) return;
         if (mc.currentScreen == null) {
             usePotion();
         }
