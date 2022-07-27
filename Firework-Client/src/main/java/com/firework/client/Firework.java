@@ -5,6 +5,7 @@ package com.firework.client;
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.IngameGuis.Loader;
 import com.firework.client.Features.Modules.Client.Client;
+import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
@@ -140,6 +141,7 @@ public class Firework
         }
         //Sets custom title when client is loaded Example: Firework | Player123
         Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
+        MinecraftForge.EVENT_BUS.register(new DiscordNotificator());
     }
 
 
