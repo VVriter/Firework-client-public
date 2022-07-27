@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Events;
+package com.firework.client.Implementations.Events.Chunk;
 
 import net.minecraft.client.renderer.chunk.RenderChunk;
 import net.minecraft.util.math.BlockPos;

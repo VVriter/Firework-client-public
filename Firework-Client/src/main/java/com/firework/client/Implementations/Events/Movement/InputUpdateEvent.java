@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Events;
+package com.firework.client.Implementations.Events.Movement;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovementInput;

@@ -1,5 +1,6 @@
-package com.firework.client.Implementations.Events;
+package com.firework.client.Implementations.Events.Movement;
 
+import com.firework.client.Implementations.Events.EventStage;
 import net.minecraft.entity.MoverType;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
 

@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Events;
+package com.firework.client.Implementations.Events.Render;
 
 import ua.firework.beet.Event;
 

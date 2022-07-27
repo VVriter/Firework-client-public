@@ -1,7 +1,7 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Chunks;
 
 import com.firework.client.Firework;
-import com.firework.client.Implementations.Events.EventRenderChunk;
+import com.firework.client.Implementations.Events.Chunk.EventRenderChunk;
 import net.minecraft.client.renderer.chunk.RenderChunk;
 import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;

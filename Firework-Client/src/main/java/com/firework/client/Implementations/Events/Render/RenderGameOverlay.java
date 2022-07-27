@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Events;
+package com.firework.client.Implementations.Events.Render;
 
 import net.minecraft.client.gui.BossInfoClient;
 import net.minecraft.client.gui.ScaledResolution;

@@ -1,6 +1,6 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Render;
 
-import com.firework.client.Implementations.Events.ColorMultiplierEvent;
+import com.firework.client.Implementations.Events.Render.ColorMultiplierEvent;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;

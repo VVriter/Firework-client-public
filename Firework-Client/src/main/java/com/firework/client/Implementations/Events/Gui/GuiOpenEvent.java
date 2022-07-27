@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Events;
+package com.firework.client.Implementations.Events.Gui;
 
 import net.minecraft.client.gui.GuiScreen;
 import ua.firework.beet.Event;

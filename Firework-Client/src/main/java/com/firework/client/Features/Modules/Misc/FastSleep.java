@@ -2,7 +2,7 @@ package com.firework.client.Features.Modules.Misc;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Implementations.Events.GuiOpenEvent;
+import com.firework.client.Implementations.Events.Gui.GuiOpenEvent;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import ua.firework.beet.Listener;

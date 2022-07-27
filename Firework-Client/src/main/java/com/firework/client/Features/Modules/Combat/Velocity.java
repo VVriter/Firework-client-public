@@ -3,15 +3,13 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
-import com.firework.client.Implementations.Events.PlayerPushOutOfBlocksEvent;
-import com.firework.client.Implementations.Events.PlayerPushedByWaterEvent;
+import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
+import com.firework.client.Implementations.Events.Movement.PlayerPushedByWaterEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketEntityVelocity;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketExplosion;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.network.play.server.SPacketExplosion;
-import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 

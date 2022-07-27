@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Events;
+package com.firework.client.Implementations.Events.Items;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;

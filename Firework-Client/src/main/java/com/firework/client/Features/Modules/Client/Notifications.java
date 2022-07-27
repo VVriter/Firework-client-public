@@ -36,7 +36,7 @@ public class Notifications extends Module {
    public static String footer;
 
     public static void notificate(String header1, String footer1) {
-        SoundUtill.playSound(new ResourceLocation("firework/audio/pop2.wav"));
+      //  SoundUtill.playSound(new ResourceLocation("firework/audio/pop2.wav"));
         needToRender = true;
         header = header1;
         footer = footer1;

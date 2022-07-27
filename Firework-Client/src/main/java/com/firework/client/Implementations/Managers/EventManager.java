@@ -2,9 +2,9 @@ package com.firework.client.Implementations.Managers;
 
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.OnFishingEvent;
-import com.firework.client.Implementations.Events.PlayerPushOutOfBlocksEvent;
-import com.firework.client.Implementations.Events.RenderGameOverlay;
-import com.firework.client.Implementations.Events.WorldRender3DEvent;
+import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
+import com.firework.client.Implementations.Events.Render.RenderGameOverlay;
+import com.firework.client.Implementations.Events.Render.WorldRender3DEvent;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
@@ -29,12 +29,12 @@ public class EventManager extends Manager{
 
     @SubscribeEvent
     public void onInputUpdate(InputUpdateEvent event){
-        Firework.eventBus.post(new com.firework.client.Implementations.Events.InputUpdateEvent(event.getMovementInput()));
+        Firework.eventBus.post(new com.firework.client.Implementations.Events.Movement.InputUpdateEvent(event.getMovementInput()));
     }
 
     @SubscribeEvent
     public void guiOpenEvent(GuiOpenEvent event){
-        com.firework.client.Implementations.Events.GuiOpenEvent event1 = new com.firework.client.Implementations.Events.GuiOpenEvent(event.getGui());
+        com.firework.client.Implementations.Events.Gui.GuiOpenEvent event1 = new com.firework.client.Implementations.Events.Gui.GuiOpenEvent(event.getGui());
         Firework.eventBus.post(event1);
         if(event.isCanceled())
             event.setCanceled(true);
