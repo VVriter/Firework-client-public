@@ -3,6 +3,7 @@ package com.firework.client.Implementations.UI.GuiN;
 import com.firework.client.Features.Modules.Client.Gui;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.UI.GuiN.Components.EndBlock;
 import com.firework.client.Implementations.UI.GuiN.Components.ModuleButton;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class Frame {
         for(Module module : Firework.moduleManager.getModules(category)){
             components.add(new ModuleButton(module, this));
         }
+        components.add(new EndBlock(x, y, width, 1));
         setupOffsets();
     }
 
@@ -55,9 +57,6 @@ public class Frame {
     }
 
     public void draw(){
-
-
-
         setupOffsets();
         components.forEach(Component::draw);
     }
@@ -70,7 +69,7 @@ public class Frame {
     public void setupOffsets(){
         double offset = this.y + GuiN.offsetY + this.barHeight;
         if(opened) {
-            for (final Component comp : this.components) {
+            for (Component comp : this.components) {
                 comp.setOffsets(offset);
                 offset += comp.getHeight();
             }

@@ -17,7 +17,9 @@ public class Component {
 
     public void init(int mouseX, int mouseY, int state){}
 
-    public void setOffsets(final double minY){}
+    public void setOffsets(final double minY){
+        this.y = minY;
+    }
 
     public void setX(final int x){
         this.x = x;

@@ -42,7 +42,6 @@ public class ModuleButton extends Button{
     @Override
     public void setOffsets(final double minY){
         super.setOffsets(minY);
-        this.y = minY;
         if(module.isOpened.getValue()) {
             AtomicReference<Double> y = new AtomicReference<>(this.y + this.height);
             components.stream().filter(component -> component instanceof Button).forEach(component -> {
