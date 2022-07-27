@@ -20,7 +20,7 @@ public class Esp extends Module {
     public Setting<Boolean> burrowSubBool = new Setting<>("Burrow", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> enableBurrow = new Setting<>("Enable Burrow", true, this).setVisibility(v-> burrowSubBool.getValue());
     public Setting<Boolean> self = new Setting<>("Self", true, this).setVisibility(v-> burrowSubBool.getValue());
-    public Setting<HSLColor> burrowColor = new Setting<>("Burrow Color", new HSLColor(1, 54, 43), this);
+    public Setting<HSLColor> burrowColor = new Setting<>("Burrow Color", new HSLColor(1, 54, 43), this).setVisibility(v-> burrowSubBool.getValue());
 
 
     ArrayList<BlockPos> burrowsList = new ArrayList<>();
