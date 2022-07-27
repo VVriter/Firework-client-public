@@ -8,11 +8,15 @@ package com.firework.client.Features.Modules.Chat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
+import com.firework.client.Implementations.Events.Chat.ChatSendE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -66,10 +70,10 @@ public class TimeStamps extends Module {
     }
 
 
-    @SubscribeEvent
-    public void onClientChatReceived(ClientChatReceivedEvent event) {
+    @Subscribe(priority = Listener.Priority.LOW)
+    public Listener<ChatReceiveE> listener = new Listener<>(event-> {
         String strDate = dateFormatter.format(date);
         TextComponentString time = new TextComponentString(bracketFormatting + firstBracket + ChatFormatting.RESET + timeFormatting + strDate + ChatFormatting.RESET +bracketFormatting+lastBracket + " ");
         event.setMessage(time.appendSibling(event.getMessage()));
-    }
+    });
 }

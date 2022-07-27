@@ -2,6 +2,7 @@ package com.firework.client.Implementations.Managers;
 
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
+import com.firework.client.Implementations.Events.Chat.ChatSendE;
 import com.firework.client.Implementations.Events.OnFishingEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
 import com.firework.client.Implementations.Events.Render.Render2dE;
@@ -66,6 +67,15 @@ public class EventManager extends Manager{
     @SubscribeEvent
     public void onChatREceive (ClientChatReceivedEvent e) {
         ChatReceiveE event = new ChatReceiveE(e.getType(),e.getMessage());
+        Firework.eventBus.post(event);
+        if (event.isCancelled()) {
+            e.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onChatSend(ClientChatEvent e) {
+        ChatSendE event = new ChatSendE(e.getMessage());
         Firework.eventBus.post(event);
         if (event.isCancelled()) {
             e.setCanceled(true);
