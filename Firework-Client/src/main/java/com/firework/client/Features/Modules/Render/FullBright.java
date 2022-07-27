@@ -17,10 +17,9 @@ public class FullBright extends Module {
 
     public Setting<Enum> enumSetting = new Setting<>("Mode", TestEnum.Gamma, this);
     public enum TestEnum{
-        Gamma, Potion, CustomTime
+        Gamma, Potion
     }
 
-    public Setting<Double> time = new Setting<>("CustomTime", (double)3, this, 1, 23000).setVisibility(v-> enumSetting.getValue(TestEnum.CustomTime));
     @Override
     public void onEnable() {
         super.onEnable();
@@ -41,21 +40,8 @@ public class FullBright extends Module {
             }).start();
         } else if (enumSetting.getValue(TestEnum.Potion)) {
             mc.player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 5210));
-        } else if (enumSetting.getValue(TestEnum.CustomTime)) {
-            mc.world.setWorldTime(time.getValue().longValue());
         }
-
     }
-
-    @Subscribe
-    public Listener<PacketEvent.Receive> onRender = new Listener<>(event -> {
-        if (event.getPacket() instanceof SPacketTimeUpdate) {
-            if(enumSetting.getValue(TestEnum.CustomTime)){
-            event.setCancelled(true);
-            }
-        }
-    });
-
     @Override
     public void onDisable(){
         super.onDisable();
