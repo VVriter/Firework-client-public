@@ -4,8 +4,8 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
-import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -17,13 +17,53 @@ import java.util.ArrayList;
 @ModuleManifest(name = "ESP",category = Module.Category.VISUALS)
 public class Esp extends Module {
     public Setting<Double> range = new Setting<>("Range", (double)40, this, 1, 100);
+
+
+
+    @Override
+    public void onEnable(){
+        super.onEnable();
+        burrowPosRenderer = new PosRenderer(this,boxMode,outlineMode);
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        burrowPosRenderer = null;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public Setting<Boolean> burrowSubBool = new Setting<>("Burrow", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> enableBurrow = new Setting<>("Enable Burrow", true, this).setVisibility(v-> burrowSubBool.getValue());
     public Setting<Boolean> self = new Setting<>("Self", true, this).setVisibility(v-> burrowSubBool.getValue());
-    public Setting<HSLColor> burrowColor = new Setting<>("Burrow Color", new HSLColor(1, 54, 43), this).setVisibility(v-> burrowSubBool.getValue());
-
 
     ArrayList<BlockPos> burrowsList = new ArrayList<>();
+    PosRenderer burrowPosRenderer;
+    public Setting<PosRenderer.boxeMode> boxMode = new Setting<>("BoxMode", PosRenderer.boxeMode.Normal, this).setVisibility(v->  burrowSubBool.getValue());
+    public Setting<HSLColor> fillColor = new Setting<>("FillColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  burrowSubBool.getValue());
+    public Setting<Double> boxHeightNormal = new Setting<>("BoxHeight", (double)1, this, -0.3, 5).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) &&  burrowSubBool.getValue());
+    public Setting<HSLColor> fillColor1 = new Setting<>("StartColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  burrowSubBool.getValue());
+    public Setting<HSLColor> fillColor2 = new Setting<>("EndColor", new HSLColor(200, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  burrowSubBool.getValue());
+
+
+
+    public Setting<PosRenderer.outlineModes> outlineMode = new Setting<>("OutlineMode", PosRenderer.outlineModes.Gradient, this).setVisibility(v->  burrowSubBool.getValue());
+    public Setting<HSLColor> gradientOutlineColor1 = new Setting<>("FirstColor", new HSLColor(1, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && burrowSubBool.getValue());
+    public Setting<HSLColor> gradientOutlineColor2 = new Setting<>("SecondColor", new HSLColor(200, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && burrowSubBool.getValue());
+    public Setting<HSLColor> colorOutline = new Setting<>("ColorOutline", new HSLColor(200, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && burrowSubBool.getValue());
+    public Setting<Double> outlineHeightNormal = new Setting<>("OutlineHeight", (double)1, this, -0.3, 5).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && burrowSubBool.getValue());
+    public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(v->  !outlineMode.getValue(PosRenderer.outlineModes.None) && burrowSubBool.getValue());
 
     @Subscribe
     public Listener<Render3dE> renderer = new Listener<>(e-> {
@@ -37,8 +77,19 @@ public class Esp extends Module {
                 }
 
                 if (burrowsList != null) {
-                    for (BlockPos poses : burrowsList) {
-                        RenderUtils.drawBoxESP(poses, burrowColor.getValue().toRGB(),1,true,true,100,1);
+                    for (BlockPos pos : burrowsList) {
+                        burrowPosRenderer.doRender(
+                                pos,
+                                colorOutline.getValue().toRGB(),
+                                gradientOutlineColor1.getValue().toRGB(),
+                                gradientOutlineColor2.getValue().toRGB(),
+                                fillColor.getValue().toRGB(),
+                                fillColor1.getValue().toRGB(),
+                                fillColor2.getValue().toRGB(),
+                                outlineWidth.getValue(),
+                                boxHeightNormal.getValue().floatValue(),
+                                outlineHeightNormal.getValue().floatValue()
+                        );
                     }
                 }
             }
