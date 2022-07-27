@@ -65,12 +65,13 @@ public class EventManager extends Manager{
     }
 
     @SubscribeEvent
-    public void onChatREceive (ClientChatReceivedEvent e) {
+    public void onChatReceive (ClientChatReceivedEvent e) {
         ChatReceiveE event = new ChatReceiveE(e.getType(),e.getMessage());
         Firework.eventBus.post(event);
         if (event.isCancelled()) {
             e.setCanceled(true);
         }
+        e.setMessage(event.getMessage());
     }
 
     @SubscribeEvent
@@ -83,7 +84,7 @@ public class EventManager extends Manager{
     }
 
     @SubscribeEvent
-    public void render2d(TickEvent.RenderTickEvent e) {
+    public void render2D(TickEvent.RenderTickEvent e) {
         Render2dE event = new Render2dE();
         Firework.eventBus.post(event);
     }
