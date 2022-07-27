@@ -7,7 +7,10 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemShield;
+import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.EnumFacing;
@@ -18,8 +21,11 @@ import ua.firework.beet.Subscribe;
 @ModuleManifest(name = "NoSlow", category = Module.Category.MOVEMENT)
 public class NoSlow extends Module {
 
-    private Setting<Boolean> strict = new Setting<>("Strict", true, this);
+
     private Setting<Boolean> items = new Setting<>("Items", true, this);
+    private Setting<Boolean> strict = new Setting<>("Strict", true, this);
+
+    private Setting<Boolean> airStrict = new Setting<>("AirStrict", false, this);
 
     public static Setting<Boolean> blocks = null;
     public static Setting<Boolean> soulSand = null;
@@ -41,6 +47,11 @@ public class NoSlow extends Module {
             if (mc.player.movementInput.moveStrafe != 0 || mc.player.movementInput.moveForward != 0 && mc.player.getItemInUseMaxCount() >= 8) {
                 mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, mc.player.getHorizontalFacing()));
             }
+        }
+
+        if (airStrict.getValue() && !mc.player.onGround && !mc.player.isInWater() && !mc.player.isInLava() && mc.player.inventory.getCurrentItem().getItem() instanceof ItemFood) {
+            mc.player.connection.sendPacket((new CPacketEntityAction(Minecraft.getMinecraft().player, CPacketEntityAction.Action.START_SNEAKING)));
+            mc.player.setSneaking(true);
         }
     });
 
