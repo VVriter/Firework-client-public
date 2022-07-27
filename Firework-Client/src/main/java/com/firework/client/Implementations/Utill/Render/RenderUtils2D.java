@@ -501,7 +501,7 @@ public class RenderUtils2D {
         GlStateManager.disableBlend();
     }
 
-    public static void drawArc(Point point, double r, int start_angle, int end_angle, Color color) {
+    public static void drawArc(Point2D.Double point, double r, int start_angle, int end_angle, Color color) {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
@@ -530,30 +530,30 @@ public class RenderUtils2D {
         double width = rectangle.width;
         double height = rectangle.height;
 
-        Point leftTop = new Point((int) round(x + radius), (int) round(y + radius));
+        Point2D.Double leftTop = new Point2D.Double(x + radius, y + radius);
         drawArc(leftTop, radius, 180, 270, color);
 
-        Point leftDown = new Point((int) round(x + radius), (int) round(y + radius));
+        Point2D.Double leftDown = new Point2D.Double(x + radius, y + radius);
         drawArc(leftDown, radius, 270, 360, color);
 
-        Point rightTop = new Point((int) round(x + width - radius), (int) round(y + radius));
+        Point2D.Double rightTop = new Point2D.Double(x + width - radius, y + radius);
         drawArc(rightTop, radius, 90, 180, color);
 
-        Point rightDown = new Point((int) round(x + width - radius), (int) round(y + radius));
+        Point2D.Double rightDown = new Point2D.Double(x + width - radius, y + radius);
         drawArc(rightDown, radius, 0, 90, color);
 
-        Rectangle middleRect = new Rectangle((int) round(x + radius), (int) round(y), width - 2*radius, height);
+        Rectangle middleRect = new Rectangle(x + radius, y, width - 2*radius, height);
         drawRectangle(middleRect, color);
 
-        Rectangle leftRect = new Rectangle((int) round(x), (int) round(y - radius), radius, height-2*radius);
+        Rectangle leftRect = new Rectangle(x, y - radius, radius, height-2*radius);
         drawRectangle(leftRect, color);
 
-        Rectangle right = new Rectangle((int) round(x + width - radius), (int) round(y - radius), radius, height-2*radius);
+        Rectangle right = new Rectangle(x + width - radius, y - radius, radius, height-2*radius);
         drawRectangle(right, color);
     }
 
     public static void drawCheckMarkV3(Rectangle rectangle, boolean enabled, double width){
-        int radius = (int) round(rectangle.height/2);
+        int radius = (int) (rectangle.height/2);
         drawRoundedRectangle(rectangle, radius, enabled ? new Color(RainbowUtil.astolfoColors(100, 100)) : gray);
         Point2D.Double circleMarkPoint = null;
         circleMarkPoint = new Point2D.Double(rectangle.x + width,rectangle.y + radius);
