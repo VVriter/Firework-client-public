@@ -37,6 +37,8 @@ public class ModuleButton extends Button{
                 components.add(new ModeButton(setting, frame));
             if(setting.mode == Setting.Mode.SUB)
                 components.add(new SubButton(setting, frame));
+            if(setting.mode == Setting.Mode.KEY)
+                components.add(new KeyButton(setting, frame));
         }
     }
 
@@ -98,5 +100,11 @@ public class ModuleButton extends Button{
             module.toggle();
         else if(state == 1)
             module.isOpened.setValue(!module.isOpened.getValue());
+    }
+
+    @Override
+    public void onKeyTyped(final int keyCode) {
+        super.onKeyTyped(keyCode);
+        components.stream().filter(component -> component instanceof Button).forEach(component -> ((Button) component).onKeyTyped(keyCode));
     }
 }

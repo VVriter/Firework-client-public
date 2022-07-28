@@ -11,4 +11,6 @@ public class Button extends Component {
         super(frame.x, frame.y, frame.width, GuiInfo.barHeight);
         this.setting = setting;
     }
+
+    public void onKeyTyped(final int keyCode){}
 }

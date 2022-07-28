@@ -2,10 +2,9 @@ package com.firework.client.Implementations.UI.GuiN;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.UI.GuiN.Components.Button;
 import com.firework.client.Implementations.UI.GuiN.Components.ModuleButton;
 import com.firework.client.Implementations.UI.GuiN.Components.StartButton;
-
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Frame {
@@ -85,5 +84,9 @@ public class Frame {
             }
         }
         return height;
+    }
+
+    public void onKeyTyped(final int keyCode){
+        components.stream().filter(component -> component instanceof Button).forEach(button -> ((Button) button).onKeyTyped(keyCode));
     }
 }

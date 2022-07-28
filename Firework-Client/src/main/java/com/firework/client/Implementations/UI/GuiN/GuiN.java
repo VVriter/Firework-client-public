@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.UI.GuiN;
 
+import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.AnimationUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,6 +16,7 @@ import static org.lwjgl.opengl.GL11.glPopMatrix;
 
 public class GuiN extends GuiScreen {
     public static boolean isDragging = true;
+    public static Setting activeKey = null;
 
     public static double offsetY = 0;
     public float lastScroll = 1;
@@ -82,5 +84,11 @@ public class GuiN extends GuiScreen {
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         super.mouseReleased(mouseX, mouseY, state);
         isDragging = false;
+    }
+
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        super.keyTyped(typedChar, keyCode);
+        GuiInfo.frames.forEach(frame -> frame.onKeyTyped(keyCode));
     }
 }
