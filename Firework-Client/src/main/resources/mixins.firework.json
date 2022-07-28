@@ -34,7 +34,6 @@
     "ISPacketEntityVelocity",
     "IEntityPlayerSP",
     "Gui.GuiScreenMixin",
-    "Gui.MixinTabOverlay",
     "Misc.MixinPig",
     "Blocks.MixinBlockSoulSand",
     "Blocks.MixinBlockSlime",

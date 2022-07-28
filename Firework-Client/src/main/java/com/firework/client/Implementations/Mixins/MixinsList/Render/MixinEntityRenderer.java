@@ -2,17 +2,28 @@ package com.firework.client.Implementations.Mixins.MixinsList.Render;
 
 import com.firework.client.Features.Modules.Misc.CameraClip;
 import com.firework.client.Features.Modules.Render.NoRender;
+import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.Player.TraceEvent;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.AxisAlignedBB;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import javax.annotation.Nullable;
+import javax.swing.text.html.parser.Entity;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 @Mixin(value={EntityRenderer.class})
 public abstract class MixinEntityRenderer {
@@ -75,53 +86,6 @@ public abstract class MixinEntityRenderer {
         }
     }
 
-  /*  @Inject(method={"getMouseOver(F)V"}, at={@At(value="HEAD")}, cancellable=true)
-    public void getMouseOverHook(float partialTicks, CallbackInfo info) {
-        if (this.injection) {
-            block3: {
-                info.cancel();
-                this.injection = false;
-                try {
-                    this.getMouseOver(partialTicks);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                    if (!Notifications.getInstance().isOn() || !Notifications.getInstance().crash.getValue().booleanValue()) break block3;
-                    Notifications.displayCrash(e);
-                }
-            }
-            this.injection = true;
-        }
-    }
-
-    @Redirect(method={"setupCameraTransform"}, at=@At(value="FIELD", target="Lnet/minecraft/client/entity/EntityPlayerSP;prevTimeInPortal:F"))
-    public float prevTimeInPortalHook(EntityPlayerSP entityPlayerSP) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().nausea.getValue().booleanValue()) {
-            return -3.4028235E38f;
-        }
-        return entityPlayerSP.prevTimeInPortal;
-    }
-
-    @Redirect(method={"setupCameraTransform"}, at=@At(value="INVOKE", target="Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
-    private void onSetupCameraTransform(float f, float f2, float f3, float f4) {
-        PerspectiveEvent perspectiveEvent = new PerspectiveEvent((float)this.mc.displayWidth / (float)this.mc.displayHeight);
-        MinecraftForge.EVENT_BUS.post((Event)perspectiveEvent);
-        Project.gluPerspective((float)f, (float)perspectiveEvent.getAspect(), (float)f3, (float)f4);
-    }
-
-    @Redirect(method={"renderWorldPass"}, at=@At(value="INVOKE", target="Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
-    private void onRenderWorldPass(float f, float f2, float f3, float f4) {
-        PerspectiveEvent perspectiveEvent = new PerspectiveEvent((float)this.mc.displayWidth / (float)this.mc.displayHeight);
-        MinecraftForge.EVENT_BUS.post((Event)perspectiveEvent);
-        Project.gluPerspective((float)f, (float)perspectiveEvent.getAspect(), (float)f3, (float)f4);
-    }*/
-
- /*   @Redirect(method={"renderCloudsCheck"}, at=@At(value="INVOKE", target="Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
-    private void onRenderCloudsCheck(float f, float f2, float f3, float f4) {
-        PerspectiveEvent perspectiveEvent = new PerspectiveEvent((float)this.mc.displayWidth / (float)this.mc.displayHeight);
-        MinecraftForge.EVENT_BUS.post((Event)perspectiveEvent);
-        Project.gluPerspective((float)f, (float)perspectiveEvent.getAspect(), (float)f3, (float)f4);
-    }*/
 
   @Inject(method={"setupFog"}, at={@At(value="HEAD")}, cancellable=true)
     public void setupFogHook(int startCoords, float partialTicks, CallbackInfo info) {
@@ -137,13 +101,15 @@ public abstract class MixinEntityRenderer {
         }
     }
 
-   /* @Redirect(method={"getMouseOver"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/multiplayer/WorldClient;getEntitiesInAABBexcluding(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/AxisAlignedBB;Lcom/google/common/base/Predicate;)Ljava/util/List;"))
-    public List<Entity> getEntitiesInAABBexcludingHook(WorldClient worldClient, @Nullable Entity entityIn, AxisAlignedBB boundingBox, @Nullable Predicate<? super Entity> predicate) {
-        if (Reach.enabled.getValue() && Reach.noMiningTraceBool.getValue() && Reach.noTrace) {
+   @Redirect(method={"getMouseOver"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/multiplayer/WorldClient;getEntitiesInAABBexcluding(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/AxisAlignedBB;Lcom/google/common/base/Predicate;)Ljava/util/List;"))
+    public List<Entity> getEntitiesInAABBexcludingHook(WorldClient instance, net.minecraft.entity.Entity entity, AxisAlignedBB axisAlignedBB, com.google.common.base.Predicate predicate) {
+       TraceEvent event = new TraceEvent();
+       Firework.eventBus.post(event);
+        if (event.isCancelled()) {
             return new ArrayList<Entity>();
         }
-        return worldClient.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
-    } */
+        return instance.getEntitiesInAABBexcluding(entity, axisAlignedBB, predicate);
+    }
 
     @ModifyVariable(method={"orientCamera"}, ordinal=3, at=@At(value="STORE", ordinal=0), require=1)
     public double changeCameraDistanceHook(double range) {
