@@ -13,7 +13,11 @@ import static com.firework.client.Implementations.Utill.InventoryUtil.doMultiHan
 import static com.firework.client.Implementations.Utill.InventoryUtil.hands;
 
 
-@ModuleManifest(name = "MultiHand",category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "MultiHand",
+        category = Module.Category.COMBAT,
+        description = "AutoTotem lul"
+)
 public class MultiHand extends Module {
     public Setting<Enum> multiHandMode = new Setting<>("MultiHand", modes.Totem, this);
     public Setting<hands> totemHandMode = new Setting<>("Totem", hands.MainHand, this).setVisibility(v-> multiHandMode.getValue(modes.Totem));

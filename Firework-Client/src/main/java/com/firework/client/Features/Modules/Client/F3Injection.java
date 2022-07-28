@@ -8,10 +8,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Arrays;
 
-@ModuleManifest(name = "Fake F3",category = Module.Category.CLIENT)
+@ModuleManifest(
+        name = "Fake F3",
+        category = Module.Category.CLIENT,
+        description = "Module to prevent cord leak"
+)
 public class F3Injection extends Module {
 
-    public Setting<Boolean> Coords  = new Setting<>("Coords", true, this);
+    public Setting<Boolean> Coords  = new Setting<>("Cords", true, this);
     public Setting<Boolean> FPS  = new Setting<>("FPS", true, this);
     public Setting<String> fpsmode = new Setting<>("Mode", "Hide", this, Arrays.asList("Hide", "Fake")).setVisibility(v-> FPS.getValue(true));
     public Setting<Boolean> Direction  = new Setting<>("Direction", true, this);

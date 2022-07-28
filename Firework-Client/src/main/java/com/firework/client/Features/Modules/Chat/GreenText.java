@@ -9,7 +9,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "GreenText",category = Module.Category.CHAT)
+@ModuleManifest(
+        name = "GreenText",
+        category = Module.Category.CHAT,
+        description = "Sends in chat green messages"
+)
 public class GreenText extends Module {
     public static Setting<Boolean> enabled = null;
     public GreenText() {

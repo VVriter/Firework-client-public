@@ -24,7 +24,11 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
-@ModuleManifest(name = "TimeStamps",category = Module.Category.CHAT)
+@ModuleManifest(
+        name = "TimeStamps",
+        category = Module.Category.CHAT,
+        description = "Prints messages in chat with timestamps"
+)
 public class TimeStamps extends Module {
 
     public Setting<String> BracketMode = new Setting<>("Brackets", "Bracket", this, Arrays.asList("Bracket","Curly", "Parent"));

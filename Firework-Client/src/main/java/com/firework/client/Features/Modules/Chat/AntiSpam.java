@@ -10,7 +10,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "AntiSpam",category = Module.Category.CHAT)
+@ModuleManifest(
+        name = "AntiSpam",
+        category = Module.Category.CHAT,
+        description = "Prevents spam messages"
+)
 public class AntiSpam extends Module {
 
     public Setting<Boolean> Badwords = new Setting<>("Badwords", true, this);

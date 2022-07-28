@@ -17,7 +17,11 @@ import net.minecraft.util.math.BlockPos;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "Quiver",category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "Quiver",
+        category = Module.Category.COMBAT,
+        description = "Shoots yourself arrows with positive effects"
+)
 public class Quiver extends Module {
 
     public Setting<Enum> mode = new Setting<>("Mode", modes.Handly, this);
