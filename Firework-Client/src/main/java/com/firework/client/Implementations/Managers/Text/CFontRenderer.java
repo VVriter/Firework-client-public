@@ -222,7 +222,6 @@ public class CFontRenderer extends CFont {
 
         GL11.glHint(GL11.GL_POLYGON_SMOOTH_HINT, GL11.GL_DONT_CARE);
         GL11.glPopMatrix();
-        GL11.glColor4f(1, 1, 1, 1);
         return (float) x / 2f;
     }
 
