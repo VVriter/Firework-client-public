@@ -33,6 +33,7 @@
     "ISPacketExplosion",
     "ISPacketEntityVelocity",
     "IEntityPlayerSP",
+    "IPlayerControllerMP",
     "Gui.GuiScreenMixin",
     "Misc.MixinPig",
     "Blocks.MixinBlockSoulSand",

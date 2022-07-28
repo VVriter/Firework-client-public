@@ -1,15 +1,20 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Misc;
 
 import com.firework.client.Features.Modules.Misc.PacketUse;
+import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.Player.BlockClickEvent;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemPotion;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerControllerMP.class)
 public abstract class MixinPlayerControllerMP {
@@ -35,5 +40,13 @@ public abstract class MixinPlayerControllerMP {
                 ci.cancel();
             }
         }
+    }
+
+    @Inject(method = "clickBlock", at = @At("HEAD"), cancellable = true)
+    public void clickBlock(BlockPos pos, EnumFacing facing, CallbackInfoReturnable<Boolean> cir) {
+        BlockClickEvent event = new BlockClickEvent(pos, facing);
+        Firework.eventBus.post(event);
+        if(event.isCancelled())
+            cir.cancel();
     }
 }
