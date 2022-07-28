@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Settings.Setting;
@@ -18,15 +19,21 @@ import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.Block
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Timer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
+
+import java.util.Objects;
 
 @ModuleManifest(name = "CevBreaker", category = Module.Category.COMBAT)
 public class CevBreaker extends Module {
@@ -51,6 +58,7 @@ public class CevBreaker extends Module {
     public Setting<Integer> breakBlockDelay = new Setting<>("BreakBlockDelayMs", 80, this, 1, 200).setVisibility(v-> delays.getValue());
     public Setting<Integer> breakCrystalDelay = new Setting<>("BreakCrystalDelayMs", 80, this, 1, 200).setVisibility(v-> delays.getValue());
 
+    public Setting<Boolean> sync = new Setting<>("Sync", false, this);
     public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);
 
     EntityPlayer target;
@@ -84,6 +92,21 @@ public class CevBreaker extends Module {
         blockBreaker = null;
         timer = null;
     }
+
+    @Subscribe
+    public Listener<PacketEvent.Receive> onPacketReceive = new Listener<>(event -> {
+        if (event.getPacket() instanceof SPacketSoundEffect && sync.getValue()) {
+            final SPacketSoundEffect sPacketSoundEffect = (SPacketSoundEffect)event.getPacket();
+            if (sPacketSoundEffect.getCategory() == SoundCategory.BLOCKS && sPacketSoundEffect.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
+                for (final Entity e : mc.world.loadedEntityList) {
+                    if (e instanceof EntityEnderCrystal && e.getDistance(sPacketSoundEffect.getX(), sPacketSoundEffect.getY(), sPacketSoundEffect.getZ()) <= 6) {
+                        Objects.requireNonNull(mc.world.getEntityByID(e.getEntityId())).setDead();
+                        mc.world.removeEntityFromWorld(e.getEntityId());
+                    }
+                }
+            }
+        }
+    });
 
     @Subscribe
     public Listener<Render3dE> onRender = new Listener<>(worldRender3DEvent -> {
