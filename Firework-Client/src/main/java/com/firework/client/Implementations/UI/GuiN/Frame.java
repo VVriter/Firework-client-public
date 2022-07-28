@@ -1,14 +1,9 @@
 package com.firework.client.Implementations.UI.GuiN;
 
-import com.firework.client.Features.Modules.Client.Gui;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
-import com.firework.client.Implementations.UI.GuiN.Components.EndBlock;
 import com.firework.client.Implementations.UI.GuiN.Components.ModuleButton;
 import com.firework.client.Implementations.UI.GuiN.Components.StartButton;
-import com.firework.client.Implementations.Utill.Render.RainbowUtil;
-import com.firework.client.Implementations.Utill.Render.Rectangle;
-import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -45,7 +40,6 @@ public class Frame {
         for(Module module : Firework.moduleManager.getModules(category)){
             components.add(new ModuleButton(module, this));
         }
-        components.add(new EndBlock(x, y, width, 1));
         setupOffsets();
     }
 
@@ -81,5 +75,15 @@ public class Frame {
                 offset += comp.getHeight();
             }
         }
+    }
+
+    public int getExpandedHeight() {
+        int height = this.height;
+        for(Component component : components){
+            if(component instanceof ModuleButton){
+                height+=component.getHeight();
+            }
+        }
+        return height;
     }
 }

@@ -25,6 +25,14 @@ public class GuiInfo {
         }
     }
 
+    public static Frame getFrame(Module.Category category){
+        for(Frame frame : frames)
+            if(frame.category == category)
+                return frame;
+
+        return null;
+    }
+
     public static void drawButtonBase(Component component){
         RenderUtils2D.drawRectAlpha(new Rectangle(component.x, component.y, component.width, component.height), new Color(1,1, 1, 169));
     }
