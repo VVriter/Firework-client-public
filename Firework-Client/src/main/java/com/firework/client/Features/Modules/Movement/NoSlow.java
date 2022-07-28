@@ -18,7 +18,11 @@ import net.minecraft.util.math.BlockPos;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "NoSlow", category = Module.Category.MOVEMENT)
+@ModuleManifest(
+        name = "NoSlow",
+        category = Module.Category.MOVEMENT,
+        description = "Prevents slowing from items and shields / blocks"
+)
 public class NoSlow extends Module {
 
 

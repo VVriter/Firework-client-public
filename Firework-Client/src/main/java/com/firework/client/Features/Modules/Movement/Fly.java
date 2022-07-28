@@ -17,7 +17,11 @@ import java.util.Arrays;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
-@ModuleManifest(name = "Fly",category = Module.Category.MOVEMENT)
+@ModuleManifest(
+        name = "Fly",
+        category = Module.Category.MOVEMENT,
+        description = "I believe i can fly!"
+)
 public class Fly extends Module {
     public Setting<String> mode  = new Setting<>("Mode", "Vanilla", this, Arrays.asList("Vanilla", "Motion", "Tp", "Servers"));
 

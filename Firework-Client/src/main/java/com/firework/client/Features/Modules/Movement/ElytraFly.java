@@ -14,7 +14,11 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "ElytraFly",category = Module.Category.MOVEMENT)
+@ModuleManifest(
+        name = "ElytraFly",
+        category = Module.Category.MOVEMENT,
+        description = "Fly using elytra"
+)
 public class ElytraFly extends Module {
 
     public Setting<Enum> mode = new Setting<>("Mode", modes.Control, this);

@@ -11,7 +11,11 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "Step", category = Module.Category.MOVEMENT)
+@ModuleManifest(
+        name = "Step",
+        category = Module.Category.MOVEMENT,
+        description = "Allows you to travel up on blocks"
+)
 public class Step extends Module {
 
     public Setting<modes> mode = new Setting<>("Mode", modes.Timer, this);

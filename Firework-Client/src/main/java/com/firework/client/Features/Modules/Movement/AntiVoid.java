@@ -17,7 +17,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@ModuleManifest(name = "AntiVoid",category = Module.Category.MOVEMENT)
+@ModuleManifest(
+        name = "AntiVoid",
+        category = Module.Category.MOVEMENT,
+        description = "Prevents dropping into the void"
+)
 public class AntiVoid extends Module {
 
 
