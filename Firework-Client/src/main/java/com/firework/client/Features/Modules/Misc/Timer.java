@@ -9,7 +9,11 @@ import com.firework.client.Implementations.Settings.Setting;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "Timer",category = Module.Category.MISCELLANEOUS)
+@ModuleManifest(
+        name = "Timer",
+        category = Module.Category.MISCELLANEOUS,
+        description = "Timer speed"
+)
 public class Timer extends Module {
 
     public Setting<Double> ticksTo = new Setting<>("TicksAdd", (double)25, this, 0, 50);

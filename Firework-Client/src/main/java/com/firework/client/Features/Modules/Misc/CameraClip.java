@@ -4,7 +4,11 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 
-@ModuleManifest(name = "CameraTweaker",category = Module.Category.MISCELLANEOUS)
+@ModuleManifest(
+        name = "CameraTweaker",
+        category = Module.Category.MISCELLANEOUS,
+        description = "NoClip for camera"
+)
 public class CameraClip extends Module {
 
     public static Setting<Boolean> enabled = null;

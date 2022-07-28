@@ -21,7 +21,11 @@ import ua.firework.beet.Subscribe;
 
 import java.io.File;
 
-@ModuleManifest(name = "MiddleClick", category = Module.Category.MISCELLANEOUS)
+@ModuleManifest(
+        name = "MiddleClick",
+        category = Module.Category.MISCELLANEOUS,
+        description = "MiddleClick to add friends/use pearl"
+)
 public class MiddleClick extends Module {
 
     private static Minecraft mc = Minecraft.getMinecraft();

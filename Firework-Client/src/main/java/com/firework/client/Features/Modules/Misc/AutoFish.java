@@ -24,7 +24,8 @@ import java.util.Date;
 
 @ModuleManifest(
         name = "AutoFish",
-        category = Module.Category.MISCELLANEOUS
+        category = Module.Category.MISCELLANEOUS,
+        description = "Automatically fishing"
 )
 public class AutoFish extends Module {
 

@@ -11,7 +11,8 @@ import ua.firework.beet.Subscribe;
 
 @ModuleManifest(
         name = "NoMiningTrace",
-        category = Module.Category.MISCELLANEOUS
+        category = Module.Category.MISCELLANEOUS,
+        description = "Removes mining trace"
 )
 public class NoMiningTrace extends Module {
 
