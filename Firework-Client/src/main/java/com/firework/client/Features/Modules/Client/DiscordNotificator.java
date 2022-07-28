@@ -52,21 +52,6 @@ public class DiscordNotificator extends Module {
         }
     });
 
-    @SubscribeEvent
-    public void onBebra(FMLNetworkEvent.ClientDisconnectionFromServerEvent e){
-        if(serverConnection.getValue()){
-            DiscordUtil.sendMsg("```U are disconnected from server "+ Minecraft.getMinecraft().getCurrentServerData().serverIP+"```",webhook);
-        }
-    }
-
-    @SubscribeEvent
-    public void onBebra1(FMLNetworkEvent.ClientConnectedToServerEvent e){
-        if(serverConnection.getValue()){
-            DiscordUtil.sendMsg("```U are connected to server "+ Minecraft.getMinecraft().getCurrentServerData().serverIP+"```",webhook);
-        }
-    }
-
-
 
     public void onDisable(){
         super.onDisable();
