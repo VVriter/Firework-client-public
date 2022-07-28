@@ -48,7 +48,7 @@ public class Frame {
                 component.init(mouseX, mouseY, state);
             }
             ((ModuleButton) component).components.forEach(component1 -> {
-                if(GuiInfo.isHoveringOnTheComponent(component1, mouseX, mouseY)) {
+                if(isHoveringOnTheComponent(component1, mouseX, mouseY)) {
                     component1.init(mouseX, mouseY, state);
                 }
             });
@@ -88,5 +88,10 @@ public class Frame {
 
     public void onKeyTyped(final int keyCode){
         components.stream().filter(component -> component instanceof Button).forEach(button -> ((Button) button).onKeyTyped(keyCode));
+    }
+
+
+    public static boolean isHoveringOnTheComponent(Component component, int mouseX, int mouseY) {
+        return mouseX > component.x && mouseX < component.x + component.width && mouseY > component.y && mouseY < component.y + component.getHeight();
     }
 }

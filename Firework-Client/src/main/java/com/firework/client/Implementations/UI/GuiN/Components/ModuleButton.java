@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.UI.GuiN.Component;
+import com.firework.client.Implementations.UI.GuiN.Components.ColorPicker.ColorPicker;
 import com.firework.client.Implementations.UI.GuiN.Frame;
 import com.firework.client.Implementations.UI.GuiN.GuiInfo;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
@@ -35,6 +36,8 @@ public class ModuleButton extends Button{
                 components.add(new BoolButton(setting, frame));
             if(setting.mode == Setting.Mode.MODE)
                 components.add(new ModeButton(setting, frame));
+            if(setting.mode == Setting.Mode.COLOR)
+                components.add(new ColorPicker(setting, frame));
             if(setting.mode == Setting.Mode.SUB)
                 components.add(new SubButton(setting, frame));
             if(setting.mode == Setting.Mode.KEY)
@@ -50,7 +53,7 @@ public class ModuleButton extends Button{
             components.stream().filter(component -> component instanceof Button).forEach(component -> {
                 if(((Button) component).setting.isVisible()) {
                     component.y = y.get();
-                    y.updateAndGet(v -> v + component.height);
+                    y.updateAndGet(v -> v + component.getHeight());
                 }
             });
         }
@@ -81,7 +84,7 @@ public class ModuleButton extends Button{
         if(module.isOpened.getValue()) {
             components.stream().filter(component -> component instanceof Button).forEach(component -> {
                 if(((Button) component).setting.isVisible())
-                    height.addAndGet(component.height);
+                    height.addAndGet(component.getHeight());
             });
         }
         return height.get();
