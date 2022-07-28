@@ -26,7 +26,11 @@ import net.minecraft.util.math.Vec3d;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "SelfBlock",category = Module.Category.WORLD)
+@ModuleManifest(
+        name = "SelfBlock",
+        category = Module.Category.WORLD,
+        description = "Places block in your feet"
+)
 public class Burrow extends Module {
 
     public Setting<Boolean> main = new Setting<>("Main", false, this).setMode(Setting.Mode.SUB);

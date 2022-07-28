@@ -22,7 +22,11 @@ import java.util.Comparator;
 import java.util.Objects;
 
 
-@ModuleManifest(name = "AutoNametag",category = Module.Category.MISCELLANEOUS)
+@ModuleManifest(
+        name = "AutoNametag",
+        category = Module.Category.MISCELLANEOUS,
+        description = "Automatically renames entities in range"
+)
 public class AutoNametag extends Module {
 
     public Setting<Double> Radius = new Setting<>("Radius", (double)4, this, 0, 10);

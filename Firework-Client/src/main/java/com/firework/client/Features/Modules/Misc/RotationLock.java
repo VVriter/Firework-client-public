@@ -11,7 +11,11 @@ import ua.firework.beet.Subscribe;
 import java.util.Arrays;
 
 
-@ModuleManifest(name = "RotationLock",category = Module.Category.MISCELLANEOUS)
+@ModuleManifest(
+        name = "RotationLock",
+        category = Module.Category.MISCELLANEOUS,
+        description = "Locks your rotations"
+)
 public class RotationLock extends Module {
 
     public Setting<Boolean> yawBool = new Setting<>("Yaw", false, this).setMode(Setting.Mode.SUB);

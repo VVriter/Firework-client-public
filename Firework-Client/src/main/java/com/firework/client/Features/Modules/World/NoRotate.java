@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketPlayerPosLook;
@@ -10,8 +11,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
+@ModuleManifest(
+        name = "NoForceRotate",
+        category = Module.Category.WORLD,
+        description = "Prevents force rotates"
+)
 public class NoRotate extends Module {
-    public NoRotate(){super("NoForceRotate",Category.WORLD);}
     @Subscribe
     public Listener<PacketEvent.Receive> onPacketReceive = new Listener<>(event -> {
         if(fullNullCheck()) return;

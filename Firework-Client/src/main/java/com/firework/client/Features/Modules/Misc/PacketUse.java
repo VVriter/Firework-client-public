@@ -4,7 +4,11 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 
-@ModuleManifest(name = "PacketUse",category = Module.Category.MISCELLANEOUS)
+@ModuleManifest(
+        name = "PacketUse",
+        category = Module.Category.MISCELLANEOUS,
+        description = "Exploit to use items faster"
+)
 public class PacketUse extends Module {
     public static Setting<Boolean> enabled = null;
     public static Setting<Boolean> food = null;

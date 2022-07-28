@@ -22,7 +22,8 @@ import java.util.List;
 
 @ModuleManifest(
         name = "AutoFarm",
-        category = Module.Category.WORLD
+        category = Module.Category.WORLD,
+        description = "Automatically farms"
 )
 public class AutoFarm extends Module {
 

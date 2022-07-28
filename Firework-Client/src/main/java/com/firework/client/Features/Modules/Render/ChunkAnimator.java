@@ -14,7 +14,11 @@ import ua.firework.beet.Subscribe;
 import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-@ModuleManifest(name = "ChunkAnimator",category = Module.Category.VISUALS)
+@ModuleManifest(
+        name = "ChunkAnimator",
+        category = Module.Category.VISUALS,
+        description = "Animates chunks"
+)
 public class ChunkAnimator extends Module {
 
     public Setting<Double> AnimationLength = new Setting<>("AnimationLength", (double)250, this, 1, 5000);

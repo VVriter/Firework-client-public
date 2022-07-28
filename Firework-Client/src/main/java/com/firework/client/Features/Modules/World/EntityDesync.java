@@ -15,7 +15,11 @@ import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 
-@ModuleManifest(name = "EntityDesync",category = Module.Category.WORLD)
+@ModuleManifest(
+        name = "EntityDesync",
+        category = Module.Category.WORLD,
+        description = "For dupe"
+)
 public class EntityDesync extends Module {
     private static Minecraft mc = Minecraft.getMinecraft();
     private Entity Riding;

@@ -9,7 +9,11 @@ import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 
-@ModuleManifest(name = "FastSleep",category = Module.Category.MISCELLANEOUS)
+@ModuleManifest(
+        name = "FastSleep",
+        category = Module.Category.MISCELLANEOUS,
+        description = "Exploit to sleep faster"
+)
 public class FastSleep extends Module {
 
     @Subscribe

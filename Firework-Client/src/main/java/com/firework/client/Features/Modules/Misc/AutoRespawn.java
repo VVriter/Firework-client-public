@@ -17,7 +17,11 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 
-@ModuleManifest(name = "DeathFilter", category = Module.Category.MISCELLANEOUS)
+@ModuleManifest(
+        name = "DeathFilter",
+        category = Module.Category.MISCELLANEOUS,
+        description = "Automatically respawns"
+)
 public class AutoRespawn extends Module {
 
     private static Minecraft mc = Minecraft.getMinecraft();

@@ -11,7 +11,11 @@ import net.minecraft.util.math.RayTraceResult;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "BlockHighlight",category = Module.Category.VISUALS)
+@ModuleManifest(
+        name = "BlockHighlight",
+        category = Module.Category.VISUALS,
+        description = "Highlights block you looking at"
+)
 public class BlockHighlight extends Module {
 
     PosRenderer posRenderer;

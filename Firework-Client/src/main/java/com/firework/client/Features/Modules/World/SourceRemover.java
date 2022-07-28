@@ -21,7 +21,11 @@ import ua.firework.beet.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleManifest(name = "SourceRemover",category = Module.Category.WORLD)
+@ModuleManifest(
+        name = "SourceRemover",
+        category = Module.Category.WORLD,
+        description = "Removes water/lava sources"
+)
 public class SourceRemover extends Module {
 
     public Setting<Double> range = new Setting<>("Range", (double)5, this, 1, 6);

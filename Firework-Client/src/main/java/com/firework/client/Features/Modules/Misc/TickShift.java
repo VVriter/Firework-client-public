@@ -10,7 +10,11 @@ import com.firework.client.Implementations.Utill.Timer;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "TickShift",category = Module.Category.MISCELLANEOUS)
+@ModuleManifest(
+        name = "TickShift",
+        category = Module.Category.MISCELLANEOUS,
+        description = "Improved timer speed"
+)
 public class TickShift extends Module {
 
     Timer timer = new Timer();

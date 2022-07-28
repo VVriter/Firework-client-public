@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IEntity;
@@ -17,6 +18,11 @@ import org.lwjgl.input.Mouse;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
+@ModuleManifest(
+        name = "Bypass",
+        category = Module.Category.WORLD,
+        description = "Some bypasses"
+)
 public class Bypass extends Module {
 
     public Setting<Boolean> boatPlace = new Setting<>("BoatPlace", true, this);
@@ -24,7 +30,6 @@ public class Bypass extends Module {
     public Setting<Boolean> portalChat  = new Setting<>("PortalGui", true, this);
 
     public Setting<Boolean> mountBypass  = new Setting<>("MountBypass", true, this);
-    public Bypass(){super("Bypass",Category.WORLD);}
 
     @Override
     public void onTick(){

@@ -9,7 +9,11 @@ import ua.firework.beet.Subscribe;
 
 import java.util.Arrays;
 
-@ModuleManifest(name = "Sprint",category = Module.Category.MOVEMENT)
+@ModuleManifest(
+        name = "Sprint",
+        category = Module.Category.MOVEMENT,
+        description = "Keeps sprinting every time"
+)
 public class Sprint extends Module {
     public Setting<String> mode = new Setting<>("Mode", "Legit", this, Arrays.asList("Legit", "Multi"));
     @Subscribe

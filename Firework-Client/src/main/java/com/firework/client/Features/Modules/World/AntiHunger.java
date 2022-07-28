@@ -9,7 +9,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "AntiHunger",category = Module.Category.WORLD)
+@ModuleManifest(
+        name = "AntiHunger",
+        category = Module.Category.WORLD,
+        description = "Anti hunger"
+)
 public class AntiHunger extends Module {
     @Subscribe
     public Listener<PacketEvent.Send> onPacketReceive = new Listener<>(e -> {

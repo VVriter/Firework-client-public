@@ -11,7 +11,11 @@ import ua.firework.beet.Subscribe;
 import java.util.Arrays;
 import java.util.Objects;
 
-@ModuleManifest(name = "AntiLevitate",category = Module.Category.MOVEMENT)
+@ModuleManifest(
+        name = "AntiLevitate",
+        category = Module.Category.MOVEMENT,
+        description = "Removes levitation effects"
+)
 public class AntiLevitate extends Module {
     public Setting<String> setting = new Setting<>("Mode", "EffectRemove", this, Arrays.asList("EffectRemove", "Fly"));
 

@@ -18,7 +18,11 @@ import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 
-@ModuleManifest(name = "Speed",category = Module.Category.MOVEMENT)
+@ModuleManifest(
+        name = "Speed",
+        category = Module.Category.MOVEMENT,
+        description = "Makes you faster"
+)
 public class Speed extends Module{
     private Timer timer = new Timer();
 

@@ -14,7 +14,11 @@ import ua.firework.beet.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleManifest(name = "AutoHighway",category = Module.Category.WORLD)
+@ModuleManifest(
+        name = "AutoHighway",
+        category = Module.Category.WORLD,
+        description = "Automatically builds highways"
+)
 public class AutoHighway extends Module {
     //------------------SETTINGS----------------------//
     public Setting<Double> range = new Setting<>("Range", (double)5, this, 1, 10);

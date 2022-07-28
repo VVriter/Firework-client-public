@@ -14,8 +14,9 @@ import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 @ModuleManifest(
-        name = "BoatFly",
-        category = Module.Category.MOVEMENT
+        name = "EntityFly",
+        category = Module.Category.MOVEMENT,
+        description = "Fly using entities"
 )
 public class BoatFly extends Module {
     public Setting<Boolean> yawFix = new Setting<>("YawFix", true, this);

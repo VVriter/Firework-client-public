@@ -28,7 +28,11 @@ import ua.firework.beet.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleManifest(name = "BlockFlyRewrite", category = Module.Category.MOVEMENT)
+@ModuleManifest(
+        name = "BlockFlyRewrite",
+        category = Module.Category.MOVEMENT,
+        description = "Module to fly using blocks"
+)
 public class BlockFly extends Module {
     private Setting<Boolean> packet  = new Setting<>("Packet", false, this);
 

@@ -8,7 +8,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "XCarry",category = Module.Category.MISCELLANEOUS)
+@ModuleManifest(
+        name = "XCarry",
+        category = Module.Category.MISCELLANEOUS,
+        description = "Use crafting slots in your inventory to carry items"
+)
 public class XCarry extends Module {
 
     @Subscribe

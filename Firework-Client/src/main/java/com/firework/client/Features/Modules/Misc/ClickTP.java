@@ -15,7 +15,8 @@ import ua.firework.beet.Subscribe;
 
 @ModuleManifest(
         name = "ClickTP",
-        category = Module.Category.MISCELLANEOUS
+        category = Module.Category.MISCELLANEOUS,
+        description = "Click to teleportate"
 )
 public class ClickTP extends Module {
 

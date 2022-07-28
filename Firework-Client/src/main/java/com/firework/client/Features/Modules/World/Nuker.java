@@ -19,7 +19,8 @@ import java.util.List;
 
 @ModuleManifest(
         name = "Nuker",
-        category = Module.Category.WORLD
+        category = Module.Category.WORLD,
+        description = "Nukes all in range"
 )
 public class Nuker extends Module {
     public Setting<Double> range = new Setting<>("Range", (double)3, this, 1, 6);

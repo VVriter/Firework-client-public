@@ -9,7 +9,11 @@ import com.firework.client.Implementations.Utill.Client.MathUtil;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "Jesus",category = Module.Category.MOVEMENT)
+@ModuleManifest(
+        name = "Jesus",
+        category = Module.Category.MOVEMENT,
+        description = "Walk above water"
+)
 public class Jesus extends Module {
     public Setting<Enum> mode = new Setting<>("Mode", modes.Bypass, this);
     public enum modes{
