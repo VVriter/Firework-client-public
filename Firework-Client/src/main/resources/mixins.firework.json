@@ -38,6 +38,7 @@
     "Misc.MixinPig",
     "Blocks.MixinBlockSoulSand",
     "Blocks.MixinBlockSlime",
-    "Misc.MixinEntityPlayer"
+    "Misc.MixinEntityPlayer",
+    "Render.MixinRenderLivingBase"
   ]
 }
