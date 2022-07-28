@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Managers;
 
+import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
 import com.firework.client.Implementations.Events.Chat.ChatSendE;
@@ -8,11 +9,14 @@ import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocks
 import com.firework.client.Implementations.Events.Render.Render2dE;
 import com.firework.client.Implementations.Events.Render.RenderGameOverlay;
 import com.firework.client.Implementations.Events.Render.Render3dE;
+import com.firework.client.Implementations.Utill.Client.DiscordUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 public class EventManager extends Manager{
     public EventManager() {
@@ -88,5 +92,20 @@ public class EventManager extends Manager{
         Render2dE event = new Render2dE();
         Firework.eventBus.post(event);
     }
+
+    @SubscribeEvent
+    public void onBebra(FMLNetworkEvent.ClientDisconnectionFromServerEvent e){
+        if(DiscordNotificator.serverConnection.getValue() && DiscordNotificator.enabled.getValue()){
+            DiscordUtil.sendMsg("```U are disconnected from server "+ Minecraft.getMinecraft().getCurrentServerData().serverIP+"```",DiscordNotificator.webhook);
+        }
+    }
+
+    @SubscribeEvent
+    public void onBebra1(FMLNetworkEvent.ClientConnectedToServerEvent e){
+        if(DiscordNotificator.serverConnection.getValue() && DiscordNotificator.enabled.getValue()){
+            DiscordUtil.sendMsg("```U are connected to server "+ Minecraft.getMinecraft().getCurrentServerData().serverIP+"```",DiscordNotificator.webhook);
+        }
+    }
+
 
 }

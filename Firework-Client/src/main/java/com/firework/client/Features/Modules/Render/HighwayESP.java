@@ -8,10 +8,15 @@ import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "HighwayESP",category = Module.Category.VISUALS)
+@ModuleManifest(
+        name = "HighwayESP",
+        category = Module.Category.VISUALS,
+        description = "Module to draw highways lines"
+)
 public class HighwayESP extends Module {
 
     public Setting<Enum> page = new Setting<>("Page", pages.General, this);
@@ -29,7 +34,7 @@ public class HighwayESP extends Module {
         FromYou, Bedrock, Custom
     }
     public Setting<Double> lineWidth = new Setting<>("LineWidth", (double)3, this, 1, 10);
-    public Setting<Double> yVal = new Setting<>("CustomHeight", (double)100, this, 0, 255).setVisibility(v-> page.getValue(pages.General));
+    public Setting<Double> yVal = new Setting<>("CustomHeight", (double)100, this, 0, 255).setVisibility(v-> page.getValue(pages.General) && yzs.getValue(ys.Custom));
 
     public Setting<HSLColor> color1 = new Setting<>("++", new HSLColor(1, 54, 43), this).setVisibility(v-> page.getValue(pages.Colors));
     public Setting<HSLColor> color2 = new Setting<>("--", new HSLColor(50, 54, 43), this).setVisibility(v-> page.getValue(pages.Colors));
@@ -43,16 +48,17 @@ public class HighwayESP extends Module {
 
 
     BlockPos pos;
-    int y;
+    Vec3d position;
+    double y;
 
     @Override
     public void onTick() {
         super.onTick();
 
         if (zeropoint.getValue(zeropoints.FromYou)) {
-            pos = new BlockPos(mc.player.posX,y,mc.player.posZ);
+            position = new Vec3d(mc.player.getPositionVector().x,y,mc.player.getPositionVector().z);
         } else if (zeropoint.getValue(zeropoints.ZeroCords)) {
-            pos = new BlockPos(0,y,0);
+            position = new Vec3d(0, y,0);
         }
 
         if (yzs.getValue(ys.FromYou)) {
@@ -76,14 +82,14 @@ public class HighwayESP extends Module {
         BlockPos pos7 = new BlockPos(0,y,-30000000);
         BlockPos pos8 = new BlockPos(0,y,30000000);
 
-        RenderUtils.drawLine(BlockUtil.posToVec3d(pos),BlockUtil.posToVec3d(pos1),lineWidth.getValue().intValue(),color1.getValue().toRGB());
-        RenderUtils.drawLine(BlockUtil.posToVec3d(pos),BlockUtil.posToVec3d(pos2),lineWidth.getValue().intValue(),color2.getValue().toRGB());
-        RenderUtils.drawLine(BlockUtil.posToVec3d(pos),BlockUtil.posToVec3d(pos3),lineWidth.getValue().intValue(),color3.getValue().toRGB());
-        RenderUtils.drawLine(BlockUtil.posToVec3d(pos),BlockUtil.posToVec3d(pos4),lineWidth.getValue().intValue(),color4.getValue().toRGB());
+        RenderUtils.drawLine(position,BlockUtil.posToVec3d(pos1),lineWidth.getValue().intValue(),color1.getValue().toRGB());
+        RenderUtils.drawLine(position,BlockUtil.posToVec3d(pos2),lineWidth.getValue().intValue(),color2.getValue().toRGB());
+        RenderUtils.drawLine(position,BlockUtil.posToVec3d(pos3),lineWidth.getValue().intValue(),color3.getValue().toRGB());
+        RenderUtils.drawLine(position,BlockUtil.posToVec3d(pos4),lineWidth.getValue().intValue(),color4.getValue().toRGB());
 
-        RenderUtils.drawLine(BlockUtil.posToVec3d(pos),BlockUtil.posToVec3d(pos5),lineWidth.getValue().intValue(),color5.getValue().toRGB());
-        RenderUtils.drawLine(BlockUtil.posToVec3d(pos),BlockUtil.posToVec3d(pos6),lineWidth.getValue().intValue(),color6.getValue().toRGB());
-        RenderUtils.drawLine(BlockUtil.posToVec3d(pos),BlockUtil.posToVec3d(pos7),lineWidth.getValue().intValue(),color7.getValue().toRGB());
-        RenderUtils.drawLine(BlockUtil.posToVec3d(pos),BlockUtil.posToVec3d(pos8),lineWidth.getValue().intValue(),color8.getValue().toRGB());
+        RenderUtils.drawLine(position,BlockUtil.posToVec3d(pos5),lineWidth.getValue().intValue(),color5.getValue().toRGB());
+        RenderUtils.drawLine(position,BlockUtil.posToVec3d(pos6),lineWidth.getValue().intValue(),color6.getValue().toRGB());
+        RenderUtils.drawLine(position,BlockUtil.posToVec3d(pos7),lineWidth.getValue().intValue(),color7.getValue().toRGB());
+        RenderUtils.drawLine(position,BlockUtil.posToVec3d(pos8),lineWidth.getValue().intValue(),color8.getValue().toRGB());
     });
 }

@@ -2,9 +2,17 @@ package com.firework.client.Features.Modules.Movement;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.network.play.client.CPacketInput;
+import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.server.SPacketMoveVehicle;
+import net.minecraft.network.play.server.SPacketPlayerPosLook;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
+
 @ModuleManifest(
         name = "BoatFly",
         category = Module.Category.MOVEMENT
@@ -54,6 +62,13 @@ public class BoatFly extends Module {
                 break;
         }
     }
+
+    @Subscribe
+    public Listener<PacketEvent.Send> listener3 = new Listener<>(e-> {
+        if ((e.getPacket() instanceof CPacketPlayer.Rotation || e.getPacket() instanceof CPacketInput) && mc.player.isRiding()) {
+            e.setCancelled(true);
+        }
+    });
 
     @Override
     public void onDisable() {

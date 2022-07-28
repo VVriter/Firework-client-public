@@ -104,7 +104,7 @@ public class ItemViewModel extends Module {
         animationZRSpeed = new Setting<>("SpeedZR", (double)1,this, 0, 500).setVisibility(v-> page.getValue(pages.Animations));
 
         animationXL = new Setting<>("AnimationXL", false, this).setVisibility(v-> page.getValue(pages.Animations));
-        animationXLSpeed = new Setting<>("ScaleX", (double)1,this, 0, 500).setVisibility(v-> page.getValue(pages.Animations));
+        animationXLSpeed = new Setting<>("SpeedX", (double)1,this, 0, 500).setVisibility(v-> page.getValue(pages.Animations));
         animationYL = new Setting<>("AnimationYL", false, this).setVisibility(v-> page.getValue(pages.Animations));
         animationYLSpeed = new Setting<>("SpeedYL", (double)1,this, 0, 500).setVisibility(v-> page.getValue(pages.Animations));
         animationZL = new Setting<>("AnimationZL", false, this).setVisibility(v-> page.getValue(pages.Animations));
