@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.World;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
@@ -10,6 +11,11 @@ import net.minecraft.world.chunk.EmptyChunk;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
+@ModuleManifest(
+        name = "EntityControl",
+        category = Module.Category.WORLD,
+        description = "Makes horses / pigs saddled"
+)
 public class EntityControl extends Module {
     public static EntityControl INSTANCE;
     public Setting<Boolean> saddle = new Setting<>("Saddle", true, this);
@@ -19,7 +25,7 @@ public class EntityControl extends Module {
     public Setting<Boolean> EntitySpeed = new Setting<>("Enable", true, this).setVisibility(V-> speedSubBool.getValue());
     public Setting<Double> speed = new Setting<>("Reduction", (double)3, this, 0, 8).setVisibility(v-> EntitySpeed.getValue(true) && speedSubBool.getValue());
     public Setting<Boolean> antiStuck = new Setting<>("AntiStuck", true, this).setVisibility(v-> EntitySpeed.getValue(true) && speedSubBool.getValue());
-    public EntityControl(){super("EntityControl",Category.WORLD);
+    public EntityControl(){
         INSTANCE = this;
     }
 

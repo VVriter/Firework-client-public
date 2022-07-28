@@ -13,7 +13,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 
-@ModuleManifest(name = "Chams", category = Module.Category.VISUALS)
+@ModuleManifest(
+        name = "Chams",
+        category = Module.Category.VISUALS,
+        description = "Esp but much better"
+)
 public class Chams extends Module{
     private Setting<modes> mode = new Setting<>("Mode", modes.Shader, this);
     private enum modes{

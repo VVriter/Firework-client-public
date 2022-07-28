@@ -13,7 +13,11 @@ import net.minecraft.util.EnumHand;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "AutoBread",category = Module.Category.WORLD)
+@ModuleManifest(
+        name = "AutoBread",
+        category = Module.Category.WORLD,
+        description = "Automatically breads animals"
+)
 public class AutoBreed extends Module {
 
 

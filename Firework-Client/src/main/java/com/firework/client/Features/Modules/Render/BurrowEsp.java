@@ -14,7 +14,11 @@ import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 
-@ModuleManifest(name = "BurrowEsp",category = Module.Category.VISUALS)
+@ModuleManifest(
+        name = "BurrowEsp",
+        category = Module.Category.VISUALS,
+        description = "Highlights burrowed players"
+)
 public class BurrowEsp extends Module {
 
     @Override

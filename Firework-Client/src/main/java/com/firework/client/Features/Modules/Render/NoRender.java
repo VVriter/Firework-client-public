@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
@@ -14,6 +15,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
+@ModuleManifest(
+        name = "NoRender",
+        category = Module.Category.VISUALS,
+        description = "Prevents rendering shit"
+)
 public class NoRender extends Module {
 
     public static Setting<Boolean> enabled = null;
@@ -45,7 +51,6 @@ public class NoRender extends Module {
 
 
     public NoRender(){
-        super("NoRender",Category.VISUALS);
         enabled = this.isEnabled;
 
         skySubBool = new Setting<>("Sky", false, this).setMode(Setting.Mode.SUB);

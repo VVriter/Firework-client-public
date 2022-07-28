@@ -17,7 +17,11 @@ import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 
-@ModuleManifest(name = "AutoTame",category = Module.Category.WORLD)
+@ModuleManifest(
+        name = "AutoTame",
+        category = Module.Category.WORLD,
+        description = "Automatically tames animals"
+)
 public class AutoTame extends Module {
 
     public Setting<Double> Delay = new Setting<>("Delay", (double)3, this, 0, 5);

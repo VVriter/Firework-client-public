@@ -24,7 +24,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 @ModuleManifest(
         name = "EntityViewRenderer",
-        category = Module.Category.VISUALS
+        category = Module.Category.VISUALS,
+        description = "Finds players view and render it"
 )
 public class EyeFinder extends Module {
 

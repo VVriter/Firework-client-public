@@ -12,7 +12,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "FullBright",category = Module.Category.VISUALS)
+@ModuleManifest(
+        name = "FullBright",
+        category = Module.Category.VISUALS,
+        description = "Brightness"
+)
 public class FullBright extends Module {
 
     public Setting<Enum> enumSetting = new Setting<>("Mode", TestEnum.Gamma, this);

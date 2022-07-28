@@ -1,16 +1,21 @@
 package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 
 import java.awt.*;
 
-
+@ModuleManifest(
+        name = "CustomEnchants",
+        category = Module.Category.VISUALS,
+        description = "Customize enchants color"
+)
 public class CustomEnchants extends Module {
         public static Setting<HSLColor> color = null;
         public static Setting<Boolean> enabled = null;
-    public CustomEnchants(){super("CustomEnchants",Category.VISUALS);
+    public CustomEnchants(){
         color = new Setting<>("Color", new HSLColor(1, 54, 43), this);
         enabled = this.isEnabled;
     }

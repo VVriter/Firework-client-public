@@ -1,10 +1,16 @@
 package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumParticleTypes;
 
+@ModuleManifest(
+        name = "ParticlesBredCrams",
+        category = Module.Category.VISUALS,
+        description = "Cool render module"
+)
 public class ParticlesESP extends Module {
 
     private static Minecraft mc = Minecraft.getMinecraft();
@@ -22,10 +28,6 @@ public class ParticlesESP extends Module {
     public Setting<Boolean> endRod = new Setting<>("EndRod", false, this);
     public Setting<Boolean> totem = new Setting<>("Totem", false, this);
     public Setting<Boolean> snowBall = new Setting<>("SnowBall", false, this);
-
-
-    public ParticlesESP(){super("ParticlesESP",Category.VISUALS);}
-
 
     @Override
     public void onTick() {

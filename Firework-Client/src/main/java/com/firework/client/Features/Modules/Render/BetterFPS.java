@@ -1,6 +1,7 @@
 package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.Minecraft;
@@ -8,6 +9,11 @@ import org.lwjgl.opengl.Display;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
+@ModuleManifest(
+        name = "LagReducer",
+        category = Module.Category.VISUALS,
+        description = "Reduce your lags when"
+)
 public class BetterFPS extends Module {
 
     public Setting<Double> fpsLimitVal = new Setting<>("Fps Limit", (double)20, this, 1, 100);
@@ -15,7 +21,6 @@ public class BetterFPS extends Module {
     private boolean focused;
 
     public BetterFPS() {
-        super("LagReducer", Category.VISUALS);
         this.focused = true;
     }
 
