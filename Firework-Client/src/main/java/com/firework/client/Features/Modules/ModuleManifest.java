@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface ModuleManifest {
     String name();
     Module.Category category();
+    String description() default "";
 }

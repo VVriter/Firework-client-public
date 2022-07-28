@@ -12,7 +12,11 @@ import net.minecraft.util.math.Vec3d;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "HighwayESP",category = Module.Category.VISUALS)
+@ModuleManifest(
+        name = "HighwayESP",
+        category = Module.Category.VISUALS,
+        description = "Module to draw highways lines"
+)
 public class HighwayESP extends Module {
 
     public Setting<Enum> page = new Setting<>("Page", pages.General, this);
