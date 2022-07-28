@@ -5,7 +5,12 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.UI.GuiN.Components.EndBlock;
 import com.firework.client.Implementations.UI.GuiN.Components.ModuleButton;
+import com.firework.client.Implementations.UI.GuiN.Components.StartButton;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
+import com.firework.client.Implementations.Utill.Render.Rectangle;
+import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Frame {
@@ -36,6 +41,7 @@ public class Frame {
         this.barWidth = GuiInfo.barWidth;
         this.barHeight = 14;
 
+        components.add(new StartButton(category, x, y, width, 14));
         for(Module module : Firework.moduleManager.getModules(category)){
             components.add(new ModuleButton(module, this));
         }
@@ -62,6 +68,7 @@ public class Frame {
     }
 
     public void setX(final int x){
+        this.x = x;
         for(Component component : components)
             component.setX(x);
     }
