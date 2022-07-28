@@ -18,7 +18,7 @@ public class SubButton extends Button{
     @Override
     public void draw() {
         super.draw();
-        RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new Color(RainbowUtil.astolfoColors(100, 100)), new Color(RainbowUtil.astolfoColors(50, 100)));
+        RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new Color(RainbowUtil.astolfoColors(50, 100)), new Color(RainbowUtil.astolfoColors(100, 100)));
         RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), new Color(1, 1, 1, 24));
 
         textManager.drawString(setting.name, (float) (x+3), (float) (y+1),
