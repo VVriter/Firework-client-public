@@ -43,7 +43,7 @@ public class MenderHelper extends Module {
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> mend.getValue());
 
     public Setting<Integer> delay = new Setting<>("DelayMs", 3, this, 1, 100).setVisibility(v-> mend.getValue());
-    public Setting<Integer> lookPitch = new Setting<>("Pitch", 90, this, 1, 180).setVisibility(v-> mend.getValue());
+    public Setting<Integer> lookPitch = new Setting<>("Pitch", 90, this, 1, 90).setVisibility(v-> mend.getValue());
 
     Timer timer;
     ItemUser itemUser;
