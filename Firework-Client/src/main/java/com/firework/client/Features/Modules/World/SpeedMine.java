@@ -30,7 +30,7 @@ public class SpeedMine extends Module {
     @Subscribe
     public Listener<BlockClickEvent> blockClickEventListener = new Listener<>(blockClickEvent -> {
         if(fullNullCheck()) return;
-        if(lastBlockPos != null || BlockUtil.isAir(lastBlockPos)){
+        if(lastBlockPos != null && !BlockUtil.isAir(lastBlockPos)){
             if(blockClickEvent.getPos().equals(lastBlockPos)) {
                 mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.START_DESTROY_BLOCK, lastBlockPos, EnumFacing.DOWN));
                 blockClickEvent.setCancelled(true);
