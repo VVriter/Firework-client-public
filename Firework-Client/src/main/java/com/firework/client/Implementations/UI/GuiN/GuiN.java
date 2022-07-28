@@ -67,7 +67,7 @@ public class GuiN extends GuiScreen {
         if(scroll != 0) {
             if(lastScroll != scroll)
                 scrollAnimation.tasks.clear();
-            scrollAnimation.setValues(scrollAnimation.width + speed * scroll, 0.4f);
+            scrollAnimation.setValues(scrollAnimation.width + speed * scroll, 1f);
         }
         lastScroll = scroll;
     }
