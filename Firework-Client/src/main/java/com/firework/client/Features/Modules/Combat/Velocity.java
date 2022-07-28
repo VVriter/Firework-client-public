@@ -13,7 +13,11 @@ import net.minecraft.network.play.server.SPacketExplosion;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "Velocity",category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "Velocity",
+        category = Module.Category.COMBAT,
+        description = "Anti knock back"
+)
 public class Velocity extends Module {
 
     public Setting<Boolean> velocityPacket = new Setting<>("KnockBack", true, this);

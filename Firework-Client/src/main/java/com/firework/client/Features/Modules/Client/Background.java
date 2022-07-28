@@ -16,7 +16,11 @@ import ua.firework.beet.Subscribe;
 
 import java.awt.*;
 
-@ModuleManifest(name = "Background",category = Module.Category.CLIENT)
+@ModuleManifest(
+        name = "Background",
+        category = Module.Category.CLIENT,
+        description = "Draw cool background"
+)
 public class Background extends Module {
 
     public Setting<Boolean> gradientSubBool = new Setting<>("Gradient", false, this).setMode(Setting.Mode.SUB);

@@ -14,7 +14,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "Aura", category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "Aura",
+        category = Module.Category.COMBAT,
+        description = "Kills player using sword"
+)
 public class Aura extends Module {
 
     public Setting<Double> targetRange = new Setting<>("TargetRange", 4d, this, 0, 6);

@@ -26,7 +26,11 @@ import java.util.ArrayList;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.getHotbarItemSlot;
 
-@ModuleManifest(name = "Trap", category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "Trap",
+        category = Module.Category.COMBAT,
+        description = "Automatically traps your opponent in obsidian"
+)
 public class Trap extends Module {
 
     private Setting<templates> templateMode = new Setting<>("Template", templates.Full, this);

@@ -6,7 +6,11 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.client.multiplayer.ServerData;
 
-@ModuleManifest(name = "Client",category = Module.Category.CLIENT)
+@ModuleManifest(
+        name = "Client",
+        category = Module.Category.CLIENT,
+        description = "Module to control client"
+)
 public class Client extends Module {
 
     public static ServerData lastData;

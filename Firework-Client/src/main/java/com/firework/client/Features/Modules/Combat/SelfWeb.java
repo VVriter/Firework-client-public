@@ -28,7 +28,11 @@ import ua.firework.beet.Subscribe;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
 
-@ModuleManifest(name = "SelfWeb", category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "SelfWeb",
+        category = Module.Category.COMBAT,
+        description = "Very fast places cobwebs into feet"
+)
 public class SelfWeb extends Module {
 
     //Should toggle onEnable

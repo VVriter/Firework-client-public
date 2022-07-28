@@ -21,7 +21,8 @@ import java.util.List;
 
 @ModuleManifest(
         name = "AntiPistonAura",
-        category = Module.Category.COMBAT
+        category = Module.Category.COMBAT,
+        description = "Prevent AutoPiston from your opponent"
 )
 public class AntiPiston extends Module {
 

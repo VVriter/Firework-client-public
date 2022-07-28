@@ -18,7 +18,11 @@ import ua.firework.beet.Subscribe;
 
 import java.awt.*;
 
-@ModuleManifest(name = "Notifications",category = Module.Category.CLIENT)
+@ModuleManifest(
+        name = "Notifications",
+        category = Module.Category.CLIENT,
+        description = "Cool notifications"
+)
 public class Notifications extends Module {
 
     public static Setting<Boolean> enabled = null;

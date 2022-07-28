@@ -29,7 +29,11 @@ import java.util.Arrays;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.getHotbarItemSlot;
 
-@ModuleManifest(name = "Surround", category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "Surround",
+        category = Module.Category.COMBAT,
+        description = "Prevents AutoCrystal from your opponents"
+)
 public class Surround extends Module {
     private Setting<jumpMode> jump = new Setting<>("Jump", jumpMode.Continue, this);
     private enum jumpMode{

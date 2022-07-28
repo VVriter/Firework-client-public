@@ -29,7 +29,11 @@ import java.util.ArrayList;
 
 import static com.firework.client.Implementations.Utill.InventoryUtil.getHotbarItemSlot;
 
-@ModuleManifest(name = "HolleFiller", category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "HolleFiller",
+        category = Module.Category.COMBAT,
+        description = "Fills holes near you"
+)
 public class HoleFiller extends Module {
 
     //Timing

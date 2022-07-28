@@ -16,7 +16,11 @@ import net.minecraft.util.math.Vec3d;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "BowTweaker",category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "BowTweaker",
+        category = Module.Category.COMBAT,
+        description = "Some tweaks to bow"
+)
 public class BowTweaker extends Module {
     public Setting<Boolean> Aim = new Setting<>("Aim", true, this);
     public Setting<Double> BowSpamSpeed = new Setting<>("BowSpamSpeed", 17d, this, 1, 30);

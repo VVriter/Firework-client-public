@@ -12,7 +12,11 @@ import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 
-@ModuleManifest(name = "ChatSufix",category = Module.Category.CHAT)
+@ModuleManifest(
+        name = "ChatSuffix",
+        category = Module.Category.CHAT,
+        description = "Prints messages in chat with your own suffix"
+)
 public class ChatSufix extends Module {
     public static Setting<Boolean> enabled = null;
     public ChatSufix() {

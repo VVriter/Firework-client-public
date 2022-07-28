@@ -31,7 +31,11 @@ import java.util.ArrayList;
 import static com.firework.client.Implementations.Utill.InventoryUtil.*;
 import static java.lang.Math.*;
 
-@ModuleManifest(name = "TargetWeb", category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "TargetWeb",
+        category = Module.Category.COMBAT,
+        description = "Automatically places webs into your opponents"
+)
 public class TargetWeb extends Module{
 
     //Target search range

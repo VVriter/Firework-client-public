@@ -11,7 +11,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "Crits", category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "Crits",
+        category = Module.Category.COMBAT,
+        description = "Module to took more damage"
+)
 public class Criticals extends Module {
 
     public Setting<Enum> mode = new Setting<>("Mode", modes.Packet, this);

@@ -32,7 +32,11 @@ import ua.firework.beet.Subscribe;
 import java.util.ArrayList;
 import java.util.Objects;
 
-@ModuleManifest(name = "AutoCrystal", category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "AutoCrystal",
+        category = Module.Category.COMBAT,
+        description = "Places and breaks crystals"
+)
 public class AutoCrystal extends Module {
 
     //Interaction && Sync

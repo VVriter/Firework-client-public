@@ -4,7 +4,11 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import org.lwjgl.input.Keyboard;
 
-@ModuleManifest(name = "GuiL", category = Module.Category.CLIENT)
+@ModuleManifest(
+        name = "GuiL",
+        category = Module.Category.CLIENT,
+        description = "ClickGui module lol"
+)
 public class GuiL extends Module {
 
     public GuiL(){

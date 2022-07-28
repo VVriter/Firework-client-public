@@ -1,6 +1,9 @@
 package com.firework.client.Features.Modules.Client;
 
+import com.firework.client.Features.CommandsSystem.CommandManager;
+import com.firework.client.Features.CommandsSystem.CommandManifest;
 import com.firework.client.Features.Modules.Module;
+import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
@@ -11,6 +14,11 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
+@ModuleManifest(
+        name = "DiscordNotificator",
+        category = Module.Category.CLIENT,
+        description = "Sends notifications to discord webhook, use .webhook command to set webhook!"
+)
 public class DiscordNotificator extends Module {
 
     public static Setting<Boolean> enabled = null;
@@ -21,8 +29,8 @@ public class DiscordNotificator extends Module {
 
 
     public static String webhook = "";
-    public DiscordNotificator(){super("DiscordNotificator",Category.CLIENT);
 
+    public DiscordNotificator(){
         enabled = this.isEnabled;
         notify2b2t = new Setting<>("Queue notify", true, this);
         death = new Setting<>("DeathNotificator", true, this);

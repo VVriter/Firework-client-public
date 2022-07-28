@@ -35,7 +35,11 @@ import ua.firework.beet.Subscribe;
 
 import java.util.Objects;
 
-@ModuleManifest(name = "CevBreaker", category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "CevBreaker",
+        category = Module.Category.COMBAT,
+        description = "Places crystals above player and break it"
+)
 public class CevBreaker extends Module {
 
 

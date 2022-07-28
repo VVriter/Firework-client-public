@@ -22,7 +22,8 @@ import java.util.List;
 
 @ModuleManifest(
         name = "FastWeb",
-        category = Module.Category.COMBAT
+        category = Module.Category.COMBAT,
+        description = "Prevents CobWeb slowness"
 )
 public class FastWeb extends Module {
     public Setting<modes> mode = new Setting<>("Mode", modes.Timer, this);

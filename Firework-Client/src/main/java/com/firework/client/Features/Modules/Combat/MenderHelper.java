@@ -18,7 +18,11 @@ import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
 
-@ModuleManifest(name = "MenderHelper", category = Module.Category.COMBAT)
+@ModuleManifest(
+        name = "MenderHelper",
+        category = Module.Category.COMBAT,
+        description = "Automatically mends your armour"
+)
 public class MenderHelper extends Module {
 
     //Auto armor

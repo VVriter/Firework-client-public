@@ -12,7 +12,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "NoForge", category = Module.Category.CLIENT)
+@ModuleManifest(
+        name = "NoForge",
+        category = Module.Category.CLIENT,
+        description = "Sends fake info to server u joined to prevent ban"
+)
 public class NoForge extends Module {
     @Subscribe
     public Listener<PacketEvent.Send> onRender = new Listener<>(event -> {
