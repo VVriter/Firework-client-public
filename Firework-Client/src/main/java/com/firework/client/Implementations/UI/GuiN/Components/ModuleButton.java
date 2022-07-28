@@ -9,6 +9,7 @@ import com.firework.client.Implementations.UI.GuiN.GuiInfo;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
+import net.minecraft.client.renderer.entity.Render;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class ModuleButton extends Button{
         int textWidth = textManager.getStringWidth(module.name);
 
         GuiInfo.drawButtonBase(this);
+        if(module.isEnabled.getValue())
+            RenderUtils2D.drawRectangle(new Rectangle(x + 1, y + 1, 1, height - 2), new Color(RainbowUtil.astolfoColors(100, 100)));
         customFontManager.drawString(module.name, x + (width-textWidth)/2, (float) (y+1),
                 module.isEnabled.getValue() ? new Color(RainbowUtil.astolfoColors(100, 100)).getRGB() : Color.white.getRGB());
 
