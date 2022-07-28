@@ -21,7 +21,6 @@ public class BetterFPS extends Module {
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> onRender = new Listener<>(event -> {
-        super.onTick();
         if(Minecraft.getMinecraft().world == null){
             return;
         }
