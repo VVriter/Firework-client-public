@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
+import com.mysql.cj.jdbc.exceptions.NotUpdatable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.ResourceLocation;
@@ -44,6 +45,7 @@ public class Module{
         isEnabled.setValue(true);
         onToggle();
         Firework.eventBus.register(this);
+        Notifications.notificate(this.getName()+"toggeled on!","");
     }
 
 
@@ -51,18 +53,13 @@ public class Module{
         isEnabled.setValue(false);
         onToggle();
         Firework.eventBus.unregister(this);
+        Notifications.notificate(this.getName()+"toggled off!","");
     }
 
     public void onEnableLog() {
-        if (!Notifications.enabled.getValue()) {
-            SoundUtill.playSound(new ResourceLocation("firework/audio/pop.wav"));
-        }
         onEnable();
         if(Logger.enabled.getValue() && Logger.onModuleEnable.getValue()){
             Logger.log(this);
-        }
-        if (Notifications.enabled.getValue()) {
-            Notifications.notificate(this.getName()+" is enabled!","1");
         }
     }
 

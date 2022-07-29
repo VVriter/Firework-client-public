@@ -6,6 +6,7 @@ import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Render.Render2dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
+import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import com.firework.client.Implementations.Utill.Timer;
@@ -25,6 +26,13 @@ import java.awt.*;
 )
 public class Notifications extends Module {
 
+    public Setting<Boolean> Colors = new Setting<>("Colors", false, this).setMode(Setting.Mode.SUB);
+    public Setting<HSLColor> colorOutline1 = new Setting<>("OutlineStart", new HSLColor(20, 54, 43), this).setVisibility(v-> Colors.getValue());
+    public Setting<HSLColor> colorOutline2 = new Setting<>("OutlineEnd", new HSLColor(70, 54, 43), this).setVisibility(v-> Colors.getValue());
+    public Setting<HSLColor> colorFill1 = new Setting<>("FillStart", new HSLColor(120, 54, 43), this).setVisibility(v-> Colors.getValue());
+    public Setting<HSLColor> colorFill2 = new Setting<>("FillEnd", new HSLColor(200, 54, 43), this).setVisibility(v-> Colors.getValue());
+
+
     public static Setting<Boolean> enabled = null;
     public Notifications() {
         enabled = this.isEnabled;
@@ -43,7 +51,6 @@ public class Notifications extends Module {
    public static String footer;
 
     public static void notificate(String header1, String footer1) {
-      //  SoundUtill.playSound(new ResourceLocation("firework/audio/pop2.wav"));
         needToRender = true;
         header = header1;
         footer = footer1;
@@ -79,8 +86,8 @@ public class Notifications extends Module {
              endMoveTimer.reset();
          }
 
-         RenderUtils2D.drawGradientRectHorizontal(new Rectangle(sr.getScaledWidth()+xAdd,sr.getScaledHeight()-80,200,50),new Color(166, 29, 124,150),new Color(86, 45, 189,150));
-         RenderUtils2D.drawGradientRectangleOutline(new Rectangle(sr.getScaledWidth()+xAdd,sr.getScaledHeight()-80,200,50), 2, Color.RED,Color.CYAN);
+         RenderUtils2D.drawGradientRectHorizontal(new Rectangle(sr.getScaledWidth()+xAdd,sr.getScaledHeight()-80,200,50),colorFill1.getValue().toRGB(),colorFill2.getValue().toRGB());
+         RenderUtils2D.drawGradientRectangleOutline(new Rectangle(sr.getScaledWidth()+xAdd,sr.getScaledHeight()-80,200,50), 2, colorOutline1.getValue().toRGB(),colorOutline2.getValue().toRGB());
          Firework.customFontForAlts.drawCenteredString(header,sr.getScaledWidth()+xAdd+110,sr.getScaledHeight()-75,Color.white.getRGB());
          mc.getTextureManager().bindTexture(new ResourceLocation("firework/notifications/book.png"));
          RenderUtils2D.drawCompleteImage(sr.getScaledWidth()+xAdd+3,sr.getScaledHeight()-75,40,38);
