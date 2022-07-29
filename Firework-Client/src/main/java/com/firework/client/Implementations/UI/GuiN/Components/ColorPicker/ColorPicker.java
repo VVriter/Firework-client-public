@@ -20,11 +20,13 @@ public class ColorPicker extends Button {
     HueBar hueBar;
     AlphaBar alphaBar;
     ColorField colorField;
+    RainbowButton rainbowButton;
     public ColorPicker(Setting setting, Frame frame) {
         super(setting, frame);
-        components.add(hueBar = new HueBar(setting, x, y + height, width, 10));
-        components.add(alphaBar = new AlphaBar(setting, x, y + height + hueBar.height, width, 10));
-        components.add(colorField = new ColorField(setting, x, y + height, width, 30));
+        components.add(colorField = new ColorField(setting, x, 0, width, 30));
+        components.add(hueBar = new HueBar(setting, x, 0, width, 10));
+        components.add(alphaBar = new AlphaBar(setting, x, 0, width, 10));
+        components.add(rainbowButton = new RainbowButton(setting, x,0, width, 10));
     }
 
     @Override
@@ -35,9 +37,10 @@ public class ColorPicker extends Button {
         RenderUtils2D.drawAlphaBarBase(new Rectangle(x + width - 9, y + 2, 6, 6));
         RenderUtils2D.drawRectAlpha(new Rectangle(x + width - 9, y + 2, 6, 6), ((HSLColor)setting.getValue()).toRGB());
         if(setting.opened){
+            colorField.y = this.y + 10;
             hueBar.y = this.y + 10 + 30;
             alphaBar.y = this.y + 10 + 30 + 10;
-            colorField.y = this.y + 10 ;
+            rainbowButton.y = this.y + 10 + 30 + 10 + 10;
             components.forEach(component -> component.draw(mouseX, mouseY));
         }
     }
@@ -54,16 +57,18 @@ public class ColorPicker extends Button {
         if(state == 1)
             setting.opened = !setting.opened;
         if(state == 0){
-            components.stream()
-                    .filter(component -> GuiInfo.isHoveringOnTheComponent(component, mouseX, mouseY))
-                    .forEach(component -> component.init(mouseX, mouseY, state));
+            if(setting.opened) {
+                components.stream()
+                        .filter(component -> GuiInfo.isHoveringOnTheComponent(component, mouseX, mouseY))
+                        .forEach(component -> component.init(mouseX, mouseY, state));
+            }
         }
     }
 
     @Override
     public int getHeight() {
         if(setting.opened)
-            return super.getHeight() + 30 + 10 + 10;
+            return super.getHeight() + 30 + 10 + 10 + 10;
         else
             return super.getHeight();
     }

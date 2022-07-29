@@ -91,4 +91,9 @@ public class GuiN extends GuiScreen {
         super.keyTyped(typedChar, keyCode);
         GuiInfo.frames.forEach(frame -> frame.onKeyTyped(keyCode));
     }
+
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
+    }
 }
