@@ -47,7 +47,6 @@ public class ItemViewModel extends Module {
     }
 
     public static Setting<Boolean> oldAnimations = null;
-    public static Setting<Boolean> noSwap = null;
 
     public static Setting<Boolean> restTranslate = null;
 
@@ -127,11 +126,11 @@ public class ItemViewModel extends Module {
         animationZLSpeed = new Setting<>("SpeedYZ", (double)1,this, 0, 500).setVisibility(v-> page.getValue(pages.Animations));
 
         oldAnimations = new Setting<>("Old Animations", false, this).setVisibility(v-> page.getValue(pages.Misc));
-        noSwap = new Setting<>("MoSwap", false, this).setVisibility(v-> page.getValue(pages.Misc));
         }
 
         @Subscribe
         public Listener<UpdateEquippedItemEvent> listener = new Listener<>(event->{
+            if (oldAnimations.getValue()) {
             event.setCancelled(true);
             ((IItemRenderer) mc.entityRenderer.itemRenderer).settPrevEquippedProgressMainHand(((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressMainHand());
             ((IItemRenderer) mc.entityRenderer.itemRenderer).settPrevEquippedProgressOffHand(((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressOffHand());
@@ -144,8 +143,8 @@ public class ItemViewModel extends Module {
                 ((IItemRenderer) mc.entityRenderer.itemRenderer).settEquippedProgressOffHand(MathHelper.clamp(((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressOffHand() - 0.4F, 0.0F, 1.0F));
             }
             else {
-                boolean requipM = noSwap.getValue() && net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(((IItemRenderer) mc.entityRenderer.itemRenderer).gettItemStackMainHand(), itemstack, entityplayersp.inventory.currentItem);
-                boolean requipO = noSwap.getValue() && net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(((IItemRenderer) mc.entityRenderer.itemRenderer).gettItemStackOffHand(), itemstack1, -1);
+                boolean requipM = net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(((IItemRenderer) mc.entityRenderer.itemRenderer).gettItemStackMainHand(), itemstack, entityplayersp.inventory.currentItem);
+                boolean requipO = net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(((IItemRenderer) mc.entityRenderer.itemRenderer).gettItemStackOffHand(), itemstack1, -1);
 
                 if (!requipM && !Objects.equals(((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressMainHand(), itemstack))
                     ((IItemRenderer) mc.entityRenderer.itemRenderer).settItemStackMainHand(itemstack);
@@ -162,6 +161,7 @@ public class ItemViewModel extends Module {
 
             if (((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressOffHand() < 0.1F) {
                 ((IItemRenderer) mc.entityRenderer.itemRenderer).settItemStackOffHand(itemstack1);
+                }
             }
         });
 
