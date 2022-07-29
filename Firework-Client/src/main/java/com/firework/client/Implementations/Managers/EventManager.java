@@ -6,17 +6,23 @@ import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
 import com.firework.client.Implementations.Events.Chat.ChatSendE;
 import com.firework.client.Implementations.Events.OnFishingEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
+import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.Player.TotemPopEvent;
 import com.firework.client.Implementations.Events.Render.Render2dE;
 import com.firework.client.Implementations.Events.Render.RenderGameOverlay;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.server.SPacketEntityStatus;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
 public class EventManager extends Manager{
     public EventManager() {
@@ -107,5 +113,13 @@ public class EventManager extends Manager{
         }
     }
 
+    @Subscribe
+    public Listener<PacketEvent.Receive> listener1233 = new Listener<>(event-> {
+        if (event.getPacket() instanceof SPacketEntityStatus && ((SPacketEntityStatus) event.getPacket()).getOpCode() == 35 && ((SPacketEntityStatus) event.getPacket()).getEntity(Minecraft.getMinecraft().world) instanceof EntityPlayer) {
+            SPacketEntityStatus packet = (SPacketEntityStatus) event.getPacket();
+            TotemPopEvent event1 = new TotemPopEvent(packet.getEntity(Minecraft.getMinecraft().world));
+            Firework.eventBus.post(event1);
+        }
+    });
 
 }

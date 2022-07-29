@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
+import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemShield;
@@ -53,7 +54,7 @@ public class NoSlow extends Module {
             }
         }
 
-        if (airStrict.getValue() && !mc.player.onGround && !mc.player.isInWater() && !mc.player.isInLava() && mc.player.inventory.getCurrentItem().getItem() instanceof ItemFood) {
+        if (airStrict.getValue() && PlayerUtil.IsEating() && !mc.player.onGround) {
             mc.player.connection.sendPacket((new CPacketEntityAction(Minecraft.getMinecraft().player, CPacketEntityAction.Action.START_SNEAKING)));
             mc.player.setSneaking(true);
         }
