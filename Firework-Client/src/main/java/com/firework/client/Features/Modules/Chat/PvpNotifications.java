@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Chat;
 import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.Player.TotemPopEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
@@ -18,6 +19,7 @@ import ua.firework.beet.Subscribe;
 )
 public class PvpNotifications extends Module {
     public Setting<Boolean> trap = new Setting<>("Trap", true, this);
+    public Setting<Boolean> totem = new Setting<>("TotemPop", true, this);
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener = new Listener<>(e-> {
@@ -31,6 +33,13 @@ public class PvpNotifications extends Module {
                 Notifications.notificate(entity.getName()+" trapped","");
                 }
             }
+        }
+    });
+
+    @Subscribe
+    public Listener<TotemPopEvent> ls = new Listener<>(e-> {
+        if (totem.getValue()) {
+            MessageUtil.sendPvpNotification(e.getEntity().getName()+"has popped totem",-1118);
         }
     });
 }
