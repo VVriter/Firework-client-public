@@ -31,7 +31,7 @@ public class ColorField extends Component {
         if(GuiN.isDragging && GuiInfo.isHoveringOnTheComponent(this, mouseX, mouseY)){
             setting.setValue(colorFromPoint(new Point2D.Double(mouseX, mouseY)));
         }
-        RenderUtils2D.drawFilledCircle(pointFromColor(), new HSLColor(setting.getValue().hue, 50, 50).toRGB(), 3);
+        RenderUtils2D.drawFilledCircle(pointFromColor(), new HSLColor(setting.getValue().hue, setting.getValue().saturation, setting.getValue().light).toRGB(), 3);
         RenderUtils2D.drawCircleOutline(pointFromColor(), 3, 2, Color.white);
     }
 
