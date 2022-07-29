@@ -40,6 +40,7 @@
     "Blocks.MixinBlockSlime",
     "Misc.MixinEntityPlayer",
     "Render.MixinRenderLivingBase",
-    "IItemRenderer"
+    "IItemRenderer",
+    "ICPacketPlayerTryUseItemOnBlock"
   ]
 }

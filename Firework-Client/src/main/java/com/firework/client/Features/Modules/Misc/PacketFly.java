@@ -35,6 +35,11 @@ import java.util.concurrent.TimeUnit;
 @ModuleManifest(name = "PacketFly",category = Module.Category.MISCELLANEOUS)
 public class PacketFly extends Module {
 
+    public static Setting<Boolean> enabled = null;
+    public PacketFly() {
+        enabled = this.isEnabled;
+    }
+
     /*******************************Settings************************************************/
 
     public Setting<Enum> type = new Setting<>("type", Type.FAST, this);
