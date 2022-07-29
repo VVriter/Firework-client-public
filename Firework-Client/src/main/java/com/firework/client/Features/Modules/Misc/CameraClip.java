@@ -15,7 +15,6 @@ public class CameraClip extends Module {
 
     public static Setting<Boolean> extend = null;
     public static Setting<Double> valX = null;
-    public static Setting<Double> valZ = null;
 
     public CameraClip(){
         enabled = this.isEnabled;

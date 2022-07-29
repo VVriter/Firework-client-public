@@ -12,11 +12,30 @@ public class MessageUtil  {
     Minecraft mc = Minecraft.getMinecraft();
 
     private static final String prefix = ChatFormatting.RED + "[FIREWORK] " + ChatFormatting.RESET;
+    private static final String pvpPrefix = ChatFormatting.GOLD + "[FIREWORK] " + ChatFormatting.RESET;
 
     public static void sendClientMessage(String string, boolean deleteOld) {
         if (Minecraft.getMinecraft().player == null)
             return;
         final ITextComponent component = new TextComponentString(prefix +ChatFormatting.GRAY+ string+ChatFormatting.RESET);
+        if (deleteOld) {
+            Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(component, -727);
+        } else {
+            Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component);
+        }
+    }
+
+    public static void sendPvpNotification(String string, int id) {
+        if (Minecraft.getMinecraft().player == null)
+            return;
+        final ITextComponent component = new TextComponentString(pvpPrefix +ChatFormatting.GOLD+ string+ChatFormatting.RESET);
+        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion( component, id);
+    }
+
+    public static void sendPvpNotification(String string, boolean deleteOld) {
+        if (Minecraft.getMinecraft().player == null)
+            return;
+        final ITextComponent component = new TextComponentString(pvpPrefix +ChatFormatting.GRAY+ string+ChatFormatting.RESET);
         if (deleteOld) {
             Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(component, -727);
         } else {

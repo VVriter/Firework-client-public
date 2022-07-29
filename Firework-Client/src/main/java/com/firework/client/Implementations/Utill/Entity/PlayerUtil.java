@@ -11,12 +11,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.util.UUIDTypeAdapter;
 import net.minecraft.advancements.AdvancementManager;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemFood;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -350,6 +352,73 @@ public class PlayerUtil implements Util {
     public static BlockPos GetLocalPlayerPosFloored()
     {
         return new BlockPos(Math.floor(mc.player.posX), Math.floor(mc.player.posY), Math.floor(mc.player.posZ));
+    }
+
+    public static boolean IsEating()
+    {
+        return mc.player != null && mc.player.getHeldItemMainhand().getItem() instanceof ItemFood && mc.player.isHandActive();
+    }
+
+    public static BlockPos EntityPosToFloorBlockPos(Entity e)
+    {
+        return new BlockPos(Math.floor(e.posX), Math.floor(e.posY), Math.floor(e.posZ));
+    }
+
+
+    public static boolean IsPlayerTrapped()
+    {
+        BlockPos l_PlayerPos = GetLocalPlayerPosFloored();
+
+        final BlockPos[] l_TrapPositions = {
+                l_PlayerPos.down(),
+                l_PlayerPos.up().up(),
+                l_PlayerPos.north(),
+                l_PlayerPos.south(),
+                l_PlayerPos.east(),
+                l_PlayerPos.west(),
+                l_PlayerPos.north().up(),
+                l_PlayerPos.south().up(),
+                l_PlayerPos.east().up(),
+                l_PlayerPos.west().up(),
+        };
+
+        for (BlockPos l_Pos : l_TrapPositions)
+        {
+            IBlockState l_State = mc.world.getBlockState(l_Pos);
+
+            if (l_State.getBlock() != Blocks.OBSIDIAN && mc.world.getBlockState(l_Pos).getBlock() != Blocks.BEDROCK)
+                return false;
+        }
+
+        return true;
+    }
+
+
+    public static boolean IsEntityTrapped(Entity e)
+    {
+        BlockPos l_PlayerPos = EntityPosToFloorBlockPos(e);
+
+        final BlockPos[] l_TrapPositions = {
+                l_PlayerPos.up().up(),
+                l_PlayerPos.north(),
+                l_PlayerPos.south(),
+                l_PlayerPos.east(),
+                l_PlayerPos.west(),
+                l_PlayerPos.north().up(),
+                l_PlayerPos.south().up(),
+                l_PlayerPos.east().up(),
+                l_PlayerPos.west().up(),
+        };
+
+        for (BlockPos l_Pos : l_TrapPositions)
+        {
+            IBlockState l_State = mc.world.getBlockState(l_Pos);
+
+            if (l_State.getBlock() != Blocks.OBSIDIAN && mc.world.getBlockState(l_Pos).getBlock() != Blocks.BEDROCK)
+                return false;
+        }
+
+        return true;
     }
 
 }

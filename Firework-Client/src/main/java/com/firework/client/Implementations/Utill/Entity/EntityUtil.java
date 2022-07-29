@@ -3,13 +3,16 @@ package com.firework.client.Implementations.Utill.Entity;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Util;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.item.EntityEnderCrystal;
+import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.monster.EntityIronGolem;
+import net.minecraft.entity.monster.EntityPigZombie;
+import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
@@ -23,6 +26,75 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.Explosion;
 
 public class EntityUtil {
+
+    public static boolean isPassive(Entity e) {
+        if (e instanceof EntityWolf && ((EntityWolf) e).isAngry())
+            return false;
+        if (e instanceof EntityAnimal || e instanceof EntityAgeable || e instanceof EntityTameable
+                || e instanceof EntityAmbientCreature || e instanceof EntitySquid)
+            return true;
+        if (e instanceof EntityIronGolem && ((EntityIronGolem) e).getRevengeTarget() == null)
+            return true;
+        return false;
+    }
+
+    public static boolean isMobAggressive(Entity entity)
+    {
+        if (entity instanceof EntityPigZombie)
+        {
+            // arms raised = aggressive, angry = either game or we have set the anger
+            // cooldown
+            if (((EntityPigZombie) entity).isArmsRaised() || ((EntityPigZombie) entity).isAngry())
+            {
+                return true;
+            }
+        }
+        else if (entity instanceof EntityWolf)
+        {
+            return ((EntityWolf) entity).isAngry()
+                    && !Minecraft.getMinecraft().player.equals(((EntityWolf) entity).getOwner());
+        }
+        else if (entity instanceof EntityEnderman)
+        {
+            return ((EntityEnderman) entity).isScreaming();
+        }
+        return isHostileMob(entity);
+    }
+
+    /**
+     * If the mob is hostile
+     */
+    public static boolean isHostileMob(Entity entity) {
+        return (entity.isCreatureType(EnumCreatureType.MONSTER, false) && !EntityUtil.isNeutralMob(entity));
+    }
+
+    /**
+     * If the mob by default won't attack the player, but will if the player attacks
+     * it
+     */
+    public static boolean isNeutralMob(Entity entity) {
+        return entity instanceof EntityPigZombie || entity instanceof EntityWolf || entity instanceof EntityEnderman;
+    }
+
+    public static boolean isInWater(Entity entity)
+    {
+        if (entity == null)
+            return false;
+
+        double y = entity.posY + 0.01;
+
+        for (int x = MathHelper.floor(entity.posX); x < MathHelper.ceil(entity.posX); x++)
+            for (int z = MathHelper.floor(entity.posZ); z < MathHelper.ceil(entity.posZ); z++)
+            {
+                BlockPos pos = new BlockPos(x, (int) y, z);
+
+                if (Minecraft.getMinecraft().world.getBlockState(pos).getBlock() instanceof BlockLiquid)
+                    return true;
+            }
+
+        return false;
+    }
+
 
     public static BlockPos getPlayerPos(EntityPlayer player) {
         return new BlockPos(Math.floor(player.posX), Math.floor(player.posY), Math.floor(player.posZ));
