@@ -273,7 +273,7 @@ public class AutoTunnel extends Module {
     public Setting<Boolean> blockBreaker = new Setting<>("BlockBreaker", false, this).setMode(Setting.Mode.SUB);
     public Setting<BlockBreaker.mineModes> switchMode = new Setting<>("MineMode", BlockBreaker.mineModes.Classic, this).setVisibility(v-> blockBreaker.getValue());
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> blockBreaker.getValue());
-    public Setting<Boolean> raytrace = new Setting<>("Rotate", true, this).setVisibility(v-> blockBreaker.getValue());
+    public Setting<Boolean> raytrace = new Setting<>("Raytrace", true, this).setVisibility(v-> blockBreaker.getValue());
     public Setting<Boolean> swing = new Setting<>("Swing", true, this).setVisibility(v-> blockBreaker.getValue());
     BlockBreaker breaker;
 
