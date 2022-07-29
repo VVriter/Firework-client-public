@@ -39,6 +39,7 @@
     "Blocks.MixinBlockSoulSand",
     "Blocks.MixinBlockSlime",
     "Misc.MixinEntityPlayer",
-    "Render.MixinRenderLivingBase"
+    "Render.MixinRenderLivingBase",
+    "IItemRenderer"
   ]
 }

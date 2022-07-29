@@ -2,9 +2,18 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.Render.UpdateEquippedItemEvent;
+import com.firework.client.Implementations.Mixins.MixinsList.IItemRenderer;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Timer;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.MathHelper;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
+
+import java.util.Objects;
 
 
 @ModuleManifest(
@@ -36,6 +45,8 @@ public class ItemViewModel extends Module {
     public enum swings{
         MainHand,OffHand,None
     }
+
+    public static Setting<Boolean> oldAnimations = null;
 
     public static Setting<Boolean> restTranslate = null;
 
@@ -113,7 +124,46 @@ public class ItemViewModel extends Module {
         animationYLSpeed = new Setting<>("SpeedYL", (double)1,this, 0, 500).setVisibility(v-> page.getValue(pages.Animations));
         animationZL = new Setting<>("AnimationZL", false, this).setVisibility(v-> page.getValue(pages.Animations));
         animationZLSpeed = new Setting<>("SpeedYZ", (double)1,this, 0, 500).setVisibility(v-> page.getValue(pages.Animations));
+
+        oldAnimations = new Setting<>("Old Animations", false, this).setVisibility(v-> page.getValue(pages.Misc));
         }
+
+        @Subscribe
+        public Listener<UpdateEquippedItemEvent> listener = new Listener<>(event->{
+            if (oldAnimations.getValue()) {
+            event.setCancelled(true);
+            ((IItemRenderer) mc.entityRenderer.itemRenderer).settPrevEquippedProgressMainHand(((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressMainHand());
+            ((IItemRenderer) mc.entityRenderer.itemRenderer).settPrevEquippedProgressOffHand(((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressOffHand());
+            EntityPlayerSP entityplayersp = mc.player;
+            ItemStack itemstack = entityplayersp.getHeldItemMainhand();
+            ItemStack itemstack1 = entityplayersp.getHeldItemOffhand();
+
+            if (entityplayersp.isRowingBoat()) {
+                ((IItemRenderer) mc.entityRenderer.itemRenderer).settEquippedProgressMainHand(MathHelper.clamp(((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressMainHand() - 0.4F, 0.0F, 1.0F));
+                ((IItemRenderer) mc.entityRenderer.itemRenderer).settEquippedProgressOffHand(MathHelper.clamp(((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressOffHand() - 0.4F, 0.0F, 1.0F));
+            }
+            else {
+                boolean requipM = net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(((IItemRenderer) mc.entityRenderer.itemRenderer).gettItemStackMainHand(), itemstack, entityplayersp.inventory.currentItem);
+                boolean requipO = net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(((IItemRenderer) mc.entityRenderer.itemRenderer).gettItemStackOffHand(), itemstack1, -1);
+
+                if (!requipM && !Objects.equals(((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressMainHand(), itemstack))
+                    ((IItemRenderer) mc.entityRenderer.itemRenderer).settItemStackMainHand(itemstack);
+                if (!requipM && !Objects.equals(((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressOffHand(), itemstack1))
+                    ((IItemRenderer) mc.entityRenderer.itemRenderer).settItemStackOffHand(itemstack1);
+
+                ((IItemRenderer) mc.entityRenderer.itemRenderer).settEquippedProgressMainHand(((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressMainHand() + MathHelper.clamp((!requipM ? 1F * 1F * 1F : 0.0F) - ((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressMainHand(), -0.4F, 0.4F));
+                ((IItemRenderer) mc.entityRenderer.itemRenderer).settEquippedProgressOffHand(((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressOffHand() + MathHelper.clamp((float)(!requipO ? 1 : 0) - ((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressOffHand(), -0.4F, 0.4F));
+            }
+
+            if (((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressMainHand() < 0.1F) {
+                ((IItemRenderer) mc.entityRenderer.itemRenderer).settItemStackMainHand(itemstack);
+            }
+
+            if (((IItemRenderer) mc.entityRenderer.itemRenderer).gettEquippedProgressOffHand() < 0.1F) {
+                ((IItemRenderer) mc.entityRenderer.itemRenderer).settItemStackOffHand(itemstack1);
+                }
+            }
+        });
 
         @Override
         public void onEnable() {
@@ -195,6 +245,8 @@ public class ItemViewModel extends Module {
                 mc.player.swingProgress = 0.0f;
                 mc.player.prevSwingProgress = 0.0f;
             }
+
+
         }
         @Override
         public void onDisable() {
@@ -206,6 +258,8 @@ public class ItemViewModel extends Module {
             timerYL.reset();
             timerZL.reset();
         }
+
+
     }
 
 
