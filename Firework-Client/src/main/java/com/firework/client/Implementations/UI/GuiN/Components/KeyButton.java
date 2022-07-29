@@ -32,7 +32,7 @@ public class KeyButton extends Button{
                 active ? Color.gray.getRGB() : Color.white.getRGB(),false);
 
         textManager.drawString(value, (float) (x+width-2-textWidth), (float) (y + 1),
-                active ? Color.gray.getRGB() : Firework.colorManager.getJuliet().getRGB(), false);
+                active ? Color.gray.getRGB() : Firework.colorManager.getColor().getRGB(), false);
     }
 
     @Override

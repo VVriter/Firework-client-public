@@ -26,7 +26,7 @@ public class ModeButton extends Button{
                 Color.WHITE.getRGB(),false);
 
         textManager.drawString(setting.getValue().toString(), (float) (x+width-2-textWidth), (float) (y+1),
-                Firework.colorManager.getJuliet().getRGB(),false);
+                Firework.colorManager.getColor().getRGB(),false);
     }
 
     @Override

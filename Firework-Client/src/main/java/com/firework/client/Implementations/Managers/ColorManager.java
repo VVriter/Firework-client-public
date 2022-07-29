@@ -16,4 +16,15 @@ public class ColorManager extends Manager{
     public Color getJuliet(){
         return Settings.Juliet.getValue().toRGB();
     }
+
+    public Color getColor() {
+        if(Settings.mode.getValue(Settings.modes.Single))
+            return Settings.Color.getValue().toRGB();
+        else
+            return getJuliet();
+    }
+
+    public boolean gradient(){
+        return Settings.mode.getValue(Settings.modes.Gradient);
+    }
 }

@@ -22,13 +22,19 @@ public class StartButton extends Component {
     @Override
     public void draw(int mouseX, int mouseY) {
         super.draw(mouseX, mouseY);
-        RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, 14), Firework.colorManager.getRomeo(), Firework.colorManager.getJuliet());
+        int frameHeight = GuiInfo.getFrame(category).getExpandedHeight();
+        if(Firework.colorManager.gradient()) {
+            RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, 14), Firework.colorManager.getRomeo(), Firework.colorManager.getJuliet());
+            RenderUtils2D.drawRectAlpha(new Rectangle(x - 1, y, 1, 14 + frameHeight), Firework.colorManager.getJuliet());
+            RenderUtils2D.drawRectAlpha(new Rectangle(x + width, y, 1, 14 + frameHeight), Firework.colorManager.getRomeo());
+        } else {
+            RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, 14), Firework.colorManager.getColor());
+            RenderUtils2D.drawRectAlpha(new Rectangle(x - 1, y, 1, 14 + frameHeight), Firework.colorManager.getColor());
+            RenderUtils2D.drawRectAlpha(new Rectangle(x + width, y, 1, 14 + frameHeight), Firework.colorManager.getColor());
+        }
         Firework.customFontManager.drawString(category.name(), x + (width - Firework.customFontManager.getWidth(category.name()))/2, (float) (y + (14 - Firework.customFontManager.getHeight())/2), Color.white.getRGB());
         int lineWidth = 36;
         RenderUtils2D.drawRectangle(new Rectangle(x + (width - lineWidth)/2, (float) (y + Firework.customFontManager.getHeight()) + 1, lineWidth, 1), Color.white);
 
-        int frameHeight = GuiInfo.getFrame(category).getExpandedHeight();
-        RenderUtils2D.drawRectangle(new Rectangle(x - 1, y, 1, 14 + frameHeight), Firework.colorManager.getJuliet());
-        RenderUtils2D.drawRectangle(new Rectangle(x + width, y, 1, 14 + frameHeight), Firework.colorManager.getRomeo());
-    }
+         }
 }

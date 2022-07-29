@@ -65,9 +65,9 @@ public class ModuleButton extends Button{
 
         GuiInfo.drawButtonBase(this);
         if(module.isEnabled.getValue())
-            RenderUtils2D.drawRectangle(new Rectangle(x + 1, y + 1, 1, height - 2), Firework.colorManager.getJuliet());
+            RenderUtils2D.drawRectangle(new Rectangle(x + 1, y + 1, 1, height - 2), Firework.colorManager.getColor());
         customFontManager.drawString(module.name, x + (width-textWidth)/2, (float) (y+1),
-                module.isEnabled.getValue() ? Firework.colorManager.getJuliet().getRGB() : Color.white.getRGB());
+                module.isEnabled.getValue() ? Firework.colorManager.getColor().getRGB() : Color.white.getRGB());
 
         if(module.isOpened.getValue()) {
             components.stream().filter(component -> component instanceof Button && ((Button) component).setting.isVisible()).forEach(component -> {

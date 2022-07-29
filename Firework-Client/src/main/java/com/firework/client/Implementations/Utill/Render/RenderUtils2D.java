@@ -555,7 +555,7 @@ public class RenderUtils2D {
 
     public static void drawCheckMarkV3(Rectangle rectangle, boolean enabled, double width){
         int radius = (int) (rectangle.height/2);
-        drawRoundedRectangle(rectangle, radius, enabled ? colorManager.getJuliet() : gray);
+        drawRoundedRectangle(rectangle, radius, enabled ? colorManager.getColor() : gray);
         Point2D.Double circleMarkPoint = null;
         circleMarkPoint = new Point2D.Double(rectangle.x + width,rectangle.y + radius);
         drawFilledCircle(circleMarkPoint, white, radius);
