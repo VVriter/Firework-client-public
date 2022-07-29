@@ -40,12 +40,12 @@ public class ColorField extends Component {
     }
 
     private HSLColor colorFromPoint(Point2D.Double point){
-        return new HSLColor(setting.getValue().hue, (float) Math.abs(100*(point.x-x)/width), (float) Math.abs(50*(height-(point.y-y))/height), setting.getValue().alpha);
+        return new HSLColor(setting.getValue().hue, (float) Math.abs(100*(point.x-x)/width), (float) Math.abs(80*(height-(point.y-y))/height), setting.getValue().alpha);
     }
 
     private Point2D.Double pointFromColor(){
         float saturation = setting.getValue().saturation;
         float light = setting.getValue().light;
-        return new Point2D.Double(x + width*saturation/100, y + height -(height)*light/50);
+        return new Point2D.Double(x + width*saturation/100, y + height -(height)*light/80);
     }
 }

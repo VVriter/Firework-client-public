@@ -29,6 +29,6 @@ public class StartButton extends Component {
 
         int frameHeight = GuiInfo.getFrame(category).getExpandedHeight();
         RenderUtils2D.drawRectangle(new Rectangle(x - 1, y, 1, 14 + frameHeight), Firework.colorManager.getJuliet());
-        RenderUtils2D.drawRectangle(new Rectangle(x + width, y, 1, 14 + frameHeight), Firework.colorManager.getJuliet());
+        RenderUtils2D.drawRectangle(new Rectangle(x + width, y, 1, 14 + frameHeight), Firework.colorManager.getRomeo());
     }
 }
