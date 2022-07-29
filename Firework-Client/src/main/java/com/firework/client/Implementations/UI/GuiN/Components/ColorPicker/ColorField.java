@@ -13,8 +13,6 @@ import java.awt.geom.Point2D;
 
 public class ColorField extends Component {
 
-    Point2D.Double point;
-
     Setting<HSLColor> setting;
     public ColorField(Setting setting, double x, double y, int width, int height) {
         super(x, y, width, height);
