@@ -9,6 +9,7 @@ import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RainbowManager extends Manager{
 
@@ -20,10 +21,7 @@ public class RainbowManager extends Manager{
     }
 
     public boolean isRegistered(Setting<HSLColor> colorSetting){
-        for(Setting setting : settings)
-            if(setting.name == colorSetting.name && setting.module.name == colorSetting.module.name)
-                return true;
-        return false;
+        return settings.contains(colorSetting);
     }
 
     public void register(Setting<HSLColor> colorSetting){
@@ -31,12 +29,7 @@ public class RainbowManager extends Manager{
     }
 
     public void unRegister(Setting<HSLColor> colorSetting){
-        Setting toRemove = null;
-        for(Setting setting : settings)
-            if(setting.name == colorSetting.name && setting.module.name == colorSetting.module.name)
-                toRemove = colorSetting;
-        if(toRemove == null) return;
-        settings.remove(toRemove);
+        settings.remove(colorSetting);
     }
 
     @Subscribe
