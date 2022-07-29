@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayerTryUseItemOnBlock;
 import com.firework.client.Implementations.Mixins.MixinsList.IEntity;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.entity.passive.AbstractChestHorse;
@@ -30,6 +31,8 @@ public class Bypass extends Module {
     public Setting<Boolean> portalChat  = new Setting<>("PortalGui", true, this);
 
     public Setting<Boolean> mountBypass  = new Setting<>("MountBypass", true, this);
+
+    public Setting<Boolean> worldBorder  = new Setting<>("WorldBorder", true, this);
 
     @Override
     public void onTick(){
@@ -65,6 +68,31 @@ public class Bypass extends Module {
 
             @Subscribe
             public Listener<PacketEvent.Send> onRender1 = new Listener<>(event -> {
+
+                if (worldBorder.getValue()) {
+                    if (event.getPacket() instanceof CPacketPlayerTryUseItemOnBlock) {
+                        CPacketPlayerTryUseItemOnBlock packet = (CPacketPlayerTryUseItemOnBlock) event.getPacket();
+                        if (packet.getPos().getY() >= 255 && packet.getDirection() == EnumFacing.UP) {
+                            ((ICPacketPlayerTryUseItemOnBlock) packet).setPlacedBlockDirection(EnumFacing.DOWN);
+                        } else if (!mc.world.getWorldBorder().contains(packet.getPos())) {
+                            switch (packet.getDirection()) {
+                                case EAST:
+                                    ((ICPacketPlayerTryUseItemOnBlock) packet).setPlacedBlockDirection(EnumFacing.WEST);
+                                    break;
+                                case NORTH:
+                                    ((ICPacketPlayerTryUseItemOnBlock) packet).setPlacedBlockDirection(EnumFacing.SOUTH);
+                                    break;
+                                case WEST:
+                                    ((ICPacketPlayerTryUseItemOnBlock) packet).setPlacedBlockDirection(EnumFacing.EAST);
+                                    break;
+                                case SOUTH:
+                                    ((ICPacketPlayerTryUseItemOnBlock) packet).setPlacedBlockDirection(EnumFacing.NORTH);
+                                    break;
+                            }
+                        }
+                    }
+                }
+
                 if (event.getPacket() instanceof CPacketUseEntity)
                 {
                     CPacketUseEntity packet = (CPacketUseEntity) event.getPacket();
