@@ -594,14 +594,14 @@ public class RenderUtils2D {
         double w = rectangle.width;
         double h = rectangle.height;
 
-        for(int b = 0; b < (w); b += 3) {
-            for (int i = 0; i < (h); i += 3) {
+        for(int b = 0; b < (w); b += 2) {
+            for (int i = 0; i < (h); i += 2) {
                 Color activeColor;
-                if ((i + b) % 2 == 0)
+                if ((i + b )/2 % 2 == 0)
                     activeColor = white;
                 else
                     activeColor = gray;
-                drawRectangle(new Rectangle(x + b, y + i, 3, 3), activeColor);
+                drawRectangle(new Rectangle(x + b, y + i, 2, 2), activeColor);
             }
         }
     }

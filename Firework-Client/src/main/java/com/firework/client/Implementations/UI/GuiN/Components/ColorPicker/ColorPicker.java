@@ -16,9 +16,11 @@ public class ColorPicker extends Button {
     ArrayList<Component> components = new ArrayList<>();
 
     HueBar hueBar;
+    AlphaBar alphaBar;
     public ColorPicker(Setting setting, Frame frame) {
         super(setting, frame);
         components.add(hueBar = new HueBar(setting, x, y + height, width, 10));
+        components.add(alphaBar = new AlphaBar(setting, x, y + height + hueBar.height, width, 10));
     }
 
     @Override
@@ -28,6 +30,7 @@ public class ColorPicker extends Button {
         RenderUtils2D.drawAlphaBarBase(new Rectangle(x + width - 9, y + 2, 6, 6));
         if(setting.opened){
             hueBar.y = this.y + 10 + 30;
+            alphaBar.y = this.y + 10 + 30 + 10;
             components.forEach(Component::draw);
         }
     }
@@ -53,7 +56,7 @@ public class ColorPicker extends Button {
     @Override
     public int getHeight() {
         if(setting.opened)
-            return super.getHeight() + 40;
+            return super.getHeight() + 30 + 10 + 10;
         else
             return super.getHeight();
     }
