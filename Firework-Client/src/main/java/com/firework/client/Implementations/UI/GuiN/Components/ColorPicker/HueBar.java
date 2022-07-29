@@ -3,7 +3,6 @@ package com.firework.client.Implementations.UI.GuiN.Components.ColorPicker;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.UI.GuiN.Component;
 import com.firework.client.Implementations.UI.GuiN.GuiN;
-import com.firework.client.Implementations.UI.GuiNEO.Components.Advanced.SettingsComponents.ColorSliderButton;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
@@ -22,8 +21,8 @@ public class HueBar extends Component {
     }
 
     @Override
-    public void draw() {
-        super.draw();
+    public void draw(int mouseX, int mouseY) {
+        super.draw(mouseX, mouseY);
         RenderUtils2D.drawHueBar(new Rectangle(x, y+3, width, height-6));
         RenderUtils2D.drawRectangle(new Rectangle((x + round(width * setting.getValue().hue) / difference) - 0.5, y+1, 1, height-2), Color.white);
     }

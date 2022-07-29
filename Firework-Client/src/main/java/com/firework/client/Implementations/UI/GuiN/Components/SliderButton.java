@@ -21,8 +21,8 @@ public class SliderButton extends Button{
     }
 
     @Override
-    public void draw() {
-        super.draw();
+    public void draw(int mouseX, int mouseY) {
+        super.draw(mouseX, mouseY);
         double textWidth = Firework.customFontManager.getWidth(setting.getValue().toString());
 
         GuiInfo.drawButtonBase(this);

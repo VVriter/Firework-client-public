@@ -16,8 +16,8 @@ public class SubButton extends Button{
     }
 
     @Override
-    public void draw() {
-        super.draw();
+    public void draw(int mouseX, int mouseY) {
+        super.draw(mouseX, mouseY);
         RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new Color(RainbowUtil.astolfoColors(50, 100)), new Color(RainbowUtil.astolfoColors(100, 100)));
         RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), new Color(1, 1, 1, 24));
 

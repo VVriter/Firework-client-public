@@ -2,9 +2,7 @@ package com.firework.client.Implementations.UI.GuiN.Components;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
-import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.UI.GuiN.Component;
-import com.firework.client.Implementations.UI.GuiN.Frame;
 import com.firework.client.Implementations.UI.GuiN.GuiInfo;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
@@ -22,8 +20,8 @@ public class StartButton extends Component {
     }
 
     @Override
-    public void draw() {
-        super.draw();
+    public void draw(int mouseX, int mouseY) {
+        super.draw(mouseX, mouseY);
         RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, 14), new Color(RainbowUtil.astolfoColors(50, 100)), new Color(RainbowUtil.astolfoColors(100, 100)));
         Firework.customFontManager.drawString(category.name(), x + (width - Firework.customFontManager.getWidth(category.name()))/2, (float) (y + (14 - Firework.customFontManager.getHeight())/2), Color.white.getRGB());
         int lineWidth = 36;

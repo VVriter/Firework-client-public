@@ -15,8 +15,8 @@ public class ModeButton extends Button{
     }
 
     @Override
-    public void draw() {
-        super.draw();
+    public void draw(int mouseX, int mouseY) {
+        super.draw(mouseX, mouseY);
         int textWidth = textManager.getStringWidth(setting.getValue().toString());
 
         GuiInfo.drawButtonBase(this);

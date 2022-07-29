@@ -28,8 +28,8 @@ public class ColorPicker extends Button {
     }
 
     @Override
-    public void draw() {
-        super.draw();
+    public void draw(int mouseX, int mouseY) {
+        super.draw(mouseX, mouseY);
         GuiInfo.drawButtonBase(this);
         Firework.customFontManager.drawString(setting.name, x + 3, (float) (y + 1), Color.white.getRGB());
         RenderUtils2D.drawAlphaBarBase(new Rectangle(x + width - 9, y + 2, 6, 6));
@@ -38,7 +38,7 @@ public class ColorPicker extends Button {
             hueBar.y = this.y + 10 + 30;
             alphaBar.y = this.y + 10 + 30 + 10;
             colorField.y = this.y + 10 ;
-            components.forEach(Component::draw);
+            components.forEach(component -> component.draw(mouseX, mouseY));
         }
     }
 

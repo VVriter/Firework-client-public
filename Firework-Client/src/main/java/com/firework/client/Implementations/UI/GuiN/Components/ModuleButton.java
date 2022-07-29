@@ -10,7 +10,6 @@ import com.firework.client.Implementations.UI.GuiN.GuiInfo;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
-import net.minecraft.client.renderer.entity.Render;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -60,8 +59,8 @@ public class ModuleButton extends Button{
     }
 
     @Override
-    public void draw() {
-        super.draw();
+    public void draw(int mouseX, int mouseY) {
+        super.draw(mouseX, mouseY);
         int textWidth = textManager.getStringWidth(module.name);
 
         GuiInfo.drawButtonBase(this);
@@ -72,7 +71,7 @@ public class ModuleButton extends Button{
 
         if(module.isOpened.getValue()) {
             components.stream().filter(component -> component instanceof Button && ((Button) component).setting.isVisible()).forEach(component -> {
-                component.draw();
+                component.draw(mouseX, mouseY);
             });
         }
     }

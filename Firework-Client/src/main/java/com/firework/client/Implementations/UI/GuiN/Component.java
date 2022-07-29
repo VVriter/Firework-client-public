@@ -13,7 +13,7 @@ public class Component {
         this.height = height;
     }
 
-    public void draw(){}
+    public void draw(int mouseX, int mouseY){}
 
     public void init(int mouseX, int mouseY, int state){}
 

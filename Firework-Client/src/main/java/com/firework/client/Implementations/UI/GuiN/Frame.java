@@ -55,9 +55,9 @@ public class Frame {
         });
     }
 
-    public void draw(){
+    public void draw(int mouseX, int mouseY){
         setupOffsets();
-        components.forEach(Component::draw);
+        components.forEach(component -> component.draw(mouseX, mouseY));
     }
 
     public void setX(final int x){

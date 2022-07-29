@@ -21,8 +21,8 @@ public class AlphaBar extends Component {
     }
 
     @Override
-    public void draw() {
-        super.draw();
+    public void draw(int mouseX, int mouseY) {
+        super.draw(mouseX, mouseY);
         RenderUtils2D.drawAlphaBarBase(new Rectangle(x, y+2, width, height-4));
 
         float hue = this.setting.getValue().hue;
