@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.UI.GuiN.Components;
 
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.UI.GuiN.Frame;
 import com.firework.client.Implementations.UI.GuiN.GuiInfo;
@@ -25,7 +26,7 @@ public class ModeButton extends Button{
                 Color.WHITE.getRGB(),false);
 
         textManager.drawString(setting.getValue().toString(), (float) (x+width-2-textWidth), (float) (y+1),
-                RainbowUtil.astolfoColors(100, 100),false);
+                Firework.colorManager.getJuliet().getRGB(),false);
     }
 
     @Override

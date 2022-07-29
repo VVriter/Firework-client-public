@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.UI.GuiN.Components;
 
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.UI.GuiN.Frame;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
@@ -18,7 +19,7 @@ public class SubButton extends Button{
     @Override
     public void draw(int mouseX, int mouseY) {
         super.draw(mouseX, mouseY);
-        RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new Color(RainbowUtil.astolfoColors(50, 100)), new Color(RainbowUtil.astolfoColors(100, 100)));
+        RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), Firework.colorManager.getRomeo(), Firework.colorManager.getJuliet());
         RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, height), new Color(1, 1, 1, 24));
 
         textManager.drawString(setting.name, (float) (x+3), (float) (y+1),

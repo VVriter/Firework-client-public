@@ -26,8 +26,8 @@ public class RainbowButton extends Component {
         double textWidth = Firework.customFontManager.getWidth(text);
 
         if(registered())
-            RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), new Color(RainbowUtil.astolfoColors(50, 100)), new Color(RainbowUtil.astolfoColors(100, 100)));
-        Firework.customFontManager.drawString(text, x + (width - textWidth)/2, (float) y + 1, registered() ? Color.white.getRGB() : RainbowUtil.astolfoColors(100, 100));
+            RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), Firework.colorManager.getRomeo(), Firework.colorManager.getJuliet());
+        Firework.customFontManager.drawString(text, x + (width - textWidth)/2, (float) y + 1, registered() ? Color.white.getRGB() : Firework.colorManager.getJuliet().getRGB());
     }
 
     public boolean registered(){

@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Utill.Render;
 
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -554,7 +555,7 @@ public class RenderUtils2D {
 
     public static void drawCheckMarkV3(Rectangle rectangle, boolean enabled, double width){
         int radius = (int) (rectangle.height/2);
-        drawRoundedRectangle(rectangle, radius, enabled ? new Color(RainbowUtil.astolfoColors(100, 100)) : gray);
+        drawRoundedRectangle(rectangle, radius, enabled ? colorManager.getJuliet() : gray);
         Point2D.Double circleMarkPoint = null;
         circleMarkPoint = new Point2D.Double(rectangle.x + width,rectangle.y + radius);
         drawFilledCircle(circleMarkPoint, white, radius);

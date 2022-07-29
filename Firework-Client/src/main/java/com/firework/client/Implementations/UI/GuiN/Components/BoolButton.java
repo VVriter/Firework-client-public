@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.UI.GuiN.Components;
 
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.UI.GuiN.Frame;
 import com.firework.client.Implementations.UI.GuiN.GuiInfo;
@@ -33,7 +34,7 @@ public class BoolButton extends Button{
 
         GuiInfo.drawButtonBase(this);
 
-        int activeColor = (boolean) setting.getValue() ? RainbowUtil.astolfoColors(100, 100) : Color.white.getRGB();
+        int activeColor = (boolean) setting.getValue() ? Firework.colorManager.getJuliet().getRGB() : Color.white.getRGB();
 
         RenderUtils2D.drawCheckMarkV3(new Rectangle(x + width - 10 - 2, y + 2, 10, 6), (Boolean) setting.getValue(), animation.width);
         textManager.drawString(setting.name, (float) (x+3), (float) (y+1),

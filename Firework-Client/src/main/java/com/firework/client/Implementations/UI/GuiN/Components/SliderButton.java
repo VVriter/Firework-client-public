@@ -27,7 +27,7 @@ public class SliderButton extends Button{
 
         GuiInfo.drawButtonBase(this);
 
-        RenderUtils2D.drawRectangle(new Rectangle(x + 2, y + height - 1, (width - 4) * (Double.valueOf(setting.getValue().toString()) - setting.min) / difference, 1), new Color(RainbowUtil.astolfoColors(100, 100)));
+        RenderUtils2D.drawRectangle(new Rectangle(x + 2, y + height - 1, (width - 4) * (Double.valueOf(setting.getValue().toString()) - setting.min) / difference, 1), Firework.colorManager.getJuliet());
 
         Firework.customFontManager.drawString(setting.name, x+3, (float) (y+1),
                 Color.WHITE.getRGB());
