@@ -1,6 +1,8 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Render;
 
 import com.firework.client.Features.Modules.Render.ItemViewModel;
+import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.Render.UpdateEquippedItemEvent;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -42,4 +44,14 @@ public class ViewModelMixin {
             }
         }
     }
+
+    @Inject(method = {"updateEquippedItem"}, at = {@At(value = "HEAD")}, cancellable = true)
+    private void onUpdateEquippedItem(CallbackInfo ci) {
+        UpdateEquippedItemEvent event = new UpdateEquippedItemEvent();
+        Firework.eventBus.post(event);
+        if (event.isCancelled()) {
+            ci.cancel();
+        }
+    }
+
 }
