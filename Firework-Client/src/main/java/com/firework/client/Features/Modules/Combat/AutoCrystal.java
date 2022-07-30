@@ -23,6 +23,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.network.play.server.SPacketSoundEffect;
+import net.minecraft.network.play.server.SPacketSpawnObject;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -81,9 +82,6 @@ public class AutoCrystal extends Module {
     //Render
     public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);
 
-
-    ArrayList<BlockPos> placed;
-
     EntityPlayer target;
 
     BlockPos placePos;
@@ -108,6 +106,11 @@ public class AutoCrystal extends Module {
                 }
             }
         }
+        if (event.getPacket() instanceof SPacketSpawnObject) {
+            final SPacketSpawnObject packet = (SPacketSpawnObject) event.getPacket();
+            if (packet.getType() == 51 && placePos != null && placePos.equals(new BlockPos(packet.getX(), packet.getY() - 1.0, packet.getZ())))
+                stage = 2;
+        }
     });
 
     @Subscribe
@@ -121,13 +124,13 @@ public class AutoCrystal extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        placed = new ArrayList<>();
+        if(fullNullCheck()) super.onDisable();
         target = PlayerUtil.getClosestTarget(targetRange.getValue());
         inhibitor = new Inhibitor();
         timer = new Timer();
         user = new ItemUser(this, switchMode, rotate);
 
-        stage = 1;
+        stage = autoStage();
         inhibitor.value = minPercent.getValue();
         inhibitor.setValues(minPercent.getValue(), maxPercent.getValue(), speed.getValue());
     }
@@ -139,7 +142,6 @@ public class AutoCrystal extends Module {
         timer = null;
         inhibitor = null;
         target = null;
-        placed = null;
     }
 
     @Subscribe
@@ -164,9 +166,13 @@ public class AutoCrystal extends Module {
 
         target = PlayerUtil.getClosestTarget(targetRange.getValue());
         if(target == null) return;
+        if(stage == 1 && placePos == null)
+            stage = 2;
 
         switch (stage){
             case 1:
+                break;
+            case 2:
                 //Breakes a crystal
                 EntityEnderCrystal breakCrystal = CrystalUtils.getBestCrystal(target, breakRange.getValue(), rayTrace.getValue());
                 if(breakCrystal != null){
@@ -182,13 +188,13 @@ public class AutoCrystal extends Module {
 
                         //Hand swing
                         swing(swingMode.getValue());
-                        stage = 2;
+                        stage = 3;
                         timer.reset();
                     }
                 }else
-                    stage = 2;
+                    stage = 3;
                 break;
-            case 2:
+            case 3:
                 //Places a crystal
                 BlockPos toPlace = CrystalUtils.bestCrystalPos(target, placeRange.getValue(), true, maxSelfDmg.getValue(), minTargetDmg.getValue(), rayTrace.getValue());
                 placePos = toPlace;
@@ -205,6 +211,17 @@ public class AutoCrystal extends Module {
                 break;
         }
     });
+
+    public int autoStage(){
+        EntityEnderCrystal breakCrystal = CrystalUtils.getBestCrystal(target, breakRange.getValue(), rayTrace.getValue());
+        if(breakCrystal != null)
+            return 2;
+        BlockPos toPlace = CrystalUtils.bestCrystalPos(target, placeRange.getValue(), true, maxSelfDmg.getValue(), minTargetDmg.getValue(), rayTrace.getValue());
+        if(toPlace != null)
+            return 3;
+
+        return 2;
+    }
 
     public void swing(swing swing) {
         switch (swing) {

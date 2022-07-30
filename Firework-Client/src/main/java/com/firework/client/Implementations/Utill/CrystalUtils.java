@@ -17,6 +17,7 @@ public class CrystalUtils {
 
     public static EntityEnderCrystal getBestCrystal(EntityPlayer target, final int range, final boolean rayTraceCheck){
         //Crystal | SelfDamage | TargetDamage
+        if(target == null) return null;
         Triple<EntityEnderCrystal, Float, Float> bestCrystal = new Triple<>(null, 0f, 0f);
         for(EntityEnderCrystal entity : CrystalUtil.getCrystals(range)){
             if(!mc.player.canEntityBeSeen(entity) && rayTraceCheck) continue;
@@ -38,6 +39,7 @@ public class CrystalUtils {
 
     public static BlockPos bestCrystalPos(EntityPlayer target, final int range, final boolean legal, final float maxSelfDamage, final float minTargetDamage, final boolean rayTraceCheck){
         //BlockPos | SelfDamage | TargetDamage
+        if(target == null) return null;
         Triple<BlockPos, Float, Float> bestPosition = new Triple<>(null, 0f, 0f);
         for(BlockPos pos : BlockUtil.getSphere(range, true)){
             RayTraceResult result = mc.world.rayTraceBlocks(
