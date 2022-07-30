@@ -16,7 +16,7 @@ import static com.firework.client.Implementations.Utill.InventoryUtil.hands;
 @ModuleManifest(
         name = "MultiHand",
         category = Module.Category.COMBAT,
-        description = "AutoTotem lul"
+        description = "Improved Offhand"
 )
 public class MultiHand extends Module {
     public Setting<Enum> multiHandMode = new Setting<>("MultiHand", modes.Totem, this);

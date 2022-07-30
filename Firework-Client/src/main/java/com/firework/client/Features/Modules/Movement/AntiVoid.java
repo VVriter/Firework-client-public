@@ -20,7 +20,7 @@ import java.util.List;
 @ModuleManifest(
         name = "AntiVoid",
         category = Module.Category.MOVEMENT,
-        description = "Prevents dropping into the void"
+        description = "Prevents from dropping into the void"
 )
 public class AntiVoid extends Module {
 

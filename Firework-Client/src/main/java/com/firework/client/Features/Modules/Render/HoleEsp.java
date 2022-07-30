@@ -22,7 +22,7 @@ import java.util.List;
 @ModuleManifest(
         name = "HoleEsp",
         category = Module.Category.VISUALS,
-        description = "Render safe bedrock/obsidian holes"
+        description = "Renders safe bedrock/obsidian holes"
 )
 public class HoleEsp extends Module {
     public Setting<Integer> range = new Setting<>("Range", 10, this, 1, 30);
