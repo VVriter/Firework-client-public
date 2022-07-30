@@ -14,7 +14,7 @@ import ua.firework.beet.Subscribe;
 @ModuleManifest(
         name = "AutoPotion",
         category = Module.Category.COMBAT,
-        description = "Automatically using potions"
+        description = "Automatically uses potions"
 )
 public class AutoPotion extends Module {
 

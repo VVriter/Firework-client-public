@@ -38,7 +38,7 @@ import java.util.Objects;
 @ModuleManifest(
         name = "CevBreaker",
         category = Module.Category.COMBAT,
-        description = "Places crystals above player and break it"
+        description = "Places crystal above player and breaks it"
 )
 public class CevBreaker extends Module {
 

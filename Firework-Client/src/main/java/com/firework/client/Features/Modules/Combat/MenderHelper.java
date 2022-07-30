@@ -21,7 +21,7 @@ import java.util.ArrayList;
 @ModuleManifest(
         name = "MenderHelper",
         category = Module.Category.COMBAT,
-        description = "Automatically mends your armour"
+        description = "Automatically mends/wears your armour"
 )
 public class MenderHelper extends Module {
 
