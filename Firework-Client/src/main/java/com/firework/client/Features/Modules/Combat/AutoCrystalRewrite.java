@@ -2,7 +2,6 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
@@ -11,7 +10,6 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.CrystalUtils;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Inhibitor;
-import com.firework.client.Implementations.Utill.Items.ItemUser;
 import com.firework.client.Implementations.Utill.Items.ItemUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
@@ -28,7 +26,6 @@ import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.network.play.server.SPacketSoundEffect;
-import net.minecraft.network.play.server.SPacketSpawnObject;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
@@ -39,8 +36,6 @@ import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 import java.util.Objects;
-
-import static com.firework.client.Implementations.Utill.Util.mc;
 
 @ModuleManifest(name = "AutoCrystalRewrite", category = Module.Category.COMBAT)
 public class AutoCrystalRewrite extends Module {
@@ -96,7 +91,7 @@ public class AutoCrystalRewrite extends Module {
 
     EntityPlayer target;
 
-    BlockPos placePos;
+    BlockPos renderPlacePos;
 
     Inhibitor inhibitor;
     Timer timer;
@@ -164,8 +159,8 @@ public class AutoCrystalRewrite extends Module {
 
     @Subscribe
     public Listener<Render3dE> onRender = new Listener<>(worldRender3DEvent -> {
-        if(placePos == null) return;
-        new BlockRenderBuilder(placePos)
+        if(renderPlacePos == null) return;
+        new BlockRenderBuilder(renderPlacePos)
                 .addRenderModes(
                         new RenderMode(RenderMode.renderModes.Fill, color.getValue().toRGB())
                 ).render();
@@ -239,6 +234,8 @@ public class AutoCrystalRewrite extends Module {
 
                         stage = 2;
                         timer.reset();
+
+                        renderPlacePos = placePos;
                     }
                 }else
                     stage = 2;
