@@ -6,7 +6,7 @@ import com.firework.client.Features.Modules.World.Scaffold.ScaffoldBlock;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
-import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
+import com.firework.client.Implementations.Events.Settings.SettingModifyValueEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketPlayerPosLook;
 import com.firework.client.Implementations.Settings.Setting;
@@ -21,7 +21,6 @@ import net.minecraft.network.play.client.CPacketConfirmTeleport;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
@@ -119,7 +118,7 @@ public class BlockFly extends Module {
     });
 
     @Subscribe
-    public Listener<SettingChangeValueEvent> listener3 = new Listener<>(event-> {
+    public Listener<SettingModifyValueEvent> listener3 = new Listener<>(event-> {
         if(event.setting == towerTimerDelay || event.setting == rollBackDelay){
             towerTimer.reset();
             rollBackTimer.reset();

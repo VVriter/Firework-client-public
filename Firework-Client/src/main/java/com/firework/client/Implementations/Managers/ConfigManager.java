@@ -3,15 +3,13 @@ package com.firework.client.Implementations.Managers;
 import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
-import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
+import com.firework.client.Implementations.Events.Settings.SettingModifyValueEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
@@ -114,7 +112,7 @@ public class ConfigManager extends Manager{
     }
 
     @Subscribe
-    public Listener<SettingChangeValueEvent> settingEditEvent = new Listener<>(event -> {
+    public Listener<SettingModifyValueEvent> settingEditEvent = new Listener<>(event -> {
         saveModuleSettings(event.setting.module);
     });
 }

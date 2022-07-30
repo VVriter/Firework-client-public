@@ -4,7 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Features.Modules.World.Burrow;
 import com.firework.client.Firework;
-import com.firework.client.Implementations.Events.Settings.SettingChangeValueEvent;
+import com.firework.client.Implementations.Events.Settings.SettingModifyValueEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Events.WorldClientInitEvent;
 import com.firework.client.Implementations.Events.Render.Render3dE;
@@ -184,7 +184,7 @@ public class HoleFiller extends Module {
     }
 
     @Subscribe
-    public Listener<SettingChangeValueEvent> onSettingsChangeEvent = new Listener<>(event -> {
+    public Listener<SettingModifyValueEvent> onSettingsChangeEvent = new Listener<>(event -> {
         if(event.setting == timerMode){
             if(timerMode.getValue(timers.Ms)){
                 placeTimerMs.reset();
