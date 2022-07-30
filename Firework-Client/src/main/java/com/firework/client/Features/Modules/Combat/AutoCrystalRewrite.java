@@ -43,6 +43,7 @@ public class AutoCrystalRewrite extends Module {
     //Interaction && Sync
     public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> autoSwitch = new Setting<>("AutoSwitch", true, this).setVisibility(v-> interaction.getValue());
+
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interaction.getValue());
     public Setting<Integer> rotationSpoofsLimit = new Setting<>("RotationSpoofs", 0, this, 0, 20).setVisibility(v-> interaction.getValue());
 
@@ -62,6 +63,10 @@ public class AutoCrystalRewrite extends Module {
     public Setting<Boolean> rayTrace = new Setting<>("RaytraceCheck", true, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", false, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> sync = new Setting<>("Sync", true, this).setVisibility(v-> interaction.getValue());
+
+    //FacePlace / FaceBreak
+    public Setting<Boolean> facePlace = new Setting<>("FacePlace", false, this).setVisibility(v-> interaction.getValue());
+    public Setting<Boolean> faceBreak = new Setting<>("FaceBreak", false, this).setVisibility(v-> interaction.getValue());
 
     //Ranges
     public Setting<Boolean> ranges = new Setting<>("Ranges", false, this).setMode(Setting.Mode.SUB);
@@ -191,7 +196,7 @@ public class AutoCrystalRewrite extends Module {
 
         switch(stage){
             case 1:
-                if (placePos != null) {
+                if (isValidBlockPos(placePos)) {
                     if (timer.hasPassedMs(tempPlaceDelay)) {
                         boolean flag = false;
                         if (mc.player.inventory.getCurrentItem().getItem() != Items.END_CRYSTAL) {
@@ -241,7 +246,7 @@ public class AutoCrystalRewrite extends Module {
                     stage = 2;
                 break;
             case 2:
-                if (crystal != null){
+                if (isValidCrystal(crystal)){
                     if(timer.hasPassedMs(tempBreakDelay)){
 
                         if(rotate.getValue())
@@ -295,5 +300,13 @@ public class AutoCrystalRewrite extends Module {
         yaw = rotations[0];
         pitch = rotations[1];
         canRotate = true;
+    }
+
+    public boolean isValidCrystal(EntityEnderCrystal crystal){
+        return crystal != null && (faceBreak.getValue() || (target.getPosition().getY() + 1 != crystal.getPosition().getY()));
+    }
+
+    public boolean isValidBlockPos(BlockPos pos){
+        return pos != null && (facePlace.getValue() || (target.getPosition().getY() != pos.getY()));
     }
 }
