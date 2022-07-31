@@ -300,6 +300,7 @@ public class AutoCrystalRewrite extends Module {
         yaw = rotations[0];
         pitch = rotations[1];
         canRotate = true;
+        rotationsSpoofed = 0;
     }
 
     public boolean isValidCrystal(EntityEnderCrystal crystal){
