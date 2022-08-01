@@ -8,6 +8,7 @@ import com.firework.client.Implementations.Utill.ArmorUtils;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Items.ItemUser;
 import com.firework.client.Implementations.Utill.Timer;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketCloseWindow;
@@ -69,6 +70,8 @@ public class MenderHelper extends Module {
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
+
+        if(mc.currentScreen instanceof GuiContainer) return;
         //Armor slots
         int[] armorSlots = new int[]{
                 39,38,37,36
