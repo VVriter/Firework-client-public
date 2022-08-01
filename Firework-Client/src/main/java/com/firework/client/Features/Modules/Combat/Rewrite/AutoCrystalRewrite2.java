@@ -12,6 +12,7 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Inhibitor;
 import com.firework.client.Implementations.Utill.Items.ItemUtil;
@@ -207,6 +208,38 @@ public class AutoCrystalRewrite2 extends Module {
         rotationsSpoofed = 0;
     }
 
+    public EntityEnderCrystal bestCrystal(){
+        EntityEnderCrystal bestCrystal = null;
+        for(EntityEnderCrystal crystal : CrystalUtils.getCrystals(breakRange.getValue())){
+            if(!isValidCrystal(crystal)) continue;
+            if(bestCrystal == null)
+                bestCrystal = crystal;
+            else if(getDamageFactor(crystal) > getDamageFactor(bestCrystal))
+                    bestCrystal = crystal;
+        }
+        return bestCrystal;
+    }
+
+    public BlockPos bestPlacePos(){
+        BlockPos bestPosition = null;
+        for(BlockPos pos : BlockUtil.getSphere(placeRange.getValue(), true)){
+            if(!isValidBlockPos(pos)) continue;
+            if(bestPosition == null)
+                bestPosition = pos;
+            else if(getDamageFactor(bestPosition) < getDamageFactor(pos))
+                bestPosition = pos;
+        }
+        return bestPosition;
+    }
+
+    public float getDamageFactor(EntityEnderCrystal crystal){
+        return CrystalUtils.calculateDamage(crystal, target) - CrystalUtils.calculateDamage(crystal, mc.player);
+    }
+
+    public float getDamageFactor(BlockPos pos){
+        return CrystalUtils.calculateDamage(pos, target) - CrystalUtils.calculateDamage(pos, mc.player);
+    }
+
     public boolean isValidCrystal(EntityEnderCrystal crystal){
 
         //IsNull and IsDead check
@@ -236,6 +269,10 @@ public class AutoCrystalRewrite2 extends Module {
     public boolean isValidBlockPos(BlockPos pos){
         //IsNull check
         if(pos == null)
+            return false;
+
+        //Can place crystal
+        if(!CrystalUtils.canPlaceCrystal(pos))
             return false;
 
         //Distance check
