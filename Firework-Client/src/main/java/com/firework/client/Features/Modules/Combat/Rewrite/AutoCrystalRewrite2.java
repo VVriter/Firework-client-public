@@ -1,5 +1,7 @@
-package com.firework.client.Features.Modules.Combat;
+package com.firework.client.Features.Modules.Combat.Rewrite;
 
+import com.firework.client.Features.Modules.Combat.AutoCrystal;
+import com.firework.client.Features.Modules.Combat.AutoCrystalRewrite;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
@@ -152,7 +154,7 @@ public class AutoCrystalRewrite2 extends Module {
     //Place && Break logic listener
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> logic = new Listener<>(event -> {
-        
+
     });
 
     public void rotate(Vec3d vec3d){
