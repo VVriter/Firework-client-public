@@ -109,6 +109,6 @@ public class ModuleButton extends Button{
     @Override
     public void onKeyTyped(final int keyCode) {
         super.onKeyTyped(keyCode);
-        components.stream().filter(component -> component instanceof Button && ((Button) component).setting.isVisible()).forEach(component -> ((Button) component).onKeyTyped(keyCode));
+        components.stream().filter(component -> component instanceof Button).forEach(component -> ((Button) component).onKeyTyped(keyCode));
     }
 }
