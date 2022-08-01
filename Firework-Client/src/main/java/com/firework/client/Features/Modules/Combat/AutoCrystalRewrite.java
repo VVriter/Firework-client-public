@@ -8,6 +8,7 @@ import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.*;
+import com.firework.client.Implementations.Utill.Entity.CrystalUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Items.ItemUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
@@ -63,7 +64,7 @@ public class AutoCrystalRewrite extends Module {
     public Setting<Boolean> sync = new Setting<>("Sync", true, this).setVisibility(v-> interaction.getValue());
 
     //FacePlace / FaceBreak
-    public Setting<Boolean> facePlBr = new Setting<>("FacePlace/Break", false, this);
+    public Setting<Boolean> facePlBr = new Setting<>("FacePlace/Break", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> facePlace = new Setting<>("FacePlace", false, this).setVisibility(v-> facePlBr.getValue());
     public Setting<Boolean> faceBreak = new Setting<>("FaceBreak", false, this).setVisibility(v-> facePlBr.getValue());
     public Setting<Integer> targetHealth = new Setting<>("MinTargetHealth", 12, this, 0, 36).setVisibility(v-> facePlace.getValue() || faceBreak.getValue());
@@ -92,7 +93,9 @@ public class AutoCrystalRewrite extends Module {
     public Setting<Integer> inhibitPercent = new Setting<>("InhibitPercent", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
 
     //Stuff
-    public Setting<Boolean> pauseWhileEating = new Setting<>("PauseWhileEating", true, this).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
+    public Setting<Boolean> noSuicide = new Setting<>("NoSuicide", true, this);
+    public Setting<Integer> noSuicidePlHealth = new Setting<>("SelfHealth", 10, this, 0, 36).setVisibility(v-> noSuicide.getValue());
+    public Setting<Boolean> pauseWhileEating = new Setting<>("PauseWhileEating", true, this);
 
     //Render
     public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);
@@ -309,12 +312,14 @@ public class AutoCrystalRewrite extends Module {
     }
 
     public boolean isValidCrystal(EntityEnderCrystal crystal){
-        return crystal != null && (
-                faceBreak.getValue() || ((target.getPosition().getY() + 1 != crystal.getPosition().getY()) && target.getHealth() <= targetHealth.getValue()));
+        return crystal != null
+                && (faceBreak.getValue() && ((target.getPosition().getY()+1 == crystal.getPosition().getY() && target.getHealth() <= targetHealth.getValue()) || ((target.getPosition().getY() + 1 != crystal.getPosition().getY())))
+                && (!noSuicide.getValue() || (mc.player.getHealth() - CrystalUtil.calculateDamage(crystal, mc.player) > noSuicidePlHealth.getValue())));
     }
 
     public boolean isValidBlockPos(BlockPos pos){
-        return pos != null && (
-                facePlace.getValue() || ((target.getPosition().getY() != pos.getY()) && target.getHealth() <= targetHealth.getValue()));
+        return pos != null
+                && (facePlace.getValue() && ((target.getPosition().getY() == pos.getY() && target.getHealth() <= targetHealth.getValue()) || (target.getPosition().getY() != pos.getY()))
+                && (!noSuicide.getValue() || (mc.player.getHealth() - CrystalUtil.calculateDamage(pos, mc.player) > noSuicidePlHealth.getValue())));
     }
 }
