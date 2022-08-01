@@ -41,6 +41,7 @@
     "Misc.MixinEntityPlayer",
     "Render.MixinRenderLivingBase",
     "IItemRenderer",
-    "ICPacketPlayerTryUseItemOnBlock"
+    "ICPacketPlayerTryUseItemOnBlock",
+    "Gui.MixinMovementInput"
   ]
 }

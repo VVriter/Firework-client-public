@@ -191,6 +191,10 @@ public class BlockUtil {
         return Math.abs(first.getX() - second.getX()) + Math.abs(first.getY() - second.getY()) + Math.abs(first.getZ() - second.getZ());
     }
 
+    public static int getDistanceFomPosToPos(BlockPos pos1, BlockPos pos2) {
+        return pos1.getX()-pos2.getX() + pos1.getZ()-pos2.getZ();
+    }
+
     public static boolean isBlockValid(IBlockState blockState, BlockPos blockPos) {
         if (blockState.getBlock() != Blocks.AIR) {
             return false;
@@ -371,5 +375,23 @@ public class BlockUtil {
         if (swing) {
             mc.player.connection.sendPacket(new CPacketAnimation(exactHand ? hand : EnumHand.MAIN_HAND));
         }
+    }
+
+    /**
+     * Searches around the player to find the given block.
+     * @radius the radius to search around the player
+     */
+    public static BlockPos findBlock(Block block, int radius) {
+        for (int x = (int) (mc.player.posX - radius); x < mc.player.posX + radius; x++) {
+            for (int z = (int) (mc.player.posZ - radius); z < mc.player.posZ + radius; z++) {
+                for (int y = (int) (mc.player.posY + radius); y > mc.player.posY - radius; y--) {
+                    BlockPos pos = new BlockPos(x, y, z);
+                    BlockPos bebra = new BlockPos(pos.getX(),pos.getY()-1,pos.getZ());
+                    if (mc.world.getBlockState(pos).getBlock().equals(block) && getBlock(bebra) != Blocks.AIR) {
+                        return pos;
+                    }
+                }
+            }
+        }   return null;
     }
 }

@@ -32,6 +32,8 @@ public class NoSlow extends Module {
 
     private Setting<Boolean> airStrict = new Setting<>("AirStrict", false, this);
 
+    public static Setting<Boolean> inVmove = null;
+
     public static Setting<Boolean> blocks = null;
     public static Setting<Boolean> soulSand = null;
     public static Setting<Boolean> slimes = null;
@@ -41,6 +43,7 @@ public class NoSlow extends Module {
 
     public NoSlow() {
         enabled = this.isEnabled;
+        inVmove = new Setting<>("InventoryMove", true, this);
         blocks = new Setting<>("Blocks", false, this).setMode(Setting.Mode.SUB);
         soulSand = new Setting<>("SoulSand", true, this).setVisibility(v-> blocks.getValue());
         slimes = new Setting<>("Slimes", true, this).setVisibility(v-> blocks.getValue());
