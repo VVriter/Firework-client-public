@@ -7,20 +7,18 @@ import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.CrystalUtils;
+import com.firework.client.Implementations.Utill.*;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
-import com.firework.client.Implementations.Utill.Inhibitor;
 import com.firework.client.Implementations.Utill.Items.ItemUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
-import com.firework.client.Implementations.Utill.RotationUtil;
-import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemFood;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
@@ -91,9 +89,11 @@ public class AutoCrystalRewrite extends Module {
     public Setting<Integer> speed = new Setting<>("Speed", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
     public Setting<Integer> inhibitPercent = new Setting<>("InhibitPercent", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
 
+    //Stuff
+    public Setting<Boolean> pauseWhileEating = new Setting<>("PauseWhileEating", true, this).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
+
     //Render
     public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);
-
     EntityPlayer target;
 
     BlockPos renderPlacePos;
@@ -124,7 +124,7 @@ public class AutoCrystalRewrite extends Module {
         }
     });
 
-    @Subscribe
+    @Subscribe(priority = Listener.Priority.HIGHEST)
     public Listener<PacketEvent.Send> onPacketSend = new Listener<>(event -> {
         if (event.getPacket() instanceof CPacketUseEntity && (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && ((CPacketUseEntity) event.getPacket()).getEntityFromWorld(AutoCrystal.mc.world) instanceof EntityEnderCrystal && cancelCrystal.getValue())) {
             Objects.requireNonNull(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world)).setDead();
@@ -183,6 +183,9 @@ public class AutoCrystalRewrite extends Module {
             inhibitPercent.setValue((int) Math.round(inhibitor.value));
         }
 
+        //Is eating check
+        if(pauseWhileEating.getValue() && (mc.player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemFood || mc.player.getHeldItem(EnumHand.OFF_HAND).getItem() instanceof ItemFood) && mc.gameSettings.keyBindUseItem.isKeyDown()) return;
+
         target = PlayerUtil.getClosestTarget(targetRange.getValue());
         if(target == null) return;
 
@@ -202,13 +205,14 @@ public class AutoCrystalRewrite extends Module {
                         boolean flag = false;
                         if (mc.player.inventory.getCurrentItem().getItem() != Items.END_CRYSTAL) {
                             flag = true;
-                            if (!autoSwitch.getValue() || (mc.player.inventory.getCurrentItem().getItem() == Items.GOLDEN_APPLE && mc.player.isHandActive()))
+                            if (!autoSwitch.getValue())
                                 return;
                         }
                         if (flag) {
                             final int slot = ItemUtil.getItemFromHotbar(Items.END_CRYSTAL);
                             if (slot == -1) return;
                             mc.player.inventory.currentItem = slot;
+                            mc.playerController.updateController();
                         }
 
                         //Facing
@@ -251,7 +255,7 @@ public class AutoCrystalRewrite extends Module {
                     if(timer.hasPassedMs(tempBreakDelay)){
 
                         if(rotate.getValue())
-                            rotate(crystal.getPositionVector().add(0.5, 0.5, 0.5));
+                            rotate(crystal.getPositionVector());
 
                         //Blows
                         if(blowMode.getValue(blow.Controller))
