@@ -1,9 +1,13 @@
 package com.firework.client.Features.Modules.Combat.Rewrite;
 
+import com.firework.client.Features.Modules.Combat.Aura;
 import com.firework.client.Features.Modules.Combat.AutoCrystal;
 import com.firework.client.Features.Modules.Combat.AutoCrystalRewrite;
+import com.firework.client.Features.Modules.Combat.CevBreaker;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Features.Modules.Movement.BlockFly;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
@@ -19,6 +23,7 @@ import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemFood;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
@@ -99,6 +104,19 @@ public class AutoCrystalRewrite2 extends Module {
     public Vec3d rotationVec;
     public boolean canRotate = false;
     public int rotationsSpoofed = 0;
+
+    //Modules
+    Module cevBreaker;
+    Module aura;
+    Module blockFly;
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        cevBreaker = Firework.moduleManager.getModuleByClass(CevBreaker.class);
+        aura = Firework.moduleManager.getModuleByClass(Aura.class);
+        blockFly = Firework.moduleManager.getModuleByClass(BlockFly.class);
+    }
 
     @Subscribe
     public Listener<PacketEvent.Receive> onPacketReceive = new Listener<>(event -> {
@@ -238,5 +256,17 @@ public class AutoCrystalRewrite2 extends Module {
 
         //We passed all check so pos is valid
         return true;
+    }
+
+    public boolean needToPause(){
+        if(pauseWhileEating.getValue()
+                && (mc.player.getHeldItemOffhand().getItem() instanceof ItemFood || mc.player.getHeldItemMainhand().getItem() instanceof ItemFood)
+                && mc.gameSettings.keyBindUseItem.isKeyDown())
+            return true;
+
+        if(cevBreaker.isEnabled.getValue() || aura.isEnabled.getValue() || blockFly.isEnabled.getValue())
+            return true;
+
+        return false;
     }
 }
