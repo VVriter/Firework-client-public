@@ -104,7 +104,7 @@ public class AutoCrystalRewrite extends Module {
     int stage;
 
     //Rotate stuff
-    public float yaw, pitch;
+    public Vec3d rotationVec;
     public boolean canRotate = false;
     public int rotationsSpoofed = 0;
 
@@ -131,8 +131,9 @@ public class AutoCrystalRewrite extends Module {
             mc.world.removeEntityFromWorld(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world).getEntityId());
         }
         if(event.getPacket() instanceof CPacketPlayer && canRotate){
-            ((ICPacketPlayer)event.getPacket()).setYaw(yaw);
-            ((ICPacketPlayer)event.getPacket()).setPitch(pitch);
+            float rotations[] = RotationUtil.getRotations(rotationVec);
+            ((ICPacketPlayer)event.getPacket()).setYaw(rotations[0]);
+            ((ICPacketPlayer)event.getPacket()).setPitch(rotations[1]);
             rotationsSpoofed++;
             if(rotationsSpoofed >= rotationSpoofsLimit.getValue()) {
                 canRotate = false;
@@ -296,9 +297,7 @@ public class AutoCrystalRewrite extends Module {
     }
 
     public void rotate(Vec3d vec3d){
-        float[] rotations = RotationUtil.getRotations(vec3d);
-        yaw = rotations[0];
-        pitch = rotations[1];
+        rotationVec = vec3d;
         canRotate = true;
         rotationsSpoofed = 0;
     }
