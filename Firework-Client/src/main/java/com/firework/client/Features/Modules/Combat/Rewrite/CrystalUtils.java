@@ -118,23 +118,29 @@ public class CrystalUtils {
 
     public static EntityEnderCrystal getBestCrystal(EntityPlayer target, final int range, final boolean rayTraceCheck){
         if(target == null) return null;
-        Triple<EntityEnderCrystal, Float, Float> bestCrystal = new Triple<>(null, 0f, 0f);
-        for(EntityEnderCrystal entity : CrystalUtil.getCrystals(range)){
+        EntityEnderCrystal bestCrystal = null;
+        float selfDamage = 0;
+        float targetDamage = 0;
+        for(EntityEnderCrystal entity : getCrystals(range)){
             if(!mc.player.canEntityBeSeen(entity) && rayTraceCheck) continue;
             if (bestCrystal == null) {
-                float selfDamage = CrystalUtil.calculateDamage(entity.getPosition(), mc.player)/2;
-                float targetDamage = CrystalUtil.calculateDamage(entity.getPosition(), target);
-                bestCrystal = new Triple<>(entity, selfDamage, targetDamage);
+                float tempSelfDamage = calculateDamage(entity.getPosition(), mc.player)/2;
+                float tempTargetDamage = calculateDamage(entity.getPosition(), target);
+                bestCrystal = entity;
+                selfDamage = tempSelfDamage;
+                targetDamage = tempTargetDamage;
             } else {
-                float selfDamage = CrystalUtil.calculateDamage(entity.getPosition(), mc.player)/2;
-                float targetDamage = CrystalUtil.calculateDamage(entity.getPosition(), target);
-                if (targetDamage - selfDamage > bestCrystal.three - bestCrystal.two) {
-                    bestCrystal = new Triple<>(entity, selfDamage, targetDamage);
+                float tempSelfDamage = calculateDamage(entity.getPosition(), mc.player)/2;
+                float tempTargetDamage = calculateDamage(entity.getPosition(), target);
+                if (targetDamage - selfDamage > targetDamage - tempSelfDamage) {
+                    bestCrystal = entity;
+                    selfDamage = tempSelfDamage;
+                    targetDamage = tempTargetDamage;
                 }
             }
         }
 
-        return bestCrystal.one;
+        return bestCrystal;
     }
 
     public static BlockPos bestCrystalPos(EntityPlayer target, final int range, final float maxSelfDamage, final float minTargetDamage, final boolean rayTraceCheck){
@@ -145,15 +151,15 @@ public class CrystalUtils {
         for(BlockPos pos : BlockUtil.getSphere(range, true)){
             if (canPlaceCrystal(pos)) {
                 if (bestPosition == null) {
-                    float localSelfDamage = CrystalUtil.calculateDamage(pos, mc.player);
-                    float localTargetDamage = CrystalUtil.calculateDamage(pos, target);
+                    float localSelfDamage = calculateDamage(pos, mc.player);
+                    float localTargetDamage = calculateDamage(pos, target);
                     if (localSelfDamage > maxSelfDamage || localTargetDamage < minTargetDamage) continue;
                     bestPosition = pos;
                     selfDamage = localSelfDamage;
                     targetDamage = localTargetDamage;
                 } else {
-                    float localSelfDamage = CrystalUtil.calculateDamage(pos, mc.player);
-                    float localTargetDamage = CrystalUtil.calculateDamage(pos, target);
+                    float localSelfDamage = calculateDamage(pos, mc.player);
+                    float localTargetDamage = calculateDamage(pos, target);
                     if (localSelfDamage >= maxSelfDamage || localTargetDamage <= minTargetDamage) continue;
                     if (localTargetDamage - localSelfDamage > targetDamage - selfDamage) {
                         bestPosition = pos;

@@ -8,7 +8,6 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Entity.CrystalUtil;
 import com.firework.client.Implementations.Utill.Inhibitor;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.RotationUtil;
@@ -78,9 +77,8 @@ public class AutoCrystalRewrite2 extends Module {
     //Inhibition
     public Setting<Boolean> inhibit = new Setting<>("Inhibit", true, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> shouldInhibit = new Setting<>("ShouldInhibit", true, this).setVisibility(v-> inhibit.getValue());
-    public Setting<Integer> minPercent = new Setting<>("MinPercent", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
-    public Setting<Integer> maxPercent = new Setting<>("MaxPercent", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
-    public Setting<Integer> speed = new Setting<>("Speed", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
+    public Setting<Integer> inhibitFactor = new Setting<>("Speed", 0, this, 0, 1).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
+    public Setting<Integer> speed = new Setting<>("Speed", 0, this, 0, 1).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
     public Setting<Integer> inhibitPercent = new Setting<>("InhibitPercent", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
 
     //Stuff
@@ -145,7 +143,7 @@ public class AutoCrystalRewrite2 extends Module {
 
         //Updates inhibitor
         if (inhibitor != null) {
-            inhibitor.setValues(minPercent.getValue(), maxPercent.getValue(), speed.getValue());
+            inhibitor.setValues(0, 1, speed.getValue());
             inhibitor.update();
             inhibitPercent.setValue((int) Math.round(inhibitor.value));
         }
@@ -166,12 +164,12 @@ public class AutoCrystalRewrite2 extends Module {
     public boolean isValidCrystal(EntityEnderCrystal crystal){
         return crystal != null
                 && (faceBreak.getValue() && ((target.getPosition().getY()+1 == crystal.getPosition().getY() && target.getHealth() <= targetHealth.getValue()) || ((target.getPosition().getY() + 1 != crystal.getPosition().getY())))
-                && (!noSuicide.getValue() || (mc.player.getHealth() - CrystalUtil.calculateDamage(crystal, mc.player) > noSuicidePlHealth.getValue())));
+                && (!noSuicide.getValue() || (mc.player.getHealth() - CrystalUtils.calculateDamage(crystal, mc.player) > noSuicidePlHealth.getValue())));
     }
 
     public boolean isValidBlockPos(BlockPos pos){
         return pos != null
                 && (facePlace.getValue() && ((target.getPosition().getY() == pos.getY() && target.getHealth() <= targetHealth.getValue()) || (target.getPosition().getY() != pos.getY()))
-                && (!noSuicide.getValue() || (mc.player.getHealth() - CrystalUtil.calculateDamage(pos, mc.player) > noSuicidePlHealth.getValue())));
+                && (!noSuicide.getValue() || (mc.player.getHealth() - CrystalUtils.calculateDamage(pos, mc.player) > noSuicidePlHealth.getValue())));
     }
 }
