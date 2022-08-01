@@ -47,11 +47,15 @@ public class Frame {
             if(GuiInfo.isHoveringOnTheComponent(component, mouseX, mouseY)) {
                 component.init(mouseX, mouseY, state);
             }
-            ((ModuleButton) component).components.forEach(component1 -> {
-                if(isHoveringOnTheComponent(component1, mouseX, mouseY)) {
-                    component1.init(mouseX, mouseY, state);
-                }
-            });
+            if(((ModuleButton) component).module.isOpened.getValue()) {
+                ((ModuleButton) component).components.stream()
+                        .filter(component1 -> component1 instanceof Button && ((Button) component1).setting.isVisible())
+                        .forEach(component2 -> {
+                            if (isHoveringOnTheComponent(component2, mouseX, mouseY)) {
+                                component2.init(mouseX, mouseY, state);
+                            }
+                        });
+            }
         });
     }
 

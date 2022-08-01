@@ -7,6 +7,7 @@ import com.firework.client.Implementations.UI.GuiN.Component;
 import com.firework.client.Implementations.UI.GuiN.Components.ColorPicker.ColorPicker;
 import com.firework.client.Implementations.UI.GuiN.Frame;
 import com.firework.client.Implementations.UI.GuiN.GuiInfo;
+import com.firework.client.Implementations.UI.GuiN.GuiN;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
@@ -98,6 +99,7 @@ public class ModuleButton extends Button{
     @Override
     public void init(int mouseX, int mouseY, int state) {
         super.init(mouseX, mouseY, state);
+        if(GuiN.isDragging) return;
         if(state == 0)
             module.toggle();
         else if(state == 1)

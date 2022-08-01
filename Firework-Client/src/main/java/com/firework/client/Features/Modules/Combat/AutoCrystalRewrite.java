@@ -7,20 +7,18 @@ import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.CrystalUtils;
+import com.firework.client.Implementations.Utill.*;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
-import com.firework.client.Implementations.Utill.Inhibitor;
 import com.firework.client.Implementations.Utill.Items.ItemUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
-import com.firework.client.Implementations.Utill.RotationUtil;
-import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemFood;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
@@ -43,6 +41,7 @@ public class AutoCrystalRewrite extends Module {
     //Interaction && Sync
     public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> autoSwitch = new Setting<>("AutoSwitch", true, this).setVisibility(v-> interaction.getValue());
+
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interaction.getValue());
     public Setting<Integer> rotationSpoofsLimit = new Setting<>("RotationSpoofs", 0, this, 0, 20).setVisibility(v-> interaction.getValue());
 
@@ -62,6 +61,10 @@ public class AutoCrystalRewrite extends Module {
     public Setting<Boolean> rayTrace = new Setting<>("RaytraceCheck", true, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", false, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> sync = new Setting<>("Sync", true, this).setVisibility(v-> interaction.getValue());
+
+    //FacePlace / FaceBreak
+    public Setting<Boolean> facePlace = new Setting<>("FacePlace", false, this).setVisibility(v-> interaction.getValue());
+    public Setting<Boolean> faceBreak = new Setting<>("FaceBreak", false, this).setVisibility(v-> interaction.getValue());
 
     //Ranges
     public Setting<Boolean> ranges = new Setting<>("Ranges", false, this).setMode(Setting.Mode.SUB);
@@ -86,9 +89,11 @@ public class AutoCrystalRewrite extends Module {
     public Setting<Integer> speed = new Setting<>("Speed", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
     public Setting<Integer> inhibitPercent = new Setting<>("InhibitPercent", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
 
+    //Stuff
+    public Setting<Boolean> pauseWhileEating = new Setting<>("PauseWhileEating", true, this).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
+
     //Render
     public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);
-
     EntityPlayer target;
 
     BlockPos renderPlacePos;
@@ -99,7 +104,7 @@ public class AutoCrystalRewrite extends Module {
     int stage;
 
     //Rotate stuff
-    public float yaw, pitch;
+    public Vec3d rotationVec;
     public boolean canRotate = false;
     public int rotationsSpoofed = 0;
 
@@ -119,15 +124,16 @@ public class AutoCrystalRewrite extends Module {
         }
     });
 
-    @Subscribe
+    @Subscribe(priority = Listener.Priority.HIGHEST)
     public Listener<PacketEvent.Send> onPacketSend = new Listener<>(event -> {
         if (event.getPacket() instanceof CPacketUseEntity && (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && ((CPacketUseEntity) event.getPacket()).getEntityFromWorld(AutoCrystal.mc.world) instanceof EntityEnderCrystal && cancelCrystal.getValue())) {
             Objects.requireNonNull(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world)).setDead();
             mc.world.removeEntityFromWorld(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world).getEntityId());
         }
         if(event.getPacket() instanceof CPacketPlayer && canRotate){
-            ((ICPacketPlayer)event.getPacket()).setYaw(yaw);
-            ((ICPacketPlayer)event.getPacket()).setPitch(pitch);
+            float rotations[] = RotationUtil.getRotations(rotationVec);
+            ((ICPacketPlayer)event.getPacket()).setYaw(rotations[0]);
+            ((ICPacketPlayer)event.getPacket()).setPitch(rotations[1]);
             rotationsSpoofed++;
             if(rotationsSpoofed >= rotationSpoofsLimit.getValue()) {
                 canRotate = false;
@@ -177,6 +183,9 @@ public class AutoCrystalRewrite extends Module {
             inhibitPercent.setValue((int) Math.round(inhibitor.value));
         }
 
+        //Is eating check
+        if(pauseWhileEating.getValue() && (mc.player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemFood || mc.player.getHeldItem(EnumHand.OFF_HAND).getItem() instanceof ItemFood) && mc.gameSettings.keyBindUseItem.isKeyDown()) return;
+
         target = PlayerUtil.getClosestTarget(targetRange.getValue());
         if(target == null) return;
 
@@ -191,18 +200,19 @@ public class AutoCrystalRewrite extends Module {
 
         switch(stage){
             case 1:
-                if (placePos != null) {
+                if (isValidBlockPos(placePos)) {
                     if (timer.hasPassedMs(tempPlaceDelay)) {
                         boolean flag = false;
                         if (mc.player.inventory.getCurrentItem().getItem() != Items.END_CRYSTAL) {
                             flag = true;
-                            if (!autoSwitch.getValue() || (mc.player.inventory.getCurrentItem().getItem() == Items.GOLDEN_APPLE && mc.player.isHandActive()))
+                            if (!autoSwitch.getValue())
                                 return;
                         }
                         if (flag) {
                             final int slot = ItemUtil.getItemFromHotbar(Items.END_CRYSTAL);
                             if (slot == -1) return;
                             mc.player.inventory.currentItem = slot;
+                            mc.playerController.updateController();
                         }
 
                         //Facing
@@ -241,11 +251,11 @@ public class AutoCrystalRewrite extends Module {
                     stage = 2;
                 break;
             case 2:
-                if (crystal != null){
+                if (isValidCrystal(crystal)){
                     if(timer.hasPassedMs(tempBreakDelay)){
 
                         if(rotate.getValue())
-                            rotate(crystal.getPositionVector().add(0.5, 0.5, 0.5));
+                            rotate(crystal.getPositionVector());
 
                         //Blows
                         if(blowMode.getValue(blow.Controller))
@@ -291,9 +301,16 @@ public class AutoCrystalRewrite extends Module {
     }
 
     public void rotate(Vec3d vec3d){
-        float[] rotations = RotationUtil.getRotations(vec3d);
-        yaw = rotations[0];
-        pitch = rotations[1];
+        rotationVec = vec3d;
         canRotate = true;
+        rotationsSpoofed = 0;
+    }
+
+    public boolean isValidCrystal(EntityEnderCrystal crystal){
+        return crystal != null && (faceBreak.getValue() || (target.getPosition().getY() + 1 != crystal.getPosition().getY()));
+    }
+
+    public boolean isValidBlockPos(BlockPos pos){
+        return pos != null && (facePlace.getValue() || (target.getPosition().getY() != pos.getY()));
     }
 }
