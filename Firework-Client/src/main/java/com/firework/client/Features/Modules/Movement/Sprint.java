@@ -15,6 +15,11 @@ import java.util.Arrays;
         description = "Keeps sprinting every time"
 )
 public class Sprint extends Module {
+    public static Setting<Boolean> enabled = null;
+    public Sprint() {
+        enabled = this.isEnabled;
+    }
+
     public Setting<String> mode = new Setting<>("Mode", "Legit", this, Arrays.asList("Legit", "Multi"));
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
