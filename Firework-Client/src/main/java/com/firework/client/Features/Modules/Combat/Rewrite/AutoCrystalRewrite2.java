@@ -8,19 +8,27 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Inhibitor;
+import com.firework.client.Implementations.Utill.Items.ItemUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.RotationUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.network.play.server.SPacketSoundEffect;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
@@ -77,9 +85,8 @@ public class AutoCrystalRewrite2 extends Module {
     //Inhibition
     public Setting<Boolean> inhibit = new Setting<>("Inhibit", true, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> shouldInhibit = new Setting<>("ShouldInhibit", true, this).setVisibility(v-> inhibit.getValue());
-    public Setting<Integer> inhibitFactor = new Setting<>("Speed", 0, this, 0, 1).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
-    public Setting<Integer> speed = new Setting<>("Speed", 0, this, 0, 1).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
-    public Setting<Integer> inhibitPercent = new Setting<>("InhibitPercent", 0, this, 0, 100).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
+    public Setting<Double> inhibitFactor = new Setting<>("InhibitFactor", 0d, this, 0, 1).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
+    public Setting<Double> speed = new Setting<>("Speed", 0d, this, 0, 1).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
 
     //Stuff
     public Setting<Boolean> noSuicide = new Setting<>("NoSuicide", true, this);
@@ -101,6 +108,21 @@ public class AutoCrystalRewrite2 extends Module {
     public Vec3d rotationVec;
     public boolean canRotate = false;
     public int rotationsSpoofed = 0;
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        stage = 1;
+        timer = new Timer();
+        inhibitor = new Inhibitor();
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        timer = null;
+        inhibitor = null;
+    }
 
     @Subscribe
     public Listener<PacketEvent.Receive> onPacketReceive = new Listener<>(event -> {
@@ -142,18 +164,120 @@ public class AutoCrystalRewrite2 extends Module {
         if(fullNullCheck()) return;
 
         //Updates inhibitor
-        if (inhibitor != null) {
-            inhibitor.setValues(0, 1, speed.getValue());
-            inhibitor.update();
-            inhibitPercent.setValue((int) Math.round(inhibitor.value));
-        }
+        inhibitor.setValues(0, 1, speed.getValue());
+        inhibitor.update();
+        inhibitFactor.setValue(inhibitor.value);
     });
 
     //Place && Break logic listener
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> logic = new Listener<>(event -> {
+        if(fullNullCheck()) return;
 
+        //Target searching
+        target = PlayerUtil.getClosestTarget(targetRange.getValue());
+        if(target == null) return;
+        //Delays
+        int tempBreakDelay = shouldInhibit.getValue() ? (int) Math.round(breakDelay.getValue() * inhibitFactor.getValue()) : breakDelay.getValue();
+        int tempPlaceDelay = shouldInhibit.getValue() ? (int) Math.round(placeDelay.getValue() * inhibitFactor.getValue()) : placeDelay.getValue();
+
+        //Place/Break stuff
+        BlockPos toPlace = CrystalUtils.bestCrystalPos(target, placeRange.getValue(), maxSelfDmg.getValue(), minTargetDmg.getValue());
+        renderPlacePos = toPlace;
+
+        EntityEnderCrystal toBreak = CrystalUtils.getBestCrystal(target, breakRange.getValue(), maxSelfDmg.getValue(), minTargetDmg.getValue());
+
+        switch (stage){
+            case 1:
+                if(isValidCrystal(toBreak)){
+                    if(timer.hasPassedMs(tempBreakDelay)) {
+                        rotate(toBreak.getPositionVector().add(0, 0.5, 0));
+                        //Blows
+                        if (blowMode.getValue(AutoCrystalRewrite.blow.Controller))
+                            mc.playerController.attackEntity(mc.player, toBreak);
+                        else if (blowMode.getValue(AutoCrystalRewrite.blow.Packet))
+                            mc.getConnection().sendPacket(new CPacketUseEntity(toBreak));
+
+                        //Swing
+                        if (shouldSwing.getValue())
+                            swing(swingMode.getValue());
+
+                        stage = 2;
+                        timer.reset();
+                    }
+                }else
+                    stage = 2;
+                break;
+            case 2:
+                if(isValidBlockPos(toPlace)){
+                    if(timer.hasPassedMs(tempPlaceDelay)){
+                        //Switch
+                        boolean flag = false;
+                        if (mc.player.inventory.getCurrentItem().getItem() != Items.END_CRYSTAL) {
+                            flag = true;
+                            if (!autoSwitch.getValue())
+                                return;
+                        }
+                        if (flag) {
+                            final int slot = ItemUtil.getItemFromHotbar(Items.END_CRYSTAL);
+                            if (slot == -1) return;
+                            mc.player.inventory.currentItem = slot;
+                            mc.playerController.updateController();
+                        }
+
+                        //Facing
+                        EnumFacing facing = EnumFacing.UP;
+
+                        boolean shouldRotate = true;
+
+                        //RayTrace result
+                        if(placeRayTraceResult.getValue()) {
+                            RayTraceResult result = mc.world.rayTraceBlocks(
+                                    new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ),
+                                    new Vec3d(toPlace.getX() + 0.5, toPlace.getY() - 0.5, toPlace.getZ() + 0.5));
+
+                            if (result != null && result.sideHit != null) {
+                                facing = result.sideHit;
+                                rotate(result.hitVec);
+                                shouldRotate = false;
+                            }
+                        }
+
+                        if(shouldRotate)
+                            rotate(new Vec3d(toPlace.getX() + 0.5, toPlace.getY() - 0.5, toPlace.getZ() + 0.5));
+
+                        mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(toPlace, facing, EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
+
+                        stage = 1;
+                        timer.reset();
+                    }
+                }else
+                    stage = 1;
+                break;
+        }
     });
+
+    public void swing(AutoCrystalRewrite.swing swing) {
+        switch (swing) {
+            case Main:
+                //Swings main hand
+                mc.player.swingArm(EnumHand.MAIN_HAND);
+                break;
+            case Off:
+                //Swings offhand
+                mc.player.swingArm(EnumHand.OFF_HAND);
+                break;
+            case Both:
+                //Swings both hands
+                mc.player.swingArm(EnumHand.MAIN_HAND);
+                mc.player.swingArm(EnumHand.OFF_HAND);
+                break;
+            case Packet:
+                //Sends a swing packet
+                mc.player.connection.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
+                break;
+        }
+    }
 
     public void rotate(Vec3d vec3d){
         rotationVec = vec3d;
@@ -163,13 +287,13 @@ public class AutoCrystalRewrite2 extends Module {
 
     public boolean isValidCrystal(EntityEnderCrystal crystal){
         return crystal != null
-                && (faceBreak.getValue() && ((target.getPosition().getY()+1 == crystal.getPosition().getY() && target.getHealth() <= targetHealth.getValue()) || ((target.getPosition().getY() + 1 != crystal.getPosition().getY())))
+                && ((faceBreak.getValue() && (target.getPosition().getY()+1 == crystal.getPosition().getY() && target.getHealth() <= targetHealth.getValue()) || (!faceBreak.getValue() && (target.getPosition().getY() + 1 != crystal.getPosition().getY())))
                 && (!noSuicide.getValue() || (mc.player.getHealth() - CrystalUtils.calculateDamage(crystal, mc.player) > noSuicidePlHealth.getValue())));
     }
 
     public boolean isValidBlockPos(BlockPos pos){
         return pos != null
-                && (facePlace.getValue() && ((target.getPosition().getY() == pos.getY() && target.getHealth() <= targetHealth.getValue()) || (target.getPosition().getY() != pos.getY()))
+                && ((facePlace.getValue() && (target.getPosition().getY() == pos.getY() && target.getHealth() <= targetHealth.getValue()) || (!facePlace.getValue() && target.getPosition().getY() != pos.getY()))
                 && (!noSuicide.getValue() || (mc.player.getHealth() - CrystalUtils.calculateDamage(pos, mc.player) > noSuicidePlHealth.getValue())));
     }
 }

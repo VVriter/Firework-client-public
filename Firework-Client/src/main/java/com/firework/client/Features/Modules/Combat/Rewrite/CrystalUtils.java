@@ -116,22 +116,23 @@ public class CrystalUtils {
         return list;
     }
 
-    public static EntityEnderCrystal getBestCrystal(EntityPlayer target, final int range, final boolean rayTraceCheck){
+    public static EntityEnderCrystal getBestCrystal(EntityPlayer target, final int range, final float maxSelfDamage, final float minTargetDamage){
         if(target == null) return null;
         EntityEnderCrystal bestCrystal = null;
         float selfDamage = 0;
         float targetDamage = 0;
         for(EntityEnderCrystal entity : getCrystals(range)){
-            if(!mc.player.canEntityBeSeen(entity) && rayTraceCheck) continue;
             if (bestCrystal == null) {
                 float tempSelfDamage = calculateDamage(entity.getPosition(), mc.player)/2;
                 float tempTargetDamage = calculateDamage(entity.getPosition(), target);
+                if (tempSelfDamage > maxSelfDamage || tempTargetDamage < minTargetDamage) continue;
                 bestCrystal = entity;
                 selfDamage = tempSelfDamage;
                 targetDamage = tempTargetDamage;
             } else {
                 float tempSelfDamage = calculateDamage(entity.getPosition(), mc.player)/2;
                 float tempTargetDamage = calculateDamage(entity.getPosition(), target);
+                if (tempSelfDamage > maxSelfDamage || tempTargetDamage < minTargetDamage) continue;
                 if (targetDamage - selfDamage > targetDamage - tempSelfDamage) {
                     bestCrystal = entity;
                     selfDamage = tempSelfDamage;
@@ -143,7 +144,7 @@ public class CrystalUtils {
         return bestCrystal;
     }
 
-    public static BlockPos bestCrystalPos(EntityPlayer target, final int range, final float maxSelfDamage, final float minTargetDamage, final boolean rayTraceCheck){
+    public static BlockPos bestCrystalPos(EntityPlayer target, final int range, final float maxSelfDamage, final float minTargetDamage){
         if(target == null) return null;
         BlockPos bestPosition = null;
         float selfDamage = 0;
