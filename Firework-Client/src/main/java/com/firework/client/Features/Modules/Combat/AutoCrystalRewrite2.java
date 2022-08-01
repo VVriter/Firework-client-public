@@ -136,6 +136,7 @@ public class AutoCrystalRewrite2 extends Module {
         }
     });
 
+    //Updates inhibitor
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> inhibition = new Listener<>(event -> {
         if(fullNullCheck()) return;
@@ -146,6 +147,12 @@ public class AutoCrystalRewrite2 extends Module {
             inhibitor.update();
             inhibitPercent.setValue((int) Math.round(inhibitor.value));
         }
+    });
+
+    //Place && Break logic listener
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> logic = new Listener<>(event -> {
+        
     });
 
     public void rotate(Vec3d vec3d){
