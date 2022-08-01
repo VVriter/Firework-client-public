@@ -1,14 +1,11 @@
 package com.firework.client.Features.Modules.Chat;
 
-import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
-import com.firework.client.Implementations.Events.Render.UpdateEquippedItemEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
-import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -87,10 +84,11 @@ public class BanderaSpemmer extends Module {
 
     int cur;
 
-    @Subscribe
-    public Listener<UpdateWalkingPlayerEvent> listener = new Listener<>(e-> {
+    @Override
+    public void onTick() {
+        super.onTick();
         if (time.hasPassedS(delay.getValue())) {
-            mc.player.sendChatMessage(list.get(cur));
+            mc.player.sendChatMessage(">"+list.get(cur));
             if (cur == 23) {
                 cur = 1;
             } else {
@@ -98,7 +96,7 @@ public class BanderaSpemmer extends Module {
             }
             time.reset();
         }
-    });
+    }
 
 
 
@@ -141,6 +139,4 @@ public class BanderaSpemmer extends Module {
             e.printStackTrace();
         }
     }
-
-
 }
