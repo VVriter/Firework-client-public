@@ -25,16 +25,16 @@ public class Background extends Module {
 
     public Setting<Boolean> gradientSubBool = new Setting<>("Gradient", false, this).setMode(Setting.Mode.SUB);
     public Setting<HSLColor> color1 = new Setting<>("DownColor", new HSLColor(1, 54, 43), this).setVisibility(v-> gradientSubBool.getValue());
+    public Setting<HSLColor> color2 = new Setting<>("UpColor", new HSLColor(80, 54, 43), this).setVisibility(v-> gradientSubBool.getValue());
 
     @Subscribe
     public Listener<Render2dE> listener = new Listener<>(e -> {
         ScaledResolution sr = new ScaledResolution(mc);
-
         if (mc.currentScreen instanceof GuiScreen) {
             RenderUtils2D.drawGradientRectVertical(
                     new Rectangle(0, 0, sr.getScaledWidth(),
                             sr.getScaledHeight()),
-                    color1.getValue().toRGB(), new Color(1,1,1,0));
+                    color1.getValue().toRGB(), color2.getValue().toRGB());
             }
         }
     );
