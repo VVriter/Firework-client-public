@@ -63,8 +63,10 @@ public class AutoCrystalRewrite extends Module {
     public Setting<Boolean> sync = new Setting<>("Sync", true, this).setVisibility(v-> interaction.getValue());
 
     //FacePlace / FaceBreak
-    public Setting<Boolean> facePlace = new Setting<>("FacePlace", false, this).setVisibility(v-> interaction.getValue());
-    public Setting<Boolean> faceBreak = new Setting<>("FaceBreak", false, this).setVisibility(v-> interaction.getValue());
+    public Setting<Boolean> facePlBr = new Setting<>("FacePlace/Break", false, this);
+    public Setting<Boolean> facePlace = new Setting<>("FacePlace", false, this).setVisibility(v-> facePlBr.getValue());
+    public Setting<Boolean> faceBreak = new Setting<>("FaceBreak", false, this).setVisibility(v-> facePlBr.getValue());
+    public Setting<Integer> targetHealth = new Setting<>("MinTargetHealth", 12, this, 0, 36).setVisibility(v-> facePlace.getValue() || faceBreak.getValue());
 
     //Ranges
     public Setting<Boolean> ranges = new Setting<>("Ranges", false, this).setMode(Setting.Mode.SUB);
@@ -307,10 +309,12 @@ public class AutoCrystalRewrite extends Module {
     }
 
     public boolean isValidCrystal(EntityEnderCrystal crystal){
-        return crystal != null && (faceBreak.getValue() || (target.getPosition().getY() + 1 != crystal.getPosition().getY()));
+        return crystal != null && (
+                faceBreak.getValue() || ((target.getPosition().getY() + 1 != crystal.getPosition().getY()) && target.getHealth() <= targetHealth.getValue()));
     }
 
     public boolean isValidBlockPos(BlockPos pos){
-        return pos != null && (facePlace.getValue() || (target.getPosition().getY() != pos.getY()));
+        return pos != null && (
+                facePlace.getValue() || ((target.getPosition().getY() != pos.getY()) && target.getHealth() <= targetHealth.getValue()));
     }
 }
