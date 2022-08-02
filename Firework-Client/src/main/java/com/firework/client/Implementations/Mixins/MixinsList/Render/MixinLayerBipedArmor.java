@@ -22,25 +22,25 @@ public abstract class MixinLayerBipedArmor {
         this.setModelVisible(p_188359_1_);
         switch (slotIn) {
             case HEAD: {
-                p_188359_1_.bipedHead.showModel = !NoRender.enabled.getValue() || NoRender.helmet.getValue() != false;
-                p_188359_1_.bipedHeadwear.showModel = !NoRender.enabled.getValue() || NoRender.helmet.getValue() != false;
+                p_188359_1_.bipedHead.showModel = !NoRender.enabled.getValue() || NoRender.helmet.getValue() == false;
+                p_188359_1_.bipedHeadwear.showModel = !NoRender.enabled.getValue() || NoRender.helmet.getValue() == false;
                 break;
             }
             case CHEST: {
-                p_188359_1_.bipedBody.showModel = !NoRender.enabled.getValue() || NoRender.chestplate.getValue() != false;
-                p_188359_1_.bipedRightArm.showModel = !NoRender.enabled.getValue() || NoRender.chestplate.getValue() != false;
-                p_188359_1_.bipedLeftArm.showModel = !NoRender.enabled.getValue() || NoRender.chestplate.getValue() != false;
+                p_188359_1_.bipedBody.showModel = !NoRender.enabled.getValue() || NoRender.chestplate.getValue() == false;
+                p_188359_1_.bipedRightArm.showModel = !NoRender.enabled.getValue() || NoRender.chestplate.getValue() == false;
+                p_188359_1_.bipedLeftArm.showModel = !NoRender.enabled.getValue() || NoRender.chestplate.getValue() == false;
                 break;
             }
             case LEGS: {
-                p_188359_1_.bipedBody.showModel = !NoRender.enabled.getValue() || NoRender.leggings.getValue() != false;
-                p_188359_1_.bipedRightLeg.showModel = !NoRender.enabled.getValue() || NoRender.leggings.getValue() != false;
-                p_188359_1_.bipedLeftLeg.showModel = !NoRender.enabled.getValue() || NoRender.leggings.getValue() != false;
+                p_188359_1_.bipedBody.showModel = !NoRender.enabled.getValue() || NoRender.leggings.getValue() == false;
+                p_188359_1_.bipedRightLeg.showModel = !NoRender.enabled.getValue() || NoRender.leggings.getValue() == false;
+                p_188359_1_.bipedLeftLeg.showModel = !NoRender.enabled.getValue() || NoRender.leggings.getValue() == false;
                 break;
             }
             case FEET: {
-                p_188359_1_.bipedRightLeg.showModel = !NoRender.enabled.getValue() || NoRender.boots.getValue() != false;
-                p_188359_1_.bipedLeftLeg.showModel = !NoRender.enabled.getValue() || NoRender.boots.getValue() != false;
+                p_188359_1_.bipedRightLeg.showModel = !NoRender.enabled.getValue() || NoRender.boots.getValue() == false;
+                p_188359_1_.bipedLeftLeg.showModel = !NoRender.enabled.getValue() || NoRender.boots.getValue() == false;
             }
         }
     }
