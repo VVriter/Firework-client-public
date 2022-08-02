@@ -53,7 +53,6 @@ public class AutoCrystalRewrite2 extends Module {
     public Setting<Boolean> autoSwitch = new Setting<>("AutoSwitch", true, this).setVisibility(v-> interaction.getValue());
 
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interaction.getValue());
-    public Setting<Integer> rotationSpoofsLimit = new Setting<>("RotationSpoofs", 0, this, 0, 20).setVisibility(v-> interaction.getValue());
 
     //Swing
     public Setting<Boolean> shouldSwing = new Setting<>("Swing", true, this).setVisibility(v-> interaction.getValue());
@@ -111,12 +110,13 @@ public class AutoCrystalRewrite2 extends Module {
     int placeTicks;
     int breakTicks;
 
+    //Timers
     Timer renderClear;
+    Timer rotationsClear;
 
     //Rotate stuff
     public Vec3d rotationVec;
     public boolean canRotate = false;
-    public int rotationsSpoofed = 0;
 
     //Modules
     Module cevBreaker;
@@ -134,11 +134,13 @@ public class AutoCrystalRewrite2 extends Module {
         breakTicks = 0;
 
         renderClear = new Timer();
+        rotationsClear = new Timer();
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
+        rotationsClear = null;
         renderClear = null;
 
         blockFly = null;
@@ -177,16 +179,6 @@ public class AutoCrystalRewrite2 extends Module {
             Objects.requireNonNull(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world)).setDead();
             mc.world.removeEntityFromWorld(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world).getEntityId());
         }
-        if(event.getPacket() instanceof CPacketPlayer && canRotate){
-            float rotations[] = RotationUtil.getRotations(rotationVec);
-            ((ICPacketPlayer)event.getPacket()).setYaw(rotations[0]);
-            ((ICPacketPlayer)event.getPacket()).setPitch(rotations[1]);
-            rotationsSpoofed++;
-            if(rotationsSpoofed >= rotationSpoofsLimit.getValue()) {
-                canRotate = false;
-                rotationsSpoofed = 0;
-            }
-        }
     });
 
     //Place && Break logic listener
@@ -203,6 +195,9 @@ public class AutoCrystalRewrite2 extends Module {
             renderPlacePos = null;
             renderClear.reset();
         }
+
+        if(needToPause())
+            return;
 
         //Placing / Breaking
 
@@ -284,7 +279,20 @@ public class AutoCrystalRewrite2 extends Module {
                 }
                 break;
         }
+    });
 
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> updateWalkingPlayer = new Listener<>(event -> {
+
+        if(canRotate && rotationsClear.hasPassedMs(1000)){
+            canRotate = false;
+        }
+
+       if(canRotate && rotationVec != null){
+           event.setCancelled(true);
+           float rotations[] = RotationUtil.getRotations(rotationVec);
+           RotationUtil.packetFacePitchAndYaw(rotations[1], rotations[0]);
+       }
     });
 
     public void swing(AutoCrystalRewrite.swing swing) {
@@ -312,7 +320,7 @@ public class AutoCrystalRewrite2 extends Module {
     public void rotate(Vec3d vec3d){
         rotationVec = vec3d;
         canRotate = true;
-        rotationsSpoofed = 0;
+        rotationsClear.reset();
     }
 
     public EntityEnderCrystal bestCrystal(){

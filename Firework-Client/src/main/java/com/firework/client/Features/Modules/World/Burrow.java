@@ -58,12 +58,12 @@ public class Burrow extends Module {
         if (mc.player == null || mc.world == null) return;
         if (state == State.DISABLING) {
             if (timer.hasPassedMs(500)) {
-                toggle();
+                toggleLog();
             }
             return;
         }
         if (!mc.player.onGround) {
-            toggle();
+            toggleLog();
             return;
         }
         if (mc.world.getBlockState(new BlockPos(mc.player)).getBlock() == Blocks.AIR) {
@@ -71,7 +71,7 @@ public class Burrow extends Module {
 
                 if (getHeadSlot() == -1) {
                     System.out.println("head slot -1");
-                    toggle();
+                    toggleLog();
                     return;
                 }
 
