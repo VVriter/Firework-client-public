@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
 import com.firework.client.Implementations.Events.Chat.ChatSendE;
+import com.firework.client.Implementations.Events.ClientTickEvent;
 import com.firework.client.Implementations.Events.OnFishingEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
@@ -34,6 +35,11 @@ public class EventManager extends Manager{
     public void destory() {
         super.destory();
         MinecraftForge.EVENT_BUS.unregister(this);
+    }
+
+    @SubscribeEvent
+    public void onTick(TickEvent.ClientTickEvent event){
+        Firework.eventBus.post(new ClientTickEvent());
     }
 
     @SubscribeEvent
