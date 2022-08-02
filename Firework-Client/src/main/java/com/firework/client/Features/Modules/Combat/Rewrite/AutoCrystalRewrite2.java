@@ -242,7 +242,18 @@ public class AutoCrystalRewrite2 extends Module {
                 if(placeTicks == 0){
                     if(placePos != null){
                         //Switching
-                        switchItem();
+                        boolean flag = false;
+                        if (mc.player.inventory.getCurrentItem().getItem() != Items.END_CRYSTAL) {
+                            flag = true;
+                            if (!autoSwitch.getValue())
+                                return;
+                        }
+                        if (flag) {
+                            final int slot = ItemUtil.getItemFromHotbar(Items.END_CRYSTAL);
+                            if (slot == -1) return;
+                            mc.player.inventory.currentItem = slot;
+                            mc.playerController.updateController();
+                        }
 
                         //Facing
                         EnumFacing facing = EnumFacing.UP;
@@ -295,21 +306,6 @@ public class AutoCrystalRewrite2 extends Module {
                 //Sends a swing packet
                 mc.player.connection.sendPacket(new CPacketAnimation(EnumHand.MAIN_HAND));
                 break;
-        }
-    }
-
-    public void switchItem(){
-        boolean flag = false;
-        if (mc.player.inventory.getCurrentItem().getItem() != Items.END_CRYSTAL) {
-            flag = true;
-            if (!autoSwitch.getValue())
-                return;
-        }
-        if (flag) {
-            final int slot = ItemUtil.getItemFromHotbar(Items.END_CRYSTAL);
-            if (slot == -1) return;
-            mc.player.inventory.currentItem = slot;
-            mc.playerController.updateController();
         }
     }
 
