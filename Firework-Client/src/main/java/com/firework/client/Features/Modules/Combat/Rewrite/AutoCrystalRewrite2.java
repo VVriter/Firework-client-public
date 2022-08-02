@@ -8,6 +8,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Features.Modules.Movement.BlockFly;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.ClientTickEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
@@ -88,8 +89,8 @@ public class AutoCrystalRewrite2 extends Module {
     public Setting<Integer> minTargetDmg = new Setting<>("MinTargetDmg", 1, this, 0, 36).setVisibility(v-> damages.getValue());
 
     //Delays
-    public Setting<Integer> placeDelay = new Setting<>("PlaceDelayMs", 80, this, 0, 200);
-    public Setting<Integer> breakDelay = new Setting<>("BreakDelayMs", 70, this, 0, 200);
+    public Setting<Integer> placeDelay = new Setting<>("PlaceTicks", 5, this, 0, 10);
+    public Setting<Integer> breakDelay = new Setting<>("BreakTicks", 10, this, 0, 10);
 
     //Stuff
     public Setting<Boolean> noSuicide = new Setting<>("NoSuicide", true, this);
@@ -101,6 +102,11 @@ public class AutoCrystalRewrite2 extends Module {
     EntityPlayer target;
 
     BlockPos renderPlacePos;
+
+    int stage = 1;
+
+    int placeTicks;
+    int breakTicks;
 
     //Rotate stuff
     public Vec3d rotationVec;
@@ -118,6 +124,9 @@ public class AutoCrystalRewrite2 extends Module {
         cevBreaker = Firework.moduleManager.getModuleByClass(CevBreaker.class);
         aura = Firework.moduleManager.getModuleByClass(Aura.class);
         blockFly = Firework.moduleManager.getModuleByClass(BlockFly.class);
+
+        placeTicks = 0;
+        breakTicks = 0;
     }
 
     @Subscribe
@@ -136,7 +145,7 @@ public class AutoCrystalRewrite2 extends Module {
         }
     });
 
-    @Subscribe(priority = Listener.Priority.HIGHEST)
+    @Subscribe
     public Listener<PacketEvent.Send> onPacketSend = new Listener<>(event -> {
         if (event.getPacket() instanceof CPacketUseEntity && (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && ((CPacketUseEntity) event.getPacket()).getEntityFromWorld(AutoCrystal.mc.world) instanceof EntityEnderCrystal && cancelCrystal.getValue())) {
             Objects.requireNonNull(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world)).setDead();
@@ -156,7 +165,7 @@ public class AutoCrystalRewrite2 extends Module {
 
     //Place && Break logic listener
     @Subscribe
-    public Listener<UpdateWalkingPlayerEvent> logic = new Listener<>(event -> {
+    public Listener<ClientTickEvent> logic = new Listener<>(event -> {
         if(fullNullCheck()) return;
 
         //Target searching
@@ -164,6 +173,78 @@ public class AutoCrystalRewrite2 extends Module {
         if(target == null) return;
 
         //Placing / Breaking
+
+        EntityEnderCrystal crystal = bestCrystal();
+
+        BlockPos placePos = bestPlacePos();
+
+        if(placeTicks > 0)
+            placeTicks--;
+
+        if(breakTicks > 0)
+            breakTicks--;
+
+        switch (stage){
+            case 1:
+                if(breakTicks == 0) {
+                    if (crystal != null) {
+                        //Rotates
+                        if(rotate.getValue())
+                            rotate(crystal.getPositionVector());
+
+                        //Blows
+                        if(blowMode.getValue(AutoCrystalRewrite.blow.Controller))
+                            mc.playerController.attackEntity(mc.player, crystal);
+                        else if(blowMode.getValue(AutoCrystalRewrite.blow.Packet))
+                            mc.getConnection().sendPacket(new CPacketUseEntity(crystal));
+
+                        //Swing
+                        if(shouldSwing.getValue())
+                            swing(swingMode.getValue());
+
+                        stage = 2;
+                        placeTicks = placeDelay.getValue();
+                    }else
+                        stage = 2;
+                }
+                break;
+            case 2:
+                if(placeTicks == 0){
+                    if(placePos != null){
+                        //Switching
+                        switchItem();
+
+                        //Facing
+                        EnumFacing facing = EnumFacing.UP;
+
+                        boolean shouldRotate = true;
+
+                        //RayTrace result
+                        if(placeRayTraceResult.getValue()) {
+                            RayTraceResult result = mc.world.rayTraceBlocks(
+                                    new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ),
+                                    new Vec3d(placePos.getX() + 0.5, placePos.getY() - 0.5, placePos.getZ() + 0.5));
+
+                            if (result != null && result.sideHit != null) {
+                                facing = result.sideHit;
+                                rotate(result.hitVec);
+                                shouldRotate = false;
+                            }
+                        }
+
+                        if(shouldRotate)
+                            rotate(new Vec3d(placePos.getX() + 0.5, placePos.getY() - 0.5, placePos.getZ() + 0.5));
+
+                        mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(placePos, facing, EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
+
+                        stage = 1;
+                        breakTicks = breakDelay.getValue();
+                    }else
+                        stage = 1;
+                }
+                break;
+        }
+
     });
 
     public void swing(AutoCrystalRewrite.swing swing) {
