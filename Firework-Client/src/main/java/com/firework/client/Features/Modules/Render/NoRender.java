@@ -5,6 +5,8 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketExplosion;
 import net.minecraft.network.play.server.SPacketSpawnExperienceOrb;
@@ -12,6 +14,7 @@ import net.minecraft.network.play.server.SPacketSpawnMob;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.lwjgl.input.Keyboard;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
@@ -48,7 +51,11 @@ public class NoRender extends Module {
 
     public static Setting<Boolean> defaultBackground = null;
 
-
+    public static Setting<Boolean> armourSubBool = null;
+    public static Setting<Boolean> helmet = null;
+    public static Setting<Boolean> chestplate = null;
+    public static Setting<Boolean> leggings = null;
+    public static Setting<Boolean> boots = null;
 
     public NoRender(){
         enabled = this.isEnabled;
@@ -76,7 +83,14 @@ public class NoRender extends Module {
 
         guiSubBool = new Setting<>("Gui", false, this).setMode(Setting.Mode.SUB);
         defaultBackground = new Setting<>("DefaultBackground", true, this).setVisibility(v-> guiSubBool.getValue());
+
+        armourSubBool = new Setting<>("Armour",false,this).setMode(Setting.Mode.SUB);
+        helmet = new Setting<>("Helmet",false,this).setVisibility(v-> armourSubBool.getValue());
+        chestplate = new Setting<>("Chestplate",false,this).setVisibility(v-> armourSubBool.getValue());
+        leggings = new Setting<>("Leggings",false,this).setVisibility(v-> armourSubBool.getValue());
+        boots = new Setting<>("Boots",false,this).setVisibility(v-> armourSubBool.getValue());
     }
+
 
     public void onEnable(){
         super.onEnable();
