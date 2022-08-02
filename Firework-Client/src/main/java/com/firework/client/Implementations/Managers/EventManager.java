@@ -9,6 +9,7 @@ import com.firework.client.Implementations.Events.OnFishingEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Player.TotemPopEvent;
+import com.firework.client.Implementations.Events.Render.ForgeNameTagEvent;
 import com.firework.client.Implementations.Events.Render.Render2dE;
 import com.firework.client.Implementations.Events.Render.RenderGameOverlay;
 import com.firework.client.Implementations.Events.Render.Render3dE;
@@ -127,5 +128,14 @@ public class EventManager extends Manager{
             Firework.eventBus.post(event1);
         }
     });
+
+    @SubscribeEvent
+    public void renderNameTagsPre(RenderLivingEvent.Specials.Pre e) {
+        ForgeNameTagEvent event = new ForgeNameTagEvent();
+        Firework.eventBus.post(event);
+        if (event.isCancelled()) {
+            e.setCanceled(true);
+        }
+    }
 
 }
