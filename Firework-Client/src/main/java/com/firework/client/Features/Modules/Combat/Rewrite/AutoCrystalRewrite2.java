@@ -10,6 +10,7 @@ import com.firework.client.Features.Modules.Movement.BlockFly;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.ClientTickEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Settings.Setting;
@@ -17,6 +18,8 @@ import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Inhibitor;
 import com.firework.client.Implementations.Utill.Items.ItemUtil;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
+import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.RotationUtil;
 import com.firework.client.Implementations.Utill.Timer;
@@ -108,6 +111,8 @@ public class AutoCrystalRewrite2 extends Module {
     int placeTicks;
     int breakTicks;
 
+    Timer renderClear;
+
     //Rotate stuff
     public Vec3d rotationVec;
     public boolean canRotate = false;
@@ -127,7 +132,28 @@ public class AutoCrystalRewrite2 extends Module {
 
         placeTicks = 0;
         breakTicks = 0;
+
+        renderClear = new Timer();
     }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        renderClear = null;
+
+        blockFly = null;
+        aura = null;
+        cevBreaker = null;
+    }
+
+    @Subscribe
+    public Listener<Render3dE> onRender = new Listener<>(render3dE -> {
+       if(renderPlacePos == null) return;
+       new BlockRenderBuilder(renderPlacePos)
+               .addRenderModes(
+                       new RenderMode(RenderMode.renderModes.Fill, color.getValue().toRGB())
+               ).render();
+    });
 
     @Subscribe
     public Listener<PacketEvent.Receive> onPacketReceive = new Listener<>(event -> {
@@ -172,6 +198,12 @@ public class AutoCrystalRewrite2 extends Module {
         target = PlayerUtil.getClosestTarget(targetRange.getValue());
         if(target == null) return;
 
+        //Cleaning render pos
+        if(renderClear.hasPassedMs(1000)){
+            renderPlacePos = null;
+            renderClear.reset();
+        }
+
         //Placing / Breaking
 
         EntityEnderCrystal crystal = bestCrystal();
@@ -201,11 +233,9 @@ public class AutoCrystalRewrite2 extends Module {
                         //Swing
                         if(shouldSwing.getValue())
                             swing(swingMode.getValue());
-
-                        stage = 2;
-                        placeTicks = placeDelay.getValue();
-                    }else
-                        stage = 2;
+                    }
+                    stage = 2;
+                    placeTicks = placeDelay.getValue();
                 }
                 break;
             case 2:
@@ -235,12 +265,11 @@ public class AutoCrystalRewrite2 extends Module {
                         if(shouldRotate)
                             rotate(new Vec3d(placePos.getX() + 0.5, placePos.getY() - 0.5, placePos.getZ() + 0.5));
 
+                        renderPlacePos = placePos;
                         mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(placePos, facing, EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
-
-                        stage = 1;
-                        breakTicks = breakDelay.getValue();
-                    }else
-                        stage = 1;
+                    }
+                    stage = 1;
+                    breakTicks = breakDelay.getValue();
                 }
                 break;
         }
@@ -317,7 +346,6 @@ public class AutoCrystalRewrite2 extends Module {
                 if (maxDamage <= targetDamage) {
                     maxDamage = targetDamage;
                     placePos = pos;
-                    renderPlacePos = pos;
                 }
             }
         }
