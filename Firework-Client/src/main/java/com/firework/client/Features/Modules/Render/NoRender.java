@@ -48,7 +48,11 @@ public class NoRender extends Module {
 
     public static Setting<Boolean> defaultBackground = null;
 
-
+    public static Setting<Boolean> armourSubBool = null;
+    public static Setting<Boolean> helmet = null;
+    public static Setting<Boolean> chestplate = null;
+    public static Setting<Boolean> leggings = null;
+    public static Setting<Boolean> boots = null;
 
     public NoRender(){
         enabled = this.isEnabled;
@@ -76,6 +80,12 @@ public class NoRender extends Module {
 
         guiSubBool = new Setting<>("Gui", false, this).setMode(Setting.Mode.SUB);
         defaultBackground = new Setting<>("DefaultBackground", true, this).setVisibility(v-> guiSubBool.getValue());
+
+        armourSubBool = new Setting<>("Armour",false,this).setMode(Setting.Mode.SUB);
+        helmet = new Setting<>("Helmet",false,this).setVisibility(v-> armourSubBool.getValue());
+        chestplate = new Setting<>("Chestplate",false,this).setVisibility(v-> armourSubBool.getValue());
+        leggings = new Setting<>("Leggings",false,this).setVisibility(v-> armourSubBool.getValue());
+        boots = new Setting<>("Boots",false,this).setVisibility(v-> armourSubBool.getValue());
     }
 
     public void onEnable(){
