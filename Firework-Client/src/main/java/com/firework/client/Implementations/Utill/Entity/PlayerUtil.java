@@ -22,6 +22,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import org.apache.commons.io.IOUtils;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -97,6 +98,14 @@ public class PlayerUtil implements Util {
             }
         }
         return closest;
+    }
+
+    public static boolean canSeeBlock(BlockPos p_Pos)
+    {
+        if (mc.player == null)
+            return false;
+
+        return mc.world.rayTraceBlocks(new Vec3d(mc.player.posX, mc.player.posY + (double)mc.player.getEyeHeight(), mc.player.posZ), new Vec3d(p_Pos.getX(), p_Pos.getY(), p_Pos.getZ()), false, true, false) == null;
     }
 
     public static EntityEnderCrystal getClosestCrystal(int maxRange) {

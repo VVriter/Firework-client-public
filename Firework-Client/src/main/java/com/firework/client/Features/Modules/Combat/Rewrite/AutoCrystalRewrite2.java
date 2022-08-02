@@ -1,13 +1,18 @@
 package com.firework.client.Features.Modules.Combat.Rewrite;
 
+import com.firework.client.Features.Modules.Combat.Aura;
 import com.firework.client.Features.Modules.Combat.AutoCrystal;
 import com.firework.client.Features.Modules.Combat.AutoCrystalRewrite;
+import com.firework.client.Features.Modules.Combat.CevBreaker;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Features.Modules.Movement.BlockFly;
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Inhibitor;
 import com.firework.client.Implementations.Utill.Items.ItemUtil;
@@ -19,6 +24,7 @@ import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemFood;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
@@ -71,7 +77,9 @@ public class AutoCrystalRewrite2 extends Module {
     public Setting<Boolean> ranges = new Setting<>("Ranges", false, this).setMode(Setting.Mode.SUB);
     public Setting<Integer> targetRange = new Setting<>("TargetRange", 5, this, 0, 10).setVisibility(v-> ranges.getValue());
     public Setting<Integer> placeRange = new Setting<>("PlaceRange", 5, this, 0, 6).setVisibility(v-> ranges.getValue());
+    public Setting<Integer> placeWallRange = new Setting<>("PlaceWallRange", 5, this, 0, 6).setVisibility(v-> ranges.getValue());
     public Setting<Integer> breakRange = new Setting<>("BreakRange", 5, this, 0, 6).setVisibility(v-> ranges.getValue());
+    public Setting<Integer> breakWallRange = new Setting<>("BreakWallRange", 5, this, 0, 6).setVisibility(v-> ranges.getValue());
 
     //Damages
     public Setting<Boolean> damages = new Setting<>("Damages", false, this).setMode(Setting.Mode.SUB);
@@ -81,12 +89,6 @@ public class AutoCrystalRewrite2 extends Module {
     //Delays
     public Setting<Integer> placeDelay = new Setting<>("PlaceDelayMs", 80, this, 0, 200);
     public Setting<Integer> breakDelay = new Setting<>("BreakDelayMs", 70, this, 0, 200);
-
-    //Inhibition
-    public Setting<Boolean> inhibit = new Setting<>("Inhibit", true, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> shouldInhibit = new Setting<>("ShouldInhibit", true, this).setVisibility(v-> inhibit.getValue());
-    public Setting<Double> inhibitFactor = new Setting<>("InhibitFactor", 0d, this, 0, 1).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
-    public Setting<Double> speed = new Setting<>("Speed", 0d, this, 0, 1).setVisibility(v-> shouldInhibit.getValue() && inhibit.getValue());
 
     //Stuff
     public Setting<Boolean> noSuicide = new Setting<>("NoSuicide", true, this);
@@ -99,29 +101,22 @@ public class AutoCrystalRewrite2 extends Module {
 
     BlockPos renderPlacePos;
 
-    Inhibitor inhibitor;
-    Timer timer;
-
-    int stage;
-
     //Rotate stuff
     public Vec3d rotationVec;
     public boolean canRotate = false;
     public int rotationsSpoofed = 0;
 
+    //Modules
+    Module cevBreaker;
+    Module aura;
+    Module blockFly;
+
     @Override
     public void onEnable() {
         super.onEnable();
-        stage = 1;
-        timer = new Timer();
-        inhibitor = new Inhibitor();
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        timer = null;
-        inhibitor = null;
+        cevBreaker = Firework.moduleManager.getModuleByClass(CevBreaker.class);
+        aura = Firework.moduleManager.getModuleByClass(Aura.class);
+        blockFly = Firework.moduleManager.getModuleByClass(BlockFly.class);
     }
 
     @Subscribe
@@ -158,17 +153,6 @@ public class AutoCrystalRewrite2 extends Module {
         }
     });
 
-    //Updates inhibitor
-    @Subscribe
-    public Listener<UpdateWalkingPlayerEvent> inhibition = new Listener<>(event -> {
-        if(fullNullCheck()) return;
-
-        //Updates inhibitor
-        inhibitor.setValues(0, 1, speed.getValue());
-        inhibitor.update();
-        inhibitFactor.setValue(inhibitor.value);
-    });
-
     //Place && Break logic listener
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> logic = new Listener<>(event -> {
@@ -177,84 +161,8 @@ public class AutoCrystalRewrite2 extends Module {
         //Target searching
         target = PlayerUtil.getClosestTarget(targetRange.getValue());
         if(target == null) return;
-        //Delays
-        int tempBreakDelay = shouldInhibit.getValue() ? (int) Math.round(breakDelay.getValue() * inhibitFactor.getValue()) : breakDelay.getValue();
-        int tempPlaceDelay = shouldInhibit.getValue() ? (int) Math.round(placeDelay.getValue() * inhibitFactor.getValue()) : placeDelay.getValue();
 
-        //Place/Break stuff
-        BlockPos toPlace = CrystalUtils.bestCrystalPos(target, placeRange.getValue(), maxSelfDmg.getValue(), minTargetDmg.getValue());
-        renderPlacePos = toPlace;
-
-        EntityEnderCrystal toBreak = CrystalUtils.getBestCrystal(target, breakRange.getValue(), maxSelfDmg.getValue(), minTargetDmg.getValue());
-
-        switch (stage){
-            case 1:
-                if(isValidCrystal(toBreak)){
-                    if(timer.hasPassedMs(tempBreakDelay)) {
-                        rotate(toBreak.getPositionVector().add(0, 0.5, 0));
-                        //Blows
-                        if (blowMode.getValue(AutoCrystalRewrite.blow.Controller))
-                            mc.playerController.attackEntity(mc.player, toBreak);
-                        else if (blowMode.getValue(AutoCrystalRewrite.blow.Packet))
-                            mc.getConnection().sendPacket(new CPacketUseEntity(toBreak));
-
-                        //Swing
-                        if (shouldSwing.getValue())
-                            swing(swingMode.getValue());
-
-                        stage = 2;
-                        timer.reset();
-                    }
-                }else
-                    stage = 2;
-                break;
-            case 2:
-                if(isValidBlockPos(toPlace)){
-                    if(timer.hasPassedMs(tempPlaceDelay)){
-                        //Switch
-                        boolean flag = false;
-                        if (mc.player.inventory.getCurrentItem().getItem() != Items.END_CRYSTAL) {
-                            flag = true;
-                            if (!autoSwitch.getValue())
-                                return;
-                        }
-                        if (flag) {
-                            final int slot = ItemUtil.getItemFromHotbar(Items.END_CRYSTAL);
-                            if (slot == -1) return;
-                            mc.player.inventory.currentItem = slot;
-                            mc.playerController.updateController();
-                        }
-
-                        //Facing
-                        EnumFacing facing = EnumFacing.UP;
-
-                        boolean shouldRotate = true;
-
-                        //RayTrace result
-                        if(placeRayTraceResult.getValue()) {
-                            RayTraceResult result = mc.world.rayTraceBlocks(
-                                    new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ),
-                                    new Vec3d(toPlace.getX() + 0.5, toPlace.getY() - 0.5, toPlace.getZ() + 0.5));
-
-                            if (result != null && result.sideHit != null) {
-                                facing = result.sideHit;
-                                rotate(result.hitVec);
-                                shouldRotate = false;
-                            }
-                        }
-
-                        if(shouldRotate)
-                            rotate(new Vec3d(toPlace.getX() + 0.5, toPlace.getY() - 0.5, toPlace.getZ() + 0.5));
-
-                        mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(toPlace, facing, EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
-
-                        stage = 1;
-                        timer.reset();
-                    }
-                }else
-                    stage = 1;
-                break;
-        }
+        //Placing / Breaking
     });
 
     public void swing(AutoCrystalRewrite.swing swing) {
@@ -279,21 +187,123 @@ public class AutoCrystalRewrite2 extends Module {
         }
     }
 
+    public void switchItem(){
+        boolean flag = false;
+        if (mc.player.inventory.getCurrentItem().getItem() != Items.END_CRYSTAL) {
+            flag = true;
+            if (!autoSwitch.getValue())
+                return;
+        }
+        if (flag) {
+            final int slot = ItemUtil.getItemFromHotbar(Items.END_CRYSTAL);
+            if (slot == -1) return;
+            mc.player.inventory.currentItem = slot;
+            mc.playerController.updateController();
+        }
+    }
+
     public void rotate(Vec3d vec3d){
         rotationVec = vec3d;
         canRotate = true;
         rotationsSpoofed = 0;
     }
 
+    public EntityEnderCrystal bestCrystal(){
+        EntityEnderCrystal bestCrystal = null;
+        for(EntityEnderCrystal crystal : CrystalUtils.getCrystals(breakRange.getValue())){
+            if(!isValidCrystal(crystal)) continue;
+            if(bestCrystal == null)
+                bestCrystal = crystal;
+            else if(getDamageFactor(crystal) > getDamageFactor(bestCrystal))
+                    bestCrystal = crystal;
+        }
+        return bestCrystal;
+    }
+
+    public BlockPos bestPlacePos(){
+        BlockPos bestPosition = null;
+        for(BlockPos pos : BlockUtil.getSphere(placeRange.getValue(), true)){
+            if(!isValidBlockPos(pos)) continue;
+            if(bestPosition == null)
+                bestPosition = pos;
+            else if(getDamageFactor(bestPosition) < getDamageFactor(pos))
+                bestPosition = pos;
+        }
+        return bestPosition;
+    }
+
+    public float getDamageFactor(EntityEnderCrystal crystal){
+        return CrystalUtils.calculateDamage(crystal, target) - CrystalUtils.calculateDamage(crystal, mc.player);
+    }
+
+    public float getDamageFactor(BlockPos pos){
+        return CrystalUtils.calculateDamage(pos, target) - CrystalUtils.calculateDamage(pos, mc.player);
+    }
+
     public boolean isValidCrystal(EntityEnderCrystal crystal){
-        return crystal != null
-                && ((faceBreak.getValue() && (target.getPosition().getY()+1 == crystal.getPosition().getY() && target.getHealth() <= targetHealth.getValue()) || (!faceBreak.getValue() && (target.getPosition().getY() + 1 != crystal.getPosition().getY())))
-                && (!noSuicide.getValue() || (mc.player.getHealth() - CrystalUtils.calculateDamage(crystal, mc.player) > noSuicidePlHealth.getValue())));
+
+        //IsNull and IsDead check
+        if(crystal == null || crystal.isDead)
+            return false;
+
+        //Distance check
+        if(crystal.getDistance(mc.player) > (mc.player.canEntityBeSeen(crystal) ? breakRange.getValue() : breakWallRange.getValue()))
+            return false;
+
+        //Max Self && Min Target check
+        if(CrystalUtils.calculateDamage(crystal, mc.player) > maxSelfDmg.getValue() || CrystalUtils.calculateDamage(crystal, target) < minTargetDmg.getValue())
+            return false;
+
+        //Face break check
+        if(faceBreak.getValue() && (target.getPosition().getY()+1 == crystal.getPosition().getY()) && (target.getHealth() + target.getAbsorptionAmount() > targetHealth.getValue()))
+            return false;
+
+        //No suicide check
+        if(noSuicide.getValue() && mc.player.getHealth() + mc.player.getAbsorptionAmount() - CrystalUtils.calculateDamage(crystal, mc.player) < noSuicidePlHealth.getValue())
+            return false;
+
+        //We passed all check so crystal is valid
+        return true;
     }
 
     public boolean isValidBlockPos(BlockPos pos){
-        return pos != null
-                && ((facePlace.getValue() && (target.getPosition().getY() == pos.getY() && target.getHealth() <= targetHealth.getValue()) || (!facePlace.getValue() && target.getPosition().getY() != pos.getY()))
-                && (!noSuicide.getValue() || (mc.player.getHealth() - CrystalUtils.calculateDamage(pos, mc.player) > noSuicidePlHealth.getValue())));
+        //IsNull check
+        if(pos == null)
+            return false;
+
+        //Can place crystal
+        if(!CrystalUtils.canPlaceCrystal(pos))
+            return false;
+
+        //Distance check
+        if(mc.player.getDistanceSq(pos) > (PlayerUtil.canSeeBlock(pos) ? placeRange.getValue()*placeRange.getValue() : placeWallRange.getValue()*placeWallRange.getValue()))
+            return false;
+
+        //Min self damage && Max target damage
+        if(CrystalUtils.calculateDamage(pos, mc.player) > maxSelfDmg.getValue() || CrystalUtils.calculateDamage(pos, target) < minTargetDmg.getValue())
+            return false;
+
+        //Face break check
+        if(faceBreak.getValue() && (target.getPosition().getY() == pos.getY()) && (target.getHealth() + target.getAbsorptionAmount() > targetHealth.getValue()))
+            return false;
+
+        //No suicide check
+        if(noSuicide.getValue() && mc.player.getHealth() + mc.player.getAbsorptionAmount() - CrystalUtils.calculateDamage(pos, mc.player) < noSuicidePlHealth.getValue())
+            return false;
+
+        //We passed all check so pos is valid
+        return true;
+    }
+
+    public boolean needToPause(){
+        if(pauseWhileEating.getValue()
+                && (mc.player.getHeldItemOffhand().getItem() instanceof ItemFood || mc.player.getHeldItemMainhand().getItem() instanceof ItemFood)
+                && mc.gameSettings.keyBindUseItem.isKeyDown())
+            return true;
+
+        if(cevBreaker.isEnabled.getValue() || aura.isEnabled.getValue() || blockFly.isEnabled.getValue())
+            return true;
+
+        return false;
     }
 }
