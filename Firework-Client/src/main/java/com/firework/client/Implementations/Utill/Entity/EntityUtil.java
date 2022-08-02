@@ -37,6 +37,9 @@ public class EntityUtil {
             return true;
         return false;
     }
+    public static float getHealth(final EntityLivingBase player) {
+        return player.getHealth() + player.getAbsorptionAmount();
+    }
 
     public static boolean isMobAggressive(Entity entity)
     {

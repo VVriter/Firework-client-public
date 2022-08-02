@@ -24,4 +24,10 @@ public class RainbowUtil {
         }
         return Color.HSBtoRGB(hue += 0.5f, 0.5f, 1.0f);
     }
+
+    public static int getRainbow(final int speed, final int offset, final float s) {
+        final float hue = (float)((System.currentTimeMillis() + offset) % speed);
+        return Color.getHSBColor(hue / speed, s, 1.0f).getRGB();
+    }
+
 }

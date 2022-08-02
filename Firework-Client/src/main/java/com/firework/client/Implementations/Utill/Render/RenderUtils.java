@@ -789,4 +789,184 @@ public class RenderUtils {
         tessellator.draw();
     }
 
+
+    public static void drawLine(final float x, final float y, final float x1, final float y1, final float width) {
+        GL11.glDisable(3553);
+        GL11.glLineWidth(width);
+        GL11.glBegin(1);
+        GL11.glVertex2f(x, y);
+        GL11.glVertex2f(x1, y1);
+        GL11.glEnd();
+        GL11.glEnable(3553);
+    }
+
+    public static void drawRect(final Rectangle rectangle, final int color) {
+        drawRect((float)rectangle.x, (float)rectangle.y, (float)(rectangle.x + rectangle.width), (float)(rectangle.y + rectangle.height), color);
+    }
+
+    public static void drawRect(final float x, final float y, final float x1, final float y1, final int color) {
+        final float alpha = (color >> 24 & 0xFF) / 255.0f;
+        final float red = (color >> 16 & 0xFF) / 255.0f;
+        final float green = (color >> 8 & 0xFF) / 255.0f;
+        final float blue = (color & 0xFF) / 255.0f;
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        final BufferBuilder builder = RenderUtils.tessellator.getBuffer();
+        builder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        builder.pos((double)x, (double)y1, 0.0).color(red, green, blue, alpha).endVertex();
+        builder.pos((double)x1, (double)y1, 0.0).color(red, green, blue, alpha).endVertex();
+        builder.pos((double)x1, (double)y, 0.0).color(red, green, blue, alpha).endVertex();
+        builder.pos((double)x, (double)y, 0.0).color(red, green, blue, alpha).endVertex();
+        RenderUtils.tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
+    public static void drawRect(final float x, final float y, final float x1, final float y1) {
+        final BufferBuilder builder = RenderUtils.tessellator.getBuffer();
+        builder.begin(7, DefaultVertexFormats.POSITION);
+        builder.pos((double)x, (double)y1, 0.0).endVertex();
+        builder.pos((double)x1, (double)y1, 0.0).endVertex();
+        builder.pos((double)x1, (double)y, 0.0).endVertex();
+        builder.pos((double)x, (double)y, 0.0).endVertex();
+        RenderUtils.tessellator.draw();
+    }
+
+    public static void drawBorderedRect(float x, float y, float x1, float y1, final int insideC, final int borderC) {
+        enableGL2D();
+        x *= 2.0f;
+        x1 *= 2.0f;
+        y *= 2.0f;
+        y1 *= 2.0f;
+        GL11.glScalef(0.5f, 0.5f, 0.5f);
+        drawVLine(x, y, y1 - 1.0f, borderC);
+        drawVLine(x1 - 1.0f, y, y1, borderC);
+        drawHLine(x, x1 - 1.0f, y, borderC);
+        drawHLine(x, x1 - 2.0f, y1 - 1.0f, borderC);
+        drawRect(x + 1.0f, y + 1.0f, x1 - 1.0f, y1 - 1.0f, insideC);
+        GL11.glScalef(2.0f, 2.0f, 2.0f);
+        disableGL2D();
+    }
+
+    public static void drawOutlineRect(final float x, final float y, final float w, final float h, final float lineWidth, final int c) {
+        drawRect(x, y, x - lineWidth, h, c);
+        drawRect(w + lineWidth, y, w, h, c);
+        drawRect(x, y, w, y - lineWidth, c);
+        drawRect(x, h + lineWidth, w, h, c);
+    }
+
+    public static void disableGL2D(final boolean unused) {
+        GL11.glEnable(3553);
+        GL11.glDisable(3042);
+        GL11.glEnable(2929);
+        GL11.glDisable(2848);
+        GL11.glHint(3154, 4352);
+        GL11.glHint(3155, 4352);
+    }
+
+    public static void enableGL2D(final boolean unused) {
+        GL11.glDisable(2929);
+        GL11.glEnable(3042);
+        GL11.glDisable(3553);
+        GL11.glBlendFunc(770, 771);
+        GL11.glDepthMask(true);
+        GL11.glEnable(2848);
+        GL11.glHint(3154, 4354);
+        GL11.glHint(3155, 4354);
+    }
+
+    public static void drawRect(final float x, final float y, final float x1, final float y1, final int color, final int ignored) {
+        enableGL2D(false);
+        glColor(color);
+        GL11.glBegin(7);
+        GL11.glVertex2f(x, y1);
+        GL11.glVertex2f(x1, y1);
+        GL11.glVertex2f(x1, y);
+        GL11.glVertex2f(x, y);
+        GL11.glEnd();
+        disableGL2D(false);
+    }
+
+    public static void enableGL2D() {
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+    }
+
+    public static void disableGL2D() {
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
+    public static void drawGradientBorderedRect(float x, float y, float x1, float y1, final int insideC) {
+        enableGL2D();
+        x *= 2.0f;
+        x1 *= 2.0f;
+        y *= 2.0f;
+        y1 *= 2.0f;
+        GL11.glScalef(0.5f, 0.5f, 0.5f);
+        drawVLine(x, y, y1 - 1.0f, new Color(RainbowUtil.getRainbow(5000, 0, 1.0f)).getRGB());
+        drawVLine(x1 - 1.0f, y, y1, new Color(RainbowUtil.getRainbow(5000, 1000, 1.0f)).getRGB());
+        drawGradientHLine(x, x1 - 1.0f, y, new Color(RainbowUtil.getRainbow(5000, 0, 1.0f)).getRGB(), new Color(RainbowUtil.getRainbow(5000, 1000, 1.0f)).getRGB());
+        drawGradientHLine(x, x1 - 2.0f, y1 - 1.0f, new Color(RainbowUtil.getRainbow(5000, 0, 1.0f)).getRGB(), new Color(RainbowUtil.getRainbow(5000, 1000, 1.0f)).getRGB());
+        drawRect(x + 1.0f, y + 1.0f, x1 - 1.0f, y1 - 1.0f, insideC);
+        GL11.glScalef(2.0f, 2.0f, 2.0f);
+        disableGL2D();
+    }
+
+    public static void drawGradientHRect(final float x, final float y, final float x1, final float y1, final int topColor, final int bottomColor) {
+        final float alpha = (topColor >> 24 & 0xFF) / 255.0f;
+        final float red = (topColor >> 16 & 0xFF) / 255.0f;
+        final float green = (topColor >> 8 & 0xFF) / 255.0f;
+        final float blue = (topColor & 0xFF) / 255.0f;
+        final float alpha2 = (bottomColor >> 24 & 0xFF) / 255.0f;
+        final float red2 = (bottomColor >> 16 & 0xFF) / 255.0f;
+        final float green2 = (bottomColor >> 8 & 0xFF) / 255.0f;
+        final float blue2 = (bottomColor & 0xFF) / 255.0f;
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.shadeModel(7425);
+        final BufferBuilder builder = RenderUtils.tessellator.getBuffer();
+        builder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        builder.pos((double)x, (double)y, 0.0).color(red, green, blue, alpha).endVertex();
+        builder.pos((double)x, (double)y1, 0.0).color(red, green, blue, alpha).endVertex();
+        builder.pos((double)x1, (double)y1, 0.0).color(red2, green2, blue2, alpha2).endVertex();
+        builder.pos((double)x1, (double)y, 0.0).color(red2, green2, blue2, alpha2).endVertex();
+        RenderUtils.tessellator.draw();
+        GlStateManager.shadeModel(7424);
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
+
+  public static void drawHLine(float x, float y, final float x1, final int y1) {
+        if (y < x) {
+            final float var5 = x;
+            x = y;
+            y = var5;
+        }
+        drawRect(x, x1, y + 1.0f, x1 + 1.0f, y1);
+    }
+
+    public static void drawGradientHLine(float x, float y, final float x1, final int color1, final int color2) {
+        if (y < x) {
+            final float var5 = x;
+            x = y;
+            y = var5;
+        }
+        drawGradientHRect(x, x1, y + 1.0f, x1 + 1.0f, color1, color2);
+    }
+
+    public static void drawVLine(final float x, float y, float x1, final int y1) {
+        if (x1 < y) {
+            final float var5 = y;
+            y = x1;
+            x1 = var5;
+        }
+        drawRect(x, y + 1.0f, x + 1.0f, x1, y1);
+    }
+
+
 }
