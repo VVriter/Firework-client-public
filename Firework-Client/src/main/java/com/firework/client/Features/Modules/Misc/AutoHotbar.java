@@ -12,7 +12,7 @@ import net.minecraft.network.play.client.CPacketHeldItemChange;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-@ModuleManifest(name = "AutoHotbar", category = Module.Category.COMBAT)
+@ModuleManifest(name = "AutoHotbar", category = Module.Category.MISCELLANEOUS)
 public class AutoHotbar extends Module {
 
     private int lastSlot = -1;
