@@ -27,7 +27,6 @@ public class PopChams extends Module {
     int alpha;
     Timer timer = new Timer();
 
-
     @Subscribe
     public Listener<TotemPopEvent> listener = new Listener<>(e-> {
         alpha = 225;
@@ -37,9 +36,9 @@ public class PopChams extends Module {
     @Subscribe
     public Listener<Render3dE> listener1 = new Listener<>(e-> {
         if (posToRender != null) {
-            BlockPos pos = new BlockPos(Math.round(posToRender.x), Math.round(posToRender.y),Math.round(posToRender.z));
-            RenderUtils.drawBoxESP(pos, Color.CYAN,1,true,true,alpha,1);
 
+            BlockPos pos = new BlockPos(Math.round(posToRender.x), Math.round(posToRender.y),Math.round(posToRender.z));
+            RenderUtils.drawBoxESP(pos, Color.CYAN,1,true,true,alpha,2);
 
             if (alpha>1 && timer.hasPassedMs(alphaDelay.getValue())) {
                 alpha--;
@@ -51,4 +50,5 @@ public class PopChams extends Module {
             }
         }
     });
+
 }
