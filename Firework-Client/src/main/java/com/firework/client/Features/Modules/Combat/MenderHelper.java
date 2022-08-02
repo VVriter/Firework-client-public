@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.Player.PlayerUpdateEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.ArmorUtils;
@@ -29,7 +30,7 @@ public class MenderHelper extends Module {
     //Auto armor
     public Setting<Boolean> autoArmor = new Setting<>("AutoArmor", true, this);
     public Setting<Boolean> binding = new Setting<>("Binding", true, this).setVisibility(v-> autoArmor.getValue());
-    public Setting<Boolean> xCarry = new Setting<>("XCarry", true, this).setVisibility(v-> autoArmor.getValue());
+    public Setting<Boolean> xCarry = new Setting<>("XCarry", false, this).setVisibility(v-> autoArmor.getValue());
     public Setting<Boolean> packetSpoof = new Setting<>("PacketSpoof", true, this);
     ArrayList<Integer> targetArmorSlots = new ArrayList<>();
 
@@ -68,7 +69,7 @@ public class MenderHelper extends Module {
     }
 
     @Subscribe
-    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
+    public Listener<PlayerUpdateEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
 
         if(mc.currentScreen instanceof GuiContainer) return;
