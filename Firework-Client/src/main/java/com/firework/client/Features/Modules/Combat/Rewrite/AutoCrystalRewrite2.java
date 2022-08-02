@@ -39,6 +39,7 @@ import net.minecraft.util.math.Vec3d;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
+import java.util.List;
 import java.util.Objects;
 
 @ModuleManifest(name = "AutoCrystalRewrite2", category = Module.Category.COMBAT)
@@ -209,35 +210,37 @@ public class AutoCrystalRewrite2 extends Module {
     }
 
     public EntityEnderCrystal bestCrystal(){
-        EntityEnderCrystal bestCrystal = null;
-        for(EntityEnderCrystal crystal : CrystalUtils.getCrystals(breakRange.getValue())){
-            if(!isValidCrystal(crystal)) continue;
-            if(bestCrystal == null)
-                bestCrystal = crystal;
-            else if(getDamageFactor(crystal) > getDamageFactor(bestCrystal))
-                    bestCrystal = crystal;
+        EntityEnderCrystal crystal = null;
+        double maxDamage = 0.5;
+        for (int size = this.mc.world.loadedEntityList.size(), i = 0; i < size; ++i) {
+            final Entity entity = this.mc.world.loadedEntityList.get(i);
+            if (entity instanceof EntityEnderCrystal && isValidCrystal((EntityEnderCrystal) entity)) {
+                final float targetDamage = CrystalUtils.calculateDamage(entity.posX, entity.posY, entity.posZ, target);
+                if (maxDamage <= targetDamage) {
+                    maxDamage = targetDamage;
+                    crystal = (EntityEnderCrystal) entity;
+                }
+            }
         }
-        return bestCrystal;
+        return crystal;
     }
 
     public BlockPos bestPlacePos(){
-        BlockPos bestPosition = null;
-        for(BlockPos pos : BlockUtil.getSphere(placeRange.getValue(), true)){
-            if(!isValidBlockPos(pos)) continue;
-            if(bestPosition == null)
-                bestPosition = pos;
-            else if(getDamageFactor(bestPosition) < getDamageFactor(pos))
-                bestPosition = pos;
+        BlockPos placePos = null;
+        double maxDamage = 0.5;
+        final List<BlockPos> sphere = BlockUtil.getSphereRealth(placeRange.getValue(), true);
+        for (int size = sphere.size(), i = 0; i < size; ++i) {
+            final BlockPos pos = sphere.get(i);
+            if (isValidBlockPos(pos)) {
+                final float targetDamage = CrystalUtils.calculateDamage(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, target);
+                if (maxDamage <= targetDamage) {
+                    maxDamage = targetDamage;
+                    placePos = pos;
+                    renderPlacePos = pos;
+                }
+            }
         }
-        return bestPosition;
-    }
-
-    public float getDamageFactor(EntityEnderCrystal crystal){
-        return CrystalUtils.calculateDamage(crystal, target) - CrystalUtils.calculateDamage(crystal, mc.player);
-    }
-
-    public float getDamageFactor(BlockPos pos){
-        return CrystalUtils.calculateDamage(pos, target) - CrystalUtils.calculateDamage(pos, mc.player);
+        return placePos;
     }
 
     public boolean isValidCrystal(EntityEnderCrystal crystal){
