@@ -2,7 +2,6 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Implementations.Events.Player.PlayerUpdateEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.ArmorUtils;
@@ -55,6 +54,8 @@ public class MenderHelper extends Module {
     Timer timer;
     ItemUser itemUser;
 
+    boolean shouldMend = false;
+
     @Override
     public void onEnable() {
         super.onEnable();
@@ -79,19 +80,24 @@ public class MenderHelper extends Module {
                 39,38,37,36
         };
 
-        //Process armor slots
-        for(Integer slot : armorSlots){
+        //Adding armor slots
+        for(Integer slot : armorSlots) {
+            //Armor item stack
             ItemStack armor = InventoryUtil.getItemStack(slot);
-            //Auto armor slots adding
-            if(autoArmor.getValue()) {
-                if (armor.isEmpty())
+
+            //Auto armor slots
+            if (autoArmor.getValue()) {
+                if (InventoryUtil.getItemStack(slot).isEmpty()) {
                     targetArmorSlots.add(slot);
-            }
-            //Armor slots to mend adding
-            if(mend.getValue() && menderMode.getValue(mendMode.Auto)){
-                if(armor.isItemDamaged() && ArmorUtils.getPercentageDurability(armor) <= percent.getValue()) {
-                    targetArmorMendSlots.add(slot);
+                    continue;
                 }
+            }
+
+            //Mend slots
+            if (armor.isItemDamaged() && ArmorUtils.getPercentageDurability(armor) <= percent.getValue()){
+                targetArmorMendSlots.add(slot);
+                shouldMend = true;
+                continue;
             }
         }
 
@@ -103,7 +109,7 @@ public class MenderHelper extends Module {
             for (Integer slot : targetArmorSlots) {
                 int armorSlot = InventoryUtil.findArmorSlot(InventoryUtil.getEquipmentFromSlot(slot), binding.getValue(), xCarry.getValue());
                 if (armorSlot != -1) {
-                    mc.playerController.windowClick(mc.player.inventoryContainer.windowId, armorSlot, 0, ClickType.SWAP, mc.player);
+                    mc.playerController.windowClick(mc.player.inventoryContainer.windowId, armorSlot, 0, ClickType.QUICK_MOVE, mc.player);
                 }
             }
             targetArmorSlots.clear();
@@ -112,16 +118,17 @@ public class MenderHelper extends Module {
                 mc.player.connection.sendPacket(new CPacketCloseWindow());
         }
 
-        //Mend fun
+        //Mending fun
         if(mend.getValue()){
             if(menderMode.getValue(mendMode.Auto)) {
-                if (!targetArmorMendSlots.isEmpty()) {
+                if (!targetArmorMendSlots.isEmpty() && shouldMend) {
                     if (InventoryUtil.getItemHotbar(Items.EXPERIENCE_BOTTLE) != -1 && timer.hasPassedMs(delay.getValue())) {
                         itemUser.useItem(Items.EXPERIENCE_BOTTLE, lookPitch.getValue());
                         timer.reset();
                     }
                     targetArmorMendSlots.clear();
-                }
+                }else
+                    shouldMend = false;
             }else if(menderMode.getValue(mendMode.CustomBind) && Keyboard.isKeyDown(key.getValue())){
                 if (InventoryUtil.getItemHotbar(Items.EXPERIENCE_BOTTLE) != -1 && timer.hasPassedMs(delay.getValue())) {
                     itemUser.useItem(Items.EXPERIENCE_BOTTLE, lookPitch.getValue());
