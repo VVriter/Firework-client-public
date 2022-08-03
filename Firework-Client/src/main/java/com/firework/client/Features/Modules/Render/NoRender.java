@@ -92,6 +92,7 @@ public class NoRender extends Module {
     }
 
 
+    @Override
     public void onEnable(){
         super.onEnable();
         if(viewBobbing.getValue()){mc.gameSettings.viewBobbing = false;}
@@ -120,6 +121,7 @@ public class NoRender extends Module {
         {event.setCancelled(true);}
     });
 
+    @Override
     public void onDisable(){
         super.onDisable();
         mc.gameSettings.viewBobbing = true;

@@ -3,6 +3,7 @@ package com.firework.client.Implementations.Mixins.MixinsList.Misc;
 import com.firework.client.Features.Modules.Misc.PacketUse;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Player.BlockClickEvent;
+import com.firework.client.Implementations.Events.Player.PlayerDestroyBlockEvent;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
@@ -48,5 +49,15 @@ public abstract class MixinPlayerControllerMP {
         Firework.eventBus.post(event);
         if(event.isCancelled())
             cir.cancel();
+    }
+
+    @Inject(method={"onPlayerDestroyBlock"}, at={@At(value="INVOKE", target="net/minecraft/block/Block.removedByPlayer(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/player/EntityPlayer;Z)Z")}, cancellable=true)
+    private void onPlayerDestroyBlock(BlockPos blockPos, CallbackInfoReturnable<Boolean> cir) {
+        PlayerDestroyBlockEvent event = new PlayerDestroyBlockEvent(blockPos);
+        Firework.eventBus.post(event);
+
+        if (event.isCancelled()) {
+            cir.setReturnValue(false);
+        }
     }
 }

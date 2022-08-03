@@ -98,6 +98,7 @@ public class AutoCrystalRewrite2 extends Module {
     public Setting<Boolean> noSuicide = new Setting<>("NoSuicide", true, this);
     public Setting<Integer> noSuicidePlHealth = new Setting<>("SelfHealth", 10, this, 0, 36).setVisibility(v-> noSuicide.getValue());
     public Setting<Boolean> pauseWhileEating = new Setting<>("PauseWhileEating", true, this);
+    public Setting<Boolean> pauseWhileDigging = new Setting<>("PauseWhileDigging", true, this);
 
     //Render
     public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);
@@ -415,6 +416,9 @@ public class AutoCrystalRewrite2 extends Module {
         if(pauseWhileEating.getValue()
                 && (mc.player.getHeldItemOffhand().getItem() instanceof ItemFood || mc.player.getHeldItemMainhand().getItem() instanceof ItemFood)
                 && mc.gameSettings.keyBindUseItem.isKeyDown())
+            return true;
+
+        if(pauseWhileDigging.getValue() && mc.playerController.getIsHittingBlock())
             return true;
 
         if(cevBreaker.isEnabled.getValue() || aura.isEnabled.getValue() || blockFly.isEnabled.getValue())
