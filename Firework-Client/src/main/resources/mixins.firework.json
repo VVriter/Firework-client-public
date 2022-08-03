@@ -42,6 +42,7 @@
     "Render.MixinRenderLivingBase",
     "IItemRenderer",
     "ICPacketPlayerTryUseItemOnBlock",
-    "Render.MixinLayerBipedArmor"
+    "Render.MixinLayerBipedArmor",
+    "Else.MixinTileEntityShulkerBox"
   ]
 }

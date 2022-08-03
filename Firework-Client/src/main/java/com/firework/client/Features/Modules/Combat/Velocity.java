@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.Movement.PushedByShulkerEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushedByWaterEvent;
@@ -23,6 +24,8 @@ public class Velocity extends Module {
     public Setting<Boolean> velocityPacket = new Setting<>("KnockBack", true, this);
     public Setting<Boolean> explosions = new Setting<>("Explosions", true, this);
     public Setting<Boolean> noPush = new Setting<>("NoPush", true, this);
+
+    public Setting<Boolean> shulkers = new Setting<>("Shulkers", true, this);
 
     public Setting<Double> horizontal = new Setting<>("Horizontal", (double)0, this, -0.3, 100);
     public Setting<Double> vertical = new Setting<>("Vertical", (double)0, this, -0.3, 100);
@@ -71,5 +74,10 @@ public class Velocity extends Module {
         e.setCancelled(noPush.getValue());
         }
     );
+
+    @Subscribe
+    public Listener<PushedByShulkerEvent> shulker = new Listener<>(e-> {
+        e.setCancelled(shulkers.getValue());
+    });
 }
 
