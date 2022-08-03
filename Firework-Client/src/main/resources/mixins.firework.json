@@ -42,7 +42,6 @@
     "Render.MixinRenderLivingBase",
     "IItemRenderer",
     "ICPacketPlayerTryUseItemOnBlock",
-    "Render.MixinLayerBipedArmor",
-    "IRenderManager"
+    "Render.MixinLayerBipedArmor"
   ]
 }
