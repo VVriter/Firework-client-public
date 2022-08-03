@@ -43,6 +43,9 @@
     "IItemRenderer",
     "ICPacketPlayerTryUseItemOnBlock",
     "Render.MixinLayerBipedArmor",
-    "Else.MixinTileEntityShulkerBox"
+    "Else.MixinTileEntityShulkerBox",
+    "IEntityArrow",
+    "Misc.MixinTabCompleter",
+    "Misc.MixinTextFormatting"
   ]
 }
