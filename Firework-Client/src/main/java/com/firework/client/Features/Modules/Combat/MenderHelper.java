@@ -11,6 +11,7 @@ import com.firework.client.Implementations.Utill.Items.ItemUser;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketCloseWindow;
 import net.minecraft.network.play.client.CPacketEntityAction;
@@ -69,7 +70,7 @@ public class MenderHelper extends Module {
     }
 
     @Subscribe
-    public Listener<PlayerUpdateEvent> listener1 = new Listener<>(event -> {
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
 
         if(mc.currentScreen instanceof GuiContainer) return;
@@ -102,9 +103,7 @@ public class MenderHelper extends Module {
             for (Integer slot : targetArmorSlots) {
                 int armorSlot = InventoryUtil.findArmorSlot(InventoryUtil.getEquipmentFromSlot(slot), binding.getValue(), xCarry.getValue());
                 if (armorSlot != -1) {
-                    InventoryUtil.clickSlot(armorSlot);
-                    InventoryUtil.clickSlot(slot);
-                    InventoryUtil.clickSlot(armorSlot);
+                    mc.playerController.windowClick(mc.player.inventoryContainer.windowId, armorSlot, 0, ClickType.SWAP, mc.player);
                 }
             }
             targetArmorSlots.clear();
