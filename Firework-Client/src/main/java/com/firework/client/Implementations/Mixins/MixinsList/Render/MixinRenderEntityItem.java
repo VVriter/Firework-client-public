@@ -54,6 +54,10 @@ public abstract class MixinRenderEntityItem
         return rotationPitch > 0.0f ? (double)rotationPitch : (double)(-rotationPitch);
     }
 
+    /**
+     * @author bebrik
+     * @reason nado
+     */
     @Overwrite
     private int transformModelCount(EntityItem itemIn, double x, double y, double z, float p_177077_8_, IBakedModel p_177077_9_) {
         if (ItemPhysics.enabled.getValue()) {
@@ -91,6 +95,10 @@ public abstract class MixinRenderEntityItem
         return i;
     }
 
+    /**
+     * @author gegra
+     * @reason nada
+     */
     @Overwrite
     public void doRender(EntityItem entity, double x, double y, double z, float entityYaw, float partialTicks) {
         if (ItemPhysics.enabled.getValue()) {

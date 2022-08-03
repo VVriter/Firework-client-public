@@ -2,17 +2,15 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Features.Modules.Test;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.RenderEntityUtils;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityMinecartChest;
+import net.minecraft.entity.item.*;
 import net.minecraft.tileentity.*;
-import net.minecraft.util.math.RayTraceResult;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
@@ -33,11 +31,22 @@ public class ESP extends Module {
     public Setting<Boolean> dispenser = new Setting<>("Dispenser", true, this).setVisibility(v-> storagesSubBool.getValue());
     public Setting<Boolean> dropper = new Setting<>("Dropper", true, this).setVisibility(v-> storagesSubBool.getValue());
     public Setting<Boolean> hopper = new Setting<>("Hopper", true, this).setVisibility(v-> storagesSubBool.getValue());
+    public Setting<Boolean> frame = new Setting<>("Frame", true, this).setVisibility(v-> storagesSubBool.getValue());
 
     public Setting<Boolean> entitiesSubBool = new Setting<>("Entities", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> minecart = new Setting<>("Minecart", true, this).setVisibility(v-> entitiesSubBool.getValue());
     public Setting<Boolean> armorStand = new Setting<>("ArmorStand", true, this).setVisibility(v-> entitiesSubBool.getValue());
     public Setting<Boolean> boat = new Setting<>("Boat", true, this).setVisibility(v-> entitiesSubBool.getValue());
+
+    public Setting<Boolean> miscSubBool = new Setting<>("Misc", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Mode> mode = new Setting<>("Mode", Mode.Sphere , this).setVisibility(v-> miscSubBool.getValue());
+    public enum Mode{
+        Sphere, Circle
+    }
+    public Setting<Boolean> pearl = new Setting<>("Pearl", true, this).setVisibility(v-> miscSubBool.getValue());
+    public Setting<Boolean> exp = new Setting<>("ExpBottle", true, this).setVisibility(v-> miscSubBool.getValue());
+    public Setting<Boolean> items = new Setting<>("Items", true, this).setVisibility(v-> miscSubBool.getValue());
+    public Setting<Boolean> enderEye = new Setting<>("EnderEye", true, this).setVisibility(v-> miscSubBool.getValue());
 
 
     @Subscribe
@@ -65,7 +74,33 @@ public class ESP extends Module {
                 RenderUtils.drawBoxESP(((EntityArmorStand) c).getPosition(),Color.magenta,3,true,true,160,2);
             }  if (c instanceof EntityBoat && boat.getValue()) {
                 RenderEntityUtils.drawESP((Entity) c,1,1,255,150,1);
-            } 
+            }  if (c instanceof EntityItemFrame && frame.getValue()) {
+                RenderUtils.drawBoxESP(((EntityItemFrame) c).getPosition(),new Color(107, 84, 8),3,true,true,160,1);
+            }  if (c instanceof EntityEnderPearl && pearl.getValue()) {
+                if (mode.getValue(Mode.Sphere)) {
+                    RenderUtils.drawSphere(((EntityEnderPearl) c).getPositionVector(),0.3,3,new Color(RainbowUtil.generateRainbowFadingColor(1,true)));
+                } else if (mode.getValue(Mode.Circle)) {
+                    RenderUtils.drawCircle(((EntityEnderPearl) c).getPositionVector(),0.3, new Color(RainbowUtil.generateRainbowFadingColor(1,true)),3);
+                }
+            }  if (c instanceof EntityExpBottle && exp.getValue()) {
+                if (mode.getValue(Mode.Sphere)) {
+                    RenderUtils.drawSphere(((EntityExpBottle) c).getPositionVector(),0.3,3,new Color(RainbowUtil.generateRainbowFadingColor(1,true)));
+                } else if (mode.getValue(Mode.Circle)) {
+                    RenderUtils.drawCircle(((EntityExpBottle) c).getPositionVector(),0.3, new Color(RainbowUtil.generateRainbowFadingColor(1,true)),3);
+                }
+            }  if (c instanceof EntityItem && items.getValue()) {
+                if (mode.getValue(Mode.Sphere)) {
+                    RenderUtils.drawSphere(((EntityItem) c).getPositionVector(),0.3,3,new Color(RainbowUtil.generateRainbowFadingColor(1,true)));
+                } else if (mode.getValue(Mode.Circle)) {
+                    RenderUtils.drawCircle(((EntityItem) c).getPositionVector(),0.3, new Color(RainbowUtil.generateRainbowFadingColor(1,true)),3);
+                }
+            }   if (c instanceof EntityEnderEye && enderEye.getValue()) {
+                if (mode.getValue(Mode.Sphere)) {
+                    RenderUtils.drawSphere(((EntityEnderEye) c).getPositionVector(),0.3,3,new Color(RainbowUtil.generateRainbowFadingColor(1,true)));
+                } else if (mode.getValue(Mode.Circle)) {
+                    RenderUtils.drawCircle(((EntityEnderEye) c).getPositionVector(),0.3, new Color(RainbowUtil.generateRainbowFadingColor(1,true)),3);
+                }
+            }
         }
     });
 }
