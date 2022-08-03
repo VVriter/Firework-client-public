@@ -46,6 +46,7 @@
     "Else.MixinTileEntityShulkerBox",
     "IEntityArrow",
     "Misc.MixinTabCompleter",
-    "Misc.MixinTextFormatting"
+    "Misc.MixinTextFormatting",
+    "Render.MixinRenderPlayer"
   ]
 }

@@ -46,6 +46,7 @@ public class ESP extends Module {
     public Setting<Boolean> pearl = new Setting<>("Pearl", true, this).setVisibility(v-> miscSubBool.getValue());
     public Setting<Boolean> exp = new Setting<>("ExpBottle", true, this).setVisibility(v-> miscSubBool.getValue());
     public Setting<Boolean> items = new Setting<>("Items", true, this).setVisibility(v-> miscSubBool.getValue());
+    public Setting<Boolean> enderEye = new Setting<>("EnderEye", true, this).setVisibility(v-> miscSubBool.getValue());
 
 
     @Subscribe
@@ -92,6 +93,12 @@ public class ESP extends Module {
                     RenderUtils.drawSphere(((EntityItem) c).getPositionVector(),0.3,3,new Color(RainbowUtil.generateRainbowFadingColor(1,true)));
                 } else if (mode.getValue(Mode.Circle)) {
                     RenderUtils.drawCircle(((EntityItem) c).getPositionVector(),0.3, new Color(RainbowUtil.generateRainbowFadingColor(1,true)),3);
+                }
+            }   if (c instanceof EntityEnderEye && enderEye.getValue()) {
+                if (mode.getValue(Mode.Sphere)) {
+                    RenderUtils.drawSphere(((EntityEnderEye) c).getPositionVector(),0.3,3,new Color(RainbowUtil.generateRainbowFadingColor(1,true)));
+                } else if (mode.getValue(Mode.Circle)) {
+                    RenderUtils.drawCircle(((EntityEnderEye) c).getPositionVector(),0.3, new Color(RainbowUtil.generateRainbowFadingColor(1,true)),3);
                 }
             }
         }
