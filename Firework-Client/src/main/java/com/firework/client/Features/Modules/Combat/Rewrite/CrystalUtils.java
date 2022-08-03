@@ -174,4 +174,14 @@ public class CrystalUtils {
         return bestPosition;
     }
 
+    public static EntityEnderCrystal getCrystalAtPos(BlockPos pos) {
+        for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos.add(0, 1, 0)))) {
+            if (entity instanceof EntityEnderCrystal && entity.isEntityAlive()) {
+                return (EntityEnderCrystal)entity;
+            }
+        }
+
+        return null;
+    }
+
 }

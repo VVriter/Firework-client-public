@@ -12,11 +12,9 @@ import com.firework.client.Implementations.Events.ClientTickEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
-import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
-import com.firework.client.Implementations.Utill.Inhibitor;
 import com.firework.client.Implementations.Utill.Items.ItemUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
@@ -30,7 +28,6 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemFood;
 import net.minecraft.network.play.client.CPacketAnimation;
-import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.network.play.server.SPacketSoundEffect;
@@ -56,13 +53,13 @@ public class AutoCrystalRewrite2 extends Module {
 
     //Swing
     public Setting<Boolean> shouldSwing = new Setting<>("Swing", true, this).setVisibility(v-> interaction.getValue());
-    public Setting<AutoCrystalRewrite.swing> swingMode = new Setting<>("SwingMode", AutoCrystalRewrite.swing.Both, this).setVisibility(v-> interaction.getValue());
+    public Setting<swing> swingMode = new Setting<>("SwingMode", swing.Both, this).setVisibility(v-> interaction.getValue());
     public enum swing{
         Main, Off, Both, Packet
     }
 
     //Blow
-    public Setting<AutoCrystalRewrite.blow> blowMode = new Setting<>("Blow", AutoCrystalRewrite.blow.Controller, this).setVisibility(v-> interaction.getValue());
+    public Setting<blow> blowMode = new Setting<>("Blow", blow.Controller, this).setVisibility(v-> interaction.getValue());
     public enum blow{
         Packet, Controller
     }
@@ -221,9 +218,9 @@ public class AutoCrystalRewrite2 extends Module {
                             rotate(crystal.getPositionVector());
 
                         //Blows
-                        if(blowMode.getValue(AutoCrystalRewrite.blow.Controller))
+                        if(blowMode.getValue(blow.Controller))
                             mc.playerController.attackEntity(mc.player, crystal);
-                        else if(blowMode.getValue(AutoCrystalRewrite.blow.Packet))
+                        else if(blowMode.getValue(blow.Packet))
                             mc.getConnection().sendPacket(new CPacketUseEntity(crystal));
 
                         //Swing
@@ -296,7 +293,7 @@ public class AutoCrystalRewrite2 extends Module {
        }
     });
 
-    public void swing(AutoCrystalRewrite.swing swing) {
+    public void swing(swing swing) {
         switch (swing) {
             case Main:
                 //Swings main hand
