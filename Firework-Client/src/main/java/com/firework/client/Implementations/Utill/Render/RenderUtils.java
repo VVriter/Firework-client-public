@@ -152,7 +152,7 @@ public class RenderUtils {
         GlStateManager.popMatrix();
     }
 
-    public static void drawCircle(Vec3d vec3d, double radius, Color color){
+    public static void drawCircle(Vec3d vec3d, double radius, Color color, int lineWidth){
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableDepth();
@@ -161,7 +161,7 @@ public class RenderUtils {
         GlStateManager.depthMask(false);
         GlStateManager.translate(-mc.getRenderManager().viewerPosX, -mc.getRenderManager().viewerPosY, -mc.getRenderManager().viewerPosZ);
         glEnable(GL_LINE_SMOOTH);
-        glLineWidth(1);
+        glLineWidth(lineWidth);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
         bufferBuilder.begin(GL_LINE_LOOP, DefaultVertexFormats.POSITION_COLOR);
