@@ -24,21 +24,5 @@ public class Anchor extends Module {
 
 
 
-    @Subscribe
-    public Listener<Render3dE> listener = new Listener<>(e-> {
-        if (isinHole()) {
-            RenderUtils.drawBoxESP(EntityUtil.getFlooredPos(mc.player), Color.CYAN,1,true,false,1,1);
-        }
-    });
-
-
-
-    //Govnocode added
-    boolean isinHole() {return first() && second() && three() && fore() && five();}
-    boolean first() {return BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player).add(1,0,0)) == Blocks.OBSIDIAN || BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player).add(1,0,0)) == Blocks.BEDROCK;}
-    boolean second() {return BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player).add(-1,0,0)) == Blocks.OBSIDIAN || BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player).add(-1,0,0)) == Blocks.BEDROCK;}
-    boolean three() {return BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player).add(0,0,1)) == Blocks.OBSIDIAN || BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player).add(0,0,1)) == Blocks.BEDROCK;}
-    boolean fore() {return BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player).add(0,0,-1)) == Blocks.OBSIDIAN || BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player).add(0,-1,-1)) == Blocks.BEDROCK;}
-    boolean five() {return BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player).add(0,-1,0)) == Blocks.OBSIDIAN || BlockUtil.getBlock(EntityUtil.getFlooredPos(mc.player).add(0,-2,0)) == Blocks.BEDROCK;}
-
+    
 }
