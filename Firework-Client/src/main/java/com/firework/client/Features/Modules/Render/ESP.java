@@ -10,6 +10,7 @@ import com.firework.client.Implementations.Utill.Render.RenderEntityUtils;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.*;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.*;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
@@ -23,6 +24,8 @@ import java.awt.*;
 )
 public class ESP extends Module {
 
+    public Setting<Boolean> playerSubBool = new Setting<>("Player", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> player = new Setting<>("Enable", true, this).setVisibility(v-> playerSubBool.getValue());
 
     public Setting<Boolean> storagesSubBool = new Setting<>("Storages", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> chest = new Setting<>("Chest", true, this).setVisibility(v-> storagesSubBool.getValue());
@@ -100,6 +103,13 @@ public class ESP extends Module {
                 } else if (mode.getValue(Mode.Circle)) {
                     RenderUtils.drawCircle(((EntityEnderEye) c).getPositionVector(),0.3, new Color(RainbowUtil.generateRainbowFadingColor(1,true)),3);
                 }
+            }
+
+
+
+
+            if (c instanceof EntityPlayer && player.getValue()) {
+                RenderUtils.FillLine((Entity) c,((EntityPlayer) c).getEntityBoundingBox());
             }
         }
     });
