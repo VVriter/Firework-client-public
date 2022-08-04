@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules;
 import com.firework.client.Implementations.Events.Render.Render2dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RoundRenderUtils;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
@@ -26,7 +27,7 @@ public class Test extends Module {
 
     @Subscribe
     public Listener<Render2dE> listener = new Listener<>(e-> {
-        RoundRenderUtils.roundedRectangle(50,50,200,100,20,new Color(200,150,200,255).getRGB());
+        RoundRenderUtils.roundedRectangle(new Rectangle(50,50,200,100),20,new Color(200,150,200,255).getRGB());
     });
 
 }
