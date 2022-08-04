@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.UI.HudRewrite.Huds;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 
 public class HudComponent {
 
@@ -29,4 +30,22 @@ public class HudComponent {
     public void load(){}
 
     public void onRender(){}
+
+    public Corner getCorner(){
+        ScaledResolution resolution = new ScaledResolution(mc);
+        if(x <= resolution.getScaledWidth()/2 && y <= resolution.getScaledHeight()/2)
+            return Corner.LEFT_UP;
+        else if(x <= resolution.getScaledWidth()/2 && y >= resolution.getScaledHeight()/2)
+            return Corner.LEFT_DOWN;
+        else if(x >= resolution.getScaledWidth()/2 && y <= resolution.getScaledHeight()/2)
+            return Corner.RIGHT_UP;
+        else if(x >= resolution.getScaledWidth()/2 && y >= resolution.getScaledHeight()/2)
+            return Corner.LEFT_DOWN;
+
+        return null;
+    }
+
+    public enum Corner{
+        RIGHT_UP, LEFT_UP, RIGHT_DOWN, LEFT_DOWN
+    }
 }

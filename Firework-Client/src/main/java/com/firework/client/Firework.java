@@ -99,7 +99,7 @@ public class Firework
         managers.forEach(Manager::load);
 
         customFontManager = new CFontRenderer("Tcm", 23, true, true);
-        customFontManagerInv = new CFontRenderer("Poppins-SemiBold", 23, true, true);
+        customFontManagerInv = new CFontRenderer("Poppins-Medium", 23, true, true);
         customFontForAlts = new CFontRenderer("Tcm",40,true,true);
         GuiInfo.setupModulesColumns();
         for(Module m : moduleManager.modules)

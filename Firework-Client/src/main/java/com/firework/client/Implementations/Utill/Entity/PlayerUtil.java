@@ -99,6 +99,20 @@ public class PlayerUtil implements Util {
         }
         return closest;
     }
+    public static EntityPlayer getClosestTarget() {
+        double lowestDistance = Integer.MAX_VALUE;
+        EntityPlayer closest = null;
+
+        for (EntityPlayer player : getAll()) {
+            if (player.getDistance(mc.player) < lowestDistance) {
+                if(!FriendManager.friends.contains(player.getDisplayNameString())) {
+                    lowestDistance = player.getDistance(mc.player);
+                    closest = player;
+                }
+            }
+        }
+        return closest;
+    }
 
     public static boolean canSeeBlock(BlockPos p_Pos)
     {

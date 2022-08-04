@@ -105,6 +105,19 @@ public class InventoryUtil
         return -1;
     }
 
+    public static boolean hasItem(Item input) {
+        for(int i = 36; i >= 0; i--) {
+            final Item item = mc.player.inventory.getStackInSlot(i).getItem();
+            if(item == input) {
+                if (i < 9) {
+                    i += 36;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void switchToHotbarSlot(Class clazz, boolean silent) {
         int slot = InventoryUtil.findHotbarBlock(clazz);
         if (slot > -1) {

@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 
-/*
+/**
     @author PunCakeCat
  */
 public class EntityRenderBuilder2D {
@@ -53,7 +53,6 @@ public class EntityRenderBuilder2D {
     }
 
     public EntityRenderBuilder2D render(){
-        System.out.println(this.entityLivingBase.getAlwaysRenderNameTag());
         GlStateManager.enableColorMaterial();
         GlStateManager.pushMatrix();
         GlStateManager.translate(posX, posY, 50.0F);

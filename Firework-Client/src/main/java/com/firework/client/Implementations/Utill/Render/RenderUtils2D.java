@@ -1,17 +1,20 @@
 package com.firework.client.Implementations.Utill.Render;
 
 import com.firework.client.Firework;
-import com.firework.client.Implementations.Utill.Client.MathUtil;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.item.ItemStack;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import static com.firework.client.Firework.*;
+import static com.firework.client.Implementations.Utill.Util.mc;
 import static java.awt.Color.*;
 import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -97,6 +100,68 @@ public class RenderUtils2D {
         GlStateManager.enableAlpha();
         GlStateManager.enableTexture2D();
     }
+
+    public static void renderItemStack(ItemStack itemStack, Point pos) {
+        renderItemStack(itemStack, pos, null);
+    }
+
+    public static void renderItemStack(ItemStack itemStack, Point pos, String text) {
+        GlStateManager.enableTexture2D();
+        GlStateManager.depthMask(true);
+        glPushAttrib(GL_SCISSOR_BIT);
+        glDisable(GL_SCISSOR_TEST);
+        GlStateManager.clear(GL_DEPTH_BUFFER_BIT);
+        glPopAttrib();
+        GlStateManager.enableDepth();
+        GlStateManager.disableAlpha();
+        GlStateManager.pushMatrix();
+        mc.getRenderItem().zLevel = -150.0f;
+        RenderHelper.enableGUIStandardItemLighting();
+        mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, pos.x, pos.y);
+        renderItemOverlayIntoGUI(itemStack, pos.x, pos.y, text);
+        RenderHelper.disableStandardItemLighting();
+        mc.getRenderItem().zLevel = 0.0F;
+        GlStateManager.popMatrix();
+        GlStateManager.disableDepth();
+        GlStateManager.depthMask(false);
+    }
+
+    public static void renderItemOverlayIntoGUI(ItemStack stack, int xPosition, int yPosition, @Nullable String text) {
+        if (!stack.isEmpty()){
+            if (stack.getCount() != 1 || text != null) {
+                String s = text == null ? String.valueOf(stack.getCount()) : text;
+                GlStateManager.disableLighting();
+                GlStateManager.disableDepth();
+                GlStateManager.disableBlend();
+                Firework.customFontManagerInv.drawStringWithShadow(s, (float)(xPosition + 19 - 2 - Firework.customFontManagerInv.getWidth(s)), (float)(yPosition + 7), 16777215);
+                GlStateManager.enableLighting();
+                GlStateManager.enableDepth();
+                GlStateManager.enableBlend();
+            }
+
+            if (stack.getItem().showDurabilityBar(stack)) {
+                GlStateManager.disableLighting();
+                GlStateManager.disableDepth();
+                GlStateManager.disableTexture2D();
+                GlStateManager.disableAlpha();
+                GlStateManager.disableBlend();
+                Tessellator tessellator = Tessellator.getInstance();
+                BufferBuilder bufferbuilder = tessellator.getBuffer();
+                double health = stack.getItem().getDurabilityForDisplay(stack);
+                int rgbfordisplay = stack.getItem().getRGBDurabilityForDisplay(stack);
+                int i = Math.round(13.0F - (float)health * 13.0F);
+                int j = rgbfordisplay;
+                RenderUtils2D.drawRectangle(new Rectangle(xPosition + 2, yPosition + 13, 13, 2), new Color(0, 0, 0));
+                RenderUtils2D.drawRectangle(new Rectangle(xPosition + 2, yPosition + 13, i, 1), new Color(j >> 16 & 255, j >> 8 & 255, j & 255));
+                GlStateManager.enableBlend();
+                GlStateManager.enableAlpha();
+                GlStateManager.enableTexture2D();
+                GlStateManager.enableLighting();
+                GlStateManager.enableDepth();
+            }
+        }
+    }
+
     public static void drawGradientRectVertical(Rectangle rectangle, Color startColor, Color endColor)
     {
         double zLevel=0.0;

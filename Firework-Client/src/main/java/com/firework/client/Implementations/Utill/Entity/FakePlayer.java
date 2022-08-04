@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Utill.Entity;
 
+import com.firework.client.Implementations.Mixins.MixinsList.IInventoryPlayer;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
@@ -21,6 +22,7 @@ public class FakePlayer extends EntityOtherPlayerMP {
         this.nickname = nickname;
         this.addMeToWorld();
         this.inventory.addItemStackToInventory(new ItemStack(Items.TOTEM_OF_UNDYING));
+        ((IInventoryPlayer)this.inventory).setArmorInventory(Minecraft.getMinecraft().player.inventory.armorInventory);
     }
 
     private void addMeToWorld() {

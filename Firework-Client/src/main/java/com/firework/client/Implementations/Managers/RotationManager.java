@@ -33,7 +33,7 @@ public class RotationManager extends Manager{
     }
 
     public void setPlayerRotations(float yaw, float pitch) {
-      mc.player.rotationYaw = yaw;
+       mc.player.rotationYaw = yaw;
        mc.player.rotationYawHead = yaw;
        mc.player.rotationPitch = pitch;
     }

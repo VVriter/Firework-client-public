@@ -27,6 +27,8 @@ public class HudGui extends GuiScreen {
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         super.mouseReleased(mouseX, mouseY, state);
         isDragging = false;
+        Firework.hudManager.hudComponents
+                .forEach(hudComponent -> hudComponent.isPicked = false);
     }
 
     @Override

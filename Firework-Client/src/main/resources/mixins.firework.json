@@ -11,6 +11,7 @@
     "ICPacketCustomPayload",
     "IItemTool",
     "IMinecraft",
+    "IInventoryPlayer",
     "ITimer",
     "IKeyBinding",
     "Render.ViewModelMixin",
