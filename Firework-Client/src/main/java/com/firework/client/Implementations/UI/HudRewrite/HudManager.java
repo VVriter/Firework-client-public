@@ -1,8 +1,8 @@
-package com.firework.client.Implementations.UI.Hud;
+package com.firework.client.Implementations.UI.HudRewrite;
 
 import com.firework.client.Implementations.Events.Render.RenderGameOverlay;
 import com.firework.client.Implementations.Managers.Manager;
-import com.firework.client.Implementations.UI.Hud.Huds.HudComponent;
+import com.firework.client.Implementations.UI.HudRewrite.Huds.HudComponent;
 import com.firework.client.Implementations.Utill.Client.ClassFinder;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import ua.firework.beet.Listener;
@@ -14,12 +14,12 @@ import java.util.Set;
 import static com.firework.client.Implementations.Utill.Util.mc;
 
 public class HudManager extends Manager {
-
     public ArrayList<HudComponent> hudComponents = new ArrayList<>();
 
     public HudManager(){
         super(true);
         registerHuds();
+        hudComponents.forEach(HudComponent::load);
     }
 
     public void registerHuds(){
@@ -49,7 +49,8 @@ public class HudManager extends Manager {
     public Listener<RenderGameOverlay> onRender = new Listener<>(event -> {
         if(event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR)
             for (HudComponent component : hudComponents)
-                if(mc.player!=null)
-                    component.draw();
+                if(mc.player != null && mc.world != null)
+                    component.onRender();
     });
+
 }

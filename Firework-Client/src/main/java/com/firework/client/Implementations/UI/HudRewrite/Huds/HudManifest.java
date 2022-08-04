@@ -1,6 +1,4 @@
-package com.firework.client.Implementations.UI.Hud.Huds;
-
-import com.firework.client.Features.Modules.Module;
+package com.firework.client.Implementations.UI.HudRewrite.Huds;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,3 +10,4 @@ import java.lang.annotation.Target;
 public @interface HudManifest {
     String name();
 }
+

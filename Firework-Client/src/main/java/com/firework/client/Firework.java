@@ -5,8 +5,6 @@ package com.firework.client;
 import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.IngameGuis.Loader;
 import com.firework.client.Features.Modules.Client.Client;
-import com.firework.client.Features.Modules.Client.DiscordNotificator;
-import com.firework.client.Features.Modules.Client.F3Injection;
 import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
@@ -16,7 +14,7 @@ import com.firework.client.Implementations.Managers.Text.CFontRenderer;
 import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
 import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
-import com.firework.client.Implementations.UI.Hud.HudManager;
+import com.firework.client.Implementations.UI.HudRewrite.HudManager;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Implementations.Utill.Render.Shaders.ShaderManager;
@@ -71,6 +69,7 @@ public class Firework
     public static HudManager hudManager;
     public static CommandManager commandManager;
     public static CFontRenderer customFontManager;
+    public static CFontRenderer customFontManagerInv;
     public static CFontRenderer customFontForAlts;
 
     public static CFontRenderer customFontForNotifications;
@@ -100,6 +99,7 @@ public class Firework
         managers.forEach(Manager::load);
 
         customFontManager = new CFontRenderer("Tcm", 23, true, true);
+        customFontManagerInv = new CFontRenderer("Poppins-SemiBold", 23, true, true);
         customFontForAlts = new CFontRenderer("Tcm",40,true,true);
         GuiInfo.setupModulesColumns();
         for(Module m : moduleManager.modules)
