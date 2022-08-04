@@ -30,4 +30,23 @@ public class RainbowUtil {
         return Color.getHSBColor(hue / speed, s, 1.0f).getRGB();
     }
 
+    /**
+     * Applies a color via a lambda
+     *
+     * @param color the color
+     * @param apply apply lambda
+     */
+    public static void applyColor(int color, ColorApply apply) {
+        float alpha = (color >> 24 & 0xff) / 255f;
+        float red = (color >> 16 & 0xff) / 255f;
+        float green = (color >> 8 & 0xff) / 255f;
+        float blue = (color & 0xff) / 255f;
+
+        apply.apply(red, green, blue, alpha);
+    }
+
+    @FunctionalInterface
+    public interface ColorApply {
+        void apply(float r, float g, float b, float a);
+    }
 }

@@ -1,8 +1,13 @@
 package com.firework.client.Features.Modules;
 
+import com.firework.client.Implementations.Events.Render.Render2dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.Render.RoundRenderUtils;
+import ua.firework.beet.Listener;
+import ua.firework.beet.Subscribe;
 
+import java.awt.*;
 import java.util.Arrays;
 
 
@@ -18,5 +23,10 @@ public class Test extends Module {
     public enum TestEnum{
         un, lock
     }
+
+    @Subscribe
+    public Listener<Render2dE> listener = new Listener<>(e-> {
+        RoundRenderUtils.roundedRectangle(50,50,200,100,20,new Color(200,150,200,255).getRGB());
+    });
 
 }

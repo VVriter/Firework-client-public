@@ -38,6 +38,23 @@ public class RenderUtils {
         return (c >> location & 0xFF) / 255.0F;
     }
 
+    public static void FillLine(Entity entity, AxisAlignedBB box) {
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glLineWidth(2.0F);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(false);
+
+        RenderGlobal.renderFilledBox(box, 0, 1, 0, 0.3F);
+        RenderGlobal.drawSelectionBoundingBox(box, 0, 1, 0, 0.8F);
+
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
     public static void renderEntity(EntityLivingBase entity, int scale, int posX, int posY) {
         GlStateManager.enableTexture2D();
         GlStateManager.depthMask(true);
