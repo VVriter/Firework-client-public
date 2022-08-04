@@ -13,8 +13,7 @@ import com.firework.client.Implementations.Managers.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CFontRenderer;
 import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
-import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
-import com.firework.client.Implementations.UI.HudRewrite.HudManager;
+import com.firework.client.Implementations.UI.Hud.HudManager;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Implementations.Utill.Render.Shaders.ShaderManager;
@@ -101,10 +100,6 @@ public class Firework
         customFontManager = new CFontRenderer("Tcm", 23, true, true);
         customFontManagerInv = new CFontRenderer("Poppins-Medium", 23, true, true);
         customFontForAlts = new CFontRenderer("Tcm",40,true,true);
-        GuiInfo.setupModulesColumns();
-        for(Module m : moduleManager.modules)
-            GuiInfo.addModuleToColumn(m);
-        GuiInfo.icons();
     }
 
     public static void unloadManagers(){

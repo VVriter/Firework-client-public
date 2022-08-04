@@ -7,14 +7,14 @@ import com.firework.client.Implementations.UI.Particles.ParticleInfo;
 
 @ModuleManifest(name = "GuiParticles", category = Module.Category.CLIENT)
 public class GuiParticles extends Module {
-    public static Setting<Double> scaleFactor;
+    public static Setting<Integer> scaleFactor;
     public static Setting<Double> lineLong;
     public static Setting<ParticleInfo.colorMode> colorMode;
 
     public GuiParticles(){
-        scaleFactor = new Setting<>("scaleFactor", (double)0.4, this, 0.1, 10);
-        lineLong = new Setting<>("maxLineLong", (double)90, this, 0, 200);
-        colorMode = new Setting<>("ColorMode", ParticleInfo.colorMode.Default, this);
+        scaleFactor = new Setting<>("scaleFactor", 1, this, 0, 10);
+        lineLong = new Setting<>("maxLineLong", (double)30, this, 0, 200);
+        colorMode = new Setting<>("ColorMode", ParticleInfo.colorMode.Astolfo, this);
         this.isEnabled.setValue(true);
         ParticleInfo.isEnabled = this.isEnabled.getValue();
     }

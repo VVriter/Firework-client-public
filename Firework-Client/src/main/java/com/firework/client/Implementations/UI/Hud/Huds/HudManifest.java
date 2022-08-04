@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.UI.HudRewrite.Huds;
+package com.firework.client.Implementations.UI.Hud.Huds;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

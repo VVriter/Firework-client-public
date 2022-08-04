@@ -1,8 +1,8 @@
-package com.firework.client.Implementations.UI.HudRewrite.Huds.Misc;
+package com.firework.client.Implementations.UI.Hud.Huds.Misc;
 
 import com.firework.client.Firework;
-import com.firework.client.Implementations.UI.HudRewrite.Huds.HudComponent;
-import com.firework.client.Implementations.UI.HudRewrite.Huds.HudManifest;
+import com.firework.client.Implementations.UI.Hud.Huds.HudComponent;
+import com.firework.client.Implementations.UI.Hud.Huds.HudManifest;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.item.ItemStack;

@@ -22,7 +22,7 @@ public class Particle {
     public Particle(){
         ScaledResolution scaledResolution = new ScaledResolution(mc);
 
-        radius = randomValue(5, 8);
+        radius = randomValue(5, 8)*ParticleSystem.scale;
         color = new HSLColor(randomValue(180, 360), 100, 50).toRGB();
         location = new Point2D.Double(randomValue(radius, scaledResolution.getScaledWidth()-radius), randomValue(radius, scaledResolution.getScaledHeight()-radius));
 

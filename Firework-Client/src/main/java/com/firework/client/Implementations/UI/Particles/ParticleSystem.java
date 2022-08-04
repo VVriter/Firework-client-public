@@ -22,7 +22,7 @@ public class ParticleSystem {
     public static int speed = 40;
 
     //Particles scale factor
-    public static double scale = 1;
+    public static int scale = 1;
 
     //Line long
     public static double lineLong = 10;
@@ -52,7 +52,7 @@ public class ParticleSystem {
             if(ParticleInfo.mode == ParticleInfo.colorMode.Astolfo){
                 color = new Color(RainbowUtil.astolfoColors((int) (particle.location.y * 2), 100));
             }
-            RenderUtils2D.drawFilledCircle(particle.location, color, (int) round(particle.radius * scale));
+            RenderUtils2D.drawFilledCircle(particle.location, color, particle.radius * scale);
         }
     }
 

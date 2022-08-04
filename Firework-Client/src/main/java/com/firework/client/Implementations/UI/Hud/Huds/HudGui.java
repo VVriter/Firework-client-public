@@ -1,8 +1,7 @@
-package com.firework.client.Implementations.UI.HudRewrite.Huds;
+package com.firework.client.Implementations.UI.Hud.Huds;
 
 import com.firework.client.Firework;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.math.Vec2f;
 
 import java.io.IOException;
 
