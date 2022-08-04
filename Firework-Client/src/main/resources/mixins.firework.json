@@ -49,6 +49,7 @@
     "Misc.MixinTabCompleter",
     "Misc.MixinTextFormatting",
     "Render.MixinRenderPlayer",
-    "Gui.MixinGuiBossOverlay"
+    "Gui.MixinGuiBossOverlay",
+    "Render.MixinRenderItemFrame"
   ]
 }

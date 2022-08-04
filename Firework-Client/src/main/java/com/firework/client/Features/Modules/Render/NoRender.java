@@ -35,9 +35,8 @@ public class NoRender extends Module {
     public static Setting<Boolean> guiSubBool = null;
     public static Setting<Boolean> antiFog = null;
     public static Setting<Boolean> skylight = null;
-
     public static Setting<Boolean> bosssOverlay = null;
-
+    public static Setting<Boolean> itemFrame = null;
     public static Setting<Boolean> weather = null;
     public static Setting<Boolean> totemPops = null;
     public static Setting<Boolean> hurtcam = null;
@@ -82,6 +81,7 @@ public class NoRender extends Module {
         entitiesSubBool = new Setting<>("Entities", false, this).setMode(Setting.Mode.SUB);
         mob = new Setting<>("Mob", true, this).setVisibility(v-> entitiesSubBool.getValue());
         xp = new Setting<>("Xp", true, this).setVisibility(v-> entitiesSubBool.getValue());
+        itemFrame = new Setting<>("ItemFrame", false, this).setVisibility(v-> entitiesSubBool.getValue());
 
         guiSubBool = new Setting<>("Gui", false, this).setMode(Setting.Mode.SUB);
         defaultBackground = new Setting<>("DefaultBackground", true, this).setVisibility(v-> guiSubBool.getValue());
