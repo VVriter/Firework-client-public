@@ -110,10 +110,12 @@ public class HoleFiller extends Module {
         if(fullNullCheck()) return;
         if (shouldDisableOnJump.getValue() && mc.gameSettings.keyBindJump.isKeyDown()) {
             onDisable();
+            return;
         }
 
         if (mc.player.collidedHorizontally && shouldDisableOnJump.getValue()) {
             onDisable();
+            return;
         }
 
         if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
