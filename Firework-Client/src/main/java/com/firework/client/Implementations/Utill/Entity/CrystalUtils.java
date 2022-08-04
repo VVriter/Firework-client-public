@@ -12,10 +12,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
@@ -23,7 +20,7 @@ import java.util.ArrayList;
 
 import static com.firework.client.Implementations.Utill.Util.mc;
 
-public class CrystalUtil {
+public class CrystalUtils {
     public static float calculateDamage(double posX, double posY, double posZ, Entity entity) {
         float doubleExplosionSize = 12.0f;
         double distancedsize = entity.getDistance(posX, posY, posZ) / (double)doubleExplosionSize;
@@ -39,7 +36,7 @@ public class CrystalUtil {
         float damage = (int)((v * v + v) / 2.0 * 7.0 * (double)doubleExplosionSize + 1.0);
         double finald = 1.0;
         if (entity instanceof EntityLivingBase) {
-            finald = CrystalUtil.getBlastReduction((EntityLivingBase)entity, CrystalUtil.getDamageMultiplied(damage), new Explosion((World)mc.world, null, posX, posY, posZ, 6.0f, false, true));
+            finald = getBlastReduction((EntityLivingBase)entity, getDamageMultiplied(damage), new Explosion((World)mc.world, null, posX, posY, posZ, 6.0f, false, true));
         }
         return (float)finald;
     }
@@ -75,30 +72,31 @@ public class CrystalUtil {
     }
 
     public static float calculateDamage(Entity crystal, Entity entity) {
-        return CrystalUtil.calculateDamage(crystal.posX, crystal.posY, crystal.posZ, entity);
+        return calculateDamage(crystal.posX, crystal.posY, crystal.posZ, entity);
     }
 
     public static float calculateDamage(BlockPos pos, Entity entity) {
-        return CrystalUtil.calculateDamage((double)pos.getX() + 0.5, pos.getY() + 1, (double)pos.getZ() + 0.5, entity);
+        return calculateDamage((double)pos.getX() + 0.5, pos.getY() + 1, (double)pos.getZ() + 0.5, entity);
     }
 
-    public static boolean canPlaceCrystal(BlockPos pos, boolean legal) {
+    public static boolean canPlaceCrystal(BlockPos pos) {
         Block block = BlockUtil.getBlock(pos);
+
         if (block == Blocks.OBSIDIAN || block == Blocks.BEDROCK) {
             Block floor = mc.world.getBlockState(pos.add(0, 1, 0)).getBlock();
             Block ceil = mc.world.getBlockState(pos.add(0, 2, 0)).getBlock();
 
-            if (legal ? (floor == Blocks.AIR && ceil == Blocks.AIR) : (floor == Blocks.AIR)) {
-                ArrayList<Entity> entities = new ArrayList<Entity>();
-                entities.addAll(mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos.add(0, 1, 0))));
-                for (Entity entity : entities) {
-                    if (entity.isEntityAlive()) {
+            if (floor == Blocks.AIR && ceil == Blocks.AIR) {
+                for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos.add(0, 1, 0)))) {
+                    if (!entity.isDead) {
                         return false;
                     }
                 }
+
                 return true;
             }
         }
+
         return false;
     }
 
@@ -115,4 +113,73 @@ public class CrystalUtil {
 
         return list;
     }
+
+    public static EntityEnderCrystal getBestCrystal(EntityPlayer target, final int range, final float maxSelfDamage, final float minTargetDamage){
+        if(target == null) return null;
+        EntityEnderCrystal bestCrystal = null;
+        float selfDamage = 0;
+        float targetDamage = 0;
+        for(EntityEnderCrystal entity : getCrystals(range)){
+            if (bestCrystal == null) {
+                float tempSelfDamage = calculateDamage(entity.getPosition(), mc.player)/2;
+                float tempTargetDamage = calculateDamage(entity.getPosition(), target);
+                if (tempSelfDamage > maxSelfDamage || tempTargetDamage < minTargetDamage) continue;
+                bestCrystal = entity;
+                selfDamage = tempSelfDamage;
+                targetDamage = tempTargetDamage;
+            } else {
+                float tempSelfDamage = calculateDamage(entity.getPosition(), mc.player)/2;
+                float tempTargetDamage = calculateDamage(entity.getPosition(), target);
+                if (tempSelfDamage > maxSelfDamage || tempTargetDamage < minTargetDamage) continue;
+                if (targetDamage - selfDamage > targetDamage - tempSelfDamage) {
+                    bestCrystal = entity;
+                    selfDamage = tempSelfDamage;
+                    targetDamage = tempTargetDamage;
+                }
+            }
+        }
+
+        return bestCrystal;
+    }
+
+    public static BlockPos bestCrystalPos(EntityPlayer target, final int range, final float maxSelfDamage, final float minTargetDamage){
+        if(target == null) return null;
+        BlockPos bestPosition = null;
+        float selfDamage = 0;
+        float targetDamage = 0;
+        for(BlockPos pos : BlockUtil.getSphere(range, true)){
+            if (canPlaceCrystal(pos)) {
+                if (bestPosition == null) {
+                    float localSelfDamage = calculateDamage(pos, mc.player);
+                    float localTargetDamage = calculateDamage(pos, target);
+                    if (localSelfDamage > maxSelfDamage || localTargetDamage < minTargetDamage) continue;
+                    bestPosition = pos;
+                    selfDamage = localSelfDamage;
+                    targetDamage = localTargetDamage;
+                } else {
+                    float localSelfDamage = calculateDamage(pos, mc.player);
+                    float localTargetDamage = calculateDamage(pos, target);
+                    if (localSelfDamage >= maxSelfDamage || localTargetDamage <= minTargetDamage) continue;
+                    if (localTargetDamage - localSelfDamage > targetDamage - selfDamage) {
+                        bestPosition = pos;
+                        selfDamage = localSelfDamage;
+                        targetDamage = localTargetDamage;
+                    }
+                }
+            }
+        }
+
+        return bestPosition;
+    }
+
+    public static EntityEnderCrystal getCrystalAtPos(BlockPos pos) {
+        for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos.add(0, 1, 0)))) {
+            if (entity instanceof EntityEnderCrystal && entity.isEntityAlive()) {
+                return (EntityEnderCrystal)entity;
+            }
+        }
+
+        return null;
+    }
+
 }
