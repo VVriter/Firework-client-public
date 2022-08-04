@@ -39,4 +39,19 @@ public class AnimationUtil {
             }
         }
     }
+
+    // animation for sliders and stuff
+    public static double animate(double endPoint, double current, double speed) {
+        boolean shouldContinueAnimation = endPoint > current;
+        if (speed < 0.0D) {
+            speed = 0.0D;
+        } else if (speed > 1.0D) {
+            speed = 1.0D;
+        }
+
+        double dif = Math.max(endPoint, current) - Math.min(endPoint, current);
+        double factor = dif * speed;
+        return current + (shouldContinueAnimation ? factor : -factor);
+    }
+
 }
