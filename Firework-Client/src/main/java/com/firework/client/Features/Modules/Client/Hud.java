@@ -3,7 +3,7 @@ package com.firework.client.Features.Modules.Client;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.UI.GuiNEO.Gui;
+import com.firework.client.Implementations.UI.GuiN.GuiN;
 import com.firework.client.Implementations.UI.Hud.Huds.HudGui;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -37,7 +37,7 @@ public class Hud extends Module{
 
         if(blur.getValue()){
             if (mc.world != null) {
-                if (!(mc.currentScreen instanceof Gui) &&!(mc.currentScreen instanceof GuiContainer) && !(mc.currentScreen instanceof GuiChat) && !(mc.currentScreen instanceof GuiConfirmOpenLink) && !(mc.currentScreen instanceof GuiEditSign) && !(mc.currentScreen instanceof GuiGameOver) && !(mc.currentScreen instanceof GuiOptions) && !(mc.currentScreen instanceof GuiIngameMenu) && !(mc.currentScreen instanceof GuiVideoSettings) && !(mc.currentScreen instanceof GuiScreenOptionsSounds) && !(mc.currentScreen instanceof GuiControls) && !(mc.currentScreen instanceof GuiCustomizeSkin) && !(mc.currentScreen instanceof GuiModList)) {
+                if (!(mc.currentScreen instanceof GuiN) &&!(mc.currentScreen instanceof GuiContainer) && !(mc.currentScreen instanceof GuiChat) && !(mc.currentScreen instanceof GuiConfirmOpenLink) && !(mc.currentScreen instanceof GuiEditSign) && !(mc.currentScreen instanceof GuiGameOver) && !(mc.currentScreen instanceof GuiOptions) && !(mc.currentScreen instanceof GuiIngameMenu) && !(mc.currentScreen instanceof GuiVideoSettings) && !(mc.currentScreen instanceof GuiScreenOptionsSounds) && !(mc.currentScreen instanceof GuiControls) && !(mc.currentScreen instanceof GuiCustomizeSkin) && !(mc.currentScreen instanceof GuiModList)) {
                     if (mc.entityRenderer.getShaderGroup() != null) {
                         mc.entityRenderer.getShaderGroup().deleteShaderGroup();
                     }
@@ -62,7 +62,7 @@ public class Hud extends Module{
     @Override
     public void onEnable() {
         super.onEnable();
-        if (!(mc.currentScreen instanceof Gui)) {
+        if (!(mc.currentScreen instanceof GuiN)) {
             mc.displayGuiScreen(new HudGui());
         }
     }

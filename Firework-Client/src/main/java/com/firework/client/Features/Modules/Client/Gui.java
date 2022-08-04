@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Client;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.UI.GuiN.GuiN;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
@@ -31,7 +32,7 @@ public class Gui extends Module {
     @Override
     public void onEnable(){
         super.onEnable();
-        Minecraft.getMinecraft().displayGuiScreen(new com.firework.client.Implementations.UI.GuiNEO.Gui());
+        Minecraft.getMinecraft().displayGuiScreen(new GuiN());
         this.isEnabled.setValue(false);
     }
 

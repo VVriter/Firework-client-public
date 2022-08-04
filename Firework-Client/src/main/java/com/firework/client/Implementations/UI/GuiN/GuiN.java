@@ -1,6 +1,8 @@
 package com.firework.client.Implementations.UI.GuiN;
 
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.UI.Particles.ParticleInfo;
+import com.firework.client.Implementations.UI.Particles.ParticleSystem;
 import com.firework.client.Implementations.Utill.Render.AnimationUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.MinecraftForge;
@@ -21,10 +23,14 @@ public class GuiN extends GuiScreen {
     public static double offsetY = 0;
     public float lastScroll = 1;
 
+    public ParticleSystem particleSystem;
+
     public AnimationUtil popOutAnimation;
     public AnimationUtil scrollAnimation;
 
     public GuiN(){
+        particleSystem = new ParticleSystem();
+
         popOutAnimation = new AnimationUtil();
         popOutAnimation.setValues(1, 0.1f);
         scrollAnimation = new AnimationUtil();
@@ -38,6 +44,12 @@ public class GuiN extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
+
+        if(ParticleInfo.isEnabled) {
+            particleSystem.updatePositions();
+            particleSystem.drawLines();
+            particleSystem.drawParticles();
+        }
 
         offsetY = scrollAnimation.width;
         scrollAnimation.update();
