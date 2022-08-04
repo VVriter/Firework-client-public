@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocks
 import com.firework.client.Implementations.Mixins.MixinsList.IEntityPlayerSP;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketPlayerPosLook;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Entity.MotionUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.block.*;
 import net.minecraft.client.gui.GuiDownloadTerrain;
@@ -34,6 +35,8 @@ import ua.firework.beet.Subscribe;
 public class Burrow extends Module {
 
     public Setting<Boolean> main = new Setting<>("Main", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> autoCenter = new Setting<>("AutoCenter", true, this).setVisibility(v-> main.getValue());
+    public Setting<MotionUtil.centerModes> centerMode = new Setting<>("Mode", MotionUtil.centerModes.Motion, this).setVisibility(v-> main.getValue());
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> main.getValue());
     public Setting<Boolean> swing = new Setting<>("Swing", true, this).setVisibility(v-> main.getValue());
     public Setting<Boolean> strict = new Setting<>("Bypass", true, this).setVisibility(v-> main.getValue());
@@ -274,13 +277,15 @@ public class Burrow extends Module {
         super.onEnable();
         mc.player.swingArm(EnumHand.MAIN_HAND);
         if (mc.player == null || mc.world == null) {
-            toggle();
+            toggleLog();
             return;
         }
         if (!mc.player.onGround) {
             toggle();
             return;
         }
+        if(autoCenter.getValue())
+            MotionUtil.autoCenter(centerMode);
         state = State.WAITING;
     }
 }
