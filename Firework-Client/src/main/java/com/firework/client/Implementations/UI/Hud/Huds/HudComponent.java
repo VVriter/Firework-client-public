@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.UI.HudRewrite.Huds;
+package com.firework.client.Implementations.UI.Hud.Huds;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;

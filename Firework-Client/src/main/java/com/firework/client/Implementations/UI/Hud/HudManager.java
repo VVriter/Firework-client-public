@@ -1,8 +1,8 @@
-package com.firework.client.Implementations.UI.HudRewrite;
+package com.firework.client.Implementations.UI.Hud;
 
 import com.firework.client.Implementations.Events.Render.RenderGameOverlay;
 import com.firework.client.Implementations.Managers.Manager;
-import com.firework.client.Implementations.UI.HudRewrite.Huds.HudComponent;
+import com.firework.client.Implementations.UI.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.Utill.Client.ClassFinder;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import ua.firework.beet.Listener;

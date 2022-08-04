@@ -4,7 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.UI.GuiNEO.Gui;
-import com.firework.client.Implementations.UI.HudRewrite.Huds.HudGui;
+import com.firework.client.Implementations.UI.Hud.Huds.HudGui;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiEditSign;

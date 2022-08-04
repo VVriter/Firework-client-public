@@ -14,7 +14,7 @@ import com.firework.client.Implementations.Managers.Text.CFontRenderer;
 import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
 import com.firework.client.Implementations.UI.GuiNEO.GuiInfo;
-import com.firework.client.Implementations.UI.HudRewrite.HudManager;
+import com.firework.client.Implementations.UI.Hud.HudManager;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Implementations.Utill.Render.Shaders.ShaderManager;
