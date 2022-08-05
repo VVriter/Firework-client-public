@@ -68,8 +68,8 @@ public class RoundRenderUtils {
 
 
         public static ShaderUtil roundedShader = new ShaderUtil("roundedRect");
-        public static ShaderUtil roundedOutlineShader = new ShaderUtil("Tenacity/Shaders/roundRectOutline.frag");
-        private static final ShaderUtil roundedTexturedShader = new ShaderUtil("Tenacity/Shaders/roundRectTextured.frag");
+        public static ShaderUtil roundedOutlineShader = new ShaderUtil("firework/shaders/roundRectOutline.frag");
+        private static final ShaderUtil roundedTexturedShader = new ShaderUtil("firework/shaders/roundRectTextured.frag");
         private static final ShaderUtil roundedGradientShader = new ShaderUtil("roundedRectGradient");
 
 
@@ -192,6 +192,24 @@ public class RoundRenderUtils {
         public static float getRandomFloat(float max, float min) {
                 SecureRandom random = new SecureRandom();
                 return random.nextFloat() * (max - min) + min;
+        }
+
+        public static void drawRoundOutline(float x, float y, float width, float height, float radius, float outlineThickness, Color color, Color outlineColor) {
+                resetColor();
+                GlStateManager.enableBlend();
+                GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                roundedOutlineShader.init();
+
+                ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+                setupRoundedRectUniforms(x, y, width, height, radius, roundedOutlineShader);
+                roundedOutlineShader.setUniformf("outlineThickness", outlineThickness * sr.getScaleFactor());
+                roundedOutlineShader.setUniformf("color", color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
+                roundedOutlineShader.setUniformf("outlineColor", outlineColor.getRed() / 255f, outlineColor.getGreen() / 255f, outlineColor.getBlue() / 255f, outlineColor.getAlpha() / 255f);
+
+
+                ShaderUtil.drawQuads(x - (2 + outlineThickness), y - (2 + outlineThickness), width + (4 + outlineThickness * 2), height + (4 + outlineThickness * 2));
+                roundedOutlineShader.unload();
+                GlStateManager.disableBlend();
         }
 
 }

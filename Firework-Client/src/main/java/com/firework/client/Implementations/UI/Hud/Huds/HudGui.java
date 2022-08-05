@@ -45,6 +45,11 @@ public class HudGui extends GuiScreen {
                 });
     }
 
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
+    }
+
     public boolean isHoveringOnTheButton(HudComponent button, int mouseX, int mouseY) {
         return mouseX > button.x && mouseX < button.x + button.width && mouseY > button.y && mouseY < button.y + button.height;
     }
