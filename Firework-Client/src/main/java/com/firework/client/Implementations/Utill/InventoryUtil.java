@@ -14,6 +14,7 @@ import net.minecraft.network.play.client.CPacketCloseWindow;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.util.EnumHand;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +41,10 @@ public class InventoryUtil
                 e.printStackTrace();
             }
         }
+    }
+
+    public static EnumHand getEnumHand(hands hand){
+        return hand == hands.MainHand ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
     }
 
     public static void switchToHotbarSlot(int slot, boolean silent) {
