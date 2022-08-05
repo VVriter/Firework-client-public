@@ -417,16 +417,23 @@ public class InventoryUtil
     }
 
     public static EntityEquipmentSlot getEquipmentFromSlot(int slot) {
-        if (slot == 39) {
+        if (slot == 39)
             return EntityEquipmentSlot.HEAD;
-        }
-        if (slot == 38) {
+        if (slot == 38)
             return EntityEquipmentSlot.CHEST;
-        }
-        if (slot == 37) {
+        if (slot == 37)
             return EntityEquipmentSlot.LEGS;
-        }
         return EntityEquipmentSlot.FEET;
+    }
+
+    public static int getSlotFromEquipment(EntityEquipmentSlot type) {
+        if (type == EntityEquipmentSlot.HEAD)
+            return 39;
+        if (type == EntityEquipmentSlot.CHEST)
+            return 38;
+        if (type == EntityEquipmentSlot.LEGS)
+            return 37;
+        return 36;
     }
 
     public static int findArmorSlot(EntityEquipmentSlot type, boolean binding) {
