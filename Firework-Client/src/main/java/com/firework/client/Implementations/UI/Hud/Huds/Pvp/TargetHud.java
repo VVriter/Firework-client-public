@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Utill.Render.Rounded.RenderRound;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 import java.awt.*;
 
@@ -42,7 +43,7 @@ public class TargetHud extends HudComponent {
         try {
             //Draws Target name
             String playerInfo = target.getDisplayNameString() + "|" + mc.getConnection().getPlayerInfo(target.getUniqueID()).getResponseTime() + "ms";
-            customFontManager.drawString(playerInfo, x + width - 120 - 2 + (120 - customFontManager.getWidth(playerInfo)) / 2, y + 2, Color.white.getRGB());
+            customFontManager.drawString(playerInfo, 10+x + width - 120 - 2 + (120 - customFontManager.getWidth(playerInfo)) / 2, y + 2, Color.white.getRGB());
             int maxHealh = (int) target.getMaxHealth();
 
             RenderRound.drawRound(x+50,y+31,90,10,5,true,new Color(1,1,1, 200));
@@ -51,5 +52,16 @@ public class TargetHud extends HudComponent {
         } catch (Exception e){
 
         }
+
+
+        //Draws Target armor
+        int newX = x + width - 120;
+        for (ItemStack itemStack : target.inventory.armorInventory) {
+            mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, newX+35, y + height - 2 - 10 - 7 - 12 - 2 -2);
+            mc.getRenderItem().renderItemOverlays(mc.fontRenderer,itemStack, newX+20, y + height - 2 - 10 - 7 - 12 -2);
+            newX += 18;
+        }
+
+
     }
 }
