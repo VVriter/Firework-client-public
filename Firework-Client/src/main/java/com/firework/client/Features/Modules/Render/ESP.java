@@ -12,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.*;
+import net.minecraft.util.math.BlockPos;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
@@ -78,7 +79,8 @@ public class ESP extends Module {
             }  if (c instanceof EntityBoat && boat.getValue()) {
                 RenderEntityUtils.drawESP((Entity) c,1,1,255,150,1);
             }  if (c instanceof EntityItemFrame && frame.getValue()) {
-                RenderUtils.drawBoxESP(((EntityItemFrame) c).getPosition(),new Color(107, 84, 8),3,true,true,160,1);
+                BlockPos pos = new BlockPos(((EntityItemFrame) c).getPosition().add(0,-1,0));
+                RenderUtils.drawBoxESP(pos,new Color(107, 84, 8),3,true,true,160,1);
             }  if (c instanceof EntityEnderPearl && pearl.getValue()) {
                 if (mode.getValue(Mode.Sphere)) {
                     RenderUtils.drawSphere(((EntityEnderPearl) c).getPositionVector(),0.3,3,new Color(RainbowUtil.generateRainbowFadingColor(1,true)));

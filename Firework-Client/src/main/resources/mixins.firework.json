@@ -48,6 +48,8 @@
     "IEntityArrow",
     "Misc.MixinTabCompleter",
     "Misc.MixinTextFormatting",
-    "Render.MixinRenderPlayer"
+    "Render.MixinRenderPlayer",
+    "Gui.MixinGuiBossOverlay",
+    "Render.MixinRenderItemFrame"
   ]
 }
