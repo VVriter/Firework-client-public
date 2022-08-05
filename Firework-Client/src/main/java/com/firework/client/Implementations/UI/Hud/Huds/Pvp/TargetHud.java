@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Render.Rounded.RenderRound;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -37,19 +38,18 @@ public class TargetHud extends HudComponent {
         health = target.getHealth();
         RenderRound.drawRound(x,y,width,height,10,true, new Color(227, 217, 217, 139));
         //Draw Target heads
+        GlStateManager.pushMatrix();
         ((AbstractClientPlayer)target).getLocationSkin();
         mc.getTextureManager().bindTexture(((AbstractClientPlayer)target).getLocationSkin());
         Gui.drawScaledCustomSizeModalRect(x + 5, y + 5, 8.0F, 8, 8, 8, height - 10, height - 10, 64.0F, 64.0F);
-
+        GlStateManager.popMatrix();
+        RenderRound.drawRound(x+50,y+31,90,10,5,true,new Color(1,1,1, 200));
+        RenderRound.drawRound((float) (x+51), y+32, health*4,8,4, true, Firework.colorManager.getColor());
         try {
             //Draws Target name
             String playerInfo = target.getDisplayNameString() + "|" + mc.getConnection().getPlayerInfo(target.getUniqueID()).getResponseTime() + "ms";
-            //customFontManager.drawString(playerInfo, 10+x + width - 120 - 2 + (120 - customFontManager.getWidth(playerInfo)) / 2, y + 2, Color.white.getRGB());
+            customFontManager.drawString(playerInfo, 10+x + width - 120 - 2 + (120 - customFontManager.getWidth(playerInfo)) / 2, y + 2, Color.white.getRGB());
             int maxHealh = (int) target.getMaxHealth();
-
-            RenderRound.drawRound(x+50,y+31,90,10,5,true,new Color(1,1,1, 200));
-            RenderRound.drawRound((float) (x+51), y+32, health*4,8,4, true, Firework.colorManager.getColor());
-
         } catch (Exception e){
 
         }

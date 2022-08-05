@@ -106,6 +106,7 @@ public class RenderUtils2D {
     }
 
     public static void renderItemStack(ItemStack itemStack, Point pos, String text) {
+        GlStateManager.pushMatrix();
         GlStateManager.enableTexture2D();
         GlStateManager.depthMask(true);
         glPushAttrib(GL_SCISSOR_BIT);
@@ -114,7 +115,6 @@ public class RenderUtils2D {
         glPopAttrib();
         GlStateManager.enableDepth();
         GlStateManager.disableAlpha();
-        GlStateManager.pushMatrix();
         mc.getRenderItem().zLevel = -150.0f;
         RenderHelper.enableGUIStandardItemLighting();
         mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, pos.x, pos.y);
