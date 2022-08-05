@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Render;
 
 import com.firework.client.Features.Modules.Misc.CameraClip;
+import com.firework.client.Features.Modules.Render.Sky;
 import com.firework.client.Features.Modules.Render.NoRender;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Player.TraceEvent;
@@ -10,6 +11,7 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
+import org.lwjgl.util.glu.Project;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,11 +21,9 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.annotation.Nullable;
 import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 @Mixin(value={EntityRenderer.class})
 public abstract class MixinEntityRenderer {
@@ -119,5 +119,10 @@ public abstract class MixinEntityRenderer {
     @ModifyVariable(method={"orientCamera"}, ordinal=7, at=@At(value="STORE", ordinal=0), require=1)
     public double orientCameraHook(double range) {
         return CameraClip.enabled.getValue() && CameraClip.extend.getValue() != false ? CameraClip.valX.getValue() : (CameraClip.enabled.getValue() && CameraClip.extend.getValue() == false ? 4.0 : range);
+    }
+
+    @Redirect(method = "renderWorldPass", at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
+    private void onRenderWorldPass(float y, float ratio, float zNear, float zFar) {
+        Project.gluPerspective(y, Sky.enabled.getValue() ? ((float) Sky.worldX.getValue() / (float) Sky.worldY.getValue()) : ratio, zNear, zFar);
     }
 }
