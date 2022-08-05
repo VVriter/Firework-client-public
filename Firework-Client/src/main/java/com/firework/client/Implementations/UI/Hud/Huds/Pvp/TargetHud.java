@@ -3,7 +3,7 @@ package com.firework.client.Implementations.UI.Hud.Huds.Pvp;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.UI.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.UI.Hud.Huds.HudManifest;
-import com.firework.client.Implementations.Utill.Render.Rounded.RoundRenderUtils;
+import com.firework.client.Implementations.Utill.Render.Rounded.RenderRound;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,7 +33,7 @@ public class TargetHud extends HudComponent {
         target = mc.player; //PlayerUtil.getClosestTarget();
         if (target == null) return;
         health = target.getHealth();
-        RoundRenderUtils.drawRound(x,y,width,height,10,true, new Color(227, 217, 217, 139));
+        RenderRound.drawRound(x,y,width,height,10,true, new Color(227, 217, 217, 139));
         //Draw Target heads
         ((AbstractClientPlayer)target).getLocationSkin();
         mc.getTextureManager().bindTexture(((AbstractClientPlayer)target).getLocationSkin());
@@ -45,8 +45,8 @@ public class TargetHud extends HudComponent {
             customFontManager.drawString(playerInfo, x + width - 120 - 2 + (120 - customFontManager.getWidth(playerInfo)) / 2, y + 2, Color.white.getRGB());
             int maxHealh = (int) target.getMaxHealth();
 
-            RoundRenderUtils.drawRound(x+50,y+31,90,10,5,new Color(1,1,1, 200));
-            RoundRenderUtils.drawRound((float) (x+51), y+32, health*4,8,4, Firework.colorManager.getColor());
+            RenderRound.drawRound(x+50,y+31,90,10,5,true,new Color(1,1,1, 200));
+            RenderRound.drawRound((float) (x+51), y+32, health*4,8,4, true, Firework.colorManager.getColor());
 
         } catch (Exception e){
 

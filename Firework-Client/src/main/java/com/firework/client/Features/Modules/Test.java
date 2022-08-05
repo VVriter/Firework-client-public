@@ -3,12 +3,9 @@ package com.firework.client.Features.Modules;
 import com.firework.client.Implementations.Events.Render.Render2dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
-import com.firework.client.Implementations.Utill.Render.Rectangle;
-import com.firework.client.Implementations.Utill.Render.Rounded.RoundRenderUtils;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-import java.awt.*;
 import java.util.Arrays;
 
 
