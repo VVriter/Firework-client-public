@@ -12,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.*;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
@@ -111,7 +112,7 @@ public class ESP extends Module {
 
 
             if (c instanceof EntityPlayer && player.getValue()) {
-                RenderUtils.FillLine((Entity) c,((EntityPlayer) c).getEntityBoundingBox());
+               RenderEntityUtils.drawBoundingBox(new AxisAlignedBB(((EntityPlayer) c).getEntityBoundingBox().minX - 0.05 - ((EntityPlayer) c).getEntityBoundingBox().maxX, ((EntityPlayer) c).getEntityBoundingBox().minY - 0.0 - ((EntityPlayer) c).posY, ((EntityPlayer) c).getEntityBoundingBox().minZ - 0.05 - ((EntityPlayer) c).posZ, ((EntityPlayer) c).getEntityBoundingBox().maxX + 0.05 - ((EntityPlayer) c).posX, ((EntityPlayer) c).getEntityBoundingBox().maxY + 0.1 - ((EntityPlayer) c).posY, ((EntityPlayer) c).getEntityBoundingBox().maxZ + 0.05 - ((EntityPlayer) c).posZ),3,Color.magenta.getRGB());
             }
         }
     });

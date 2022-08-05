@@ -3,6 +3,7 @@ package com.firework.client.Implementations.UI.Hud.Huds.Pvp;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.UI.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.UI.Hud.Huds.HudManifest;
+import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Render.Rounded.RenderRound;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.Gui;
@@ -31,7 +32,7 @@ public class TargetHud extends HudComponent {
     @Override
     public void onRender() {
         super.onRender();
-        target = mc.player; //PlayerUtil.getClosestTarget();
+        target = PlayerUtil.getClosestTarget();
         if (target == null) return;
         health = target.getHealth();
         RenderRound.drawRound(x,y,width,height,10,true, new Color(227, 217, 217, 139));
@@ -58,7 +59,7 @@ public class TargetHud extends HudComponent {
         int newX = x + width - 120;
         for (ItemStack itemStack : target.inventory.armorInventory) {
             mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, newX+35, y + height - 2 - 10 - 7 - 12 - 2 -2);
-            mc.getRenderItem().renderItemOverlays(mc.fontRenderer,itemStack, newX+20, y + height - 2 - 10 - 7 - 12 -2);
+            mc.getRenderItem().renderItemOverlays(mc.fontRenderer,itemStack, newX+35, y + height - 2 - 10 - 7 - 12 -2);
             newX += 18;
         }
 
