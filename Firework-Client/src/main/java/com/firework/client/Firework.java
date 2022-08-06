@@ -14,6 +14,7 @@ import com.firework.client.Implementations.Managers.Text.CFontRenderer;
 import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
 import com.firework.client.Implementations.UI.Hud.HudManager;
+import com.firework.client.Implementations.UI.Notifications.NotificationManager;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Implementations.Utill.Render.Shaders.ShaderManager;
@@ -117,6 +118,7 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
+        NotificationManager notificationManager = new NotificationManager();
         MinecraftForge.EVENT_BUS.register(new Loader());
         Logger.logAboutLoad();
 
