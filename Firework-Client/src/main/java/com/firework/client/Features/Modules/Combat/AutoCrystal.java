@@ -65,7 +65,6 @@ public class AutoCrystal extends Module {
         Packet, Controller
     }
     public Setting<Boolean> placeRayTraceResult = new Setting<>("PlaceRayTraceResult", true, this).setVisibility(v-> interaction.getValue());
-    public Setting<Boolean> rayTrace = new Setting<>("RaytraceCheck", true, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", false, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> sync = new Setting<>("Sync", true, this).setVisibility(v-> interaction.getValue());
 
@@ -260,23 +259,18 @@ public class AutoCrystal extends Module {
                         //Facing
                         EnumFacing facing = EnumFacing.UP;
 
-                        boolean shouldRotate = true;
+                        rotate(new Vec3d(placePos.getX() + 0.5, placePos.getY() - 0.5, placePos.getZ() + 0.5));
 
                         //RayTrace result
                         if(placeRayTraceResult.getValue()) {
-                            RayTraceResult result = mc.world.rayTraceBlocks(
-                                    new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ),
-                                    new Vec3d(placePos.getX() + 0.5, placePos.getY() - 0.5, placePos.getZ() + 0.5));
-
-                            if (result != null && result.sideHit != null) {
-                                facing = result.sideHit;
-                                rotate(result.hitVec);
-                                shouldRotate = false;
+                            Pair<EnumFacing, Vec3d> result = BlockUtil.getFacingToClick(placePos);
+                            if (result != null) {
+                                facing = result.one;
+                                rotate(result.two);
                             }
                         }
 
-                        if(shouldRotate)
-                            rotate(new Vec3d(placePos.getX() + 0.5, placePos.getY() - 0.5, placePos.getZ() + 0.5));
+                        System.out.println(facing);
 
                         renderPlacePos = placePos;
                         mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(placePos, facing, EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));

@@ -53,9 +53,11 @@ public class AutoArmor extends Module {
             if(itemStack.isEmpty()) {
                 mc.playerController.windowClick(mc.player.inventoryContainer.windowId, InventoryUtil.getClickSlot(slot), 0, ClickType.QUICK_MOVE, mc.player);
                 break;
-            }else if(elytraReplace.getValue() && itemStack.getItem() instanceof ItemElytra){
+            }else if((elytraReplace.getValue() && itemStack.getItem() instanceof ItemElytra)
+                    || (itemStack.getItem() instanceof ItemArmor
+                    && getArmorValue(InventoryUtil.getItemStack(InventoryUtil.getSlotFromEquipment(type))) < getArmorValue(InventoryUtil.getItemStack(findArmorSlot(type))))){
                 mc.playerController.windowClick(mc.player.inventoryContainer.windowId, InventoryUtil.getClickSlot(slot), 0, ClickType.PICKUP, mc.player);
-                mc.playerController.windowClick(mc.player.inventoryContainer.windowId, InventoryUtil.getSlotFromEquipment(type), 0, ClickType.PICKUP, mc.player);
+                mc.playerController.windowClick(mc.player.inventoryContainer.windowId, InventoryUtil.getClickSlot(InventoryUtil.getSlotFromEquipment(type)), 0, ClickType.PICKUP, mc.player);
                 mc.playerController.windowClick(mc.player.inventoryContainer.windowId, InventoryUtil.getClickSlot(slot), 0, ClickType.PICKUP, mc.player);
                 break;
             }

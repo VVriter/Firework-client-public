@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Utill.Blocks;
 import com.firework.client.Firework;
 
+import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
@@ -32,6 +33,28 @@ public class BlockUtil {
     public static Vec3d[] holeOffsets = new Vec3d[]{new Vec3d(-1.0, 0.0, 0.0), new Vec3d(1.0, 0.0, 0.0), new Vec3d(0.0, 0.0, -1.0), new Vec3d(0.0, 0.0, 1.0), new Vec3d(0.0, -1.0, 0.0)};
 
     private static Minecraft mc = Minecraft.getMinecraft();
+
+    public static Pair<EnumFacing, Vec3d> getFacingToClick(BlockPos pos){
+        final Vec3d eyesPos = new Vec3d(BlockUtil.mc.player.posX, BlockUtil.mc.player.posY + BlockUtil.mc.player.getEyeHeight(), BlockUtil.mc.player.posZ);
+        for (final EnumFacing side : EnumFacing.values()) {
+            final BlockPos neighbor = pos.offset(side);
+            final EnumFacing side2 = side.getOpposite();
+            final Vec3d hitVec;
+            if (canBeClicked(neighbor) && eyesPos.squareDistanceTo(hitVec = new Vec3d(neighbor).add(0.5, 0.5, 0.5).add(new Vec3d(side2.getDirectionVec()).scale(0.5))) <= 18.0625) {
+                BlockUtil.mc.player.swingArm(EnumHand.MAIN_HAND);
+                return new Pair<>(side2, hitVec);
+            }
+        }
+        return null;
+    }
+
+    public static boolean canBeClicked(BlockPos pos) {
+        return BlockUtil.getBlock(pos).canCollideCheck(BlockUtil.getState(pos), false);
+    }
+
+    public static IBlockState getState(BlockPos pos) {
+        return BlockUtil.mc.world.getBlockState(pos);
+    }
 
     public static boolean placeBlock(BlockPos pos, EnumHand hand, boolean rotate, boolean packet, boolean isSneaking) {
         boolean sneaking = false;
