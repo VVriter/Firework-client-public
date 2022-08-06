@@ -68,7 +68,6 @@ public class ChamsRewrite extends Module {
             float alpha1 = Color.green.getAlpha() / 255;
 
             GL11.glPushMatrix();
-            modelBase.render(entityLivingBase, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
             GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
 
             GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
@@ -91,10 +90,8 @@ public class ChamsRewrite extends Module {
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            //GL11.glEnable(GL11.GL_STENCIL_TEST);
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             GL11.glDepthMask(false);
-            //GL11.glEnable(GL11.GL_POLYGON_OFFSET_LINE);
             GL11.glEnable(GL11.GL_LINE_SMOOTH);
             GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
 
