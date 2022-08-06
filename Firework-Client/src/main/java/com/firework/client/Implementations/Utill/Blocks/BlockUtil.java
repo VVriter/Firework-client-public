@@ -82,7 +82,6 @@ public class BlockUtil {
         return sneaking || isSneaking;
     }
 
-
     public static List<EnumFacing> getPossibleSides(BlockPos pos) {
         ArrayList<EnumFacing> facings = new ArrayList<>();
         for (EnumFacing side : EnumFacing.values()) {

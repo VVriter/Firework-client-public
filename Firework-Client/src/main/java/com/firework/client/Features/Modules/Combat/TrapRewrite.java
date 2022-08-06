@@ -91,11 +91,9 @@ public class TrapRewrite extends Module {
             return;
         }
 
-        if(canContinueTrapping(entityTarget)){
-            for(BlockPos pos : trapBlocks(entityTarget)){
-                if(line.contains(pos) || !BlockUtil.isAir(pos) || !BlockUtil.isValid(pos)) continue;
-                line.add(pos);
-            }
+        for(BlockPos pos : trapBlocks(entityTarget)){
+            if(line.contains(pos) || !BlockUtil.isAir(pos) || !BlockUtil.isValid(pos)) continue;
+            line.add(pos);
         }
 
         if(remaingDelay > 0)

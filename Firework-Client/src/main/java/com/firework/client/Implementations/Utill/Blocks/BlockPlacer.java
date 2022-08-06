@@ -45,8 +45,6 @@ public class BlockPlacer {
 
     //BlockPos to place
     public void placeBlock(final BlockPos blockPos){
-        //Updates local settings
-        updateSettings();
         //Return if block pos is null
         if(blockPos == null)
             return;
@@ -67,8 +65,6 @@ public class BlockPlacer {
 
     //BlockPos to place
     public void placeBlock(final BlockPos blockPos, final Block block1){
-        //Updates local settings
-        updateSettings();
         //Returns if block pos is null
         if(blockPos == null) return;
         //Returns if block at the pos isn't valid
@@ -90,8 +86,6 @@ public class BlockPlacer {
 
     //Place trap block
     public void placeTrapBlock(final BlockPos blockPos, final Block block1){
-        //Updates local settings
-        updateSettings();
         //Returns if block pos is null
         if(blockPos == null) return;
         //Returns if block at the pos isn't valid
@@ -175,13 +169,6 @@ public class BlockPlacer {
         mc.playerController.windowClick(0, getClickSlot(from), 0, ClickType.PICKUP, mc.player);
         mc.playerController.windowClick(0, getClickSlot(to), 0, ClickType.PICKUP, mc.player);
         mc.playerController.windowClick(0, getClickSlot(from), 0, ClickType.PICKUP, mc.player);
-    }
-
-    //Update settings
-    private void updateSettings(){
-        this.switchMode = Firework.settingManager.getSetting(module, switchMode.name);
-        this.rotate = Firework.settingManager.getSetting(module, rotate.name);
-        this.packet = Firework.settingManager.getSetting(module, packet.name);
     }
 
     //Switch modes
