@@ -1,6 +1,5 @@
 package com.firework.client.Features.Modules.Chat;
 
-import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.Player.TotemPopEvent;
@@ -30,7 +29,6 @@ public class PvpNotifications extends Module {
         for (Entity entity : mc.world.loadedEntityList) {
             if (PlayerUtil.IsEntityTrapped(entity)) {
                 MessageUtil.sendPvpNotification(entity.getName()+" trapped", -1117);
-                Notifications.notificate(entity.getName()+" trapped","");
                 }
             }
         }

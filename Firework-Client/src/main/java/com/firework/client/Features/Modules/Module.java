@@ -1,15 +1,12 @@
 package com.firework.client.Features.Modules;
 
 import com.firework.client.Features.Modules.Client.Logger;
-import com.firework.client.Features.Modules.Client.Notifications;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Client.SoundUtill;
-import com.mysql.cj.jdbc.exceptions.NotUpdatable;
+import com.firework.client.Implementations.UI.Notifications.NotificationManager;
+import com.firework.client.Implementations.UI.Notifications.NotificationType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
 
 public class Module{
@@ -45,7 +42,7 @@ public class Module{
         isEnabled.setValue(true);
         onToggle();
         Firework.eventBus.register(this);
-        Notifications.notificate(this.getName()+"toggeled on!","");
+        NotificationManager.post(NotificationType.INFO,"GEGRA","BEBRA");
     }
 
 
@@ -53,7 +50,6 @@ public class Module{
         isEnabled.setValue(false);
         onToggle();
         Firework.eventBus.unregister(this);
-        Notifications.notificate(this.getName()+"toggled off!","");
     }
 
     public void onEnableLog() {
@@ -67,9 +63,6 @@ public class Module{
         onDisable();
         if(Logger.enabled.getValue() && Logger.onModuleDisable.getValue()){
             Logger.log(this);
-        }
-        if (Notifications.enabled.getValue()) {
-            Notifications.notificate(this.getName()+" is disabled","");
         }
     }
 
