@@ -25,7 +25,7 @@ public class SliderButton extends Button{
         super.draw(mouseX, mouseY);
         double textWidth = Firework.customFontManager.getWidth(setting.getValue().toString());
 
-        GuiInfo.drawButtonBase(this);
+        //GuiInfo.drawButtonBase(this);
 
         RenderUtils2D.drawRectangle(new Rectangle(x + 2, y + height - 1, (width - 4) * (Double.valueOf(setting.getValue().toString()) - setting.min) / difference, 1), Firework.colorManager.getColor());
 

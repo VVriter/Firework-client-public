@@ -5,6 +5,7 @@ import com.firework.client.Implementations.UI.GuiN.Component;
 import com.firework.client.Implementations.UI.GuiN.Frame;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
+import com.firework.client.Implementations.Utill.Render.Rounded.RenderRound;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -34,7 +35,8 @@ public class GuiInfo {
     }
 
     public static void drawButtonBase(Component component){
-        RenderUtils2D.drawRectAlpha(new Rectangle(component.x, component.y, component.width, component.getHeight()), new Color(1,1, 1, 169));
+        //RenderUtils2D.drawRectAlpha(new Rectangle(component.x, component.y, component.width, component.getHeight()), new Color(1,1, 1, 169));
+        RenderRound.drawRound((float) component.x, (float) component.y, component.width, component.getHeight()-1.5f,0.8f,true,new Color(1,1, 1, 95));
     }
 
     public static boolean isHoveringOnTheComponent(Component component, int mouseX, int mouseY) {

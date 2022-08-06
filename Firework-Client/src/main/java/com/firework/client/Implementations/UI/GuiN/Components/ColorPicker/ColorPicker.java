@@ -33,7 +33,7 @@ public class ColorPicker extends Button {
     @Override
     public void draw(int mouseX, int mouseY) {
         super.draw(mouseX, mouseY);
-        GuiInfo.drawButtonBase(this);
+        //GuiInfo.drawButtonBase(this);
         Firework.customFontManager.drawString(setting.name, x + 3, (float) (y + 1), Color.white.getRGB());
         RenderUtils2D.drawAlphaBarBase(new Rectangle(x + width - 9, y + 2, 6, 6));
         //RenderUtils2D.drawRectAlpha(new Rectangle(x + width - 9, y + 2, 6, 6), ((HSLColor)setting.getValue()).toRGB());

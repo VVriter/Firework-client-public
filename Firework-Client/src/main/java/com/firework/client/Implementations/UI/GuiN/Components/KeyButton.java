@@ -22,7 +22,7 @@ public class KeyButton extends Button{
     @Override
     public void draw(int mouseX, int mouseY) {
         super.draw(mouseX, mouseY);
-        GuiInfo.drawButtonBase(this);
+        //GuiInfo.drawButtonBase(this);
 
         boolean active = Objects.equals(GuiN.activeKey, this.setting);
         String value = Keyboard.getKeyName((int) setting.getValue());
