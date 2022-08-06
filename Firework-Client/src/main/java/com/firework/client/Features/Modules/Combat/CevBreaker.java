@@ -18,6 +18,7 @@ import com.firework.client.Implementations.Utill.Items.ItemUser;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.TickTimer;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
@@ -57,10 +58,10 @@ public class CevBreaker extends Module {
     public Setting<Boolean> blockPacket = new Setting<>("Packet", true, this).setVisibility(v-> blocks.getValue());
 
     public Setting<Boolean> delays = new Setting<>("Delays", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Integer> placeBlockDelay = new Setting<>("PlaceBlockDelayMs", 80, this, 1, 200).setVisibility(v-> delays.getValue());
-    public Setting<Integer> placeCrystalDelay = new Setting<>("PlaceCrystalDelayMs", 80, this, 1, 200).setVisibility(v-> delays.getValue());
-    public Setting<Integer> breakBlockDelay = new Setting<>("BreakBlockDelayMs", 80, this, 1, 200).setVisibility(v-> delays.getValue());
-    public Setting<Integer> breakCrystalDelay = new Setting<>("BreakCrystalDelayMs", 80, this, 1, 200).setVisibility(v-> delays.getValue());
+    public Setting<Integer> placeBlockDelay = new Setting<>("PlaceBlockDelay", 10, this, 1, 20).setVisibility(v-> delays.getValue());
+    public Setting<Integer> placeCrystalDelay = new Setting<>("PlaceCrystalDelay", 10, this, 1, 20).setVisibility(v-> delays.getValue());
+    public Setting<Integer> breakBlockDelay = new Setting<>("BreakBlockDelay", 10, this, 1, 20).setVisibility(v-> delays.getValue());
+    public Setting<Integer> breakCrystalDelay = new Setting<>("BreakCrystalDelay", 10, this, 1, 20).setVisibility(v-> delays.getValue());
 
     public Setting<Boolean> sync = new Setting<>("Sync", false, this);
     public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);
@@ -71,7 +72,7 @@ public class CevBreaker extends Module {
     ItemUser itemUser;
     BlockPlacer blockPlacer;
     BlockBreaker blockBreaker;
-    public Timer timer;
+    public TickTimer timer;
     public int stage;
 
     @Override
@@ -82,7 +83,7 @@ public class CevBreaker extends Module {
         itemUser = new ItemUser(this, itemSwitch, itemRotate);
         blockPlacer = new BlockPlacer(this, blockSwitch, blockRotate, blockPacket);
         blockBreaker = new BlockBreaker(this, breakMode, blockRotate, blockRayTrace, blockPacket);
-        timer = new Timer();
+        timer = new TickTimer();
 
         target = PlayerUtil.getClosestTarget(targetRange.getValue());
         stage = getStage();
@@ -94,6 +95,7 @@ public class CevBreaker extends Module {
         itemUser = null;
         blockPlacer = null;
         blockBreaker = null;
+        timer.destory();
         timer = null;
     }
 
@@ -138,7 +140,7 @@ public class CevBreaker extends Module {
             case 1:
                 //Block place stage
                 if(BlockUtil.isAir(upside) && BlockUtil.isValid(upside)) {
-                    if (timer.hasPassedMs(placeBlockDelay.getValue())) {
+                    if (timer.hasPassedTicks(placeBlockDelay.getValue())) {
                         if(BlockUtil.getPossibleSides(upside).isEmpty()){
                             for(BlockPos pos : BlockUtil.getNeighbors(upside)){
                                 if(BlockUtil.getPossibleSides(pos).isEmpty()) continue;
@@ -160,7 +162,7 @@ public class CevBreaker extends Module {
                 //Crystal place stage
                 EntityEnderCrystal placeCrystal = CrystalUtils.getCrystalAtPos(upside);
                 if(placeCrystal == null) {
-                    if(timer.hasPassedMs(placeCrystalDelay.getValue())){
+                    if(timer.hasPassedTicks(placeCrystalDelay.getValue())){
                         itemUser.useItem(Items.END_CRYSTAL, upside, EnumHand.MAIN_HAND);
                         stage = 3;
                         timer.reset();
@@ -171,7 +173,7 @@ public class CevBreaker extends Module {
             case 3:
                 //Block break stage
                 if(!BlockUtil.isAir(upside)){
-                    if(timer.hasPassedMs(breakBlockDelay.getValue())){
+                    if(timer.hasPassedTicks(breakBlockDelay.getValue())){
                         blockBreaker.breakBlock(upside, Items.DIAMOND_PICKAXE);
                     }
                 }else {
@@ -183,7 +185,7 @@ public class CevBreaker extends Module {
                 //Crystal break stage
                 EntityEnderCrystal breakCrystal = CrystalUtils.getCrystalAtPos(upside);
                 if(breakCrystal != null){
-                    if(timer.hasPassedMs(breakCrystalDelay.getValue())){
+                    if(timer.hasPassedTicks(breakCrystalDelay.getValue())){
                         Firework.rotationManager.rotateSpoof(breakCrystal.getPositionVector().add(0.5, 0.5, 0.5));
                         mc.playerController.attackEntity(mc.player, breakCrystal);
                         stage = 1;

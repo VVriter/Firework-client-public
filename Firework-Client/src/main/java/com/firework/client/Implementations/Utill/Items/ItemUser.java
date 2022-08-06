@@ -3,6 +3,8 @@ package com.firework.client.Implementations.Utill.Items;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
+import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import net.minecraft.entity.EntityLivingBase;
@@ -45,8 +47,6 @@ public class ItemUser {
 
     //Uses item
     public void useItem(final Item item, final int pitch){
-        //Updates local settings
-        updateSettings();
 
         //Switchs
         int backSwitch = switchItems(item, InventoryUtil.hands.MainHand);
@@ -69,24 +69,20 @@ public class ItemUser {
 
     //Uses item
     public void useItem(final Item item, final BlockPos blockPos, final EnumHand hand){
-        //Updates local settings
-        updateSettings();
 
         //Switchs
         int backSwitch = switchItems(item, InventoryUtil.hands.MainHand);
 
         if (rotate.getValue()) {
-            Firework.rotationManager.rotateSpoof(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5));
+            Firework.rotationManager.rotateSpoof(new Vec3d(blockPos.getX() + 0.5, blockPos.getY() - 0.5, blockPos.getZ() + 0.5));
         }
 
         //Uses item
         EnumFacing facing = EnumFacing.UP;
-        RayTraceResult result = mc.world.rayTraceBlocks(
-                new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ),
-                new Vec3d(blockPos.getX() + 0.5, blockPos.getY() - 0.5,blockPos.getZ() + 0.5));
+        Pair<EnumFacing, Vec3d> result = BlockUtil.getFacingToClick(blockPos);
 
-        if (result != null && result.sideHit != null)
-            facing = result.sideHit;
+        if (result != null)
+            facing = result.one;
 
         mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(blockPos, facing, hand, 0, 0,0));
 
@@ -98,8 +94,6 @@ public class ItemUser {
 
     //Hits an entity
     public void hitEntity(final Item item, EntityLivingBase entityLivingBase){
-        //Updates local settings
-        updateSettings();
 
         //Switchs
         int backSwitch = switchItems(item, InventoryUtil.hands.MainHand);
@@ -144,18 +138,6 @@ public class ItemUser {
         mc.playerController.windowClick(0, getClickSlot(from), 0, ClickType.PICKUP, mc.player);
         mc.playerController.windowClick(0, getClickSlot(to), 0, ClickType.PICKUP, mc.player);
         mc.playerController.windowClick(0, getClickSlot(from), 0, ClickType.PICKUP, mc.player);
-    }
-
-    //Update settings
-    private void updateSettings(){
-        if(this.switchMode != null)
-            this.switchMode = Firework.settingManager.getSetting(module, switchMode.name);
-        if(this.rotate != null)
-            this.rotate = Firework.settingManager.getSetting(module, rotate.name);
-        if(this.packet != null)
-            this.packet = Firework.settingManager.getSetting(module, packet.name);
-        if(this.swing != null)
-            this.swing = Firework.settingManager.getSetting(module, swing.name);
     }
 
     //Switch modes

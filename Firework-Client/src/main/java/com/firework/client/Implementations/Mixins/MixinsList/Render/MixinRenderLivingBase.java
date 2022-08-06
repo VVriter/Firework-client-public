@@ -1,5 +1,7 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Render;
 
+import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.Render.RenderEntityModelEvent;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
@@ -11,7 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import com.firework.client.Features.Modules.Render.СhampsRewrite;
+import ua.firework.beet.Event;
 
 @Mixin(value={RenderLivingBase.class})
 public abstract class MixinRenderLivingBase<T extends EntityLivingBase>
@@ -24,17 +26,17 @@ public abstract class MixinRenderLivingBase<T extends EntityLivingBase>
 
     @Inject(method={"doRender"}, at={@At(value="HEAD")})
     public void doRenderPre(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo info) {
-        if (СhampsRewrite.enabled.getValue() && entity != null && entity instanceof EntityPlayer) {
-            GL11.glEnable((int)32823);
-            GL11.glPolygonOffset((float)1.0f, (float)-1100000.0f);
-        }
+        RenderEntityModelEvent event = new RenderEntityModelEvent(Event.Stage.PRE, entity);
+        Firework.eventBus.post(event);
+        if(event.isCancelled())
+            info.cancel();
     }
 
     @Inject(method={"doRender"}, at={@At(value="RETURN")})
     public void doRenderPost(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo info) {
-        if (СhampsRewrite.enabled.getValue() && entity != null && entity instanceof EntityPlayer) {
-            GL11.glPolygonOffset((float)1.0f, (float)1000000.0f);
-            GL11.glDisable((int)32823);
-        }
+        RenderEntityModelEvent event = new RenderEntityModelEvent(Event.Stage.POST, entity);
+        Firework.eventBus.post(event);
+        if(event.isCancelled())
+            info.cancel();
     }
 }
