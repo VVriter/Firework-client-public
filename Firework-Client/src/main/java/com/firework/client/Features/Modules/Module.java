@@ -3,8 +3,6 @@ package com.firework.client.Features.Modules;
 import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.UI.Notifications.NotificationManager;
-import com.firework.client.Implementations.UI.Notifications.NotificationType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import org.lwjgl.input.Keyboard;
@@ -42,7 +40,7 @@ public class Module{
         isEnabled.setValue(true);
         onToggle();
         Firework.eventBus.register(this);
-        NotificationManager.post(NotificationType.INFO,"GEGRA","BEBRA");
+
     }
 
 
