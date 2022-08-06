@@ -36,8 +36,8 @@ public class BoolButton extends Button{
 
         int activeColor = (boolean) setting.getValue() ? Firework.colorManager.getColor().getRGB() : Color.white.getRGB();
 
-        RenderUtils2D.drawCheckMarkV3(new Rectangle(x + width - 10 - 2, y + 2, 10, 6), (Boolean) setting.getValue(), animation.width);
-        textManager.drawString(setting.name, (float) (x+3), (float) (y+1),
+        RenderUtils2D.drawCheckMarkV3(new Rectangle(x + width - 10 - 2, y + 1, 10, 6), (Boolean) setting.getValue(), animation.width);
+        textManager.drawString(setting.name, (float) (x+3), (float) (y),
                 activeColor,false);
     }
 

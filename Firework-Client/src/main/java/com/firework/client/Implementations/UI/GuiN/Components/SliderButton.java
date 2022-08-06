@@ -27,12 +27,12 @@ public class SliderButton extends Button{
 
         //GuiInfo.drawButtonBase(this);
 
-        RenderUtils2D.drawRectangle(new Rectangle(x + 2, y + height - 1, (width - 4) * (Double.valueOf(setting.getValue().toString()) - setting.min) / difference, 1), Firework.colorManager.getColor());
+        RenderUtils2D.drawRectangle(new Rectangle(x + 2, y + height-2, (width - 4) * (Double.valueOf(setting.getValue().toString()) - setting.min) / difference, 1), Firework.colorManager.getColor());
 
-        Firework.customFontManager.drawString(setting.name, x+3, (float) (y+1),
+        Firework.customFontManager.drawString(setting.name, x+3, (float) (y),
                 Color.WHITE.getRGB());
 
-        Firework.customFontManager.drawString(setting.getValue().toString(), x+width-2-textWidth, (float) (y+1),
+        Firework.customFontManager.drawString(setting.getValue().toString(), x+width-2-textWidth, (float) (y),
                 Color.WHITE.getRGB());
     }
 

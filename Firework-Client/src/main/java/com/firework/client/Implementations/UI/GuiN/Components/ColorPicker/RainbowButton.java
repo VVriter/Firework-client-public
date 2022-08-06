@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
+import com.firework.client.Implementations.Utill.Render.Rounded.RenderRound;
 
 import java.awt.*;
 
@@ -26,8 +27,9 @@ public class RainbowButton extends Component {
         double textWidth = Firework.customFontManager.getWidth(text);
 
         if(registered())
-            RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), Firework.colorManager.getRomeo(), Firework.colorManager.getJuliet());
-        Firework.customFontManager.drawString(text, x + (width - textWidth)/2, (float) y + 1, registered() ? Color.white.getRGB() : Firework.colorManager.getJuliet().getRGB());
+            //RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y, width, height), Firework.colorManager.getRomeo(), Firework.colorManager.getJuliet());
+        RenderRound.drawGradientRound((float) x, (float) y,width,height,1,Firework.colorManager.getRomeo(),Firework.colorManager.getRomeo(),Firework.colorManager.getJuliet(),Firework.colorManager.getJuliet());
+        Firework.customFontManager.drawString(text, x + (width - textWidth)/2, (float) y, registered() ? Color.white.getRGB() : Firework.colorManager.getJuliet().getRGB());
     }
 
     public boolean registered(){

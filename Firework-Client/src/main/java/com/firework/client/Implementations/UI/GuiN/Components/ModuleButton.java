@@ -67,9 +67,9 @@ public class ModuleButton extends Button{
 
         GuiInfo.drawButtonBase(this);
         if(module.isEnabled.getValue())
-            RenderUtils2D.drawRectangle(new Rectangle(x + 1, y + 1, 1, height - 2), Firework.colorManager.getColor());
+            RenderUtils2D.drawRectangle(new Rectangle(x + 1, y, 1, height - 2), Firework.colorManager.getColor());
         //RenderRound.drawRound((float) (x+1), (float) (y+1),1, height-2,4,true,Firework.colorManager.getColor());
-        customFontManager.drawString(module.name, x + (width-textWidth)/2, (float) (y+1),
+        customFontManager.drawString(module.name, x + (width-textWidth)/2, (float) (y),
                 module.isEnabled.getValue() ? Firework.colorManager.getColor().getRGB() : Color.white.getRGB());
 
         if(module.isOpened.getValue()) {
