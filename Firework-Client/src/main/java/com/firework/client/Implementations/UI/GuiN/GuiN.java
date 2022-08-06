@@ -59,7 +59,7 @@ public class GuiN extends GuiScreen {
 
         glScaled(popOutAnimation.width, popOutAnimation.width, 1);
         glTranslated((width / 2) * (1 - popOutAnimation.width), height * (1 - popOutAnimation.width), 0);
-        GuiInfo.frames.forEach(frame -> frame.draw(mouseX, mouseY));
+        GuiInfo.frames.forEach(frame -> frame.draw(mouseX, mouseY+2));
 
         glPopMatrix();
         if(isDragging) {

@@ -22,16 +22,16 @@ public class KeyButton extends Button{
     @Override
     public void draw(int mouseX, int mouseY) {
         super.draw(mouseX, mouseY);
-        GuiInfo.drawButtonBase(this);
+        //GuiInfo.drawButtonBase(this);
 
         boolean active = Objects.equals(GuiN.activeKey, this.setting);
         String value = Keyboard.getKeyName((int) setting.getValue());
         double textWidth = customFontManager.getWidth(value);
 
-        textManager.drawString(setting.name, (float) (x + 3), (float) (y + 1),
+        textManager.drawString(setting.name, (float) (x + 3), (float) (y),
                 active ? Color.gray.getRGB() : Color.white.getRGB(),false);
 
-        textManager.drawString(value, (float) (x+width-2-textWidth), (float) (y + 1),
+        textManager.drawString(value, (float) (x+width-2-textWidth), (float) (y),
                 active ? Color.gray.getRGB() : Firework.colorManager.getColor().getRGB(), false);
     }
 

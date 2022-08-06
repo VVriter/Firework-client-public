@@ -20,12 +20,12 @@ public class ModeButton extends Button{
         super.draw(mouseX, mouseY);
         int textWidth = textManager.getStringWidth(setting.getValue().toString());
 
-        GuiInfo.drawButtonBase(this);
+        //GuiInfo.drawButtonBase(this);
 
-        textManager.drawString(setting.name, (float) (x+3), (float) (y+1),
+        textManager.drawString(setting.name, (float) (x+3), (float) (y),
                 Color.WHITE.getRGB(),false);
 
-        textManager.drawString(setting.getValue().toString(), (float) (x+width-2-textWidth), (float) (y+1),
+        textManager.drawString(setting.getValue().toString(), (float) (x+width-2-textWidth), (float) (y),
                 Firework.colorManager.getColor().getRGB(),false);
     }
 

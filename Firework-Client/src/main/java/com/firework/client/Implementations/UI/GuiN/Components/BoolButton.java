@@ -32,12 +32,12 @@ public class BoolButton extends Button{
         super.draw(mouseX, mouseY);
         animation.update();
 
-        GuiInfo.drawButtonBase(this);
+        //GuiInfo.drawButtonBase(this);
 
         int activeColor = (boolean) setting.getValue() ? Firework.colorManager.getColor().getRGB() : Color.white.getRGB();
 
-        RenderUtils2D.drawCheckMarkV3(new Rectangle(x + width - 10 - 2, y + 2, 10, 6), (Boolean) setting.getValue(), animation.width);
-        textManager.drawString(setting.name, (float) (x+3), (float) (y+1),
+        RenderUtils2D.drawCheckMarkV3(new Rectangle(x + width - 10 - 2, y + 1, 10, 6), (Boolean) setting.getValue(), animation.width);
+        textManager.drawString(setting.name, (float) (x+3), (float) (y),
                 activeColor,false);
     }
 
@@ -48,8 +48,8 @@ public class BoolButton extends Button{
         if(GuiN.isDragging) return;
         setting.setValue(!(boolean)setting.getValue());
         if((boolean)setting.getValue())
-            animation.setValues(7, 1f);
+            animation.setValues(7, 0.5f);
         else
-            animation.setValues(3, 1f);
+            animation.setValues(3, 0.5f);
     }
 }
