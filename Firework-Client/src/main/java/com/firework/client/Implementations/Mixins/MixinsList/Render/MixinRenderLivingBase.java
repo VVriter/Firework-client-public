@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import com.firework.client.Features.Modules.Render.СhampsRewrite;
 import ua.firework.beet.Event;
 
 @Mixin(value={RenderLivingBase.class})
