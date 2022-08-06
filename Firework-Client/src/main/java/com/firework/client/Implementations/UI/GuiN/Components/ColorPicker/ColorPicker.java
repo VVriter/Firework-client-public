@@ -9,6 +9,7 @@ import com.firework.client.Implementations.UI.GuiN.GuiInfo;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
+import com.firework.client.Implementations.Utill.Render.Rounded.RenderRound;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -35,7 +36,8 @@ public class ColorPicker extends Button {
         GuiInfo.drawButtonBase(this);
         Firework.customFontManager.drawString(setting.name, x + 3, (float) (y + 1), Color.white.getRGB());
         RenderUtils2D.drawAlphaBarBase(new Rectangle(x + width - 9, y + 2, 6, 6));
-        RenderUtils2D.drawRectAlpha(new Rectangle(x + width - 9, y + 2, 6, 6), ((HSLColor)setting.getValue()).toRGB());
+        //RenderUtils2D.drawRectAlpha(new Rectangle(x + width - 9, y + 2, 6, 6), ((HSLColor)setting.getValue()).toRGB());
+        RenderRound.drawRound((float) (x+width-9), (float) (y+2),6,6,2,true,((HSLColor) setting.getValue()).toRGB());
         if(setting.opened){
             colorField.y = this.y + 10;
             hueBar.y = this.y + 10 + 30;
