@@ -20,6 +20,7 @@ import com.firework.client.Implementations.Utill.Render.Shaders.ShaderManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Session;
 import net.minecraft.util.Util;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -37,6 +38,7 @@ import xyz.firework.autentification.Initators.InitConfigs;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -131,6 +133,7 @@ public class Firework
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        //setSession(new Session("uraniumxyz", "uraniumxyz", "0", "legacy"));
         //Link to client
         minecraft = Minecraft.getMinecraft();
         //Sets custom window title when client is loading
@@ -194,4 +197,29 @@ public class Firework
     }
 
     //End------------------------------------------------------------------------------------------------------------------------------------
+
+    public static void setSession(Session s) {
+        Class<? extends Minecraft> mc = Minecraft.getMinecraft().getClass();
+
+        try {
+            Field session = null;
+
+            for (Field f : mc.getDeclaredFields()) {
+                if (f.getType().isInstance(s)) {
+                    session = f;
+                }
+            }
+
+            if (session == null) {
+                throw new IllegalStateException("Session Null");
+            }
+
+            session.setAccessible(true);
+            session.set(Minecraft.getMinecraft(), s);
+            session.setAccessible(false);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
