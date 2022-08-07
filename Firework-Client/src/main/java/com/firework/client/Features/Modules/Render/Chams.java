@@ -104,6 +104,8 @@ public class Chams extends Module {
     });
 
     public boolean isValid(Entity entity){
+        if(entity == mc.player)
+            return false;
         if(entity instanceof EntityPlayer && players.getValue())
             return true;
         if(entity instanceof EntityCreature && mobs.getValue())
