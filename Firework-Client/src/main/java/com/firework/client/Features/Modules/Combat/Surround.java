@@ -117,6 +117,7 @@ public class Surround extends Module {
 
         if(jump.getValue(jumpMode.Disable) && (mc.gameSettings.keyBindJump.isKeyDown())) {
             onDisableLog();
+            return;
         }else if(jump.getValue(jumpMode.Continue) && mc.gameSettings.keyBindJump.isKeyDown() && isAir(EntityUtil.getFlooredPos(mc.player).add(0, -1, 0)) && BlockUtil.isValid(EntityUtil.getFlooredPos(mc.player).add(0, -1, 0))){
             blockPlacer.placeBlock(EntityUtil.getFlooredPos(mc.player).add(0, -1, 0), Blocks.OBSIDIAN);
         }
@@ -128,6 +129,7 @@ public class Surround extends Module {
             if (shouldToggle.getValue()) {
                 doSurround();
                 onDisableLog();
+                return;
             }
             first = false;
         }
