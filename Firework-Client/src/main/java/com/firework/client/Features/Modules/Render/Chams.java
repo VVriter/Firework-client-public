@@ -15,6 +15,8 @@ import ua.firework.beet.Event;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
+import java.text.DecimalFormat;
+
 import static org.lwjgl.opengl.GL11.*;
 
 @ModuleManifest(name = "ChamsRewrite", category = Module.Category.COMBAT)
@@ -80,7 +82,9 @@ public class Chams extends Module {
                 glEnable(GL_LINE_SMOOTH);
                 glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
                 GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
-                glLineWidth(outlineWidth.getValue());
+                DecimalFormat df = new DecimalFormat("#.####");
+                float scaleFactor = Float.parseFloat(df.format((Entity.getRenderDistanceWeight() - renderEntityModelEvent.getEntity().getPositionVector().distanceTo(mc.player.getPositionVector().add(0, mc.player.eyeHeight, 0)))/Entity.getRenderDistanceWeight()));
+                glLineWidth(outlineWidth.getValue()*scaleFactor);
                 GlStateManager.color(outlineColor.getValue().toRGB().getRed() / 255.0f,
                         outlineColor.getValue().toRGB().getGreen() / 255.0f,
                         outlineColor.getValue().toRGB().getBlue() / 255.0f,
