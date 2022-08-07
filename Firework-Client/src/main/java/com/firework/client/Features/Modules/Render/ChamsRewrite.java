@@ -38,6 +38,7 @@ public class ChamsRewrite extends Module {
 
     @Subscribe
     public Listener<RenderEntityModelEvent> onEntityModelRender = new Listener<>(renderEntityModelEvent -> {
+        if(fullNullCheck()) return;
         if(!isValid(renderEntityModelEvent.getEntity())) return;
 
         final ModelBase modelBase = renderEntityModelEvent.getModelBase();
@@ -50,64 +51,80 @@ public class ChamsRewrite extends Module {
         final float headPitch = renderEntityModelEvent.getHeadPitch();
         final float scaleFactor = renderEntityModelEvent.getScaleFactor();
 
+        boolean isPlayer = renderEntityModelEvent.getEntity() instanceof EntityPlayer;
         if(renderEntityModelEvent.getStage() == Event.Stage.INIT){
-            if(outline.getValue()) {
 
-            }
             if(fill.getValue()) {
 
+                mc.getRenderManager().setRenderShadow(false);
+                mc.getRenderManager().setRenderOutlines(false);
+                GlStateManager.pushMatrix();
+                GlStateManager.depthMask(true);
+                OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
+                glEnable(GL_POLYGON_OFFSET_FILL);
+                glDepthRange(0.0, 0.01);
+                glDisable(GL_TEXTURE_2D);
+                if (!isPlayer)
+                    GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+                GlStateManager.color(fillColor.getValue().toRGB().getRed() / 255.0f,
+                        fillColor.getValue().toRGB().getGreen() / 255.0f,
+                        fillColor.getValue().toRGB().getBlue() / 255.0f,
+                        fillColor.getValue().toRGB().getAlpha() / 255.0f);
+                GlStateManager.popMatrix();
+
+                modelBase.render(entityLivingBase, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+
+
+                boolean shadow = mc.getRenderManager().isRenderShadow();
+                mc.getRenderManager().setRenderShadow(shadow);
+                GlStateManager.pushMatrix();
+                GlStateManager.depthMask(false);
+                if (!isPlayer)
+                    GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+                glDisable(GL_POLYGON_OFFSET_FILL);
+                glDepthRange(0.0, 1.0);
+                glEnable(GL_TEXTURE_2D);
+                GlStateManager.popMatrix();
             }
-            float red = Color.red.getRed() / 255;
-            float green = Color.red.getGreen() / 255;
-            float blue = Color.red.getBlue() / 255;
-            float alpha = Color.red.getAlpha() / 255;
+            if(outline.getValue()) {
 
-            float red1 = Color.green.getRed() / 255;
-            float green1 = Color.green.getGreen() / 255;
-            float blue1 = Color.green.getBlue() / 255;
-            float alpha1 = Color.green.getAlpha() / 255;
+                mc.getRenderManager().setRenderShadow(false);
+                mc.getRenderManager().setRenderOutlines(false);
+                GlStateManager.pushMatrix();
+                GlStateManager.depthMask(true);
+                OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                glEnable(GL_POLYGON_OFFSET_LINE);
+                glDepthRange(0.0, 0.01);
+                glDisable(GL_TEXTURE_2D);
+                glDisable(GL_LIGHTING);
+                glEnable(GL_LINE_SMOOTH);
+                glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+                if (!isPlayer)
+                    GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+                glLineWidth(outlineWidth.getValue());
+                GlStateManager.color(outlineColor.getValue().toRGB().getRed() / 255.0f,
+                        outlineColor.getValue().toRGB().getGreen() / 255.0f,
+                        outlineColor.getValue().toRGB().getBlue() / 255.0f,
+                        outlineColor.getValue().toRGB().getAlpha() / 255.0f);
+                GlStateManager.popMatrix();
 
-            GL11.glPushMatrix();
-            GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
+                modelBase.render(entityLivingBase, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 
-            GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glEnable(GL11.GL_LINE_SMOOTH);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glColor4f(red, green, blue, alpha);
-            GL11.glLineWidth((float) 3);
-            modelBase.render(entityLivingBase, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-            GL11.glPopAttrib();
-            GL11.glPopMatrix();
-
-            GL11.glPushMatrix();
-            GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
-            GL11.glDisable(GL11.GL_ALPHA_TEST);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glDepthMask(false);
-            GL11.glEnable(GL11.GL_LINE_SMOOTH);
-            GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
-
-            GL11.glColor4f(red1, green1, blue1, alpha1);
-            modelBase.render(entityLivingBase, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-
-            GL11.glDisable(GL11.GL_LINE_SMOOTH);
-
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
-            GL11.glDepthMask(true);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glEnable(GL11.GL_ALPHA_TEST);
-            GL11.glPopAttrib();
-            GL11.glPopMatrix();
+                boolean shadow = mc.getRenderManager().isRenderShadow();
+                mc.getRenderManager().setRenderShadow(shadow);
+                GlStateManager.pushMatrix();
+                GlStateManager.depthMask(false);
+                if (!isPlayer)
+                    GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+                glDisable(GL_POLYGON_OFFSET_LINE);
+                glDepthRange(0.0, 1.0);
+                glEnable(GL_TEXTURE_2D);
+                glEnable(GL_LIGHTING);
+                glDisable(GL_LINE_SMOOTH);
+                GlStateManager.popMatrix();
+            }
         }
     });
 
