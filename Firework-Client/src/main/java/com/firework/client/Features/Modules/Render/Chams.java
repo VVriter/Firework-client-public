@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
+import org.lwjgl.Sys;
 import ua.firework.beet.Event;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
@@ -85,8 +86,9 @@ public class Chams extends Module {
                 glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
                 GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
                 DecimalFormat df = new DecimalFormat("#.####");
-                float scaleFactor = Float.parseFloat(df.format((Entity.getRenderDistanceWeight() - renderEntityModelEvent.getEntity().getPositionVector().distanceTo(mc.player.getPositionVector().add(0, mc.player.eyeHeight, 0)))/Entity.getRenderDistanceWeight()));
-                glLineWidth(outlineWidth.getValue()*scaleFactor);
+                float scaleFactor = Float.parseFloat(df.format((128 - renderEntityModelEvent.getEntity().getPositionVector().distanceTo(mc.player.getPositionVector().add(0, mc.player.eyeHeight, 0)))/128));
+                System.out.println(outlineWidth.getValue() * scaleFactor);
+                glLineWidth(outlineWidth.getValue() * scaleFactor);
                 GlStateManager.color(outlineColor.getValue().toRGB().getRed() / 255.0f,
                         outlineColor.getValue().toRGB().getGreen() / 255.0f,
                         outlineColor.getValue().toRGB().getBlue() / 255.0f,
