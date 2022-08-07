@@ -4,6 +4,7 @@ import com.firework.client.Firework;
 import com.firework.client.Implementations.UI.Hud.Huds.HudComponent;
 import com.firework.client.Implementations.UI.Hud.Huds.HudManifest;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
+import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import com.firework.client.Implementations.Utill.Render.Rounded.RenderRound;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.Gui;
@@ -57,12 +58,10 @@ public class TargetHud extends HudComponent {
 
         //Draws Target armor
         int newX = x + width - 120;
-    /*    for (ItemStack itemStack : target.inventory.armorInventory) {
-            mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, newX+35, y + height - 2 - 10 - 7 - 12 - 2 -2);
-            mc.getRenderItem().renderItemOverlays(mc.fontRenderer,itemStack, newX+35, y + height - 2 - 10 - 7 - 12 -2);
+        for (ItemStack itemStack : target.inventory.armorInventory) {
+            RenderUtils2D.renderItemStack(itemStack, new Point(newX+35, y + height - 2 - 10 - 7 - 12 - 2 -2));
             newX += 18;
-        } */
-
+        }
 
     }
 }
