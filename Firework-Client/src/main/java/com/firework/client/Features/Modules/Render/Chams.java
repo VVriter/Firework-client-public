@@ -5,25 +5,20 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.Render.RenderEntityModelEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
-import org.lwjgl.opengl.GL11;
 import ua.firework.beet.Event;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-import java.awt.*;
-
 import static org.lwjgl.opengl.GL11.*;
 
 @ModuleManifest(name = "ChamsRewrite", category = Module.Category.COMBAT)
-public class ChamsRewrite extends Module {
+public class Chams extends Module {
 
     public Setting<Boolean> players = new Setting<>("Players", false, this);
     public Setting<Boolean> mobs = new Setting<>("Mobs", false, this);
