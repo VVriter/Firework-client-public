@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.UI.Hud.Huds.Pvp;
+package com.firework.client.Implementations.UI.Hud.Huds.Combat;
 
 import com.firework.client.Firework;
 import com.firework.client.Implementations.UI.Hud.Huds.HudComponent;
