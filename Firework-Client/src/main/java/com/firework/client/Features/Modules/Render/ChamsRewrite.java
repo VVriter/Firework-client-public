@@ -41,19 +41,8 @@ public class ChamsRewrite extends Module {
         if(fullNullCheck()) return;
         if(!isValid(renderEntityModelEvent.getEntity())) return;
 
-        final ModelBase modelBase = renderEntityModelEvent.getModelBase();
-        final EntityLivingBase entityLivingBase = (EntityLivingBase) renderEntityModelEvent.getEntity();
-
-        final float limbSwing = renderEntityModelEvent.getLimbSwing();
-        final float limbSwingAmount = renderEntityModelEvent.getLimbSwingAmount();
-        final float ageInTicks = renderEntityModelEvent.getAgeInTicks();
-        final float netHeadYaw = renderEntityModelEvent.getNetHeadYaw();
-        final float headPitch = renderEntityModelEvent.getHeadPitch();
-        final float scaleFactor = renderEntityModelEvent.getScaleFactor();
-
-        boolean isPlayer = renderEntityModelEvent.getEntity() instanceof EntityPlayer;
-        if(renderEntityModelEvent.getStage() == Event.Stage.INIT){
-
+        if(renderEntityModelEvent.getStage() == Event.Stage.PRE){
+            renderEntityModelEvent.setCancelled(true);
             if(fill.getValue()) {
 
                 mc.getRenderManager().setRenderShadow(false);
@@ -64,23 +53,18 @@ public class ChamsRewrite extends Module {
                 glEnable(GL_POLYGON_OFFSET_FILL);
                 glDepthRange(0.0, 0.01);
                 glDisable(GL_TEXTURE_2D);
-                if (!isPlayer)
-                    GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+                GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
                 GlStateManager.color(fillColor.getValue().toRGB().getRed() / 255.0f,
                         fillColor.getValue().toRGB().getGreen() / 255.0f,
                         fillColor.getValue().toRGB().getBlue() / 255.0f,
                         fillColor.getValue().toRGB().getAlpha() / 255.0f);
-                GlStateManager.popMatrix();
 
-                modelBase.render(entityLivingBase, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-
+                renderEntityModelEvent.render();
 
                 boolean shadow = mc.getRenderManager().isRenderShadow();
                 mc.getRenderManager().setRenderShadow(shadow);
-                GlStateManager.pushMatrix();
                 GlStateManager.depthMask(false);
-                if (!isPlayer)
-                    GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+                GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
                 glDisable(GL_POLYGON_OFFSET_FILL);
                 glDepthRange(0.0, 1.0);
                 glEnable(GL_TEXTURE_2D);
@@ -100,23 +84,19 @@ public class ChamsRewrite extends Module {
                 glDisable(GL_LIGHTING);
                 glEnable(GL_LINE_SMOOTH);
                 glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-                if (!isPlayer)
-                    GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+                GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
                 glLineWidth(outlineWidth.getValue());
                 GlStateManager.color(outlineColor.getValue().toRGB().getRed() / 255.0f,
                         outlineColor.getValue().toRGB().getGreen() / 255.0f,
                         outlineColor.getValue().toRGB().getBlue() / 255.0f,
                         outlineColor.getValue().toRGB().getAlpha() / 255.0f);
-                GlStateManager.popMatrix();
 
-                modelBase.render(entityLivingBase, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+                renderEntityModelEvent.render();
 
                 boolean shadow = mc.getRenderManager().isRenderShadow();
                 mc.getRenderManager().setRenderShadow(shadow);
-                GlStateManager.pushMatrix();
                 GlStateManager.depthMask(false);
-                if (!isPlayer)
-                    GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+                GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
                 glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
                 glDisable(GL_POLYGON_OFFSET_LINE);
                 glDepthRange(0.0, 1.0);

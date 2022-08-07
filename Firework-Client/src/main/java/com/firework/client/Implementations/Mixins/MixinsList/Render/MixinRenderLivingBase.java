@@ -25,15 +25,20 @@ public abstract class MixinRenderLivingBase<T extends EntityLivingBase>
     @Shadow
     public ModelBase mainModel;
 
+    @Shadow protected abstract void renderModel(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor);
+
     public MixinRenderLivingBase(RenderManager renderManagerIn) {
         super(renderManagerIn);
     }
 
-    @Inject(method = "renderModel", at = @At("TAIL"), cancellable = true)
+    @Inject(method = "renderModel", at = @At("HEAD"), cancellable = true)
     public void renderModelTail(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, CallbackInfo info) {
-        RenderEntityModelEvent event = new RenderEntityModelEvent(Event.Stage.INIT, entity, mainModel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+        RenderEntityModelEvent event = new RenderEntityModelEvent(Event.Stage.PRE, entity,
+                render -> {
+                    mainModel.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+                });
         Firework.eventBus.post(event);
-        if(event.isCancelled());
+        if(event.isCancelled())
             info.cancel();
     }
 }
