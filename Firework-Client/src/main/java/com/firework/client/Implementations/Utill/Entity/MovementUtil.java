@@ -1,13 +1,30 @@
 package com.firework.client.Implementations.Utill.Entity;
 
+import com.firework.client.Implementations.Utill.Client.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 
+import javax.vecmath.Vector2f;
+
 public class MovementUtil{
     static Minecraft mc = Minecraft.getMinecraft();
+    public static final float PI2 = Math.round((Math.PI * 2D));
+
+    public static float getMoveYaw(float yaw) {
+        Vector2f from = new Vector2f((float) mc.player.lastTickPosX, (float) mc.player.lastTickPosZ),
+                to = new Vector2f((float) mc.player.posX, (float) mc.player.posZ),
+                diff = new Vector2f(to.x - from.x, to.y - from.y);
+
+        double x = diff.x, z = diff.y;
+        if (x != 0 || z != 0) {
+            yaw = (float) Math.toDegrees((Math.atan2(-x, z) + PI2) % PI2);
+        }
+        return yaw;
+    }
     public static Vec3d calculateLine(Vec3d x1, Vec3d x2, double distance) {
         double length = Math.sqrt(MovementUtil.multiply(x2.x - x1.x) + MovementUtil.multiply(x2.y - x1.y) + MovementUtil.multiply(x2.z - x1.z));
         double unitSlopeX = (x2.x - x1.x) / length;
