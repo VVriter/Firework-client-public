@@ -56,7 +56,9 @@ public class Chams extends Module {
                         fillColor.getValue().toRGB().getBlue() / 255.0f,
                         fillColor.getValue().toRGB().getAlpha() / 255.0f);
 
+                GlStateManager.popMatrix();
                 renderEntityModelEvent.render();
+                GlStateManager.pushMatrix();
 
                 boolean shadow = mc.getRenderManager().isRenderShadow();
                 mc.getRenderManager().setRenderShadow(shadow);
@@ -89,9 +91,9 @@ public class Chams extends Module {
                         outlineColor.getValue().toRGB().getGreen() / 255.0f,
                         outlineColor.getValue().toRGB().getBlue() / 255.0f,
                         outlineColor.getValue().toRGB().getAlpha() / 255.0f);
-
+                GlStateManager.popMatrix();
                 renderEntityModelEvent.render();
-
+                GlStateManager.pushMatrix();
                 boolean shadow = mc.getRenderManager().isRenderShadow();
                 mc.getRenderManager().setRenderShadow(shadow);
                 GlStateManager.depthMask(false);
