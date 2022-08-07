@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.Util;
 
 import java.awt.*;
 
@@ -45,7 +46,6 @@ public class RenderRound {
         roundedGradientShader.unload();
         GlStateManager.disableBlend();
     }
-
     private static void resetColor() {
         GlStateManager.color(1, 1, 1, 1);
     }
