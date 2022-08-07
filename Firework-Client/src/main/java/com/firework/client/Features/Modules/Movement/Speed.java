@@ -7,10 +7,12 @@ import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
 import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.MathUtil;
+import com.firework.client.Implementations.Utill.Entity.MovementUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Globals;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.init.Blocks;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -37,6 +39,7 @@ public class Speed extends Module{
     public Setting<Double> strafeMultipler = new Setting<>("StrafeMultipler", 5.2d, this, 0, 20).setVisibility(v-> mode.getValue(modes.Strafe));
     public Setting<Boolean> boost = new Setting<>("Boost", true, this).setVisibility(v-> mode.getValue(modes.Strafe));
     public Setting<Double> ticks = new Setting<>("Ticks", 4.3d, this, 0, 50).setVisibility(v-> boost.getValue() && mode.getValue(modes.Strafe));
+    public Setting<Boolean> autoYaw = new Setting<>("AutoYaw", true, this).setVisibility(v-> mode.getValue(modes.Strafe));
 
     float defaultTimerTicks;
     @Override
@@ -61,6 +64,11 @@ public class Speed extends Module{
         if(fullNullCheck()) return;
 
         if(mode.getValue(modes.Strafe)){
+
+            if (autoYaw.getValue()) {
+                mc.player.connection.sendPacket(new CPacketPlayer.Rotation(MovementUtil.getMoveYaw(mc.player.rotationYaw),mc.player.rotationPitch,mc.player.onGround));
+            }
+
             if(boost.getValue())
                 ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTimerTicks - ticks.getValue().floatValue());
 

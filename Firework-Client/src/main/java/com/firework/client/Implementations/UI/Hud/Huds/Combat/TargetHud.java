@@ -37,7 +37,18 @@ public class TargetHud extends HudComponent {
         target = PlayerUtil.getClosestTarget();
         if (target == null) return;
         health = target.getHealth();
-        RenderRound.drawRound(x,y,width,height,10,true, new Color(227, 217, 217, 139));
+        //RenderRound.drawRound(x,y,width,height,10,true, new Color(227, 217, 217, 139));
+        RenderRound.drawGradientRound(
+                x,
+                y,
+                width,
+                height,
+                10,
+                new Color(Firework.colorManager.getJuliet().getRed(), Firework.colorManager.getJuliet().getGreen(),Firework.colorManager.getJuliet().getBlue(),139),
+                new Color(Firework.colorManager.getRomeo().getRed(), Firework.colorManager.getRomeo().getGreen(),Firework.colorManager.getRomeo().getBlue(),139),
+                new Color(Firework.colorManager.getRomeo().getRed(), Firework.colorManager.getRomeo().getGreen(),Firework.colorManager.getRomeo().getBlue(),139),
+                new Color(Firework.colorManager.getJuliet().getRed(), Firework.colorManager.getJuliet().getGreen(),Firework.colorManager.getJuliet().getBlue(),139)
+                );
         //Draw Target heads
         GlStateManager.pushMatrix();
         ((AbstractClientPlayer)target).getLocationSkin();
