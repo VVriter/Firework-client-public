@@ -13,7 +13,7 @@ import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 @ModuleManifest(
-        name = "NoForge",
+        name = "FakeForgePacket",
         category = Module.Category.CLIENT,
         description = "Sends fake info to server u joined to prevent ban"
 )

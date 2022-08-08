@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
 
 import static org.lwjgl.opengl.GL11.*;
 
-@ModuleManifest(name = "ChamsRewrite", category = Module.Category.COMBAT)
+@ModuleManifest(name = "ChamsRewrite", category = Module.Category.VISUALS)
 public class Chams extends Module {
 
     public Setting<Boolean> players = new Setting<>("Players", false, this);

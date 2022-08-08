@@ -16,7 +16,7 @@ import ua.firework.beet.Subscribe;
 public class AutoTool extends Module {
 
     BlockPos lastPos;
-    int lastSlot = -1;
+    static int lastSlot = -1;
 
 
     @Subscribe
@@ -43,7 +43,7 @@ public class AutoTool extends Module {
         }
     });
 
-    public void switchSlot(final BlockPos blockPos) {
+    public static void switchSlot(final BlockPos blockPos) {
         float bestSpeed = 1.0f;
         int bestSlot = -1;
         final Block block = BlockUtil.getBlock(blockPos);
@@ -61,5 +61,25 @@ public class AutoTool extends Module {
             lastSlot = mc.player.inventory.currentItem;
             mc.player.inventory.currentItem = bestSlot;
         }
+    }
+
+    public static int bestIntSlot(final BlockPos blockPos) {
+        float bestSpeed = 1.0f;
+        int bestSlot = -1;
+        final Block block = BlockUtil.getBlock(blockPos);
+        for (int i = 0; i < 9; ++i) {
+            final ItemStack item = mc.player.inventory.getStackInSlot(i);
+            if (item != null) {
+                final float speed = item.getDestroySpeed(block.getBlockState().getBaseState());
+                if (speed > bestSpeed) {
+                    bestSpeed = speed;
+                    bestSlot = i;
+                }
+            }
+        }
+        if (bestSlot != -1 && mc.player.inventory.currentItem != bestSlot) {
+            return bestSlot;
+        }
+        return mc.player.inventory.getBestHotbarSlot();
     }
 }

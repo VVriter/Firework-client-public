@@ -22,6 +22,12 @@ public class Test extends Module {
         un, lock
     }
 
+
+    public static Setting<Boolean> enabled = null;
+    public Test() {
+        enabled = this.isEnabled;
+    }
+
     @Subscribe
     public Listener<Render2dE> listener = new Listener<>(e-> {
         //RoundRenderUtils.roundedRectangle(new Rectangle(50,50,200,100),20,new Color(200,150,200,255).getRGB());

@@ -31,7 +31,7 @@ public class StartButton extends Component {
 
             /*RenderRound.drawGradientRound((float) (x-1), (float) y,1,14+frameHeight,4,Firework.colorManager.getRomeo(),Firework.colorManager.getRomeo(),Firework.colorManager.getJuliet(),Firework.colorManager.getJuliet());
            RenderRound.drawGradientRound((float) (x+width), (float) y,1,14+frameHeight,4,Firework.colorManager.getRomeo(),Firework.colorManager.getRomeo(),Firework.colorManager.getJuliet(),Firework.colorManager.getJuliet());*/
-            RenderRound.drawGradientRound((float) x, (float) y,width,14+frameHeight,4,Firework.colorManager.getRomeo(),Firework.colorManager.getRomeo(),Firework.colorManager.getJuliet(),Firework.colorManager.getJuliet());
+            RenderRound.drawGradientRound((float) x, (float) y,width,14+frameHeight,4,Firework.colorManager.getRomeo(),Firework.colorManager.getJuliet(),Firework.colorManager.getJuliet(),Firework.colorManager.getRomeo());
         } else {
            /* RenderUtils2D.drawRectAlpha(new Rectangle(x, y, width, 14), Firework.colorManager.getColor());
             RenderUtils2D.drawRectAlpha(new Rectangle(x - 1, y, 1, 14 + frameHeight), Firework.colorManager.getColor());
@@ -44,5 +44,5 @@ public class StartButton extends Component {
         int lineWidth = 36;
         RenderUtils2D.drawRectangle(new Rectangle(x + (width - lineWidth)/2, (float) (y + Firework.customFontManager.getHeight()) + 1, lineWidth, 1), Color.white);
 
-         }
+    }
 }

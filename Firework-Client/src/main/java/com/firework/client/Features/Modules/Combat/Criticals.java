@@ -24,24 +24,44 @@ public class Criticals extends Module {
     }
 
     public Setting<Boolean> inWebToo = new Setting<>("InWebToo", true, this);
+    public Setting<Boolean> killOnly = new Setting<>("AuraOnly", true, this);
 
     @Subscribe
     public Listener<PacketEvent.Send> onPacketSend = new Listener<>(event -> {
-        if (!(event.getPacket() instanceof CPacketUseEntity)) return;
-        if (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK
-                && ((inWebToo.getValue() && !mc.player.onGround) ? (((IEntity) mc.player).isInWeb() ? true : false) : mc.player.onGround)) {
-            if (mode.getValue(modes.Packet)) {
-                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.11, mc.player.posZ, false));
-                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.1100013579, mc.player.posZ, false));
-                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.3579E-6, mc.player.posZ, false));
-                mc.player.connection.sendPacket(new CPacketPlayer());
-            } else if (mode.getValue(modes.MiniJump)) {
-                if (mc.player.onGround) {
+        if (!killOnly.getValue()) {
+            if (!(event.getPacket() instanceof CPacketUseEntity)) return;
+            if (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK
+                    && ((inWebToo.getValue() && !mc.player.onGround) ? (((IEntity) mc.player).isInWeb() ? true : false) : mc.player.onGround)) {
+                if (mode.getValue(modes.Packet)) {
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.11, mc.player.posZ, false));
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.1100013579, mc.player.posZ, false));
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.3579E-6, mc.player.posZ, false));
+                    mc.player.connection.sendPacket(new CPacketPlayer());
+                } else if (mode.getValue(modes.MiniJump)) {
+                    if (mc.player.onGround) {
+                        mc.player.jump();
+                        mc.player.motionY = 0.25;
+                    }
+                } else if (mode.getValue(modes.Jump))
                     mc.player.jump();
-                    mc.player.motionY = 0.25;
-                }
-            } else if (mode.getValue(modes.Jump))
-                mc.player.jump();
+            }
+        } else if (killOnly.getValue() && Aura.enabled.getValue()) {
+            if (!(event.getPacket() instanceof CPacketUseEntity)) return;
+            if (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK
+                    && ((inWebToo.getValue() && !mc.player.onGround) ? (((IEntity) mc.player).isInWeb() ? true : false) : mc.player.onGround)) {
+                if (mode.getValue(modes.Packet)) {
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.11, mc.player.posZ, false));
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.1100013579, mc.player.posZ, false));
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.3579E-6, mc.player.posZ, false));
+                    mc.player.connection.sendPacket(new CPacketPlayer());
+                } else if (mode.getValue(modes.MiniJump)) {
+                    if (mc.player.onGround) {
+                        mc.player.jump();
+                        mc.player.motionY = 0.25;
+                    }
+                } else if (mode.getValue(modes.Jump))
+                    mc.player.jump();
+            }
         }
     });
 }

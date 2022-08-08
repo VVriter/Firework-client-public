@@ -44,7 +44,7 @@ import ua.firework.beet.Subscribe;
 import java.util.List;
 import java.util.Objects;
 
-@ModuleManifest(name = "AutoCrystalRewrite3", category = Module.Category.COMBAT)
+@ModuleManifest(name = "AutoCrystal", category = Module.Category.COMBAT)
 public class AutoCrystal extends Module {
     //Interaction && Sync
     public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);

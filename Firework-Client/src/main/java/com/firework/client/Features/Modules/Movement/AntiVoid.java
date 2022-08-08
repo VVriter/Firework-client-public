@@ -49,6 +49,7 @@ public class AntiVoid extends Module {
             if (mc.player.posY <= 0.5) {
                 PacketFly packetFly = new PacketFly();
                 packetFly.onEnable();
+                PacketFly.enabled.setValue(true);
             }
         }
     });

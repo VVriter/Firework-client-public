@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Render;
 
-import com.firework.client.Features.Modules.Render.ItemViewModel;
+import com.firework.client.Features.Modules.Render.ItemModel;
+import com.firework.client.Features.Modules.Render.ItemModel;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Render.UpdateEquippedItemEvent;
 import net.minecraft.client.renderer.GlStateManager;
@@ -21,26 +22,27 @@ public class ViewModelMixin {
 
     @Inject(method = "renderItemSide", at = @At("HEAD"))
     public void renderItemSide(EntityLivingBase entitylivingbaseIn, ItemStack heldStack, ItemCameraTransforms.TransformType transform, boolean leftHanded, CallbackInfo ci) {
-        if (ItemViewModel.enabled.getValue() && mc.player != null && mc.world != null) {
-            GlStateManager.scale(ItemViewModel.scaleX.getValue() / 100F, ItemViewModel.scaleY.getValue() / 100F, ItemViewModel.scaleZ.getValue() / 100F);
+        if (ItemModel.enabled.getValue() && mc.player != null && mc.world != null) {
             if (transform == ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND) {
-                if (ItemViewModel.noEat.getValue()) {
+                GlStateManager.scale(ItemModel.RSX.getValue() / 100F, ItemModel.RSY.getValue() / 100F, ItemModel.RSZ.getValue() / 100F);
+                if (ItemModel.noEat.getValue()) {
                 if (mc.player.inventory.getCurrentItem().getItem() instanceof ItemFood && mc.gameSettings.keyBindUseItem.isKeyDown()) {
                     GlStateManager.translate(0, 0, 0);
                 } else {
-                     GlStateManager.translate(ItemViewModel.translateX.getValue() / 100F, ItemViewModel.translateY.getValue() / 100F, ItemViewModel.translateZ.getValue() / 100F);
+                     GlStateManager.translate(ItemModel.TRX.getValue() / 100F, ItemModel.TRY.getValue() / 100F, ItemModel.TRZ.getValue() / 100F);
                 }
                 } else {
-                    GlStateManager.translate(ItemViewModel.translateX.getValue() / 100F, ItemViewModel.translateY.getValue() / 100F, ItemViewModel.translateZ.getValue() / 100F);
+                    GlStateManager.translate(ItemModel.TRX.getValue() / 100F, ItemModel.TRY.getValue() / 100F, ItemModel.TRZ.getValue() / 100F);
                 }
-                GlStateManager.rotate(ItemViewModel.rotateXR.getValue().floatValue(), 1, 0, 0);
-                GlStateManager.rotate(ItemViewModel.rotateYR.getValue().floatValue(), 0, 1, 0);
-                GlStateManager.rotate(ItemViewModel.rotateZR.getValue().floatValue(), 0, 0, 1);
+                GlStateManager.rotate(ItemModel.RRX.getValue().floatValue(), 1, 0, 0);
+                GlStateManager.rotate(ItemModel.RRY.getValue().floatValue(), 0, 1, 0);
+                GlStateManager.rotate(ItemModel.RRZ.getValue().floatValue(), 0, 0, 1);
             } else if (transform == ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND) {
-                GlStateManager.translate(-ItemViewModel.translateX.getValue() / 100F, ItemViewModel.translateY.getValue() / 100F, ItemViewModel.translateZ.getValue() / 100F);
-                GlStateManager.rotate(-ItemViewModel.rotateXL.getValue().floatValue(), 1, 0, 0);
-                GlStateManager.rotate(ItemViewModel.rotateYL.getValue().floatValue(), 0, 1, 0);
-                GlStateManager.rotate(ItemViewModel.rotateZL.getValue().floatValue(), 0, 0, 1);
+                GlStateManager.scale(ItemModel.LSX.getValue() / 100F, ItemModel.LSY.getValue() / 100F, ItemModel.LSZ.getValue() / 100F);
+                GlStateManager.translate(ItemModel.TLX.getValue() / 100F, ItemModel.TLY.getValue() / 100F, ItemModel.TLZ.getValue() / 100F);
+                GlStateManager.rotate(-ItemModel.RLX.getValue().floatValue(), 1, 0, 0);
+                GlStateManager.rotate(ItemModel.RLY.getValue().floatValue(), 0, 1, 0);
+                GlStateManager.rotate(ItemModel.RLZ.getValue().floatValue(), 0, 0, 1);
             }
         }
     }
