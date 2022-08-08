@@ -51,6 +51,7 @@
     "Misc.MixinTextFormatting",
     "Render.MixinRenderPlayer",
     "Gui.MixinGuiBossOverlay",
-    "Render.MixinRenderItemFrame"
+    "Render.MixinRenderItemFrame",
+    "IRenderGlobal"
   ]
 }

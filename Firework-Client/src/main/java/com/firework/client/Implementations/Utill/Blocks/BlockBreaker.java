@@ -3,6 +3,7 @@ package com.firework.client.Implementations.Utill.Blocks;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.RotationUtil;
 import net.minecraft.block.Block;
@@ -41,8 +42,6 @@ public class BlockBreaker {
 
     //Breaks block
     public void breakBlock(final BlockPos blockPos, final Item item){
-        //Updates local settings
-        updateSettings();
         //Return if block pos is null
         if(blockPos == null)
             return;
@@ -61,14 +60,11 @@ public class BlockBreaker {
 
         //Gets facing
         EnumFacing facing = EnumFacing.UP;
-        if (rayTrace.getValue()) {
-            RayTraceResult result = mc.world.rayTraceBlocks(
-                    new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ),
-                    new Vec3d(blockPos.getX() + 0.5, blockPos.getY() - 0.5,
-                            blockPos.getZ() + 0.5));
+        if (rayTrace.getValue()){
+            Pair<EnumFacing, Vec3d> result = BlockUtil.getFacingToClick(blockPos);
 
-            if (result != null && result.sideHit != null)
-                facing = result.sideHit;
+            if (result != null)
+                facing = result.one;
         }
 
         //Breaks block
@@ -121,14 +117,6 @@ public class BlockBreaker {
         mc.playerController.windowClick(0, getClickSlot(from), 0, ClickType.PICKUP, mc.player);
         mc.playerController.windowClick(0, getClickSlot(to), 0, ClickType.PICKUP, mc.player);
         mc.playerController.windowClick(0, getClickSlot(from), 0, ClickType.PICKUP, mc.player);
-    }
-
-    //Update settings
-    private void updateSettings(){
-        this.mineMode = Firework.settingManager.getSetting(module, mineMode.name);
-        this.rotate = Firework.settingManager.getSetting(module, rotate.name);
-        this.rayTrace = Firework.settingManager.getSetting(module, rayTrace.name);
-        this.packet = Firework.settingManager.getSetting(module, packet.name);
     }
 
     //Mine modes

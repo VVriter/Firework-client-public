@@ -87,7 +87,8 @@ public class Chams extends Module {
                 GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
                 DecimalFormat df = new DecimalFormat("#.####");
                 float scaleFactor = Float.parseFloat(df.format((128 - renderEntityModelEvent.getEntity().getPositionVector().distanceTo(mc.player.getPositionVector().add(0, mc.player.eyeHeight, 0)))/128));
-                System.out.println(outlineWidth.getValue() * scaleFactor);
+                if(scaleFactor < 0)
+                    scaleFactor = 0;
                 glLineWidth(outlineWidth.getValue() * scaleFactor);
                 GlStateManager.color(outlineColor.getValue().toRGB().getRed() / 255.0f,
                         outlineColor.getValue().toRGB().getGreen() / 255.0f,
