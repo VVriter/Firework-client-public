@@ -3,6 +3,7 @@
 package com.firework.client;
 
 import com.firework.client.Features.CommandsSystem.CommandManager;
+import com.firework.client.Features.IngameGuis.GuiMainMenu.Shader.Shaders;
 import com.firework.client.Features.IngameGuis.Loader;
 import com.firework.client.Features.Modules.Client.Client;
 import com.firework.client.Features.Modules.Client.Logger;
@@ -134,8 +135,10 @@ public class Firework
         loadManagers();
     }
 
+    public static Shaders shaders;
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        shaders = new Shaders( );
         //setSession(new Session("uraniumxyz", "uraniumxyz", "0", "legacy"));
         //Link to client
         minecraft = Minecraft.getMinecraft();

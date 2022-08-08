@@ -2,6 +2,7 @@ package com.firework.client.Features.IngameGuis;
 
 import com.firework.client.Features.IngameGuis.GuiDisconnected.DisconnectedGui;
 import net.minecraft.client.gui.GuiDisconnected;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -13,6 +14,8 @@ public class Loader {
     public void onGuiOpenEvent(GuiOpenEvent e) {
             if (e.getGui() instanceof GuiDisconnected) {
                 e.setGui(new DisconnectedGui());
-            }
+            } /*if (e.getGui() instanceof GuiMainMenu) {
+                e.setGui(new com.firework.client.Features.IngameGuis.GuiMainMenu.GuiMainMenu());
+        } */
         }
     }
