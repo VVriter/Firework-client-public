@@ -6,6 +6,7 @@ import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.IngameGuis.Loader;
 import com.firework.client.Features.Modules.Client.Client;
 import com.firework.client.Features.Modules.Client.Logger;
+import com.firework.client.Features.Modules.Client.PacketRender;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Managers.*;
@@ -78,6 +79,7 @@ public class Firework
     public static RotationManager rotationManager;
     public static ConfigManager configManager;
     public static ColorManager colorManager;
+    public static PacketRender packetRender;
 
 
     public void loadManagers(){
@@ -117,6 +119,7 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
+        packetRender = new PacketRender();
         MinecraftForge.EVENT_BUS.register(new Loader());
         Logger.logAboutLoad();
 

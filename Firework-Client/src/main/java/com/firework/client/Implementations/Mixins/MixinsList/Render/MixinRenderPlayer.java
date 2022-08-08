@@ -1,6 +1,6 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Render;
 
-import com.firework.client.Features.Modules.Client.PacketRender;
+import com.firework.client.Firework;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelPlayer;
@@ -35,25 +35,23 @@ public abstract class MixinRenderPlayer {
 
     @Inject(method = "doRender", at = @At("HEAD"))
     private void rotateBegin(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
-        if (PacketRender.enabled.getValue()
-                && entity == Minecraft.getMinecraft().player) {
+        if (entity == Minecraft.getMinecraft().player) {
             prevRenderHeadYaw = entity.prevRotationYawHead;
             prevRenderPitch = entity.prevRotationPitch;
             renderPitch = entity.rotationPitch;
             renderYaw = entity.rotationYaw;
             renderHeadYaw = entity.rotationYawHead;
-            entity.rotationPitch = PacketRender.getPitch();
+            entity.rotationPitch = Firework.packetRender.getPitch();
             entity.prevRotationPitch = lastRenderPitch;
-            entity.rotationYaw = PacketRender.getYaw();
-            entity.rotationYawHead = PacketRender.getYaw();
+            entity.rotationYaw = Firework.packetRender.getYaw();
+            entity.rotationYawHead = Firework.packetRender.getYaw();
             entity.prevRotationYawHead = lastRenderHeadYaw;
         }
     }
 
     @Inject(method = "doRender", at = @At("RETURN"))
     private void rotateEnd(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
-        if (PacketRender.enabled.getValue()
-                && entity == Minecraft.getMinecraft().player) {
+        if (entity == Minecraft.getMinecraft().player) {
             lastRenderHeadYaw = entity.rotationYawHead;
             lastRenderPitch = entity.rotationPitch;
             entity.rotationPitch = renderPitch;

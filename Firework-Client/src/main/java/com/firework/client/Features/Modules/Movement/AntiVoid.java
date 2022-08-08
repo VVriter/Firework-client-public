@@ -1,5 +1,6 @@
 package com.firework.client.Features.Modules.Movement;
 
+import com.firework.client.Features.Modules.Misc.PacketFly;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
@@ -8,6 +9,7 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.PosRenderer;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.jcraft.jogg.Packet;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import ua.firework.beet.Listener;
@@ -42,6 +44,11 @@ public class AntiVoid extends Module {
         }
         else {
            mc.player.moveVertical = 0.0f;
+            }
+        } else if (mode.getValue().equals("PacketFly")) {
+            if (mc.player.posY <= 0.5) {
+                PacketFly packetFly = new PacketFly();
+                packetFly.onEnable();
             }
         }
     });
