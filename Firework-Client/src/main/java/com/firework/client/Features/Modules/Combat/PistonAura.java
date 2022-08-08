@@ -2,12 +2,14 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockBreaker;
 import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
+import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.TickTimer;
@@ -51,6 +53,11 @@ public class PistonAura extends Module {
     }
 
     @Subscribe
+    public Listener<Render3dE> onRender = new Listener<>(render3dE -> {
+       if(fullNullCheck()) return;
+    });
+
+    @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
 
@@ -69,10 +76,11 @@ public class PistonAura extends Module {
 
         switch (stage){
             case 1:
-                BlockPos pistonPlacePos = pistonPlacePos(target);
-                if(pistonPlacePos == null) {
+                Pair<BlockPos, EnumFacing> pistonPlacePos = pistonPlacePos(target);
+                if(pistonPlacePos.one != null && pistonPlacePos.two != null) {
                     if (timer.hasPassedTicks(placeBlocksDelay.getValue())) {
 
+                        blockPlacer.placeBlockEnumFacing(pistonPlacePos.one, pistonPlacePos.two, Blocks.PISTON);
 
                         stage = 2;
                         timer.reset();
@@ -83,24 +91,25 @@ public class PistonAura extends Module {
         }
     });
 
-    public BlockPos pistonPlacePos(EntityPlayer target){
+    public Pair<BlockPos, EnumFacing> pistonPlacePos(EntityPlayer target){
         double lowestDistance = Integer.MAX_VALUE;
-        BlockPos playerPos = EntityUtil.getPlayerPos(target);
+        final BlockPos targetPos = EntityUtil.getFlooredPos(target);
+        final BlockPos playerPos = EntityUtil.getFlooredPos(mc.player);
         BlockPos placePos = null;
+        EnumFacing face = null;
 
         for (EnumFacing facing : EnumFacing.values()) {
-            if (facing == EnumFacing.UP || facing == EnumFacing.DOWN) {
-                continue;
-            }
-            BlockPos predictedPlacePos = playerPos.offset(facing).offset(facing);
+            if (facing == EnumFacing.UP || facing == EnumFacing.DOWN) continue;
+            BlockPos predictedPlacePos = targetPos.offset(EnumFacing.UP).offset(facing).offset(facing);
             if (BlockUtil.distance(playerPos, predictedPlacePos) < lowestDistance) {
                 if (BlockUtil.canPlaceBlock(predictedPlacePos)) {
                     lowestDistance = BlockUtil.distance(playerPos, predictedPlacePos);
                     placePos = predictedPlacePos;
+                    face = facing;
                 }
             }
         }
-        return placePos;
+        return new Pair<>(placePos, face);
     }
 
 }

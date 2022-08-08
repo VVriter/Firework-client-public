@@ -84,6 +84,27 @@ public class BlockPlacer {
         }
     }
 
+    //BlockPos to place
+    public void placeBlockEnumFacing(final BlockPos blockPos, final EnumFacing lookFacing, final Block block1){
+        //Returns if block pos is null
+        if(blockPos == null) return;
+        //Returns if block at the pos isn't valid
+        if(!BlockUtil.isValid(blockPos)) return;
+
+        //Switchs
+        int backSwitch = switchItems(Item.getItemFromBlock(block1), InventoryUtil.hands.MainHand);
+
+        //Gets "enumHand" enum
+        EnumHand enumHand = EnumHand.MAIN_HAND;
+
+        //Places block
+        BlockUtil.placeBlockLookFacing(blockPos, lookFacing, enumHand, rotate.getValue(), packet.getValue(), BlockUtil.blackList.contains(BlockUtil.getBlock(blockPos.add(0, -1, 0))) ? true : false);
+
+        if(switchMode.getValue(switchModes.Silent) && backSwitch != -1) {
+            switchItems(getItemStack(backSwitch).getItem(), InventoryUtil.hands.MainHand);
+        }
+    }
+
     //Place trap block
     public void placeTrapBlock(final BlockPos blockPos, final Block block1){
         //Returns if block pos is null
