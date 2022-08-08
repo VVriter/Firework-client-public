@@ -16,6 +16,6 @@ public class Loader {
                 e.setGui(new DisconnectedGui());
             } /*if (e.getGui() instanceof GuiMainMenu) {
                 e.setGui(new com.firework.client.Features.IngameGuis.GuiMainMenu.GuiMainMenu());
-        } */
+            }*/
         }
     }

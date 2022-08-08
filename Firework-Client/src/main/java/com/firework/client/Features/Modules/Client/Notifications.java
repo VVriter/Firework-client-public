@@ -19,6 +19,7 @@ public class Notifications extends Module {
         colorInterpolation =  new Setting<>("colorInterpolation", 3, this, 1, 5);
     }
     ScaledResolution sr = new ScaledResolution(mc);
+    
     @Subscribe
     public Listener<Render2dE> listener = new Listener<>(e-> {
 
