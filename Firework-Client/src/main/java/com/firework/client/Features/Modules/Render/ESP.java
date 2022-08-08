@@ -32,6 +32,7 @@ public class ESP extends Module {
     public Setting<Boolean> storagesSubBool = new Setting<>("Storages", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> chest = new Setting<>("Chest", true, this).setVisibility(v-> storagesSubBool.getValue());
     public Setting<Boolean> echest = new Setting<>("EnderChest", true, this).setVisibility(v-> storagesSubBool.getValue());
+    public Setting<Boolean> shulker = new Setting<>("Shulker", true, this).setVisibility(v-> storagesSubBool.getValue());
     public Setting<Boolean> beacon = new Setting<>("Beacon", true, this).setVisibility(v-> storagesSubBool.getValue());
     public Setting<Boolean> dispenser = new Setting<>("Dispenser", true, this).setVisibility(v-> storagesSubBool.getValue());
     public Setting<Boolean> dropper = new Setting<>("Dropper", true, this).setVisibility(v-> storagesSubBool.getValue());
@@ -69,6 +70,8 @@ public class ESP extends Module {
                 RenderUtils.drawBoxESP(((TileEntityDispenser) c).getPos(),new Color(72, 66, 66),3,true,true,160,1);
             } if (c instanceof TileEntityHopper && hopper.getValue()) {
                 RenderUtils.drawBoxESP(((TileEntityHopper) c).getPos(),new Color(72, 66, 66),3,true,true,160,1);
+            } if (c instanceof TileEntityShulkerBox && shulker.getValue()) {
+                RenderUtils.drawBoxESP(((TileEntityShulkerBox) c).getPos(),new Color(246, 4, 4),3,true,true,160,1);
             }
         }
 
