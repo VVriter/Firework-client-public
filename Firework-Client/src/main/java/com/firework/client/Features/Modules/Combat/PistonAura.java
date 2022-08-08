@@ -12,15 +12,22 @@ import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
+import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.TickTimer;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 @ModuleManifest(name = "PistonAura", category = Module.Category.COMBAT)
 public class PistonAura extends Module {
@@ -42,6 +49,37 @@ public class PistonAura extends Module {
     TickTimer timer;
 
     int stage;
+
+    public List<Pair<Block, Action>> pistons = Arrays.asList(
+            new Pair<>(Blocks.PISTON, Action.PLACE),
+            new Pair<>(Blocks.STICKY_PISTON, Action.PLACE)
+    );
+
+    public List<Pair<Block, Action>> redStone = Arrays.asList(
+            new Pair<>(Blocks.REDSTONE_BLOCK, Action.PLACE),
+            new Pair<>(Blocks.REDSTONE_TORCH, Action.PLACE),
+            new Pair<>(Blocks.LEVER, Action.PLACE_USE)
+    );
+
+    public enum Action{
+        PLACE, PLACE_USE
+    }
+
+    public Pair<Block, Action> getPiston(){
+        Pair<Block, Action> result = null;
+        for(Pair<Block, Action> block : pistons)
+            if(InventoryUtil.hasItem(Item.getItemFromBlock(block.one)))
+                result = block;
+        return result;
+    }
+
+    public Pair<Block, Action> getRedStone(){
+        Pair<Block, Action> result = null;
+        for(Pair<Block, Action> block : redStone)
+            if(InventoryUtil.hasItem(Item.getItemFromBlock(block.one)))
+                result = block;
+        return result;
+    }
 
     @Override
     public void onEnable() {
@@ -80,7 +118,7 @@ public class PistonAura extends Module {
                 if(pistonPlacePos.one != null && pistonPlacePos.two != null) {
                     if (timer.hasPassedTicks(placeBlocksDelay.getValue())) {
 
-                        blockPlacer.placeBlockEnumFacing(pistonPlacePos.one, pistonPlacePos.two, Blocks.PISTON);
+                        blockPlacer.placeBlockEnumFacing(pistonPlacePos.one, pistonPlacePos.two, getPiston().one);
 
                         stage = 2;
                         timer.reset();
@@ -111,5 +149,4 @@ public class PistonAura extends Module {
         }
         return new Pair<>(placePos, face);
     }
-
 }
