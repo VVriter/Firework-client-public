@@ -56,6 +56,33 @@ public class BlockUtil {
         return BlockUtil.mc.world.getBlockState(pos);
     }
 
+    public static boolean placeBlockLookFacing(BlockPos pos, EnumFacing facing, EnumHand hand, boolean rotate, boolean packet, boolean isSneaking) {
+        boolean sneaking = false;
+        EnumFacing side = BlockUtil.getFirstFacing(pos);
+        if (side == null) {
+            return isSneaking;
+        }
+        BlockPos neighbour = pos.offset(side);
+        EnumFacing opposite = side.getOpposite();
+        Vec3d hitVec = offset(new Vec3d(pos).add(0.5, 0.5, 0.5), facing);
+        hitVec = offset(hitVec, mc.player.getHorizontalFacing().getOpposite(), 0.5f);
+        Block neighbourBlock = Minecraft.getMinecraft().world.getBlockState(neighbour).getBlock();
+        if (!Minecraft.getMinecraft().player.isSneaking() && (blackList.contains(neighbourBlock) || shulkerList.contains(neighbourBlock))) {
+            Minecraft.getMinecraft().player.connection.sendPacket(new CPacketEntityAction(Minecraft.getMinecraft().player, CPacketEntityAction.Action.START_SNEAKING));
+            Minecraft.getMinecraft().player.setSneaking(true);
+            sneaking = true;
+        }
+        if (rotate)
+            Firework.rotationManager.rotateSpoof(hitVec);
+
+        mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(hand));
+        BlockUtil.rightClickBlock(neighbour, hitVec, hand, opposite, packet);
+        Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
+        if(rotate)
+            Firework.rotationManager.stopRotating();
+        return sneaking || isSneaking;
+    }
+
     public static boolean placeBlock(BlockPos pos, EnumHand hand, boolean rotate, boolean packet, boolean isSneaking) {
         boolean sneaking = false;
         EnumFacing side = BlockUtil.getFirstFacing(pos);
@@ -82,6 +109,14 @@ public class BlockUtil {
         return sneaking || isSneaking;
     }
 
+    public static Vec3d offset(Vec3d vec3d, EnumFacing facing){
+        return new Vec3d(vec3d.x + facing.getXOffset(), vec3d.y + facing.getYOffset(), vec3d.z + facing.getZOffset());
+    }
+
+    public static Vec3d offset(Vec3d vec3d, EnumFacing facing, float scaleFactor){
+        return new Vec3d(vec3d.x + facing.getXOffset()*scaleFactor, vec3d.y + facing.getYOffset()*scaleFactor, vec3d.z + facing.getZOffset()*scaleFactor);
+    }
+
     public static List<EnumFacing> getPossibleSides(BlockPos pos) {
         ArrayList<EnumFacing> facings = new ArrayList<>();
         for (EnumFacing side : EnumFacing.values()) {
@@ -106,6 +141,8 @@ public class BlockUtil {
                 return false;
             }
         }
+        if(!isAir(pos))
+            return false;
         return true;
     }
 
