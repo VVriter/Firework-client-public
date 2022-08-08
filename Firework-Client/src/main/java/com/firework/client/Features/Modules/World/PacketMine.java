@@ -7,7 +7,6 @@ import com.firework.client.Implementations.Events.Player.BlockClickEvent;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Blocks.BlockBreaker;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.block.state.IBlockState;

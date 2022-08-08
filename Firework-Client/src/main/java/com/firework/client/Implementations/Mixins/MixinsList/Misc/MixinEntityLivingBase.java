@@ -11,6 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinEntityLivingBase {
     @Inject(method={"getArmSwingAnimationEnd"}, at={@At(value="HEAD")}, cancellable=true)
     private void getArmSwingAnimationEnd(CallbackInfoReturnable<Integer> info) {
+        if (ItemModel.enabled.getValue()) {
             info.setReturnValue(ItemModel.swingSpeed.getValue());
+        }
     }
 }
