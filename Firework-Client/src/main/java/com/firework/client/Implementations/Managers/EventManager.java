@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Managers;
 
 import com.firework.client.Features.Modules.Client.DiscordNotificator;
+import com.firework.client.Features.Modules.Client.F3Injection;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
 import com.firework.client.Implementations.Events.Chat.ChatSendE;
@@ -25,6 +26,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
+
+import static com.firework.client.Features.Modules.Module.mc;
 
 public class EventManager extends Manager{
     public EventManager() {
@@ -135,6 +138,37 @@ public class EventManager extends Manager{
         Firework.eventBus.post(event);
         if (event.isCancelled()) {
             e.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderGameOverlay(RenderGameOverlayEvent.Text event) {
+        if (mc.gameSettings.showDebugInfo && F3Injection.enabled.getValue()) {
+            for (int i = 0; i < event.getLeft().size(); i++) {
+                if (F3Injection.Coords.getValue()) {
+                    if (event.getLeft().get(i).contains("Looking"))
+                        event.getLeft().set(i, "Looking at a block!");
+                    if (event.getLeft().get(i).contains("XYZ") && F3Injection.fpsmode.getValue().equals("Fake")){
+                        event.getLeft().set(i, "XYZ: "+mc.player.getPosition().getX()/3*2+325*2/3*2+" "+mc.player.getPosition().getY()/3*2+" "+mc.player.getPosition().getZ()/3*2+325*2/3*2);}
+                    if (event.getLeft().get(i).contains("XYZ") && F3Injection.fpsmode.getValue().equals("Hide")){
+                        event.getLeft().set(i, "XYZ: NO!");}
+
+
+                    if (event.getLeft().get(i).contains("Block:"))
+                        event.getLeft().set(i, "Block: Hidden!");
+                    if (event.getLeft().get(i).contains("Chunk:"))
+                        event.getLeft().set(i, "Chunk: Hidden!");
+                }
+                if (F3Injection.FPS.getValue())
+                    if (event.getLeft().get(i).contains("fps"))
+                        event.getLeft().set(i, "fps: 0!");
+                if (F3Injection.Direction.getValue())
+                    if (event.getLeft().get(i).contains("Facing:"))
+                        event.getLeft().set(i, "Facing: Hidden!");
+                if (F3Injection.Biome.getValue())
+                    if (event.getLeft().get(i).contains("Biome:"))
+                        event.getLeft().set(i, "Biome: Hidden!");
+            }
         }
     }
 

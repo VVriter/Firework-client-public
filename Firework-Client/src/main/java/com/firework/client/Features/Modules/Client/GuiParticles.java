@@ -12,9 +12,9 @@ public class GuiParticles extends Module {
     public static Setting<ParticleInfo.colorMode> colorMode;
 
     public GuiParticles(){
-        scaleFactor = new Setting<>("scaleFactor", 1, this, 0, 10);
-        lineLong = new Setting<>("maxLineLong", (double)30, this, 0, 200);
-        colorMode = new Setting<>("ColorMode", ParticleInfo.colorMode.Astolfo, this);
+        scaleFactor = new Setting<>("Scale", 1, this, 0, 10);
+        lineLong = new Setting<>("LineLong", (double)30, this, 0, 200);
+        colorMode = new Setting<>("Color", ParticleInfo.colorMode.Astolfo, this);
         this.isEnabled.setValue(true);
         ParticleInfo.isEnabled = this.isEnabled.getValue();
     }
