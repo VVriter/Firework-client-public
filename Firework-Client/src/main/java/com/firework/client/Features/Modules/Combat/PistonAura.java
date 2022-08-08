@@ -27,13 +27,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 @ModuleManifest(name = "PistonAura", category = Module.Category.COMBAT)
@@ -174,18 +174,17 @@ public class PistonAura extends Module {
                 break;
             case 3:
                 BlockPos redstoneToPlace = getRedStoneToPlace(target);
-                //toRender = getPistonInteractionBlocks(getPistonPlacedPos(target));
-                BlockPos pos = getPistonPlacedPos(target);
-                System.out.println(pos);
-                if(pos != null){
-                    toRender = getPistonInteractionBlocks(getPistonPlacedPos(target));
-                    stage = 4;
-                }
                 if(redstoneToPlace != null){
                     if(timer.hasPassedTicks(placeBlocksDelay.getValue())){
+                        toRender.add(redstoneToPlace);
+
+                        blockPlacer.placeBlock(redstoneToPlace, getRedStone().one);
+
+                        stage = 4;
+                        timer.reset();
                     }
                 }else
-                    //stage = 4;
+                    stage = 4;
                 break;
         }
     });
@@ -244,7 +243,7 @@ public class PistonAura extends Module {
             //Checks if piston is looking at the target
             if(pos.offset(face).offset(face).offset(EnumFacing.DOWN).equals(targetPos)){
                 //Checks if it is possible to power it
-                if(true){
+                if(canBePowered(pos)){
                     placePos = pos;
                     break;
                 }
@@ -254,7 +253,26 @@ public class PistonAura extends Module {
     }
 
     public BlockPos getRedStoneToPlace(EntityPlayer target){
-        return null;
+        //Get placed piston
+        BlockPos piston = getPistonPlacedPos(target);
+
+        //Is piston valid
+        if(piston == null) return null;
+        //RedStone placements spots
+        Queue<BlockPos> placementPoses = new LinkedList<>();
+
+        for(BlockPos interactPos : getPistonInteractionBlocks(piston)){
+            for(BlockPos predictedPistonPos : getRedStoneTargetBlocks(interactPos)){
+                if(!(BlockUtil.getBlock(predictedPistonPos) instanceof BlockPistonBase)) continue;
+                if(BlockUtil.getBlock(predictedPistonPos
+                        .offset(mc.world.getBlockState(predictedPistonPos).getValue(BlockDirectional.FACING)))
+                        .equals(piston)) break;
+                placementPoses.add(interactPos);
+            }
+        }
+
+        placementPoses.stream().sorted(Comparator.comparing(pos -> -mc.player.getPositionEyes(mc.getRenderPartialTicks()).distanceTo(new Vec3d(pos).add(0.5, 0.5, 0.5))));
+        return placementPoses.peek();
     }
 
     public boolean canBePowered(BlockPos piston){
