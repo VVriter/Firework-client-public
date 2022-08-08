@@ -26,9 +26,10 @@ public class RainbowButton extends Component {
         String text = "RAINBOW";
         double textWidth = Firework.customFontManager.getWidth(text);
 
-        if(registered())
-            RenderRound.drawGradientRound((float) x+1, (float) y,width-2,height-2,1,Firework.colorManager.getRomeo(),Firework.colorManager.getRomeo(),Firework.colorManager.getJuliet(),Firework.colorManager.getJuliet());
-        Firework.customFontManager.drawString(text, x + (width - textWidth)/2, (float) y, registered() ? Color.white.getRGB() : Firework.colorManager.getJuliet().getRGB());
+        if(registered()) {
+            RenderRound.drawGradientRound((float) x + 1, (float) y - 1, width - 2, height - 2, 1, Firework.colorManager.getRomeo(), Firework.colorManager.getRomeo(), Firework.colorManager.getJuliet(), Firework.colorManager.getJuliet());
+        }
+        Firework.customFontManager.drawString(text, x + (width - textWidth)/2, (float) y-1, registered() ? Color.white.getRGB() : Firework.colorManager.getJuliet().getRGB());
     }
 
     public boolean registered(){

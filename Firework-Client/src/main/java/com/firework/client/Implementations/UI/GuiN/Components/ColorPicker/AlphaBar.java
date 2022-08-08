@@ -23,11 +23,11 @@ public class AlphaBar extends Component {
     @Override
     public void draw(int mouseX, int mouseY) {
         super.draw(mouseX, mouseY);
-        RenderUtils2D.drawAlphaBarBase(new Rectangle(x, y+2, width, height-4));
+        RenderUtils2D.drawAlphaBarBase(new Rectangle(x, y+1, width, height-4));
 
         float hue = this.setting.getValue().hue;
-        RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y+2, width, height - 4), new HSLColor(hue, 50, 50).toRGB(), new Color(1, 1, 1, 0));
-        RenderUtils2D.drawRectangle(new Rectangle((x + round(width * setting.getValue().alpha) / difference) - 0.5, y, 1, height), Color.white);
+        RenderUtils2D.drawGradientRectHorizontal(new Rectangle(x, y+1, width, height - 4), new HSLColor(hue, 50, 50).toRGB(), new Color(1, 1, 1, 0));
+        RenderUtils2D.drawRectangle(new Rectangle((x + round(width * setting.getValue().alpha) / difference) - 0.5, y-1, 1, height), Color.white);
     }
 
     @Override
