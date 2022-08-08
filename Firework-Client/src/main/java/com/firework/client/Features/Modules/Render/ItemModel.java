@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Render;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Features.Modules.Test;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Timer;
@@ -40,6 +41,10 @@ public class ItemModel extends Module {
     public static Setting<Double> LSY = null;
     public static Setting<Double> LSZ = null;
     public  Setting<Boolean> animationSubBool = null;
+    public Setting<Dimention> dimention = null;
+    public enum Dimention{
+        Add, Remove
+    }
     public static Setting<Integer> addAmount = null;
     public static Setting<Boolean> xr = null;
     public static Setting<Boolean> yr = null;
@@ -81,6 +86,7 @@ public class ItemModel extends Module {
         LSZ = new Setting<>("LSZ", (double)100, this, -300, 300).setVisibility(v-> scaleSubBool.getValue());
 
         animationSubBool = new Setting<>("Animations", false, this).setMode(Setting.Mode.SUB);
+        dimention = new Setting<>("Dimension", Dimention.Add, this).setVisibility(v-> animationSubBool.getValue());
         addAmount = new Setting<>("AddAmount", 3, this, 0, 10).setVisibility(v-> animationSubBool.getValue());
         xr = new Setting<>("XRA", true, this).setVisibility(v-> animationSubBool.getValue());
         yr = new Setting<>("YRA", true, this).setVisibility(v-> animationSubBool.getValue());
@@ -112,72 +118,138 @@ public class ItemModel extends Module {
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> ev = new Listener<>(e-> {
+        if (dimention.getValue(Dimention.Add)) {
+            if (xr.getValue()) {
+                if (rtx.hasPassedMs(0)) {
+                    if (RRX.getValue() < 360) {
+                        RRX.setValue(RRX.getValue() + addAmount.getValue());
+                        rtx.reset();
+                    } else if (RRX.getValue() >= 360) {
+                        RRX.setValue(-360);
+                    }
+                }
+            }
 
-        if (xr.getValue()) {
-            if (rtx.hasPassedMs(0)) {
-                if (RRX.getValue() < 360) {
-                    RRX.setValue(RRX.getValue()+addAmount.getValue());
-                    rtx.reset();
-                } else if (RRX.getValue() >= 360) {
-                    RRX.setValue(-360);
+            if (yr.getValue()) {
+                if (rty.hasPassedMs(0)) {
+                    if (RRY.getValue() < 360) {
+                        RRY.setValue(RRY.getValue() + addAmount.getValue());
+                        rty.reset();
+                    } else if (RRY.getValue() >= 360) {
+                        RRY.setValue(-360);
+                    }
+                }
+            }
+
+            if (zr.getValue()) {
+                if (rtz.hasPassedMs(0)) {
+                    if (RRZ.getValue() < 360) {
+                        RRZ.setValue(RRZ.getValue() + addAmount.getValue());
+                        rtz.reset();
+                    } else if (RRZ.getValue() >= 360) {
+                        RRZ.setValue(-360);
+                    }
+                }
+            }
+
+            if (xl.getValue()) {
+                if (ltx.hasPassedMs(0)) {
+                    if (RLX.getValue() < 360) {
+                        RLX.setValue(RLX.getValue() + addAmount.getValue());
+                        ltx.reset();
+                    } else if (RLX.getValue() >= 360) {
+                        RLX.setValue(-360);
+                    }
+                }
+            }
+
+            if (yl.getValue()) {
+                if (lty.hasPassedMs(0)) {
+                    if (RLY.getValue() < 360) {
+                        RLY.setValue(RLY.getValue() + addAmount.getValue());
+                        lty.reset();
+                    } else if (RLY.getValue() >= 360) {
+                        RLY.setValue(-360);
+                    }
+                }
+            }
+
+            if (zl.getValue()) {
+                if (ltz.hasPassedMs(0)) {
+                    if (RLZ.getValue() < 360) {
+                        RLZ.setValue(RLZ.getValue() + addAmount.getValue());
+                        ltz.reset();
+                    } else if (RLZ.getValue() >= 360) {
+                        RLZ.setValue(-360);
+                    }
+                }
+            }
+        } else if (dimention.getValue(Dimention.Remove)) {
+            if (xr.getValue()) {
+                if (rtx.hasPassedMs(0)) {
+                    if (RRX.getValue() > -360) {
+                        RRX.setValue(RRX.getValue() - addAmount.getValue());
+                        rtx.reset();
+                    } else if (RRX.getValue() <= -360) {
+                        RRX.setValue(360);
+                    }
+                }
+            }
+
+            if (yr.getValue()) {
+                if (rty.hasPassedMs(0)) {
+                    if (RRY.getValue() > -360) {
+                        RRY.setValue(RRY.getValue() - addAmount.getValue());
+                        rty.reset();
+                    } else if (RRY.getValue() <= -360) {
+                        RRY.setValue(360);
+                    }
+                }
+            }
+
+            if (zr.getValue()) {
+                if (rtz.hasPassedMs(0)) {
+                    if (RRZ.getValue() > -360) {
+                        RRZ.setValue(RRZ.getValue() - addAmount.getValue());
+                        rtz.reset();
+                    } else if (RRZ.getValue() <= -360) {
+                        RRZ.setValue(360);
+                    }
+                }
+            }
+
+            if (xl.getValue()) {
+                if (ltx.hasPassedMs(0)) {
+                    if (RLX.getValue() > -360) {
+                        RLX.setValue(RLX.getValue() - addAmount.getValue());
+                        ltx.reset();
+                    } else if (RLX.getValue() <= -360) {
+                        RLX.setValue(360);
+                    }
+                }
+            }
+
+            if (yl.getValue()) {
+                if (lty.hasPassedMs(0)) {
+                    if (RLY.getValue() > -360) {
+                        RLY.setValue(RLY.getValue() - addAmount.getValue());
+                        lty.reset();
+                    } else if (RLY.getValue() <= -360) {
+                        RLY.setValue(360);
+                    }
+                }
+            }
+
+            if (zl.getValue()) {
+                if (ltz.hasPassedMs(0)) {
+                    if (RLZ.getValue() > -360) {
+                        RLZ.setValue(RLZ.getValue() - addAmount.getValue());
+                        ltz.reset();
+                    } else if (RLZ.getValue() <= -360) {
+                        RLZ.setValue(360);
+                    }
                 }
             }
         }
-
-        if (yr.getValue()) {
-            if (rty.hasPassedMs(0)) {
-                if (RRY.getValue() < 360) {
-                    RRY.setValue(RRY.getValue()+addAmount.getValue());
-                    rty.reset();
-                } else if (RRY.getValue() >= 360) {
-                    RRY.setValue(-360);
-                }
-            }
-        }
-
-        if (zr.getValue()) {
-            if (rtz.hasPassedMs(0)) {
-                if (RRZ.getValue() < 360) {
-                    RRZ.setValue(RRZ.getValue()+addAmount.getValue());
-                    rtz.reset();
-                } else if (RRZ.getValue() >= 360) {
-                    RRZ.setValue(-360);
-                }
-            }
-        }
-
-        if (xl.getValue()) {
-            if (ltx.hasPassedMs(0)) {
-                if (RLX.getValue() < 360) {
-                    RLX.setValue(RLX.getValue()+addAmount.getValue());
-                    ltx.reset();
-                } else if (RLX.getValue() >= 360) {
-                    RLX.setValue(-360);
-                }
-            }
-        }
-
-        if (yl.getValue()) {
-            if (lty.hasPassedMs(0)) {
-                if (RLY.getValue() < 360) {
-                    RLY.setValue(RLY.getValue()+addAmount.getValue());
-                    lty.reset();
-                } else if (RLY.getValue() >= 360) {
-                    RLY.setValue(-360);
-                }
-            }
-        }
-
-        if (zl.getValue()) {
-            if (ltz.hasPassedMs(0)) {
-                if (RLZ.getValue() < 360) {
-                    RLZ.setValue(RLZ.getValue()+addAmount.getValue());
-                    ltz.reset();
-                } else if (RLZ.getValue() >= 360) {
-                    RLZ.setValue(-360);
-                }
-            }
-        }
-
     });
 }

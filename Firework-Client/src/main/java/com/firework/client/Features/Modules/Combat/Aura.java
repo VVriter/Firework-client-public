@@ -20,6 +20,10 @@ import ua.firework.beet.Subscribe;
         description = "Kills player using sword"
 )
 public class Aura extends Module {
+    public static Setting<Boolean> enabled = null;
+    public Aura() {
+        enabled = this.isEnabled;
+    }
 
     public Setting<Double> targetRange = new Setting<>("TargetRange", 4d, this, 0, 6);
     public Setting<ItemUser.switchModes> switchMode = new Setting<>("Switch", ItemUser.switchModes.Fast, this);
