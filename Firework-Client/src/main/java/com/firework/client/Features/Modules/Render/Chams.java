@@ -3,7 +3,10 @@ package com.firework.client.Features.Modules.Render;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.Render.RenderEntityModelEvent;
+import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Entity.EntityUtil;
+import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -20,10 +23,11 @@ import java.text.DecimalFormat;
 
 import static org.lwjgl.opengl.GL11.*;
 
-@ModuleManifest(name = "ChamsRewrite", category = Module.Category.VISUALS)
+@ModuleManifest(name = "Chams", category = Module.Category.VISUALS)
 public class Chams extends Module {
 
     public Setting<Boolean> players = new Setting<>("Players", false, this);
+   // public Setting<Boolean> autoAlpha = new Setting<>("AutoAlpha", false, this).setVisibility(v-> players.getValue());
     public Setting<Boolean> mobs = new Setting<>("Mobs", false, this);
     public Setting<Boolean> crystals = new Setting<>("Crystals", true, this);
 
@@ -111,6 +115,17 @@ public class Chams extends Module {
             }
         }
     });
+
+ /*   EntityPlayer closestTarget;
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> evv = new Listener<>(e-> {
+        closestTarget = PlayerUtil.getClosestTarget();
+        if (EntityUtil.getDistanceFromEntityToEntity(closestTarget) <= 3) {
+            fillColor.setValue(new HSLColor(fillColor.getValue().hue, fillColor.getValue().saturation,fillColor.getValue().light, 10));
+        } else {
+            fillColor.setValue(new HSLColor(fillColor.getValue().hue, fillColor.getValue().saturation,fillColor.getValue().light, 100));
+        }
+    }); */
 
     public boolean isValid(Entity entity){
         if(entity == mc.player)
