@@ -70,4 +70,7 @@ public interface IEntityPlayerSP {
 
     @Invoker(value = "onUpdateWalkingPlayer")
     void invokeOnUpdateWalkingPlayer();
+
+    @Accessor("handActive")
+    void kbSetHandActive(boolean value);
 }
