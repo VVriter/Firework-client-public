@@ -29,7 +29,7 @@ public abstract class MixinMinecraft {
     private boolean handActive = false;
     private boolean isHittingBlock = false;
 
-    @Shadow(aliases = "func_147116_af") 
+    @Shadow(aliases = "func_147116_af")
     protected abstract void clickMouse();
 
     @Inject(method = "processKeyBinds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z", shift = At.Shift.BEFORE, ordinal = 2))
