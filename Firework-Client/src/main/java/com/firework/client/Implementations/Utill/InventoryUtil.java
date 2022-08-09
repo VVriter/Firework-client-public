@@ -110,6 +110,16 @@ public class InventoryUtil
         return -1;
     }
 
+    public static int getItemSlotNoHotBar(Item input) {
+        for(int i = 36; i >= 10; i--) {
+            final Item item = mc.player.inventory.getStackInSlot(i).getItem();
+            if(item == input) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static boolean hasItem(Item input) {
         for(int i = 36; i >= 0; i--) {
             final Item item = mc.player.inventory.getStackInSlot(i).getItem();
@@ -117,6 +127,16 @@ public class InventoryUtil
                 if (i < 9) {
                     i += 36;
                 }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean hasItemNoHotBar(Item input) {
+        for(int i = 36; i >= 10; i--) {
+            final Item item = mc.player.inventory.getStackInSlot(i).getItem();
+            if(item == input) {
                 return true;
             }
         }

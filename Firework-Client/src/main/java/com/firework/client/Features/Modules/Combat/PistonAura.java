@@ -24,11 +24,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
+import org.lwjgl.Sys;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
@@ -145,11 +147,11 @@ public class PistonAura extends Module {
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
 
-        if(!mc.player.inventory.hasItemStack(new ItemStack(Items.END_CRYSTAL))
-                || !(mc.player.inventory.hasItemStack(new ItemStack(Blocks.PISTON))
-                || mc.player.inventory.hasItemStack(new ItemStack(Blocks.STICKY_PISTON)))
-                || !(mc.player.inventory.hasItemStack(new ItemStack(Blocks.REDSTONE_TORCH))
-                || mc.player.inventory.hasItemStack(new ItemStack(Blocks.REDSTONE_BLOCK)))){
+        if(InventoryUtil.getHotbarItemSlot(Items.END_CRYSTAL) == -1
+                || (InventoryUtil.getHotbarItemSlot(Item.getItemFromBlock(Blocks.PISTON)) == -1
+                && InventoryUtil.getHotbarItemSlot(Item.getItemFromBlock(Blocks.STICKY_PISTON)) == -1)
+                || (InventoryUtil.getHotbarItemSlot(Item.getItemFromBlock(Blocks.REDSTONE_TORCH)) == -1
+                && InventoryUtil.getHotbarItemSlot(Item.getItemFromBlock(Blocks.REDSTONE_BLOCK)) == -1)){
             MessageUtil.sendError("No Pistons/Crystals/RedStone found in the hotbar", -1117);
             onDisable();
             return;
@@ -163,8 +165,14 @@ public class PistonAura extends Module {
                 Pair<BlockPos, EnumFacing> pistonPlacePos = getPistonPlacePos(target);
                 if(pistonPlacePos.one != null && pistonPlacePos.two != null) {
                     if (timer.hasPassedTicks(placeBlocksDelay.getValue())) {
+                        //Extra packet to spoof ur position and place block correctly
+                        Vec3d offsetedPos = BlockUtil.offset(mc.player.getPositionVector(), pistonPlacePos.two.getOpposite(), 0.5f);
+                        mc.getConnection().sendPacket(new CPacketPlayer.Position(offsetedPos.x, offsetedPos.y, offsetedPos.z, true));
 
                         blockPlacer.placeBlockEnumFacing(pistonPlacePos.one, pistonPlacePos.two, getPiston().one);
+
+                        //Extra packet to spoof ur position back
+                        mc.getConnection().sendPacket(new CPacketPlayer.Position(mc.player.prevPosX, mc.player.prevPosY, mc.player.prevPosZ, true));
 
                         stage = 3;
                         timer.reset();
@@ -264,10 +272,13 @@ public class PistonAura extends Module {
         for(BlockPos interactPos : getPistonInteractionBlocks(piston)){
             for(BlockPos predictedPistonPos : getRedStoneTargetBlocks(interactPos)){
                 if(!(BlockUtil.getBlock(predictedPistonPos) instanceof BlockPistonBase)) continue;
-                if(BlockUtil.getBlock(predictedPistonPos
-                        .offset(mc.world.getBlockState(predictedPistonPos).getValue(BlockDirectional.FACING)))
-                        .equals(piston)) break;
-                placementPoses.add(interactPos);
+                if(predictedPistonPos.offset(mc.world.getBlockState(predictedPistonPos).getValue(BlockDirectional.FACING))
+                        .equals(piston)) {
+                    placementPoses.remove(interactPos);
+                    break;
+                }
+                if(!placementPoses.contains(interactPos))
+                    placementPoses.add(interactPos);
             }
         }
 

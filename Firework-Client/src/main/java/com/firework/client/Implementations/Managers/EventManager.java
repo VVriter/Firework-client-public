@@ -110,21 +110,21 @@ public class EventManager extends Manager{
     }
 
     @SubscribeEvent
-    public void onBebra(FMLNetworkEvent.ClientDisconnectionFromServerEvent e){
+    public void onDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent e){
         if(DiscordNotificator.serverConnection.getValue() && DiscordNotificator.enabled.getValue()){
             DiscordUtil.sendMsg("```U are disconnected from server "+ Minecraft.getMinecraft().getCurrentServerData().serverIP+"```",DiscordNotificator.webhook);
         }
     }
 
     @SubscribeEvent
-    public void onBebra1(FMLNetworkEvent.ClientConnectedToServerEvent e){
+    public void onConnect(FMLNetworkEvent.ClientConnectedToServerEvent e){
         if(DiscordNotificator.serverConnection.getValue() && DiscordNotificator.enabled.getValue()){
             DiscordUtil.sendMsg("```U are connected to server "+ Minecraft.getMinecraft().getCurrentServerData().serverIP+"```",DiscordNotificator.webhook);
         }
     }
 
     @Subscribe
-    public Listener<PacketEvent.Receive> listener1233 = new Listener<>(event-> {
+    public Listener<PacketEvent.Receive> onPopEvent = new Listener<>(event-> {
         if (event.getPacket() instanceof SPacketEntityStatus && ((SPacketEntityStatus) event.getPacket()).getOpCode() == 35 && ((SPacketEntityStatus) event.getPacket()).getEntity(Minecraft.getMinecraft().world) instanceof EntityPlayer) {
             SPacketEntityStatus packet = (SPacketEntityStatus) event.getPacket();
             TotemPopEvent event1 = new TotemPopEvent(packet.getEntity(Minecraft.getMinecraft().world));
