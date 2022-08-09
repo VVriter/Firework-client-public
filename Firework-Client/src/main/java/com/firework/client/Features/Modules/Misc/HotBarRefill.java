@@ -74,10 +74,11 @@ public class HotBarRefill extends Module {
         if(packetSpoof.getValue())
             mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.OPEN_INVENTORY));
 
-        InventoryUtil.clickSlot(InventoryUtil.getItemSlotNoHotBar(hotbar[refill.two]));
+        int slot = InventoryUtil.getItemSlotNoHotBar(hotbar[refill.two]);
+        InventoryUtil.clickSlot(slot);
         InventoryUtil.clickSlot(refill.two);
         if(refill.one)
-            InventoryUtil.clickSlot(InventoryUtil.getItemSlot(hotbar[refill.two]));
+            InventoryUtil.clickSlot(slot);
 
         if(packetSpoof.getValue())
             mc.player.connection.sendPacket(new CPacketCloseWindow());
