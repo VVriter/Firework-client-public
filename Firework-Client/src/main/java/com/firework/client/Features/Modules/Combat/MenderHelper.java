@@ -7,143 +7,91 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.ArmorUtils;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Items.ItemUser;
-import com.firework.client.Implementations.Utill.Timer;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.ClickType;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.CPacketCloseWindow;
-import net.minecraft.network.play.client.CPacketEntityAction;
 import org.lwjgl.input.Keyboard;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 import java.util.ArrayList;
+import java.util.List;
 
-@ModuleManifest(
-        name = "MenderHelper",
-        category = Module.Category.COMBAT,
-        description = "Automatically mends/wears your armour"
-)
+@ModuleManifest(name = "MenderHelper", category = Module.Category.COMBAT)
 public class MenderHelper extends Module {
 
-    //Auto armor
-    public Setting<Boolean> autoArmor = new Setting<>("AutoArmor", true, this);
-    public Setting<Boolean> binding = new Setting<>("Binding", true, this).setVisibility(v-> autoArmor.getValue());
-    public Setting<Boolean> xCarry = new Setting<>("XCarry", false, this).setVisibility(v-> autoArmor.getValue());
-    public Setting<Boolean> packetSpoof = new Setting<>("PacketSpoof", true, this);
-    ArrayList<Integer> targetArmorSlots = new ArrayList<>();
-
-    //Mender
-    public Setting<Boolean> mend = new Setting<>("Mend", true, this);
-    public Setting<mendMode> menderMode = new Setting<>("Mode", mendMode.Auto, this).setVisibility(v-> mend.getValue());
+    public Setting<mendMode> menderMode = new Setting<>("Mode", mendMode.Auto, this);
     public enum mendMode{
         Auto, CustomBind
     }
 
-    public Setting<Integer> percent = new Setting<>("Percent", 0, this, 0, 100).setVisibility(v-> mend.getValue() && menderMode.getValue(mendMode.Auto));
-    public Setting<Integer> key = new Setting<>("CustomBind", Keyboard.KEY_NONE, this).setVisibility(v-> mend.getValue() && menderMode.getValue(mendMode.CustomBind));
-    ArrayList<Integer> targetArmorMendSlots = new ArrayList<>();
+    public Setting<Integer> key = new Setting<>("CustomBind", Keyboard.KEY_NONE, this).setVisibility(v-> menderMode.getValue(mendMode.CustomBind));
+    public Setting<Integer> percent = new Setting<>("Percent", 0, this, 0, 100).setVisibility(v-> menderMode.getValue(mendMode.Auto));
 
-    public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this).setVisibility(v-> mend.getValue());
-    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> mend.getValue());
+    public Setting<Integer> delay = new Setting<>("Delay", 1, this, 1, 20);
+    public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this);
+    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
+    public Setting<Integer> lookPitch = new Setting<>("Pitch", 90, this, 1, 90).setVisibility(v-> rotate.getValue());
 
-    public Setting<Integer> delay = new Setting<>("DelayMs", 3, this, 1, 100).setVisibility(v-> mend.getValue());
-    public Setting<Integer> lookPitch = new Setting<>("Pitch", 90, this, 1, 90).setVisibility(v-> mend.getValue());
+    ArrayList<Integer> slotsToMend;
 
-    Timer timer;
-    ItemUser itemUser;
+    int remainingDelay;
 
-    boolean shouldMend = false;
+    ItemUser user;
 
     @Override
     public void onEnable() {
         super.onEnable();
-        timer = new Timer();
-        itemUser = new ItemUser(this, switchMode, rotate);
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        itemUser = null;
-        timer = null;
+        slotsToMend = new ArrayList<>();
+        remainingDelay = delay.getValue();
+        user = new ItemUser(this, switchMode, rotate);
     }
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
-        if(fullNullCheck()) return;
+       if(fullNullCheck() || mc.player.ticksExisted < 4) return;
 
-        if(mc.currentScreen instanceof GuiContainer) return;
-        //Armor slots
-        int[] armorSlots = new int[]{
-                39,38,37,36
-        };
+       //Delay setting up || (resetting && mending)
+       remainingDelay--;
+       if(remainingDelay != 0) return;
+       remainingDelay = delay.getValue();
 
-        //Adding armor slots
-        for(Integer slot : armorSlots) {
-            //Armor item stack
-            ItemStack armor = InventoryUtil.getItemStack(slot);
+        //Iterate through ur armor inv to turn on mending
+        if(slotsToMend.isEmpty()){
+            for(EntityEquipmentSlot type : EntityEquipmentSlot.values()){
+                ItemStack armor = InventoryUtil.getItemStack(InventoryUtil.getSlotFromEquipment(type));
 
-            //Auto armor slots
-            if (autoArmor.getValue()) {
-                if (InventoryUtil.getItemStack(slot).isEmpty()) {
-                    targetArmorSlots.add(slot);
-                    continue;
-                }
-            }
-
-            //Mend slots
-            if (armor.isItemDamaged() && ArmorUtils.getPercentageDurability(armor) <= percent.getValue()){
-                targetArmorMendSlots.add(slot);
-                shouldMend = true;
-                continue;
-            }
-        }
-
-        //Auto armor fun
-        if(autoArmor.getValue() && hasArmor()) {
-            if (packetSpoof.getValue())
-                mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.OPEN_INVENTORY));
-
-            for (Integer slot : targetArmorSlots) {
-                int armorSlot = InventoryUtil.findArmorSlot(InventoryUtil.getEquipmentFromSlot(slot), binding.getValue(), xCarry.getValue());
-                if (armorSlot != -1) {
-                    mc.playerController.windowClick(mc.player.inventoryContainer.windowId, armorSlot, 0, ClickType.QUICK_MOVE, mc.player);
-                }
-            }
-            targetArmorSlots.clear();
-
-            if (packetSpoof.getValue())
-                mc.player.connection.sendPacket(new CPacketCloseWindow());
-        }
-
-        //Mending fun
-        if(mend.getValue()){
-            if(menderMode.getValue(mendMode.Auto)) {
-                if (!targetArmorMendSlots.isEmpty() && shouldMend) {
-                    if (InventoryUtil.getItemHotbar(Items.EXPERIENCE_BOTTLE) != -1 && timer.hasPassedMs(delay.getValue())) {
-                        itemUser.useItem(Items.EXPERIENCE_BOTTLE, lookPitch.getValue());
-                        timer.reset();
-                    }
-                    targetArmorMendSlots.clear();
-                }else
-                    shouldMend = false;
-            }else if(menderMode.getValue(mendMode.CustomBind) && Keyboard.isKeyDown(key.getValue())){
-                if (InventoryUtil.getItemHotbar(Items.EXPERIENCE_BOTTLE) != -1 && timer.hasPassedMs(delay.getValue())) {
-                    itemUser.useItem(Items.EXPERIENCE_BOTTLE, lookPitch.getValue());
-                    timer.reset();
+                if(armor.isItemDamaged() && ArmorUtils.getPercentageDurability(armor) <= percent.getValue()) {
+                    slotsToMend.add(InventoryUtil.getSlotFromEquipment(type));
                 }
             }
         }
+
+
+
+        //Mending code part
+        if(menderMode.getValue(mendMode.Auto)){
+            if(shouldMend())
+                user.useItem(Items.EXPERIENCE_BOTTLE, lookPitch.getValue());
+        }else if(menderMode.getValue(mendMode.CustomBind)){
+            if(Keyboard.isKeyDown(key.getValue()))
+                user.useItem(Items.EXPERIENCE_BOTTLE, lookPitch.getValue());
+        }
+
+        //Removes mended armor slots
+        List<Integer> slotsToRemove = new ArrayList<>();
+
+        slotsToMend.forEach(slot -> {
+            if(!InventoryUtil.getItemStack(slot).isItemDamaged())
+                slotsToRemove.add(slot);
+        });
+
+        slotsToMend.removeAll(slotsToRemove);
+
     });
 
-    public boolean hasArmor(){
-        for(Integer slot : targetArmorSlots){
-            int armorSlot = InventoryUtil.findArmorSlot(InventoryUtil.getEquipmentFromSlot(slot), binding.getValue(), xCarry.getValue());
-            if(armorSlot != -1)
-                return true;
-        }
-        return false;
+    public boolean shouldMend(){
+        return !slotsToMend.isEmpty()
+                && slotsToMend.stream().filter(slot -> InventoryUtil.getItemStack(slot).isItemDamaged()).count() > 0;
     }
 }
