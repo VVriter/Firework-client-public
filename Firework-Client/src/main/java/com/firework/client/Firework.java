@@ -65,7 +65,6 @@ public class Firework
 
     public static ArrayList<Manager> managers = new ArrayList<>();
 
-    public static YawStepManager yawStepManager;
     public static RainbowManager rainbowManager;
     public static ShaderManager shaderManager;
     public static UpdaterManager updaterManager;
@@ -88,7 +87,6 @@ public class Firework
 
     public void loadManagers(){
         addManagers(
-                yawStepManager = new YawStepManager(),
                 rainbowManager = new RainbowManager(),
                 shaderManager = new ShaderManager(),
                 updaterManager = new UpdaterManager(),
