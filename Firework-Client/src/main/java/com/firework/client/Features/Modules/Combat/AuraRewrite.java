@@ -1,5 +1,6 @@
 package com.firework.client.Features.Modules.Combat;
 
+import baritone.api.utils.RotationUtils;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
@@ -12,6 +13,7 @@ import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
+import com.firework.client.Implementations.Utill.RotationUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +25,7 @@ import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 import java.awt.*;
+import java.util.Random;
 
 @ModuleManifest(
         name = "AuraRewrite",
@@ -36,10 +39,14 @@ public class AuraRewrite extends Module {
     public Setting<AttackMode> attackMode = new Setting<>("Mode", AttackMode.CustomDelay, this).setVisibility(v-> interactionsSubBool.getValue());
     public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(v-> interactionsSubBool.getValue() && (attackMode.getValue(AttackMode.Old) || attackMode.getValue(AttackMode.CustomDelay)));
     public Setting<Boolean> swing = new Setting<>("Swing", true, this).setVisibility(v-> interactionsSubBool.getValue() && (attackMode.getValue(AttackMode.Old) || attackMode.getValue(AttackMode.CustomDelay)));
-    public Setting<Double> attackDelay = new Setting<>("CustomDelay", (double)4, this, 600, 1000).setVisibility(v-> interactionsSubBool.getValue() && attackMode.getValue(AttackMode.CustomDelay));
+    public Setting<Double> attackDelay = new Setting<>("CustomDelay", (double)4, this, 1, 1000).setVisibility(v-> interactionsSubBool.getValue() && attackMode.getValue(AttackMode.CustomDelay));
+    public Setting<Boolean> randomAttackDelay = new Setting<>("RandomAttackDelay", true, this).setVisibility(v-> interactionsSubBool.getValue() && attackMode.getValue(AttackMode.CustomDelay));
+
     public Setting<Boolean> rotationsSubBool = new Setting<>("Rotations", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> rotationsSubBool.getValue());
     public Setting<Bones> bone = new Setting<>("Bone", Bones.Foot, this).setVisibility(v-> rotationsSubBool.getValue());
+    public Setting<Double> randomBoneDelay = new Setting<>("RandomDelay", (double)500, this, 1, 1000).setVisibility(v-> rotationsSubBool.getValue() && bone.getValue(Bones.Random));
+
     public Setting<Boolean> switchSubBool = new Setting<>("Switch", false, this).setMode(Setting.Mode.SUB);
     public Setting<SwitchModes> switchMode = new Setting<>("SwitchMode", SwitchModes.Normal, this).setVisibility(v-> switchSubBool.getValue());
     public Setting<Double> switchDelay = new Setting<>("SwitchDelay", (double)4, this, 0, 1000).setVisibility(v-> switchSubBool.getValue());
@@ -50,18 +57,30 @@ public class AuraRewrite extends Module {
     Vec3d toRotate;
     Timer switchTimer = new Timer();
     Timer attackTimer = new Timer();
+    Timer randomBoneTimer = new Timer();
+    Timer randomAttackTimer = new Timer();
+    private final Random random = new Random();
+    private final Random attackDelayRandom = new Random();
 
     @Override
     public void onToggle() {
         super.onToggle();
         switchTimer.reset();
         attackTimer.reset();
+        randomBoneTimer.reset();
+        randomAttackTimer.reset();
     }
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> eventListener = new Listener<>(e-> {
         target = PlayerUtil.getClosestTarget(targetRange.getValue());
         if (needToPause()) return;
+
+        if (randomAttackTimer.hasPassedMs(200) && randomAttackDelay.getValue()) {
+            int randomNumber = attackDelayRandom.nextInt(1000);
+            attackDelay.setValue((double) randomNumber);
+            randomAttackTimer.reset();
+        }
 
 
         //Aura code
@@ -106,11 +125,23 @@ public class AuraRewrite extends Module {
                 case Helmet:
                     toRotate = new Vec3d(target.getPositionVector().x,target.getPositionVector().y+1.9,target.getPositionVector().z);
                     break;
+                case Random:
+                    if (randomBoneTimer.hasPassedMs(randomBoneDelay.getValue())) {
+                    int randomNumber = random.nextInt(5);
+                    switch (randomNumber) {
+                        case 1: toRotate = target.getPositionVector(); randomBoneTimer.reset(); break;
+                        case 2: toRotate = new Vec3d(target.getPositionVector().x,target.getPositionVector().y+1,target.getPositionVector().z); randomBoneTimer.reset(); break;
+                        case 3: toRotate = new Vec3d(target.getPositionVector().x,target.getPositionVector().y+1.5,target.getPositionVector().z); randomBoneTimer.reset(); break;
+                        case 4: toRotate = new Vec3d(target.getPositionVector().x,target.getPositionVector().y+1.9,target.getPositionVector().z); randomBoneTimer.reset(); break;
+                        }
+                    }
             }
         }
 
         if (rotate.getValue() && target != null && toRotate != null && !needToPause()) {
-            Firework.rotationManager.rotateSpoof(toRotate);
+            //Firework.rotationManager.rotateSpoof(toRotate);
+            e.setCancelled(true);
+            RotationUtil.packetFacePitchAndYaw(RotationUtil.getRotations(toRotate)[1],RotationUtil.getRotations(toRotate)[0]);
         }
     });
 
@@ -145,7 +176,7 @@ public class AuraRewrite extends Module {
     }
 
     public enum Bones{
-        Foot, Legs, Chestplate, Helmet
+        Foot, Legs, Chestplate, Helmet, Random
     }
 
     public enum SwitchModes{
