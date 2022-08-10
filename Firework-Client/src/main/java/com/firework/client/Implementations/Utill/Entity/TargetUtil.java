@@ -15,7 +15,7 @@ public class TargetUtil {
         Entity closest = null;
 
             for (Entity entity : mc.world.loadedEntityList) {
-                if (entity.getName() == mc.getSession().getUsername()) continue;
+                if (entity == mc.player) continue;
                 if (entity instanceof EntityMob && mobs) {
                 if (entity.getDistance(mc.player) < lowestDistance) {
                     if(entity.getPositionVector().distanceTo(mc.player.getPositionVector()) <= maxRange) {
