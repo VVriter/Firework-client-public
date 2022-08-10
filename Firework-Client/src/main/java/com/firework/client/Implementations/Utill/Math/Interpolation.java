@@ -1,4 +1,4 @@
-package com.firework.client.Implementations.Utill;
+package com.firework.client.Implementations.Utill.Math;
 
 import java.awt.*;
 
