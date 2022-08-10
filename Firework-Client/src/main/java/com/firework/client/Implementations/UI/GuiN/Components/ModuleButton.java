@@ -77,6 +77,9 @@ public class ModuleButton extends Button{
                 component.draw(mouseX, mouseY);
             });
         }
+
+        if(Frame.isHoveringOnTheComponent(this, mouseX, mouseY))
+            if(!module.description.equals("")) GuiN.description = new Description(module);
     }
 
     @Override

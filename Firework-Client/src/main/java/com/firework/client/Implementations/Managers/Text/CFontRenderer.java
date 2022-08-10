@@ -465,7 +465,7 @@ public class CFontRenderer extends CFont {
         return (float) x / 2f;
     }
 
-    public double getWidth(String text) {
+    public float getWidth(String text) {
         ScaledResolution resolution = new ScaledResolution(mc);
         float antiAliasingFactor = resolution.getScaleFactor();
         if (text == null) {

@@ -19,6 +19,7 @@ public class Module{
     public boolean existCheck;
 
     public String name;
+    public String description = "";
 
     public Setting<Boolean> isEnabled = new Setting<>("isEnabled", false, this).setVisibility(v-> false);
     public Setting<Boolean> isOpened = new Setting<>("isOpened", false, this).setVisibility(v-> false);
@@ -33,6 +34,7 @@ public class Module{
             ModuleManifest args = getClass().getAnnotation(ModuleManifest.class);
             this.name = args.name();
             this.category = args.category();
+            this.description = args.description();
         }
     }
 

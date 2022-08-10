@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.UI.GuiN;
 
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.UI.GuiN.Components.Description;
 import com.firework.client.Implementations.UI.Particles.ParticleInfo;
 import com.firework.client.Implementations.UI.Particles.ParticleSystem;
 import com.firework.client.Implementations.Utill.Render.AnimationUtil;
@@ -22,6 +23,8 @@ public class GuiN extends GuiScreen {
 
     public static double offsetY = 0;
     public float lastScroll = 1;
+
+    public static Description description;
 
     public ParticleSystem particleSystem;
 
@@ -59,8 +62,9 @@ public class GuiN extends GuiScreen {
 
         glScaled(popOutAnimation.width, popOutAnimation.width, 1);
         glTranslated((width / 2) * (1 - popOutAnimation.width), height * (1 - popOutAnimation.width), 0);
-        GuiInfo.frames.forEach(frame -> frame.draw(mouseX, mouseY+2));
-
+        GuiInfo.frames.forEach(frame -> frame.draw(mouseX, mouseY));
+        if(description != null) description.draw(mouseX, mouseY);
+        description = null;
         glPopMatrix();
         if(isDragging) {
             try {
