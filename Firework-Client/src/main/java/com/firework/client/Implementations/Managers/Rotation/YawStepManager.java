@@ -34,6 +34,7 @@ public class YawStepManager extends Manager {
     }
 
     public void finish(){
+        this.rotation.getAction().accept(new Object());
         this.rotation.setResponded();
         this.rotation = null;
     }

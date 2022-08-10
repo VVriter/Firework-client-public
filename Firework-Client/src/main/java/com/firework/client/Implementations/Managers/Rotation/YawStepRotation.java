@@ -9,9 +9,9 @@ public class YawStepRotation {
     private final Vec3d rotation;
     private final float speed;
     private RotationResponse response;
-    private final Consumer<?> action;
+    private final Consumer<Object> action;
 
-    public YawStepRotation(Vec3d rotation, float speed, RotationResponse response, Consumer<?> action){
+    public YawStepRotation(Vec3d rotation, float speed, RotationResponse response, Consumer<Object> action){
         this.rotation = rotation;
         this.speed = speed;
         this.response = response;
