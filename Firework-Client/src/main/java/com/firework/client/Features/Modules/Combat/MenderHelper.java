@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.ArmorUtils;
+import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Items.ItemUser;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -55,7 +56,11 @@ public class MenderHelper extends Module {
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
        if(fullNullCheck() || mc.player.ticksExisted < 4 || mc.currentScreen instanceof GuiContainer) return;
-       if(InventoryUtil.getHotbarItemSlot(Items.EXPERIENCE_BOTTLE) == -1) return;
+       if(InventoryUtil.getHotbarItemSlot(Items.EXPERIENCE_BOTTLE) == -1) {
+           MessageUtil.sendError("No exp found in the hotbar", -1117);
+           onDisable();
+           return;
+       }
        //Delay setting up || (resetting && mending)
        remainingDelay--;
        if(remainingDelay != 0) return;

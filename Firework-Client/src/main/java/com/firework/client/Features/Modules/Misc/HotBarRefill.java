@@ -45,7 +45,7 @@ public class HotBarRefill extends Module {
         if(fullNullCheck() || mc.player.ticksExisted < 4 || mc.currentScreen instanceof GuiContainer) return;
 
         --remainingDelay;
-        if(remainingDelay != 0) return;
+        if(remainingDelay > 0) return;
         remainingDelay = delay.getValue();
 
         refill();
