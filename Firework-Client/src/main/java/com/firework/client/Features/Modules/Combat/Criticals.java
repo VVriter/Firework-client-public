@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IEntity;
 import com.firework.client.Implementations.Settings.Setting;
+import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -24,6 +25,7 @@ public class Criticals extends Module {
     }
 
     public Setting<Boolean> inWebToo = new Setting<>("InWebToo", true, this);
+    public Setting<Boolean> BetterKnockBack = new Setting<>("BetterKnockBack", true, this);
     public Setting<Boolean> killOnly = new Setting<>("AuraOnly", true, this);
 
     @Subscribe
@@ -61,6 +63,21 @@ public class Criticals extends Module {
                     }
                 } else if (mode.getValue(modes.Jump))
                     mc.player.jump();
+            }
+        }
+    });
+
+    @Subscribe
+    public Listener<PacketEvent.Send> ev = new Listener<>(event-> {
+        if (BetterKnockBack.getValue()) {
+        if (event.getPacket() instanceof CPacketUseEntity) {
+            CPacketUseEntity packet = (CPacketUseEntity) event.getPacket();
+            if (packet.getAction() == CPacketUseEntity.Action.ATTACK) {
+                mc.player.setSprinting(false);
+                mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SPRINTING));
+                mc.player.setSprinting(true);
+                mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SPRINTING));
+                }
             }
         }
     });
