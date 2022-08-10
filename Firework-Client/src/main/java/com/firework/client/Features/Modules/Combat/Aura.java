@@ -76,6 +76,7 @@ public class Aura extends Module {
         attackTimer.reset();
         randomBoneTimer.reset();
         randomAttackTimer.reset();
+        y = 0;
     }
 
     @Subscribe
@@ -161,13 +162,42 @@ public class Aura extends Module {
         } return false;
     }
 
+
+    double y = 0;
+    Vec3d animationVector;
+    boolean shouldMoveUp = true;
+    boolean shuldMoveDown = false;
+
     @Subscribe
     public Listener<Render3dE> listener = new Listener<>(e-> {
         if (target == null) return;
-        RenderUtils.drawCircle(target.getPositionVector(),1, Color.CYAN,3);
+        if (shouldMoveUp) {
+            y+=0.1;
+        } if (shuldMoveDown) {
+            y-=0.1;
+        }
+
+        if (y>=2) {
+            returner1();
+        } if (y<=0) {
+            returner2();
+        }
+        animationVector = new Vec3d(target.getPositionVector().x,target.getPositionVector().y+y,target.getPositionVector().z);
+        RenderUtils.drawCircle(animationVector,0.5, Color.CYAN,3);
     });
 
-
+    void returner1() {
+        if (shouldMoveUp) {
+            shouldMoveUp = false;
+            shuldMoveDown = true;
+        }
+    }
+    void returner2() {
+        if (shuldMoveDown) {
+            shouldMoveUp = true;
+            shuldMoveDown = false;
+        }
+    }
 
     //Switch
     void doSwitch() {
