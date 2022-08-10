@@ -9,16 +9,12 @@ import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Items.ItemUser;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
 import org.lwjgl.input.Keyboard;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @ModuleManifest(name = "MenderHelper", category = Module.Category.COMBAT)
 public class MenderHelper extends Module {
