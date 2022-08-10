@@ -9,17 +9,17 @@ import java.util.ArrayList;
     @author PunCakeCat
  */
 public class AnimationUtil {
-    public double width = 0;
-    public ArrayList<Pair<Double, Boolean>> tasks = new ArrayList<>();
+    public float width = 0;
+    public ArrayList<Pair<Float, Boolean>> tasks = new ArrayList<>();
     private float speed;
 
-    public void setValues(double width, float speed){
+    public void setValues(float width, float speed){
         this.tasks.add(new Pair<>(width, false));
         this.speed = speed;
     }
 
     public void update(){
-        for (Pair<Double, Boolean> task : tasks) {
+        for (Pair<Float, Boolean> task : tasks) {
             if (!task.two) {
                 if(width < task.one) {
                     if(width + speed >= task.one){

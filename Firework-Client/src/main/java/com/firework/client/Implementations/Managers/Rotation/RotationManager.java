@@ -1,7 +1,8 @@
-package com.firework.client.Implementations.Managers;
+package com.firework.client.Implementations.Managers.Rotation;
 
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Managers.Manager;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayer;
@@ -12,7 +13,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-public class RotationManager extends Manager{
+public class RotationManager extends Manager {
 
     public RotationManager() {
         super(true);
