@@ -8,11 +8,13 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Client.WeaponUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
+import com.firework.client.Implementations.Utill.Entity.TargetUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.RotationUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemSword;
@@ -36,7 +38,10 @@ public class Aura extends Module {
     }
 
     public Setting<Double> targetRange = new Setting<>("TargetRange", (double)4, this, 0, 6);
-
+    public Setting<Boolean> targetsSubBool = new Setting<>("Targets", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> players = new Setting<>("Players", true, this).setVisibility(v-> targetsSubBool.getValue());
+    public Setting<Boolean> animals = new Setting<>("Animals", true, this).setVisibility(v-> targetsSubBool.getValue());
+    public Setting<Boolean> mobs = new Setting<>("Mobs", true, this).setVisibility(v-> targetsSubBool.getValue());
     public Setting<Boolean> interactionsSubBool = new Setting<>("Interact", false, this).setMode(Setting.Mode.SUB);
     public Setting<AttackMode> attackMode = new Setting<>("Mode", AttackMode.CustomDelay, this).setVisibility(v-> interactionsSubBool.getValue());
     public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(v-> interactionsSubBool.getValue() && (attackMode.getValue(AttackMode.Old) || attackMode.getValue(AttackMode.CustomDelay)));
@@ -55,7 +60,7 @@ public class Aura extends Module {
     public Setting<Boolean> pauseSubBool = new Setting<>("PauseSubBool", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> eat = new Setting<>("Eat", true, this).setVisibility(v-> pauseSubBool.getValue());
     public Setting<Boolean> mine = new Setting<>("Mine", true, this).setVisibility(v-> pauseSubBool.getValue());
-    EntityPlayer target;
+    Entity target;
     Vec3d toRotate;
     Timer switchTimer = new Timer();
     Timer attackTimer = new Timer();
@@ -75,7 +80,8 @@ public class Aura extends Module {
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> eventListener = new Listener<>(e-> {
-        target = PlayerUtil.getClosestTarget(targetRange.getValue());
+        target = TargetUtil.getClosest(players.getValue(),animals.getValue(),mobs.getValue(),targetRange.getValue());
+
         if (needToPause()) return;
 
         if (randomAttackTimer.hasPassedMs(200) && randomAttackDelay.getValue()) {
