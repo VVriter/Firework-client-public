@@ -58,7 +58,6 @@ public class MenderHelper extends Module {
        if(fullNullCheck() || mc.player.ticksExisted < 4 || mc.currentScreen instanceof GuiContainer) return;
        if(InventoryUtil.getHotbarItemSlot(Items.EXPERIENCE_BOTTLE) == -1) {
            MessageUtil.sendError("No exp found in the hotbar", -1117);
-           onDisable();
            return;
        }
        //Delay setting up || (resetting && mending)
