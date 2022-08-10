@@ -6,8 +6,12 @@ import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
 import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
@@ -20,7 +24,7 @@ public class Step extends Module {
 
     public Setting<modes> mode = new Setting<>("Mode", modes.Timer, this);
     public enum modes{
-        Timer, Writer
+        Timer, Strict
     }
 
     public Setting<Integer> ticks = new Setting<>("Ticks", 0, this, 0, 50).setVisibility(v-> mode.getValue(modes.Timer));
@@ -77,8 +81,17 @@ public class Step extends Module {
         }
 
 
-        if (mode.getValue(modes.Writer)) {
-            if (mc.player.collidedHorizontally) {
+        if (mode.getValue(modes.Strict)) {
+            AxisAlignedBB bb = mc.player.getEntityBoundingBox();;
+            for (int x = MathHelper.floor(bb.minX); x < MathHelper.floor(bb.maxX + 1.0D); ++x) {
+                for (int z = MathHelper.floor(bb.minZ); z < MathHelper.floor(bb.maxZ + 1.0D); ++z) {
+                    BlockPos pos1 = new BlockPos(x, bb.maxY + 1.0D, z);
+                    BlockPos pos2 = new BlockPos(x, bb.maxY + 2.0D, z);
+                    BlockPos pos3 = new BlockPos(mc.player.getPositionVector().x, mc.player.getPositionVector().y + 3.0D, Step.mc.player.getPositionVector().z);
+                    if (!BlockUtil.isAir(pos1) || !BlockUtil.isAir(pos2) || !BlockUtil.isAir(pos3)) return;
+                }
+            }
+            if (mc.player.collidedHorizontally && mc.player.onGround) {
                 mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.42D, mc.player.posZ, mc.player.onGround));
                 mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.75D, mc.player.posZ, mc.player.onGround));
                 mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.0D, mc.player.posZ, mc.player.onGround));
