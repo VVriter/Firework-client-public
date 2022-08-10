@@ -11,21 +11,27 @@ public class Gui extends Module {
 
     public static Setting<Boolean> enabled = null;
     public static Setting<Double> scrollSpeed;
-    public static Setting<Boolean> background;
-    public static Setting<HSLColor> upStartBlockColor;
-    public static Setting<HSLColor> downStartBlockColor;
-    public static Setting<endBlockMode> endBlock;
+
+    public static Setting<modes> mode;
+    public enum modes{
+        Gradient, Single
+    }
+    public static Setting<HSLColor> Romeo;
+    public static Setting<HSLColor> Juliet;
+
+    public static Setting<HSLColor> Color;
 
     public Gui(){
-        super("GuiModule",Category.CLIENT);
+        super("Gui",Category.CLIENT);
         this.key.setValue(Keyboard.KEY_RSHIFT) ;
 
         enabled = this.isEnabled;
         scrollSpeed = new Setting<>("ScrollSpeed", 50d, this, 0.1, 50);
-        background = new Setting<>("Background", false, this);
-        upStartBlockColor = new Setting<>("upStartBlockColor", new HSLColor(175, 50, 50), this);
-        downStartBlockColor = new Setting<>("downStartBlockColor", new HSLColor(334, 74, 77), this);
-        endBlock = new Setting<>("EndBlockMode", endBlockMode.Dynamic, this);
+        mode = new Setting<>("Mode", modes.Gradient, this);
+        Romeo = new Setting<>("Romeo", new HSLColor(271, 72, 61), this).setVisibility(v-> mode.getValue(modes.Gradient));
+        Juliet = new Setting<>("Juliet", new HSLColor(321, 72, 61), this).setVisibility(v-> mode.getValue(modes.Gradient));
+
+        Color = new Setting<>("Color", new HSLColor(271, 72, 61), this).setVisibility(v-> mode.getValue(modes.Single));
     }
 
 
