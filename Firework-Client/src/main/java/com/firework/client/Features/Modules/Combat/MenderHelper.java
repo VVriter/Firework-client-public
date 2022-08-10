@@ -55,7 +55,7 @@ public class MenderHelper extends Module {
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
        if(fullNullCheck() || mc.player.ticksExisted < 4 || mc.currentScreen instanceof GuiContainer) return;
-
+       if(InventoryUtil.getHotbarItemSlot(Items.EXPERIENCE_BOTTLE) == -1) return;
        //Delay setting up || (resetting && mending)
        remainingDelay--;
        if(remainingDelay != 0) return;
@@ -104,7 +104,7 @@ public class MenderHelper extends Module {
             ItemStack armor = InventoryUtil.getItemStack(slot);
 
             if(!armor.isItemDamaged())
-                armorSlotsToMend.add(slot);
+                armourSlotsToRemove.add(slot);
         }
         armorSlotsToMend.removeAll(armourSlotsToRemove);
 
