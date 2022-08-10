@@ -4,19 +4,24 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Events.WorldClientInitEvent;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.InventoryUtil;
+import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketCloseWindow;
 import net.minecraft.network.play.client.CPacketEntityAction;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -29,13 +34,6 @@ public class HotBarRefill extends Module {
     Item[] hotbar = new Item[9];
     int remainingDelay;
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-        cacheHotBar();
-        remainingDelay = delay.getValue();
-    }
-
     @Subscribe
     public Listener<PacketEvent.Send> onPacketSend = new Listener<>(event -> {
         if(event.getPacket() instanceof CPacketCloseWindow)
@@ -47,11 +45,18 @@ public class HotBarRefill extends Module {
         if(fullNullCheck() || mc.player.ticksExisted < 4 || mc.currentScreen instanceof GuiContainer) return;
 
         --remainingDelay;
-        if(remainingDelay != 0) return;
+        if(remainingDelay > 0) return;
         remainingDelay = delay.getValue();
 
         refill();
     });
+
+    @SubscribeEvent
+    public void onWorldJoin(WorldClientInitEvent event) {
+        cacheHotBar();
+        remainingDelay = delay.getValue();
+    }
+
 
     public void cacheHotBar(){
         for(int i = 0; i < 9; i++){
