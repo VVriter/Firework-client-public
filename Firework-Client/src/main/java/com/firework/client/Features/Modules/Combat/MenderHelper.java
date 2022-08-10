@@ -7,18 +7,24 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.ArmorUtils;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Items.ItemUser;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import org.lwjgl.input.Keyboard;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @ModuleManifest(name = "MenderHelper", category = Module.Category.COMBAT)
 public class MenderHelper extends Module {
+
+    public Setting<Boolean> armour = new Setting<>("Armour", true, this);
+    public Setting<Boolean> tools = new Setting<>("Tools", true, this);
 
     public Setting<mendMode> menderMode = new Setting<>("Mode", mendMode.Auto, this);
     public enum mendMode{
@@ -33,7 +39,8 @@ public class MenderHelper extends Module {
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
     public Setting<Integer> lookPitch = new Setting<>("Pitch", 90, this, 1, 90).setVisibility(v-> rotate.getValue());
 
-    ArrayList<Integer> slotsToMend;
+    ArrayList<Integer> armorSlotsToMend;
+    Queue<Integer> toolsSlotsToMend;
 
     int remainingDelay;
 
@@ -42,36 +49,52 @@ public class MenderHelper extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        slotsToMend = new ArrayList<>();
+        armorSlotsToMend = new ArrayList<>();
+        toolsSlotsToMend = new LinkedList<>();
         remainingDelay = delay.getValue();
         user = new ItemUser(this, switchMode, rotate);
     }
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
-       if(fullNullCheck() || mc.player.ticksExisted < 4) return;
+       if(fullNullCheck() || mc.player.ticksExisted < 4 || mc.currentScreen instanceof GuiContainer) return;
 
        //Delay setting up || (resetting && mending)
        remainingDelay--;
        if(remainingDelay != 0) return;
        remainingDelay = delay.getValue();
 
-        //Iterate through ur armor inv to turn on mending
-        if(slotsToMend.isEmpty()){
-            for(EntityEquipmentSlot type : EntityEquipmentSlot.values()){
-                ItemStack armor = InventoryUtil.getItemStack(InventoryUtil.getSlotFromEquipment(type));
+        int[] armorSlots = new int[]{
+                39,38,37,36
+        };
 
-                if(armor.isItemDamaged() && ArmorUtils.getPercentageDurability(armor) <= percent.getValue()) {
-                    slotsToMend.add(InventoryUtil.getSlotFromEquipment(type));
-                }
+        //Iterates through ur armor inv to find valid armour
+        if(armorSlotsToMend.isEmpty()){
+            for(Integer slot : armorSlots){
+                ItemStack armor = InventoryUtil.getItemStack(slot);
+
+                if(armor.isItemDamaged() && ArmorUtils.getPercentageDurability(armor) <= percent.getValue())
+                    armorSlotsToMend.add(slot);
             }
         }
 
+        //Iterates through ur hotbar inv to find valid tools
+        if(toolsSlotsToMend.isEmpty()){
+            for(int i = 0; i < 9; i++){
+                ItemStack tool = InventoryUtil.getItemStack(i);
+                if(tool.isItemDamaged() && ArmorUtils.getPercentageDurability(tool) <= percent.getValue())
+                    toolsSlotsToMend.add(i);
+            }
+        }
+        //Sorts tools to mend slots list
+        toolsSlotsToMend.stream().sorted(Comparator.comparing(slot -> ArmorUtils.getPercentageDurability(InventoryUtil.getItemStack(slot))));
 
 
         //Mending code part
         if(menderMode.getValue(mendMode.Auto)){
-            if(shouldMend())
+            boolean shouldMendTools = shouldMendTools();
+            boolean shouldMendArmour = shouldMendArmour();
+            if(shouldMendTools || shouldMendArmour)
                 user.useItem(Items.EXPERIENCE_BOTTLE, lookPitch.getValue());
         }else if(menderMode.getValue(mendMode.CustomBind)){
             if(Keyboard.isKeyDown(key.getValue()))
@@ -79,19 +102,39 @@ public class MenderHelper extends Module {
         }
 
         //Removes mended armor slots
-        List<Integer> slotsToRemove = new ArrayList<>();
+        List<Integer> armourSlotsToRemove = new ArrayList<>();
+        for(int slot : armorSlotsToMend){
+            ItemStack armor = InventoryUtil.getItemStack(slot);
 
-        slotsToMend.forEach(slot -> {
-            if(!InventoryUtil.getItemStack(slot).isItemDamaged())
-                slotsToRemove.add(slot);
-        });
+            if(!armor.isItemDamaged())
+                armorSlotsToMend.add(slot);
+        }
+        armorSlotsToMend.removeAll(armourSlotsToRemove);
 
-        slotsToMend.removeAll(slotsToRemove);
+        //Removes mended tools slots
+        List<Integer> toolsSlotsToRemove = new ArrayList<>();
+        for(int slot : toolsSlotsToMend){
+            ItemStack tool = InventoryUtil.getItemStack(slot);
+
+            if(!tool.isItemDamaged())
+                toolsSlotsToRemove.add(slot);
+        }
+        toolsSlotsToMend.removeAll(toolsSlotsToRemove);
 
     });
 
-    public boolean shouldMend(){
-        return !slotsToMend.isEmpty()
-                && slotsToMend.stream().filter(slot -> InventoryUtil.getItemStack(slot).isItemDamaged()).count() > 0;
+    //Returns true if u have valid armor to mend
+    public boolean shouldMendArmour(){
+        return armour.getValue() && !armorSlotsToMend.isEmpty()
+                && armorSlotsToMend.stream().filter(slot -> InventoryUtil.getItemStack(slot).isItemDamaged()).count() > 0;
+    }
+
+    //Returns true if u have valid tools to mend and switches to it
+    public boolean shouldMendTools(){
+        boolean result = tools.getValue() && !toolsSlotsToMend.isEmpty()
+                && toolsSlotsToMend.stream().filter(slot -> InventoryUtil.getItemStack(slot).isItemDamaged()).count() > 0;
+        if(result)
+            InventoryUtil.switchToHotbarSlot(toolsSlotsToMend.peek(), false);
+        return result;
     }
 }
