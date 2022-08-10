@@ -11,6 +11,8 @@ import com.firework.client.Features.Modules.Client.PacketRender;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Managers.*;
+import com.firework.client.Implementations.Managers.Rotation.RotationManager;
+import com.firework.client.Implementations.Managers.Rotation.YawStepManager;
 import com.firework.client.Implementations.Managers.SettingManager;
 import com.firework.client.Implementations.Managers.Text.CFontRenderer;
 import com.firework.client.Implementations.Managers.Text.TextManager;
@@ -63,6 +65,7 @@ public class Firework
 
     public static ArrayList<Manager> managers = new ArrayList<>();
 
+    public static YawStepManager yawStepManager;
     public static RainbowManager rainbowManager;
     public static ShaderManager shaderManager;
     public static UpdaterManager updaterManager;
@@ -85,6 +88,7 @@ public class Firework
 
     public void loadManagers(){
         addManagers(
+                yawStepManager = new YawStepManager(),
                 rainbowManager = new RainbowManager(),
                 shaderManager = new ShaderManager(),
                 updaterManager = new UpdaterManager(),
