@@ -2,7 +2,7 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Features.Modules.Movement.BlockFly;
+import com.firework.client.Features.Modules.Movement.BlockFly.BlockFly;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.ClientTickEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
@@ -36,7 +36,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;

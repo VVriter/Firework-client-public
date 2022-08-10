@@ -1,8 +1,7 @@
-package com.firework.client.Features.Modules.Movement;
+package com.firework.client.Features.Modules.Movement.BlockFly;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Features.Modules.World.Scaffold.ScaffoldBlock;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
