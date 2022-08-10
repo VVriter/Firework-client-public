@@ -32,7 +32,8 @@ public class MenderHelper extends Module {
     }
 
     public Setting<Integer> key = new Setting<>("CustomBind", Keyboard.KEY_NONE, this).setVisibility(v-> menderMode.getValue(mendMode.CustomBind));
-    public Setting<Integer> percent = new Setting<>("Percent", 0, this, 0, 100).setVisibility(v-> menderMode.getValue(mendMode.Auto));
+    public Setting<Integer> armourPercent = new Setting<>("ArmourPercent", 0, this, 0, 100).setVisibility(v-> menderMode.getValue(mendMode.Auto) && armour.getValue());
+    public Setting<Integer> toolsPercent = new Setting<>("ToolsPercent", 0, this, 0, 100).setVisibility(v-> menderMode.getValue(mendMode.Auto) && tools.getValue());
 
     public Setting<Integer> delay = new Setting<>("Delay", 1, this, 1, 20);
     public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this);
@@ -73,7 +74,7 @@ public class MenderHelper extends Module {
             for(Integer slot : armorSlots){
                 ItemStack armor = InventoryUtil.getItemStack(slot);
 
-                if(armor.isItemDamaged() && ArmorUtils.getPercentageDurability(armor) <= percent.getValue())
+                if(armor.isItemDamaged() && ArmorUtils.getPercentageDurability(armor) <= armourPercent.getValue())
                     armorSlotsToMend.add(slot);
             }
         }
@@ -82,7 +83,7 @@ public class MenderHelper extends Module {
         if(toolsSlotsToMend.isEmpty()){
             for(int i = 0; i < 9; i++){
                 ItemStack tool = InventoryUtil.getItemStack(i);
-                if(tool.isItemDamaged() && ArmorUtils.getPercentageDurability(tool) <= percent.getValue())
+                if(tool.isItemDamaged() && ArmorUtils.getPercentageDurability(tool) <= toolsPercent.getValue())
                     toolsSlotsToMend.add(i);
             }
         }
