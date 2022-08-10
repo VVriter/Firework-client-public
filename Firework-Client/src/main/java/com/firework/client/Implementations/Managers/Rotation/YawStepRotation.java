@@ -30,7 +30,7 @@ public class YawStepRotation {
         return Firework.rotationManager.getRotations(this.rotation);
     }
 
-    public Consumer<?> getAction(){
+    public Consumer<Object> getAction(){
         return this.action;
     }
 
