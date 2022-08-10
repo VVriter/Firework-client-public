@@ -1,5 +1,4 @@
-package com.firework.client.Features.Modules.World.Scaffold;
-
+package com.firework.client.Features.Modules.Movement.BlockFly;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;

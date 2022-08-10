@@ -18,6 +18,10 @@ public class FriendManager extends Manager{
         super(false);
     }
 
+    public static boolean isFriend(String friend) {
+        return friends.stream().anyMatch(isFriend -> isFriend.equals(friend));
+    }
+
     public static void parse(String args){
         friends.add(args);
         File theDir = new File(Firework.FIREWORK_DIRECTORY+"Friends");

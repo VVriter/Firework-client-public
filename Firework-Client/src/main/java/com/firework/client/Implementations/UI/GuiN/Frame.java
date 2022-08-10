@@ -61,6 +61,11 @@ public class Frame {
 
     public void draw(int mouseX, int mouseY){
         setupOffsets();
+        components.stream().filter(button -> Frame.isHoveringOnTheComponent(button,mouseX,mouseY)).forEach(button -> {
+            button.draw(mouseX, mouseY);
+            
+        });
+
         components.forEach(component -> component.draw(mouseX, mouseY));
     }
 
