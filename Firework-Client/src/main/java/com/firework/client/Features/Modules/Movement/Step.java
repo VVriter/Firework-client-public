@@ -4,7 +4,9 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.ClientTickEvent;
+import com.firework.client.Implementations.Events.Entity.EntityMoveEvent;
 import com.firework.client.Implementations.Events.Movement.InputUpdateEvent;
+import com.firework.client.Implementations.Events.Movement.MoveEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
 import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
@@ -31,7 +33,7 @@ public class Step extends Module {
         Strict
     }
     public Setting<Boolean> inhibit = new Setting<>("Inhibit", true, this).setVisibility(v-> mode.getValue(modes.Strict));
-    public Setting<Integer> ticks = new Setting<>("Ticks", 3, this, 1, 10);
+    public Setting<Integer> ticks = new Setting<>("Ticks", 20, this, 1, 50);
 
     boolean autoJump;
 
@@ -50,18 +52,25 @@ public class Step extends Module {
     }
 
     @Subscribe
-    public Listener<ClientTickEvent> listener1 = new Listener<>(event -> {
-        if(fullNullCheck()) return;
+    public Listener<EntityMoveEvent> listener1 = new Listener<>(event -> {
+        if(fullNullCheck() || !event.getEntity().equals(mc.player)) return;
 
-        if (mode.getValue(modes.Strict)) {
-            if (mc.player.collidedHorizontally && mc.player.onGround  && mc.player.fallDistance == 0 && !mc.player.isOnLadder() && !mc.player.movementInput.jump && canStep()) {
-                //Firework.positionManager.setPositionPacket();
+        if (mode.getValue(modes.Strict) && canStep()) {
+            double offsets[] = new double[]{
+                    0.42, 0.75, 1.0
+            };
+
+            for (double offset : offsets) {
+                mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + offset, mc.player.posZ, false));
             }
         }
     });
 
+
+
     public boolean canStep(){
         AxisAlignedBB box = mc.player.getEntityBoundingBox().offset(0.0, 0.05, 0.0).grow(0.05);
-        return mc.world.getCollisionBoxes(mc.player, box.offset(0.0, 1.0, 0.0)).isEmpty();
+        return mc.world.getCollisionBoxes(mc.player, box.offset(0.0, 1.0, 0.0)).isEmpty()
+                && !mc.player.isOnLadder() && !mc.player.isInWater() && !mc.player.isInLava() && mc.player.onGround;
     }
 }
