@@ -87,6 +87,7 @@ public class Step extends Module {
             mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.42, mc.player.posZ, mc.player.onGround));
             mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.75, mc.player.posZ, mc.player.onGround));
             mc.player.setPosition(mc.player.posX, mc.player.posY+1, mc.player.posZ);
+            event.setCancelled(true);
         }
     });
 
