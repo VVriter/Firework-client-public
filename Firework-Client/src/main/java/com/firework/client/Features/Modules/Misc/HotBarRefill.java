@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Misc;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.Player.PlayerRespawnEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Events.WorldClientInitEvent;
 import com.firework.client.Implementations.Settings.Setting;
@@ -17,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketCloseWindow;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
@@ -51,11 +53,18 @@ public class HotBarRefill extends Module {
         refill();
     });
 
-    @SubscribeEvent
-    public void onWorldJoin(WorldClientInitEvent event) {
+    @Subscribe
+    public Listener<WorldClientInitEvent> onWorldJoin = new Listener<>(event -> {
         cacheHotBar();
         remainingDelay = delay.getValue();
-    }
+    });
+
+    @Subscribe
+    public Listener<PlayerRespawnEvent> onRespawn = new Listener<>(event -> {
+        if(fullNullCheck()) return;
+        if(!event.getPlayer().isEntityEqual(mc.player)) return;
+        cacheHotBar();
+    });
 
 
     public void cacheHotBar(){
@@ -82,7 +91,7 @@ public class HotBarRefill extends Module {
         int slot = InventoryUtil.getItemSlotNoHotBar(hotbar[refill.two]);
         InventoryUtil.clickSlot(slot);
         InventoryUtil.clickSlot(refill.two);
-        if(refill.one)
+        if(!refill.one)
             InventoryUtil.clickSlot(slot);
 
         if(packetSpoof.getValue())

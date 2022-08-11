@@ -37,6 +37,7 @@ public class Step extends Module {
         Strict
     }
     public Setting<Boolean> inhibit = new Setting<>("Inhibit", true, this).setVisibility(v-> mode.getValue(modes.Strict));
+    public Setting<Integer> ticks = new Setting<>("Ticks", 25, this, 0, 50).setVisibility(v-> mode.getValue(modes.Strict) && inhibit.getValue());
 
     boolean autoJump;
 
@@ -80,7 +81,7 @@ public class Step extends Module {
 
         if (mode.getValue(modes.Strict) && canStep()) {
             if (inhibit.getValue()) {
-                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(75);
+                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(50 + ticks.getValue());
                 timer = true;
             }
             mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.42, mc.player.posZ, mc.player.onGround));
