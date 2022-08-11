@@ -61,10 +61,10 @@ public class BlockBreaker {
         //Gets facing
         EnumFacing facing = EnumFacing.UP;
         if (rayTrace.getValue()){
-            Pair<EnumFacing, Vec3d> result = BlockUtil.getFacingToClick(blockPos);
+            PredictPlace result = BlockUtil.getFacingToClick(blockPos);
 
             if (result != null)
-                facing = result.one;
+                facing = result.getFacing();
         }
 
         //Breaks block

@@ -10,6 +10,7 @@ import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
+import com.firework.client.Implementations.Utill.Blocks.PredictPlace;
 import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.Entity.CrystalUtils;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
@@ -261,10 +262,11 @@ public class AutoCrystal extends Module {
                         boolean shouldRotate = true;
                         //RayTrace result
                         if(placeRayTraceResult.getValue()) {
-                            Pair<EnumFacing, Vec3d> result = BlockUtil.getFacingToClick(placePos);
+                            PredictPlace result = BlockUtil.getFacingToClick(placePos);
                             if (result != null) {
-                                facing = result.one;
-                                rotate(result.two);
+                                facing = result.getFacing();
+                                System.out.println(facing);
+                                rotate(result.getHitVec());
                                 shouldRotate = false;
                             }
                         }
@@ -272,7 +274,6 @@ public class AutoCrystal extends Module {
                         if(shouldRotate)
                             rotate(new Vec3d(placePos.getX() + 0.5, placePos.getY() - 0.5, placePos.getZ() + 0.5));
 
-                        System.out.println(facing);
                         renderPlacePos = placePos;
                         mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(placePos, facing, EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
                     }

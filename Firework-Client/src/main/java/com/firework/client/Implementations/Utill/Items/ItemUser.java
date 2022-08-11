@@ -4,6 +4,7 @@ import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
+import com.firework.client.Implementations.Utill.Blocks.PredictPlace;
 import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
@@ -79,10 +80,10 @@ public class ItemUser {
 
         //Uses item
         EnumFacing facing = EnumFacing.UP;
-        Pair<EnumFacing, Vec3d> result = BlockUtil.getFacingToClick(blockPos);
+        PredictPlace result = BlockUtil.getFacingToClick(blockPos);
 
         if (result != null)
-            facing = result.one;
+            facing = result.getFacing();
 
         mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(blockPos, facing, hand, 0, 0,0));
 
