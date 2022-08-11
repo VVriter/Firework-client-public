@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Managers;
 
+import com.firework.client.Features.Modules.Chat.AutoAuth;
 import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Firework;
@@ -35,6 +36,21 @@ public class ConfigManager extends Manager{
                 JsonParser parser = new JsonParser();
                 JsonObject config = new Gson().fromJson(parser.parse(reader), JsonObject.class);
                 DiscordNotificator.webhook = config.get("webhook").getAsString();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static void setAuthString() {
+        File theDir = new File(Firework.FIREWORK_DIRECTORY);
+        File authFile = new File(theDir+"/AutoAuth.json");
+        if (authFile.exists()){
+            try {
+                Reader reader = new FileReader(authFile);
+                JsonParser parser = new JsonParser();
+                JsonObject config = new Gson().fromJson(parser.parse(reader), JsonObject.class);
+                AutoAuth.authCode = config.get("auth").getAsString();
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
