@@ -42,6 +42,8 @@ public class Step extends Module {
 
     boolean timer = false;
 
+    boolean lastCollidedHorizontally = false;
+
     @Override
     public void onEnable() {
         super.onEnable();
@@ -80,6 +82,7 @@ public class Step extends Module {
             mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.75, mc.player.posZ, mc.player.onGround));
             mc.player.setPosition(mc.player.posX, mc.player.posY+1, mc.player.posZ);
         }
+        lastCollidedHorizontally = mc.player.collidedHorizontally;
     });
 
 
@@ -88,6 +91,7 @@ public class Step extends Module {
         AxisAlignedBB box = mc.player.getEntityBoundingBox().offset(0.0, 0.05, 0.0).grow(0.05);
         return mc.world.getCollisionBoxes(mc.player, box.offset(0.0, 1.0, 0.0)).isEmpty()
                 && !mc.player.isOnLadder() && !mc.player.isInWater() && !mc.player.isInLava()
-                && mc.player.onGround && ((IEntityPlayerSP)mc.player).getPrevOnGround() && mc.player.collidedHorizontally;
+                && mc.player.onGround && ((IEntityPlayerSP)mc.player).getPrevOnGround()
+                && mc.player.collidedHorizontally && lastCollidedHorizontally;
     }
 }
