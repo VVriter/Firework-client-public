@@ -1,5 +1,5 @@
 package com.firework.client.Implementations.Events;
 
-import net.minecraftforge.fml.common.eventhandler.Event;
+import ua.firework.beet.Event;
 
 public class WorldClientInitEvent extends Event {}
