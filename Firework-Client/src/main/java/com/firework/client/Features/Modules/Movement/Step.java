@@ -87,7 +87,6 @@ public class Step extends Module {
             mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.75, mc.player.posZ, mc.player.onGround));
             mc.player.setPosition(mc.player.posX, mc.player.posY+1, mc.player.posZ);
         }
-        lastCollidedHorizontally = mc.player.collidedHorizontally;
     });
 
 
@@ -97,6 +96,6 @@ public class Step extends Module {
         return mc.world.getCollisionBoxes(mc.player, box.offset(0.0, 1.0, 0.0)).isEmpty()
                 && !mc.player.isOnLadder() && !mc.player.isInWater() && !mc.player.isInLava()
                 && mc.player.onGround && ((IEntityPlayerSP)mc.player).getPrevOnGround()
-                && mc.player.collidedHorizontally && lastCollidedHorizontally;
+                && mc.player.collidedHorizontally;
     }
 }
