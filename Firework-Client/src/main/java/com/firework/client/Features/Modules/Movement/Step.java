@@ -42,7 +42,7 @@ public class Step extends Module {
 
     boolean timer = false;
 
-    boolean lastCollidedHorizontally = false;
+    boolean lastCollidedHorizontally;
 
     @Override
     public void onEnable() {
@@ -50,12 +50,17 @@ public class Step extends Module {
         if(fullNullCheck()) super.onDisable();
         autoJump = mc.gameSettings.autoJump;
         mc.gameSettings.autoJump = false;
+        lastCollidedHorizontally = false;
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
         mc.gameSettings.autoJump = autoJump;
+        if (timer && mode.getValue(modes.Strict)) {
+            timer = false;
+            ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(50.0f);
+        }
     }
 
     @Subscribe
@@ -75,7 +80,7 @@ public class Step extends Module {
 
         if (mode.getValue(modes.Strict) && canStep()) {
             if (inhibit.getValue()) {
-                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(50.0f / (1.0f / 2));
+                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(75);
                 timer = true;
             }
             mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.42, mc.player.posZ, mc.player.onGround));
