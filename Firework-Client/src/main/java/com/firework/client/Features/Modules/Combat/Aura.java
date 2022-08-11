@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Features.Modules.Test;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
@@ -10,6 +11,8 @@ import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Entity.TargetUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
+import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.Render.RenderEntityUtils;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.RotationUtil;
 import com.firework.client.Implementations.Utill.Timer;
@@ -42,6 +45,8 @@ public class Aura extends Module {
     public Setting<Boolean> players = new Setting<>("Players", true, this).setVisibility(v-> targetsSubBool.getValue());
     public Setting<Boolean> animals = new Setting<>("Animals", true, this).setVisibility(v-> targetsSubBool.getValue());
     public Setting<Boolean> mobs = new Setting<>("Mobs", true, this).setVisibility(v-> targetsSubBool.getValue());
+    public Setting<Boolean> boat = new Setting<>("Boat", true, this).setVisibility(v-> targetsSubBool.getValue());
+    public Setting<Boolean> armourStand = new Setting<>("ArmourStand", true, this).setVisibility(v-> targetsSubBool.getValue());
     public Setting<Boolean> interactionsSubBool = new Setting<>("Interact", false, this).setMode(Setting.Mode.SUB);
     public Setting<AttackMode> attackMode = new Setting<>("Mode", AttackMode.CustomDelay, this).setVisibility(v-> interactionsSubBool.getValue());
     public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(v-> interactionsSubBool.getValue() && (attackMode.getValue(AttackMode.Old) || attackMode.getValue(AttackMode.CustomDelay)));
@@ -57,15 +62,25 @@ public class Aura extends Module {
     public Setting<Boolean> switchSubBool = new Setting<>("Switch", false, this).setMode(Setting.Mode.SUB);
     public Setting<SwitchModes> switchMode = new Setting<>("SwitchMode", SwitchModes.Normal, this).setVisibility(v-> switchSubBool.getValue());
     public Setting<Double> switchDelay = new Setting<>("SwitchDelay", (double)4, this, 0, 1000).setVisibility(v-> switchSubBool.getValue());
-    public Setting<Boolean> pauseSubBool = new Setting<>("PauseSubBool", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> pauseSubBool = new Setting<>("Pause", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> eat = new Setting<>("Eat", true, this).setVisibility(v-> pauseSubBool.getValue());
     public Setting<Boolean> mine = new Setting<>("Mine", true, this).setVisibility(v-> pauseSubBool.getValue());
+    public Setting<Boolean> renderSubBool = new Setting<>("Render", false, this).setMode(Setting.Mode.SUB);
+    public Setting<RenderMode> renderMode = new Setting<>("RenderMode", RenderMode.Circle, this).setVisibility(v-> renderSubBool.getValue());
+    public Setting<Double> moveCircleDelay = new Setting<>("MoveCircleDelay", (double)3, this, 1, 100).setVisibility(v-> renderSubBool.getValue() && renderMode.getValue(RenderMode.Circle));
+    public Setting<HSLColor> circleColor = new Setting<>("CircleColor", new HSLColor(1, 54, 43), this).setVisibility(v-> renderSubBool.getValue() && renderMode.getValue(RenderMode.Circle));
+    public Setting<Double> radius = new Setting<>("Radius", (double)0.5, this, 0, 3).setVisibility(v-> renderSubBool.getValue() && renderMode.getValue(RenderMode.Circle));
+    public Setting<HSLColor> boxColor = new Setting<>("BoxColor", new HSLColor(1, 54, 43), this).setVisibility(v-> renderSubBool.getValue() && renderMode.getValue(RenderMode.Box));
+
+    public Setting<Integer> lineWidth = new Setting<>("LineWidth", 3, this, 0, 10).setVisibility(v-> renderSubBool.getValue());
+
     Entity target;
     Vec3d toRotate;
     Timer switchTimer = new Timer();
     Timer attackTimer = new Timer();
     Timer randomBoneTimer = new Timer();
     Timer randomAttackTimer = new Timer();
+    Timer animationCircleTimer = new Timer();
     private final Random random = new Random();
     private final Random attackDelayRandom = new Random();
 
@@ -76,12 +91,13 @@ public class Aura extends Module {
         attackTimer.reset();
         randomBoneTimer.reset();
         randomAttackTimer.reset();
+        animationCircleTimer.reset();
         y = 0;
     }
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> eventListener = new Listener<>(e-> {
-        target = TargetUtil.getClosest(players.getValue(),animals.getValue(),mobs.getValue(),targetRange.getValue());
+        target = TargetUtil.getClosest(players.getValue(),animals.getValue(),mobs.getValue(),boat.getValue(),armourStand.getValue(),targetRange.getValue());
 
         if (needToPause()) return;
 
@@ -148,7 +164,6 @@ public class Aura extends Module {
         }
 
         if (rotate.getValue() && target != null && toRotate != null && !needToPause()) {
-            //Firework.rotationManager.rotateSpoof(toRotate);
             e.setCancelled(true);
             RotationUtil.packetFacePitchAndYaw(RotationUtil.getRotations(toRotate)[1],RotationUtil.getRotations(toRotate)[0]);
         }
@@ -170,20 +185,34 @@ public class Aura extends Module {
 
     @Subscribe
     public Listener<Render3dE> listener = new Listener<>(e-> {
-        if (target == null) return;
-        if (shouldMoveUp) {
-            y+=0.1;
-        } if (shuldMoveDown) {
-            y-=0.1;
-        }
+        switch (renderMode.getValue()) {
+            case Circle:
+                if (target == null) return;
+                if (shouldMoveUp) {
+                    if (animationCircleTimer.hasPassedMs(moveCircleDelay.getValue())) {
+                        y+=0.1;
+                        animationCircleTimer.reset();
+                    }
+                } if (shuldMoveDown) {
+                if (animationCircleTimer.hasPassedMs(moveCircleDelay.getValue())) {
+                    y-=0.1;
+                    animationCircleTimer.reset();
+                }
+            }
 
-        if (y>=2) {
-            returner1();
-        } if (y<=0) {
-            returner2();
+                if (y>=2) {
+                    returner1();
+                } if (y<=0) {
+                returner2();
+            }
+                animationVector = new Vec3d(target.getPositionVector().x,target.getPositionVector().y+y,target.getPositionVector().z);
+                RenderUtils.drawCircle(animationVector,radius.getValue(), circleColor.getValue().toRGB(),lineWidth.getValue());
+                break;
+            case Box:
+                if (target == null) return;
+                RenderEntityUtils.drawEntityBox(target,boxColor.getValue().toRGB(),true,boxColor.getValue().alpha,lineWidth.getValue());
+                break;
         }
-        animationVector = new Vec3d(target.getPositionVector().x,target.getPositionVector().y+y,target.getPositionVector().z);
-        RenderUtils.drawCircle(animationVector,0.5, Color.CYAN,3);
     });
 
     void returner1() {
@@ -223,5 +252,9 @@ public class Aura extends Module {
 
     public enum AttackMode {
         Old, New, CustomDelay
+    }
+
+    public enum RenderMode{
+        Circle, Box
     }
 }
