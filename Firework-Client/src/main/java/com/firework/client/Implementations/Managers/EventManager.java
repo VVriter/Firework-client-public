@@ -6,6 +6,7 @@ import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
 import com.firework.client.Implementations.Events.Chat.ChatSendE;
 import com.firework.client.Implementations.Events.ClientTickEvent;
+import com.firework.client.Implementations.Events.Entity.LivingUpdateEvent;
 import com.firework.client.Implementations.Events.OnFishingEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
@@ -20,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.SPacketEntityStatus;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -139,6 +141,11 @@ public class EventManager extends Manager{
         if (event.isCancelled()) {
             e.setCanceled(true);
         }
+    }
+
+    @SubscribeEvent
+    public void LivingUpdateEvent(LivingEvent.LivingUpdateEvent event){
+        Firework.eventBus.post(new LivingUpdateEvent(event.getEntityLiving()));
     }
 
     @SubscribeEvent

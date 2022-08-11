@@ -23,6 +23,10 @@ public class MathUtil {
     private static FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
     private static FloatBuffer projection = BufferUtils.createFloatBuffer(16);
 
+    public static int boolToInt(boolean b) {
+        return Boolean.compare(b, false);
+    }
+
     public static void swap(AtomicDouble one, AtomicDouble two){
         one.set(one.get() + two.get());
         two.set(one.get() - two.get());

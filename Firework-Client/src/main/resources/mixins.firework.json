@@ -53,6 +53,7 @@
     "Gui.MixinGuiBossOverlay",
     "Render.MixinRenderItemFrame",
     "IRenderGlobal",
-    "Misc.MixinMinecraft"
+    "Misc.MixinMinecraft",
+    "Misc.MixinEntity"
   ]
 }
