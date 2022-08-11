@@ -175,16 +175,6 @@ public class HoleFiller extends Module {
         }
     });
 
-    @SubscribeEvent
-    public void onWorldJoin(WorldClientInitEvent event) {
-        placeTimerMs = new Timer();
-        placeTimerMs.reset();
-
-        blockPlacer = new BlockPlacer(this, switchMode, rotate, packet);
-
-        line = new ArrayList<>();
-    }
-
     @Subscribe
     public Listener<SettingModifyValueEvent> onSettingsChangeEvent = new Listener<>(event -> {
         if(event.setting == timerMode){

@@ -1,5 +1,6 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Misc;
 
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.WorldClientInitEvent;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,6 +15,6 @@ public class MixinWorldClient {
     @Inject(method = "<init>", at = @At(value = "RETURN"))
     private void onWorldClientInit(CallbackInfo callbackInfo) {
         WorldClientInitEvent event = new WorldClientInitEvent();
-        MinecraftForge.EVENT_BUS.post(event);
+        Firework.eventBus.post(event);
     }
 }

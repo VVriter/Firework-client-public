@@ -258,19 +258,21 @@ public class AutoCrystal extends Module {
                         //Facing
                         EnumFacing facing = EnumFacing.UP;
 
-                        rotate(new Vec3d(placePos.getX() + 0.5, placePos.getY() - 0.5, placePos.getZ() + 0.5));
-
+                        boolean shouldRotate = true;
                         //RayTrace result
                         if(placeRayTraceResult.getValue()) {
                             Pair<EnumFacing, Vec3d> result = BlockUtil.getFacingToClick(placePos);
                             if (result != null) {
                                 facing = result.one;
                                 rotate(result.two);
+                                shouldRotate = false;
                             }
                         }
 
-                        System.out.println(facing);
+                        if(shouldRotate)
+                            rotate(new Vec3d(placePos.getX() + 0.5, placePos.getY() - 0.5, placePos.getZ() + 0.5));
 
+                        System.out.println(facing);
                         renderPlacePos = placePos;
                         mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(placePos, facing, EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
                     }

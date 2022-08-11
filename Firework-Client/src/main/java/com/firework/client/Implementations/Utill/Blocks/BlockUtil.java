@@ -35,17 +35,14 @@ public class BlockUtil {
     private static Minecraft mc = Minecraft.getMinecraft();
 
     public static Pair<EnumFacing, Vec3d> getFacingToClick(BlockPos pos){
-        final Vec3d eyesPos = new Vec3d(BlockUtil.mc.player.posX, BlockUtil.mc.player.posY + BlockUtil.mc.player.getEyeHeight(), BlockUtil.mc.player.posZ);
+        final Vec3d eyesPos = new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+        Queue<Pair<EnumFacing, Vec3d>> vectorsToRotate = new LinkedList<>();
         for (final EnumFacing side : EnumFacing.values()) {
-            final BlockPos neighbor = pos.offset(side);
-            final EnumFacing side2 = side.getOpposite();
-            final Vec3d hitVec;
-            if (canBeClicked(neighbor) && eyesPos.squareDistanceTo(hitVec = new Vec3d(neighbor).add(0.5, 0.5, 0.5).add(new Vec3d(side2.getDirectionVec()).scale(0.5))) <= 18.0625) {
-                BlockUtil.mc.player.swingArm(EnumHand.MAIN_HAND);
-                return new Pair<>(side2, hitVec);
-            }
+            if(BlockUtil.isAir(pos.offset(side)))
+                vectorsToRotate.add(new Pair<>(side, offset(new Vec3d(pos).add(0.5, -0.5, 0.5), side)));
         }
-        return null;
+        vectorsToRotate.stream().sorted(Comparator.comparing(pair -> -pair.two.distanceTo(eyesPos)));
+        return vectorsToRotate.peek();
     }
 
     public static boolean canBeClicked(BlockPos pos) {

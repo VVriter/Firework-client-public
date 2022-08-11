@@ -36,6 +36,14 @@ public class HotBarRefill extends Module {
     Item[] hotbar = new Item[9];
     int remainingDelay;
 
+    boolean shouldCache;
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        shouldCache = true;
+    }
+
     @Subscribe
     public Listener<PacketEvent.Send> onPacketSend = new Listener<>(event -> {
         if(event.getPacket() instanceof CPacketCloseWindow)
@@ -50,12 +58,17 @@ public class HotBarRefill extends Module {
         if(remainingDelay > 0) return;
         remainingDelay = delay.getValue();
 
+        if(shouldCache) {
+            cacheHotBar();
+            shouldCache = false;
+            return;
+        }
         refill();
     });
 
     @Subscribe
     public Listener<WorldClientInitEvent> onWorldJoin = new Listener<>(event -> {
-        cacheHotBar();
+        shouldCache = true;
         remainingDelay = delay.getValue();
     });
 
