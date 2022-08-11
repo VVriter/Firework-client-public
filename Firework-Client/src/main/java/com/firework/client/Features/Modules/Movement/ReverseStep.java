@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Movement;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Mixins.MixinsList.IEntityPlayerSP;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -31,6 +32,7 @@ public class ReverseStep extends Module {
 
     boolean canStep() {
         AxisAlignedBB bb = mc.player.getEntityBoundingBox();
-        return mc.world.getCollisionBoxes(mc.player,bb.offset(0,-1,0)).isEmpty() && !mc.player.isInLava() && !mc.player.isInWater() && !mc.player.isOnLadder() && !mc.player.movementInput.jump;
+        return mc.world.getCollisionBoxes(mc.player,bb.offset(0,-1,0)).isEmpty()
+                && !mc.player.isInLava() && !mc.player.isInWater() && !mc.player.isOnLadder() && ((IEntityPlayerSP)mc.player).getPrevOnGround();
     }
 }
