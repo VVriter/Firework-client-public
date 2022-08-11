@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketCloseWindow;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
@@ -57,6 +58,13 @@ public class HotBarRefill extends Module {
         remainingDelay = delay.getValue();
     }
 
+    @SubscribeEvent
+    public void onRespawn(PlayerEvent.PlayerRespawnEvent event){
+        if(fullNullCheck()) return;
+        if(!event.player.isEntityEqual(mc.player)) return;
+        cacheHotBar();
+    }
+
 
     public void cacheHotBar(){
         for(int i = 0; i < 9; i++){
@@ -82,7 +90,7 @@ public class HotBarRefill extends Module {
         int slot = InventoryUtil.getItemSlotNoHotBar(hotbar[refill.two]);
         InventoryUtil.clickSlot(slot);
         InventoryUtil.clickSlot(refill.two);
-        if(refill.one)
+        if(!refill.one)
             InventoryUtil.clickSlot(slot);
 
         if(packetSpoof.getValue())
