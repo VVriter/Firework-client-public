@@ -140,7 +140,7 @@ public class Firework
     @EventHandler
     public void init(FMLInitializationEvent event) {
         shaders = new Shaders( );
-        //setSession(new Session("uraniumxyz", "uraniumxyz", "0", "legacy"));
+        setSession(new Session("uraniumxyz", "uraniumxyz", "0", "legacy"));
         //Link to client
         minecraft = Minecraft.getMinecraft();
         //Sets custom window title when client is loading

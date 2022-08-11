@@ -8,5 +8,6 @@ public class InitConfigs {
         //FriendManager.getFriends();
         //MuteManager.getListOfNamesOfMutedPlayers();
         ConfigManager.setWebhookString();
+        ConfigManager.setAuthString();
     }
 }

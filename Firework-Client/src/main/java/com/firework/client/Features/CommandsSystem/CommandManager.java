@@ -1,6 +1,7 @@
 package com.firework.client.Features.CommandsSystem;
 
 
+import com.firework.client.Features.CommandsSystem.Commands.Chat.AuthCode;
 import com.firework.client.Features.CommandsSystem.Commands.Chat.ClearCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Chat.PrefixCommand;
 import com.firework.client.Features.CommandsSystem.Commands.Chat.VClipCommand;
@@ -89,6 +90,8 @@ public class CommandManager extends Manager {
 
     public void init() {
         register(
+                new AuthCode(),
+
                 new WebhookCommand(),
 
                 new PanicCommand(),
