@@ -44,9 +44,10 @@ public class ConfigManager extends Manager{
 
     public static void setAuthString() {
         File theDir = new File(Firework.FIREWORK_DIRECTORY);
-        if (theDir.exists()){
+        File authFile = new File(theDir+"/AutoAuth.json");
+        if (authFile.exists()){
             try {
-                Reader reader = new FileReader(theDir+"/AutoAuth.json");
+                Reader reader = new FileReader(authFile);
                 JsonParser parser = new JsonParser();
                 JsonObject config = new Gson().fromJson(parser.parse(reader), JsonObject.class);
                 AutoAuth.authCode = config.get("auth").getAsString();

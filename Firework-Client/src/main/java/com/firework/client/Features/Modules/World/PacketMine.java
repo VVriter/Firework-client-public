@@ -8,6 +8,7 @@ import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
+import com.firework.client.Implementations.Utill.RotationUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
@@ -117,7 +118,9 @@ public class PacketMine extends Module {
         }
 
         if (rotate.getValue() && currentBlock != null) {
-            Firework.rotationManager.rotateSpoof(new Vec3d(currentBlock.getPos()).add(new Vec3d(currentBlock.getFacing().getDirectionVec()).scale(0.5D)));
+            float rotations[] = Firework.rotationManager.getRotations(new Vec3d(currentBlock.getPos()).add(new Vec3d(currentBlock.getFacing().getDirectionVec()).scale(0.5D)));
+            RotationUtil.packetFacePitchAndYaw(rotations[1],rotations[0]);
+            e.setCancelled(true);
         }
     });
 
