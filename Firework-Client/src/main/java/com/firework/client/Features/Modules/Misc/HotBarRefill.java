@@ -58,18 +58,8 @@ public class HotBarRefill extends Module {
         if(remainingDelay > 0) return;
         remainingDelay = delay.getValue();
 
-        if(shouldCache) {
-            cacheHotBar();
-            shouldCache = false;
-            return;
-        }
         refill();
-    });
-
-    @Subscribe
-    public Listener<WorldClientInitEvent> onWorldJoin = new Listener<>(event -> {
-        shouldCache = true;
-        remainingDelay = delay.getValue();
+        cacheHotBar();
     });
 
     @Subscribe
