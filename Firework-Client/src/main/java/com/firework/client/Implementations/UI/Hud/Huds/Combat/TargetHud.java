@@ -20,6 +20,7 @@ import static com.firework.client.Firework.customFontManager;
         name = "TargetHud"
 )
 public class TargetHud extends HudComponent {
+
     @Override
     public void load() {
         super.load();
@@ -56,7 +57,7 @@ public class TargetHud extends HudComponent {
         Gui.drawScaledCustomSizeModalRect(x + 5, y + 5, 8.0F, 8, 8, 8, height - 10, height - 10, 64.0F, 64.0F);
         GlStateManager.popMatrix();
         RenderRound.drawRound(x+50,y+31,90,10,5,true,new Color(1,1,1, 200));
-        RenderRound.drawRound((float) (x+51), y+32, health*4,8,4, true, Firework.colorManager.getColor());
+        RenderRound.drawRound((float) (x+51), y+32, Math.round(health)*4,8,4, true, Firework.colorManager.getColor());
         try {
             //Draws Target name
             String playerInfo = target.getDisplayNameString() + "|" + mc.getConnection().getPlayerInfo(target.getUniqueID()).getResponseTime() + "ms";

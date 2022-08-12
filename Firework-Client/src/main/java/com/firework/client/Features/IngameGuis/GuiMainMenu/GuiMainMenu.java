@@ -1,9 +1,11 @@
 package com.firework.client.Features.IngameGuis.GuiMainMenu;
 
 import com.firework.client.Firework;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
@@ -40,6 +42,7 @@ public class GuiMainMenu extends GuiScreen {
             GlStateManager.disableCull( );
 
             Firework.shaders.currentshader.useShader( width * 2, height * 2, mouseX * 2, mouseY * 2, ( System.currentTimeMillis( ) - Firework.shaders.time ) / 1000f );
+
 
             GL11.glBegin( GL11.GL_QUADS );
             GL11.glVertex2f( -1f, -1f );
