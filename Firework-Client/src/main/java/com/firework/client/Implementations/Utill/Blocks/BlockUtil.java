@@ -38,7 +38,7 @@ public class BlockUtil {
         for (final EnumFacing side : EnumFacing.values()) {
             PredictPlace predictPlace = new PredictPlace(side, pos);
             if(BlockUtil.isAir(pos.offset(side))){
-                if(Math.signum(predictPlace.eyesOffset() + predictPlace.getOffsetFactor()*predictPlace.offset(predictPlace.getHitVec())) == predictPlace.getOffsetFactor())
+                if(Math.signum(predictPlace.getOffsetFactor() * predictPlace.eyesOffset() - predictPlace.getOffsetFactor() * predictPlace.offset(predictPlace.getTranslated(predictPlace.getHitVec()))) == predictPlace.getOffsetFactor())
                     return predictPlace;
             }
         }

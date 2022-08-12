@@ -241,7 +241,7 @@ public class AutoCrystal extends Module {
                 break;
             case 2:
                 if(placeTicks == 0){
-                    if(placePos != null){
+                    if(placePos != null && (!placeRayTraceResult.getValue() || BlockUtil.getFacingToClick(placePos) != null)){
                         //Switching
                         boolean flag = false;
                         if (mc.player.inventory.getCurrentItem().getItem() != Items.END_CRYSTAL) {
@@ -263,12 +263,10 @@ public class AutoCrystal extends Module {
                         //RayTrace result
                         if(placeRayTraceResult.getValue()) {
                             PredictPlace result = BlockUtil.getFacingToClick(placePos);
-                            if (result != null) {
-                                facing = result.getFacing();
-                                System.out.println(facing);
-                                rotate(result.getHitVec());
-                                shouldRotate = false;
-                            }
+                            facing = result.getFacing();
+                            System.out.println(facing);
+                            rotate(result.getHitVec());
+                            shouldRotate = false;
                         }
 
                         if(shouldRotate)
