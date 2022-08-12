@@ -33,7 +33,7 @@ public class InstantMine extends Module {
     public Setting<Boolean> autoBreak = new Setting<>("autoBreak", false, this);
     public Setting<Boolean> picOnly = new Setting<>("autoBreak", false, this);
 
-    public Setting<Double> delay = new Setting<>("tD", (double)3, this, 1, 10);
+    public Setting<Double> delay = new Setting<>("tD", (double)3, this, 1, 1000);
     private BlockPos renderBlock;
     private BlockPos lastBlock;
     private boolean packetCancel = false;
