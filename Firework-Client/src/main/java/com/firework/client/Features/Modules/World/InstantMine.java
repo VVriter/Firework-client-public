@@ -7,6 +7,7 @@ import com.firework.client.Implementations.Events.Player.BlockClickEvent;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.block.Block;
@@ -30,25 +31,36 @@ import java.awt.*;
 )
 public class InstantMine extends Module {
 
-    public Setting<Boolean> autoBreak = new Setting<>("autoBreak", false, this);
-    public Setting<Boolean> picOnly = new Setting<>("autoBreak", false, this);
+    public Setting<Boolean> autoBreak = new Setting<>("AutoBreak", false, this);
+    public Setting<Boolean> picOnly = new Setting<>("PickaxeOnly", false, this);
+    public Setting<Integer> delay = new Setting<>("Delay(ms)", 200, this, 1, 500);
 
-    public Setting<Double> delay = new Setting<>("tD", (double)3, this, 1, 1000);
+    public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(180, 50, 50), this);
+
     private BlockPos renderBlock;
     private BlockPos lastBlock;
     private boolean packetCancel = false;
     private Timer breaktimer = new Timer();
     private EnumFacing direction;
 
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        packetCancel = false;
+        breaktimer = new Timer();
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        breaktimer = null;
+    }
 
     @Subscribe
-    public Listener<Render3dE> listener1 = new Listener<>(e-> {
-        if (renderBlock != null) {
-            RenderUtils.drawBoxESP(renderBlock, Color.RED,1,true,true,100,1);
-        }
+    public Listener<Render3dE> onRender = new Listener<>(e-> {
+        if (renderBlock != null)
+            RenderUtils.drawBoxESP(renderBlock, color.getValue().toRGB(),3,true,true,100,1);
     });
-
-
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener = new Listener<>(e-> {
@@ -62,38 +74,30 @@ public class InstantMine extends Module {
 
         }
 
-        try {
-            ((IPlayerControllerMP)mc.playerController).setBlockHitDelay(0);
-        } catch (Exception ex) {
-        }
+        ((IPlayerControllerMP)mc.playerController).setBlockHitDelay(0);
     });
 
-
     @Subscribe
-    public Listener<PacketEvent.Send> evv = new Listener<>(e-> {
+    public Listener<PacketEvent.Send> onPacketSend = new Listener<>(e-> {
         Packet packet = e.getPacket();
         if (packet instanceof CPacketPlayerDigging) {
             CPacketPlayerDigging digPacket = (CPacketPlayerDigging) packet;
-            if(((CPacketPlayerDigging) packet).getAction()== CPacketPlayerDigging.Action.START_DESTROY_BLOCK && packetCancel) e.setCancelled(true);
+            if(digPacket.getAction() == CPacketPlayerDigging.Action.START_DESTROY_BLOCK && packetCancel) e.setCancelled(true);
         }
     });
 
     @Subscribe
-    public Listener<BlockClickEvent> evvvv = new Listener<>(e-> {
+    public Listener<BlockClickEvent> blockClickEvent = new Listener<>(e-> {
         if (canBreak(e.getPos())) {
 
             if(lastBlock==null||e.getPos().getX()!=lastBlock.getX() || e.getPos().getY()!=lastBlock.getY() || e.getPos().getZ()!=lastBlock.getZ()) {
-                //Command.sendChatMessage("New Block");
                 packetCancel = false;
-                //Command.sendChatMessage(p_Event.getPos()+" : "+lastBlock);
                 mc.player.swingArm(EnumHand.MAIN_HAND);
                 mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.START_DESTROY_BLOCK,
                         e.getPos(), e.getFacing()));
                 packetCancel = true;
-            }else{
+            }else
                 packetCancel = true;
-            }
-            //Command.sendChatMessage("Breaking");
             mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK,
                     e.getPos(), e.getFacing()));
 
@@ -102,7 +106,6 @@ public class InstantMine extends Module {
             direction = e.getFacing();
 
             e.setCancelled(true);
-
         }
     });
 
