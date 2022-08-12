@@ -101,6 +101,26 @@ public class MathUtil {
         return new double[]{posX, posZ};
     }
 
+    public static double[] directionSpeed(double speed, float scale) {
+        float forward = MathUtil.mc.player.movementInput.moveForward;
+        float side = MathUtil.mc.player.movementInput.moveStrafe;
+        float yaw = MathUtil.mc.player.prevRotationYaw + (MathUtil.mc.player.rotationYaw - MathUtil.mc.player.prevRotationYaw) * mc.getRenderPartialTicks();
+        if (forward != 0.0f) {
+            if (side > 0.0f) {
+                yaw += (float) (forward > 0.0f ? -45 : 45);
+            } else if (side < 0.0f) {
+                yaw += (float) (forward > 0.0f ? 45 : -45);
+            }
+            side = 0.0f;
+            forward = Math.signum(forward);
+        }
+        double sin = Math.sin(Math.toRadians(yaw + 90.0f));
+        double cos = Math.cos(Math.toRadians(yaw + 90.0f));
+        double posX = (double) forward * speed * cos + (double) side * speed * sin;
+        double posZ = (double) forward * speed * sin - (double) side * speed * cos;
+        return new double[]{posX, posZ};
+    }
+
     public static Vec3d to2D(final double x, final double y, final double z) {
         GL11.glGetFloat(2982, modelView);
         GL11.glGetFloat(2983, projection);
