@@ -35,17 +35,14 @@ public class BlockUtil {
     private static Minecraft mc = Minecraft.getMinecraft();
 
     public static PredictPlace getFacingToClick(BlockPos pos){
-        List<PredictPlace> vectorsToRotate = new ArrayList<>();
         for (final EnumFacing side : EnumFacing.values()) {
-            if(BlockUtil.isAir(pos.offset(side)))
-                vectorsToRotate.add(new PredictPlace(side, offset(new Vec3d(pos).add(0.5, -0.5, 0.5), side,0.5f)));
+            PredictPlace predictPlace = new PredictPlace(side, pos);
+            if(BlockUtil.isAir(pos.offset(side))){
+                if(Math.signum(predictPlace.eyesOffset() + predictPlace.getOffsetFactor()*predictPlace.offset(predictPlace.getHitVec())) == predictPlace.getOffsetFactor())
+                    return predictPlace;
+            }
         }
-        vectorsToRotate.sort(Comparator.comparingDouble(PredictPlace::getDistance));
-
-        vectorsToRotate.forEach(pair -> {
-            System.out.println(pair.getFacing() + " " + pair.getHitVec() + " " + pair.getDistance());
-        });
-        return vectorsToRotate.get(0);
+        return null;
     }
 
     public static boolean canBeClicked(BlockPos pos) {

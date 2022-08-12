@@ -2,6 +2,7 @@ package com.firework.client.Implementations.Utill.Blocks;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 public class PredictPlace {
@@ -11,9 +12,9 @@ public class PredictPlace {
     private final EnumFacing facing;
     private final Vec3d hitVec;
 
-    public PredictPlace(EnumFacing facing, Vec3d hitVec){
+    public PredictPlace(EnumFacing facing, BlockPos pos){
         this.facing = facing;
-        this.hitVec = hitVec;
+        this.hitVec = BlockUtil.offset(new Vec3d(pos).add(0.5, -0.5, 0.5), facing,0.5f);
     }
 
     public EnumFacing getFacing(){
@@ -24,14 +25,27 @@ public class PredictPlace {
         return this.hitVec;
     }
 
-    public double getDistance(){
-        final Vec3d eyesPos = mc.player.getPositionVector().add(0, mc.player.eyeHeight, 0);
-        return hitVec.distanceTo(eyesPos);
+    public int getOffsetFactor(){
+        return this.facing.getXOffset() + this.facing.getYOffset() + this.facing.getZOffset();
     }
 
-    public double getNegativeDistance(){
+    public Vec3d getTranslatedEyes(){
         final Vec3d eyesPos = mc.player.getPositionVector().add(0, mc.player.eyeHeight, 0);
-        return -hitVec.distanceTo(eyesPos);
+        return getTranslated(eyesPos);
+    }
+
+    public Vec3d getTranslated(Vec3d vec){
+        return new Vec3d(vec.x * this.facing.getXOffset(),
+                vec.y * this.facing.getYOffset(),
+                vec.z * this.facing.getZOffset());
+    }
+
+    public double eyesOffset(){
+        return offset(getTranslatedEyes());
+    }
+
+    public double offset(Vec3d vec){
+        return vec.x + vec.y + vec.z;
     }
 
 }
