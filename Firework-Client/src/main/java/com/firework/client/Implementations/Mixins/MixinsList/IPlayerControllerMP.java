@@ -9,4 +9,7 @@ public interface IPlayerControllerMP {
 
     @Accessor("isHittingBlock")
     void setHitting(boolean value);
+
+    @Accessor("blockHitDelay")
+    void setBlockHitDelay(int value);
 }
