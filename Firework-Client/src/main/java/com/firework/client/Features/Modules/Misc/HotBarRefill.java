@@ -5,25 +5,18 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Player.PlayerRespawnEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
-import com.firework.client.Implementations.Events.WorldClientInitEvent;
 import com.firework.client.Implementations.Settings.Setting;
-import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.InventoryUtil;
-import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketCloseWindow;
 import net.minecraft.network.play.client.CPacketEntityAction;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
