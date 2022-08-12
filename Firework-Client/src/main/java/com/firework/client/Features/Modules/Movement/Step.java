@@ -8,6 +8,7 @@ import com.firework.client.Implementations.Events.Entity.EntityMoveEvent;
 import com.firework.client.Implementations.Events.Entity.LivingUpdateEvent;
 import com.firework.client.Implementations.Events.Movement.InputUpdateEvent;
 import com.firework.client.Implementations.Events.Movement.MoveEvent;
+import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.IEntityPlayerSP;
 import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
@@ -18,6 +19,7 @@ import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.*;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -63,6 +65,14 @@ public class Step extends Module {
             ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(50.0f);
         }
     }
+
+    @Subscribe
+    public Listener<PacketEvent.Receive> onPacketReceive = new Listener<>(event -> {
+        if(!(event.getPacket() instanceof SPacketPlayerPosLook)) return;
+        ((IEntityPlayerSP)mc.player).setLastReportedPosX(mc.player.posX);
+        ((IEntityPlayerSP)mc.player).setLastReportedPosY(mc.player.posY);
+        ((IEntityPlayerSP)mc.player).setLastReportedPosZ(mc.player.posZ);
+    });
 
     @Subscribe
     public Listener<LivingUpdateEvent> onUpdate = new Listener<>(event -> {
