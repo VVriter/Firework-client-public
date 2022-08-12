@@ -78,7 +78,7 @@ public class ModuleButton extends Button{
             });
         }
 
-        if(Frame.isHoveringOnTheComponent(this, mouseX, mouseY))
+        if(GuiInfo.isHoveringOnTheComponent(this, mouseX, mouseY))
             if(!module.description.equals("")) GuiN.description = new Description(module);
     }
 
