@@ -14,10 +14,14 @@ import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.server.SPacketPlayerPosLook;
+import net.minecraft.potion.Potion;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.math.MathHelper;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
+
+import java.util.Objects;
 
 
 @ModuleManifest(
@@ -26,7 +30,6 @@ import ua.firework.beet.Subscribe;
         description = "Makes you faster"
 )
 public class Speed extends Module{
-    private Timer timer = new Timer();
 
     public Setting<modes> mode = new Setting<>("Mode", modes.Strafe, this);
     public enum modes{
@@ -34,24 +37,19 @@ public class Speed extends Module{
     }
     public Setting<Double> strafeMultiplier = new Setting<>("StrafeMultiplier", 5.2d, this, 0, 20).setVisibility(v-> mode.getValue(modes.Strafe));
     public Setting<Double> strafeMultiplierV2 = new Setting<>("StrafeMultiplierV2", 5.2d, this, 0, 20).setVisibility(v-> mode.getValue(modes.Strafe));
-    public Setting<Boolean> boost = new Setting<>("Boost", true, this).setVisibility(v-> mode.getValue(modes.Strafe));
-    public Setting<Double> ticks = new Setting<>("Ticks", 4.3d, this, 0, 50).setVisibility(v-> boost.getValue() && mode.getValue(modes.Strafe));
     public Setting<Boolean> forceGround = new Setting<>("ForceGround", true, this).setVisibility(v-> mode.getValue(modes.Strafe));
 
-    float defaultTimerTicks;
+
+    int stage;
+
+    boolean reset;
+
     @Override
     public void onEnable(){
         super.onEnable();
-        defaultTimerTicks = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
         if(fullNullCheck()) onDisable();
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        this.timer.reset();
-
-        ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTimerTicks);
+        stage = 1;
+        reset = false;
     }
 
     @Subscribe
@@ -62,16 +60,21 @@ public class Speed extends Module{
     });
 
     @Subscribe
+    public Listener<PacketEvent.Receive> onPacketReceive = new Listener<>(event -> {
+        if (event.getPacket() instanceof SPacketPlayerPosLook && mode.getValue(modes.Strafe)) {
+            ((IEntityPlayerSP)mc.player).setLastReportedPosX(mc.player.posX);
+            ((IEntityPlayerSP)mc.player).setLastReportedPosY(mc.player.posY);
+            ((IEntityPlayerSP)mc.player).setLastReportedPosZ(mc.player.posZ);
+        }
+    });
+
+    @Subscribe
     public Listener<PlayerMoveEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
 
         if(mode.getValue(modes.Strafe)){
-            if (mc.player.movementInput.moveForward == 0.0f && mc.player.movementInput.moveStrafe == 0.0f) {
-                event.x = 0;
-                event.z = 0;
-            }else if (mc.player.onGround && ((IEntityPlayerSP)mc.player).getPrevOnGround()) {
+            if (mc.player.onGround && ((IEntityPlayerSP)mc.player).getPrevOnGround()){
                 if (mc.gameSettings.keyBindForward.isKeyDown() || mc.gameSettings.keyBindBack.isKeyDown() || mc.gameSettings.keyBindLeft.isKeyDown() || mc.gameSettings.keyBindRight.isKeyDown()) {
-                    //Jump code
                     event.y = (mc.player.motionY = 0.42);
 
                     if (mc.player.isPotionActive(MobEffects.JUMP_BOOST))
@@ -97,12 +100,22 @@ public class Speed extends Module{
                     event.z = (mc.player.motionZ = dir[1]);
                     event.setCancelled(true);
                 }
-            } else {
-                double[] dir = MathUtil.directionSpeed(strafeMultiplierV2.getValue()/20);
-                event.x = (mc.player.motionX = dir[0]);
-                event.z = (mc.player.motionZ = dir[1]);
-                event.setCancelled(true);
             }
+        } else {
+            double[] dir2 = MathUtil.directionSpeed(strafeMultiplierV2.getValue()/20);
+
+            event.x = (mc.player.motionX = dir2[0]);
+            event.z = (mc.player.motionZ = dir2[1]);
+            event.setCancelled(true);
         }
     });
+
+    public static double getBaseMoveSpeed() {
+        double d = 0.2873;
+        if (mc.player != null && mc.player.isPotionActive(Objects.requireNonNull(Potion.getPotionById(1)))) {
+            final int n = Objects.requireNonNull(mc.player.getActivePotionEffect(Objects.requireNonNull(Potion.getPotionById(1)))).getAmplifier();
+            d *= 1.0 + 0.2 * (n + 1);
+        }
+        return d;
+    }
 }
