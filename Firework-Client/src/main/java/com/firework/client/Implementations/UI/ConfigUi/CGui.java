@@ -58,22 +58,22 @@ public class CGui extends GuiScreen {
         glScaled(popOutAnimation.width, popOutAnimation.width, 1);
         glTranslated((width / 2) * (1 - popOutAnimation.width), height * (1 - popOutAnimation.width), 0);
 
-        RenderRound.drawGradientRound(guiCordX-3,guiCordY-3,303,203,5,Color.MAGENTA,Color.CYAN,Color.GREEN,Color.ORANGE);
-        RenderRound.drawRound(guiCordX, guiCordY+10,300-3,200-13,1,true, Firework.colorManager.getColor());
+        RenderRound.drawGradientRound(guiCordX-3,guiCordY-3,303,203,5,new Color(71, 171, 164,255),new Color(8, 177, 238,255),new Color(8, 177, 238,255),new Color(71, 171, 164,255));
+        RenderRound.drawRound(guiCordX, guiCordY+10,300-3,200-13,1,true, new Color(118, 89, 203,255));
         Point2D.Double start = new Point2D.Double(guiCordX+100,guiCordY+9);
         Point2D.Double end = new Point2D.Double(guiCordX+100,guiCordY+200-2);
-        RenderUtils2D.drawGradientLine(start,end,Color.BLUE,Color.ORANGE,5);
+        RenderUtils2D.drawGradientLine(start,end,new Color(241, 11, 142,255),new Color(8, 238, 157,255),5);
 
-        RenderRound.drawRound(guiCordX+100+3,guiCordY+25,191,10,1,true,Color.RED);
+        RenderRound.drawRound(guiCordX+100+3,guiCordY+25,191,10,1,true,new Color(239, 0, 226,255));
         Firework.customFontManager.drawCenteredString("Save current config",guiCordX+100+3+95,guiCordY+25,Color.WHITE.getRGB());
 
-        RenderRound.drawRound(guiCordX+100+3,guiCordY+39,191,10,1,true,Color.RED);
+        RenderRound.drawRound(guiCordX+100+3,guiCordY+39,191,10,1,true,new Color(239, 0, 226,255));
         Firework.customFontManager.drawCenteredString("Load",guiCordX+100+3+95,guiCordY+39,Color.WHITE.getRGB());
 
-        RenderRound.drawRound(guiCordX+100+3,guiCordY+39+14,191,10,1,true,Color.RED);
+        RenderRound.drawRound(guiCordX+100+3,guiCordY+39+14,191,10,1,true,new Color(239, 0, 226,255));
         Firework.customFontManager.drawCenteredString("Unload",guiCordX+100+3+95,guiCordY+39+14,Color.WHITE.getRGB());
 
-        RenderRound.drawRound(guiCordX+100+3,guiCordY+39+14+14,191,10,1,true,Color.RED);
+        RenderRound.drawRound(guiCordX+100+3,guiCordY+39+14+14,191,10,1,true,new Color(239, 0, 226,255));
         Firework.customFontManager.drawCenteredString("Update Configs",guiCordX+100+3+95,guiCordY+39+14+14,Color.WHITE.getRGB());
 
         Firework.customFontManager.drawCenteredString("Config Manager",guiCordX+150,guiCordY-1,Color.WHITE.getRGB());
