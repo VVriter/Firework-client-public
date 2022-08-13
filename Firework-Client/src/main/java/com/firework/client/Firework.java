@@ -20,6 +20,9 @@ import com.firework.client.Implementations.UI.Hud.HudManager;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;
 import com.firework.client.Implementations.Utill.Render.Shaders.ShaderManager;
+import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
+import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
+import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.ResourceLocation;
@@ -121,6 +124,15 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
+
+     /*   MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
+        try {
+            MicrosoftAuthResult result = authenticator.loginWithCredentials("email", "pass");
+        } catch (MicrosoftAuthenticationException e) {
+            throw new RuntimeException(e);
+        }
+     */
+
         packetRender = new PacketRender();
         MinecraftForge.EVENT_BUS.register(new Loader());
         Logger.logAboutLoad();
