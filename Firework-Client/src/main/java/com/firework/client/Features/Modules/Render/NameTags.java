@@ -57,7 +57,7 @@ public class NameTags extends Module {
 
             switch (borderMode.getValue()) {
                 case Rounded:
-                    RenderRound.drawRound(0.0f, 0.0f,Firework.textManager.getStringWidth(text),10,1,true, Color.WHITE);
+                    RenderRound.drawRound(0.0f-5, 0.0f,Firework.textManager.getStringWidth(text)+10,10,5,true, Color.WHITE);
                     break;
                 case Normal:
                     RenderUtils2D.drawRectangleOutline(new Rectangle(0.0f, 0.0f,Firework.textManager.getStringWidth(text),10),3,Color.WHITE);

@@ -54,6 +54,7 @@
     "Render.MixinRenderItemFrame",
     "IRenderGlobal",
     "Misc.MixinMinecraft",
-    "Misc.MixinEntity"
+    "Misc.MixinEntity",
+    "Render.MixinPlayerOverlay"
   ]
 }

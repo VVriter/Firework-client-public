@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Render;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.PacketEvent;
+import com.firework.client.Implementations.Events.Render.FireRendereEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.client.gui.GuiChat;
@@ -40,6 +41,7 @@ public class NoRender extends Module {
     public static Setting<Boolean> weather = null;
     public static Setting<Boolean> totemPops = null;
     public static Setting<Boolean> hurtcam = null;
+    public static Setting<Boolean> potionEffects = null;
     public static Setting<Boolean> hands = null;
     public static Setting<Boolean> fov = null;
 
@@ -73,6 +75,7 @@ public class NoRender extends Module {
         fov = new Setting<>("Fov", true, this).setVisibility(v-> cameraSubBool.getValue());
         viewBobbing =  new Setting<>("ViewBobbing", true, this).setVisibility(v-> cameraSubBool.getValue());
         explosions = new Setting<>("Explosions", true, this).setVisibility(v-> cameraSubBool.getValue());
+        potionEffects = new Setting<>("PotionEffects", true, this).setVisibility(v-> cameraSubBool.getValue());
 
         blocksSubBool = new Setting<>("Blocks", false, this).setMode(Setting.Mode.SUB);
         enchatntTable = new Setting<>("EnchantTable", true, this).setVisibility(v-> blocksSubBool.getValue());
@@ -122,6 +125,13 @@ public class NoRender extends Module {
                 (packet instanceof SPacketSpawnExperienceOrb && xp.getValue()) ||
                 (packet instanceof SPacketExplosion && explosions.getValue()))
         {event.setCancelled(true);}
+    });
+
+    @Subscribe
+    public Listener<FireRendereEvent> evvv = new Listener<>(e-> {
+        if (potionEffects.getValue()) {
+            e.setCancelled(true);
+        }
     });
 
     @Override

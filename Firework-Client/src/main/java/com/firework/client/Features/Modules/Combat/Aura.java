@@ -6,6 +6,7 @@ import com.firework.client.Features.Modules.Test;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Client.MathUtil;
 import com.firework.client.Implementations.Utill.Client.WeaponUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
@@ -52,7 +53,9 @@ public class Aura extends Module {
     public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(v-> interactionsSubBool.getValue() && (attackMode.getValue(AttackMode.Old) || attackMode.getValue(AttackMode.CustomDelay)));
     public Setting<Boolean> swing = new Setting<>("Swing", true, this).setVisibility(v-> interactionsSubBool.getValue() && (attackMode.getValue(AttackMode.Old) || attackMode.getValue(AttackMode.CustomDelay)));
     public Setting<Double> attackDelay = new Setting<>("CustomDelay", (double)4, this, 1, 1000).setVisibility(v-> interactionsSubBool.getValue() && attackMode.getValue(AttackMode.CustomDelay));
-    public Setting<Boolean> randomAttackDelay = new Setting<>("RandomAttackDelay", true, this).setVisibility(v-> interactionsSubBool.getValue() && attackMode.getValue(AttackMode.CustomDelay));
+    public Setting<Boolean> randomAttackDelay = new Setting<>("Random", true, this).setVisibility(v-> interactionsSubBool.getValue() && attackMode.getValue(AttackMode.CustomDelay));
+    public Setting<Integer> minRandom = new Setting<>("MinRandom", 400, this, 1, 1000).setVisibility(v-> interactionsSubBool.getValue() && attackMode.getValue(AttackMode.CustomDelay) && randomAttackDelay.getValue());
+    public Setting<Integer> maxRandom = new Setting<>("MaxRandom", 600, this, 1, 1000).setVisibility(v-> interactionsSubBool.getValue() && attackMode.getValue(AttackMode.CustomDelay) && randomAttackDelay.getValue());
 
     public Setting<Boolean> rotationsSubBool = new Setting<>("Rotations", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> rotationsSubBool.getValue());
@@ -102,8 +105,8 @@ public class Aura extends Module {
         if (needToPause()) return;
 
         if (randomAttackTimer.hasPassedMs(200) && randomAttackDelay.getValue()) {
-            int randomNumber = attackDelayRandom.nextInt(1000);
-            attackDelay.setValue((double) randomNumber);
+
+            attackDelay.setValue((double) MathUtil.randomValue(minRandom.getValue().intValue(),maxRandom.getValue().intValue()));
             randomAttackTimer.reset();
         }
 
