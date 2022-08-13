@@ -34,6 +34,11 @@ public class Event {
             this.canceled = canceled;
     }
 
+    public void cancel() {
+        if(isCancelable)
+            this.canceled = canceled;
+    }
+
     public boolean isCancelable(){
         return isCancelable;
     }
