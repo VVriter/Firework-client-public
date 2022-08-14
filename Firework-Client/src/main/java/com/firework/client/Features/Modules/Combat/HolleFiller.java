@@ -109,7 +109,7 @@ public class HolleFiller extends Module {
         boolean Single = logicMode.getValue(logic.Single) || logicMode.getValue(logic.Both);
         boolean Double = logicMode.getValue(logic.Double) || logicMode.getValue(logic.Both);
         HoleUtil.calculateHoles(radius.getValue(), Single, Double).forEach(pos -> {
-            if(!queue.contains(pos))
+            if(!queue.contains(pos) && isValid(pos))
                 queue.add(pos);
         });
 
