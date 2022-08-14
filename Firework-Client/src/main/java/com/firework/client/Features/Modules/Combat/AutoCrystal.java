@@ -232,7 +232,7 @@ public class AutoCrystal extends Module {
         switch (stage){
             case 1:
                 if(breakTicks == 0) {
-                    if (crystal != null) {
+                    if (crystal != null && (autoSwitch.getValue() || mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL)) {
                         //Rotates
                         if(rotate.getValue())
                             rotate(crystal.getPositionVector());
