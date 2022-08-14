@@ -2,6 +2,7 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Implementations.Events.Entity.EntityPushEvent;
 import com.firework.client.Implementations.Events.Movement.PushedByShulkerEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
@@ -63,21 +64,31 @@ public class Velocity extends Module {
         }
     });
 
+    //Cancels push out of blocks event
     @Subscribe
     public Listener<PlayerPushOutOfBlocksEvent> onPush = new Listener<>(e -> {
         e.setCancelled(noPush.getValue());
-        }
-    );
 
+    });
+
+    //Cancels water push event
     @Subscribe
     public Listener<PlayerPushedByWaterEvent> onPushByWater = new Listener<>(e -> {
         e.setCancelled(noPush.getValue());
-        }
-    );
 
+    });
+
+    //Cancels shulker push event
     @Subscribe
     public Listener<PushedByShulkerEvent> shulker = new Listener<>(e-> {
         e.setCancelled(shulkers.getValue());
+    });
+
+    //Cancels entity push event
+    @Subscribe
+    public Listener<EntityPushEvent> entityPush = new Listener<>(e -> {
+       if(e.getEntity().isEntityEqual(mc.player))
+           e.setCancelled(true);
     });
 }
 
