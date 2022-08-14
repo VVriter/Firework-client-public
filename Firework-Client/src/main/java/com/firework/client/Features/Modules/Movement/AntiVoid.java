@@ -1,6 +1,5 @@
 package com.firework.client.Features.Modules.Movement;
 
-import com.firework.client.Features.Modules.Misc.PacketFly;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
@@ -27,7 +26,7 @@ import java.util.List;
 public class AntiVoid extends Module {
 
 
-    public Setting<String> mode  = new Setting<>("Mode", "Jump", this, Arrays.asList("Jump","PacketFly"));
+    public Setting<String> mode  = new Setting<>("Mode", "Jump", this, Arrays.asList("Jump"));
 
     public Setting<Boolean> render = new Setting<>("Render", false, this).setMode(Setting.Mode.SUB);
     public Setting<Double> renderRange = new Setting<>("RenderRange", (double)10, this, 1, 50).setVisibility(v-> render.getValue());
@@ -44,12 +43,6 @@ public class AntiVoid extends Module {
         }
         else {
            mc.player.moveVertical = 0.0f;
-            }
-        } else if (mode.getValue().equals("PacketFly")) {
-            if (mc.player.posY <= 0.5) {
-                PacketFly packetFly = new PacketFly();
-                packetFly.onEnable();
-                PacketFly.enabled.setValue(true);
             }
         }
     });

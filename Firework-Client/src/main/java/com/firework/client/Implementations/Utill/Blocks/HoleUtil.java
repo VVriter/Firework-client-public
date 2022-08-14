@@ -18,7 +18,7 @@ public class HoleUtil {
 
     public static List<BlockPos> calculateHoles(int radius, boolean Single, boolean Double){
         //Holes list
-        ArrayList<BlockPos> holes = new ArrayList<>();
+        List<BlockPos> holes = new ArrayList<>();
         //For each block in a given radius
         for(BlockPos pos : BlockUtil.getAll(radius)){
                 if(isSingleHole(pos) && Single)

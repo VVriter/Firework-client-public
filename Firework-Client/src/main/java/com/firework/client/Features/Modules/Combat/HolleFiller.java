@@ -73,6 +73,7 @@ public class HolleFiller extends Module {
             onDisable();
             return;
         }
+        blockPlacer = new BlockPlacer(this, switchMode, rotate, packet);
         remainingDelay = placeDelay.getValue();
         queue = new LinkedList<>();
     }
@@ -81,7 +82,7 @@ public class HolleFiller extends Module {
     public void onDisable() {
         super.onDisable();
         queue = null;
-        blockPlacer = new BlockPlacer(this, switchMode, rotate, packet);
+        blockPlacer = null;
     }
 
     @Subscribe

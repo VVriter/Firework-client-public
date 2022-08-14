@@ -19,7 +19,7 @@ import ua.firework.beet.Subscribe;
 @ModuleManifest(
         name = "ReverseStep",
         category = Module.Category.MOVEMENT,
-        description = ""
+        description = "Helps you to fall faster"
 )
 public class ReverseStep extends Module {
 
@@ -62,7 +62,7 @@ public class ReverseStep extends Module {
     public Listener<UpdateWalkingPlayerEvent> listener = new Listener<>(e-> {
         if(fullNullCheck()) return;
 
-        if (!mc.player.onGround && mc.player.motionY < 0 && !sneaking) {
+        if (!mc.player.onGround && mc.player.motionY < 0 && !mc.player.movementInput.jump && !sneaking) {
             ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(50.0f - ticks.getValue());
             mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
             sneaking = true;
