@@ -78,14 +78,4 @@ public class HoleUtil {
         }
         return facings;
     }
-
-    public static boolean isValid(BlockPos pos){
-        if (!mc.world.checkNoEntityCollision(new AxisAlignedBB(pos)))
-            return false;
-        return true;
-    }
-
-    public static boolean isAir(BlockPos pos) {
-        return BlockUtil.getBlock(pos) == Blocks.AIR;
-    }
 }
