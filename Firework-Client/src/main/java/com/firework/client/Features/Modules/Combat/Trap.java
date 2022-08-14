@@ -106,11 +106,11 @@ public class Trap extends Module {
         //Targeting block
         LinkedList<EntityPlayer> targets = PlayerUtil.getClosestTargets(targetRange.getValue());
 
-        EntityPlayer target = currentTargets.peek();
+        EntityPlayer target = targets.peek();
 
         //Filters targets that we can trap if multi trapping is enabled
-        if(multiTrap.getValue() && currentTargets.peek() != null && !canContinueTrapping(currentTargets.peek()))
-            target = currentTargets.stream().filter(player -> canContinueTrapping(player))
+        if(multiTrap.getValue() && targets.peek() != null && !canContinueTrapping(targets.peek()))
+            target = targets.stream().filter(this::canContinueTrapping)
                 .collect(Collectors.toCollection(LinkedList<EntityPlayer>::new)).peek();
 
         if(target == null){
