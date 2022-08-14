@@ -124,13 +124,13 @@ public class HolleFiller extends Module {
         //Placing and removing placed blocks
         List<BlockPos> toRemove = new ArrayList<>();
         for(BlockPos pos : queue){
-            if(!isValid(pos)) {
+            if(isValid(pos)) {
+                blockPlacer.placeBlock(pos, getBlock(), false);
                 toRemove.add(pos);
-                continue;
+                break;
+            }else{
+                toRemove.add(pos);
             }
-            blockPlacer.placeBlock(pos, getBlock(), false);
-            toRemove.add(pos);
-            break;
         }
 
         queue.removeAll(toRemove);
