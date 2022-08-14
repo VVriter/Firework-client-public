@@ -37,8 +37,8 @@ public class MenderHelper extends Module {
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
     public Setting<Integer> lookPitch = new Setting<>("Pitch", 90, this, 1, 90).setVisibility(v-> rotate.getValue());
 
-    ArrayList<Integer> armorSlotsToMend;
-    Queue<Integer> toolsSlotsToMend;
+    LinkedList<Integer> armorSlotsToMend;
+    LinkedList<Integer> toolsSlotsToMend;
 
     int remainingDelay;
 
@@ -47,7 +47,7 @@ public class MenderHelper extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        armorSlotsToMend = new ArrayList<>();
+        armorSlotsToMend = new LinkedList<>();
         toolsSlotsToMend = new LinkedList<>();
         remainingDelay = delay.getValue();
         user = new ItemUser(this, switchMode, rotate);
