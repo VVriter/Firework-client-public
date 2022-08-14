@@ -109,7 +109,7 @@ public class Trap extends Module {
         EntityPlayer target = targets.peek();
 
         //Filters targets that we can trap if multi trapping is enabled
-        if(multiTrap.getValue() && !canContinueTrapping(currentTargets.peek()))
+        if(multiTrap.getValue() && currentTargets.peek() != null && !canContinueTrapping(currentTargets.peek()))
             target = currentTargets.stream().filter(player -> canContinueTrapping(player))
                 .collect(Collectors.toCollection(LinkedList<EntityPlayer>::new)).peek();
 
