@@ -8,6 +8,7 @@ import com.firework.client.Implementations.Events.ClientTickEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Blocks.PredictPlace;
@@ -29,6 +30,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemFood;
 import net.minecraft.network.play.client.CPacketAnimation;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.network.play.server.SPacketSoundEffect;
@@ -51,6 +53,7 @@ public class AutoCrystal extends Module {
     public Setting<Boolean> autoSwitch = new Setting<>("AutoSwitch", true, this).setVisibility(v-> interaction.getValue());
 
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interaction.getValue());
+    public Setting<Integer> rotationSpoofs = new Setting<>("RotationSpoofs", 18, this, 0, 20).setVisibility(v-> interaction.getValue() && rotate.getValue());
 
     //Swing
     public Setting<Boolean> shouldSwing = new Setting<>("Swing", true, this).setVisibility(v-> interaction.getValue());
@@ -110,11 +113,11 @@ public class AutoCrystal extends Module {
 
     //Timers
     Timer renderClear;
-    Timer rotationsClear;
 
     //Rotate stuff
     public Vec3d rotationVec;
-    public boolean canRotate = false;
+    public boolean canRotate;
+    public int rSpoofs;
 
     //Modules
     Module cevBreaker;
@@ -131,14 +134,14 @@ public class AutoCrystal extends Module {
         placeTicks = 0;
         breakTicks = 0;
 
+        canRotate = false;
+
         renderClear = new Timer();
-        rotationsClear = new Timer();
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
-        rotationsClear = null;
         renderClear = null;
 
         blockFly = null;
@@ -176,6 +179,15 @@ public class AutoCrystal extends Module {
         if (event.getPacket() instanceof CPacketUseEntity && (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && ((CPacketUseEntity) event.getPacket()).getEntityFromWorld(AutoCrystal.mc.world) instanceof EntityEnderCrystal && cancelCrystal.getValue())) {
             Objects.requireNonNull(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world)).setDead();
             mc.world.removeEntityFromWorld(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world).getEntityId());
+        }
+        if (this.rotate.getValue() && canRotate && event.getPacket() instanceof CPacketPlayer) {
+            CPacketPlayer packet = (CPacketPlayer) event.getPacket();
+            float rotations[] = RotationUtil.getRotations(rotationVec);
+            ((ICPacketPlayer)packet).setPitch(rotations[1]);
+            ((ICPacketPlayer)packet).setYaw(rotations[0]);
+            rSpoofs--;
+            if(rSpoofs == 0)
+                canRotate = false;
         }
     });
 
@@ -282,20 +294,6 @@ public class AutoCrystal extends Module {
         }
     });
 
-    @Subscribe
-    public Listener<UpdateWalkingPlayerEvent> updateWalkingPlayer = new Listener<>(event -> {
-
-        if(canRotate && rotationsClear.hasPassedMs(1000)){
-            canRotate = false;
-        }
-
-       if(canRotate && rotationVec != null){
-           event.setCancelled(true);
-           float rotations[] = RotationUtil.getRotations(rotationVec);
-           RotationUtil.packetFacePitchAndYaw(rotations[1], rotations[0]);
-       }
-    });
-
     public void swing(swing swing) {
         switch (swing) {
             case Main:
@@ -321,7 +319,7 @@ public class AutoCrystal extends Module {
     public void rotate(Vec3d vec3d){
         rotationVec = vec3d;
         canRotate = true;
-        rotationsClear.reset();
+        rSpoofs = rotationSpoofs.getValue();
     }
 
     public EntityEnderCrystal bestCrystal(){
