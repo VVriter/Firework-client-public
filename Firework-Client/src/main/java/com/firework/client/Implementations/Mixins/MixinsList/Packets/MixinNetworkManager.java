@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Packets;
 
 import com.firework.client.Features.Modules.Client.PacketRender;
+import com.firework.client.Features.Modules.World.NoPacketKick;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import io.netty.channel.ChannelHandlerContext;
@@ -12,6 +13,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.io.IOException;
 
 @Mixin(NetworkManager.class)
 public class MixinNetworkManager {
@@ -37,5 +40,10 @@ public class MixinNetworkManager {
         if (event.isCancelled()) {
             ci.cancel();
         }
+    }
+
+    @Inject(method = "exceptionCaught", at = @At("HEAD"), cancellable = true)
+    public void exceptionCaught(ChannelHandlerContext p_exceptionCaught_1_, Throwable p_exceptionCaught_2_, CallbackInfo info) {
+        if (Firework.moduleManager.getModuleByClass(NoPacketKick.class).isEnabled.getValue()) info.cancel();
     }
 }
