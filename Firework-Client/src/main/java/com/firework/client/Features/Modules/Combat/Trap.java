@@ -106,7 +106,7 @@ public class Trap extends Module {
         //Targeting block
         LinkedList<EntityPlayer> targets = PlayerUtil.getClosestTargets(targetRange.getValue());
 
-        EntityPlayer target = targets.peek();
+        EntityPlayer target = currentTargets.peek();
 
         //Filters targets that we can trap if multi trapping is enabled
         if(multiTrap.getValue() && currentTargets.peek() != null && !canContinueTrapping(currentTargets.peek()))
@@ -119,11 +119,6 @@ public class Trap extends Module {
 
             if(autoDisable.getValue())
                 onDisableLog();
-            return;
-        }
-
-        if(!multiTrap.getValue() && autoDisable.getValue() && !canContinueTrapping(target)) {
-            onDisableLog();
             return;
         }
 
