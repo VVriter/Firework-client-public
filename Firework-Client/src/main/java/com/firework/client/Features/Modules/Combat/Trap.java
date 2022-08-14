@@ -128,9 +128,19 @@ public class Trap extends Module {
                 queue.add(pos);
         }
 
-        if(isValid(queue.peek()))
-            blockPlacer.placeTrapBlock(queue.peek(), Blocks.OBSIDIAN);
-        queue.remove(queue.peek());
+        //To remove list, used to remove not valid block poses
+        List<BlockPos> toRemove = new ArrayList<>();
+        for(BlockPos pos : queue){
+            if(isValid(queue.peek())) {
+                blockPlacer.placeTrapBlock(pos, Blocks.OBSIDIAN);
+                toRemove.add(pos);
+                break;
+            }else
+                toRemove.add(pos);
+        }
+
+        //Removes poses which where added to the remove list
+        queue.removeAll(toRemove);
     });
 
     //Gets list of blocks to place

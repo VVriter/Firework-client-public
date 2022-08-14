@@ -128,9 +128,8 @@ public class HolleFiller extends Module {
                 blockPlacer.placeBlock(pos, getBlock(), false);
                 toRemove.add(pos);
                 break;
-            }else{
+            }else
                 toRemove.add(pos);
-            }
         }
 
         queue.removeAll(toRemove);
