@@ -52,7 +52,6 @@ public class HotBarRefill extends Module {
         remainingDelay = delay.getValue();
 
         refill();
-        cacheHotBar();
     });
 
     @Subscribe
@@ -92,5 +91,8 @@ public class HotBarRefill extends Module {
 
         if(packetSpoof.getValue())
             mc.player.connection.sendPacket(new CPacketCloseWindow());
+
+        if(queue.isEmpty())
+            cacheHotBar();
     }
 }
