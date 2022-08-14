@@ -100,8 +100,8 @@ public class PlayerUtil implements Util {
         return closest;
     }
 
-    public static List<EntityPlayer> getClosestTargets(double maxRange) {
-        List<EntityPlayer> targets = new ArrayList<>();
+    public static LinkedList<EntityPlayer> getClosestTargets(double maxRange) {
+        LinkedList<EntityPlayer> targets = new ArrayList<>();
 
         for (EntityPlayer player : getAll()) {
             if (player.getDistance(mc.player) <= maxRange) {

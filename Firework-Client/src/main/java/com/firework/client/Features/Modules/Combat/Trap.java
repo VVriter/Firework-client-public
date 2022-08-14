@@ -21,8 +21,11 @@ import net.minecraft.util.math.Vec3d;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ModuleManifest(name = "Trap", category = Module.Category.COMBAT)
 public class Trap extends Module {
@@ -55,7 +58,7 @@ public class Trap extends Module {
 
     int remainingDelay;
 
-    int targetId;
+    LinkedList<EntityPlayer> currentTargets;
 
     @Override
     public void onEnable() {
@@ -68,12 +71,14 @@ public class Trap extends Module {
 
         remainingDelay = placeDelay.getValue();
 
-        targetId = -1;
+        currentTargets = new LinkedList<>();
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
+        currentTargets = null;
+
         blockPlacer = null;
     }
 
@@ -99,26 +104,25 @@ public class Trap extends Module {
         remainingDelay  = placeDelay.getValue();
 
         //Targeting block
-        List<EntityPlayer> targets = PlayerUtil.getClosestTargets(targetRange.getValue());
-        //Gets the nearest target if current is null
-        if(!targets.isEmpty() && targetId == -1)
-            targetId = 0;
-        if(targetId == -1) {
-            //Removes poses from the queue cuz we can't check their validity
+        LinkedList<EntityPlayer> targets = PlayerUtil.getClosestTargets(targetRange.getValue());
+
+        EntityPlayer target = targets.peek();
+
+        //Filters targets that we can trap if multi trapping is enabled
+        if(multiTrap.getValue() && !canContinueTrapping(currentTargets.peek()))
+            target = currentTargets.stream().filter(player -> canContinueTrapping(player))
+                .collect(Collectors.toCollection(LinkedList<EntityPlayer>::new)).peek();
+
+        if(target == null){
             if(!queue.isEmpty())
                 queue.clear();
 
-            //Auto disabling
             if(autoDisable.getValue())
                 onDisableLog();
             return;
-
-        }else if(multiTrap.getValue() && targets.size() >= targetId+2 && !canContinueTrapping(targets.get(targetId))){ // Gets next target if we placed all valid blocks and multiTrapping is enabled
-            targetId++;
         }
-        EntityPlayer target = PlayerUtil.getClosestTargets(targetRange.getValue()).get(targetId);
 
-        if(autoDisable.getValue() && !canContinueTrapping(target) && targets.size() - 1 == targetId) {
+        if(!multiTrap.getValue() && autoDisable.getValue() && !canContinueTrapping(target)) {
             onDisableLog();
             return;
         }
