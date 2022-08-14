@@ -99,6 +99,22 @@ public class PlayerUtil implements Util {
         }
         return closest;
     }
+
+    public static List<EntityPlayer> getClosestTargets(double maxRange) {
+        List<EntityPlayer> targets = new ArrayList<>();
+
+        for (EntityPlayer player : getAll()) {
+            if (player.getDistance(mc.player) <= maxRange) {
+                if(!FriendManager.friends.contains(player.getDisplayNameString())) {
+                    targets.add(player);
+                }
+            }
+        }
+        targets.sort(Comparator.comparing(target -> target.getPositionVector().distanceTo(mc.player.getPositionVector())));
+
+        return targets;
+    }
+
     public static EntityPlayer getClosestTarget() {
         double lowestDistance = Integer.MAX_VALUE;
         EntityPlayer closest = null;

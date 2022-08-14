@@ -64,7 +64,7 @@ public class AutoCrystal extends Module {
     public enum blow{
         Packet, Controller
     }
-    public Setting<Boolean> placeRayTraceResult = new Setting<>("PlaceRayTraceResult", true, this).setVisibility(v-> interaction.getValue());
+    public Setting<Boolean> predictFacing = new Setting<>("PredictFacing", true, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", false, this).setVisibility(v-> interaction.getValue());
     public Setting<Boolean> sync = new Setting<>("Sync", true, this).setVisibility(v-> interaction.getValue());
 
@@ -241,7 +241,7 @@ public class AutoCrystal extends Module {
                 break;
             case 2:
                 if(placeTicks == 0){
-                    if(placePos != null && (!placeRayTraceResult.getValue() || BlockUtil.getFacingToClick(placePos) != null)){
+                    if(placePos != null && (!predictFacing.getValue() || BlockUtil.getFacingToClick(placePos) != null)){
                         //Switching
                         boolean flag = false;
                         if (mc.player.inventory.getCurrentItem().getItem() != Items.END_CRYSTAL) {
@@ -261,7 +261,7 @@ public class AutoCrystal extends Module {
 
                         boolean shouldRotate = true;
                         //RayTrace result
-                        if(placeRayTraceResult.getValue()) {
+                        if(predictFacing.getValue()) {
                             PredictPlace result = BlockUtil.getFacingToClick(placePos);
                             facing = result.getFacing();
                             System.out.println(facing);
@@ -392,6 +392,10 @@ public class AutoCrystal extends Module {
 
         //Can place crystal
         if(!canPlaceCrystal(pos))
+            return false;
+
+        //Predict face check
+        if(predictFacing.getValue() && BlockUtil.getFacingToClick(pos) == null)
             return false;
 
         //Distance check

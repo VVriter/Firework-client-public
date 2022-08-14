@@ -10,117 +10,131 @@ import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
+import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-import java.util.ArrayList;
-
-import static com.firework.client.Implementations.Utill.InventoryUtil.getHotbarItemSlot;
+import java.util.LinkedList;
+import java.util.List;
 
 @ModuleManifest(name = "Trap", category = Module.Category.COMBAT)
 public class Trap extends Module {
 
     private Setting<templates> templateMode = new Setting<>("Template", templates.Full, this);
+
     private enum templates{
         Full, FacePlace, FeetCrystal
     }
 
-    private Setting<Integer> targetDistance = new Setting<>("TargetDistance", 3, this, 0, 5);
+    private Setting<Double> targetRange = new Setting<>("TargetRange", 4d, this, 1, 6);
 
-    private Setting<Integer> placedDelay = new Setting<>("PlaceDelay", 1, this, 0, 20);
+    private Setting<Integer> placeDelay = new Setting<>("PlaceDelay", 1, this, 1, 20);
+    private Setting<Integer> placeRange = new Setting<>("PlaceRange", 1, this, 1, 6);
+
 
     private Setting<BlockPlacer.switchModes> switchMode = new Setting<>("Switch", BlockPlacer.switchModes.Silent, this);
-
     private Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
     private Setting<Boolean> packet = new Setting<>("Packet", false, this);
 
-    private Setting<Boolean> autoDisable = new Setting<>("AutoDisable", true, this);
+    private Setting<Boolean> multiTrap = new Setting<>("MultiTrap", false, this);
 
-    private Setting<HSLColor> color = new Setting<>("Color", new HSLColor(150, 50,50), this);
+    private Setting<Boolean> autoDisable = new Setting<>("AutoDisable", false, this);
 
-    private ArrayList<BlockPos> line = new ArrayList<>();
+    private Setting<HSLColor> color = new Setting<>("Color", new HSLColor(260, 50, 50), this);
 
-    private int remaingDelay;
+    private LinkedList<BlockPos> queue = new LinkedList<>();
 
-    private BlockPlacer blockPlacer;
+    BlockPlacer blockPlacer;
+
+    int remainingDelay;
+
+    int targetId;
 
     @Override
     public void onEnable() {
         super.onEnable();
-        if(fullNullCheck()) return;
-        remaingDelay = 0;
-
+        if(fullNullCheck()) {
+            onDisable();
+            return;
+        }
         blockPlacer = new BlockPlacer(this, switchMode, rotate, packet);
+
+        remainingDelay = placeDelay.getValue();
+
+        targetId = -1;
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
-        line.clear();
-
         blockPlacer = null;
     }
+
+    @Subscribe
+    public Listener<Render3dE> onRender = new Listener<>(worldRender3DEvent -> {
+        for(BlockPos pos : queue){
+            RenderUtils.drawBoxESP(pos, color.getValue().toRGB(), 4, true, true, 100, 1);
+        }
+    });
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if(fullNullCheck()) return;
 
-        EntityPlayer entityTarget = PlayerUtil.getClosestTarget(targetDistance.getValue());
-        if(entityTarget == null) {
-            if(!line.isEmpty())
-                line.clear();
-
-            if(autoDisable.getValue())
-                onDisableLog();
-            return;
-        }
-
-        if(autoDisable.getValue() && !canContinueTrapping(entityTarget)) {
-            onDisableLog();
-            return;
-        }
-
-        for(BlockPos pos : trapBlocks(entityTarget)){
-            if(line.contains(pos) || !BlockUtil.isAir(pos) || !BlockUtil.isValid(pos)) continue;
-            line.add(pos);
-        }
-
-        if(remaingDelay > 0)
-            remaingDelay--;
-
-        if(remaingDelay != 0) return;
-        remaingDelay = placedDelay.getValue();
-
-        //Stops process if web wasn't found in a hotbar
-        if(getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1) {
-            MessageUtil.sendError("No obby found in the hotbar", -1117);
+        if(InventoryUtil.getHotbarItemSlot(Item.getItemFromBlock(Blocks.OBSIDIAN)) == -1){
+            MessageUtil.sendError("No obby found in the hotbar | Disabling", -1117);
             onDisable();
             return;
         }
 
-        BlockPos posToRemove = null;
-        for(BlockPos pos : line){
-            posToRemove = pos;
-            if(BlockUtil.isAir(pos) && BlockUtil.isValid(pos))
-                blockPlacer.placeTrapBlock(pos, Blocks.OBSIDIAN);
-            break;
+        remainingDelay--;
+        if(remainingDelay > 0) return;
+        remainingDelay  = placeDelay.getValue();
+
+        //Targeting block
+        List<EntityPlayer> targets = PlayerUtil.getClosestTargets(targetRange.getValue());
+        //Gets the nearest target if current is null
+        if(!targets.isEmpty() && targetId == -1)
+            targetId = 0;
+        if(targetId == -1) {
+            //Removes poses from the queue cuz we can't check their validity
+            if(!queue.isEmpty())
+                queue.clear();
+
+            //Auto disabling
+            if(autoDisable.getValue())
+                onDisableLog();
+            return;
+
+        }else if(multiTrap.getValue() && targets.size() >= targetId+2 && !canContinueTrapping(targets.get(targetId))){ // Gets next target if we placed all valid blocks and multiTrapping is enabled
+            targetId++;
         }
-        line.remove(posToRemove);
+        EntityPlayer target = PlayerUtil.getClosestTargets(targetRange.getValue()).get(targetId);
+
+        if(autoDisable.getValue() && !canContinueTrapping(target) && targets.size() - 1 == targetId) {
+            onDisableLog();
+            return;
+        }
+
+        //Logic/Place block
+        for(BlockPos pos : trapBlocks(target)){
+            if(isValid(pos) && !queue.contains(pos))
+                queue.add(pos);
+        }
+
+        if(isValid(queue.peek()))
+            blockPlacer.placeTrapBlock(queue.peek(), Blocks.OBSIDIAN);
+        queue.remove(queue.peek());
     });
 
-    @Subscribe
-    public Listener<Render3dE> onRender = new Listener<>(worldRender3DEvent -> {
-        for(BlockPos pos : line){
-            RenderUtils.drawBoxESP(pos, color.getValue().toRGB(), 4, true, true, 100, 1);
-        }
-    });
-    //Gets fist layer of blocks to place
+    //Gets list of blocks to place
     private BlockPos[] trapBlocks(EntityPlayer target) {
         BlockPos p = EntityUtil.getFlooredPos(target);
         if(templateMode.getValue(templates.Full)) {
@@ -252,9 +266,17 @@ public class Trap extends Module {
     //Returns true if given player is trapped
     private boolean canContinueTrapping(EntityPlayer target){
         for(BlockPos blockPos : trapBlocks(target))
-            if(BlockUtil.isAir(blockPos) && !BlockUtil.isValid(blockPos))
-                return false;
+            if(BlockUtil.isAir(blockPos) && BlockUtil.isValid(blockPos) && !BlockUtil.getPossibleSides(blockPos).isEmpty())
+                return true;
 
-        return true;
+        return false;
+    }
+
+    //Returns true if given blockPos is trap valid
+    public boolean isValid(BlockPos pos){
+        return BlockUtil.isAir(pos) && BlockUtil.isValid(pos)
+                && !BlockUtil.getPossibleSides(pos).isEmpty()
+                && mc.player.getPositionVector().add(0, mc.player.eyeHeight, 0)
+                .distanceTo(new Vec3d(pos).add(0.5, -0.5, 0.5)) <= placeRange.getValue();
     }
 }

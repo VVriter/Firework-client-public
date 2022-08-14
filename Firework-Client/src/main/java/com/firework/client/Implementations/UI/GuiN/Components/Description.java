@@ -25,7 +25,7 @@ public class Description extends Component {
 
         ScaledResolution sc = new ScaledResolution(mc);
         boolean mode = mouseX + w >= sc.getScaledWidth();
-        RenderRound.drawRound(mouseX  - (mode ? w : 0), mouseY + 2, w, h + 4, 0.5f, true, Firework.colorManager.getColor());
-        Firework.customFontManager.drawString(module.description, mouseX + 3 - (mode ? w : 0), mouseY + 4, Color.white.getRGB());
+        RenderRound.drawRound(mouseX  - (mode ? w : 0), mouseY + 6, w, h + 1, 0.5f, true, Firework.colorManager.getColor());
+        Firework.customFontManager.drawString(module.description, mouseX + 3 - (mode ? w : 0), mouseY + 7, Color.white.getRGB());
     }
 }
