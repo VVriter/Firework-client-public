@@ -226,6 +226,34 @@ public class BlockUtil {
         }
         return sphere;
     }
+
+    public static List<BlockPos> getSphere(float radius, boolean ignoreAir, Entity entity) {
+        ArrayList<BlockPos> sphere = new ArrayList<BlockPos>();
+        BlockPos pos = new BlockPos(entity.getPositionVector());
+        int posX = pos.getX();
+        int posY = pos.getY();
+        int posZ = pos.getZ();
+        int radiuss = (int)radius;
+        int x = posX - radiuss;
+        while ((float)x <= (float)posX + radius) {
+            int z = posZ - radiuss;
+            while ((float)z <= (float)posZ + radius) {
+                int y = posY - radiuss;
+                while ((float)y < (float)posY + radius) {
+                    if ((float)((posX - x) * (posX - x) + (posZ - z) * (posZ - z) + (posY - y) * (posY - y)) < radius * radius) {
+                        BlockPos position = new BlockPos(x, y, z);
+                        if (!ignoreAir || BlockUtil.mc.world.getBlockState(position).getBlock() != Blocks.AIR) {
+                            sphere.add(position);
+                        }
+                    }
+                    ++y;
+                }
+                ++z;
+            }
+            ++x;
+        }
+        return sphere;
+    }
     public static BlockPos[] toBlockPos(Vec3d[] vec3ds) {
         BlockPos[] list = new BlockPos[vec3ds.length];
         for (int i = 0; i < vec3ds.length; ++i) {
