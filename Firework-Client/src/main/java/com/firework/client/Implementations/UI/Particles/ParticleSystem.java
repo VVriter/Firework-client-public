@@ -1,6 +1,6 @@
 package com.firework.client.Implementations.UI.Particles;
 
-import com.firework.client.Features.Modules.Client.GuiParticles;
+import com.firework.client.Features.Modules.Client.Background;
 import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
@@ -86,8 +86,8 @@ public class ParticleSystem {
 
     //Update particles positions using velocity
     public void updatePositions(){
-        scale = GuiParticles.scaleFactor.getValue();
-        lineLong = GuiParticles.lineLong.getValue();
+        scale = Background.scaleFactor.getValue();
+        lineLong = Background.lineLong.getValue();
 
         ScaledResolution scaledResolution = new ScaledResolution(mc);
         if(timer.hasPassedMs(speed)){
