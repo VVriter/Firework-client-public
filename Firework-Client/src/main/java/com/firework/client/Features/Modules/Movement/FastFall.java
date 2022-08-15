@@ -3,25 +3,20 @@ package com.firework.client.Features.Modules.Movement;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.Entity.LivingUpdateEvent;
-import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
-import com.firework.client.Implementations.Mixins.MixinsList.IEntityPlayerSP;
 import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
 import com.firework.client.Implementations.Mixins.MixinsList.ITimer;
 import com.firework.client.Implementations.Settings.Setting;
 import net.minecraft.network.play.client.CPacketEntityAction;
-import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.network.play.server.SPacketPlayerPosLook;
-import net.minecraft.util.math.AxisAlignedBB;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 @ModuleManifest(
-        name = "ReverseStep",
+        name = "FastFall",
         category = Module.Category.MOVEMENT,
         description = "Helps you to fall faster"
 )
-public class ReverseStep extends Module {
+public class FastFall extends Module {
 
     public Setting<Integer> ticks = new Setting<>("Ticks", 25, this, 0, 50);
 
