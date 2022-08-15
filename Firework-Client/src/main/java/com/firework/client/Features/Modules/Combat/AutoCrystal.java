@@ -139,7 +139,7 @@ public class AutoCrystal extends Module {
     public void onDisable() {
         super.onDisable();
         renderClear = null;
-        
+
         aura = null;
         cevBreaker = null;
     }

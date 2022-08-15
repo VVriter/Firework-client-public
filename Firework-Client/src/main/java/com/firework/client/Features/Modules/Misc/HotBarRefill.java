@@ -78,8 +78,10 @@ public class HotBarRefill extends Module {
 
         //Refills one item stack
         Pair<Boolean, Integer> refill = queue.peek();
-        if(refill == null)
+        if(refill == null) {
             cacheHotBar();
+            return;
+        }
 
         if(packetSpoof.getValue())
             mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.OPEN_INVENTORY));
