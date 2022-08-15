@@ -185,8 +185,6 @@ public class AutoCrystal extends Module {
             float rotations[] = RotationUtil.getRotations(rotationVec);
             ((ICPacketPlayer)event.getPacket()).setYaw(rotations[0]);
             ((ICPacketPlayer)event.getPacket()).setPitch(rotations[1]);
-            ((IEntityPlayerSP)mc.player).setLastReportedYaw(rotations[0]);
-            ((IEntityPlayerSP)mc.player).setLastReportedPitch(rotations[1]);
             rSpoofs++;
             if(rSpoofs >= rotationSpoofs.getValue()) {
                 canRotate = false;
