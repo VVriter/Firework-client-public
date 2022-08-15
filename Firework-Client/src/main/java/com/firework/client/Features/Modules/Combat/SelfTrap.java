@@ -40,9 +40,16 @@ public class SelfTrap extends Module {
 
     int stage;
 
+    int xFancing;
+    int zFancing;
+
     @Override
     public void onEnable() {
         super.onEnable();
+
+        xFancing = 1;
+        zFancing = 0;
+
         placer = new BlockPlacer(this, switchType,rotate,packet);
         timer = new Timer();
         timer.reset();
@@ -64,13 +71,13 @@ public class SelfTrap extends Module {
         switch (mode.getValue()) {
             case Always:
                 if (stage == 0) {
-                    if (BlockUtil.getBlock(pos.add(1,0,0)) != Blocks.AIR) {
+                    if (BlockUtil.getBlock(pos.add(xFancing,0,zFancing)) != Blocks.AIR) {
                         stage = 1;
                     }
 
-                    if (BlockUtil.getBlock(pos.add(1,0,0)) == Blocks.AIR) {
+                    if (BlockUtil.getBlock(pos.add(xFancing,0,zFancing)) == Blocks.AIR) {
                         if (timer.hasPassedMs(delay.getValue())) {
-                            placer.placeBlock(pos.add(1,0,0),Blocks.OBSIDIAN);
+                            placer.placeBlock(pos.add(xFancing,0,zFancing),Blocks.OBSIDIAN);
                             timer.reset();
                             stage = 1;
                         }
@@ -79,13 +86,13 @@ public class SelfTrap extends Module {
 
 
                 if (stage == 1) {
-                    if (BlockUtil.getBlock(pos.add(1,1,0)) != Blocks.AIR) {
+                    if (BlockUtil.getBlock(pos.add(xFancing,1,zFancing)) != Blocks.AIR) {
                         stage = 2;
                     }
 
-                    if (BlockUtil.getBlock(pos.add(1,1,0)) == Blocks.AIR) {
+                    if (BlockUtil.getBlock(pos.add(xFancing,1,zFancing)) == Blocks.AIR) {
                         if (timer.hasPassedMs(delay.getValue())) {
-                        placer.placeBlock(pos.add(1,1,0),Blocks.OBSIDIAN);
+                        placer.placeBlock(pos.add(xFancing,1,zFancing),Blocks.OBSIDIAN);
                         timer.reset();
                         stage = 2;
                         }
@@ -93,13 +100,13 @@ public class SelfTrap extends Module {
                 }
 
                 if (stage == 2) {
-                    if (BlockUtil.getBlock(pos.add(1,2,0)) != Blocks.AIR) {
+                    if (BlockUtil.getBlock(pos.add(xFancing,2,zFancing)) != Blocks.AIR) {
                         stage = 3;
                     }
 
-                    if (BlockUtil.getBlock(pos.add(1,2,0)) == Blocks.AIR) {
+                    if (BlockUtil.getBlock(pos.add(xFancing,2,zFancing)) == Blocks.AIR) {
                         if (timer.hasPassedMs(delay.getValue())) {
-                        placer.placeBlock(pos.add(1,2,0),Blocks.OBSIDIAN);
+                        placer.placeBlock(pos.add(xFancing,2,zFancing),Blocks.OBSIDIAN);
                         timer.reset();
                         stage = 3;
                         }
@@ -130,13 +137,13 @@ public class SelfTrap extends Module {
                 if (target != null) {
                     if (mc.player.getDistanceSq(target) <= distance.getValue()) {
                         if (stage == 0) {
-                            if (BlockUtil.getBlock(pos.add(1,0,0)) != Blocks.AIR) {
+                            if (BlockUtil.getBlock(pos.add(xFancing,0,zFancing)) != Blocks.AIR) {
                                 stage = 1;
                             }
 
-                            if (BlockUtil.getBlock(pos.add(1,0,0)) == Blocks.AIR) {
+                            if (BlockUtil.getBlock(pos.add(xFancing,0,zFancing)) == Blocks.AIR) {
                                 if (timer.hasPassedMs(delay.getValue())) {
-                                    placer.placeBlock(pos.add(1,0,0),Blocks.OBSIDIAN);
+                                    placer.placeBlock(pos.add(xFancing,0,zFancing),Blocks.OBSIDIAN);
                                     timer.reset();
                                     stage = 1;
                                 }
@@ -145,13 +152,13 @@ public class SelfTrap extends Module {
 
 
                         if (stage == 1) {
-                            if (BlockUtil.getBlock(pos.add(1,1,0)) != Blocks.AIR) {
+                            if (BlockUtil.getBlock(pos.add(xFancing,1,zFancing)) != Blocks.AIR) {
                                 stage = 2;
                             }
 
-                            if (BlockUtil.getBlock(pos.add(1,1,0)) == Blocks.AIR) {
+                            if (BlockUtil.getBlock(pos.add(xFancing,1,zFancing)) == Blocks.AIR) {
                                 if (timer.hasPassedMs(delay.getValue())) {
-                                    placer.placeBlock(pos.add(1,1,0),Blocks.OBSIDIAN);
+                                    placer.placeBlock(pos.add(xFancing,1,zFancing),Blocks.OBSIDIAN);
                                     timer.reset();
                                     stage = 2;
                                 }
@@ -159,13 +166,13 @@ public class SelfTrap extends Module {
                         }
 
                         if (stage == 2) {
-                            if (BlockUtil.getBlock(pos.add(1,2,0)) != Blocks.AIR) {
+                            if (BlockUtil.getBlock(pos.add(xFancing,2,zFancing)) != Blocks.AIR) {
                                 stage = 3;
                             }
 
-                            if (BlockUtil.getBlock(pos.add(1,2,0)) == Blocks.AIR) {
+                            if (BlockUtil.getBlock(pos.add(xFancing,2,zFancing)) == Blocks.AIR) {
                                 if (timer.hasPassedMs(delay.getValue())) {
-                                    placer.placeBlock(pos.add(1,2,0),Blocks.OBSIDIAN);
+                                    placer.placeBlock(pos.add(xFancing,2,zFancing),Blocks.OBSIDIAN);
                                     timer.reset();
                                     stage = 3;
                                 }
