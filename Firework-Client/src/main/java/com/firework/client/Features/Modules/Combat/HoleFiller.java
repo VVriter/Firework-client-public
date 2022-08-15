@@ -32,7 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @ModuleManifest(name = "HoleFiller", category = Module.Category.COMBAT)
-public class HolleFiller extends Module {
+public class HoleFiller extends Module {
 
     private Setting<modes> mode = new Setting<>("Mode", modes.Obby, this);
     private enum modes {
