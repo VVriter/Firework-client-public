@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Features.Modules.Movement.Step;
+import com.firework.client.Features.Modules.World.Burrow;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
@@ -76,6 +77,9 @@ public class HolleFiller extends Module {
         blockPlacer = new BlockPlacer(this, switchMode, rotate, packet);
         remainingDelay = placeDelay.getValue();
         queue = new LinkedList<>();
+
+        if(autoBurrow.getValue())
+            Firework.moduleManager.getModuleByClass(Burrow.class).onEnable();
     }
 
     @Override
