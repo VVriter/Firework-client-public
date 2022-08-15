@@ -12,11 +12,13 @@ import com.firework.client.Implementations.Utill.Blocks.BlockPlacer;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Blocks.HoleUtil;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
+import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
@@ -57,6 +59,7 @@ public class HolleFiller extends Module {
     private Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", true, this).setVisibility(v-> customizationPage.getValue());
     private Setting<Boolean> disableOnJump = new Setting<>("JumpDisable", true, this).setVisibility(v-> customizationPage.getValue());
     private Setting<Boolean> autoBurrow = new Setting<>("AutoBurrow", false, this).setVisibility(v-> customizationPage.getValue());
+    private Setting<Boolean> nearHole = new Setting<>("NearHole", true, this).setVisibility(v-> customizationPage.getValue());
 
     private Setting<Integer> radius = new Setting<>("Radius", 5, this, 0, 10);
     private Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);
@@ -121,7 +124,6 @@ public class HolleFiller extends Module {
        //Has passed delay check and resetting
        remainingDelay--;
        if(remainingDelay > 0) return;
-       remainingDelay = placeDelay.getValue();
 
        //Sorting poses by distance to the player
        queue.sort(Comparator.comparing(pos -> mc.player.getPositionVector().distanceTo(new Vec3d(pos).add(0.5, -0.5, 0.5))));
@@ -130,7 +132,8 @@ public class HolleFiller extends Module {
         List<BlockPos> toRemove = new ArrayList<>();
         for(BlockPos pos : queue){
             if(isValid(pos)) {
-                blockPlacer.placeBlock(pos, getBlock(), false);
+                blockPlacer.placeTrapBlock(pos, getBlock(), false);
+                remainingDelay = placeDelay.getValue();
                 toRemove.add(pos);
                 break;
             }else
@@ -148,10 +151,12 @@ public class HolleFiller extends Module {
     });
 
     private boolean isValid(BlockPos pos){
+        Vec3d posVec = new Vec3d(pos).add(0.5, -0.5, 0.5);
+        EntityPlayer target = PlayerUtil.getClosestTargetToVec3d(posVec);
         if(mode.getValue(modes.Obby))
-            return BlockUtil.isAir(pos) && BlockUtil.isValid(pos);
+            return (!nearHole.getValue() || (target != null && target.posY - posVec.y > 0.25 && Math.abs(posVec.x - target.posX) < 2 && Math.abs(posVec.z - target.posZ) < 2)) && BlockUtil.isAir(pos) && BlockUtil.isValid(pos);
         else if(mode.getValue(modes.Web))
-            return BlockUtil.isAir(pos);
+            return (!nearHole.getValue() || (target != null && target.posY - posVec.y > 0.25 && Math.abs(posVec.x - target.posX) < 2 && Math.abs(posVec.z - target.posZ) < 2)) && BlockUtil.isAir(pos);
 
         return false;
     }

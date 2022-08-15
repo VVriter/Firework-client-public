@@ -147,6 +147,24 @@ public class BlockPlacer {
         }
     }
 
+    //Place trap block
+    public void placeTrapBlock(final BlockPos blockPos, final Block block1, boolean validCheck){
+        //Returns if block pos is null
+        if(blockPos == null) return;
+        //Returns if block at the pos isn't valid
+        if(validCheck && !BlockUtil.isValid(blockPos)) return;
+
+        //Switchs
+        int backSwitch = switchItems(Item.getItemFromBlock(block1), InventoryUtil.hands.MainHand);
+
+        //Places block
+        trapBlock(blockPos);
+
+        if(switchMode.getValue(switchModes.Silent) && backSwitch != -1) {
+            switchItems(getItemStack(backSwitch).getItem(), InventoryUtil.hands.MainHand);
+        }
+    }
+
     //PlaceTrap block
     public static void trapBlock(BlockPos pos)
     {

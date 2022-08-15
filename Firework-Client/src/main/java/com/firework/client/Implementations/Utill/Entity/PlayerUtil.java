@@ -130,6 +130,21 @@ public class PlayerUtil implements Util {
         return closest;
     }
 
+    public static EntityPlayer getClosestTargetToVec3d(Vec3d vec3d) {
+        double lowestDistance = Integer.MAX_VALUE;
+        EntityPlayer closest = null;
+
+        for (EntityPlayer player : getAll()) {
+            if (player.getPositionVector().distanceTo(vec3d) < lowestDistance) {
+                if(!FriendManager.friends.contains(player.getDisplayNameString())) {
+                    lowestDistance = player.getPositionVector().distanceTo(vec3d);
+                    closest = player;
+                }
+            }
+        }
+        return closest;
+    }
+
     public static boolean canSeeBlock(BlockPos p_Pos)
     {
         if (mc.player == null)
