@@ -1,23 +1,25 @@
-package com.firework.client.Features.Modules.Combat;
+package com.firework.client.Features.Modules.Combat.crystal;
 
+import com.firework.client.Features.Modules.Combat.Aura;
+import com.firework.client.Features.Modules.Combat.CevBreaker;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.ClientTickEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Render.Render3dE;
-import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
+import com.firework.client.Implementations.Managers.Rotation.YawStepRotation;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Blocks.PredictPlace;
-import com.firework.client.Implementations.Utill.Client.Pair;
 import com.firework.client.Implementations.Utill.Entity.CrystalUtils;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Items.ItemUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
-import com.firework.client.Implementations.Utill.RotationUtil;
+import com.firework.client.Implementations.Utill.Render.RenderUtils;
+import com.firework.client.Implementations.Utill.TickTimer;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -28,7 +30,6 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemFood;
 import net.minecraft.network.play.client.CPacketAnimation;
-import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.network.play.server.SPacketSoundEffect;
@@ -41,52 +42,83 @@ import net.minecraft.util.math.Vec3d;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
-@ModuleManifest(name = "AutoCrystal", category = Module.Category.COMBAT)
-public class AutoCrystal extends Module {
+@ModuleManifest(name = "AutoCrystalRewrite", category = Module.Category.COMBAT)
+public class AutoCrystalRewrite extends Module {
     //Interaction && Sync
     public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> autoSwitch = new Setting<>("AutoSwitch", true, this).setVisibility(v-> interaction.getValue());
+    public Setting<Boolean> autoSwitch = new Setting<>("AutoSwitch", true, this)
+            .setVisibility(v-> interaction.getValue());
 
-    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interaction.getValue());
-    public Setting<Integer> rotationSpoofs = new Setting<>("RotationSpoofs", 18, this, 0, 20).setVisibility(v-> interaction.getValue() && rotate.getValue());
+    public Setting<Boolean> facing = new Setting<>("Facings", true, this)
+            .setVisibility(v-> interaction.getValue());
+
+
+    //Rotations
+    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this)
+            .setMode(Setting.Mode.SUB);
+
+    public Setting<rotateMode> rotation = new Setting<>("Rotation", rotateMode.YawStep, this)
+            .setVisibility(v-> rotate.getValue());
+    public enum rotateMode{
+        YawStep, Instant
+    }
+    public Setting<Double> yawStepSpeed = new Setting<>("Speed", 0.5, this, 0, 1)
+            .setVisibility(v-> rotate.getValue() && rotation.getValue(rotateMode.YawStep));
 
     //Swing
-    public Setting<Boolean> shouldSwing = new Setting<>("Swing", true, this).setVisibility(v-> interaction.getValue());
-    public Setting<swing> swingMode = new Setting<>("SwingMode", swing.Both, this).setVisibility(v-> interaction.getValue());
+    public Setting<Boolean> shouldSwing = new Setting<>("Swing", true, this)
+            .setVisibility(v-> interaction.getValue());
+    public Setting<swing> swingMode = new Setting<>("SwingMode", swing.Both, this)
+            .setVisibility(v-> interaction.getValue());
     public enum swing{
         Main, Off, Both, Packet
     }
 
     //Blow
-    public Setting<blow> blowMode = new Setting<>("Blow", blow.Controller, this).setVisibility(v-> interaction.getValue());
+    public Setting<blow> blowMode = new Setting<>("Blow", blow.Controller, this)
+            .setVisibility(v-> interaction.getValue());
+
     public enum blow{
         Packet, Controller
     }
-    public Setting<Boolean> predictFacing = new Setting<>("PredictFacing", true, this).setVisibility(v-> interaction.getValue());
-    public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", false, this).setVisibility(v-> interaction.getValue());
-    public Setting<Boolean> sync = new Setting<>("Sync", true, this).setVisibility(v-> interaction.getValue());
+    public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", false, this)
+            .setVisibility(v-> interaction.getValue());
+
+    public Setting<Boolean> sync = new Setting<>("Sync", true, this)
+            .setVisibility(v-> interaction.getValue());
 
     //FacePlace / FaceBreak
     public Setting<Boolean> facePlBr = new Setting<>("FacePlace/Break", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> facePlace = new Setting<>("FacePlace", false, this).setVisibility(v-> facePlBr.getValue());
-    public Setting<Boolean> faceBreak = new Setting<>("FaceBreak", false, this).setVisibility(v-> facePlBr.getValue());
-    public Setting<Integer> targetHealth = new Setting<>("MinTargetHealth", 12, this, 0, 36).setVisibility(v-> facePlBr.getValue() && facePlace.getValue());
+    public Setting<Boolean> facePlace = new Setting<>("FacePlace", false, this)
+            .setVisibility(v-> facePlBr.getValue());
+    public Setting<Boolean> faceBreak = new Setting<>("FaceBreak", false, this)
+            .setVisibility(v-> facePlBr.getValue());
+    public Setting<Integer> targetHealth = new Setting<>("MinTargetHealth", 12, this, 0, 36)
+            .setVisibility(v-> facePlBr.getValue() && facePlace.getValue());
 
     //Ranges
     public Setting<Boolean> ranges = new Setting<>("Ranges", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Integer> targetRange = new Setting<>("TargetRange", 5, this, 0, 10).setVisibility(v-> ranges.getValue());
-    public Setting<Integer> placeRange = new Setting<>("PlaceRange", 5, this, 0, 6).setVisibility(v-> ranges.getValue());
-    public Setting<Integer> placeWallRange = new Setting<>("PlaceWallRange", 5, this, 0, 6).setVisibility(v-> ranges.getValue());
-    public Setting<Integer> breakRange = new Setting<>("BreakRange", 5, this, 0, 6).setVisibility(v-> ranges.getValue());
-    public Setting<Integer> breakWallRange = new Setting<>("BreakWallRange", 5, this, 0, 6).setVisibility(v-> ranges.getValue());
+    public Setting<Integer> targetRange = new Setting<>("TargetRange", 5, this, 0, 10)
+            .setVisibility(v-> ranges.getValue());
+    public Setting<Integer> placeRange = new Setting<>("PlaceRange", 5, this, 0, 6)
+            .setVisibility(v-> ranges.getValue());
+    public Setting<Integer> placeWallRange = new Setting<>("PlaceWallRange", 5, this, 0, 6)
+            .setVisibility(v-> ranges.getValue());
+    public Setting<Integer> breakRange = new Setting<>("BreakRange", 5, this, 0, 6)
+            .setVisibility(v-> ranges.getValue());
+    public Setting<Integer> breakWallRange = new Setting<>("BreakWallRange", 5, this, 0, 6)
+            .setVisibility(v-> ranges.getValue());
 
     //Damages
     public Setting<Boolean> damages = new Setting<>("Damages", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Integer> maxSelfDmg = new Setting<>("MaxSelfDmg", 15, this, 0, 36).setVisibility(v-> damages.getValue());
-    public Setting<Integer> minTargetDmg = new Setting<>("MinTargetDmg", 1, this, 0, 36).setVisibility(v-> damages.getValue());
+    public Setting<Integer> maxSelfDmg = new Setting<>("MaxSelfDmg", 15, this, 0, 36)
+            .setVisibility(v-> damages.getValue());
+    public Setting<Integer> minTargetDmg = new Setting<>("MinTargetDmg", 1, this, 0, 36)
+            .setVisibility(v-> damages.getValue());
 
     //Delays
     public Setting<Integer> placeDelay = new Setting<>("PlaceTicks", 5, this, 0, 10);
@@ -94,7 +126,8 @@ public class AutoCrystal extends Module {
 
     //Stuff
     public Setting<Boolean> noSuicide = new Setting<>("NoSuicide", true, this);
-    public Setting<Integer> noSuicidePlHealth = new Setting<>("SelfHealth", 10, this, 0, 36).setVisibility(v-> noSuicide.getValue());
+    public Setting<Integer> noSuicidePlHealth = new Setting<>("SelfHealth", 10, this, 0, 36)
+            .setVisibility(v-> noSuicide.getValue());
     public Setting<Boolean> pauseWhileEating = new Setting<>("PauseWhileEating", true, this);
     public Setting<Boolean> pauseWhileDigging = new Setting<>("PauseWhileDigging", true, this);
 
@@ -104,18 +137,14 @@ public class AutoCrystal extends Module {
 
     BlockPos renderPlacePos;
 
-    int stage = 1;
-
-    int placeTicks;
-    int breakTicks;
+    TickTimer placeTimer;
+    TickTimer breakTimer;
 
     //Timers
     Timer renderClear;
 
     //Rotate stuff
-    public Vec3d rotationVec;
-    public boolean canRotate;
-    public int rSpoofs;
+    YawStepRotation lastRotation;
 
     //Modules
     Module cevBreaker;
@@ -127,10 +156,8 @@ public class AutoCrystal extends Module {
         cevBreaker = Firework.moduleManager.getModuleByClass(CevBreaker.class);
         aura = Firework.moduleManager.getModuleByClass(Aura.class);
 
-        placeTicks = 0;
-        breakTicks = 0;
-
-        canRotate = false;
+        placeTimer = new TickTimer();
+        breakTimer = new TickTimer();
 
         renderClear = new Timer();
     }
@@ -140,17 +167,22 @@ public class AutoCrystal extends Module {
         super.onDisable();
         renderClear = null;
 
+        breakTimer.destory();
+        breakTimer = null;
+        placeTimer = null;
+
         aura = null;
         cevBreaker = null;
     }
 
     @Subscribe
     public Listener<Render3dE> onRender = new Listener<>(render3dE -> {
-       if(renderPlacePos == null) return;
-       new BlockRenderBuilder(renderPlacePos)
-               .addRenderModes(
-                       new RenderMode(RenderMode.renderModes.Fill, color.getValue().toRGB())
-               ).render();
+       if(renderPlacePos != null) {
+           new BlockRenderBuilder(renderPlacePos)
+                   .addRenderModes(
+                           new RenderMode(RenderMode.renderModes.Fill, color.getValue().toRGB())
+                   ).render();
+       }
     });
 
     @Subscribe
@@ -172,19 +204,9 @@ public class AutoCrystal extends Module {
 
     @Subscribe
     public Listener<PacketEvent.Send> onPacketSend = new Listener<>(event -> {
-        if (event.getPacket() instanceof CPacketUseEntity && (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && ((CPacketUseEntity) event.getPacket()).getEntityFromWorld(AutoCrystal.mc.world) instanceof EntityEnderCrystal && cancelCrystal.getValue())) {
+        if (event.getPacket() instanceof CPacketUseEntity && (((CPacketUseEntity) event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && ((CPacketUseEntity) event.getPacket()).getEntityFromWorld(AutoCrystalRewrite.mc.world) instanceof EntityEnderCrystal && cancelCrystal.getValue())) {
             Objects.requireNonNull(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world)).setDead();
             mc.world.removeEntityFromWorld(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world).getEntityId());
-        }
-        if(event.getPacket() instanceof CPacketPlayer && canRotate){
-            float rotations[] = RotationUtil.getRotations(rotationVec);
-            ((ICPacketPlayer)event.getPacket()).setYaw(rotations[0]);
-            ((ICPacketPlayer)event.getPacket()).setPitch(rotations[1]);
-            rSpoofs++;
-            if(rSpoofs >= rotationSpoofs.getValue()) {
-                canRotate = false;
-                rSpoofs = 0;
-            }
         }
     });
 
@@ -206,96 +228,101 @@ public class AutoCrystal extends Module {
         if(needToPause())
             return;
 
+        if(!canProcess())
+            return;
+
         //Placing / Breaking
 
-        EntityEnderCrystal crystal = bestCrystal();
+        //Gets best crystal with the highest subtracting value (target dmg - self dmg)
+        EntityEnderCrystal bestCrystal = validCrystals()
+                .stream().sorted(Comparator.comparing(enderCrystal -> CrystalUtils.calculateDamage(enderCrystal, target) - CrystalUtils.calculateDamage(enderCrystal, mc.player)))
+                .collect(Collectors.toCollection(LinkedList<EntityEnderCrystal>::new)).peekLast();
 
-        Pair<BlockPos, Boolean> pos = bestPlacePos();
+        //Gets best place pos with the highest subtracting value (target dmg - self dmg)
+        BlockPos bestPos = validPoses()
+                .stream().sorted(Comparator.comparing(pos -> CrystalUtils.calculateDamage(pos, target) - CrystalUtils.calculateDamage(pos, mc.player)))
+                .collect(Collectors.toCollection(LinkedList<BlockPos>::new)).peekLast();
 
-        BlockPos placePos = pos.one;
+        //Break attempt
+        if(doBreak(bestCrystal))
+            return;
 
-        if(placeTicks > 0)
-            placeTicks--;
-
-        if(breakTicks > 0)
-            breakTicks--;
-
-        if(placeTicks == 0 && stage == 2 && pos.two){
-            crystal = CrystalUtils.getCrystalAtPos(pos.one);
-            stage = 1;
-            breakTicks = 0;
-        }
-
-        switch (stage){
-            case 1:
-                if(breakTicks == 0) {
-                    if (crystal != null && (autoSwitch.getValue() || mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL)) {
-                        //Rotates
-                        if(rotate.getValue())
-                            rotate(crystal.getPositionVector().add(0, crystal.getEyeHeight(), 0));
-
-                        //Blows
-                        if(blowMode.getValue(blow.Controller))
-                            mc.playerController.attackEntity(mc.player, crystal);
-                        else if(blowMode.getValue(blow.Packet))
-                            mc.getConnection().sendPacket(new CPacketUseEntity(crystal));
-
-                        //Swing
-                        if(shouldSwing.getValue())
-                            swing(swingMode.getValue());
-                    }
-                    stage = 2;
-                    placeTicks = placeDelay.getValue();
-                }
-                break;
-            case 2:
-                if(placeTicks == 0){
-                    if(placePos != null && (!predictFacing.getValue() || BlockUtil.getFacingToClick(placePos) != null)){
-                        //Switching
-                        boolean flag = false;
-                        if (mc.player.inventory.getCurrentItem().getItem() != Items.END_CRYSTAL) {
-                            flag = true;
-                            if (!autoSwitch.getValue())
-                                return;
-                        }
-                        if (flag) {
-                            final int slot = ItemUtil.getItemFromHotbar(Items.END_CRYSTAL);
-                            if (slot == -1) return;
-                            mc.player.inventory.currentItem = slot;
-                            mc.playerController.updateController();
-                        }
-
-                        //Facing
-                        EnumFacing facing = EnumFacing.UP;
-
-                        //Hit vec
-                        Vec3d hitVec = new Vec3d(placePos.getX() + 0.5, placePos.getY(), placePos.getZ() + 0.5);
-                        boolean shouldRotate = true;
-                        //RayTrace result
-                        if(predictFacing.getValue()) {
-                            PredictPlace result = BlockUtil.getFacingToClick(placePos);
-                            facing = result.getFacing();
-                            rotate(hitVec);
-                            shouldRotate = false;
-                        }
-
-                        if(shouldRotate)
-                            rotate(hitVec);
-
-                        renderPlacePos = placePos;
-                        mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(placePos, facing, EnumHand.MAIN_HAND, (float) hitVec.x - placePos.getX(), (float) hitVec.y - placePos.getY(), (float) hitVec.z - placePos.getZ()));
-
-
-                        //Swing
-                        if(shouldSwing.getValue())
-                            swing(swingMode.getValue());
-                    }
-                    stage = 1;
-                    breakTicks = breakDelay.getValue();
-                }
-                break;
-        }
+        //Place attempt
+        doPlace(bestPos);
     });
+
+    public boolean doBreak(EntityEnderCrystal crystal){
+        //Checks if break timer has passed break delay
+        if(breakTimer.hasPassedTicks(breakDelay.getValue())){
+            breakTimer.reset();
+
+            rotate(crystal.getPositionVector().add(0.5, 0.5, 0.5), action -> {
+                //Blows
+                if(blowMode.getValue(blow.Controller))
+                    mc.playerController.attackEntity(mc.player, crystal);
+                else if(blowMode.getValue(blow.Packet))
+                    mc.getConnection().sendPacket(new CPacketUseEntity(crystal));
+
+                //Swing
+                if(shouldSwing.getValue())
+                    swing(swingMode.getValue());
+            });
+
+            return true;
+        }
+        return false;
+    }
+
+    public boolean doPlace(BlockPos pos){
+        //Checks if place timer has passed place delay
+        if(placeTimer.hasPassedTicks(placeDelay.getValue())){
+            placeTimer.reset();
+
+            //Switching
+            boolean flag = false;
+            if (mc.player.inventory.getCurrentItem().getItem() != Items.END_CRYSTAL) {
+                flag = true;
+                if (!autoSwitch.getValue())
+                    return false;
+            }
+            if (flag) {
+                final int slot = ItemUtil.getItemFromHotbar(Items.END_CRYSTAL);
+                if (slot == -1) return false;
+                mc.player.inventory.currentItem = slot;
+                mc.playerController.updateController();
+            }
+
+            if(mc.player.getHeldItemMainhand().getItem() != Items.END_CRYSTAL) return false;
+
+
+            //Hit vec
+            Vec3d hitVec = new Vec3d(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+
+            renderPlacePos = pos;
+
+            rotate(hitVec, place -> {
+                //Facing
+                EnumFacing face = EnumFacing.UP;
+
+                //Rotation result
+                if(facing.getValue()) {
+                    PredictPlace result = BlockUtil.getFacingToClick(pos);
+                    face = result.getFacing();
+                }
+
+                mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(pos, face, EnumHand.MAIN_HAND,
+                        (float) hitVec.x - pos.getX(),
+                        (float) hitVec.y - pos.getY(),
+                        (float) hitVec.z - pos.getZ()));
+
+                //Swing
+                if(shouldSwing.getValue())
+                    swing(swingMode.getValue());
+            });
+            return true;
+        }
+        return false;
+    }
 
     public void swing(swing swing) {
         switch (swing) {
@@ -319,45 +346,45 @@ public class AutoCrystal extends Module {
         }
     }
 
-    public void rotate(Vec3d vec3d){
-        rotationVec = vec3d;
-        canRotate = true;
-        rSpoofs = 0;
+    public void rotate(Vec3d vec3d, Consumer<Object> action){
+        lastRotation = new YawStepRotation(vec3d, getYawSpeed(), action, 1);
+        Firework.yawStepManager.post(lastRotation);
     }
 
-    public EntityEnderCrystal bestCrystal(){
-        EntityEnderCrystal crystal = null;
-        double maxDamage = 0.5;
+    public float getYawSpeed(){
+        if(rotation.getValue(rotateMode.YawStep))
+            return yawStepSpeed.getValue().floatValue();
+        else if(rotation.getValue(rotateMode.Instant))
+            return 1;
+
+        throw new AutoCrystalException("Invalid rotation speed");
+    }
+
+    public boolean canProcess(){
+        if(lastRotation == null)
+            return true;
+        return this.lastRotation.getResponse().getResponse();
+    }
+
+    public LinkedList<EntityEnderCrystal> validCrystals(){
+        LinkedList<EntityEnderCrystal> crystals = new LinkedList<>();
         for (int size = this.mc.world.loadedEntityList.size(), i = 0; i < size; ++i) {
             final Entity entity = this.mc.world.loadedEntityList.get(i);
-            if (entity instanceof EntityEnderCrystal && isValidCrystal((EntityEnderCrystal) entity)) {
-                final float targetDamage = CrystalUtils.calculateDamage(entity.posX, entity.posY, entity.posZ, target);
-                if (maxDamage <= targetDamage) {
-                    maxDamage = targetDamage;
-                    crystal = (EntityEnderCrystal) entity;
-                }
-            }
+            if (entity instanceof EntityEnderCrystal && isValidCrystal((EntityEnderCrystal) entity))
+                crystals.add((EntityEnderCrystal) entity);
         }
-        return crystal;
+        return crystals;
     }
 
-    public Pair<BlockPos, Boolean> bestPlacePos(){
-        BlockPos placePos = null;
-        boolean replace = false;
-        double maxDamage = 0.5;
+    public LinkedList<BlockPos> validPoses(){
+        LinkedList<BlockPos> poses = new LinkedList<>();
         final List<BlockPos> sphere = BlockUtil.getSphereRealth(placeRange.getValue(), true);
         for (int size = sphere.size(), i = 0; i < size; ++i) {
             final BlockPos pos = sphere.get(i);
-            if (isValidBlockPos(pos)) {
-                replace = CrystalUtils.getCrystalAtPos(pos) != null;
-                final float targetDamage = CrystalUtils.calculateDamage(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, target);
-                if (maxDamage <= targetDamage) {
-                    maxDamage = targetDamage;
-                    placePos = pos;
-                }
-            }
+            if (isValidBlockPos(pos))
+                poses.add(pos);
         }
-        return new Pair<>(placePos, replace);
+        return poses;
     }
 
     public boolean isValidCrystal(EntityEnderCrystal crystal){
@@ -396,7 +423,7 @@ public class AutoCrystal extends Module {
             return false;
 
         //Predict face check
-        if(predictFacing.getValue() && BlockUtil.getFacingToClick(pos) == null)
+        if(facing.getValue() && BlockUtil.getFacingToClick(pos) == null)
             return false;
 
         //Distance check
@@ -428,8 +455,7 @@ public class AutoCrystal extends Module {
         if(pauseWhileDigging.getValue() && mc.playerController.getIsHittingBlock())
             return true;
 
-        if(cevBreaker.isEnabled.getValue() || aura.isEnabled.getValue()
-        )
+        if(cevBreaker.isEnabled.getValue() || aura.isEnabled.getValue())
             return true;
 
         return false;
@@ -444,7 +470,6 @@ public class AutoCrystal extends Module {
 
             if (floor == Blocks.AIR && ceil == Blocks.AIR) {
                 for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos.add(0, 1, 0)))) {
-                    if(entity instanceof EntityEnderCrystal) continue;
                     if (!entity.isDead) {
                         return false;
                     }

@@ -7,6 +7,7 @@ import com.firework.client.Features.IngameGuis.GuiMainMenu.Shader.Shaders;
 import com.firework.client.Features.IngameGuis.Loader;
 import com.firework.client.Features.Modules.Client.Client;
 import com.firework.client.Features.Modules.Client.Logger;
+import com.firework.client.Implementations.Managers.Rotation.YawStepManager;
 import com.firework.client.Implementations.PacketRender;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
@@ -65,6 +66,7 @@ public class Firework
 
     public static ArrayList<Manager> managers = new ArrayList<>();
 
+    public static YawStepManager yawStepManager;
     public static RainbowManager rainbowManager;
     public static ShaderManager shaderManager;
     public static UpdaterManager updaterManager;
@@ -99,6 +101,7 @@ public class Firework
                 rotationManager = new RotationManager(),
                 configManager = new ConfigManager(),
                 colorManager = new ColorManager(),
+                yawStepManager = new YawStepManager(),
                 new EventManager()
             );
 
