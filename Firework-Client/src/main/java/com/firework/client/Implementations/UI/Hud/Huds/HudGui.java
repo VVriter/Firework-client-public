@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.UI.Hud.Huds;
 
 import com.firework.client.Firework;
+import com.firework.client.Implementations.UI.GuiN.GuiInfo;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class HudGui extends GuiScreen {
                         hudComponent.y = mouseY - hudComponent.yOffset;
                     }
                 });
+
     }
 
     @Override
@@ -33,6 +35,7 @@ public class HudGui extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int state) throws IOException {
         super.mouseClicked(mouseX, mouseY, state);
+        GuiInfo.frames.forEach(frame -> frame.update(mouseX, mouseY, state));
         Firework.hudManager.hudComponents
                 .stream().filter(hudComponent -> isHoveringOnTheButton(hudComponent, mouseX, mouseY))
                 .forEach(hudComponent -> {
