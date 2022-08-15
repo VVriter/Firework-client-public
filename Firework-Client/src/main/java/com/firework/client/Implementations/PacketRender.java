@@ -1,4 +1,4 @@
-package com.firework.client.Features.Modules.Client;
+package com.firework.client.Implementations;
 
 import com.firework.client.Firework;
 
