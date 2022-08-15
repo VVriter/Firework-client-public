@@ -36,6 +36,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import ua.firework.beet.EventBus;
+import xyz.firework.autentification.AntiDump;
 import xyz.firework.autentification.Initators.InitAuth;
 import xyz.firework.autentification.Initators.InitConfigs;
 
@@ -121,6 +122,7 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
+        AntiDump.check();
 
      /*   MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
         try {
@@ -133,33 +135,39 @@ public class Firework
         packetRender = new PacketRender();
         MinecraftForge.EVENT_BUS.register(new Loader());
         Logger.logAboutLoad();
-
+        AntiDump.check();
 
         FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir+"/Firework/";
         InitAuth.initate();
         InitConfigs.initate();
-
+        AntiDump.check();
         Firework.setWindowIcon();
         MinecraftForge.EVENT_BUS.register(this);
         Display.setTitle("Loading Firework");
         loadManagers();
+        AntiDump.check();
     }
 
     public static Shaders shaders;
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        AntiDump.check();
         shaders = new Shaders( );
         //setSession(new Session("uraniumxyz", "uraniumxyz", "0", "legacy"));
         //Link to client
         minecraft = Minecraft.getMinecraft();
+        AntiDump.check();
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework");
+        AntiDump.check();
         if(Client.enabled.getValue() && Client.loadedSound.getValue()) {
             //Plays firework sound when loading client
             SoundUtill.playSound(new ResourceLocation("firework/audio/loaded.wav"));
         }
+        AntiDump.check();
         //Sets custom title when client is loaded Example: Firework | Player123
         Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
+        AntiDump.check();
     }
 
 
