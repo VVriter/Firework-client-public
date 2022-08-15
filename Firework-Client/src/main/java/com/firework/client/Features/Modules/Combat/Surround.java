@@ -112,7 +112,6 @@ public class Surround extends Module {
 
     @Subscribe(priority = Listener.Priority.HIGHEST)
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
-        System.out.println(System.nanoTime() - time);
         if (mc.player == null || mc.world == null) return;
 
         if(jump.getValue(jumpMode.Disable) && (mc.gameSettings.keyBindJump.isKeyDown())) {
