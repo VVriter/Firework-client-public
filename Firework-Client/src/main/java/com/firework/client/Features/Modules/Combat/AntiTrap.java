@@ -32,7 +32,7 @@ import java.awt.*;
 public class AntiTrap extends Module {
 
     public Setting<Mode> mode = new Setting<>("Mode", Mode.Always, this);
-    public Setting<Double> distance = new Setting<>("Distance", (double)3, this, 1, 20);
+    public Setting<Double> distance = new Setting<>("Distance", (double)3, this, 1, 20).setVisibility(v-> mode.getValue(Mode.Smart));
     public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
 
     public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this).setVisibility(v-> interaction.getValue());
