@@ -9,6 +9,7 @@ import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
+import com.firework.client.Implementations.Mixins.MixinsList.IEntityPlayerSP;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Blocks.PredictPlace;
@@ -180,14 +181,17 @@ public class AutoCrystal extends Module {
             Objects.requireNonNull(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world)).setDead();
             mc.world.removeEntityFromWorld(((CPacketUseEntity )event.getPacket()).getEntityFromWorld(mc.world).getEntityId());
         }
-        if (this.rotate.getValue() && canRotate && event.getPacket() instanceof CPacketPlayer) {
-            CPacketPlayer packet = (CPacketPlayer) event.getPacket();
+        if(event.getPacket() instanceof CPacketPlayer && canRotate){
             float rotations[] = RotationUtil.getRotations(rotationVec);
-            ((ICPacketPlayer)packet).setPitch(rotations[1]);
-            ((ICPacketPlayer)packet).setYaw(rotations[0]);
-            rSpoofs--;
-            if(rSpoofs == 0)
+            ((ICPacketPlayer)event.getPacket()).setYaw(rotations[0]);
+            ((ICPacketPlayer)event.getPacket()).setPitch(rotations[1]);
+            ((IEntityPlayerSP)mc.player).setLastReportedYaw(rotations[0]);
+            ((IEntityPlayerSP)mc.player).setLastReportedPitch(rotations[1]);
+            rSpoofs++;
+            if(rSpoofs >= rotationSpoofs.getValue()) {
                 canRotate = false;
+                rSpoofs = 0;
+            }
         }
     });
 
@@ -235,7 +239,7 @@ public class AutoCrystal extends Module {
                     if (crystal != null && (autoSwitch.getValue() || mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL)) {
                         //Rotates
                         if(rotate.getValue())
-                            rotate(crystal.getPositionVector());
+                            rotate(crystal.getPositionVector().add(0, crystal.getEyeHeight(), 0));
 
                         //Blows
                         if(blowMode.getValue(blow.Controller))
@@ -271,21 +275,27 @@ public class AutoCrystal extends Module {
                         //Facing
                         EnumFacing facing = EnumFacing.UP;
 
+                        //Hit vec
+                        Vec3d hitVec = new Vec3d(placePos.getX() + 0.5, placePos.getY(), placePos.getZ() + 0.5);
                         boolean shouldRotate = true;
                         //RayTrace result
                         if(predictFacing.getValue()) {
                             PredictPlace result = BlockUtil.getFacingToClick(placePos);
                             facing = result.getFacing();
-                            System.out.println(facing);
-                            rotate(result.getHitVec());
+                            rotate(hitVec);
                             shouldRotate = false;
                         }
 
                         if(shouldRotate)
-                            rotate(new Vec3d(placePos.getX() + 0.5, placePos.getY() - 0.5, placePos.getZ() + 0.5));
+                            rotate(hitVec);
 
                         renderPlacePos = placePos;
-                        mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(placePos, facing, EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
+                        mc.getConnection().sendPacket(new CPacketPlayerTryUseItemOnBlock(placePos, facing, EnumHand.MAIN_HAND, (float) hitVec.x - placePos.getX(), (float) hitVec.y - placePos.getY(), (float) hitVec.z - placePos.getZ()));
+
+
+                        //Swing
+                        if(shouldSwing.getValue())
+                            swing(swingMode.getValue());
                     }
                     stage = 1;
                     breakTicks = breakDelay.getValue();
@@ -319,7 +329,7 @@ public class AutoCrystal extends Module {
     public void rotate(Vec3d vec3d){
         rotationVec = vec3d;
         canRotate = true;
-        rSpoofs = rotationSpoofs.getValue();
+        rSpoofs = 0;
     }
 
     public EntityEnderCrystal bestCrystal(){
