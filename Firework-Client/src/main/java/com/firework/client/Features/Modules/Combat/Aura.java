@@ -42,6 +42,7 @@ public class Aura extends Module {
     }
 
     public Setting<Double> targetRange = new Setting<>("TargetRange", (double)4, this, 0, 6);
+    public Setting<Boolean> onlyOneTarget = new Setting<>("OnlyOneTarget", false, this);
     public Setting<Boolean> targetsSubBool = new Setting<>("Targets", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> players = new Setting<>("Players", true, this).setVisibility(v-> targetsSubBool.getValue());
     public Setting<Boolean> animals = new Setting<>("Animals", true, this).setVisibility(v-> targetsSubBool.getValue());
@@ -100,7 +101,13 @@ public class Aura extends Module {
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> eventListener = new Listener<>(e-> {
-        target = TargetUtil.getClosest(players.getValue(),animals.getValue(),mobs.getValue(),boat.getValue(),armourStand.getValue(),targetRange.getValue());
+        if (!onlyOneTarget.getValue()) {
+            target = TargetUtil.getClosest(players.getValue(), animals.getValue(), mobs.getValue(), boat.getValue(), armourStand.getValue(), targetRange.getValue());
+        }
+
+        if (onlyOneTarget.getValue() && target == null) {
+            target = TargetUtil.getClosest(players.getValue(), animals.getValue(), mobs.getValue(), boat.getValue(), armourStand.getValue(), targetRange.getValue());
+        }
 
         if (needToPause()) return;
 
@@ -259,5 +266,11 @@ public class Aura extends Module {
 
     public enum RenderMode{
         Circle, Box
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        target = null;
     }
 }
