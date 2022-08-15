@@ -2,14 +2,11 @@ package com.firework.client.Features.Modules.Combat;
 
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
-import com.firework.client.Features.Modules.Movement.BlockFly.BlockFly;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.ClientTickEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Render.Render3dE;
-import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
-import com.firework.client.Implementations.Mixins.MixinsList.IEntityPlayerSP;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Blocks.PredictPlace;
@@ -123,14 +120,12 @@ public class AutoCrystal extends Module {
     //Modules
     Module cevBreaker;
     Module aura;
-    Module blockFly;
 
     @Override
     public void onEnable() {
         super.onEnable();
         cevBreaker = Firework.moduleManager.getModuleByClass(CevBreaker.class);
         aura = Firework.moduleManager.getModuleByClass(Aura.class);
-        blockFly = Firework.moduleManager.getModuleByClass(BlockFly.class);
 
         placeTicks = 0;
         breakTicks = 0;
@@ -144,8 +139,7 @@ public class AutoCrystal extends Module {
     public void onDisable() {
         super.onDisable();
         renderClear = null;
-
-        blockFly = null;
+        
         aura = null;
         cevBreaker = null;
     }
@@ -433,7 +427,8 @@ public class AutoCrystal extends Module {
         if(pauseWhileDigging.getValue() && mc.playerController.getIsHittingBlock())
             return true;
 
-        if(cevBreaker.isEnabled.getValue() || aura.isEnabled.getValue() || blockFly.isEnabled.getValue())
+        if(cevBreaker.isEnabled.getValue() || aura.isEnabled.getValue()
+        )
             return true;
 
         return false;
