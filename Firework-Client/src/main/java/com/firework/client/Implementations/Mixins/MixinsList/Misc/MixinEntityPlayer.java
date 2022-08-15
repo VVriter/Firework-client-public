@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Mixins.MixinsList.Misc;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Movement.PlayerPushedByWaterEvent;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;

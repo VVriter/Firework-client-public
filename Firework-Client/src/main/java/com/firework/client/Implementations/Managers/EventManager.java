@@ -17,6 +17,7 @@ import com.firework.client.Implementations.Events.Render.Render2dE;
 import com.firework.client.Implementations.Events.Render.RenderGameOverlay;
 import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
+import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.SPacketEntityStatus;
@@ -30,6 +31,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
+import xyz.firework.autentification.AntiDump;
 
 import static com.firework.client.Features.Modules.Module.mc;
 
@@ -48,6 +50,7 @@ public class EventManager extends Manager{
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event){
         Firework.eventBus.post(new ClientTickEvent());
+        AntiDump.check();
     }
 
     @SubscribeEvent

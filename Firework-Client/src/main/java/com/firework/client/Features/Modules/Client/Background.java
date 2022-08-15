@@ -5,6 +5,8 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.Render.Render2dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.UI.GuiN.GuiN;
+import com.firework.client.Implementations.UI.Particles.ParticleInfo;
+import com.firework.client.Implementations.UI.Particles.ParticleSystem;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
@@ -29,11 +31,45 @@ import java.awt.*;
         description = "Draw cool background"
 )
 public class Background extends Module {
-    public Setting<Boolean> blur = new Setting<>("Blur", false, this);
-    public Setting<Boolean> gradientSubBool = new Setting<>("Gradient", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> enableGradient = new Setting<>("EnableGradient", false, this).setVisibility(v-> gradientSubBool.getValue());
-    public Setting<HSLColor> color1 = new Setting<>("DownColor", new HSLColor(1, 54, 43), this).setVisibility(v-> gradientSubBool.getValue());
-    public Setting<HSLColor> color2 = new Setting<>("UpColor", new HSLColor(80, 54, 43), this).setVisibility(v-> gradientSubBool.getValue());
+    public static Setting<Boolean> blur = null;
+    public static Setting<Boolean> gradientSubBool = null;
+    public static Setting<Boolean> enableGradient = null;
+    public static Setting<HSLColor> color1 = null;
+    public static Setting<HSLColor> color2 = null;
+    public static Setting<Boolean> particles = null;
+
+    public static Setting<Integer> scaleFactor;
+    public static Setting<Double> lineLong;
+    public static Setting<ParticleInfo.colorMode> colorMode;
+
+    public ParticleSystem particleSystem;
+
+    public Background(){
+        particleSystem = new ParticleSystem();
+        blur = new Setting<>("Blur", false, this);
+        gradientSubBool = new Setting<>("Gradient", false, this).setMode(Setting.Mode.SUB);
+        enableGradient = new Setting<>("EnableGradient", false, this).setVisibility(v-> gradientSubBool.getValue());
+        color1 = new Setting<>("DownColor", new HSLColor(1, 54, 43), this).setVisibility(v-> gradientSubBool.getValue());
+        color2 = new Setting<>("UpColor", new HSLColor(80, 54, 43), this).setVisibility(v-> gradientSubBool.getValue());
+        particles = new Setting<>("Particles", false, this).setMode(Setting.Mode.SUB);
+        scaleFactor = new Setting<>("Scale", 1, this, 0, 10).setVisibility(v-> particles.getValue());
+        lineLong = new Setting<>("LineLong", (double)30, this, 0, 200).setVisibility(v-> particles.getValue());
+        colorMode = new Setting<>("Color", ParticleInfo.colorMode.Astolfo, this).setVisibility(v-> particles.getValue());
+        this.isEnabled.setValue(true);
+        ParticleInfo.isEnabled = this.isEnabled.getValue();
+    }
+
+    @Override
+    public void onUpdate() {
+        super.onUpdate();
+        ParticleInfo.mode = colorMode.getValue();
+    }
+
+    @Override
+    public void toggle() {
+        super.toggle();
+        ParticleInfo.isEnabled = this.isEnabled.getValue();
+    }
 
     @Subscribe
     public Listener<Render2dE> listener = new Listener<>(e -> {
@@ -43,6 +79,14 @@ public class Background extends Module {
                     new Rectangle(0, 0, sr.getScaledWidth(),
                             sr.getScaledHeight()),
                     color1.getValue().toRGB(), color2.getValue().toRGB());
+            }
+
+        if (mc.currentScreen instanceof GuiScreen && !(mc.currentScreen instanceof GuiN)) {
+            if(ParticleInfo.isEnabled) {
+                particleSystem.updatePositions();
+                particleSystem.drawLines();
+                particleSystem.drawParticles();
+                }
             }
         }
     );
