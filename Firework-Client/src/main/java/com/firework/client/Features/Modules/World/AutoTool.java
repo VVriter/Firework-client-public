@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.Player.BlockClickEvent;
 import com.firework.client.Implementations.Events.Player.PlayerDestroyBlockEvent;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
+import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -18,6 +19,7 @@ public class AutoTool extends Module {
     BlockPos lastPos;
     static int lastSlot = -1;
 
+    public Setting<Boolean> backSwitch = new Setting<>("BackSwitch", true, this);
 
     @Subscribe
     public Listener<BlockClickEvent> onPlayerHitBlock = new Listener<>(event -> {
@@ -29,7 +31,7 @@ public class AutoTool extends Module {
     public Listener<PlayerDestroyBlockEvent> onPlayerDestroyBlock = new Listener<>(event -> {
         if(lastPos != null
                 && lastPos.equals(event.getBlockPos())
-                && lastSlot != -1){
+                && lastSlot != -1 && backSwitch.getValue()){
             mc.player.inventory.currentItem = lastSlot;
             lastSlot = -1;
         }
@@ -37,7 +39,7 @@ public class AutoTool extends Module {
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
-        if (lastSlot != -1 && !mc.playerController.getIsHittingBlock()){
+        if (lastSlot != -1 && !mc.playerController.getIsHittingBlock() && backSwitch.getValue()){
             mc.player.inventory.currentItem = lastSlot;
             lastSlot = -1;
         }
