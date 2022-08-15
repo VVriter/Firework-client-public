@@ -41,6 +41,7 @@ public class YawStepManager extends Manager {
     public Listener<PacketEvent.Send> rotate = new Listener<>(event -> {
         if(!(event.getPacket() instanceof CPacketPlayer)) return;
         YawStepRotation rotation = rotations.peek();
+        if(rotation == null) return;
 
         //Inits rotation offsets if can
         rotation.init();
