@@ -72,7 +72,6 @@ public class Step extends Module {
         ((IEntityPlayerSP)mc.player).setLastReportedPosX(mc.player.posX);
         ((IEntityPlayerSP)mc.player).setLastReportedPosY(mc.player.posY);
         ((IEntityPlayerSP)mc.player).setLastReportedPosZ(mc.player.posZ);
-        event.setCancelled(true);
     });
 
     @Subscribe
