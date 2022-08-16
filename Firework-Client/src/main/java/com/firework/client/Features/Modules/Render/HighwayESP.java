@@ -59,6 +59,8 @@ public class HighwayESP extends Module {
     public void onTick() {
         super.onTick();
 
+        if (fullNullCheck()) return;
+
         if (zeropoint.getValue(zeropoints.FromYou)) {
             position = new Vec3d(mc.player.getPositionVector().x,y,mc.player.getPositionVector().z);
         } else if (zeropoint.getValue(zeropoints.ZeroCords)) {
