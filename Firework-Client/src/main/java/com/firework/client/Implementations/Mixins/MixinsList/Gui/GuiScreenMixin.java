@@ -6,19 +6,27 @@ import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import com.firework.client.Implementations.Utill.Render.Rounded.RenderRound;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemShulkerBox;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.storage.MapData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
+
+import static com.firework.client.Features.Modules.Module.mc;
 
 @Mixin(value={GuiScreen.class})
 public abstract class GuiScreenMixin {
@@ -57,9 +65,9 @@ public abstract class GuiScreenMixin {
                     short width = 150;
                     byte height = 60;
 
-                    RenderRound.drawGradientRound(x1-1,y1,width+2,height+3,5, new Color(7, 222, 190,255),new Color(7, 222, 190,255),new Color(8, 122, 227,255),new Color(8, 122, 227,255));
-                    RenderRound.drawGradientRound(x1+1,y1+11,width-2,height-10,2.5f, new Color(118, 7, 222,255),new Color(158, 67, 211,255),new Color(177, 6, 182,255),new Color(227, 8, 183,255));
-                    Firework.customFontManager.drawCenteredString(stack.getDisplayName(),x1-1+((width+2)/2),y1+1,Color.WHITE.getRGB());
+                    RenderRound.drawGradientRound(x1 - 1, y1, width + 2, height + 3, 5, new Color(7, 222, 190, 255), new Color(7, 222, 190, 255), new Color(8, 122, 227, 255), new Color(8, 122, 227, 255));
+                    RenderRound.drawGradientRound(x1 + 1, y1 + 11, width - 2, height - 10, 2.5f, new Color(118, 7, 222, 255), new Color(158, 67, 211, 255), new Color(177, 6, 182, 255), new Color(227, 8, 183, 255));
+                    Firework.customFontManager.drawCenteredString(stack.getDisplayName(), x1 - 1 + ((width + 2) / 2), y1 + 1, Color.WHITE.getRGB());
 
 
                     GlStateManager.enableBlend();
@@ -73,7 +81,7 @@ public abstract class GuiScreenMixin {
                         int iX = x + i % 9 * 16 + 11;
                         int iY = y + i / 9 * 16 - 11 + 8;
                         ItemStack itemStack = (ItemStack) nonnulllist.get(i);
-                        RenderUtils2D.renderItemStack(itemStack, new Point(iX+3, iY+2), String.valueOf(itemStack.getCount()));
+                        RenderUtils2D.renderItemStack(itemStack, new Point(iX + 3, iY + 2), String.valueOf(itemStack.getCount()));
                     }
 
 
@@ -85,6 +93,20 @@ public abstract class GuiScreenMixin {
 
                 }
             }
+        }
+
+
+        if (stack.getItem() instanceof ItemMap && ToolTips.enabled.getValue() && ToolTips.enableMaps.getValue()) {
+            MapData mapdata = ((ItemMap) stack.getItem()).getMapData(stack, mc.world);
+            if (mapdata == null) return;
+            info.cancel();
+            GlStateManager.disableDepth();
+            GlStateManager.disableLighting();
+            GlStateManager.translate(x, y - 72D, 0D);
+            GlStateManager.scale(0.5D, 0.5D, 1.0D);
+            mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, false);
+            GlStateManager.enableLighting();
+            GlStateManager.enableDepth();
         }
     }
 }
