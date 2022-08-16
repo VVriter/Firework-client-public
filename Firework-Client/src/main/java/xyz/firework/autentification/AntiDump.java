@@ -58,7 +58,6 @@ public class AntiDump {
 
     /* CookieFuckery */
     public static void check() {
-        System.out.println("DON`T TRY TO CRACK IT");
         if (!ENABLE) return;
         try {
             Field jvmField = ManagementFactory.getRuntimeMXBean().getClass().getDeclaredField("jvm");

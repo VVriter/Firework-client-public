@@ -16,15 +16,12 @@ import java.util.LinkedList;
 public class YawStepManager extends Manager {
 
     private Minecraft mc;
-
-    private AnimationUtil animation;
     private LinkedList<YawStepRotation> rotations;
 
     public YawStepManager() {
         super(true);
         mc = Minecraft.getMinecraft();
 
-        animation = new AnimationUtil();
         rotations = new LinkedList<>();
     }
 
@@ -37,29 +34,40 @@ public class YawStepManager extends Manager {
     }
 
     //Rotation loop
-    @Subscribe
+    @Subscribe(priority = Listener.Priority.HIGHEST)
     public Listener<PacketEvent.Send> rotate = new Listener<>(event -> {
         if(!(event.getPacket() instanceof CPacketPlayer)) return;
         YawStepRotation rotation = rotations.peek();
         if(rotation == null) return;
 
-        //Inits rotation offsets if can
-        rotation.init();
-
-        //Updates animation values
-        animation.setValues(1, rotation.getSpeed());
-        animation.update();
-
-        ((ICPacketPlayer)event.getPacket()).setYaw(mc.player.rotationYaw + rotation.getYawOffset()*animation.width);
-        ((ICPacketPlayer)event.getPacket()).setPitch(mc.player.rotationPitch + rotation.getPitchOffset()*animation.width);
-
-        if(animation.width == 1)
+        float rotations[] = rotation.getRotations();
+        if(rotation.getYaw() == rotations[0] && rotation.getPitch() == rotations[1])
             finish(rotation);
     });
 
+    @Subscribe
+    public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
+        YawStepRotation rotation = rotations.peek();
+        if(rotation == null) return;
+
+        float rotations[] = rotation.getRotations();
+        float yawOffset = rotations[0] - mc.player.rotationYaw;
+        float pitchOffset = rotations[1] - mc.player.rotationPitch;
+
+        float yaw = mc.player.rotationYaw + Math.abs(yawOffset*rotation.getSpeed());
+        float pitch = mc.player.rotationPitch + Math.abs(pitchOffset*rotation.getSpeed());
+        if(yaw > rotations[0])
+            yaw = rotations[0];
+        if(pitch > rotations[1])
+            pitch = rotations[1];
+
+        rotation.setYaw(yaw);
+        rotation.setPitch(pitch);
+    });
+
     public void finish(YawStepRotation rotation){
-        animation.width = 0;
         rotation.setResponded();
+        rotation.getAction().execute();
         rotations.remove(rotation);
     }
 }

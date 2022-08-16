@@ -1,6 +1,7 @@
 package com.firework.client.Implementations.Managers.Rotation;
 
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Utill.Function;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.Vec3d;
 
@@ -12,14 +13,13 @@ public class YawStepRotation {
     private final Vec3d rotation;
     private final float speed;
     private RotationResponse response;
-    private Consumer<Object> action;
+    private Function action;
     private int priority;
 
-    private boolean init = false;
-    private float yawOffset;
-    private float pitchOffset;
+    private float yaw = 0;
+    private float pitch = 0;
 
-    public YawStepRotation(Vec3d rotation, float speed, Consumer<Object> action, int priority){
+    public YawStepRotation(Vec3d rotation, float speed, Function action, int priority){
         this.rotation = rotation;
         this.speed = speed;
         this.action = action;
@@ -43,7 +43,7 @@ public class YawStepRotation {
         return Firework.rotationManager.getRotations(this.rotation);
     }
 
-    public Consumer<Object> getAction(){
+    public Function getAction(){
         return this.action;
     }
 
@@ -55,19 +55,19 @@ public class YawStepRotation {
         return this.response;
     }
 
-    public void init(){
-        if(init) return;
-        init = false;
-        float rotations[] = getRotations();
-        yawOffset = mc.player.rotationYaw - rotations[0];
-        pitchOffset = mc.player.rotationPitch - rotations[1];
+    public void setYaw(float yaw){
+        this.yaw = yaw;
     }
 
-    public float getYawOffset() {
-        return yawOffset;
+    public void setPitch(float pitch){
+        this.pitch = pitch;
     }
 
-    public float getPitchOffset() {
-        return pitchOffset;
+    public float getYaw() {
+        return yaw;
+    }
+
+    public float getPitch() {
+        return pitch;
     }
 }

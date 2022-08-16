@@ -14,6 +14,7 @@ import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Blocks.PredictPlace;
 import com.firework.client.Implementations.Utill.Entity.CrystalUtils;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
+import com.firework.client.Implementations.Utill.Function;
 import com.firework.client.Implementations.Utill.Items.ItemUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
@@ -56,19 +57,6 @@ public class AutoCrystalRewrite extends Module {
     public Setting<Boolean> facing = new Setting<>("Facings", true, this)
             .setVisibility(v-> interaction.getValue());
 
-
-    //Rotations
-    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this)
-            .setMode(Setting.Mode.SUB);
-
-    public Setting<rotateMode> rotation = new Setting<>("Rotation", rotateMode.YawStep, this)
-            .setVisibility(v-> rotate.getValue());
-    public enum rotateMode{
-        YawStep, Instant
-    }
-    public Setting<Double> yawStepSpeed = new Setting<>("Speed", 0.5, this, 0, 1)
-            .setVisibility(v-> rotate.getValue() && rotation.getValue(rotateMode.YawStep));
-
     //Swing
     public Setting<Boolean> shouldSwing = new Setting<>("Swing", true, this)
             .setVisibility(v-> interaction.getValue());
@@ -90,6 +78,19 @@ public class AutoCrystalRewrite extends Module {
 
     public Setting<Boolean> sync = new Setting<>("Sync", true, this)
             .setVisibility(v-> interaction.getValue());
+
+
+    //Rotations
+    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this)
+            .setMode(Setting.Mode.SUB);
+
+    public Setting<rotateMode> rotation = new Setting<>("Rotation", rotateMode.YawStep, this)
+            .setVisibility(v-> rotate.getValue());
+    public enum rotateMode{
+        YawStep, Instant
+    }
+    public Setting<Double> yawStepSpeed = new Setting<>("Speed", 0.5, this, 0, 1)
+            .setVisibility(v-> rotate.getValue() && rotation.getValue(rotateMode.YawStep));
 
     //FacePlace / FaceBreak
     public Setting<Boolean> facePlBr = new Setting<>("FacePlace/Break", false, this).setMode(Setting.Mode.SUB);
@@ -249,14 +250,16 @@ public class AutoCrystalRewrite extends Module {
 
         //Place attempt
         doPlace(bestPos);
+
+        System.out.println(1);
     });
 
     public boolean doBreak(EntityEnderCrystal crystal){
         //Checks if break timer has passed break delay
-        if(breakTimer.hasPassedTicks(breakDelay.getValue())){
+        if(breakTimer.hasPassedTicks(breakDelay.getValue()) && crystal != null){
             breakTimer.reset();
 
-            rotate(crystal.getPositionVector().add(0.5, 0.5, 0.5), action -> {
+            rotate(crystal.getPositionVector().add(0.5, 0.5, 0.5), () -> {
                 //Blows
                 if(blowMode.getValue(blow.Controller))
                     mc.playerController.attackEntity(mc.player, crystal);
@@ -275,7 +278,7 @@ public class AutoCrystalRewrite extends Module {
 
     public boolean doPlace(BlockPos pos){
         //Checks if place timer has passed place delay
-        if(placeTimer.hasPassedTicks(placeDelay.getValue())){
+        if(placeTimer.hasPassedTicks(placeDelay.getValue()) && pos != null){
             placeTimer.reset();
 
             //Switching
@@ -300,7 +303,7 @@ public class AutoCrystalRewrite extends Module {
 
             renderPlacePos = pos;
 
-            rotate(hitVec, place -> {
+            rotate(hitVec, () -> {
                 //Facing
                 EnumFacing face = EnumFacing.UP;
 
@@ -346,8 +349,8 @@ public class AutoCrystalRewrite extends Module {
         }
     }
 
-    public void rotate(Vec3d vec3d, Consumer<Object> action){
-        lastRotation = new YawStepRotation(vec3d, getYawSpeed(), action, 1);
+    public void rotate(Vec3d vec3d, Function action){
+        lastRotation = new YawStepRotation(vec3d, getYawSpeed()*10, action, 1);
         Firework.yawStepManager.post(lastRotation);
     }
 
