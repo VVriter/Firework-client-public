@@ -306,7 +306,7 @@ public class AutoCrystalRewrite extends Module {
                 EnumFacing face = EnumFacing.UP;
 
                 //Rotation result
-                if(facing.getValue()) {
+                if(facing.getValue() && BlockUtil.getFacingToClick(pos) != null) {
                     PredictPlace result = BlockUtil.getFacingToClick(pos);
                     face = result.getFacing();
                 }
