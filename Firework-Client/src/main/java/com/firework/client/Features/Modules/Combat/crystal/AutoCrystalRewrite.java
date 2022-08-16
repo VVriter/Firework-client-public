@@ -250,8 +250,6 @@ public class AutoCrystalRewrite extends Module {
 
         //Place attempt
         doPlace(bestPos);
-
-        System.out.println(1);
     });
 
     public boolean doBreak(EntityEnderCrystal crystal){
@@ -259,7 +257,7 @@ public class AutoCrystalRewrite extends Module {
         if(breakTimer.hasPassedTicks(breakDelay.getValue()) && crystal != null){
             breakTimer.reset();
 
-            rotate(crystal.getPositionVector().add(0.5, 0.5, 0.5), () -> {
+            rotate(crystal.getPositionVector().add(0.5, 0, 0.5), () -> {
                 //Blows
                 if(blowMode.getValue(blow.Controller))
                     mc.playerController.attackEntity(mc.player, crystal);
