@@ -236,12 +236,12 @@ public class AutoCrystalRewrite extends Module {
 
         //Gets best crystal with the highest subtracting value (target dmg - self dmg)
         EntityEnderCrystal bestCrystal = validCrystals()
-                .stream().sorted(Comparator.comparing(enderCrystal -> CrystalUtils.calculateDamage(enderCrystal, target) - CrystalUtils.calculateDamage(enderCrystal, mc.player)))
+                .stream().sorted(Comparator.comparing(enderCrystal -> -CrystalUtils.calculateDamage(enderCrystal, target)))
                 .collect(Collectors.toCollection(LinkedList<EntityEnderCrystal>::new)).peekLast();
 
         //Gets best place pos with the highest subtracting value (target dmg - self dmg)
         BlockPos bestPos = validPoses()
-                .stream().sorted(Comparator.comparing(pos -> CrystalUtils.calculateDamage(pos, target) - CrystalUtils.calculateDamage(pos, mc.player)))
+                .stream().sorted(Comparator.comparing(pos -> -CrystalUtils.calculateDamage(pos, target)))
                 .collect(Collectors.toCollection(LinkedList<BlockPos>::new)).peekLast();
 
         //Break attempt
