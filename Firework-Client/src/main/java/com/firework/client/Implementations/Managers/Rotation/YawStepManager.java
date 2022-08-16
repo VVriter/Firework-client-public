@@ -50,6 +50,11 @@ public class YawStepManager extends Manager {
         if(pitch > rotations[1])
             pitch = rotations[1];
 
+        if(rotation.isInstant()){
+            yaw = rotations[0];
+            pitch = rotations[1];
+        }
+
 
         RotationUtil.packetFacePitchAndYaw(pitch, yaw);
         event.setCancelled(true);

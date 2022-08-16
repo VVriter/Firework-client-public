@@ -16,8 +16,7 @@ public class YawStepRotation {
     private Function action;
     private int priority;
 
-    private float yaw = 0;
-    private float pitch = 0;
+    private boolean instant = false;
 
     public YawStepRotation(Vec3d rotation, float speed, Function action, int priority){
         this.rotation = rotation;
@@ -53,5 +52,13 @@ public class YawStepRotation {
 
     public RotationResponse getResponse(){
         return this.response;
+    }
+
+    public void setInstant(){
+        this.instant = true;
+    }
+
+    public boolean isInstant(){
+        return this.instant;
     }
 }
