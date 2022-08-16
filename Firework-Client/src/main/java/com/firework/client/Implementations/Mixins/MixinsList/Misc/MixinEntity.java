@@ -3,6 +3,7 @@ package com.firework.client.Implementations.Mixins.MixinsList.Misc;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.Entity.EntityMoveEvent;
 import com.firework.client.Implementations.Events.Entity.EntityPushEvent;
+import com.firework.client.Implementations.Events.Player.ShouldWalkOffEdgeEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -10,6 +11,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Entity.class)
@@ -33,5 +36,13 @@ public class MixinEntity {
     public void onMove(MoverType type, double x, double y, double z, CallbackInfo info) {
         EntityMoveEvent moveEvent = new EntityMoveEvent(boundingBox, (Entity) (Object) this, 0.5f);
         Firework.eventBus.post(moveEvent);
+    }
+
+
+    @Redirect(method={"move"}, slice=@Slice(from=@At(value="FIELD", target="Lnet/minecraft/entity/Entity;onGround:Z", ordinal=0)), at=@At(value="INVOKE", target="Lnet/minecraft/entity/Entity;isSneaking()Z", ordinal=0))
+    private boolean isSneaking(Entity entity) {
+        ShouldWalkOffEdgeEvent event = new ShouldWalkOffEdgeEvent();
+        Firework.eventBus.post(event);
+        return event.isCancelled() || entity.isSneaking();
     }
 }

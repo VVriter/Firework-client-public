@@ -1,4 +1,4 @@
-/** @Author dazed68, __exploit__, PunCakeCat */
+/** @Author dazed68, __exploit__, PunCakeCat, Writer */
 
 package com.firework.client;
 
