@@ -349,6 +349,8 @@ public class AutoCrystalRewrite extends Module {
 
     public void rotate(Vec3d vec3d, Function action){
         lastRotation = new YawStepRotation(vec3d, getYawSpeed()*10, action, 1);
+        if(rotation.getValue(rotateMode.Instant))
+            lastRotation.setInstant();
         Firework.yawStepManager.post(lastRotation);
     }
 
