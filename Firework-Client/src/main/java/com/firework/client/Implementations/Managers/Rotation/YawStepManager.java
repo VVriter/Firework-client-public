@@ -5,6 +5,7 @@ import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Managers.Manager;
 import com.firework.client.Implementations.Mixins.MixinsList.ICPacketPlayer;
 import com.firework.client.Implementations.Utill.Render.AnimationUtil;
+import com.firework.client.Implementations.Utill.RotationUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CPacketPlayer;
 import ua.firework.beet.Listener;
@@ -33,18 +34,6 @@ public class YawStepManager extends Manager {
         rotations.sort(Comparator.comparing(rotation1 -> -rotation1.getPriority()));
     }
 
-    //Rotation loop
-    @Subscribe(priority = Listener.Priority.HIGHEST)
-    public Listener<PacketEvent.Send> rotate = new Listener<>(event -> {
-        if(!(event.getPacket() instanceof CPacketPlayer)) return;
-        YawStepRotation rotation = rotations.peek();
-        if(rotation == null) return;
-
-        float rotations[] = rotation.getRotations();
-        if(rotation.getYaw() == rotations[0] && rotation.getPitch() == rotations[1])
-            finish(rotation);
-    });
-
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         YawStepRotation rotation = rotations.peek();
@@ -61,8 +50,12 @@ public class YawStepManager extends Manager {
         if(pitch > rotations[1])
             pitch = rotations[1];
 
-        rotation.setYaw(yaw);
-        rotation.setPitch(pitch);
+
+        RotationUtil.packetFacePitchAndYaw(pitch, yaw);
+        event.setCancelled(true);
+
+        if(yaw == rotations[0] && pitch == rotations[1])
+            finish(rotation);
     });
 
     public void finish(YawStepRotation rotation){
