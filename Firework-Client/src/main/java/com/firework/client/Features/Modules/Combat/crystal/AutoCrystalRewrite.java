@@ -348,19 +348,10 @@ public class AutoCrystalRewrite extends Module {
     }
 
     public void rotate(Vec3d vec3d, Function action){
-        lastRotation = new YawStepRotation(vec3d, getYawSpeed()*10, action, 1);
+        lastRotation = new YawStepRotation(vec3d, yawStepSpeed.getValue().floatValue(), action, 1);
         if(rotation.getValue(rotateMode.Instant))
             lastRotation.setInstant();
         Firework.yawStepManager.post(lastRotation);
-    }
-
-    public float getYawSpeed(){
-        if(rotation.getValue(rotateMode.YawStep))
-            return yawStepSpeed.getValue().floatValue();
-        else if(rotation.getValue(rotateMode.Instant))
-            return 1;
-
-        throw new AutoCrystalException("Invalid rotation speed");
     }
 
     public boolean canProcess(){
