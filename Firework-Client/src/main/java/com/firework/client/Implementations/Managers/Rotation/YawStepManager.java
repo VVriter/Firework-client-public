@@ -52,7 +52,7 @@ public class YawStepManager extends Manager {
 
         if(rotation.isInstant()){
             yaw = rotations[0];
-            pitch = rotations[0];
+            pitch = rotations[1];
         }
 
 
