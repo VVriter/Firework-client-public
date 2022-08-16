@@ -77,6 +77,8 @@ public class HighwayESP extends Module {
     @Subscribe
     public Listener<Render3dE> listener2 = new Listener<>(event -> {
 
+        if (fullNullCheck()) return;
+
         Iterator iterator = mc.world.playerEntities.iterator();
 
         while (iterator.hasNext()) {
