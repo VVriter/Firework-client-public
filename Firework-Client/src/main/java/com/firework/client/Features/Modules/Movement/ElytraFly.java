@@ -37,14 +37,19 @@ public class ElytraFly extends Module {
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(()-> mode.getValue(modes.Firework));
     public Setting<Double> delay = new Setting<>("UseDelay", (double)500, this, 1, 3000).setVisibility(()-> mode.getValue(modes.Firework));
     public Setting<Boolean> autostart = new Setting<>("Autostart", false, this).setMode(Setting.Mode.SUB).setVisibility(()-> mode.getValue(modes.Firework));
-
     public Setting<Boolean> enableAutostart = new Setting<>("EnableAutostart", true, this).setVisibility(()-> autostart.getValue() && mode.getValue(modes.Firework));
     public Setting<Boolean> jump = new Setting<>("Jump", true, this).setVisibility(()-> autostart.getValue() && mode.getValue(modes.Firework));
     public Setting<Boolean> useTimer = new Setting<>("UseTimer", true, this).setVisibility(()-> autostart.getValue() && mode.getValue(modes.Firework));
 
+    public Setting<Boolean> toobeetoteeBypass = new Setting<>("2b2t", true, this).setVisibility(()-> mode.getValue(modes.Firework));
+    public Setting<Boolean> timerReset = new Setting<>("TimerReset", true, this).setVisibility(()-> mode.getValue(modes.Firework) && toobeetoteeBypass.getValue());
+    public Setting<Double> delayAutostart = new Setting<>("TimerDelay", (double)2000, this, 1, 5000).setVisibility(()-> mode.getValue(modes.Firework) && toobeetoteeBypass.getValue());
+
     float defaultTickLeght;
     ItemUser user;
     Timer timer = new Timer();
+    Timer startTimer = new Timer();
+    boolean needToFireFly;
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
@@ -69,14 +74,33 @@ public class ElytraFly extends Module {
         }
 
         if (mode.getValue(modes.Firework)) {
-
-            if (mc.player.isElytraFlying()) {
+            if (mc.player.isElytraFlying() && needToFireFly) {
                 ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTickLeght);
                 if (timer.hasPassedMs(delay.getValue())) {
                     user.useItem(Items.FIREWORKS,0);
                     timer.reset();
+                    }
                 }
             }
+
+        if (mc.player.isElytraFlying() && !toobeetoteeBypass.getValue()) {
+            needToFireFly = true;
+        }
+
+        if (mc.player.isElytraFlying() && startTimer.hasPassedMs(delayAutostart.getValue())) {
+            needToFireFly = true;
+            if (timerReset.getValue()) {
+                ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTickLeght);
+            }
+        }
+
+        if (!mc.player.isElytraFlying()) {
+            needToFireFly = false;
+        }
+
+        if (mc.player.onGround) {
+            startTimer.reset();
+        }
 
             //Autostart
             if (enableAutostart.getValue()) {
@@ -92,12 +116,12 @@ public class ElytraFly extends Module {
                     }
                 }
             }
-        }
     });
 
     @Override
     public void onEnable() {
         super.onEnable();
+        startTimer.reset();
         user = new ItemUser(this,switchMode,rotate);
         defaultTickLeght =  ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
     }
@@ -105,6 +129,7 @@ public class ElytraFly extends Module {
     @Override
     public void onDisable() {
         super.onDisable();
+        startTimer.reset();
         user = null;
         ((ITimer) ((IMinecraft) mc).getTimer()).setTickLength(defaultTickLeght);
     }
