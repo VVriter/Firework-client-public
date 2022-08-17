@@ -1,58 +1,21 @@
 package com.firework.client.Features.CommandsSystem;
 
-
-import com.firework.client.Features.CommandsSystem.Commands.Chat.AuthCode;
-import com.firework.client.Features.CommandsSystem.Commands.Chat.ClearCommand;
-import com.firework.client.Features.CommandsSystem.Commands.Chat.PrefixCommand;
-import com.firework.client.Features.CommandsSystem.Commands.Chat.VClipCommand;
-import com.firework.client.Features.CommandsSystem.Commands.Client.*;
-import com.firework.client.Features.CommandsSystem.Commands.Dirs.ImgurCommand;
-import com.firework.client.Features.CommandsSystem.Commands.Dirs.OpenDirCommand;
-import com.firework.client.Features.CommandsSystem.Commands.Dirs.SaveConfigCommand;
-import com.firework.client.Features.CommandsSystem.Commands.FriendSys.FriendAdd;
-import com.firework.client.Features.CommandsSystem.Commands.FriendSys.FriendDell;
-import com.firework.client.Features.CommandsSystem.Commands.Fun.CowDupeCommand;
-import com.firework.client.Features.CommandsSystem.Commands.Fun.DupeCommand;
-import com.firework.client.Features.CommandsSystem.Commands.Fun.PenisCommand;
-import com.firework.client.Features.CommandsSystem.Commands.Fun.TutorialCommand;
-import com.firework.client.Features.CommandsSystem.Commands.GameSettings.FovCommand;
-import com.firework.client.Features.CommandsSystem.Commands.GameSettings.GammaCommand;
-import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help1Command;
-import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help2Command;
-import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help3Command;
-import com.firework.client.Features.CommandsSystem.Commands.HelpCommand.Help4Command;
-import com.firework.client.Features.CommandsSystem.Commands.Hide.HideCommand;
-import com.firework.client.Features.CommandsSystem.Commands.MuteSystem.GetList;
-import com.firework.client.Features.CommandsSystem.Commands.MuteSystem.Mute;
-import com.firework.client.Features.CommandsSystem.Commands.MuteSystem.UnMute;
-import com.firework.client.Features.CommandsSystem.Commands.PeekCommand.PeekCommand;
-import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.HelpCommand.HelpCommand;
-import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.QueueCommand;
-import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.SeenCommand;
-import com.firework.client.Features.CommandsSystem.Commands.TwoBeeTwoTee.StatsCommand;
-import com.firework.client.Features.CommandsSystem.Commands.WebhookCommand;
 import com.firework.client.Implementations.Events.PacketEvent;
-import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Managers.Manager;
 import com.firework.client.Implementations.Utill.Chat.MessageUtil;
+import com.firework.client.Implementations.Utill.Client.ClassFinder;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.network.play.client.CPacketChatMessage;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class CommandManager extends Manager {
-
     private final List<Command> commands = new ArrayList<>();
-
     public CommandManager() {
         super(true);
-        this.init();
+        registerModules();
     }
 
     public static String prefix = ".";
@@ -79,6 +42,21 @@ public class CommandManager extends Manager {
         }
     });
 
+    public void registerModules() {
+        Set<Class> classList = ClassFinder.findClasses(Command.class.getPackage().getName(), Command.class);
+        classList.forEach(aClass -> {
+            try {
+                Command module = (Command) aClass.getConstructor().newInstance();
+                commands.add(module);
+            } catch (Exception e) {
+                e.getCause().printStackTrace();
+                System.err.println("Couldn't initiate command " + aClass.getSimpleName() + "! Err: " + e.getClass().getSimpleName() + ", message: " + e.getMessage());
+            }
+        });
+        System.out.println("Commands initialised");
+
+        commands.sort(Comparator.comparing(Command::getLabel));
+    }
     private boolean checkAliases(String input, Command command) {
         for (String str : command.getAliases()) {
             if (input.equalsIgnoreCase(str)) {
@@ -87,60 +65,4 @@ public class CommandManager extends Manager {
         }
         return false;
     }
-
-    public void init() {
-        register(
-                new AuthCode(),
-
-                new WebhookCommand(),
-
-                new PanicCommand(),
-
-                new HideCommand(),
-
-                new Help1Command(),
-                new Help2Command(),
-                new Help3Command(),
-                new Help4Command(),
-
-                new HelpCommand(),
-                new QueueCommand(),
-                new SeenCommand(),
-                new StatsCommand(),
-
-                new Mute(),
-                new UnMute(),
-                new GetList(),
-
-                new TutorialCommand(),
-                new CowDupeCommand(),
-                new FriendAdd(),
-                new FriendDell(),
-                new BookCommand(),
-                new PenisCommand(),
-                new PeekCommand(),
-                new CoordsCommand(),
-                new FovCommand(),
-                new SaveConfigCommand(),
-                new NameMcCommand(),
-                new DupeCommand(),
-                new GammaCommand(),
-                new YawCommand(),
-                new PitchCommand(),
-                new VClipCommand(),
-                new ImgurCommand(),
-                new PrefixCommand(),
-                new ClearCommand(),
-                new ClearCommand(),
-                new OpenDirCommand(),
-                new GuiCommand(),
-                new FakePlayerCommand());
-
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    public void register(Command... command) {
-        Collections.addAll(commands, command);
-    }
-
 }
