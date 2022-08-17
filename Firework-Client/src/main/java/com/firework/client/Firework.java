@@ -1,4 +1,4 @@
-/** @Author dazed68, __exploit__, PunCakeCat */
+/** @Author dazed68, __exploit__, PunCakeCat, Writer */
 
 package com.firework.client;
 
@@ -7,16 +7,15 @@ import com.firework.client.Features.IngameGuis.GuiMainMenu.Shader.Shaders;
 import com.firework.client.Features.IngameGuis.Loader;
 import com.firework.client.Features.Modules.Client.Client;
 import com.firework.client.Features.Modules.Client.Logger;
-import com.firework.client.Implementations.Managers.Rotation.YawStepManager;
-import com.firework.client.Implementations.PacketRender;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManager;
 import com.firework.client.Implementations.Managers.*;
 import com.firework.client.Implementations.Managers.Rotation.RotationManager;
-import com.firework.client.Implementations.Managers.SettingManager;
+import com.firework.client.Implementations.Managers.Rotation.YawStepManager;
 import com.firework.client.Implementations.Managers.Text.CFontRenderer;
 import com.firework.client.Implementations.Managers.Text.TextManager;
 import com.firework.client.Implementations.Managers.Updater.UpdaterManager;
+import com.firework.client.Implementations.PacketRender;
 import com.firework.client.Implementations.UI.Hud.HudManager;
 import com.firework.client.Implementations.Utill.Client.IconUtil;
 import com.firework.client.Implementations.Utill.Client.SoundUtill;

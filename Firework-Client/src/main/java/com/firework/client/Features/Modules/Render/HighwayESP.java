@@ -7,10 +7,14 @@ import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
+
+import java.util.Iterator;
 
 @ModuleManifest(
         name = "HighwayESP",
@@ -55,15 +59,17 @@ public class HighwayESP extends Module {
     public void onTick() {
         super.onTick();
 
+        if (fullNullCheck()) return;
+
         if (zeropoint.getValue(zeropoints.FromYou)) {
             position = new Vec3d(mc.player.getPositionVector().x,y,mc.player.getPositionVector().z);
         } else if (zeropoint.getValue(zeropoints.ZeroCords)) {
             position = new Vec3d(0, y,0);
         }
 
-        if (yzs.getValue(ys.FromYou)) {
+      /*  if (yzs.getValue(ys.FromYou)) {
             y = mc.player.getPosition().getY();
-        } else if (yzs.getValue(ys.Bedrock)) {
+        } else */ if (yzs.getValue(ys.Bedrock)) {
             y = 1;
         } else if (yzs.getValue(ys.Custom)) {
             y = yVal.getValue().intValue();
@@ -72,6 +78,26 @@ public class HighwayESP extends Module {
     }
     @Subscribe
     public Listener<Render3dE> listener2 = new Listener<>(event -> {
+
+        if (fullNullCheck()) return;
+
+        Iterator iterator = mc.world.playerEntities.iterator();
+
+        while (iterator.hasNext()) {
+            Object o = iterator.next();
+            Entity entity = (Entity) o;
+
+            if (entity instanceof EntityPlayer && entity.isEntityAlive()) {
+                double x = this.interpolate(entity.lastTickPosX, entity.posX, 1) - mc.getRenderManager().viewerPosX;
+                double y = this.interpolate(entity.lastTickPosY, entity.posY, 1) - mc.getRenderManager().viewerPosY;
+                double z = this.interpolate(entity.lastTickPosZ, entity.posZ,1) - mc.getRenderManager().viewerPosZ;
+
+                if (yzs.getValue(ys.FromYou)) {
+                    this.y = y;
+                }
+            }
+        }
+
         BlockPos pos1 = new BlockPos(30000000,y,30000000);
         BlockPos pos2 = new BlockPos(-30000000,y,-30000000);
         BlockPos pos3 = new BlockPos(30000000,y,-30000000);
@@ -91,5 +117,10 @@ public class HighwayESP extends Module {
         RenderUtils.drawLine(position,BlockUtil.posToVec3d(pos6),lineWidth.getValue().intValue(),color6.getValue().toRGB());
         RenderUtils.drawLine(position,BlockUtil.posToVec3d(pos7),lineWidth.getValue().intValue(),color7.getValue().toRGB());
         RenderUtils.drawLine(position,BlockUtil.posToVec3d(pos8),lineWidth.getValue().intValue(),color8.getValue().toRGB());
+
     });
+
+    private double interpolate(double previous, double current, float delta) {
+        return previous + (current - previous) * (double) delta;
+    }
 }

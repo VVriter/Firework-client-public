@@ -16,6 +16,7 @@ import com.firework.client.Implementations.Events.Render.ForgeNameTagEvent;
 import com.firework.client.Implementations.Events.Render.Render2dE;
 import com.firework.client.Implementations.Events.Render.RenderGameOverlay;
 import com.firework.client.Implementations.Events.Render.Render3dE;
+import com.firework.client.Implementations.Events.UpdateEvent;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.client.Minecraft;
@@ -187,6 +188,13 @@ public class EventManager extends Manager{
                         event.getLeft().set(i, "Biome: Hidden!");
             }
         }
+    }
+
+
+    @SubscribeEvent
+    public void ontick(TickEvent.ClientTickEvent ev) {
+        UpdateEvent updateEvent = UpdateEvent.get(ev.phase);
+        Firework.eventBus.post(updateEvent);
     }
 
 }
