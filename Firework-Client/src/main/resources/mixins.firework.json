@@ -26,7 +26,6 @@
     "Misc.MixinEntityPlayerSP",
     "Render.MixinEntityRenderer",
     "Misc.MixinWorldClient",
-    "Render.MixinRenderBoat",
     "Render.MixinTileEntityEnchantmentTableRenderer",
     "Chunks.MixinRenderChunk",
     "Chunks.MixinChunkRenderContainer",
@@ -55,6 +54,7 @@
     "IRenderGlobal",
     "Misc.MixinMinecraft",
     "Misc.MixinEntity",
-    "Render.MixinPlayerOverlay"
+    "Render.MixinPlayerOverlay",
+    "Else.MixinRenderBoat"
   ]
 }

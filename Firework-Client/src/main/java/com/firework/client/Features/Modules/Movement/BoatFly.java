@@ -14,7 +14,7 @@ import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 @ModuleManifest(
-        name = "EntityFly",
+        name = "BoatFly",
         category = Module.Category.MOVEMENT,
         description = "Fly using entities"
 )
@@ -27,6 +27,13 @@ public class BoatFly extends Module {
 
     public Setting<Double> horizontal = new Setting<>("Horizontal", (double)20, this, 1, 50);
     public Setting<Double> vertical = new Setting<>("Vertical", (double)20, this, 1, 50);
+
+    public static Setting<Boolean> enabled = null;
+    public static Setting<Boolean> boatScale = null;
+    public BoatFly() {
+        enabled = this.isEnabled;
+        boatScale = new Setting<>("MiniBoat", true, this);
+    }
 
     Entity ridingEntity;
 
