@@ -22,9 +22,9 @@ public class EntityControl extends Module {
 
 
     public Setting<Boolean> speedSubBool = new Setting<>("Speed", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> EntitySpeed = new Setting<>("Enable", true, this).setVisibility(V-> speedSubBool.getValue());
-    public Setting<Double> speed = new Setting<>("Reduction", (double)3, this, 0, 8).setVisibility(v-> EntitySpeed.getValue(true) && speedSubBool.getValue());
-    public Setting<Boolean> antiStuck = new Setting<>("AntiStuck", true, this).setVisibility(v-> EntitySpeed.getValue(true) && speedSubBool.getValue());
+    public Setting<Boolean> EntitySpeed = new Setting<>("Enable", true, this).setVisibility(()-> speedSubBool.getValue());
+    public Setting<Double> speed = new Setting<>("Reduction", (double)3, this, 0, 8).setVisibility(()-> EntitySpeed.getValue(true) && speedSubBool.getValue());
+    public Setting<Boolean> antiStuck = new Setting<>("AntiStuck", true, this).setVisibility(()-> EntitySpeed.getValue(true) && speedSubBool.getValue());
     public EntityControl(){
         INSTANCE = this;
     }

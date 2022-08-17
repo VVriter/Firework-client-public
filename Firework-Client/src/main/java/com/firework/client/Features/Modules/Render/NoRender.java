@@ -64,37 +64,37 @@ public class NoRender extends Module {
         enabled = this.isEnabled;
 
         skySubBool = new Setting<>("Sky", false, this).setMode(Setting.Mode.SUB);
-        antiFog = new Setting<>("AntiFog", true, this).setVisibility(v-> skySubBool.getValue());
-        skylight = new Setting<>("Skylight", true, this).setVisibility(v-> skySubBool.getValue());
-        weather = new Setting<>("Weather", true, this).setVisibility(v-> skySubBool.getValue());
+        antiFog = new Setting<>("AntiFog", true, this).setVisibility(()-> skySubBool.getValue());
+        skylight = new Setting<>("Skylight", true, this).setVisibility(()-> skySubBool.getValue());
+        weather = new Setting<>("Weather", true, this).setVisibility(()-> skySubBool.getValue());
 
         cameraSubBool = new Setting<>("Camera", false, this).setMode(Setting.Mode.SUB);
-        totemPops = new Setting<>("TotemPops", true, this).setVisibility(v-> cameraSubBool.getValue());
-        hurtcam = new Setting<>("Hurtcam", true, this).setVisibility(v-> cameraSubBool.getValue());
-        hands = new Setting<>("Hands", true, this).setVisibility(v-> cameraSubBool.getValue());
-        fov = new Setting<>("Fov", true, this).setVisibility(v-> cameraSubBool.getValue());
-        viewBobbing =  new Setting<>("ViewBobbing", true, this).setVisibility(v-> cameraSubBool.getValue());
-        explosions = new Setting<>("Explosions", true, this).setVisibility(v-> cameraSubBool.getValue());
-        potionEffects = new Setting<>("PotionEffects", true, this).setVisibility(v-> cameraSubBool.getValue());
+        totemPops = new Setting<>("TotemPops", true, this).setVisibility(()-> cameraSubBool.getValue());
+        hurtcam = new Setting<>("Hurtcam", true, this).setVisibility(()-> cameraSubBool.getValue());
+        hands = new Setting<>("Hands", true, this).setVisibility(()-> cameraSubBool.getValue());
+        fov = new Setting<>("Fov", true, this).setVisibility(()-> cameraSubBool.getValue());
+        viewBobbing =  new Setting<>("ViewBobbing", true, this).setVisibility(()-> cameraSubBool.getValue());
+        explosions = new Setting<>("Explosions", true, this).setVisibility(()-> cameraSubBool.getValue());
+        potionEffects = new Setting<>("PotionEffects", true, this).setVisibility(()-> cameraSubBool.getValue());
 
         blocksSubBool = new Setting<>("Blocks", false, this).setMode(Setting.Mode.SUB);
-        enchatntTable = new Setting<>("EnchantTable", true, this).setVisibility(v-> blocksSubBool.getValue());
-        blockoverlay =  new Setting<>("BlockOverlay", true, this).setVisibility(v-> blocksSubBool.getValue());
+        enchatntTable = new Setting<>("EnchantTable", true, this).setVisibility(()-> blocksSubBool.getValue());
+        blockoverlay =  new Setting<>("BlockOverlay", true, this).setVisibility(()-> blocksSubBool.getValue());
 
         entitiesSubBool = new Setting<>("Entities", false, this).setMode(Setting.Mode.SUB);
-        mob = new Setting<>("Mob", true, this).setVisibility(v-> entitiesSubBool.getValue());
-        xp = new Setting<>("Xp", true, this).setVisibility(v-> entitiesSubBool.getValue());
-        itemFrame = new Setting<>("ItemFrame", false, this).setVisibility(v-> entitiesSubBool.getValue());
+        mob = new Setting<>("Mob", true, this).setVisibility(()-> entitiesSubBool.getValue());
+        xp = new Setting<>("Xp", true, this).setVisibility(()-> entitiesSubBool.getValue());
+        itemFrame = new Setting<>("ItemFrame", false, this).setVisibility(()-> entitiesSubBool.getValue());
 
         guiSubBool = new Setting<>("Gui", false, this).setMode(Setting.Mode.SUB);
-        defaultBackground = new Setting<>("DefaultBackground", true, this).setVisibility(v-> guiSubBool.getValue());
-        bosssOverlay = new Setting<>("BossesOverlay", true, this).setVisibility(v-> guiSubBool.getValue());
+        defaultBackground = new Setting<>("DefaultBackground", true, this).setVisibility(()-> guiSubBool.getValue());
+        bosssOverlay = new Setting<>("BossesOverlay", true, this).setVisibility(()-> guiSubBool.getValue());
 
         armourSubBool = new Setting<>("Armour",false,this).setMode(Setting.Mode.SUB);
-        helmet = new Setting<>("Helmet",false,this).setVisibility(v-> armourSubBool.getValue());
-        chestplate = new Setting<>("Chestplate",false,this).setVisibility(v-> armourSubBool.getValue());
-        leggings = new Setting<>("Leggings",false,this).setVisibility(v-> armourSubBool.getValue());
-        boots = new Setting<>("Boots",false,this).setVisibility(v-> armourSubBool.getValue());
+        helmet = new Setting<>("Helmet",false,this).setVisibility(()-> armourSubBool.getValue());
+        chestplate = new Setting<>("Chestplate",false,this).setVisibility(()-> armourSubBool.getValue());
+        leggings = new Setting<>("Leggings",false,this).setVisibility(()-> armourSubBool.getValue());
+        boots = new Setting<>("Boots",false,this).setVisibility(()-> armourSubBool.getValue());
     }
 
 

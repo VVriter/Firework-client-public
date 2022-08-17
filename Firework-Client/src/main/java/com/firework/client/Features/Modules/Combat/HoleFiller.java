@@ -44,22 +44,22 @@ public class HoleFiller extends Module {
     //Interaction
     private Setting<Boolean> interactionPage = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
 
-    private Setting<BlockPlacer.switchModes> switchMode = new Setting<>("Switch", BlockPlacer.switchModes.Silent, this).setVisibility(v-> interactionPage.getValue());
-    private Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interactionPage.getValue());
-    private Setting<Boolean> packet = new Setting<>("Packet", false, this).setVisibility(v-> interactionPage.getValue());
+    private Setting<BlockPlacer.switchModes> switchMode = new Setting<>("Switch", BlockPlacer.switchModes.Silent, this).setVisibility(()-> interactionPage.getValue());
+    private Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(()-> interactionPage.getValue());
+    private Setting<Boolean> packet = new Setting<>("Packet", false, this).setVisibility(()-> interactionPage.getValue());
 
     //Customization
     private Setting<Boolean> customizationPage = new Setting<>("Customization", false, this).setMode(Setting.Mode.SUB);
 
-    private Setting<logic> logicMode = new Setting<>("Logic", logic.Both, this).setVisibility(v-> customizationPage.getValue());
+    private Setting<logic> logicMode = new Setting<>("Logic", logic.Both, this).setVisibility(()-> customizationPage.getValue());
     private enum logic{
         Both, Double, Single
     }
 
-    private Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", true, this).setVisibility(v-> customizationPage.getValue());
-    private Setting<Boolean> disableOnJump = new Setting<>("JumpDisable", true, this).setVisibility(v-> customizationPage.getValue());
-    private Setting<Boolean> autoBurrow = new Setting<>("AutoBurrow", false, this).setVisibility(v-> customizationPage.getValue());
-    private Setting<Boolean> nearHole = new Setting<>("NearHole", true, this).setVisibility(v-> customizationPage.getValue());
+    private Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", true, this).setVisibility(()-> customizationPage.getValue());
+    private Setting<Boolean> disableOnJump = new Setting<>("JumpDisable", true, this).setVisibility(()-> customizationPage.getValue());
+    private Setting<Boolean> autoBurrow = new Setting<>("AutoBurrow", false, this).setVisibility(()-> customizationPage.getValue());
+    private Setting<Boolean> nearHole = new Setting<>("NearHole", true, this).setVisibility(()-> customizationPage.getValue());
 
     private Setting<Integer> radius = new Setting<>("Radius", 5, this, 0, 10);
     private Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 50, 50), this);

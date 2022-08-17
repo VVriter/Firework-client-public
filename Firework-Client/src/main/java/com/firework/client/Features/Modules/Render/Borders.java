@@ -20,7 +20,7 @@ import ua.firework.beet.Subscribe;
 public class Borders extends Module {
 
     public Setting<YVal> yVal = new Setting<>("Y Level", YVal.Player, this);
-    public Setting<Double> custom = new Setting<>("Custom", (double)100, this, 1, 255).setVisibility(v-> yVal.getValue(YVal.Custom));
+    public Setting<Double> custom = new Setting<>("Custom", (double)100, this, 1, 255).setVisibility(()-> yVal.getValue(YVal.Custom));
     public Setting<HSLColor> color = new Setting<>("Color", new HSLColor(1, 54, 43), this);
     public enum YVal{
         Bedrock, Player, Custom

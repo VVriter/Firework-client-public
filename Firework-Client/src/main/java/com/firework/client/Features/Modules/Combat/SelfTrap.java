@@ -23,12 +23,12 @@ import ua.firework.beet.Subscribe;
 )
 public class SelfTrap extends Module {
     public Setting<Mode> mode = new Setting<>("Mode", Mode.Always, this);
-    public Setting<Double> distance = new Setting<>("Distance", (double)3, this, 1, 20).setVisibility(v-> mode.getValue(Mode.Smart));
+    public Setting<Double> distance = new Setting<>("Distance", (double)3, this, 1, 20).setVisibility(()-> mode.getValue(Mode.Smart));
     public Setting<Double> delay = new Setting<>("Delay", (double)3, this, 1, 1000);
     public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
-    public Setting<BlockPlacer.switchModes> switchType = new Setting<>("SwitchType", BlockPlacer.switchModes.Silent, this).setVisibility(v-> interaction.getValue());
-    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interaction.getValue());
-    public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(v-> interaction.getValue());
+    public Setting<BlockPlacer.switchModes> switchType = new Setting<>("SwitchType", BlockPlacer.switchModes.Silent, this).setVisibility(()-> interaction.getValue());
+    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(()-> interaction.getValue());
+    public Setting<Boolean> packet = new Setting<>("Packet", true, this).setVisibility(()-> interaction.getValue());
 
     public Setting<Boolean> autoDisable = new Setting<>("AutoDisable", true, this);
 

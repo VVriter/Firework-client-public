@@ -34,8 +34,8 @@ public class MiddleClick extends Module {
     public Setting<Boolean> pearl = new Setting<>("Pearl", true, this);
 
     public Setting<Boolean> friendsBool = new Setting<>("Friends", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> friend = new Setting<>("Enable", true, this).setVisibility(V-> friendsBool.getValue());
-    public Setting<Boolean> notify = new Setting<>("NotifyFriend", true, this).setVisibility(V-> friendsBool.getValue());
+    public Setting<Boolean> friend = new Setting<>("Enable", true, this).setVisibility(()-> friendsBool.getValue());
+    public Setting<Boolean> notify = new Setting<>("NotifyFriend", true, this).setVisibility(()-> friendsBool.getValue());
 
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {

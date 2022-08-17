@@ -18,9 +18,9 @@ public class ToolTips extends Module {
     public ToolTips() {
         enabled = this.isEnabled;
         shulkers = new Setting<>("Shulkers", false, this).setMode(Setting.Mode.SUB);
-        enableShulkers = new Setting<>("Shulkers Tooltips", true, this).setVisibility(v-> shulkers.getValue());
+        enableShulkers = new Setting<>("Shulkers Tooltips", true, this).setVisibility(()-> shulkers.getValue());
 
         maps = new Setting<>("Maps", false, this).setMode(Setting.Mode.SUB);
-        enableMaps = new Setting<>("Maps Tooltips", true, this).setVisibility(v-> maps.getValue());
+        enableMaps = new Setting<>("Maps Tooltips", true, this).setVisibility(()-> maps.getValue());
     }
 }

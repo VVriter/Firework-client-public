@@ -62,38 +62,38 @@ public class ItemModel extends Module {
         noEat = new Setting<>("NoEat", true, this);
 
         translateSubBool = new Setting<>("Translate", false, this).setMode(Setting.Mode.SUB);
-        TRX = new Setting<>("RX", (double)0, this, -300, 300).setVisibility(v-> translateSubBool.getValue());
-        TRY = new Setting<>("RY", (double)0, this, -300, 300).setVisibility(v-> translateSubBool.getValue());
-        TRZ = new Setting<>("RZ", (double)0, this, -300, 300).setVisibility(v-> translateSubBool.getValue());
-        TLX = new Setting<>("LX", (double)0, this, -300, 300).setVisibility(v-> translateSubBool.getValue());
-        TLY = new Setting<>("LY", (double)0, this, -300, 300).setVisibility(v-> translateSubBool.getValue());
-        TLZ = new Setting<>("LZ", (double)0, this, -300, 300).setVisibility(v-> translateSubBool.getValue());
+        TRX = new Setting<>("RX", (double)0, this, -300, 300).setVisibility(()-> translateSubBool.getValue());
+        TRY = new Setting<>("RY", (double)0, this, -300, 300).setVisibility(()-> translateSubBool.getValue());
+        TRZ = new Setting<>("RZ", (double)0, this, -300, 300).setVisibility(()-> translateSubBool.getValue());
+        TLX = new Setting<>("LX", (double)0, this, -300, 300).setVisibility(()-> translateSubBool.getValue());
+        TLY = new Setting<>("LY", (double)0, this, -300, 300).setVisibility(()-> translateSubBool.getValue());
+        TLZ = new Setting<>("LZ", (double)0, this, -300, 300).setVisibility(()-> translateSubBool.getValue());
 
         rotateSubBool = new Setting<>("Rotate", false, this).setMode(Setting.Mode.SUB);
-        RRX = new Setting<>("RRX", 0, this, -300, 300).setVisibility(v-> rotateSubBool.getValue());
-        RRY = new Setting<>("RRY", 0, this, -300, 300).setVisibility(v-> rotateSubBool.getValue());
-        RRZ = new Setting<>("RRZ", 0, this, -300, 300).setVisibility(v-> rotateSubBool.getValue());
-        RLX = new Setting<>("RLX", 0, this, -300, 300).setVisibility(v-> rotateSubBool.getValue());
-        RLY = new Setting<>("RLY", 0, this, -300, 300).setVisibility(v-> rotateSubBool.getValue());
-        RLZ = new Setting<>("RLZ", 0, this, -300, 300).setVisibility(v-> rotateSubBool.getValue());
+        RRX = new Setting<>("RRX", 0, this, -300, 300).setVisibility(()-> rotateSubBool.getValue());
+        RRY = new Setting<>("RRY", 0, this, -300, 300).setVisibility(()-> rotateSubBool.getValue());
+        RRZ = new Setting<>("RRZ", 0, this, -300, 300).setVisibility(()-> rotateSubBool.getValue());
+        RLX = new Setting<>("RLX", 0, this, -300, 300).setVisibility(()-> rotateSubBool.getValue());
+        RLY = new Setting<>("RLY", 0, this, -300, 300).setVisibility(()-> rotateSubBool.getValue());
+        RLZ = new Setting<>("RLZ", 0, this, -300, 300).setVisibility(()-> rotateSubBool.getValue());
 
         scaleSubBool = new Setting<>("Scale", false, this).setMode(Setting.Mode.SUB);
-        RSX = new Setting<>("RSX", (double)100, this, -300, 300).setVisibility(v-> scaleSubBool.getValue());
-        RSY = new Setting<>("RSY", (double)100, this, -300, 300).setVisibility(v-> scaleSubBool.getValue());
-        RSZ = new Setting<>("RSZ", (double)100, this, -300, 300).setVisibility(v-> scaleSubBool.getValue());
-        LSX = new Setting<>("LSX", (double)100, this, -300, 300).setVisibility(v-> scaleSubBool.getValue());
-        LSY = new Setting<>("LSY", (double)100, this, -300, 300).setVisibility(v-> scaleSubBool.getValue());
-        LSZ = new Setting<>("LSZ", (double)100, this, -300, 300).setVisibility(v-> scaleSubBool.getValue());
+        RSX = new Setting<>("RSX", (double)100, this, -300, 300).setVisibility(()-> scaleSubBool.getValue());
+        RSY = new Setting<>("RSY", (double)100, this, -300, 300).setVisibility(()-> scaleSubBool.getValue());
+        RSZ = new Setting<>("RSZ", (double)100, this, -300, 300).setVisibility(()-> scaleSubBool.getValue());
+        LSX = new Setting<>("LSX", (double)100, this, -300, 300).setVisibility(()-> scaleSubBool.getValue());
+        LSY = new Setting<>("LSY", (double)100, this, -300, 300).setVisibility(()-> scaleSubBool.getValue());
+        LSZ = new Setting<>("LSZ", (double)100, this, -300, 300).setVisibility(()-> scaleSubBool.getValue());
 
         animationSubBool = new Setting<>("Animations", false, this).setMode(Setting.Mode.SUB);
-        dimention = new Setting<>("Dimension", Dimention.Add, this).setVisibility(v-> animationSubBool.getValue());
-        addAmount = new Setting<>("AddAmount", 3, this, 0, 10).setVisibility(v-> animationSubBool.getValue());
-        xr = new Setting<>("XRA", true, this).setVisibility(v-> animationSubBool.getValue());
-        yr = new Setting<>("YRA", true, this).setVisibility(v-> animationSubBool.getValue());
-        zr = new Setting<>("ZRA", true, this).setVisibility(v-> animationSubBool.getValue());
-        xl = new Setting<>("XLA", true, this).setVisibility(v-> animationSubBool.getValue());
-        yl = new Setting<>("YLA", true, this).setVisibility(v-> animationSubBool.getValue());
-        zl = new Setting<>("ZLA", true, this).setVisibility(v-> animationSubBool.getValue());
+        dimention = new Setting<>("Dimension", Dimention.Add, this).setVisibility(()-> animationSubBool.getValue());
+        addAmount = new Setting<>("AddAmount", 3, this, 0, 10).setVisibility(()-> animationSubBool.getValue());
+        xr = new Setting<>("XRA", true, this).setVisibility(()-> animationSubBool.getValue());
+        yr = new Setting<>("YRA", true, this).setVisibility(()-> animationSubBool.getValue());
+        zr = new Setting<>("ZRA", true, this).setVisibility(()-> animationSubBool.getValue());
+        xl = new Setting<>("XLA", true, this).setVisibility(()-> animationSubBool.getValue());
+        yl = new Setting<>("YLA", true, this).setVisibility(()-> animationSubBool.getValue());
+        zl = new Setting<>("ZLA", true, this).setVisibility(()-> animationSubBool.getValue());
 
         swingSpeed = new Setting<>("SwingSpeed", 20, this, 1, 40);
     }

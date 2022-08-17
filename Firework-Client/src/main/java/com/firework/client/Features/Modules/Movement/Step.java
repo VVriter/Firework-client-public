@@ -38,8 +38,8 @@ public class Step extends Module {
     public enum modes{
         Strict
     }
-    public Setting<Boolean> inhibit = new Setting<>("Inhibit", true, this).setVisibility(v-> mode.getValue(modes.Strict));
-    public Setting<Integer> ticks = new Setting<>("Ticks", 25, this, 0, 50).setVisibility(v-> mode.getValue(modes.Strict) && inhibit.getValue());
+    public Setting<Boolean> inhibit = new Setting<>("Inhibit", true, this).setVisibility(()-> mode.getValue(modes.Strict));
+    public Setting<Integer> ticks = new Setting<>("Ticks", 25, this, 0, 50).setVisibility(()-> mode.getValue(modes.Strict) && inhibit.getValue());
 
     boolean autoJump;
 

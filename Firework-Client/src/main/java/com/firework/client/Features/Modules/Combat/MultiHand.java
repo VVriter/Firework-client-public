@@ -20,8 +20,8 @@ import static com.firework.client.Implementations.Utill.InventoryUtil.hands;
 )
 public class MultiHand extends Module {
     public Setting<Enum> multiHandMode = new Setting<>("MultiHand", modes.Totem, this);
-    public Setting<hands> totemHandMode = new Setting<>("Totem", hands.MainHand, this).setVisibility(v-> multiHandMode.getValue(modes.Totem));
-    public Setting<hands> crystalHandMode = new Setting<>("Crystal", hands.MainHand, this).setVisibility(v-> multiHandMode.getValue(modes.Crystal));
+    public Setting<hands> totemHandMode = new Setting<>("Totem", hands.MainHand, this).setVisibility(()-> multiHandMode.getValue(modes.Totem));
+    public Setting<hands> crystalHandMode = new Setting<>("Crystal", hands.MainHand, this).setVisibility(()-> multiHandMode.getValue(modes.Crystal));
 
     public Setting<Boolean> parallel = new Setting<>("Parallel", false, this);
     public Setting<Boolean> packetSpoof = new Setting<>("PacketSpoof", true, this);

@@ -34,25 +34,25 @@ public class EyeFinder extends Module {
     public enum pages{
         Line, Block
     }
-    public Setting<PosRenderer.boxeMode> boxMode = new Setting<>("BoxMode", PosRenderer.boxeMode.Gradient, this).setVisibility(v-> page.getValue(pages.Block));
-    public Setting<HSLColor> fillColor = new Setting<>("FillColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) &&  page.getValue(pages.Block));
-    public Setting<Double> boxHeightNormal = new Setting<>("BoxHeight", (double)1, this, -0.3, 5).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) &&  page.getValue(pages.Block));
-    public Setting<HSLColor> fillColor1 = new Setting<>("StartColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  page.getValue(pages.Block));
-    public Setting<HSLColor> fillColor2 = new Setting<>("EndColor", new HSLColor(200, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  page.getValue(pages.Block));
+    public Setting<PosRenderer.boxeMode> boxMode = new Setting<>("BoxMode", PosRenderer.boxeMode.Gradient, this).setVisibility(()-> page.getValue(pages.Block));
+    public Setting<HSLColor> fillColor = new Setting<>("FillColor", new HSLColor(100, 54, 43), this).setVisibility(()-> boxMode.getValue(PosRenderer.boxeMode.Normal) &&  page.getValue(pages.Block));
+    public Setting<Double> boxHeightNormal = new Setting<>("BoxHeight", (double)1, this, -0.3, 5).setVisibility(()-> boxMode.getValue(PosRenderer.boxeMode.Normal) &&  page.getValue(pages.Block));
+    public Setting<HSLColor> fillColor1 = new Setting<>("StartColor", new HSLColor(100, 54, 43), this).setVisibility(()-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  page.getValue(pages.Block));
+    public Setting<HSLColor> fillColor2 = new Setting<>("EndColor", new HSLColor(200, 54, 43), this).setVisibility(()-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  page.getValue(pages.Block));
 
 
 
-    public Setting<PosRenderer.outlineModes> outlineMode = new Setting<>("OutlineMode", PosRenderer.outlineModes.Gradient, this).setVisibility(v->  page.getValue(pages.Block));
-    public Setting<HSLColor> gradientOutlineColor1 = new Setting<>("FirstColor", new HSLColor(1, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && page.getValue(pages.Block));
-    public Setting<HSLColor> gradientOutlineColor2 = new Setting<>("SecondColor", new HSLColor(200, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && page.getValue(pages.Block));
-    public Setting<HSLColor> colorOutline = new Setting<>("ColorOutline", new HSLColor(200, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && page.getValue(pages.Block));
-    public Setting<Double> outlineHeightNormal = new Setting<>("OutlineHeight", (double)1, this, -0.3, 5).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && page.getValue(pages.Block));
-    public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(v->  !outlineMode.getValue(PosRenderer.outlineModes.None) && page.getValue(pages.Block));
+    public Setting<PosRenderer.outlineModes> outlineMode = new Setting<>("OutlineMode", PosRenderer.outlineModes.Gradient, this).setVisibility(()->  page.getValue(pages.Block));
+    public Setting<HSLColor> gradientOutlineColor1 = new Setting<>("FirstColor", new HSLColor(1, 54, 43), this).setVisibility(()->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && page.getValue(pages.Block));
+    public Setting<HSLColor> gradientOutlineColor2 = new Setting<>("SecondColor", new HSLColor(200, 54, 43), this).setVisibility(()->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && page.getValue(pages.Block));
+    public Setting<HSLColor> colorOutline = new Setting<>("ColorOutline", new HSLColor(200, 54, 43), this).setVisibility(()->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && page.getValue(pages.Block));
+    public Setting<Double> outlineHeightNormal = new Setting<>("OutlineHeight", (double)1, this, -0.3, 5).setVisibility(()->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && page.getValue(pages.Block));
+    public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(()->  !outlineMode.getValue(PosRenderer.outlineModes.None) && page.getValue(pages.Block));
 
-    public Setting<Double> distance = new Setting<>("Distance", (double)15, this, 1, 50).setVisibility(v-> page.getValue(pages.Line));
-    public Setting<Double> lineDistance = new Setting<>("LineDistance", (double)6, this, 1, 15).setVisibility(v-> page.getValue(pages.Line));
-    public Setting<Double> eyeLineWidth = new Setting<>("LineWidth", (double)3, this, 1, 10).setVisibility(v-> page.getValue(pages.Line));
-    public Setting<HSLColor> viewLineColor = new Setting<>("ViewLineColor", new HSLColor(1, 54, 43), this).setVisibility(v-> page.getValue(pages.Line));
+    public Setting<Double> distance = new Setting<>("Distance", (double)15, this, 1, 50).setVisibility(()-> page.getValue(pages.Line));
+    public Setting<Double> lineDistance = new Setting<>("LineDistance", (double)6, this, 1, 15).setVisibility(()-> page.getValue(pages.Line));
+    public Setting<Double> eyeLineWidth = new Setting<>("LineWidth", (double)3, this, 1, 10).setVisibility(()-> page.getValue(pages.Line));
+    public Setting<HSLColor> viewLineColor = new Setting<>("ViewLineColor", new HSLColor(1, 54, 43), this).setVisibility(()-> page.getValue(pages.Line));
     @Subscribe
     public Listener<Render3dE> listener2 = new Listener<>(event -> {
         mc.world.loadedEntityList.stream().filter(entity -> mc.player != entity && !entity.isDead && entity instanceof EntityPlayer && mc.player.getDistance(entity) <= distance.getValue()).forEach(this::drawLine);

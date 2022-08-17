@@ -7,7 +7,7 @@ import com.firework.client.Implementations.Utill.Render.HSLColor;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import static com.firework.client.Firework.settingManager;
 
@@ -19,7 +19,7 @@ public class Setting<T> {
 
     public List<Object> list;
 
-    public Predicate<T> visibility;
+    public Supplier<Boolean> visibility;
 
     public int index = 0;
 
@@ -105,7 +105,7 @@ public class Setting<T> {
         return this;
     }
 
-    public Setting<T> setVisibility(Predicate<T> visibility){
+    public Setting<T> setVisibility(Supplier<Boolean> visibility){
         this.visibility = visibility;
         return this;
     }
@@ -114,7 +114,7 @@ public class Setting<T> {
         if (this.visibility == null) {
             return true;
         }
-        return this.visibility.test(this.getValue());
+        return this.visibility.get();
     }
 
     public T getValue(){

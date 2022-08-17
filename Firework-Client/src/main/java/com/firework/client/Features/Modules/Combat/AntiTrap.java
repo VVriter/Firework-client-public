@@ -32,12 +32,17 @@ import java.awt.*;
 public class AntiTrap extends Module {
 
     public Setting<Mode> mode = new Setting<>("Mode", Mode.Always, this);
-    public Setting<Double> distance = new Setting<>("Distance", (double)3, this, 1, 20).setVisibility(v-> mode.getValue(Mode.Smart));
-    public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Double> distance = new Setting<>("Distance", (double)3, this, 1, 20)
+            .setVisibility(()-> mode.getValue(Mode.Smart));
+    public Setting<Boolean> interaction = new Setting<>("Interaction", false, this)
+            .setMode(Setting.Mode.SUB);
 
-    public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this).setVisibility(v-> interaction.getValue());
-    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> interaction.getValue());
-    public Setting<Integer> delay = new Setting<>("DelayMs", 3, this, 1, 1000).setVisibility(v-> interaction.getValue());;
+    public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this)
+            .setVisibility(()-> interaction.getValue());
+    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this)
+            .setVisibility(()-> interaction.getValue());
+    public Setting<Integer> delay = new Setting<>("DelayMs", 3, this, 1, 1000)
+            .setVisibility(()-> interaction.getValue());;
 
     public Setting<Boolean> autoDisable = new Setting<>("AutoDisable", false, this);
 

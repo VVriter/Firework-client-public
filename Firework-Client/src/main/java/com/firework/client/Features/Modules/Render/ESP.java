@@ -27,32 +27,32 @@ import java.awt.*;
 public class ESP extends Module {
 
     public Setting<Boolean> playerSubBool = new Setting<>("Player", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> player = new Setting<>("Enable", true, this).setVisibility(v-> playerSubBool.getValue());
+    public Setting<Boolean> player = new Setting<>("Enable", true, this).setVisibility(()-> playerSubBool.getValue());
 
     public Setting<Boolean> storagesSubBool = new Setting<>("Storages", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> chest = new Setting<>("Chest", true, this).setVisibility(v-> storagesSubBool.getValue());
-    public Setting<Boolean> echest = new Setting<>("EnderChest", true, this).setVisibility(v-> storagesSubBool.getValue());
-    public Setting<Boolean> shulker = new Setting<>("Shulker", true, this).setVisibility(v-> storagesSubBool.getValue());
-    public Setting<Boolean> beacon = new Setting<>("Beacon", true, this).setVisibility(v-> storagesSubBool.getValue());
-    public Setting<Boolean> dispenser = new Setting<>("Dispenser", true, this).setVisibility(v-> storagesSubBool.getValue());
-    public Setting<Boolean> dropper = new Setting<>("Dropper", true, this).setVisibility(v-> storagesSubBool.getValue());
-    public Setting<Boolean> hopper = new Setting<>("Hopper", true, this).setVisibility(v-> storagesSubBool.getValue());
-    public Setting<Boolean> frame = new Setting<>("Frame", true, this).setVisibility(v-> storagesSubBool.getValue());
+    public Setting<Boolean> chest = new Setting<>("Chest", true, this).setVisibility(()-> storagesSubBool.getValue());
+    public Setting<Boolean> echest = new Setting<>("EnderChest", true, this).setVisibility(()-> storagesSubBool.getValue());
+    public Setting<Boolean> shulker = new Setting<>("Shulker", true, this).setVisibility(()-> storagesSubBool.getValue());
+    public Setting<Boolean> beacon = new Setting<>("Beacon", true, this).setVisibility(()-> storagesSubBool.getValue());
+    public Setting<Boolean> dispenser = new Setting<>("Dispenser", true, this).setVisibility(()-> storagesSubBool.getValue());
+    public Setting<Boolean> dropper = new Setting<>("Dropper", true, this).setVisibility(()-> storagesSubBool.getValue());
+    public Setting<Boolean> hopper = new Setting<>("Hopper", true, this).setVisibility(()-> storagesSubBool.getValue());
+    public Setting<Boolean> frame = new Setting<>("Frame", true, this).setVisibility(()-> storagesSubBool.getValue());
 
     public Setting<Boolean> entitiesSubBool = new Setting<>("Entities", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> minecart = new Setting<>("Minecart", true, this).setVisibility(v-> entitiesSubBool.getValue());
-    public Setting<Boolean> armorStand = new Setting<>("ArmorStand", true, this).setVisibility(v-> entitiesSubBool.getValue());
-    public Setting<Boolean> boat = new Setting<>("Boat", true, this).setVisibility(v-> entitiesSubBool.getValue());
+    public Setting<Boolean> minecart = new Setting<>("Minecart", true, this).setVisibility(()-> entitiesSubBool.getValue());
+    public Setting<Boolean> armorStand = new Setting<>("ArmorStand", true, this).setVisibility(()-> entitiesSubBool.getValue());
+    public Setting<Boolean> boat = new Setting<>("Boat", true, this).setVisibility(()-> entitiesSubBool.getValue());
 
     public Setting<Boolean> miscSubBool = new Setting<>("Misc", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Mode> mode = new Setting<>("Mode", Mode.Sphere , this).setVisibility(v-> miscSubBool.getValue());
+    public Setting<Mode> mode = new Setting<>("Mode", Mode.Sphere , this).setVisibility(()-> miscSubBool.getValue());
     public enum Mode{
         Sphere, Circle
     }
-    public Setting<Boolean> pearl = new Setting<>("Pearl", true, this).setVisibility(v-> miscSubBool.getValue());
-    public Setting<Boolean> exp = new Setting<>("ExpBottle", true, this).setVisibility(v-> miscSubBool.getValue());
-    public Setting<Boolean> items = new Setting<>("Items", true, this).setVisibility(v-> miscSubBool.getValue());
-    public Setting<Boolean> enderEye = new Setting<>("EnderEye", true, this).setVisibility(v-> miscSubBool.getValue());
+    public Setting<Boolean> pearl = new Setting<>("Pearl", true, this).setVisibility(()-> miscSubBool.getValue());
+    public Setting<Boolean> exp = new Setting<>("ExpBottle", true, this).setVisibility(()-> miscSubBool.getValue());
+    public Setting<Boolean> items = new Setting<>("Items", true, this).setVisibility(()-> miscSubBool.getValue());
+    public Setting<Boolean> enderEye = new Setting<>("EnderEye", true, this).setVisibility(()-> miscSubBool.getValue());
 
 
     @Subscribe

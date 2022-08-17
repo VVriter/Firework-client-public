@@ -48,13 +48,13 @@ public class Background extends Module {
         particleSystem = new ParticleSystem();
         blur = new Setting<>("Blur", false, this);
         gradientSubBool = new Setting<>("Gradient", false, this).setMode(Setting.Mode.SUB);
-        enableGradient = new Setting<>("EnableGradient", false, this).setVisibility(v-> gradientSubBool.getValue());
-        color1 = new Setting<>("DownColor", new HSLColor(1, 54, 43), this).setVisibility(v-> gradientSubBool.getValue());
-        color2 = new Setting<>("UpColor", new HSLColor(80, 54, 43), this).setVisibility(v-> gradientSubBool.getValue());
+        enableGradient = new Setting<>("EnableGradient", false, this).setVisibility(()-> gradientSubBool.getValue());
+        color1 = new Setting<>("DownColor", new HSLColor(1, 54, 43), this).setVisibility(()-> gradientSubBool.getValue());
+        color2 = new Setting<>("UpColor", new HSLColor(80, 54, 43), this).setVisibility(()-> gradientSubBool.getValue());
         particles = new Setting<>("Particles", false, this).setMode(Setting.Mode.SUB);
-        scaleFactor = new Setting<>("Scale", 1, this, 0, 10).setVisibility(v-> particles.getValue());
-        lineLong = new Setting<>("LineLong", (double)30, this, 0, 200).setVisibility(v-> particles.getValue());
-        colorMode = new Setting<>("Color", ParticleInfo.colorMode.Astolfo, this).setVisibility(v-> particles.getValue());
+        scaleFactor = new Setting<>("Scale", 1, this, 0, 10).setVisibility(()-> particles.getValue());
+        lineLong = new Setting<>("LineLong", (double)30, this, 0, 200).setVisibility(()-> particles.getValue());
+        colorMode = new Setting<>("Color", ParticleInfo.colorMode.Astolfo, this).setVisibility(()-> particles.getValue());
         this.isEnabled.setValue(true);
         ParticleInfo.isEnabled = this.isEnabled.getValue();
     }

@@ -33,10 +33,10 @@ public class Flatten extends Module {
     public Setting<Double> delay = new Setting<>("Delay", (double)4, this, 1, 1000);
     public Setting<Double> radius = new Setting<>("Radius", (double)4, this, 1, 6);
     public Setting<Boolean> booleanSetting = new Setting<>("PlockPlacer", false, this).setMode(Setting.Mode.SUB);
-    private Setting<BlockPlacer.switchModes> switchModes = new Setting<>("Switchs", BlockPlacer.switchModes.Fast, this).setVisibility(v-> booleanSetting.getValue());
+    private Setting<BlockPlacer.switchModes> switchModes = new Setting<>("Switchs", BlockPlacer.switchModes.Fast, this).setVisibility(()-> booleanSetting.getValue());
 
-    private Setting<Boolean> rotates = new Setting<>("Rotates", false, this).setVisibility(v-> booleanSetting.getValue());
-    private Setting<Boolean> packet = new Setting<>("Packets", true, this).setVisibility(v-> booleanSetting.getValue());
+    private Setting<Boolean> rotates = new Setting<>("Rotates", false, this).setVisibility(()-> booleanSetting.getValue());
+    private Setting<Boolean> packet = new Setting<>("Packets", true, this).setVisibility(()-> booleanSetting.getValue());
 
     EntityPlayer target;
     Timer timer = new Timer();

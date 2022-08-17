@@ -19,14 +19,14 @@ import java.util.Arrays;
 public class RotationLock extends Module {
 
     public Setting<Boolean> yawBool = new Setting<>("Yaw", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> yawEnable = new Setting<>("EnableYaw", true, this).setVisibility(v-> yawBool.getValue());
-    public Setting<String> dimension = new Setting<>("Dimension", "Normal", this, Arrays.asList("Normal", "Multi", "Custom")).setVisibility(v-> yawBool.getValue());
-    public Setting<Double> intSpeed = new Setting<>("Speed", (double)20, this, 1, 100).setVisibility(v-> yawBool.getValue() && (dimension.getValue().equals("Normal") || dimension.getValue().equals("Multi")));
-    public Setting<Integer> yaw = new Setting<>("Yaw", 0, this, -180, 180).setVisibility(pv-> yawBool.getValue() && dimension.getValue().equals("Custom"));
+    public Setting<Boolean> yawEnable = new Setting<>("EnableYaw", true, this).setVisibility(()-> yawBool.getValue());
+    public Setting<String> dimension = new Setting<>("Dimension", "Normal", this, Arrays.asList("Normal", "Multi", "Custom")).setVisibility(()-> yawBool.getValue());
+    public Setting<Double> intSpeed = new Setting<>("Speed", (double)20, this, 1, 100).setVisibility(()-> yawBool.getValue() && (dimension.getValue().equals("Normal") || dimension.getValue().equals("Multi")));
+    public Setting<Integer> yaw = new Setting<>("Yaw", 0, this, -180, 180).setVisibility(()-> yawBool.getValue() && dimension.getValue().equals("Custom"));
 
     public Setting<Boolean> pitchBool = new Setting<>("Pitch", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> pitchEnable = new Setting<>("EnablePitch", false, this).setVisibility(v-> pitchBool.getValue());
-    public Setting<Integer> pitch = new Setting<>("Value", 0, this, -90, 90).setVisibility(pv-> pitchBool.getValue());
+    public Setting<Boolean> pitchEnable = new Setting<>("EnablePitch", false, this).setVisibility(()-> pitchBool.getValue());
+    public Setting<Integer> pitch = new Setting<>("Value", 0, this, -90, 90).setVisibility(()-> pitchBool.getValue());
 
 
     @Subscribe

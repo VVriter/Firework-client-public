@@ -28,10 +28,10 @@ public class Gui extends Module {
         enabled = this.isEnabled;
         scrollSpeed = new Setting<>("ScrollSpeed", 50d, this, 0.1, 50);
         mode = new Setting<>("Mode", modes.Gradient, this);
-        Romeo = new Setting<>("Romeo", new HSLColor(271, 72, 61), this).setVisibility(v-> mode.getValue(modes.Gradient));
-        Juliet = new Setting<>("Juliet", new HSLColor(321, 72, 61), this).setVisibility(v-> mode.getValue(modes.Gradient));
+        Romeo = new Setting<>("Romeo", new HSLColor(271, 72, 61), this).setVisibility(()-> mode.getValue(modes.Gradient));
+        Juliet = new Setting<>("Juliet", new HSLColor(321, 72, 61), this).setVisibility(()-> mode.getValue(modes.Gradient));
 
-        Color = new Setting<>("Color", new HSLColor(271, 72, 61), this).setVisibility(v-> mode.getValue(modes.Single));
+        Color = new Setting<>("Color", new HSLColor(271, 72, 61), this).setVisibility(()-> mode.getValue(modes.Single));
     }
 
 

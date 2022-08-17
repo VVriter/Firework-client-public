@@ -48,8 +48,8 @@ public class NoSlow extends Module {
         enabled = this.isEnabled;
        // inVmove = new Setting<>("InventoryMove", true, this);
         blocks = new Setting<>("Blocks", false, this).setMode(Setting.Mode.SUB);
-        soulSand = new Setting<>("SoulSand", true, this).setVisibility(v-> blocks.getValue());
-        slimes = new Setting<>("Slimes", true, this).setVisibility(v-> blocks.getValue());
+        soulSand = new Setting<>("SoulSand", true, this).setVisibility(()-> blocks.getValue());
+        slimes = new Setting<>("Slimes", true, this).setVisibility(()-> blocks.getValue());
     }
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {

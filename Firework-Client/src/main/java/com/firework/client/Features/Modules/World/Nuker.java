@@ -26,10 +26,10 @@ public class Nuker extends Module {
     public Setting<Double> range = new Setting<>("Range", (double)3, this, 1, 6);
     public Setting<Double> delay = new Setting<>("Delay", (double)120, this, 1, 1000);
     public Setting<Boolean> blockBreaker = new Setting<>("BlockBreaker", false, this).setMode(Setting.Mode.SUB);
-    public Setting<BlockBreaker.mineModes> switchMode = new Setting<>("MineMode", BlockBreaker.mineModes.Classic, this).setVisibility(v-> blockBreaker.getValue());
-    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> blockBreaker.getValue());
-    public Setting<Boolean> raytrace = new Setting<>("Rotate", true, this).setVisibility(v-> blockBreaker.getValue());
-    public Setting<Boolean> swing = new Setting<>("Swing", true, this).setVisibility(v-> blockBreaker.getValue());
+    public Setting<BlockBreaker.mineModes> switchMode = new Setting<>("MineMode", BlockBreaker.mineModes.Classic, this).setVisibility(()-> blockBreaker.getValue());
+    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(()-> blockBreaker.getValue());
+    public Setting<Boolean> raytrace = new Setting<>("Rotate", true, this).setVisibility(()-> blockBreaker.getValue());
+    public Setting<Boolean> swing = new Setting<>("Swing", true, this).setVisibility(()-> blockBreaker.getValue());
     BlockBreaker breaker;
     Timer timer = new Timer();
 

@@ -35,16 +35,16 @@ import ua.firework.beet.Subscribe;
 public class Burrow extends Module {
 
     public Setting<Boolean> main = new Setting<>("Main", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> autoCenter = new Setting<>("AutoCenter", true, this).setVisibility(v-> main.getValue());
-    public Setting<MotionUtil.centerModes> centerMode = new Setting<>("Mode", MotionUtil.centerModes.Motion, this).setVisibility(v-> main.getValue());
-    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> main.getValue());
-    public Setting<Boolean> swing = new Setting<>("Swing", true, this).setVisibility(v-> main.getValue());
-    public Setting<Boolean> strict = new Setting<>("Bypass", true, this).setVisibility(v-> main.getValue());
+    public Setting<Boolean> autoCenter = new Setting<>("AutoCenter", true, this).setVisibility(()-> main.getValue());
+    public Setting<MotionUtil.centerModes> centerMode = new Setting<>("Mode", MotionUtil.centerModes.Motion, this).setVisibility(()-> main.getValue());
+    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(()-> main.getValue());
+    public Setting<Boolean> swing = new Setting<>("Swing", true, this).setVisibility(()-> main.getValue());
+    public Setting<Boolean> strict = new Setting<>("Bypass", true, this).setVisibility(()-> main.getValue());
 
 
     public Setting<Boolean> blocks = new Setting<>("Blocks", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> skulls = new Setting<>("Skulls", true, this).setVisibility(v-> blocks.getValue());
-    public Setting<Boolean> onlyEChest = new Setting<>("EChestOnly", false, this).setVisibility(v-> blocks.getValue());
+    public Setting<Boolean> skulls = new Setting<>("Skulls", true, this).setVisibility(()-> blocks.getValue());
+    public Setting<Boolean> onlyEChest = new Setting<>("EChestOnly", false, this).setVisibility(()-> blocks.getValue());
 
 
     private State state = State.WAITING;

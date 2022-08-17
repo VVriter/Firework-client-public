@@ -27,20 +27,20 @@ public class ElytraFly extends Module {
     }
 
     //Controll Shit
-    public Setting<Double> VerticalSpeed = new Setting<>("VerticalSpeed", (double)3, this, 1, 20).setVisibility(v-> mode.getValue(modes.Control));
-    public Setting<Double> UpSpeed = new Setting<>("UpSpeed", (double)0.5, this, 1, 2).setVisibility(v-> mode.getValue(modes.Control));
-    public Setting<Double> DownSpeed = new Setting<>("DownSpeed", (double)0.5, this, 1, 2).setVisibility(v-> mode.getValue(modes.Control));
+    public Setting<Double> VerticalSpeed = new Setting<>("VerticalSpeed", (double)3, this, 1, 20).setVisibility(()-> mode.getValue(modes.Control));
+    public Setting<Double> UpSpeed = new Setting<>("UpSpeed", (double)0.5, this, 1, 2).setVisibility(()-> mode.getValue(modes.Control));
+    public Setting<Double> DownSpeed = new Setting<>("DownSpeed", (double)0.5, this, 1, 2).setVisibility(()-> mode.getValue(modes.Control));
 
-    public Setting<Boolean> yawControl = new Setting<>("YawControl", true, this).setVisibility(v-> mode.getValue(modes.Control));
+    public Setting<Boolean> yawControl = new Setting<>("YawControl", true, this).setVisibility(()-> mode.getValue(modes.Control));
 
-    public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this).setVisibility(v-> mode.getValue(modes.Firework));
-    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(v-> mode.getValue(modes.Firework));
-    public Setting<Double> delay = new Setting<>("UseDelay", (double)500, this, 1, 3000).setVisibility(v-> mode.getValue(modes.Firework));
-    public Setting<Boolean> autostart = new Setting<>("Autostart", false, this).setMode(Setting.Mode.SUB).setVisibility(v-> mode.getValue(modes.Firework));
+    public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this).setVisibility(()-> mode.getValue(modes.Firework));
+    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(()-> mode.getValue(modes.Firework));
+    public Setting<Double> delay = new Setting<>("UseDelay", (double)500, this, 1, 3000).setVisibility(()-> mode.getValue(modes.Firework));
+    public Setting<Boolean> autostart = new Setting<>("Autostart", false, this).setMode(Setting.Mode.SUB).setVisibility(()-> mode.getValue(modes.Firework));
 
-    public Setting<Boolean> enableAutostart = new Setting<>("EnableAutostart", true, this).setVisibility(v-> autostart.getValue() && mode.getValue(modes.Firework));
-    public Setting<Boolean> jump = new Setting<>("Jump", true, this).setVisibility(v-> autostart.getValue() && mode.getValue(modes.Firework));
-    public Setting<Boolean> useTimer = new Setting<>("UseTimer", true, this).setVisibility(v-> autostart.getValue() && mode.getValue(modes.Firework));
+    public Setting<Boolean> enableAutostart = new Setting<>("EnableAutostart", true, this).setVisibility(()-> autostart.getValue() && mode.getValue(modes.Firework));
+    public Setting<Boolean> jump = new Setting<>("Jump", true, this).setVisibility(()-> autostart.getValue() && mode.getValue(modes.Firework));
+    public Setting<Boolean> useTimer = new Setting<>("UseTimer", true, this).setVisibility(()-> autostart.getValue() && mode.getValue(modes.Firework));
 
     float defaultTickLeght;
     ItemUser user;

@@ -47,7 +47,7 @@ public class Surround extends Module {
     }
 
     private Setting<Boolean> shouldCenter = new Setting<>("Center", true, this);
-    private Setting<MotionUtil.centerModes> centerMode = new Setting<>("CMode", MotionUtil.centerModes.Motion, this).setVisibility(v-> shouldCenter.getValue(true));
+    private Setting<MotionUtil.centerModes> centerMode = new Setting<>("CMode", MotionUtil.centerModes.Motion, this).setVisibility(()-> shouldCenter.getValue(true));
 
     private Setting<Boolean> shouldToggle = new Setting<>("ShouldToggle", false, this);
     private Setting<Integer> placeDelay = new Setting<>("PlaceDelayMs", 0, this, 0, 100);

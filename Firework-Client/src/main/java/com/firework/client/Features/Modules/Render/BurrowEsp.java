@@ -36,27 +36,27 @@ public class BurrowEsp extends Module {
     
     public Setting<Boolean> burrowSubBool = new Setting<>("General", false, this).setMode(Setting.Mode.SUB);
 
-    public Setting<Double> range = new Setting<>("Range", (double)40, this, 1, 100).setVisibility(v-> burrowSubBool.getValue());
-    public Setting<Boolean> self = new Setting<>("Self Too", true, this).setVisibility(v-> burrowSubBool.getValue());
+    public Setting<Double> range = new Setting<>("Range", (double)40, this, 1, 100).setVisibility(()-> burrowSubBool.getValue());
+    public Setting<Boolean> self = new Setting<>("Self Too", true, this).setVisibility(()-> burrowSubBool.getValue());
 
     ArrayList<BlockPos> burrowsList = new ArrayList<>();
     PosRenderer burrowPosRenderer;
 
     public Setting<Boolean> render = new Setting<>("Render", false, this).setMode(Setting.Mode.SUB);
-    public Setting<PosRenderer.boxeMode> boxMode = new Setting<>("Box", PosRenderer.boxeMode.Normal, this).setVisibility(v->  render.getValue());
-    public Setting<HSLColor> fillColor = new Setting<>("FillColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  render.getValue());
-    public Setting<Double> boxHeightNormal = new Setting<>("BoxHeight", (double)1, this, -0.3, 5).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Normal) &&  render.getValue());
-    public Setting<HSLColor> fillColor1 = new Setting<>("StartColor", new HSLColor(100, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  render.getValue());
-    public Setting<HSLColor> fillColor2 = new Setting<>("EndColor", new HSLColor(200, 54, 43), this).setVisibility(v-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  render.getValue());
+    public Setting<PosRenderer.boxeMode> boxMode = new Setting<>("Box", PosRenderer.boxeMode.Normal, this).setVisibility(()->  render.getValue());
+    public Setting<HSLColor> fillColor = new Setting<>("FillColor", new HSLColor(100, 54, 43), this).setVisibility(()-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  render.getValue());
+    public Setting<Double> boxHeightNormal = new Setting<>("BoxHeight", (double)1, this, -0.3, 5).setVisibility(()-> boxMode.getValue(PosRenderer.boxeMode.Normal) &&  render.getValue());
+    public Setting<HSLColor> fillColor1 = new Setting<>("StartColor", new HSLColor(100, 54, 43), this).setVisibility(()-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  render.getValue());
+    public Setting<HSLColor> fillColor2 = new Setting<>("EndColor", new HSLColor(200, 54, 43), this).setVisibility(()-> boxMode.getValue(PosRenderer.boxeMode.Gradient) &&  render.getValue());
 
 
 
-    public Setting<PosRenderer.outlineModes> outlineMode = new Setting<>("Outline", PosRenderer.outlineModes.Gradient, this).setVisibility(v->  render.getValue());
-    public Setting<HSLColor> gradientOutlineColor1 = new Setting<>("FirstColor", new HSLColor(1, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && render.getValue());
-    public Setting<HSLColor> gradientOutlineColor2 = new Setting<>("SecondColor", new HSLColor(200, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && render.getValue());
-    public Setting<HSLColor> colorOutline = new Setting<>("ColorOutline", new HSLColor(200, 54, 43), this).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && render.getValue());
-    public Setting<Double> outlineHeightNormal = new Setting<>("OutlineHeight", (double)1, this, -0.3, 5).setVisibility(v->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && render.getValue());
-    public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(v->  !outlineMode.getValue(PosRenderer.outlineModes.None) && render.getValue());
+    public Setting<PosRenderer.outlineModes> outlineMode = new Setting<>("Outline", PosRenderer.outlineModes.Gradient, this).setVisibility(()->  render.getValue());
+    public Setting<HSLColor> gradientOutlineColor1 = new Setting<>("FirstColor", new HSLColor(1, 54, 43), this).setVisibility(()->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && render.getValue());
+    public Setting<HSLColor> gradientOutlineColor2 = new Setting<>("SecondColor", new HSLColor(200, 54, 43), this).setVisibility(()->  outlineMode.getValue(PosRenderer.outlineModes.Gradient) && render.getValue());
+    public Setting<HSLColor> colorOutline = new Setting<>("ColorOutline", new HSLColor(200, 54, 43), this).setVisibility(()->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && render.getValue());
+    public Setting<Double> outlineHeightNormal = new Setting<>("OutlineHeight", (double)1, this, -0.3, 5).setVisibility(()->  outlineMode.getValue(PosRenderer.outlineModes.Normal) && render.getValue());
+    public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 3, this, 1, 10).setVisibility(()->  !outlineMode.getValue(PosRenderer.outlineModes.None) && render.getValue());
 
     @Subscribe
     public Listener<Render3dE> renderer = new Listener<>(e-> {

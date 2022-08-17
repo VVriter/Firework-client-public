@@ -52,32 +52,32 @@ public class AutoCrystalRewrite extends Module {
     //Interaction && Sync
     public Setting<Boolean> interaction = new Setting<>("Interaction", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> autoSwitch = new Setting<>("AutoSwitch", true, this)
-            .setVisibility(v-> interaction.getValue());
+            .setVisibility(()-> interaction.getValue());
 
     public Setting<Boolean> facing = new Setting<>("Facings", true, this)
-            .setVisibility(v-> interaction.getValue());
+            .setVisibility(()-> interaction.getValue());
 
     //Swing
     public Setting<Boolean> shouldSwing = new Setting<>("Swing", true, this)
-            .setVisibility(v-> interaction.getValue());
+            .setVisibility(()-> interaction.getValue());
     public Setting<swing> swingMode = new Setting<>("SwingMode", swing.Both, this)
-            .setVisibility(v-> interaction.getValue());
+            .setVisibility(()-> interaction.getValue());
     public enum swing{
         Main, Off, Both, Packet
     }
 
     //Blow
     public Setting<blow> blowMode = new Setting<>("Blow", blow.Controller, this)
-            .setVisibility(v-> interaction.getValue());
+            .setVisibility(()-> interaction.getValue());
 
     public enum blow{
         Packet, Controller
     }
     public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", false, this)
-            .setVisibility(v-> interaction.getValue());
+            .setVisibility(()-> interaction.getValue());
 
     public Setting<Boolean> sync = new Setting<>("Sync", true, this)
-            .setVisibility(v-> interaction.getValue());
+            .setVisibility(()-> interaction.getValue());
 
 
     //Rotations
@@ -85,41 +85,41 @@ public class AutoCrystalRewrite extends Module {
             .setMode(Setting.Mode.SUB);
 
     public Setting<rotateMode> rotation = new Setting<>("Rotation", rotateMode.YawStep, this)
-            .setVisibility(v-> rotate.getValue());
+            .setVisibility(()-> rotate.getValue());
     public enum rotateMode{
         YawStep, Instant
     }
     public Setting<Double> yawStepSpeed = new Setting<>("Speed", 0.5, this, 0, 1)
-            .setVisibility(v-> rotate.getValue() && rotation.getValue(rotateMode.YawStep));
+            .setVisibility(()-> rotate.getValue() && rotation.getValue(rotateMode.YawStep));
 
     //FacePlace / FaceBreak
     public Setting<Boolean> facePlBr = new Setting<>("FacePlace/Break", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> facePlace = new Setting<>("FacePlace", false, this)
-            .setVisibility(v-> facePlBr.getValue());
+            .setVisibility(()-> facePlBr.getValue());
     public Setting<Boolean> faceBreak = new Setting<>("FaceBreak", false, this)
-            .setVisibility(v-> facePlBr.getValue());
+            .setVisibility(()-> facePlBr.getValue());
     public Setting<Integer> targetHealth = new Setting<>("MinTargetHealth", 12, this, 0, 36)
-            .setVisibility(v-> facePlBr.getValue() && facePlace.getValue());
+            .setVisibility(()-> facePlBr.getValue() && facePlace.getValue());
 
     //Ranges
     public Setting<Boolean> ranges = new Setting<>("Ranges", false, this).setMode(Setting.Mode.SUB);
     public Setting<Integer> targetRange = new Setting<>("TargetRange", 5, this, 0, 10)
-            .setVisibility(v-> ranges.getValue());
+            .setVisibility(() -> ranges.getValue());
     public Setting<Integer> placeRange = new Setting<>("PlaceRange", 5, this, 0, 6)
-            .setVisibility(v-> ranges.getValue());
+            .setVisibility(()-> ranges.getValue());
     public Setting<Integer> placeWallRange = new Setting<>("PlaceWallRange", 5, this, 0, 6)
-            .setVisibility(v-> ranges.getValue());
+            .setVisibility(()-> ranges.getValue());
     public Setting<Integer> breakRange = new Setting<>("BreakRange", 5, this, 0, 6)
-            .setVisibility(v-> ranges.getValue());
+            .setVisibility(()-> ranges.getValue());
     public Setting<Integer> breakWallRange = new Setting<>("BreakWallRange", 5, this, 0, 6)
-            .setVisibility(v-> ranges.getValue());
+            .setVisibility(()-> ranges.getValue());
 
     //Damages
     public Setting<Boolean> damages = new Setting<>("Damages", false, this).setMode(Setting.Mode.SUB);
     public Setting<Integer> maxSelfDmg = new Setting<>("MaxSelfDmg", 15, this, 0, 36)
-            .setVisibility(v-> damages.getValue());
+            .setVisibility(()-> damages.getValue());
     public Setting<Integer> minTargetDmg = new Setting<>("MinTargetDmg", 1, this, 0, 36)
-            .setVisibility(v-> damages.getValue());
+            .setVisibility(()-> damages.getValue());
 
     //Delays
     public Setting<Integer> placeDelay = new Setting<>("PlaceTicks", 5, this, 0, 10);
@@ -128,7 +128,7 @@ public class AutoCrystalRewrite extends Module {
     //Stuff
     public Setting<Boolean> noSuicide = new Setting<>("NoSuicide", true, this);
     public Setting<Integer> noSuicidePlHealth = new Setting<>("SelfHealth", 10, this, 0, 36)
-            .setVisibility(v-> noSuicide.getValue());
+            .setVisibility(()-> noSuicide.getValue());
     public Setting<Boolean> pauseWhileEating = new Setting<>("PauseWhileEating", true, this);
     public Setting<Boolean> pauseWhileDigging = new Setting<>("PauseWhileDigging", true, this);
 

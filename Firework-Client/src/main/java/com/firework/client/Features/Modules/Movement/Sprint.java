@@ -23,7 +23,7 @@ public class Sprint extends Module {
     }
 
     public Setting<String> mode = new Setting<>("Mode", "Legit", this, Arrays.asList("Legit", "Multi"));
-    public Setting<Boolean> autoYaw = new Setting<>("AutoYaw", true, this).setVisibility(v-> mode.getValue().equals("Multi"));
+    public Setting<Boolean> autoYaw = new Setting<>("AutoYaw", true, this).setVisibility(()-> mode.getValue().equals("Multi"));
     @Subscribe
     public Listener<UpdateWalkingPlayerEvent> listener1 = new Listener<>(event -> {
         if (mode.getValue().equals("Legit")) {

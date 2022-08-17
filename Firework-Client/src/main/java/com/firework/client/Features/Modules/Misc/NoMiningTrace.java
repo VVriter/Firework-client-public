@@ -18,8 +18,8 @@ public class NoMiningTrace extends Module {
 
     public Setting<Mode> mode = new Setting<>("Mode", Mode.Always, this);
     public enum Mode{ Always, Only }
-    public Setting<Boolean> pic = new Setting<>("Pickaxe", true, this).setVisibility(v-> mode.getValue(Mode.Only));
-    public Setting<Boolean> gap = new Setting<>("Gapple", true, this).setVisibility(v-> mode.getValue(Mode.Only));
+    public Setting<Boolean> pic = new Setting<>("Pickaxe", true, this).setVisibility(()-> mode.getValue(Mode.Only));
+    public Setting<Boolean> gap = new Setting<>("Gapple", true, this).setVisibility(()-> mode.getValue(Mode.Only));
 
 
     @Subscribe

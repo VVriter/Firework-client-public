@@ -32,8 +32,8 @@ public class Chams extends Module {
     public Setting<Boolean> crystals = new Setting<>("Crystals", true, this);
 
     public Setting<Boolean> outline = new Setting<>("Outline", true, this);
-    public Setting<HSLColor> outlineColor = new Setting<>("OutlineColor", new HSLColor(178, 50, 50), this).setVisibility(v-> outline.getValue());
-    public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 1, this, 1, 10).setVisibility(v-> outline.getValue());
+    public Setting<HSLColor> outlineColor = new Setting<>("OutlineColor", new HSLColor(178, 50, 50), this).setVisibility(()-> outline.getValue());
+    public Setting<Integer> outlineWidth = new Setting<>("OutlineWidth", 1, this, 1, 10).setVisibility(()-> outline.getValue());
 
     public Setting<Boolean> fill = new Setting<>("Fill", true, this);
     public Setting<HSLColor> fillColor = new Setting<>("FillColor", new HSLColor(34, 50, 50), this);

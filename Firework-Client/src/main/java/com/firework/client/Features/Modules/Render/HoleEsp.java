@@ -28,24 +28,24 @@ public class HoleEsp extends Module {
     public Setting<Integer> range = new Setting<>("Range", 10, this, 1, 30);
     public Setting<Double> height = new Setting<>("Height", (double)0.1, this, 0, 1);
     public Setting<Boolean> outlineSubBool = new Setting<>("Outline", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> outlineEnable = new Setting<>("OutlineEnable", true, this).setVisibility(v-> outlineSubBool.getValue());
-    public Setting<Double> outlineThickness = new Setting<>("OutlineThickness", (double)3, this, 1, 10).setVisibility(v-> outlineSubBool.getValue());
-    public Setting<HSLColor> outlineBedrockStartColor = new Setting<>("BedrockStartColor", new HSLColor(1, 54, 43), this).setVisibility(v-> outlineSubBool.getValue());
-    public Setting<HSLColor> outlineBedrockEndColor = new Setting<>("BedrockEndColor", new HSLColor(50, 54, 43), this).setVisibility(v-> outlineSubBool.getValue());
-    public Setting<HSLColor> outlineObsidianStartColor = new Setting<>("ObsidianStartColor", new HSLColor(100, 54, 43), this).setVisibility(v-> outlineSubBool.getValue());
-    public Setting<HSLColor> outlineObsidianEndColor = new Setting<>("ObsidianEndColor", new HSLColor(150, 54, 43), this).setVisibility(v-> outlineSubBool.getValue());
+    public Setting<Boolean> outlineEnable = new Setting<>("OutlineEnable", true, this).setVisibility(()-> outlineSubBool.getValue());
+    public Setting<Double> outlineThickness = new Setting<>("OutlineThickness", (double)3, this, 1, 10).setVisibility(()-> outlineSubBool.getValue());
+    public Setting<HSLColor> outlineBedrockStartColor = new Setting<>("BedrockStartColor", new HSLColor(1, 54, 43), this).setVisibility(()-> outlineSubBool.getValue());
+    public Setting<HSLColor> outlineBedrockEndColor = new Setting<>("BedrockEndColor", new HSLColor(50, 54, 43), this).setVisibility(()-> outlineSubBool.getValue());
+    public Setting<HSLColor> outlineObsidianStartColor = new Setting<>("ObsidianStartColor", new HSLColor(100, 54, 43), this).setVisibility(()-> outlineSubBool.getValue());
+    public Setting<HSLColor> outlineObsidianEndColor = new Setting<>("ObsidianEndColor", new HSLColor(150, 54, 43), this).setVisibility(()-> outlineSubBool.getValue());
 
     public Setting<Boolean> glowSubBool = new Setting<>("Glow", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> enableGlow = new Setting<>("EnableGlow", true, this).setVisibility(v-> glowSubBool.getValue());
-    public Setting<GlowMode> glowMode = new Setting<>("GlowMode", GlowMode.Down, this).setVisibility(v-> glowSubBool.getValue());
+    public Setting<Boolean> enableGlow = new Setting<>("EnableGlow", true, this).setVisibility(()-> glowSubBool.getValue());
+    public Setting<GlowMode> glowMode = new Setting<>("GlowMode", GlowMode.Down, this).setVisibility(()-> glowSubBool.getValue());
     public enum GlowMode{ Up, Down }
-    public Setting<HSLColor> glowBedrockColor = new Setting<>("GlowBedrockColor", new HSLColor(1, 54, 43), this).setVisibility(v-> glowSubBool.getValue());
-    public Setting<HSLColor> glowObsidianColor = new Setting<>("GlowObsidianColor", new HSLColor(50, 54, 43), this).setVisibility(v-> glowSubBool.getValue());
+    public Setting<HSLColor> glowBedrockColor = new Setting<>("GlowBedrockColor", new HSLColor(1, 54, 43), this).setVisibility(()-> glowSubBool.getValue());
+    public Setting<HSLColor> glowObsidianColor = new Setting<>("GlowObsidianColor", new HSLColor(50, 54, 43), this).setVisibility(()-> glowSubBool.getValue());
 
 
     public Setting<Boolean> colors = new Setting<>("Colors", false, this).setMode(Setting.Mode.SUB);
-    public Setting<HSLColor> fillColorBedrock = new Setting<>("FillColorBedrock", new HSLColor(1, 54, 43), this).setVisibility(v-> colors.getValue());
-    public Setting<HSLColor> fillColorObsidian = new Setting<>("FillColorObsidian", new HSLColor(50, 54, 43), this).setVisibility(v-> colors.getValue());
+    public Setting<HSLColor> fillColorBedrock = new Setting<>("FillColorBedrock", new HSLColor(1, 54, 43), this).setVisibility(()-> colors.getValue());
+    public Setting<HSLColor> fillColorObsidian = new Setting<>("FillColorObsidian", new HSLColor(50, 54, 43), this).setVisibility(()-> colors.getValue());
 
     @Subscribe
     public Listener<Render3dE> listener2 = new Listener<>(event -> {

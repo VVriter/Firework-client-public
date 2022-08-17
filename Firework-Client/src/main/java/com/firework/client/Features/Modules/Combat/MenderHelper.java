@@ -28,14 +28,14 @@ public class MenderHelper extends Module {
         Auto, CustomBind
     }
 
-    public Setting<Integer> key = new Setting<>("CustomBind", Keyboard.KEY_NONE, this).setVisibility(v-> menderMode.getValue(mendMode.CustomBind));
-    public Setting<Integer> armourPercent = new Setting<>("ArmourPercent", 0, this, 0, 100).setVisibility(v-> menderMode.getValue(mendMode.Auto) && armour.getValue());
-    public Setting<Integer> toolsPercent = new Setting<>("ToolsPercent", 0, this, 0, 100).setVisibility(v-> menderMode.getValue(mendMode.Auto) && tools.getValue());
+    public Setting<Integer> key = new Setting<>("CustomBind", Keyboard.KEY_NONE, this).setVisibility(()-> menderMode.getValue(mendMode.CustomBind));
+    public Setting<Integer> armourPercent = new Setting<>("ArmourPercent", 0, this, 0, 100).setVisibility(()-> menderMode.getValue(mendMode.Auto) && armour.getValue());
+    public Setting<Integer> toolsPercent = new Setting<>("ToolsPercent", 0, this, 0, 100).setVisibility(()-> menderMode.getValue(mendMode.Auto) && tools.getValue());
 
     public Setting<Integer> delay = new Setting<>("Delay", 1, this, 1, 20);
     public Setting<ItemUser.switchModes> switchMode = new Setting<>("SwitchMode", ItemUser.switchModes.Silent, this);
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this);
-    public Setting<Integer> lookPitch = new Setting<>("Pitch", 90, this, 1, 90).setVisibility(v-> rotate.getValue());
+    public Setting<Integer> lookPitch = new Setting<>("Pitch", 90, this, 1, 90).setVisibility(()-> rotate.getValue());
 
     LinkedList<Integer> armorSlotsToMend;
     LinkedList<Integer> toolsSlotsToMend;
