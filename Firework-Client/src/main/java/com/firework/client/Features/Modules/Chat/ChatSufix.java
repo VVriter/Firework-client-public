@@ -22,7 +22,19 @@ public class ChatSufix extends Module {
     public ChatSufix() {
         enabled = this.isEnabled;
     }
-    String append = " | FIREWORK";
+    String append;
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        append = " | FIREWORK";
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        append = null;
+    }
 
     @Subscribe(priority = Listener.Priority.HIGH)
     public Listener<ChatSendE> listener = new Listener<>(e-> {

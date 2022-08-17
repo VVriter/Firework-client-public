@@ -1,8 +1,10 @@
 package com.firework.client.Features.Modules;
 
+import com.firework.client.Features.CommandsSystem.CommandManager;
 import com.firework.client.Features.Modules.Client.Logger;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Settings.Setting;
+import com.firework.client.Implementations.Utill.Chat.MessageUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import org.lwjgl.input.Keyboard;
