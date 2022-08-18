@@ -12,7 +12,7 @@ import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Entity.CrystalUtils;
-import com.firework.client.Implementations.Utill.Entity.TargetUtil;
+import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.Render.RenderEntityUtils;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.RotationUtil;
@@ -43,6 +43,7 @@ public class CAura extends Module {
 
     public Setting<Double> targetRange = new Setting<>("TargetRange", (double)4, this, 1, 6);
     public Setting<Integer> attackRange = new Setting<>("AttackRange", 3, this, 1, 6);
+    public Setting<Integer> attackWallRange = new Setting<>("AttackWallRange", 3, this, 1, 6);
 
     public Setting<Hand> hand = new Setting<>("Hand", Hand.Main, this);
     public enum Hand{
@@ -55,6 +56,7 @@ public class CAura extends Module {
     }
     public Setting<Boolean> placeSubBool = new Setting<>("Place", false, this).setMode(Setting.Mode.SUB);
     public Setting<Integer> placeDelay= new Setting<>("PlaceDelay", 200, this, 1, 1000).setVisibility(()-> placeSubBool.getValue());
+    public Setting<Boolean> facing = new Setting<>("Facing", true, this).setVisibility(()-> placeSubBool.getValue());
     public Setting<Boolean> swing = new Setting<>("Swing", true, this).setVisibility(()-> placeSubBool.getValue());
     public Setting<Boolean> exactHand = new Setting<>("ExactHand", true, this).setVisibility(()-> placeSubBool.getValue());
     public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(()-> placeSubBool.getValue());
@@ -70,10 +72,14 @@ public class CAura extends Module {
     public Setting<Boolean> pauseSubBool = new Setting<>("Pause", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> pauseWhileEating = new Setting<>("Eating", true, this).setVisibility(()-> pauseSubBool.getValue());
     public Setting<Boolean> pauseWhileDigging = new Setting<>("Digging", true, this).setVisibility(()-> pauseSubBool.getValue());
+
+    public Setting<Boolean> noSuicideSubBool = new Setting<>("NoSuicide", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> EnableNoSuicide = new Setting<>("EnableNoSuicide", true, this);
+    public Setting<Double> suicideHealth = new Setting<>("Health", (double)3, this, 1, 25).setVisibility(()-> noSuicideSubBool.getValue() && EnableNoSuicide.getValue());
     public Setting<Boolean> damagesSubBool = new Setting<>("Damages", false, this).setMode(Setting.Mode.SUB);
     public Setting<Double> minTargetDmg = new Setting<>("MinTargetDmg", (double)1, this, 1, 26).setVisibility(()-> damagesSubBool.getValue());
     public Setting<Double> maxSelfDmg = new Setting<>("MaxSelfDmg", (double)15, this, 1, 26).setVisibility(()-> damagesSubBool.getValue());
-    Entity target;
+    EntityPlayer target;
     BlockPos posToPlace;
     Vec3d posToRotate;
 
@@ -99,7 +105,8 @@ public class CAura extends Module {
 
         @Subscribe
         public Listener<UpdateWalkingPlayerEvent> eventListener = new Listener<>(e-> {
-            target = TargetUtil.getClosest(true,false,false,false,false, targetRange.getValue());
+            //target = TargetUtil.getClosest(true,false,false,false,false, targetRange.getValue());
+            target = PlayerUtil.getClosestTarget(targetRange.getValue());
             if (target == null) return;
             if (needToPause()) return;
 
@@ -109,24 +116,26 @@ public class CAura extends Module {
             posToRotate = new Vec3d(posToPlace.getX(), posToPlace.getY(), posToPlace.getZ());
 
             for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(posToPlace.add(0, 1, 0)))) {
-                if (!entity.isDead && entity instanceof EntityEnderCrystal ) {
-                    if (breakTimer.hasPassedMs(breakDelay.getValue())) {
-                        switch (breakMode.getValue()) {
-                            case Controller:
-                                Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().player, entity);
-                                Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
-                                breakTimer.reset();
-                                break;
-                            case Packet:
-                                mc.player.connection.sendPacket(new CPacketUseEntity(entity));
-                                breakTimer.reset();
-                                break;
+                if (!entity.isDead && entity instanceof EntityEnderCrystal) {
+                    if (isValidCrystal((EntityEnderCrystal) entity)) {
+                        if (breakTimer.hasPassedMs(breakDelay.getValue())) {
+                            switch (breakMode.getValue()) {
+                                case Controller:
+                                    Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().player, entity);
+                                    Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
+                                    breakTimer.reset();
+                                    break;
+                                case Packet:
+                                    mc.player.connection.sendPacket(new CPacketUseEntity(entity));
+                                    breakTimer.reset();
+                                    break;
+                            }
                         }
                     }
                 }
             }
 
-            if (CrystalUtils.canPlaceCrystal(posToPlace)){
+            if (isValidBlockPos(posToPlace) ){
                 if (placeTimer.hasPassedMs(placeDelay.getValue())) {
                     switch (hand.getValue()) {
                         case Main:
@@ -187,5 +196,61 @@ public class CAura extends Module {
             return true;
 
         return false;
+    }
+
+
+    boolean isValidCrystal(EntityEnderCrystal crystal){
+
+        //IsNull and IsDead check
+        if(crystal == null || crystal.isDead)
+            return false;
+
+        //Distance check
+        if(crystal.getDistance(mc.player) > (mc.player.canEntityBeSeen(crystal) ? attackRange.getValue() : attackWallRange.getValue()))
+            return false;
+
+        //Max Self && Min Target check
+        if(CrystalUtils.calculateDamage(crystal, mc.player) > maxSelfDmg.getValue() || CrystalUtils.calculateDamage(crystal, target) < minTargetDmg.getValue())
+            return false;
+
+       /* //Face break check
+        if(faceBreak.getValue() && (target.getPosition().getY()+1 == crystal.getPosition().getY()) && (target.getHealth() + target.getAbsorptionAmount() > targetHealth.getValue()))
+            return false; */
+
+        //No suicide check
+        if(EnableNoSuicide.getValue() && mc.player.getHealth() + mc.player.getAbsorptionAmount() - CrystalUtils.calculateDamage(crystal, mc.player) < suicideHealth.getValue())
+            return false;
+
+        //We passed all check so crystal is valid
+        return true;
+    }
+
+    boolean isValidBlockPos(BlockPos pos){
+        //IsNull check
+        if(pos == null)
+            return false;
+
+        //Can place crystal
+        if(!CrystalUtils.canPlaceCrystal(pos))
+            return false;
+
+    /*    //Predict face check
+        if(facing.getValue() && BlockUtil.getFacingToClick(pos) == null)
+            return false; */
+
+        //Distance check
+        if(mc.player.getDistanceSq(pos) > (PlayerUtil.canSeeBlock(pos) ? attackRange.getValue()*attackRange.getValue() : attackWallRange.getValue()*attackWallRange.getValue()))
+            return false;
+
+        //Min self damage && Max target damage
+        if(CrystalUtils.calculateDamage(pos, mc.player) > maxSelfDmg.getValue() || CrystalUtils.calculateDamage(pos, target) < minTargetDmg.getValue())
+            return false;
+
+        //No suicide check
+        if(EnableNoSuicide.getValue() && mc.player.getHealth() + mc.player.getAbsorptionAmount() - CrystalUtils.calculateDamage(pos, mc.player) < suicideHealth.getValue())
+            return false;
+
+        //We passed all check so pos is valid
+        return true;
     }
 }
