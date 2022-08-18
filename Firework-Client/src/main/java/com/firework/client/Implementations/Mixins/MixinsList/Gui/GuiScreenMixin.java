@@ -81,7 +81,12 @@ public abstract class GuiScreenMixin {
                         int iX = x + i % 9 * 16 + 11;
                         int iY = y + i / 9 * 16 - 11 + 8;
                         ItemStack itemStack = (ItemStack) nonnulllist.get(i);
-                        RenderUtils2D.renderItemStack(itemStack, new Point(iX + 3, iY + 2), String.valueOf(itemStack.getCount()));
+
+                        if (itemStack.getCount() == 1) {
+                            RenderUtils2D.renderItemStack(itemStack, new Point(iX + 3, iY + 2), "");
+                        } else  {
+                            RenderUtils2D.renderItemStack(itemStack, new Point(iX + 3, iY + 2), String.valueOf(itemStack.getCount()));
+                        }
                     }
 
 
