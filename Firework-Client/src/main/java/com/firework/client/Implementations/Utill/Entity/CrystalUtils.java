@@ -88,7 +88,7 @@ public class CrystalUtils {
 
             if (floor == Blocks.AIR && ceil == Blocks.AIR) {
                 for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos.add(0, 1, 0)))) {
-                    if (!entity.isDead) {
+                    if (!entity.isDead && !(entity instanceof EntityEnderCrystal) ) {
                         return false;
                     }
                 }
