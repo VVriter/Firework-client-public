@@ -124,7 +124,7 @@ public class Firework
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)  {
-        AntiDump.check();
+       // AntiDump.check();
 
      /*   MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
         try {
@@ -137,23 +137,23 @@ public class Firework
         packetRender = new PacketRender();
         MinecraftForge.EVENT_BUS.register(new Loader());
         Logger.logAboutLoad();
-        AntiDump.check();
+        //AntiDump.check();
 
         FIREWORK_DIRECTORY = Minecraft.getMinecraft().gameDir+"/Firework/";
         InitAuth.initate();
         InitConfigs.initate();
-        AntiDump.check();
+        //AntiDump.check();
         Firework.setWindowIcon();
         MinecraftForge.EVENT_BUS.register(this);
         Display.setTitle("Loading Firework");
         loadManagers();
-        AntiDump.check();
+        //AntiDump.check();
     }
 
     public static Shaders shaders;
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        AntiDump.check();
+        //AntiDump.check();
         shaders = new Shaders( );
         //setSession(new Session("uraniumxyz", "uraniumxyz", "0", "legacy"));
         //Link to client
@@ -161,15 +161,15 @@ public class Firework
         AntiDump.check();
         //Sets custom window title when client is loading
         Display.setTitle("Loading Firework");
-        AntiDump.check();
+        //AntiDump.check();
         if(Client.enabled.getValue() && Client.loadedSound.getValue()) {
             //Plays firework sound when loading client
             SoundUtill.playSound(new ResourceLocation("firework/audio/loaded.wav"));
         }
-        AntiDump.check();
+      //  AntiDump.check();
         //Sets custom title when client is loaded Example: Firework | Player123
         Display.setTitle("Firework | "+ Minecraft.getMinecraft().getSession().getUsername()+"");
-        AntiDump.check();
+       // AntiDump.check();
     }
 
 

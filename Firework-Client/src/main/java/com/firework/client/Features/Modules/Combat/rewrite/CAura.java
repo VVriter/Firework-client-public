@@ -158,7 +158,8 @@ public class CAura extends Module {
                 case Instant:
                     //Rotations
                     float[] rotate = RotationUtil.getRotations(posToRotate);
-                    //RotationUtil.packetFacePitchAndYaw(rotate[1],rotate[0]);
+                    RotationUtil.packetFacePitchAndYaw(rotate[1],rotate[0]);
+                    e.setCancelled(true);
                     break;
                 case YawStep:
                     //Rotations
