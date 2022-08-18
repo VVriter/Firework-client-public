@@ -19,7 +19,6 @@ import com.firework.client.Implementations.Utill.Items.ItemUtil;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.BlockRenderBuilder;
 import com.firework.client.Implementations.Utill.Render.BlockRenderBuilder.RenderMode;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
-import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.TickTimer;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.block.Block;
@@ -44,7 +43,6 @@ import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @ModuleManifest(name = "AutoCrystalRewrite", category = Module.Category.COMBAT)
