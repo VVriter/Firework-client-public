@@ -67,6 +67,9 @@ public class CAura extends Module {
     public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", false, this).setVisibility(()-> breakSubBool.getValue());
     public Setting<Double> breakDelay= new Setting<>("BreakDelay", (double)200, this, 1, 1000).setVisibility(()-> breakSubBool.getValue());
     public Setting<Boolean> inhibit = new Setting<>("Inhibit", false, this).setVisibility(()-> breakSubBool.getValue());
+    public Setting<Double> startVal = new Setting<>("StartVal", (double)200, this, 1, 1000).setVisibility(()-> breakSubBool.getValue() && inhibit.getValue());
+    public Setting<Double> endVal = new Setting<>("EndVal", (double)400, this, 1, 1000).setVisibility(()-> breakSubBool.getValue() && inhibit.getValue());
+
     public Setting<BreakMode> breakMode = new Setting<>("Mode", BreakMode.Controller, this).setVisibility(()-> breakSubBool.getValue());
     public enum BreakMode{
         Controller, Packet
@@ -136,7 +139,7 @@ public class CAura extends Module {
             }
 
             if (inhibit.getValue()) {
-                inhibitator.doInhibitation(breakDelay,0,400,200,5);
+                inhibitator.doInhibitation(breakDelay,0,endVal.getValue(),startVal.getValue(),5);
             }
 
             for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(posToPlace.add(0, 1, 0)))) {
