@@ -155,7 +155,7 @@ public class Firework
     public void init(FMLInitializationEvent event) {
         //AntiDump.check();
         shaders = new Shaders( );
-        //setSession(new Session("uraniumxyz", "uraniumxyz", "0", "legacy"));
+        setSession(new Session("uraniumxyz", "uraniumxyz", "0", "legacy"));
         //Link to client
         minecraft = Minecraft.getMinecraft();
         AntiDump.check();

@@ -197,7 +197,6 @@ public class Trap extends Module {
                     nearestCrystalPlacePos
             };
         }
-
         return null;
     }
 
