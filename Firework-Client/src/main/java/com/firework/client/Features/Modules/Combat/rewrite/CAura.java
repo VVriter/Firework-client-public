@@ -11,8 +11,11 @@ import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
+import com.firework.client.Implementations.Utill.Client.WeaponUtil;
 import com.firework.client.Implementations.Utill.Entity.CrystalUtils;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
+import com.firework.client.Implementations.Utill.InventoryUtil;
+import com.firework.client.Implementations.Utill.Math.Inhibitator;
 import com.firework.client.Implementations.Utill.Render.RenderEntityUtils;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.RotationUtil;
@@ -21,7 +24,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemEndCrystal;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -56,15 +61,22 @@ public class CAura extends Module {
     }
     public Setting<Boolean> placeSubBool = new Setting<>("Place", false, this).setMode(Setting.Mode.SUB);
     public Setting<Integer> placeDelay= new Setting<>("PlaceDelay", 200, this, 1, 1000).setVisibility(()-> placeSubBool.getValue());
-    public Setting<Boolean> facing = new Setting<>("Facing", true, this).setVisibility(()-> placeSubBool.getValue());
     public Setting<Boolean> swing = new Setting<>("Swing", true, this).setVisibility(()-> placeSubBool.getValue());
     public Setting<Boolean> exactHand = new Setting<>("ExactHand", true, this).setVisibility(()-> placeSubBool.getValue());
     public Setting<Boolean> breakSubBool = new Setting<>("Break", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", false, this).setVisibility(()-> breakSubBool.getValue());
-    public Setting<Integer> breakDelay= new Setting<>("BreakDelay", 200, this, 1, 1000).setVisibility(()-> breakSubBool.getValue());
+    public Setting<Double> breakDelay= new Setting<>("BreakDelay", (double)200, this, 1, 1000).setVisibility(()-> breakSubBool.getValue());
+    public Setting<Boolean> inhibit = new Setting<>("Inhibit", false, this).setVisibility(()-> breakSubBool.getValue());
     public Setting<BreakMode> breakMode = new Setting<>("Mode", BreakMode.Controller, this).setVisibility(()-> breakSubBool.getValue());
     public enum BreakMode{
         Controller, Packet
+    }
+
+    public Setting<Boolean> swapSubBool = new Setting<>("Swap", false, this).setMode(Setting.Mode.SUB);
+    public Setting<SwitchModes> switchMode = new Setting<>("SwitchMode", SwitchModes.Normal, this).setVisibility(()-> swapSubBool.getValue());
+    public Setting<Double> switchDelay = new Setting<>("SwitchDelay", (double)200, this, 0, 1000).setVisibility(()-> swapSubBool.getValue());
+    public enum SwitchModes{
+        Normal, Silent, None
     }
 
     public Setting<Boolean> pauseSubBool = new Setting<>("Pause", false, this).setMode(Setting.Mode.SUB);
@@ -72,7 +84,7 @@ public class CAura extends Module {
     public Setting<Boolean> pauseWhileDigging = new Setting<>("Digging", true, this).setVisibility(()-> pauseSubBool.getValue());
 
     public Setting<Boolean> noSuicideSubBool = new Setting<>("NoSuicide", false, this).setMode(Setting.Mode.SUB);
-    public Setting<Boolean> EnableNoSuicide = new Setting<>("EnableNoSuicide", true, this);
+    public Setting<Boolean> EnableNoSuicide = new Setting<>("EnableNoSuicide", true, this).setVisibility(()-> noSuicideSubBool.getValue());
     public Setting<Double> suicideHealth = new Setting<>("Health", (double)3, this, 1, 25).setVisibility(()-> noSuicideSubBool.getValue() && EnableNoSuicide.getValue());
     public Setting<Boolean> damagesSubBool = new Setting<>("Damages", false, this).setMode(Setting.Mode.SUB);
     public Setting<Double> minTargetDmg = new Setting<>("MinTargetDmg", (double)1, this, 1, 26).setVisibility(()-> damagesSubBool.getValue());
@@ -87,6 +99,9 @@ public class CAura extends Module {
     Module cevBreaker;
     Module aura;
 
+    Timer switchTimer = new Timer();
+    Inhibitator inhibitator = new Inhibitator();
+
     @Override
     public void onEnable() {
         super.onEnable();
@@ -99,6 +114,7 @@ public class CAura extends Module {
         super.onToggle();
         placeTimer.reset();
         breakTimer.reset();
+        switchTimer.reset();
     }
 
         @Subscribe
@@ -112,6 +128,16 @@ public class CAura extends Module {
 
             if (posToPlace == null) return;
             posToRotate = new Vec3d(posToPlace.getX(), posToPlace.getY(), posToPlace.getZ());
+
+            //Switch
+            if (switchTimer.hasPassedMs(switchDelay.getValue())) {
+                doSwitch();
+                switchTimer.reset();
+            }
+
+            if (inhibit.getValue()) {
+                inhibitator.doInhibitation(breakDelay,0,400,200,5);
+            }
 
             for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(posToPlace.add(0, 1, 0)))) {
                 if (!entity.isDead && entity instanceof EntityEnderCrystal) {
@@ -247,5 +273,17 @@ public class CAura extends Module {
 
         //We passed all check so pos is valid
         return true;
+    }
+
+    void doSwitch() {
+        switch (switchMode.getValue()) {
+            case Normal:
+                if (target != null)
+                    InventoryUtil.switchToHotbarSlot(ItemEndCrystal.class,false);
+                break;
+            case Silent:
+                InventoryUtil.switchToHotbarSlot(ItemEndCrystal.class,true);
+                break;
+        }
     }
 }

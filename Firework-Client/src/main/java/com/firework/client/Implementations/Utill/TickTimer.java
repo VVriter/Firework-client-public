@@ -1,6 +1,5 @@
 package com.firework.client.Implementations.Utill;
 
-import net.minecraft.world.gen.structure.StructureEndCityPieces;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;

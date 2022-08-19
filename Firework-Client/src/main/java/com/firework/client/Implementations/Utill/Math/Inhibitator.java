@@ -16,7 +16,7 @@ public class Inhibitator {
             returner();
         }
 
-        if (settingToInhibit.getValue() == reachToSecond) {
+        if (settingToInhibit.getValue() <= reachToSecond) {
             returner2();
         }
 
@@ -35,6 +35,33 @@ public class Inhibitator {
             }
 
     }
+
+    public void doInhibitation(Setting<Double> settingToInhibit, double inhibitationSpeed, double reachToFirst, double reachToSecond, int add) {
+
+        if (settingToInhibit.getValue() >= reachToFirst) {
+            returner();
+        }
+
+        if (settingToInhibit.getValue() <= reachToSecond) {
+            returner2();
+        }
+
+        if (shuldMoveRight) {
+            if (timer.hasPassedMs(inhibitationSpeed)) {
+                settingToInhibit.setValue((double) Math.round(settingToInhibit.getValue()+add));
+                timer.reset();
+            }
+        }
+
+        if (shuldMoveLeft) {
+            if (timer.hasPassedMs(inhibitationSpeed)) {
+                settingToInhibit.setValue((double) Math.round(settingToInhibit.getValue() - add));
+                timer.reset();
+            }
+        }
+
+    }
+
 
     public void returner() {
             shuldMoveRight = false;
