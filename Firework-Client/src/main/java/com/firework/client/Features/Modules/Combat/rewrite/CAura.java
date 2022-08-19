@@ -59,8 +59,6 @@ public class CAura extends Module {
     public Setting<Boolean> facing = new Setting<>("Facing", true, this).setVisibility(()-> placeSubBool.getValue());
     public Setting<Boolean> swing = new Setting<>("Swing", true, this).setVisibility(()-> placeSubBool.getValue());
     public Setting<Boolean> exactHand = new Setting<>("ExactHand", true, this).setVisibility(()-> placeSubBool.getValue());
-    public Setting<Boolean> rotate = new Setting<>("Rotate", true, this).setVisibility(()-> placeSubBool.getValue());
-
     public Setting<Boolean> breakSubBool = new Setting<>("Break", false, this).setMode(Setting.Mode.SUB);
     public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", false, this).setVisibility(()-> breakSubBool.getValue());
     public Setting<Integer> breakDelay= new Setting<>("BreakDelay", 200, this, 1, 1000).setVisibility(()-> breakSubBool.getValue());
@@ -139,11 +137,11 @@ public class CAura extends Module {
                 if (placeTimer.hasPassedMs(placeDelay.getValue())) {
                     switch (hand.getValue()) {
                         case Main:
-                            BlockUtil.placeCrystalOnBlock(posToPlace,EnumHand.MAIN_HAND,swing.getValue(),exactHand.getValue(), rotate.getValue());
+                            BlockUtil.placeCrystalOnBlock(posToPlace,EnumHand.MAIN_HAND,swing.getValue(),exactHand.getValue());
                             placeTimer.reset();
                             break;
                         case Off:
-                            BlockUtil.placeCrystalOnBlock(posToPlace,EnumHand.OFF_HAND,swing.getValue(),exactHand.getValue(), rotate.getValue());
+                            BlockUtil.placeCrystalOnBlock(posToPlace,EnumHand.OFF_HAND,swing.getValue(),exactHand.getValue());
                             placeTimer.reset();
                             break;
                     }
@@ -213,10 +211,6 @@ public class CAura extends Module {
         //Max Self && Min Target check
         if(CrystalUtils.calculateDamage(crystal, mc.player) > maxSelfDmg.getValue() || CrystalUtils.calculateDamage(crystal, target) < minTargetDmg.getValue())
             return false;
-
-       /* //Face break check
-        if(faceBreak.getValue() && (target.getPosition().getY()+1 == crystal.getPosition().getY()) && (target.getHealth() + target.getAbsorptionAmount() > targetHealth.getValue()))
-            return false; */
 
         //No suicide check
         if(EnableNoSuicide.getValue() && mc.player.getHealth() + mc.player.getAbsorptionAmount() - CrystalUtils.calculateDamage(crystal, mc.player) < suicideHealth.getValue())

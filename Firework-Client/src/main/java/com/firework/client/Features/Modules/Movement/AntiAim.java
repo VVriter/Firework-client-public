@@ -6,7 +6,6 @@ import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Utill.RotationUtil;
 import ua.firework.beet.Listener;
 import ua.firework.beet.Subscribe;
-
 @ModuleManifest(
         name = "AntiAim",
         category = Module.Category.MOVEMENT,

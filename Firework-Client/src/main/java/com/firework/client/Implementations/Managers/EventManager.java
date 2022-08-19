@@ -3,20 +3,17 @@ package com.firework.client.Implementations.Managers;
 import com.firework.client.Features.Modules.Client.DiscordNotificator;
 import com.firework.client.Features.Modules.Client.F3Injection;
 import com.firework.client.Firework;
+import com.firework.client.Implementations.Events.*;
 import com.firework.client.Implementations.Events.Chat.ChatReceiveE;
 import com.firework.client.Implementations.Events.Chat.ChatSendE;
-import com.firework.client.Implementations.Events.ClientTickEvent;
 import com.firework.client.Implementations.Events.Entity.LivingUpdateEvent;
-import com.firework.client.Implementations.Events.OnFishingEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
-import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Player.PlayerRespawnEvent;
 import com.firework.client.Implementations.Events.Player.TotemPopEvent;
 import com.firework.client.Implementations.Events.Render.ForgeNameTagEvent;
 import com.firework.client.Implementations.Events.Render.Render2dE;
 import com.firework.client.Implementations.Events.Render.RenderGameOverlay;
 import com.firework.client.Implementations.Events.Render.Render3dE;
-import com.firework.client.Implementations.Events.UpdateEvent;
 import com.firework.client.Implementations.Utill.Client.DiscordUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.client.Minecraft;
@@ -24,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.SPacketEntityStatus;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -197,4 +195,9 @@ public class EventManager extends Manager{
         Firework.eventBus.post(updateEvent);
     }
 
+    @SubscribeEvent
+    public void death(LivingDeathEvent e) {
+        DeathEvent event = new DeathEvent(e.getEntity());
+        Firework.eventBus.post(event);
+    }
 }
