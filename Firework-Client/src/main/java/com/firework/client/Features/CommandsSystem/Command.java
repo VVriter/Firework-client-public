@@ -7,7 +7,6 @@ public class Command  {
 
     String label;
     String[] aliases;
-    public static String prefix = CommandManager.prefix;
 
     public Command() {
         if (getClass().isAnnotationPresent(CommandManifest.class)) {

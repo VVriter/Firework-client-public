@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.Render.ToolTips;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import com.firework.client.Implementations.Utill.Render.Rounded.RenderRound;
+import com.google.common.collect.Lists;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -15,16 +16,24 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemShulkerBox;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.storage.MapData;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
+import java.util.List;
 
 import static com.firework.client.Features.Modules.Module.mc;
 
@@ -112,6 +121,79 @@ public abstract class GuiScreenMixin {
             mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, false);
             GlStateManager.enableLighting();
             GlStateManager.enableDepth();
+        }
+    }
+
+    /**
+     * @author gegra
+     * @reason bebra
+     */
+    @Overwrite
+    protected void handleComponentHover(ITextComponent component, int x, int y)
+    {
+        if (component != null && component.getStyle().getHoverEvent() != null)
+        {
+            HoverEvent hoverevent = component.getStyle().getHoverEvent();
+
+            if (hoverevent.getAction() == HoverEvent.Action.SHOW_ITEM)
+            {
+                ItemStack itemstack = ItemStack.EMPTY;
+
+                try
+                {
+                    NBTBase nbtbase = JsonToNBT.getTagFromJson(hoverevent.getValue().getUnformattedText());
+
+                    if (nbtbase instanceof NBTTagCompound)
+                    {
+                        itemstack = new ItemStack((NBTTagCompound)nbtbase);
+                    }
+                }
+                catch (NBTException var9)
+                {
+
+                }
+
+                if (itemstack.isEmpty())
+                {
+                   // this.drawHoveringText(TextFormatting.RED + "Invalid Item!", x, y);
+                }
+                else
+                {
+                   // this.renderToolTip(itemstack, x, y);
+                }
+            }
+            else if (hoverevent.getAction() == HoverEvent.Action.SHOW_ENTITY)
+            {
+                if (mc.gameSettings.advancedItemTooltips)
+                {
+                    try
+                    {
+                        NBTTagCompound nbttagcompound = JsonToNBT.getTagFromJson(hoverevent.getValue().getUnformattedText());
+                        List<String> list = Lists.<String>newArrayList();
+                        list.add(nbttagcompound.getString("name"));
+
+                        if (nbttagcompound.hasKey("type", 8))
+                        {
+                            String s = nbttagcompound.getString("type");
+                            list.add("Type: " + s);
+                        }
+
+                        list.add(nbttagcompound.getString("id"));
+                      //  this.drawHoveringText(list, x, y);
+                    }
+                    catch (NBTException var8)
+                    {
+                       // this.drawHoveringText(TextFormatting.RED + "Invalid Entity!", x, y);
+                    }
+                }
+            }
+            else if (hoverevent.getAction() == HoverEvent.Action.SHOW_TEXT)
+            {
+                RenderRound.drawRound(x,y-10,Firework.customFontManager.getWidth(hoverevent.getValue().getFormattedText())+2,10,1,true,new Color(147, 43, 43,255));
+                Firework.customFontManager.drawString(hoverevent.getValue().getFormattedText(),x+1,y-10,Color.WHITE.getRGB());
+            }
+
+            GlStateManager.disableLighting();
         }
     }
 }

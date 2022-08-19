@@ -6,6 +6,7 @@ import com.firework.client.Implementations.Events.Render.Render3dE;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Blocks.BoundingBoxUtil;
+import com.firework.client.Implementations.Utill.Blocks.HoleUtil;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import net.minecraft.block.Block;
@@ -49,6 +50,12 @@ public class HoleEsp extends Module {
 
     @Subscribe
     public Listener<Render3dE> listener2 = new Listener<>(event -> {
+
+        for (BlockPos pos : HoleUtil.calculateHoles(range.getValue(),false,true)) {
+            RenderUtils.drawBoxESP(pos,Color.RED,1,true,true,155,1);
+        }
+
+
         for (BlockPos pos : calcHoles()) {
                 if (isSafe(pos)) {
                     //Glow
