@@ -5,6 +5,7 @@ import com.firework.client.Features.Modules.Combat.CevBreaker;
 import com.firework.client.Features.Modules.Combat.crystal.AutoCrystalRewrite;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
+import com.firework.client.Features.Modules.Test;
 import com.firework.client.Firework;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Render.Render3dE;
@@ -28,9 +29,12 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemEndCrystal;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.CPacketUseEntity;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -119,6 +123,13 @@ public class CAura extends Module {
     public Setting<Boolean> damagesSubBool = new Setting<>("Damages", false, this).setMode(Setting.Mode.SUB);
     public Setting<Double> minTargetDmg = new Setting<>("MinTargetDmg", (double)1, this, 1, 26).setVisibility(()-> damagesSubBool.getValue());
     public Setting<Double> maxSelfDmg = new Setting<>("MaxSelfDmg", (double)15, this, 1, 26).setVisibility(()-> damagesSubBool.getValue());
+
+    public Setting<Boolean> antiWeaknessSubBool = new Setting<>("AntiWeakness", false, this).setMode(Setting.Mode.SUB);
+    public Setting<Boolean> enableAntiWeakness = new Setting<>("EnableAntiWeakness", false, this).setVisibility(()-> antiWeaknessSubBool.getValue());
+    public Setting<WeaknessMode> weaknessMode = new Setting<>("SwithSwordMode", WeaknessMode.Normal, this).setVisibility(()-> antiWeaknessSubBool.getValue());
+    public enum WeaknessMode{
+        Normal, Silent
+    }
     EntityPlayer target;
     BlockPos posToPlace;
     Vec3d posToRotate;
@@ -163,12 +174,6 @@ public class CAura extends Module {
             if (posToPlace == null) return;
             posToRotate = new Vec3d(posToPlace.getX(), posToPlace.getY(), posToPlace.getZ());
 
-            //Switch
-            if (switchTimer.hasPassedMs(switchDelay.getValue())) {
-                doSwitch();
-                switchTimer.reset();
-            }
-
             if (inhibit.getValue()) {
                 inhibitator.doInhibitation(breakDelay,0,endVal.getValue(),startVal.getValue(),5);
             }
@@ -181,11 +186,21 @@ public class CAura extends Module {
                                 if (breakTimer.hasPassedMs(breakDelay.getValue())) {
                                     switch (breakMode.getValue()) {
                                         case Controller:
+                                            //Weakness
+                                            if (enableAntiWeakness.getValue()) {
+                                                doWeaknessSwitch();
+                                                switchTimer.reset();
+                                            }
                                             Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().player, entity);
                                             Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
                                             breakTimer.reset();
                                             break;
                                         case Packet:
+                                            //Weakness
+                                            if (enableAntiWeakness.getValue() && switchTimer.hasPassedMs(switchDelay.getValue())) {
+                                                doWeaknessSwitch();
+                                                switchTimer.reset();
+                                            }
                                             mc.player.connection.sendPacket(new CPacketUseEntity(entity));
                                             breakTimer.reset();
                                             break;
@@ -196,11 +211,21 @@ public class CAura extends Module {
                                 if (breakTickTimer.hasPassedTicks(breakDelayTicks.getValue())) {
                                     switch (breakMode.getValue()) {
                                         case Controller:
+                                            //Weakness
+                                            if (enableAntiWeakness.getValue()) {
+                                                doWeaknessSwitch();
+                                                switchTimer.reset();
+                                            }
                                             Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().player, entity);
                                             Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
                                             breakTickTimer.reset();
                                             break;
                                         case Packet:
+                                            //Weakness
+                                            if (enableAntiWeakness.getValue() && switchTimer.hasPassedMs(switchDelay.getValue())) {
+                                                doWeaknessSwitch();
+                                                switchTimer.reset();
+                                            }
                                             mc.player.connection.sendPacket(new CPacketUseEntity(entity));
                                             breakTickTimer.reset();
                                             break;
@@ -218,10 +243,22 @@ public class CAura extends Module {
                         if (placeTimer.hasPassedMs(placeDelay.getValue())) {
                             switch (hand.getValue()) {
                                 case Main:
+                                    //Switch
+                                    if (switchTimer.hasPassedMs(switchDelay.getValue())) {
+                                        doSwitch();
+                                        switchTimer.reset();
+                                    }
+
                                     BlockUtil.placeCrystalOnBlock(posToPlace,EnumHand.MAIN_HAND,swing.getValue(),exactHand.getValue());
                                     placeTimer.reset();
                                     break;
                                 case Off:
+                                    //Switch
+                                    if (switchTimer.hasPassedMs(switchDelay.getValue())) {
+                                        doSwitch();
+                                        switchTimer.reset();
+                                    }
+
                                     BlockUtil.placeCrystalOnBlock(posToPlace,EnumHand.OFF_HAND,swing.getValue(),exactHand.getValue());
                                     placeTimer.reset();
                                     break;
@@ -232,10 +269,21 @@ public class CAura extends Module {
                         if (placeTickTimer.hasPassedTicks(placeDelayTicks.getValue())) {
                             switch (hand.getValue()) {
                                 case Main:
+                                    //Switch
+                                    if (switchTimer.hasPassedMs(switchDelay.getValue())) {
+                                        doSwitch();
+                                        switchTimer.reset();
+                                    }
+
                                     BlockUtil.placeCrystalOnBlock(posToPlace,EnumHand.MAIN_HAND,swing.getValue(),exactHand.getValue());
                                     placeTickTimer.reset();
                                     break;
                                 case Off:
+                                    //Switch
+                                    if (switchTimer.hasPassedMs(switchDelay.getValue())) {
+                                        doSwitch();
+                                        switchTimer.reset();
+                                    }
                                     BlockUtil.placeCrystalOnBlock(posToPlace,EnumHand.OFF_HAND,swing.getValue(),exactHand.getValue());
                                     placeTickTimer.reset();
                                     break;
@@ -408,5 +456,18 @@ public class CAura extends Module {
                 InventoryUtil.switchToHotbarSlot(ItemEndCrystal.class,true);
                 break;
         }
+    }
+
+    void doWeaknessSwitch() {
+            if (mc.player.isPotionActive(MobEffects.WEAKNESS)) {
+                switch (weaknessMode.getValue()) {
+                    case Normal:
+                        InventoryUtil.switchToHotbarSlot(ItemSword.class,false);
+                        break;
+                    case Silent:
+                        InventoryUtil.switchToHotbarSlot(ItemSword.class,true);
+                        break;
+                }
+            }
     }
 }
