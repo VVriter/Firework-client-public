@@ -17,10 +17,14 @@ import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Math.Inhibitator;
 import com.firework.client.Implementations.Utill.Render.RenderEntityUtils;
+import com.firework.client.Implementations.Utill.Render.RenderText;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.RotationUtil;
 import com.firework.client.Implementations.Utill.Timer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
@@ -207,8 +211,15 @@ public class CAura extends Module {
         public Listener<Render3dE> ex = new Listener<>(e-> {
             if (target == null) return;
             if (posToPlace == null) return;
-            RenderEntityUtils.drawEntityBox(target, Color.WHITE, true,160,1);
-            RenderUtils.drawBoxESP(posToPlace,Color.WHITE,1,true,true,255,1);
+            RenderUtils.drawBoxESP(posToPlace,Color.RED,1,true,true,100,1);
+            GlStateManager.pushMatrix();
+            Minecraft mc = Minecraft.getMinecraft();
+            RenderText.glBillboardDistanceScaled((float) posToPlace.getX(), (float) posToPlace.getY(), (float) posToPlace.getZ(), mc.player, 1.0f);
+            GlStateManager.disableDepth();
+            GlStateManager.translate(1, 1, 1);
+            mc.getTextureManager().bindTexture(((AbstractClientPlayer)target).getLocationSkin());
+            Gui.drawScaledCustomSizeModalRect(0,0,8,8,8,8,32,32,64,64);
+            GlStateManager.popMatrix();
         });
 
     public boolean needToPause(){
