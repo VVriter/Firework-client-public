@@ -1,6 +1,17 @@
 package com.firework.client.Implementations.Utill.Math;
 
+import com.firework.client.Implementations.Mixins.MixinsList.IMinecraft;
+import com.firework.client.Implementations.Mixins.MixinsList.IRenderManager;
+import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+
 import java.awt.*;
+
+import static com.firework.client.Features.Modules.Module.mc;
 
 /**
  * https://github.com/EpicGames/UnrealEngine/blob/f8f4b403eb682ffc055613c7caf9d2ba5df7f319/Engine/Source/Runtime/Core/Public/Math/UnrealMathUtility.h
@@ -170,5 +181,106 @@ public class Interpolation {
 
     public static Color v4ToC(int[] v4) {
         return new Color(v4[0], v4[1], v4[2], v4[3]);
+    }
+
+
+
+    public static Vec3d interpolatedEyePos()
+    {
+        return mc.player.getPositionEyes(mc.getRenderPartialTicks());
+    }
+
+    public static Vec3d interpolatedEyeVec()
+    {
+        return mc.player.getLook(mc.getRenderPartialTicks());
+    }
+
+    public static Vec3d interpolatedEyeVec(EntityPlayer player) {
+        return player.getLook(mc.getRenderPartialTicks());
+    }
+
+    public static Vec3d interpolateEntity(Entity entity)
+    {
+        double x;
+        double y;
+        double z;
+
+            x = interpolateLastTickPos(entity.posX, entity.lastTickPosX)
+                    - getRenderPosX();
+            y = interpolateLastTickPos(entity.posY, entity.lastTickPosY)
+                    - getRenderPosY();
+            z = interpolateLastTickPos(entity.posZ, entity.lastTickPosZ)
+                    - getRenderPosZ();
+
+        return new Vec3d(x, y, z);
+    }
+
+    public static Vec3d interpolateVectors(Vec3d current, Vec3d last) {
+        double x = interpolateLastTickPos(current.x, last.x);
+        double y = interpolateLastTickPos(current.y, last.y);
+        double z = interpolateLastTickPos(current.z, last.z);
+        return new Vec3d(x, y, z);
+    }
+
+    public static double interpolateLastTickPos(double pos, double lastPos)
+    {
+        return lastPos + (pos - lastPos) * ((IMinecraft) mc).getTimer().renderPartialTicks;
+    }
+
+    // TODO: instead of making a new AxisAlignedBB
+    //  all the time maybe make a mutable AxisAlignedBB?
+    public static AxisAlignedBB interpolatePos(BlockPos pos, float height)
+    {
+        return new AxisAlignedBB(
+                pos.getX() - mc.getRenderManager().viewerPosX,
+                pos.getY() - mc.getRenderManager().viewerPosY,
+                pos.getZ() - mc.getRenderManager().viewerPosZ,
+                pos.getX() - mc.getRenderManager().viewerPosX + 1,
+                pos.getY() - mc.getRenderManager().viewerPosY + height,
+                pos.getZ() - mc.getRenderManager().viewerPosZ + 1);
+    }
+
+    public static AxisAlignedBB interpolateAxis(AxisAlignedBB bb)
+    {
+        return new AxisAlignedBB(
+                bb.minX - mc.getRenderManager().viewerPosX,
+                bb.minY - mc.getRenderManager().viewerPosY,
+                bb.minZ - mc.getRenderManager().viewerPosZ,
+                bb.maxX - mc.getRenderManager().viewerPosX,
+                bb.maxY - mc.getRenderManager().viewerPosY,
+                bb.maxZ - mc.getRenderManager().viewerPosZ);
+    }
+
+    public static AxisAlignedBB offsetRenderPos(AxisAlignedBB bb)
+    {
+        return bb.offset(-getRenderPosX(), -getRenderPosY(), -getRenderPosZ());
+    }
+
+    public static double getRenderPosX()
+    {
+        return ((IRenderManager) mc.getRenderManager()).getRenderPosX();
+    }
+
+    public static double getRenderPosY()
+    {
+        return ((IRenderManager) mc.getRenderManager()).getRenderPosY();
+    }
+
+    public static double getRenderPosZ()
+    {
+        return ((IRenderManager) mc.getRenderManager()).getRenderPosZ();
+    }
+
+    public static Frustum createFrustum(Entity entity)
+    {
+        Frustum frustum = new Frustum();
+        // NoInterp shouldn't really be required here
+        double x = interpolateLastTickPos(entity.posX, entity.lastTickPosX);
+        double y = interpolateLastTickPos(entity.posY, entity.lastTickPosY);
+        double z = interpolateLastTickPos(entity.posZ, entity.lastTickPosZ);
+
+        frustum.setPosition(x, y, z);
+
+        return frustum;
     }
 }

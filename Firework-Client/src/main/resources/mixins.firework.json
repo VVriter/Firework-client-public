@@ -55,6 +55,7 @@
     "Misc.MixinMinecraft",
     "Misc.MixinEntity",
     "Render.MixinPlayerOverlay",
-    "Else.MixinRenderBoat"
+    "Else.MixinRenderBoat",
+    "IRenderManager"
   ]
 }
