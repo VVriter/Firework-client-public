@@ -96,7 +96,11 @@ public class TotemPopCounter extends Module {
 
     @Subscribe
     public Listener<TotemPopEvent> evv = new Listener<>(e-> {
-        MessageUtil.sendPvpNotification(e.getEntity().getName()+" poped "+getPops(e.getEntity().getName()) + " totems!",-1117);
+        if (getPops(e.getEntity().getName()) != 0) {
+            MessageUtil.sendPvpNotification(e.getEntity().getName()+" poped "+getPops(e.getEntity().getName()) + " totems!",-1117);
+        } else {
+            MessageUtil.sendPvpNotification(e.getEntity().getName()+" poped "+getPops(e.getEntity().getName())+1 + " totems!",-1117);
+        }
     });
 
     @Subscribe

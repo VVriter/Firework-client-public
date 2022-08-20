@@ -9,7 +9,7 @@ import com.firework.client.Implementations.Utill.Blocks.BlockBreaker;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Render.RenderUtils;
 import com.firework.client.Implementations.Utill.Timer;
-import jdk.nashorn.internal.ir.Block;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import ua.firework.beet.Listener;
@@ -79,7 +79,7 @@ public class AntiPiston extends Module {
         List<BlockPos> positions = BlockUtil.getSphere(this.range.getValue().floatValue(), true);
         ArrayList<BlockPos> poses = new ArrayList<>();
         for (BlockPos pos : positions) {
-            if (BlockUtil.getBlock(pos) == Blocks.PISTON || BlockUtil.getBlock(pos) == Blocks.REDSTONE_TORCH) {
+            if (BlockUtil.getBlock(pos) == Blocks.PISTON || BlockUtil.getBlock(pos) == Blocks.REDSTONE_TORCH || BlockUtil.getBlock(pos) == Blocks.REDSTONE_BLOCK) {
                 poses.add(pos);
             }
         }

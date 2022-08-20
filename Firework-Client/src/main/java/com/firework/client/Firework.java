@@ -86,6 +86,7 @@ public class Firework
     public static PacketRender packetRender;
 
 
+
     public void loadManagers(){
         addManagers(
                 rainbowManager = new RainbowManager(),
