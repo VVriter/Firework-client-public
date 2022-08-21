@@ -1,6 +1,5 @@
 package com.firework.client.Implementations.Utill.Render;
 
-import net.minecraft.client.Minecraft;
 
 import java.awt.*;
 

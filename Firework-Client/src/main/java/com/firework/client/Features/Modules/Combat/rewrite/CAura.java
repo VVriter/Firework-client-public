@@ -52,6 +52,7 @@ import java.util.Objects;
 
 public class CAura extends Module {
 
+    public Setting<Double> calculationDelay = new Setting<>("CalculationDelay", (double)0, this, 1, 1000);
     public Setting<Double> targetRange = new Setting<>("TargetRange", (double)4, this, 1, 6);
     public Setting<Integer> attackRange = new Setting<>("AttackRange", 3, this, 1, 6);
     public Setting<Integer> attackWallRange = new Setting<>("AttackWallRange", 3, this, 1, 6);
@@ -143,7 +144,7 @@ public class CAura extends Module {
 
     TickTimer placeTickTimer = new TickTimer();
     TickTimer breakTickTimer = new TickTimer();
-
+    Timer calculationTimer = new Timer();
     @Override
     public void onEnable() {
         super.onEnable();
@@ -159,6 +160,7 @@ public class CAura extends Module {
         switchTimer.reset();
         placeTickTimer.reset();
         breakTickTimer.reset();
+        calculationTimer.reset();
     }
 
         @Subscribe
@@ -167,8 +169,10 @@ public class CAura extends Module {
             if (target == null) return;
             if (needToPause()) return;
 
-            posToPlace = CrystalUtils.bestCrystalPos((EntityPlayer) target, attackRange.getValue(),maxSelfDmg.getValue().floatValue(),minTargetDmg.getValue().floatValue());
-
+            if (calculationTimer.hasPassedMs(calculationDelay.getValue())) {
+                posToPlace = CrystalUtils.bestCrystalPos((EntityPlayer) target, attackRange.getValue(),maxSelfDmg.getValue().floatValue(),minTargetDmg.getValue().floatValue());
+                calculationTimer.reset();
+            }
             if (posToPlace == null) return;
             posToRotate = new Vec3d(posToPlace.getX(), posToPlace.getY(), posToPlace.getZ());
 
@@ -317,7 +321,7 @@ public class CAura extends Module {
         }
     });
 
-    private static final ResourceLocation CRYSTAL_LOCATION = new ResourceLocation("firework.FireworkRounded.png");
+    private static final ResourceLocation CRYSTAL_LOCATION = new ResourceLocation("firework/FireworkRounded.png");
 
         @Subscribe
         public Listener<Render3dE> ex = new Listener<>(e-> {
@@ -366,7 +370,9 @@ public class CAura extends Module {
 
             Firework.textManager.drawString(text, 0, 6.0f,Color.RED.getRGB(),false);
             Minecraft.getMinecraft().getTextureManager().bindTexture(((AbstractClientPlayer)target).getLocationSkin());
-            Gui.drawScaledCustomSizeModalRect((int) (Firework.textManager.getStringWidth(text) / 2.0f) - 10, -17, 8, 8, 8, 8, 22, 22, 64, 64);
+          //  Minecraft.getMinecraft().getTextureManager().bindTexture(CRYSTAL_LOCATION);
+           Gui.drawScaledCustomSizeModalRect((int) (Firework.textManager.getStringWidth(text) / 2.0f) - 10, -17, 8, 8, 8, 8, 22, 22, 64, 64);
+          //  Gui.drawScaledCustomSizeModalRect((int) (Firework.textManager.getStringWidth(text) / 2.0f) - 10, -17, 0, 0, 12, 12, 22, 22, 12, 12);
 
             GlStateManager.enableDepth();
             GlStateManager.disableBlend();

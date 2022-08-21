@@ -8,6 +8,7 @@ import com.firework.client.Implementations.UI.GuiN.GuiN;
 import com.firework.client.Implementations.UI.Particles.ParticleInfo;
 import com.firework.client.Implementations.UI.Particles.ParticleSystem;
 import com.firework.client.Implementations.Utill.Render.HSLColor;
+import com.firework.client.Implementations.Utill.Render.RainbowUtil;
 import com.firework.client.Implementations.Utill.Render.Rectangle;
 import com.firework.client.Implementations.Utill.Render.RenderUtils2D;
 import net.minecraft.client.gui.*;
@@ -79,6 +80,7 @@ public class Background extends Module {
                     new Rectangle(0, 0, sr.getScaledWidth(),
                             sr.getScaledHeight()),
                     color1.getValue().toRGB(), color2.getValue().toRGB());
+
             }
 
         if (mc.currentScreen instanceof GuiScreen && !(mc.currentScreen instanceof GuiN)) {
