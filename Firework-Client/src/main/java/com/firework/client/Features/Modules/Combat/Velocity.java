@@ -3,6 +3,7 @@ package com.firework.client.Features.Modules.Combat;
 import com.firework.client.Features.Modules.Module;
 import com.firework.client.Features.Modules.ModuleManifest;
 import com.firework.client.Implementations.Events.Entity.EntityPushEvent;
+import com.firework.client.Implementations.Events.Movement.MoveEvent;
 import com.firework.client.Implementations.Events.Movement.PushedByShulkerEvent;
 import com.firework.client.Implementations.Events.PacketEvent;
 import com.firework.client.Implementations.Events.Movement.PlayerPushOutOfBlocksEvent;
@@ -10,6 +11,7 @@ import com.firework.client.Implementations.Events.Movement.PlayerPushedByWaterEv
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketEntityVelocity;
 import com.firework.client.Implementations.Mixins.MixinsList.ISPacketExplosion;
 import com.firework.client.Implementations.Settings.Setting;
+import net.minecraft.entity.MoverType;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.network.play.server.SPacketExplosion;
 import ua.firework.beet.Listener;
@@ -27,6 +29,7 @@ public class Velocity extends Module {
     public Setting<Boolean> noPush = new Setting<>("NoPush", true, this);
 
     public Setting<Boolean> shulkers = new Setting<>("Shulkers", true, this);
+    public Setting<Boolean> pistons = new Setting<>("Pistons", true, this);
 
     public Setting<Double> horizontal = new Setting<>("Horizontal", (double)0, this, -0.3, 100);
     public Setting<Double> vertical = new Setting<>("Vertical", (double)0, this, -0.3, 100);
@@ -89,6 +92,13 @@ public class Velocity extends Module {
     public Listener<EntityPushEvent> entityPush = new Listener<>(e -> {
        if(e.getEntity().isEntityEqual(mc.player))
            e.setCancelled(true);
+    });
+
+    @Subscribe
+    public Listener<MoveEvent> evvv = new Listener<>(e-> {
+        if (e.getType().equals(MoverType.PISTON) && pistons.getValue()) {
+            e.setCanceled(true);
+        }
     });
 }
 

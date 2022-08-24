@@ -36,7 +36,8 @@ public class FastWeb extends Module {
     public Setting<Boolean> inhibit = new Setting<>("Inhibit", false, this).setMode(Setting.Mode.SUB).setVisibility(()-> mode.getValue(modes.Timer));
     public Setting<Boolean> inhibitBool = new Setting<>("InhibitEnable", true, this).setVisibility(()-> inhibit.getValue() && mode.getValue(modes.Timer));
     public Setting<Double> inhibitationSpeed = new Setting<>("InhibitDelay", (double)50, this, 1, 200).setVisibility(()-> inhibit.getValue() && mode.getValue(modes.Timer));
-    Inhibitator inhibitator = new Inhibitator();
+    Inhibitator inhibitator;
+
 
     @Override
     public void onToggle() {
@@ -136,6 +137,7 @@ public class FastWeb extends Module {
     @Override public void onEnable() { super.onEnable();
         oldTicks = ((ITimer) ((IMinecraft) mc).getTimer()).getTickLength();
         posRenderer = new PosRenderer(this,boxMode,outlineMode);
+        inhibitator  = new Inhibitator();
     }
 
     @Override public void onDisable() { super.onDisable();

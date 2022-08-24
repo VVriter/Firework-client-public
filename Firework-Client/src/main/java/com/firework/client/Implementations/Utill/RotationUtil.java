@@ -1,8 +1,10 @@
 package com.firework.client.Implementations.Utill;
 
+import com.firework.client.Firework;
 import com.firework.client.Implementations.Mixins.MixinsList.IEntityPlayerSP;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumFacing;
@@ -128,4 +130,54 @@ public class RotationUtil {
         }
     }
 
+    public static float smoothRotation(float from, float to, float speed) {
+        float f = MathHelper.wrapDegrees(to - from);
+
+        if (f > speed) {
+            f = speed;
+        }
+
+        if (f < -speed) {
+            f = -speed;
+        }
+
+        return from + f;
+    }
+
+    public static float[] limitAngleChange(float[] currRot, float[] targetRot, float turnSpeed) {
+        float currentYaw = currRot[0];
+        float currentPitch = currRot[1];
+        float targetYaw = targetRot[0];
+        float targetPitch = targetRot[1];
+        float yawDifference = getAngleDifference(targetYaw, currentYaw);
+        float pitchDifference = getAngleDifference(targetPitch, currentPitch);
+        float limitedYaw = currentYaw + ((yawDifference > turnSpeed) ? turnSpeed : Math.max(yawDifference, -turnSpeed));
+        float limitedPitch = currentPitch + ((pitchDifference > turnSpeed) ? turnSpeed : Math.max(pitchDifference, -turnSpeed));
+        return new float[]{limitedYaw, limitedPitch};
+    }
+
+    public static float getAngleDifference(float a, float b) {
+        return ((a - b) % 360.0F + 540.0F) % 360.0F - 180.0F;
+    }
+
+
+    public static final float[] smoothRotation(float[] paramArrayOffloat1, float[] paramArrayOffloat2, float paramFloat) {
+        float f1 = getAngleDifference(paramArrayOffloat2[0], paramArrayOffloat1[0]);
+        float f2 = getAngleDifference(paramArrayOffloat2[1], paramArrayOffloat1[1]);
+        float f3 = paramFloat;
+        if (f1 > paramFloat) {
+            f3 = paramFloat;
+        } else {
+            f3 = Math.max(f1, -paramFloat);
+        }
+        float f4 = paramFloat;
+        if (f2 > paramFloat) {
+            f4 = paramFloat;
+        } else {
+            f4 = Math.max(f2, -paramFloat);
+        }
+        float f5 = paramArrayOffloat1[0] + f3;
+        float f6 = paramArrayOffloat1[1] + f4;
+        return new float[] { f5, f6 };
+    }
 }

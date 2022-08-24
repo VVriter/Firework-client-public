@@ -12,6 +12,7 @@ import com.firework.client.Implementations.Events.UpdateWalkingPlayerEvent;
 import com.firework.client.Implementations.Settings.Setting;
 import com.firework.client.Implementations.Utill.Blocks.BlockUtil;
 import com.firework.client.Implementations.Utill.Entity.CrystalUtils;
+import com.firework.client.Implementations.Utill.Entity.EntityUtil;
 import com.firework.client.Implementations.Utill.Entity.PlayerUtil;
 import com.firework.client.Implementations.Utill.InventoryUtil;
 import com.firework.client.Implementations.Utill.Math.Inhibitator;
@@ -87,6 +88,11 @@ public class CAura extends Module {
 
 
     public Setting<Boolean> breakSubBool = new Setting<>("Break", false, this).setMode(Setting.Mode.SUB);
+
+    public Setting<BreakLogic> breakLogic = new Setting<>("BreakLogic", BreakLogic.CurPos, this).setVisibility(()-> breakSubBool.getValue());
+    public enum BreakLogic{
+        CurPos, Always, Smart
+    }
     public Setting<Boolean> cancelCrystal = new Setting<>("CancelCrystal", false, this).setVisibility(()-> breakSubBool.getValue());
     public Setting<Boolean> inhibit = new Setting<>("Inhibit", false, this).setVisibility(()-> breakSubBool.getValue());
     public Setting<Double> startVal = new Setting<>("StartVal", (double)200, this, 1, 1000).setVisibility(()-> breakSubBool.getValue() && inhibit.getValue());
@@ -145,6 +151,8 @@ public class CAura extends Module {
     TickTimer placeTickTimer = new TickTimer();
     TickTimer breakTickTimer = new TickTimer();
     Timer calculationTimer = new Timer();
+
+    Timer rotationTimer = new Timer();
     @Override
     public void onEnable() {
         super.onEnable();
@@ -161,6 +169,7 @@ public class CAura extends Module {
         placeTickTimer.reset();
         breakTickTimer.reset();
         calculationTimer.reset();
+        rotationTimer.reset();
     }
 
         @Subscribe
@@ -180,63 +189,186 @@ public class CAura extends Module {
                 inhibitator.doInhibitation(breakDelay,0,endVal.getValue(),startVal.getValue(),5);
             }
 
-            for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(posToPlace.add(0, 1, 0)))) {
-                if (!entity.isDead && entity instanceof EntityEnderCrystal) {
-                    if (isValidCrystal((EntityEnderCrystal) entity)) {
-                        switch (delayMode.getValue()) {
-                            case Normal:
-                                if (breakTimer.hasPassedMs(breakDelay.getValue())) {
-                                    switch (breakMode.getValue()) {
-                                        case Controller:
-                                            //Weakness
-                                            if (enableAntiWeakness.getValue()) {
-                                                doWeaknessSwitch();
-                                                switchTimer.reset();
+            switch (breakLogic.getValue()) {
+                case CurPos:
+                    for (Entity entity : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(posToPlace.add(0, 1, 0)))) {
+                        if (!entity.isDead && entity instanceof EntityEnderCrystal) {
+                            if (isValidCrystal((EntityEnderCrystal) entity)) {
+                                switch (delayMode.getValue()) {
+                                    case Normal:
+                                        if (breakTimer.hasPassedMs(breakDelay.getValue())) {
+                                            switch (breakMode.getValue()) {
+                                                case Controller:
+                                                    //Weakness
+                                                    if (enableAntiWeakness.getValue()) {
+                                                        doWeaknessSwitch();
+                                                        switchTimer.reset();
+                                                    }
+                                                    Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().player, entity);
+                                                    Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
+                                                    breakTimer.reset();
+                                                    break;
+                                                case Packet:
+                                                    //Weakness
+                                                    if (enableAntiWeakness.getValue() && switchTimer.hasPassedMs(switchDelay.getValue())) {
+                                                        doWeaknessSwitch();
+                                                        switchTimer.reset();
+                                                    }
+                                                    mc.player.connection.sendPacket(new CPacketUseEntity(entity));
+                                                    breakTimer.reset();
+                                                    break;
                                             }
-                                            Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().player, entity);
-                                            Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
-                                            breakTimer.reset();
-                                            break;
-                                        case Packet:
-                                            //Weakness
-                                            if (enableAntiWeakness.getValue() && switchTimer.hasPassedMs(switchDelay.getValue())) {
-                                                doWeaknessSwitch();
-                                                switchTimer.reset();
+                                        }
+                                        break;
+                                    case Ticks:
+                                        if (breakTickTimer.hasPassedTicks(breakDelayTicks.getValue())) {
+                                            switch (breakMode.getValue()) {
+                                                case Controller:
+                                                    //Weakness
+                                                    if (enableAntiWeakness.getValue()) {
+                                                        doWeaknessSwitch();
+                                                        switchTimer.reset();
+                                                    }
+                                                    Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().player, entity);
+                                                    Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
+                                                    breakTickTimer.reset();
+                                                    break;
+                                                case Packet:
+                                                    //Weakness
+                                                    if (enableAntiWeakness.getValue() && switchTimer.hasPassedMs(switchDelay.getValue())) {
+                                                        doWeaknessSwitch();
+                                                        switchTimer.reset();
+                                                    }
+                                                    mc.player.connection.sendPacket(new CPacketUseEntity(entity));
+                                                    breakTickTimer.reset();
+                                                    break;
                                             }
-                                            mc.player.connection.sendPacket(new CPacketUseEntity(entity));
-                                            breakTimer.reset();
-                                            break;
-                                    }
+                                        }
+                                        break;
                                 }
-                                break;
-                            case Ticks:
-                                if (breakTickTimer.hasPassedTicks(breakDelayTicks.getValue())) {
-                                    switch (breakMode.getValue()) {
-                                        case Controller:
-                                            //Weakness
-                                            if (enableAntiWeakness.getValue()) {
-                                                doWeaknessSwitch();
-                                                switchTimer.reset();
-                                            }
-                                            Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().player, entity);
-                                            Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
-                                            breakTickTimer.reset();
-                                            break;
-                                        case Packet:
-                                            //Weakness
-                                            if (enableAntiWeakness.getValue() && switchTimer.hasPassedMs(switchDelay.getValue())) {
-                                                doWeaknessSwitch();
-                                                switchTimer.reset();
-                                            }
-                                            mc.player.connection.sendPacket(new CPacketUseEntity(entity));
-                                            breakTickTimer.reset();
-                                            break;
-                                    }
-                                }
-                                break;
+                            }
                         }
                     }
-                }
+                    break;
+
+                case Always:
+                    for (Entity entity : mc.world.loadedEntityList) {
+                        if (!entity.isDead && entity instanceof EntityEnderCrystal) {
+                            switch (delayMode.getValue()) {
+                                case Normal:
+                                    if (breakTimer.hasPassedMs(breakDelay.getValue())) {
+                                        switch (breakMode.getValue()) {
+                                            case Controller:
+                                                //Weakness
+                                                if (enableAntiWeakness.getValue()) {
+                                                    doWeaknessSwitch();
+                                                    switchTimer.reset();
+                                                }
+                                                Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().player, entity);
+                                                Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
+                                                breakTimer.reset();
+                                                break;
+                                            case Packet:
+                                                //Weakness
+                                                if (enableAntiWeakness.getValue() && switchTimer.hasPassedMs(switchDelay.getValue())) {
+                                                    doWeaknessSwitch();
+                                                    switchTimer.reset();
+                                                }
+                                                mc.player.connection.sendPacket(new CPacketUseEntity(entity));
+                                                breakTimer.reset();
+                                                break;
+                                        }
+                                    }
+                                    break;
+                                case Ticks:
+                                    if (breakTickTimer.hasPassedTicks(breakDelayTicks.getValue())) {
+                                        switch (breakMode.getValue()) {
+                                            case Controller:
+                                                //Weakness
+                                                if (enableAntiWeakness.getValue()) {
+                                                    doWeaknessSwitch();
+                                                    switchTimer.reset();
+                                                }
+                                                Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().player, entity);
+                                                Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
+                                                breakTickTimer.reset();
+                                                break;
+                                            case Packet:
+                                                //Weakness
+                                                if (enableAntiWeakness.getValue() && switchTimer.hasPassedMs(switchDelay.getValue())) {
+                                                    doWeaknessSwitch();
+                                                    switchTimer.reset();
+                                                }
+                                                mc.player.connection.sendPacket(new CPacketUseEntity(entity));
+                                                breakTickTimer.reset();
+                                                break;
+                                        }
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+
+                case Smart:
+                    //SmartLogic code lul
+                    for (Entity entity : mc.world.loadedEntityList) {
+                        if (!entity.isDead && entity instanceof EntityEnderCrystal && isValidCrystal((EntityEnderCrystal) entity)) {
+                            switch (delayMode.getValue()) {
+                                case Normal:
+                                    if (breakTimer.hasPassedMs(breakDelay.getValue())) {
+                                        switch (breakMode.getValue()) {
+                                            case Controller:
+                                                //Weakness
+                                                if (enableAntiWeakness.getValue()) {
+                                                    doWeaknessSwitch();
+                                                    switchTimer.reset();
+                                                }
+                                                Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().player, entity);
+                                                Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
+                                                breakTimer.reset();
+                                                break;
+                                            case Packet:
+                                                //Weakness
+                                                if (enableAntiWeakness.getValue() && switchTimer.hasPassedMs(switchDelay.getValue())) {
+                                                    doWeaknessSwitch();
+                                                    switchTimer.reset();
+                                                }
+                                                mc.player.connection.sendPacket(new CPacketUseEntity(entity));
+                                                breakTimer.reset();
+                                                break;
+                                        }
+                                    }
+                                    break;
+                                case Ticks:
+                                    if (breakTickTimer.hasPassedTicks(breakDelayTicks.getValue())) {
+                                        switch (breakMode.getValue()) {
+                                            case Controller:
+                                                //Weakness
+                                                if (enableAntiWeakness.getValue()) {
+                                                    doWeaknessSwitch();
+                                                    switchTimer.reset();
+                                                }
+                                                Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().player, entity);
+                                                Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
+                                                breakTickTimer.reset();
+                                                break;
+                                            case Packet:
+                                                //Weakness
+                                                if (enableAntiWeakness.getValue() && switchTimer.hasPassedMs(switchDelay.getValue())) {
+                                                    doWeaknessSwitch();
+                                                    switchTimer.reset();
+                                                }
+                                                mc.player.connection.sendPacket(new CPacketUseEntity(entity));
+                                                breakTickTimer.reset();
+                                                break;
+                                        }
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                    break;
             }
 
             if (isValidBlockPos(posToPlace) ){
@@ -308,6 +440,13 @@ public class CAura extends Module {
                     break;
                 case YawStep:
                     //Rotations
+                    float[] angles = RotationUtil.getRotations(posToRotate);
+                   float rot = RotationUtil.smoothRotation(angles[1],angles[0],180);
+                    if (rotationTimer.hasPassedMs(100)) {
+                        RotationUtil.packetFacePitchAndYaw(angles[1],rot);
+                        rotationTimer.reset();
+                    }
+                    e.setCancelled(true);
                     break;
             }
         });
@@ -322,9 +461,14 @@ public class CAura extends Module {
     });
 
     private static final ResourceLocation CRYSTAL_LOCATION = new ResourceLocation("firework/FireworkRounded.png");
-
+        float y = 1;
         @Subscribe
         public Listener<Render3dE> ex = new Listener<>(e-> {
+            if (y<=360) {
+                y++;
+            } if (y>=360) {
+                y=1;
+            }
             if (target == null) return;
             if (posToPlace == null) return;
             RenderUtils.drawBoxESP(posToPlace,Color.RED,1,true,true,100,1);
@@ -347,7 +491,7 @@ public class CAura extends Module {
                     z - Interpolation.getRenderPosZ());
 
             GlStateManager.glNormal3f(0.0f, 1.0f, 0.0f);
-            GlStateManager.rotate(-mc.player.rotationYaw, 0.0f, 1.0f, 0.0f);
+            GlStateManager.rotate(-mc.player.rotationYaw, 0.0f, this.y, 0.0f);
 
             GlStateManager.rotate(mc.player.rotationPitch,
                     mc.gameSettings.thirdPersonView == 2
